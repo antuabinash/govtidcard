@@ -262,6 +262,7 @@
                 <div class="btn-group">
                     <button class="btn btn-secondary" onclick="showStep(1)">← Back to Step 1</button>
                     <button class="btn btn-danger" id="btn-download-save" onclick="downloadAndSave()" style="font-size:16px;">⬇️ Download &amp; Save</button>
+                    <button class="btn" id="btn-whatsapp-share" onclick="shareToWhatsApp()" style="background:#25D366; font-size:16px;">📲 Share via WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -562,22 +563,45 @@
         spooler.classList.add('pdf-rendering');
         document.body.appendChild(spooler);
 
+        // FIX: Stamp all JS-set input values as HTML attributes so html2canvas can capture them
+        spooler.querySelectorAll('input').forEach(inp => {
+            inp.setAttribute('value', inp.value);
+        });
+        spooler.querySelectorAll('select').forEach(sel => {
+            sel.querySelectorAll('option').forEach(opt => opt.removeAttribute('selected'));
+            const chosen = sel.querySelector(`option[value="${CSS.escape(sel.value)}"]`) || [...sel.options].find(o => o.value === sel.value);
+            if (chosen) chosen.setAttribute('selected', 'selected');
+        });
+
         // Give browser a tick to render
-        await new Promise(r => setTimeout(r, 150));
+        await new Promise(r => setTimeout(r, 300));
 
         const month  = document.querySelector('.header-card .month-input')?.value  || 'Report';
         const year   = document.querySelector('.header-card .year-input')?.value   || '';
         const school = document.querySelector('.header-card .school-name-input')?.value || 'School';
+        const filename = `${school}_${month}${year}.pdf`;
 
         const opt = {
             margin:      [8, 8, 8, 8],
-            filename:    `${school}_${month}${year}.pdf`,
+            filename:    filename,
             image:       { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true },
+            html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true, onclone: (cloned) => {
+                // Extra safety: re-stamp values in the cloned document used by html2canvas
+                cloned.querySelectorAll('input').forEach(inp => inp.setAttribute('value', inp.value));
+            }},
             jsPDF:       { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
-        html2pdf().set(opt).from(spooler).save().then(() => {
+        html2pdf().set(opt).from(spooler).toPdf().get('pdf').then(async (pdf) => {
+            // Try direct download first
+            try {
+                pdf.save(filename);
+                setStatus('✅ PDF downloaded!', 'ok');
+            } catch(saveErr) {
+                // Fallback: offer WhatsApp share
+                console.warn('Direct save failed, trying share:', saveErr);
+                window._offerWhatsAppShare(pdf, filename);
+            }
             spooler.remove();
             btn.textContent = '⬇️ Download & Save';
             btn.disabled = false;
@@ -586,8 +610,86 @@
             spooler.remove();
             btn.textContent = '⬇️ Download & Save';
             btn.disabled = false;
-            setStatus('❌ PDF generation failed', 'err');
+            setStatus('❌ PDF generation failed — try Share to WhatsApp below', 'err');
         });
+    };
+
+    // Standalone WhatsApp share button handler
+    window.shareToWhatsApp = async function() {
+        const shareBtn = document.getElementById('btn-whatsapp-share');
+        shareBtn.textContent = '⏳ Generating…';
+        shareBtn.disabled = true;
+
+        const existing = document.getElementById('print-spooler');
+        if (existing) existing.remove();
+        const spooler = window._buildSpooler();
+        spooler.id = 'print-spooler';
+        spooler.classList.add('pdf-rendering');
+        document.body.appendChild(spooler);
+        spooler.querySelectorAll('input').forEach(inp => inp.setAttribute('value', inp.value));
+        spooler.querySelectorAll('select').forEach(sel => {
+            sel.querySelectorAll('option').forEach(o => o.removeAttribute('selected'));
+            const chosen = [...sel.options].find(o => o.value === sel.value);
+            if (chosen) chosen.setAttribute('selected', 'selected');
+        });
+        await new Promise(r => setTimeout(r, 300));
+
+        const month  = document.querySelector('.header-card .month-input')?.value  || 'Report';
+        const year   = document.querySelector('.header-card .year-input')?.value   || '';
+        const school = document.querySelector('.header-card .school-name-input')?.value || 'School';
+        const filename = `${school}_${month}${year}.pdf`;
+
+        const opt = {
+            margin: [8,8,8,8], filename,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true,
+                onclone: (cl) => cl.querySelectorAll('input').forEach(i => i.setAttribute('value', i.value)) },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+
+        html2pdf().set(opt).from(spooler).toPdf().get('pdf').then(async (pdf) => {
+            spooler.remove();
+            shareBtn.textContent = '📲 Share via WhatsApp';
+            shareBtn.disabled = false;
+            try {
+                const pdfBlob = new Blob([pdf.output('arraybuffer')], { type: 'application/pdf' });
+                const file = new File([pdfBlob], filename, { type: 'application/pdf' });
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({ files: [file], title: filename, text: 'School Monthly Report' });
+                    setStatus('✅ Shared to WhatsApp!', 'ok');
+                } else {
+                    // Fallback: download it so user can manually attach in WhatsApp
+                    pdf.save(filename);
+                    const msg = encodeURIComponent('School Monthly Report PDF downloaded. Open WhatsApp, attach the file from your Downloads.');
+                    setTimeout(() => window.open(`https://wa.me/?text=${msg}`, '_blank'), 800);
+                    setStatus('ℹ️ PDF saved — attach it manually in WhatsApp', 'saving');
+                }
+            } catch(e) {
+                setStatus('⚠️ Share cancelled or not supported', 'err');
+            }
+        }).catch(err => {
+            spooler.remove();
+            shareBtn.textContent = '📲 Share via WhatsApp';
+            shareBtn.disabled = false;
+            setStatus('❌ PDF error: ' + err.message, 'err');
+        });
+    };
+
+    // WhatsApp share fallback: generates PDF blob and shares via Web Share API or WhatsApp link
+    window._offerWhatsAppShare = async function(pdf, filename) {
+        try {
+            const pdfBlob = new Blob([pdf.output('arraybuffer')], { type: 'application/pdf' });
+            const file = new File([pdfBlob], filename, { type: 'application/pdf' });
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({ files: [file], title: filename, text: 'School Monthly Report' });
+                setStatus('✅ Shared successfully!', 'ok');
+                return;
+            }
+        } catch(e) { console.warn('Web Share failed:', e); }
+        // Last resort: open WhatsApp with a note (can't attach PDF directly)
+        const msg = encodeURIComponent(`School Monthly Report (${filename}) is ready. Please download from the app and send.`);
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
+        setStatus('ℹ️ Opened WhatsApp — download the PDF first, then attach manually', 'saving');
     };
 </script>
 
