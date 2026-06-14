@@ -1,1 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>School Monthly Report</title>
+    <style>
+        /* ===== DESIGN TOKENS ===== */
+        :root {
+            --navy:    #0f2557;
+            --royal:   #1e3fa3;
+            --sky:     #e8eeff;
+            --accent:  #e63946;
+            --success: #0d9e6e;
+            --muted:   #64748b;
+            --border:  #dde3f0;
+            --bg:      #f0f3fb;
+            --card:    #ffffff;
+            --text:    #111827;
+            --radius:  14px;
+            --radius-sm: 8px;
+            --shadow:  0 2px 12px rgba(15,37,87,.10);
+        }
 
+        /* ===== BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        /* ===== SCREEN ONLY ===== */
+        @media screen {
+            .app-shell { max-width: 640px; margin: 0 auto; padding: 0 0 80px; }
+            .app-header { background: linear-gradient(135deg, var(--navy) 0%, var(--royal) 100%); color: #fff; padding: 22px 20px 18px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(15,37,87,.22); }
+            .app-header-top { display: flex; align-items: center; gap: 14px; }
+            .app-header-icon { width: 44px; height: 44px; background: rgba(255,255,255,.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+            .app-header-text { flex: 1; }
+            .app-header-title { font-size: 17px; font-weight: 700; letter-spacing: .2px; }
+            .app-header-sub { font-size: 11.5px; color: rgba(255,255,255,.7); margin-top: 2px; }
+            .step-nav { display: flex; gap: 0; margin: 0 16px; background: rgba(255,255,255,.13); border-radius: 10px; padding: 4px; margin-top: 14px; }
+            .step-pill { flex: 1; text-align: center; padding: 8px 6px; border-radius: 7px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.65); cursor: pointer; transition: all .2s; }
+            .step-pill.active { background: rgba(255,255,255,.22); color: #fff; }
+            .content-area { padding: 20px 16px 0; }
+
+            .udise-panel, .school-type-panel, .header-card, .teacher-card, .leave-card, .data-card, .minority-row {
+                background: var(--card); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; box-shadow: var(--shadow); border: 1.5px solid var(--border);
+            }
+            .teacher-card, .leave-card { padding: 0; overflow: hidden; }
+            .teacher-card-body, .leave-card-body { padding: 16px 18px; display: grid; gap: 14px; }
+            .teacher-card-header { background: linear-gradient(90deg, var(--navy) 0%, var(--royal) 100%); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
+            .leave-card-header { background: linear-gradient(90deg, #0d7050 0%, var(--success) 100%); padding: 12px 18px; font-size: 13px; font-weight: 700; color: #fff; }
+            .teacher-card-number { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.7); }
+            .teacher-name-preview { font-size: 15px; font-weight: 700; color: #fff; margin-top: 2px; }
+            .btn-remove-row { background: rgba(255,255,255,.15); color: #fff; border: 1.5px solid rgba(255,255,255,.3); border-radius: var(--radius-sm); padding: 7px 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: none; }
+            
+            .udise-label { font-size: 12px; font-weight: 700; color: var(--royal); margin-bottom: 10px; }
+            .school-type-panel { display: flex; align-items: center; gap: 14px; padding: 16px 18px; }
+            .school-type-label { font-size: 13px; font-weight: 600; color: var(--navy); white-space: nowrap; }
+            
+            .field-group { display: flex; flex-direction: column; }
+            .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+            .field-label { font-size: 11.5px; font-weight: 600; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+            
+            input, select { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; outline: none; background: #f8faff; color: var(--text); }
+            input:focus, select:focus { border-color: var(--royal); background: #fff; }
+            input[readonly] { background: #e9eef8; color: var(--navy); font-weight: 600; border-color: #c5d0e8; border-style: dashed; }
+            
+            .amt-row { display: flex; gap: 10px; }
+            .amt-row select { width: 90px; }
+            .subsection-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--royal); border-bottom: 1.5px solid var(--sky); padding-bottom: 6px; margin-top: 4px; }
+            
+            .section-header { display: flex; align-items: center; gap: 10px; margin: 24px 0 14px; }
+            .section-header-line { flex: 1; height: 1.5px; background: var(--border); }
+            .section-header-text { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--royal); white-space: nowrap; }
+            .section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--royal); margin: 20px 0 12px; display: flex; align-items: center; gap: 8px; }
+            .section-title::after { content: ''; flex: 1; height: 1.5px; background: var(--border); }
+            
+            .data-card-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1.5px solid var(--sky); }
+            .roll-entry { display: grid; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+            .roll-entry-class { font-size: 12px; font-weight: 700; color: var(--navy); }
+            .roll-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+            .roll-cell { display: flex; flex-direction: column; gap: 4px; }
+            .roll-cell-label { font-size: 9.5px; font-weight: 600; color: var(--muted); }
+            .roll-cell input { padding: 9px 8px; font-size: 14px; text-align: center; }
+            .roll-total-section { background: var(--sky); border-radius: var(--radius-sm); padding: 10px 12px; }
+
+            .btn-group { display: flex; flex-direction: column; gap: 10px; margin: 24px 0 12px; }
+            .btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 16px; border: none; border-radius: var(--radius); font-size: 15px; font-weight: 700; cursor: pointer; color: white; }
+            .btn-primary { background: var(--royal); }
+            .btn-success { background: var(--success); }
+            .btn-danger  { background: var(--accent); }
+            .btn-secondary { background: var(--navy); }
+            .btn:disabled { opacity: .6; cursor: not-allowed; }
+
+            #fb-status { font-size: 12.5px; margin-top: 8px; padding: 6px 12px; border-radius: 20px; display: inline-block; font-weight: 500; }
+            #fb-status.ok  { background: #d1fae5; color: #065f46; }
+            #fb-status.err { background: #fee2e2; color: #991b1b; }
+            #fb-status.saving { background: #fef3c7; color: #92400e; }
+
+            .print-only, .master-table, .secondary-table thead, .hide-on-mobile, #print-spooler { display: none !important; }
+            .secondary-table { display: block; } .secondary-table tr, .secondary-table td { display: flex; flex-direction: column; }
+            #step2 { display: none; }
+        }
+
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            @page { size: A4 landscape; margin: 8mm; }
+            body { background: white; padding: 0; margin: 0; font-family: Arial, sans-serif; font-size: 10px; }
+            #step1, #step2, .app-ui-only, .btn-group, .app-header, .step-title, .btn-remove-row, .udise-panel, .school-type-panel, .header-card, .teacher-card, .leave-card, .data-card, .roll-entry, .minority-row, .section-header, .section-title.app-ui-only { display: none !important; }
+            #print-spooler { display: block !important; width: 100%; }
+            .hide-on-mobile { display: table-cell !important; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 15px; text-align: center; }
+            th, td { border: 1px solid #000; padding: 3px; }
+            .master-table th { font-size: 9px; font-weight: bold; }
+            .master-table { display: table !important; }
+            .master-table .header-row { display: table-row !important; }
+            .master-table .header-row th { display: table-cell !important; text-align: left !important; padding: 6px !important; border: 1px solid #000 !important; font-size: 9px; }
+            .master-table thead tr:nth-child(4) { display: table-row !important; }
+            .vertical-text span { writing-mode: vertical-rl; transform: rotate(180deg); padding: 5px 2px; font-size: 7.5px; }
+            .master-table tbody, .teacher-row { display: table-row-group !important; }
+            .teacher-row { display: table-row !important; }
+            .teacher-row td, .teacher-row td.signature-cell, .print-only { display: table-cell !important; }
+            .teacher-row td::before, .secondary-table td::before { display: none !important; content: none !important; }
+            input, select, .inline-input { border: none !important; background: transparent !important; padding: 0 !important; font-size: 9px !important; text-align: center !important; color: black !important; width: 100% !important; margin: 0 !important; font-weight: bold; -webkit-appearance: none; appearance: none; }
+            .master-table .header-row .inline-input { text-align: left !important; display: inline-block !important; width: auto !important; border-bottom: 1px solid #000 !important; border-radius: 0 !important; }
+            ::placeholder, ::-webkit-input-placeholder, :-moz-placeholder, ::-moz-placeholder, :-ms-input-placeholder { color: transparent !important; opacity: 0 !important; }
+            .combo-input { display: block !important; width: 100% !important; } .combo-input select { display: none !important; }
+            td.vert-data { width: 2.8%; } td.vert-data input, td.vert-data select { writing-mode: vertical-rl; transform: rotate(180deg); height: 75px !important; width: 100% !important; margin: 0 auto; text-align: center; }
+            .master-table th:nth-child(2), .master-table td:nth-child(2) { width: 14%; }
+            .signature-block { display: flex !important; flex-direction: row !important; justify-content: space-between !important; margin-top: 50px !important; width: 100% !important; font-weight: bold; }
+            .print-only { display: flex !important; }
+            .flex-tables { display: flex; gap: 15px; } .flex-tables > div { flex: 1; }
+            .page-one { display: flex; flex-direction: column; justify-content: space-between; height: 188mm; min-height: 188mm; }
+            .main-table-wrapper { flex-grow: 1; display: flex; flex-direction: column; } .main-table-wrapper table { flex-grow: 1; height: 100%; margin-bottom: 0; }
+            .page-break { page-break-before: always; margin-top: 15px; }
+            .secondary-table { display: table !important; margin-bottom: 15px !important; }
+            .secondary-table thead, .secondary-table tbody, .secondary-table tr { display: table-header-group !important; }
+            .secondary-table tbody { display: table-row-group !important; } .secondary-table tr { display: table-row !important; }
+            .secondary-table td, .secondary-table th { display: table-cell !important; padding: 2px !important; font-size: 9px !important; }
+            .section-title { text-align: center; font-size: 12px; margin: 8px 0; display: block !important; }
+            .secondary-table td.app-ui-only { display: none !important; border: none !important; padding: 0 !important; width: 0 !important; height: 0 !important; }
+            .print-pad-row, .print-pad-leave-row { display: table-row !important; }
+            .print-pad-row td, .print-pad-leave-row td { border: 1px solid #000 !important; height: 18px !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-ui-only">
+    <header class="app-header">
+        <div class="app-header-top">
+            <div class="app-header-icon">🏫</div>
+            <div class="app-header-text">
+                <div class="app-header-title">School Monthly Report</div>
+                <div class="app-header-sub">Salary · Leave · Strength · Staff</div>
+            </div>
+        </div>
+        <nav class="step-nav">
+            <div class="step-pill active" id="pill-1" onclick="showStep(1)">① Salary &amp; Leave</div>
+            <div class="step-pill" id="pill-2" onclick="showStep(2)">② Strength &amp; Staff</div>
+        </nav>
+    </header>
+
+    <div class="app-shell">
+        <div class="content-area">
+            <div class="udise-panel">
+                <div class="udise-label">UDISE Code — Auto Load / Save</div>
+                <input type="number" id="udise-key" placeholder="Enter 11-digit UDISE Code">
+                <div id="fb-status"></div>
+            </div>
+
+            <div class="school-type-panel">
+                <div class="school-type-label">School Type</div>
+                <select id="schoolType" onchange="updateSchoolType()">
+                    <option value="UPPER_PRIMARY">Upper Primary (up to Class 8)</option>
+                    <option value="PRIMARY">Primary (up to Class 5)</option>
+                    <option value="HIGH_SCHOOL">High School (up to Class 10)</option>
+                </select>
+            </div>
+
+            <div id="step1">
+                <div class="section-header"><div class="section-header-text">Report Details</div><div class="section-header-line"></div></div>
+                <div class="header-card">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                        <div class="field-group"><div class="field-label">Month</div><input type="text" class="field-input month-input" placeholder="e.g. April"></div>
+                        <div class="field-group"><div class="field-label">Year</div><input type="number" class="field-input year-input" placeholder="YY" maxlength="2"></div>
+                        <div class="field-group" style="grid-column:1/-1;"><div class="field-label">School Name</div><input type="text" class="field-input school-name-input" placeholder="Enter school name"></div>
+                        <div class="field-group"><div class="field-label">Block</div><input type="text" class="field-input block-input" value="KOTPAD" placeholder="Block"></div>
+                        <div class="field-group"><div class="field-label">Cluster</div><input type="text" class="field-input cluster-input" placeholder="Cluster"></div>
+                        <div class="field-group"><div class="field-label">Letter No.</div><input type="text" class="field-input letter-input" placeholder="Letter No."></div>
+                        <div class="field-group"><div class="field-label">Date</div><input type="text" class="field-input date-input" placeholder="DD-MM-YYYY"></div>
+                    </div>
+                </div>
+
+                <div class="section-header"><div class="section-header-text">Teachers — Salary</div><div class="section-header-line"></div></div>
+                <div id="ui-teacher-cards"></div>
+
+                <div class="section-header"><div class="section-header-text">Leave Status</div><div class="section-header-line"></div></div>
+                <div id="ui-leave-cards"></div>
+
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="addTeacher()">＋ Add Teacher</button>
+                    <button class="btn btn-primary" onclick="showStep(2)">Next Step →</button>
+                </div>
+            </div>
+
+            <div id="step2" style="display:none;">
+                <div class="section-title">Class-wise Roll Strength</div>
+                <div id="ui-roll-cards"></div>
+
+                <div class="section-title">Teaching Staff in Position</div>
+                <div id="ui-staff-card" class="data-card">
+                    <div class="data-card-title">No. of Teaching Staff</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;" id="ui-staff-inputs"></div>
+                </div>
+
+                <div class="section-title">Minority Students</div>
+                <div id="ui-minority-cards"></div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="showStep(1)">← Back to Step 1</button>
+                    <button class="btn btn-danger" id="btn-download-save" onclick="downloadAndSave()" style="font-size:16px;">⬇️ Download &amp; Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="template-page-one page-one" style="display:none;">
+    <div class="main-table-wrapper">
+        <table class="master-table">
+            <thead>
+                <tr class="header-row">
+                    <th colspan="25">SALARY STATEMENT FOR THE MONTH OF <input type="text" class="inline-input month-input" style="width:110px;"> 20<input type="number" class="inline-input year-input" style="width:40px;"></th>
+                </tr>
+                <tr class="header-row">
+                    <th colspan="10">SCHOOL - <input type="text" class="inline-input school-name-input" style="width:60%;"></th>
+                    <th colspan="7" style="flex-direction:row;align-items:center;gap:5px;">BLOCK - <input type="text" class="inline-input block-input" style="width:60%;" value="KOTPAD"></th>
+                    <th colspan="8">CLUSTER - <input type="text" class="inline-input cluster-input" style="width:60%;"></th>
+                </tr>
+                <tr class="header-row">
+                    <th colspan="17">LETTER NO. - <input type="text" class="inline-input letter-input" style="width:70%;"></th>
+                    <th colspan="8">DATE - <input type="text" class="inline-input date-input" style="width:60%;"></th>
+                </tr>
+                <tr>
+                    <th style="width:3%;">SL.<br>NO</th>
+                    <th>NAME OF THE TEACHER WITH<br>DESIGNATION</th>
+                    <th class="vertical-text"><span>CASTE</span></th>
+                    <th class="vertical-text"><span>DATE OF BIRTH</span></th>
+                    <th class="vertical-text"><span>DATE OF 1ST APPOINTMENT</span></th>
+                    <th class="vertical-text"><span>DATE OF JOINING IN PRESENT SCHOOL</span></th>
+                    <th class="vertical-text"><span>DATE OF SUPERANNUATION</span></th>
+                    <th class="vertical-text"><span>QUALIFICATION</span></th>
+                    <th class="vertical-text"><span>SALARY CLAIMED FOR NO. OF DAYS</span></th>
+                    <th class="vertical-text"><span>GRADE PAY</span></th>
+                    <th class="vertical-text"><span>PAY</span></th>
+                    <th class="vertical-text"><span>D.A</span></th>
+                    <th class="vertical-text"><span>H.R.A</span></th>
+                    <th class="vertical-text"><span>O. A</span></th>
+                    <th class="vertical-text"><span>GROSS</span></th>
+                    <th class="vertical-text"><span>GPF/RECOVERY</span></th>
+                    <th class="vertical-text"><span>PRAN (PAY+G.P+D.A)*10%/RECOVERY</span></th>
+                    <th class="vertical-text"><span>L.I.C</span></th>
+                    <th class="vertical-text"><span>G.I.S/IT</span></th>
+                    <th class="vertical-text"><span>F. A</span></th>
+                    <th class="vertical-text"><span>P TAX</span></th>
+                    <th class="vertical-text"><span>OTHER RECOVERY</span></th>
+                    <th class="vertical-text"><span>TOTAL DEDUCTION</span></th>
+                    <th class="vertical-text"><span>NET PAYABLE</span></th>
+                    <th style="width:9%;">FULL SIGNATURE OF THE<br>EMPLOYEE</th>
+                </tr>
+            </thead>
+            <tbody id="teacher-tbody">
+                <tr class="teacher-row">
+                    <td class="no-label"><div class="header-cell-content"><span class="row-title-text">1</span></div></td>
+                    <td><input type="text" class="val-teacher-name"></td>
+                    <td class="vert-data">
+                        <select><option value=""></option><option value="GEN">GEN</option><option value="SC">SC</option><option value="ST">ST</option><option value="OBC">OBC</option><option value="SEBC">SEBC</option></select>
+                    </td>
+                    <td class="vert-data"><input type="text"></td><td class="vert-data"><input type="text"></td><td class="vert-data"><input type="text"></td>
+                    <td class="vert-data"><input type="text"></td><td class="vert-data"><input type="text"></td><td class="vert-data"><input type="number"></td>
+                    <td class="vert-data"><input type="number" class="val-gradepay"></td>
+                    <td class="vert-data"><input type="number" class="val-pay input-calc"></td>
+                    <td class="vert-data"><div class="combo-input"><select class="val-da-perc input-calc app-ui-only dyn-perc"></select><input type="number" class="val-da-amount" readonly></div></td>
+                    <td class="vert-data"><div class="combo-input"><select class="val-hra-perc input-calc app-ui-only dyn-perc"></select><input type="number" class="val-hra-amount" readonly></div></td>
+                    <td class="vert-data"><input type="number" class="val-oa input-calc"></td>
+                    <td class="vert-data"><input type="number" class="val-gross" readonly></td>
+                    <td class="vert-data"><input type="number" class="val-deduct input-calc"></td>
+                    <td class="vert-data"><input type="number" class="val-deduct input-calc val-pran"></td>
+                    <td class="vert-data"><input type="number" class="val-deduct input-calc"></td><td class="vert-data"><input type="number" class="val-deduct input-calc"></td>
+                    <td class="vert-data"><input type="number" class="val-deduct input-calc"></td><td class="vert-data"><input type="number" class="val-deduct input-calc"></td>
+                    <td class="vert-data"><input type="number" class="val-deduct input-calc"></td>
+                    <td class="vert-data"><input type="number" class="val-total-deduct" readonly></td>
+                    <td class="vert-data"><input type="number" class="val-net-pay" readonly></td>
+                    <td class="signature-cell"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="signature-block print-only">
+        <div>Signature of SMC(C)</div><div>Signature of CRCC</div><div>Signature of ABEO</div><div>Signature of H.M</div>
+    </div>
+</div>
+
+<div class="template-page-two page-two" style="display:none;">
+    <div class="flex-tables">
+        <div>
+            <div class="section-title">CLASS WISE ROLL STRENGTH</div>
+            <table class="secondary-table">
+                <thead>
+                    <tr><th rowspan="2">CLASS</th><th colspan="2">SC</th><th colspan="2">ST</th><th colspan="2">OBC</th><th colspan="2">GENERAL</th><th colspan="2">TOTAL</th><th rowspan="2">GRAND<br>TOTAL</th></tr>
+                    <tr><th>B</th><th>G</th><th>B</th><th>G</th><th>B</th><th>G</th><th>B</th><th>G</th><th>B</th><th>G</th></tr>
+                </thead>
+                <tbody id="roll-strength-body"></tbody>
+            </table>
+        </div>
+        <div>
+            <div id="leave-status-card">
+                <div class="section-title">Leave Status (Teachers)</div>
+                <table class="secondary-table">
+                    <thead>
+                        <tr><th>SL NO</th><th>NAME OF THE TEACHER</th><th>TOTAL NO. OF CL</th><th>CL TAKEN PREVIOUSLY</th><th>CL TAKEN DURING THE MONTH</th><th>BALANCE OF CL</th></tr>
+                    </thead>
+                    <tbody id="leave-tbody">
+                        <tr class="leave-row">
+                            <td class="no-label"><span class="row-title-text">1</span></td>
+                            <td><input type="text" class="val-leave-name" readonly></td>
+                            <td><input type="number" class="val-leave-total" value="15" readonly></td>
+                            <td><input type="number" class="val-leave-prev leave-calc"></td>
+                            <td><input type="number" class="val-leave-curr leave-calc"></td>
+                            <td><input type="number" class="val-leave-bal" readonly></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-title">NO OF TEACHING STAFF IN POSITION</div>
+            <table class="secondary-table staff-table">
+                <thead>
+                    <tr style="display:table-row !important;"><th colspan="11">NO OF TEACHING STAFF IN POSITION</th></tr>
+                    <tr><th colspan="2">SC</th><th colspan="2">ST</th><th colspan="2">OBC</th><th colspan="2">GENERAL</th><th colspan="2">TOTAL</th><th rowspan="2" style="vertical-align:middle;">GRAND</th></tr>
+                    <tr><th>M</th><th>F</th><th>M</th><th>F</th><th>M</th><th>F</th><th>M</th><th>F</th><th>M</th><th>F</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="app-ui-only">Staff Details</td>
+                        <td><input type="number" class="staff-m input-staff"></td><td><input type="number" class="staff-f input-staff"></td>
+                        <td><input type="number" class="staff-m input-staff"></td><td><input type="number" class="staff-f input-staff"></td>
+                        <td><input type="number" class="staff-m input-staff"></td><td><input type="number" class="staff-f input-staff"></td>
+                        <td><input type="number" class="staff-m input-staff"></td><td><input type="number" class="staff-f input-staff"></td>
+                        <td><input type="number" class="staff-total-m" readonly style="background:#e5e7eb;"></td>
+                        <td><input type="number" class="staff-total-f" readonly style="background:#e5e7eb;"></td>
+                        <td><input type="number" class="staff-grand-total" readonly style="background:#e5e7eb;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="section-title">MINORITY STUDENTS OUT OF TOTAL</div>
+    <table class="secondary-table">
+        <thead><tr id="minority-header-row"></tr></thead>
+        <tbody id="minority-body"></tbody>
+    </table>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyD5pzI0pMVX5nKvXtu4YmSo0BPL4SIbe1E",
+        authDomain: "mrbill-4e4af.firebaseapp.com",
+        projectId: "mrbill-4e4af",
+        storageBucket: "mrbill-4e4af.firebasestorage.app",
+        messagingSenderId: "207805692505",
+        appId: "1:207805692505:web:33b1e3d405f886b0aa8f48"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function setStatus(msg, type) {
+        const el = document.getElementById('fb-status');
+        el.textContent = msg; el.className = type;
+    }
+
+    // Collect Data into nested Objects (No arrays to prevent Firebase errors)
+    function collectFormData() {
+        const getVals = (selector) => {
+            let obj = {};
+            document.querySelectorAll(selector).forEach((el, i) => obj[i] = el.value);
+            return obj;
+        };
+        const getGrid = (rowSelector, inputSelector) => {
+            let obj = {};
+            document.querySelectorAll(rowSelector).forEach((row, i) => {
+                let rowObj = {};
+                row.querySelectorAll(inputSelector).forEach((el, j) => rowObj[j] = el.value);
+                obj[i] = rowObj;
+            });
+            return obj;
+        };
+
+        return {
+            schoolType: document.getElementById('schoolType').value,
+            teacherCount: document.querySelectorAll('#teacher-tbody .teacher-row').length,
+            headers: getVals('.header-row input'),
+            staff: getVals('.staff-table tbody input'),
+            teachers: getGrid('#teacher-tbody .teacher-row', 'input, select'),
+            leave: getGrid('#leave-tbody .leave-row', 'input'),
+            roll: getGrid('#roll-strength-body tr', 'input'),
+            minority: getGrid('#minority-body tr', 'input'),
+            timestamp: new Date().toISOString()
+        };
+    }
+
+    // Load Data back into DOM — dynamic teacher count from saved data
+    function loadDataIntoForm(data) {
+        if (!data) return;
+
+        if (data.schoolType) {
+            document.getElementById('schoolType').value = data.schoolType;
+            window.updateSchoolType();
+        }
+
+        // Determine how many teachers actually have saved data
+        let savedTeacherCount = data.teacherCount || 1;
+        if (data.teachers) {
+            // Count only teachers that have at least one non-empty field
+            let maxWithData = 0;
+            Object.keys(data.teachers).forEach(k => {
+                const rowObj = data.teachers[k];
+                const hasData = Object.values(rowObj).some(v => v !== '' && v !== '0' && v !== null && v !== undefined);
+                if (hasData) maxWithData = Math.max(maxWithData, parseInt(k) + 1);
+            });
+            savedTeacherCount = Math.max(maxWithData, 1);
+        }
+
+        const tbody = document.getElementById('teacher-tbody');
+        const leaveTbody = document.getElementById('leave-tbody');
+
+        // Adjust teacher rows to match saved count exactly
+        while (tbody.querySelectorAll('.teacher-row').length < savedTeacherCount) { window._addTeacherSilent(); }
+        while (tbody.querySelectorAll('.teacher-row').length > savedTeacherCount) {
+            tbody.lastElementChild.remove();
+            leaveTbody.lastElementChild.remove();
+        }
+
+        const setVals = (selector, obj) => {
+            if(!obj) return;
+            const els = document.querySelectorAll(selector);
+            Object.keys(obj).forEach(k => { if(els[k]) els[k].value = obj[k]; });
+        };
+        const setGrid = (rowSelector, inputSelector, gridObj) => {
+            if(!gridObj) return;
+            const rows = document.querySelectorAll(rowSelector);
+            Object.keys(gridObj).forEach(r => {
+                if(rows[r]) {
+                    const els = rows[r].querySelectorAll(inputSelector);
+                    const rowObj = gridObj[r];
+                    Object.keys(rowObj).forEach(c => { if(els[c]) els[c].value = rowObj[c]; });
+                }
+            });
+        };
+
+        setVals('.header-row input', data.headers);
+        setVals('.staff-table tbody input', data.staff);
+        setGrid('#teacher-tbody .teacher-row', 'input, select', data.teachers);
+        setGrid('#leave-tbody .leave-row', 'input', data.leave);
+        setGrid('#roll-strength-body tr', 'input', data.roll);
+        setGrid('#minority-body tr', 'input', data.minority);
+
+        window.reindexTeachers();
+        window.syncUIFromPrintDom();
+        setStatus(`✅ Loaded — ${savedTeacherCount} teacher${savedTeacherCount !== 1 ? 's' : ''} restored`, 'ok');
+    }
+
+    // Auto-Load when UDISE entered
+    document.getElementById('udise-key').addEventListener('input', async (e) => {
+        const udise = e.target.value.trim();
+        if (udise.length === 11) {
+            setStatus('⏳ Loading…', 'saving');
+            try {
+                const docSnap = await getDoc(doc(db, "schools", udise));
+                if (docSnap.exists()) { loadDataIntoForm(docSnap.data()); }
+                else { setStatus('ℹ️ No saved data — start filling in the form', 'saving'); }
+            } catch(err) { setStatus('❌ Load failed: ' + err.message, 'err'); }
+        } else { setStatus('', ''); }
+    });
+
+    // Download & Save handler — called by the button
+    window.downloadAndSave = async function() {
+        const btn = document.getElementById('btn-download-save');
+        const udise = document.getElementById('udise-key').value.trim();
+
+        // Save to Firestore if UDISE provided
+        if (udise.length === 11) {
+            btn.textContent = '💾 Saving…';
+            btn.disabled = true;
+            setStatus('💾 Saving to cloud…', 'saving');
+            try {
+                await setDoc(doc(db, "schools", udise), collectFormData());
+                setStatus('✅ Saved to cloud!', 'ok');
+            } catch(err) {
+                setStatus('⚠️ Cloud save failed — downloading anyway', 'err');
+            }
+            btn.textContent = '⬇️ Download & Save';
+            btn.disabled = false;
+        } else {
+            setStatus('ℹ️ Enter UDISE code to also save to cloud', 'saving');
+        }
+
+        // Trigger browser print/PDF download
+        window.print();
+    };
+</script>
+
+
+<script>
+    let percOptions = '<option value="0">0%</option>';
+    for (let i = 1; i <= 150; i++) percOptions += `<option value="${i}">${i}%</option>`;
+    document.querySelectorAll('.dyn-perc').forEach(s => s.innerHTML = percOptions);
+
+    function syncHeaderFromUI() {
+        const get = (cls) => document.querySelector('.header-card .' + cls)?.value || '';
+        document.querySelectorAll('.master-table .month-input').forEach(e => e.value = get('month-input'));
+        document.querySelectorAll('.master-table .year-input').forEach(e => e.value = get('year-input'));
+        document.querySelectorAll('.master-table .school-name-input').forEach(e => e.value = get('school-name-input'));
+        document.querySelectorAll('.master-table .block-input').forEach(e => e.value = get('block-input'));
+        document.querySelectorAll('.master-table .cluster-input').forEach(e => e.value = get('cluster-input'));
+        document.querySelectorAll('.master-table .letter-input').forEach(e => e.value = get('letter-input'));
+        document.querySelectorAll('.master-table .date-input').forEach(e => e.value = get('date-input'));
+    }
+    document.querySelector('.header-card')?.addEventListener('input', syncHeaderFromUI);
+
+    window.syncUIFromPrintDom = function() {
+        const getV = (cls) => document.querySelector('.master-table .header-row .' + cls)?.value || '';
+        const hc = document.querySelector('.header-card');
+        if (hc) {
+            ['month-input','year-input','school-name-input','block-input','cluster-input','letter-input','date-input'].forEach(cls => {
+                const ui = hc.querySelector('.' + cls);
+                if (ui) ui.value = getV(cls);
+            });
+        }
+        
+        // Sync Roll UI
+        document.querySelectorAll('#ui-roll-cards .roll-entry').forEach((entry, r) => {
+            const prRow = document.querySelectorAll('#roll-strength-body tr')[r];
+            if(prRow) {
+                ['sc-b','sc-g','st-b','st-g','obc-b','obc-g','gen-b','gen-g','tot-b','tot-g','grand'].forEach(col => {
+                    const u = entry.querySelector(`.roll-${col}`); const p = prRow.querySelector(`.roll-${col}`);
+                    if(u && p) u.value = p.value;
+                });
+            }
+        });
+        // Sync Staff UI
+        const staffUI = document.querySelectorAll('#ui-staff-inputs input');
+        const staffPr = document.querySelectorAll('.staff-table tbody input:not(.app-ui-only)');
+        staffUI.forEach((el,i) => { if(staffPr[i]) el.value = staffPr[i].value; });
+        // Sync Min UI
+        const minUI = document.querySelectorAll('#ui-minority-cards input');
+        const minPr = document.querySelectorAll('#minority-body input');
+        minUI.forEach((el,i) => { if(minPr[i]) el.value = minPr[i].value; });
+
+        rebuildTeacherUI();
+        rebuildLeaveUI();
+    };
+
+    function buildTeacherCard(rowIndex) {
+        const row = document.querySelectorAll('#teacher-tbody .teacher-row')[rowIndex];
+        const nameVal = row ? row.querySelector('.val-teacher-name').value : '';
+        const card = document.createElement('div');
+        card.className = 'teacher-card'; card.dataset.index = rowIndex;
+        card.innerHTML = `
+            <div class="teacher-card-header">
+                <div><div class="teacher-card-number">Teacher ${rowIndex + 1}</div><div class="teacher-card-name-preview teacher-name-preview">${nameVal || 'Enter name below'}</div></div>
+                <button class="btn-remove-row" onclick="removeTeacherCard(this)">✕ Remove</button>
+            </div>
+            <div class="teacher-card-body">
+                <div class="field-group"><div class="field-label">Name with Designation</div><input type="text" class="field-input ui-teacher-name" value="${nameVal}"></div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">Caste</div><select class="field-input ui-caste"><option value=""></option><option>GEN</option><option>SC</option><option>ST</option><option>OBC</option><option>SEBC</option></select></div>
+                    <div class="field-group"><div class="field-label">Qualification</div><input type="text" class="field-input ui-qual"></div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">Date of Birth</div><input type="text" class="field-input ui-dob"></div>
+                    <div class="field-group"><div class="field-label">Date of Superannuation</div><input type="text" class="field-input ui-dos"></div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">1st Appointment</div><input type="text" class="field-input ui-app1"></div>
+                    <div class="field-group"><div class="field-label">Joined Present School</div><input type="text" class="field-input ui-app2"></div>
+                </div>
+                <div class="field-group"><div class="field-label">Salary Days Claimed</div><input type="number" class="field-input ui-days"></div>
+                <div class="subsection-title">Pay &amp; Allowances</div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">Grade Pay</div><input type="number" class="field-input ui-gradepay"></div>
+                    <div class="field-group"><div class="field-label">Basic Pay</div><input type="number" class="field-input ui-pay"></div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">DA %</div><div class="amt-row"><select class="ui-da-perc"></select><input type="number" class="field-input ui-da-amt" readonly></div></div>
+                    <div class="field-group"><div class="field-label">HRA %</div><div class="amt-row"><select class="ui-hra-perc"></select><input type="number" class="field-input ui-hra-amt" readonly></div></div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">Other Allowance</div><input type="number" class="field-input ui-oa"></div>
+                    <div class="field-group"><div class="field-label">Gross</div><input type="number" class="field-input ui-gross" readonly></div>
+                </div>
+                <div class="subsection-title">Deductions</div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">GPF/Recovery</div><input type="number" class="field-input ui-d1"></div>
+                    <div class="field-group"><div class="field-label">PRAN</div><input type="number" class="field-input ui-pran"></div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">LIC</div><input type="number" class="field-input ui-d2"></div>
+                    <div class="field-group"><div class="field-label">GIS/IT</div><input type="number" class="field-input ui-d3"></div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">FA</div><input type="number" class="field-input ui-d4"></div>
+                    <div class="field-group"><div class="field-label">P Tax</div><input type="number" class="field-input ui-d5"></div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">Other Recovery</div><input type="number" class="field-input ui-d6"></div>
+                    <div class="field-group"><div class="field-label">Total Deduction</div><input type="number" class="field-input ui-total-deduct" readonly></div>
+                </div>
+                <div class="field-group"><div class="field-label">Net Payable</div><input type="number" class="field-input ui-net-pay" readonly style="font-size:18px; color:var(--success); font-weight:700;"></div>
+            </div>`;
+        card.querySelectorAll('select').forEach(s => s.innerHTML = percOptions);
+        card.querySelector('.ui-caste').innerHTML = '<option value=""></option><option>GEN</option><option>SC</option><option>ST</option><option>OBC</option><option>SEBC</option>';
+        card.addEventListener('input', () => { calcCard(card); syncCardToPrint(card, rowIndex); });
+        
+        // Populate from Print DOM if exists
+        if(row) {
+            const getR = (sel) => row.querySelector(sel)?.value || '';
+            const nth = (n) => row.querySelectorAll('td')[n]?.querySelector('input,select')?.value || '';
+            card.querySelector('.ui-caste').value = row.querySelector('select').value;
+            card.querySelector('.ui-dob').value = nth(3); card.querySelector('.ui-app1').value = nth(4);
+            card.querySelector('.ui-app2').value = nth(5); card.querySelector('.ui-dos').value = nth(6);
+            card.querySelector('.ui-qual').value = nth(7); card.querySelector('.ui-days').value = nth(8);
+            card.querySelector('.ui-gradepay').value = getR('.val-gradepay'); card.querySelector('.ui-pay').value = getR('.val-pay');
+            card.querySelector('.ui-da-perc').value = getR('.val-da-perc')||0; card.querySelector('.ui-da-amt').value = getR('.val-da-amount');
+            card.querySelector('.ui-hra-perc').value = getR('.val-hra-perc')||0; card.querySelector('.ui-hra-amt').value = getR('.val-hra-amount');
+            card.querySelector('.ui-oa').value = getR('.val-oa'); card.querySelector('.ui-gross').value = getR('.val-gross');
+            const d = row.querySelectorAll('.val-deduct');
+            ['ui-d1','ui-pran','ui-d2','ui-d3','ui-d4','ui-d5','ui-d6'].forEach((c,i)=>{ if(d[i]) card.querySelector('.'+c).value = d[i].value; });
+            card.querySelector('.ui-total-deduct').value = getR('.val-total-deduct'); card.querySelector('.ui-net-pay').value = getR('.val-net-pay');
+        }
+        return card;
+    }
+
+    function calcCard(card) {
+        const v = (cls) => parseFloat(card.querySelector('.' + cls)?.value) || 0;
+        const pay = v('ui-pay'), daPerc = v('ui-da-perc'), hraPerc = v('ui-hra-perc'), oa = v('ui-oa');
+        const da = Math.round(pay * daPerc / 100), hra = Math.round(pay * hraPerc / 100);
+        const gross = Math.round(pay + da + hra + oa);
+        const set = (cls, val) => { const el = card.querySelector('.' + cls); if(el) el.value = val || ''; };
+        set('ui-da-amt', da); set('ui-hra-amt', hra); set('ui-gross', gross);
+        if(document.activeElement === card.querySelector('.ui-pay') || document.activeElement === card.querySelector('.ui-da-perc')){
+            set('ui-pran', Math.round((pay + da) * 0.10));
+        }
+        let totalD = 0;
+        ['ui-d1','ui-pran','ui-d2','ui-d3','ui-d4','ui-d5','ui-d6'].forEach(c => totalD += parseFloat(card.querySelector('.'+c)?.value)||0);
+        set('ui-total-deduct', Math.round(totalD)); set('ui-net-pay', Math.round(gross - totalD));
+        card.querySelector('.teacher-name-preview').textContent = card.querySelector('.ui-teacher-name').value || 'Enter name below';
+    }
+
+    function syncCardToPrint(card, idx) {
+        const row = document.querySelectorAll('#teacher-tbody .teacher-row')[idx];
+        if (!row) return;
+        const g = (cls) => card.querySelector('.' + cls)?.value || '';
+        const si = (domCls, val) => { const el = row.querySelector('.' + domCls); if(el) el.value = val; };
+        const sn = (nth, val) => { const inp = row.querySelectorAll('td')[nth]?.querySelector('input, select'); if (inp) inp.value = val; };
+
+        row.querySelector('.val-teacher-name').value = g('ui-teacher-name');
+        row.querySelector('select').value = g('ui-caste');
+        sn(3, g('ui-dob')); sn(4, g('ui-app1')); sn(5, g('ui-app2')); sn(6, g('ui-dos')); sn(7, g('ui-qual')); sn(8, g('ui-days'));
+        si('val-gradepay', g('ui-gradepay')); si('val-pay', g('ui-pay'));
+        si('val-da-perc', g('ui-da-perc')); si('val-da-amount', g('ui-da-amt'));
+        si('val-hra-perc', g('ui-hra-perc')); si('val-hra-amount', g('ui-hra-amt'));
+        si('val-oa', g('ui-oa')); si('val-gross', g('ui-gross')); si('val-pran', g('ui-pran'));
+        const deducts = row.querySelectorAll('.val-deduct');
+        const vals = [g('ui-d1'), g('ui-pran'), g('ui-d2'), g('ui-d3'), g('ui-d4'), g('ui-d5'), g('ui-d6')];
+        deducts.forEach((el, i) => el.value = vals[i]);
+        si('val-total-deduct', g('ui-total-deduct')); si('val-net-pay', g('ui-net-pay'));
+
+        const leaveRow = document.querySelectorAll('#leave-tbody .leave-row')[idx];
+        if (leaveRow) leaveRow.querySelector('.val-leave-name').value = g('ui-teacher-name');
+        const lc = document.querySelector(`#ui-leave-cards .leave-ui-card[data-index="${idx}"] .ui-leave-name`);
+        if (lc) lc.value = g('ui-teacher-name');
+    }
+
+    function buildLeaveCard(idx) {
+        const row = document.querySelectorAll('#leave-tbody .leave-row')[idx];
+        const card = document.createElement('div');
+        card.className = 'leave-card leave-ui-card'; card.dataset.index = idx;
+        card.innerHTML = `
+            <div class="leave-card-header">Leave Status — Teacher ${idx + 1}</div>
+            <div class="leave-card-body">
+                <div class="field-group"><div class="field-label">Teacher Name</div><input type="text" class="field-input ui-leave-name" readonly></div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">Total CL</div><input type="number" class="field-input ui-leave-total" value="15" readonly></div>
+                    <div class="field-group"><div class="field-label">CL Taken Previously</div><input type="number" class="field-input ui-leave-prev"></div>
+                </div>
+                <div class="field-row">
+                    <div class="field-group"><div class="field-label">CL This Month</div><input type="number" class="field-input ui-leave-curr"></div>
+                    <div class="field-group"><div class="field-label">CL Balance</div><input type="number" class="field-input ui-leave-bal" readonly></div>
+                </div>
+            </div>`;
+        if (row) {
+            card.querySelector('.ui-leave-name').value = row.querySelector('.val-leave-name').value;
+            card.querySelector('.ui-leave-prev').value = row.querySelector('.val-leave-prev').value;
+            card.querySelector('.ui-leave-curr').value = row.querySelector('.val-leave-curr').value;
+            card.querySelector('.ui-leave-bal').value = row.querySelector('.val-leave-bal').value;
+        }
+        card.addEventListener('input', () => {
+            const prev = parseFloat(card.querySelector('.ui-leave-prev').value) || 0;
+            const curr = parseFloat(card.querySelector('.ui-leave-curr').value) || 0;
+            card.querySelector('.ui-leave-bal').value = (15 - (prev + curr)) || '';
+            const lr = document.querySelectorAll('#leave-tbody .leave-row')[idx];
+            if(lr) {
+                lr.querySelector('.val-leave-prev').value = card.querySelector('.ui-leave-prev').value;
+                lr.querySelector('.val-leave-curr').value = card.querySelector('.ui-leave-curr').value;
+                lr.querySelector('.val-leave-bal').value = card.querySelector('.ui-leave-bal').value;
+            }
+        });
+        return card;
+    }
+
+    function rebuildTeacherUI() {
+        const c = document.getElementById('ui-teacher-cards'); c.innerHTML = '';
+        const count = document.querySelectorAll('#teacher-tbody .teacher-row').length;
+        for (let i=0; i<count; i++) c.appendChild(buildTeacherCard(i));
+        const btns = document.querySelectorAll('.btn-remove-row');
+        btns.forEach(b => b.style.display = count > 1 ? 'block' : 'none');
+    }
+    function rebuildLeaveUI() {
+        const c = document.getElementById('ui-leave-cards'); c.innerHTML = '';
+        const count = document.querySelectorAll('#leave-tbody .leave-row').length;
+        for (let i=0; i<count; i++) c.appendChild(buildLeaveCard(i));
+    }
+
+    window._addTeacherSilent = function() {
+        const tb = document.getElementById('teacher-tbody');
+        const nr = tb.lastElementChild.cloneNode(true);
+        nr.querySelectorAll('input').forEach(i=>i.value=''); nr.querySelectorAll('select').forEach(s=>s.selectedIndex=0);
+        tb.appendChild(nr);
+        const lb = document.getElementById('leave-tbody');
+        const nl = lb.lastElementChild.cloneNode(true);
+        nl.querySelectorAll('input:not(.val-leave-total)').forEach(i=>i.value=''); nl.querySelector('.val-leave-bal').value='';
+        lb.appendChild(nl);
+    };
+    window.addTeacher = function() {
+        window._addTeacherSilent(); reindexTeachers(); rebuildTeacherUI(); rebuildLeaveUI();
+        const cards = document.querySelectorAll('#ui-teacher-cards .teacher-card');
+        if (cards.length) cards[cards.length-1].scrollIntoView({ behavior:'smooth', block:'start' });
+    };
+    window.removeTeacherCard = function(btn) {
+        const idx = parseInt(btn.closest('.teacher-card').dataset.index);
+        const tb = document.getElementById('teacher-tbody');
+        if (tb.children.length <= 1) return;
+        tb.removeChild(tb.children[idx]);
+        const lb = document.getElementById('leave-tbody');
+        lb.removeChild(lb.children[idx]);
+        reindexTeachers(); rebuildTeacherUI(); rebuildLeaveUI();
+    };
+    window.reindexTeachers = function() {
+        document.querySelectorAll('#teacher-tbody .teacher-row').forEach((r,i) => r.querySelector('.row-title-text').innerText = i+1);
+        document.querySelectorAll('#leave-tbody .leave-row').forEach((r,i) => r.querySelector('.row-title-text').innerText = i+1);
+        document.querySelectorAll('.dyn-perc').forEach(s => { if(!s.innerHTML) s.innerHTML = percOptions; });
+    };
+    window.showStep = function(s) {
+        document.getElementById('step1').style.display = s===1?'block':'none';
+        document.getElementById('step2').style.display = s===2?'block':'none';
+        document.getElementById('pill-1').classList.toggle('active', s===1);
+        document.getElementById('pill-2').classList.toggle('active', s===2);
+        window.scrollTo(0, 0);
+    };
+
+    window.updateSchoolType = function() {
+        const type = document.getElementById('schoolType').value;
+        let rollClasses, minClasses;
+        if (type === 'PRIMARY') {
+            rollClasses = ["SHISHU VATIKA","I","II","III","IV","V","TOTAL"]; minClasses = ["S.B.","I","II","III","IV","V"];
+        } else if (type === 'HIGH_SCHOOL') {
+            rollClasses = ["SHISHU VATIKA","I","II","III","IV","V","VI","VII","VIII","IX","X","TOTAL"]; minClasses = ["S.B.","I","II","III","IV","V","VI","VII","VIII","IX","X"];
+        } else {
+            rollClasses = ["SHISHU VATIKA","I","II","III","IV","V","VI","VII","VIII","TOTAL"]; minClasses = ["S.B.","I","II","III","IV","V","VI","VII","VIII"];
+        }
+
+        const rt = document.getElementById('roll-strength-body'); rt.innerHTML = '';
+        rollClasses.forEach(cls => {
+            const isTotal = cls === 'TOTAL';
+            const tr = document.createElement('tr'); tr.className = isTotal ? 'roll-total-row' : 'roll-data-row';
+            tr.innerHTML = `<td class="no-label">${cls}</td>` + ['roll-sc-b','roll-sc-g','roll-st-b','roll-st-g','roll-obc-b','roll-obc-g','roll-gen-b','roll-gen-g','roll-tot-b','roll-tot-g','roll-grand'].map((c, i) => {
+                const a = isTotal || i>=8; return `<td><input type="number" class="${c}${!a?' roll-input':''}" ${a?'readonly style="background:#e5e7eb;"':''}></td>`;
+            }).join('');
+            rt.appendChild(tr);
+        });
+
+        const mh = document.getElementById('minority-header-row');
+        mh.innerHTML = `<th>CATEGORY</th><th>GENDER</th>` + minClasses.map(c=>`<th>${c}</th>`).join('');
+        const mb = document.getElementById('minority-body'); mb.innerHTML = '';
+        [{type:'MUSLIM',m:'MUSLIM - BOYS',f:'MUSLIM - GIRLS'},{type:'OTHER MINORITY',m:'OTHER - BOYS',f:'OTHER - GIRLS'}].forEach(cat => {
+            const tr1 = document.createElement('tr'); tr1.innerHTML = `<td rowspan="2" style="vertical-align:middle;font-weight:bold;">${cat.type}</td><td class="no-label">${cat.m}</td>` + minClasses.map(()=>`<td><input type="number"></td>`).join('');
+            const tr2 = document.createElement('tr'); tr2.innerHTML = `<td class="no-label">${cat.f}</td>` + minClasses.map(()=>`<td><input type="number"></td>`).join('');
+            mb.appendChild(tr1); mb.appendChild(tr2);
+        });
+
+        buildRollUI(rollClasses); buildMinorityUI(minClasses); buildStaffUI();
+    };
+
+    function buildRollUI(classes) {
+        const c = document.getElementById('ui-roll-cards'); c.innerHTML = '';
+        classes.forEach((cls, r) => {
+            const t = cls==='TOTAL';
+            const d = document.createElement('div'); d.className = 'roll-entry' + (t?' roll-total-section':'');
+            d.innerHTML = `<div class="roll-entry-class">${cls}</div><div class="roll-grid">` + 
+                ['SC','ST','OBC','GEN'].map((cat,i) => `<div class="roll-cell"><div class="roll-cell-label">${cat}-B</div><input type="number" class="roll-${['sc','st','obc','gen'][i]}-b${!t?' roll-input':''}" data-row="${r}" ${t?'readonly':''}></div><div class="roll-cell"><div class="roll-cell-label">${cat}-G</div><input type="number" class="roll-${['sc','st','obc','gen'][i]}-g${!t?' roll-input':''}" data-row="${r}" ${t?'readonly':''}></div>`).join('') +
+                `<div class="roll-cell"><div class="roll-cell-label">Tot-B</div><input type="number" class="roll-tot-b" data-row="${r}" readonly></div><div class="roll-cell"><div class="roll-cell-label">Tot-G</div><input type="number" class="roll-tot-g" data-row="${r}" readonly></div><div class="roll-cell"><div class="roll-cell-label">Grand</div><input type="number" class="roll-grand" data-row="${r}" readonly></div></div>`;
+            c.appendChild(d);
+        });
+        c.addEventListener('input', e => {
+            if(!e.target.classList.contains('roll-input')) return;
+            const r = e.target.dataset.row;
+            const sum = (b) => ['sc','st','obc','gen'].reduce((s,cat)=>s+(parseInt(c.querySelector(`.roll-${cat}-${b}[data-row="${r}"]`)?.value)||0),0);
+            const tb=sum('b'), tg=sum('g');
+            c.querySelector(`.roll-tot-b[data-row="${r}"]`).value=tb||''; c.querySelector(`.roll-tot-g[data-row="${r}"]`).value=tg||''; c.querySelector(`.roll-grand[data-row="${r}"]`).value=(tb+tg)||'';
+            const pr = document.querySelectorAll('#roll-strength-body tr')[r];
+            if(pr) ['sc-b','sc-g','st-b','st-g','obc-b','obc-g','gen-b','gen-g','tot-b','tot-g','grand'].forEach(col => { const u=c.querySelector(`.roll-${col}[data-row="${r}"]`); const p=pr.querySelector(`.roll-${col}`); if(u&&p) p.value=u.value; });
+            const tr = Array.from(document.querySelectorAll('#roll-strength-body tr')).findIndex(row=>row.classList.contains('roll-total-row'));
+            if(tr>=0) ['sc-b','sc-g','st-b','st-g','obc-b','obc-g','gen-b','gen-g','tot-b','tot-g','grand'].forEach(col => {
+                let s=0; document.querySelectorAll(`#roll-strength-body .roll-data-row .roll-${col}`).forEach(el=>s+=parseInt(el.value)||0);
+                const tp=document.querySelectorAll('#roll-strength-body .roll-total-row')[0]?.querySelector(`.roll-${col}`); if(tp) tp.value=s||'';
+                const tu=c.querySelector(`.roll-${col}[data-row="${tr}"]`); if(tu) tu.value=s||'';
+            });
+        });
+    }
+
+    function buildStaffUI() {
+        const c = document.getElementById('ui-staff-inputs'); c.innerHTML = '';
+        [{l:'SC-M',c:'staff-m'},{l:'SC-F',c:'staff-f'},{l:'ST-M',c:'staff-m'},{l:'ST-F',c:'staff-f'},{l:'OBC-M',c:'staff-m'},{l:'OBC-F',c:'staff-f'},{l:'Gen-M',c:'staff-m'},{l:'Gen-F',c:'staff-f'},{l:'Tot-M',c:'staff-total-m',r:1},{l:'Tot-F',c:'staff-total-f',r:1},{l:'Grand',c:'staff-grand-total',r:1}].forEach(x => {
+            c.innerHTML += `<div class="field-group"><div class="field-label">${x.l}</div><input type="number" class="field-input ${x.c} input-staff" ${x.r?'readonly':''}></div>`;
+        });
+        c.addEventListener('input', e => {
+            if(!e.target.classList.contains('input-staff')) return;
+            let tm=0, tf=0;
+            c.querySelectorAll('.staff-m').forEach(i=>tm+=parseInt(i.value)||0); c.querySelectorAll('.staff-f').forEach(i=>tf+=parseInt(i.value)||0);
+            c.querySelector('.staff-total-m').value=tm||''; c.querySelector('.staff-total-f').value=tf||''; c.querySelector('.staff-grand-total').value=(tm+tf)||'';
+            const pr = document.querySelectorAll('.staff-table tbody input:not(.app-ui-only)');
+            Array.from(c.querySelectorAll('input')).forEach((el,i)=>{ if(pr[i]) pr[i].value=el.value; });
+        });
+    }
+
+    function buildMinorityUI(classes) {
+        const c = document.getElementById('ui-minority-cards'); c.innerHTML = '';
+        [{t:'MUSLIM', r:['Boys','Girls']},{t:'OTHER MINORITY', r:['Boys','Girls']}].forEach((cat,ci) => {
+            const d = document.createElement('div'); d.className = 'data-card'; d.innerHTML = `<div class="data-card-title">${cat.t}</div>`;
+            cat.r.forEach((g,gi) => {
+                const rd = document.createElement('div'); rd.innerHTML = `<div class="field-label" style="margin-bottom:8px;">${g}</div>`;
+                const gD = document.createElement('div'); gD.style.cssText = 'display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px;';
+                classes.forEach(cls => { gD.innerHTML += `<div class="roll-cell"><div class="roll-cell-label">${cls}</div><input type="number" class="minority-ui-input" data-cat="${ci}" data-gender="${gi}"></div>`; });
+                rd.appendChild(gD); d.appendChild(rd);
+            });
+            c.appendChild(d);
+        });
+        c.addEventListener('input', e => {
+            if(!e.target.classList.contains('minority-ui-input')) return;
+            const prRows = document.querySelectorAll('#minority-body tr');
+            let idx=0;
+            [0,1].forEach(ci => { [0,1].forEach(gi => {
+                const ui = c.querySelectorAll(`.minority-ui-input[data-cat="${ci}"][data-gender="${gi}"]`);
+                const pr = prRows[idx]?.querySelectorAll('input');
+                if(pr) ui.forEach((el,i)=>{ if(pr[i]) pr[i].value=el.value; });
+                idx++;
+            })});
+        });
+    }
+
+    // Print Spooler Fixes for Leave Card & Dynamic Rows
+    window.addEventListener('beforeprint', function() {
+        const spooler = document.createElement('div');
+        spooler.id = 'print-spooler';
+        const tRows = Array.from(document.querySelectorAll('#teacher-tbody .teacher-row'));
+        const lRows = Array.from(document.querySelectorAll('#leave-tbody .leave-row'));
+        const numSets = Math.ceil(tRows.length / 4) || 1;
+        const p1T = document.querySelector('.template-page-one').cloneNode(true);
+        const p2T = document.querySelector('.template-page-two').cloneNode(true);
+
+        for (let s=0; s<numSets; s++) {
+            const p1 = p1T.cloneNode(true); const p2 = p2T.cloneNode(true);
+            p1.style.display=''; p2.style.display='';
+            const tBody = p1.querySelector('#teacher-tbody'); const lBody = p2.querySelector('#leave-tbody');
+            tBody.innerHTML=''; lBody.innerHTML='';
+            for (let i=0; i<4; i++) {
+                const idx = s*4+i;
+                if (idx < tRows.length) {
+                    const tr = tRows[idx].cloneNode(true); tr.querySelector('.row-title-text').innerText=idx+1; tBody.appendChild(tr);
+                    const lr = lRows[idx].cloneNode(true); const lt = lr.querySelector('.row-title-text'); if(lt) lt.innerText=idx+1; lBody.appendChild(lr);
+                } else {
+                    const tr = tRows[0].cloneNode(true); tr.querySelector('.row-title-text').innerText=idx+1;
+                    tr.querySelectorAll('input').forEach(inp=>{inp.removeAttribute('value');inp.value='';});
+                    const btn=tr.querySelector('.btn-remove-row'); if(btn) btn.remove(); tBody.appendChild(tr);
+                    const lr = lRows[0].cloneNode(true); const lt = lr.querySelector('.row-title-text'); if(lt) lt.innerText=idx+1;
+                    lr.querySelectorAll('input:not(.val-leave-total)').forEach(inp=>{inp.removeAttribute('value');inp.value='';});
+                    const bal=lr.querySelector('.val-leave-bal'); if(bal) {bal.removeAttribute('value');bal.value='';} lBody.appendChild(lr);
+                }
+            }
+            spooler.appendChild(p1);
+            const pb1=document.createElement('div'); pb1.className='page-break print-only'; spooler.appendChild(pb1);
+            spooler.appendChild(p2);
+            if(s < numSets-1) { const pb2=document.createElement('div'); pb2.className='page-break print-only'; spooler.appendChild(pb2); }
+        }
+        document.body.appendChild(spooler);
+    });
+    window.addEventListener('afterprint', () => { const s=document.getElementById('print-spooler'); if(s) s.remove(); });
+
+    updateSchoolType();
+    rebuildTeacherUI();
+    rebuildLeaveUI();
+</script>
+</body>
+</html>
