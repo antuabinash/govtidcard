@@ -96,9 +96,52 @@
             #fb-status.saving { background: #fef3c7; color: #92400e; }
 
             .print-only, .master-table, .secondary-table thead, .hide-on-mobile, #print-spooler { display: none !important; }
+            #print-spooler.pdf-rendering { display: block !important; position: fixed; left: -9999px; top: 0; width: 277mm; background: white; font-family: Arial, sans-serif; font-size: 10px; z-index: -1; }
             .secondary-table { display: block; } .secondary-table tr, .secondary-table td { display: flex; flex-direction: column; }
             #step2 { display: none; }
         }
+
+        /* ===== PDF RENDERING (html2pdf capture) ===== */
+        #print-spooler.pdf-rendering { color: black; }
+        #print-spooler.pdf-rendering table { width: 100%; border-collapse: collapse; margin-bottom: 15px; text-align: center; }
+        #print-spooler.pdf-rendering th, #print-spooler.pdf-rendering td { border: 1px solid #000; padding: 3px; }
+        #print-spooler.pdf-rendering .master-table { display: table !important; }
+        #print-spooler.pdf-rendering .master-table th { font-size: 9px; font-weight: bold; }
+        #print-spooler.pdf-rendering .master-table .header-row { display: table-row !important; }
+        #print-spooler.pdf-rendering .master-table .header-row th { display: table-cell !important; text-align: left !important; padding: 6px !important; border: 1px solid #000 !important; font-size: 9px; }
+        #print-spooler.pdf-rendering .master-table thead tr:nth-child(4) { display: table-row !important; }
+        #print-spooler.pdf-rendering .vertical-text span { writing-mode: vertical-rl; transform: rotate(180deg); padding: 5px 2px; font-size: 7.5px; display: inline-block; }
+        #print-spooler.pdf-rendering .master-table tbody { display: table-row-group !important; }
+        #print-spooler.pdf-rendering .teacher-row { display: table-row !important; }
+        #print-spooler.pdf-rendering .teacher-row td { display: table-cell !important; }
+        #print-spooler.pdf-rendering .teacher-row td::before { display: none !important; content: none !important; }
+        #print-spooler.pdf-rendering input, #print-spooler.pdf-rendering select { border: none !important; background: transparent !important; padding: 0 !important; font-size: 9px !important; text-align: center !important; color: black !important; width: 100% !important; margin: 0 !important; font-weight: bold; -webkit-appearance: none; appearance: none; box-shadow: none !important; }
+        #print-spooler.pdf-rendering .master-table .header-row input { text-align: left !important; border-bottom: 1px solid #000 !important; }
+        #print-spooler.pdf-rendering .combo-input { display: block !important; width: 100% !important; }
+        #print-spooler.pdf-rendering .combo-input select { display: none !important; }
+        #print-spooler.pdf-rendering td.vert-data { width: 2.8%; }
+        #print-spooler.pdf-rendering td.vert-data input, #print-spooler.pdf-rendering td.vert-data select { writing-mode: vertical-rl; transform: rotate(180deg); height: 75px !important; width: 100% !important; margin: 0 auto; text-align: center; }
+        #print-spooler.pdf-rendering .master-table th:nth-child(2), #print-spooler.pdf-rendering .master-table td:nth-child(2) { width: 14%; }
+        #print-spooler.pdf-rendering .signature-block { display: flex !important; flex-direction: row !important; justify-content: space-between !important; margin-top: 30px !important; width: 100% !important; font-weight: bold; font-size: 10px; }
+        #print-spooler.pdf-rendering .print-only { display: flex !important; }
+        #print-spooler.pdf-rendering .flex-tables { display: flex; gap: 15px; }
+        #print-spooler.pdf-rendering .flex-tables > div { flex: 1; }
+        #print-spooler.pdf-rendering .page-one { display: flex; flex-direction: column; justify-content: space-between; min-height: 188mm; }
+        #print-spooler.pdf-rendering .main-table-wrapper { flex-grow: 1; display: flex; flex-direction: column; }
+        #print-spooler.pdf-rendering .main-table-wrapper table { flex-grow: 1; height: 100%; margin-bottom: 0; }
+        #print-spooler.pdf-rendering .page-break { page-break-before: always; margin-top: 15px; break-before: page; }
+        #print-spooler.pdf-rendering .secondary-table { display: table !important; margin-bottom: 15px !important; width: 100%; }
+        #print-spooler.pdf-rendering .secondary-table thead { display: table-header-group !important; }
+        #print-spooler.pdf-rendering .secondary-table tbody { display: table-row-group !important; }
+        #print-spooler.pdf-rendering .secondary-table tr { display: table-row !important; }
+        #print-spooler.pdf-rendering .secondary-table td, #print-spooler.pdf-rendering .secondary-table th { display: table-cell !important; padding: 2px !important; font-size: 9px !important; }
+        #print-spooler.pdf-rendering .section-title { text-align: center; font-size: 12px; margin: 8px 0; display: block !important; font-weight: bold; }
+        #print-spooler.pdf-rendering .secondary-table td.app-ui-only { display: none !important; border: none !important; padding: 0 !important; width: 0 !important; }
+        #print-spooler.pdf-rendering .print-pad-row, #print-spooler.pdf-rendering .print-pad-leave-row { display: table-row !important; }
+        #print-spooler.pdf-rendering .print-pad-row td, #print-spooler.pdf-rendering .print-pad-leave-row td { border: 1px solid #000 !important; height: 18px !important; }
+        #print-spooler.pdf-rendering .hide-on-mobile { display: table-cell !important; }
+        #print-spooler.pdf-rendering .btn-remove-row { display: none !important; }
+        #print-spooler.pdf-rendering .no-label { text-align: center; font-size: 9px; font-weight: bold; }
 
         /* ===== PRINT STYLES ===== */
         @media print {
@@ -141,6 +184,7 @@
             .print-pad-row td, .print-pad-leave-row td { border: 1px solid #000 !important; height: 18px !important; }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -502,14 +546,48 @@
             } catch(err) {
                 setStatus('⚠️ Cloud save failed — downloading anyway', 'err');
             }
-            btn.textContent = '⬇️ Download & Save';
-            btn.disabled = false;
         } else {
             setStatus('ℹ️ Enter UDISE code to also save to cloud', 'saving');
         }
 
-        // Trigger browser print/PDF download
-        window.print();
+        btn.textContent = '⏳ Generating PDF…';
+        btn.disabled = true;
+
+        // Build the print spooler
+        const existing = document.getElementById('print-spooler');
+        if (existing) existing.remove();
+
+        const spooler = window._buildSpooler();
+        spooler.id = 'print-spooler';
+        spooler.classList.add('pdf-rendering');
+        document.body.appendChild(spooler);
+
+        // Give browser a tick to render
+        await new Promise(r => setTimeout(r, 150));
+
+        const month  = document.querySelector('.header-card .month-input')?.value  || 'Report';
+        const year   = document.querySelector('.header-card .year-input')?.value   || '';
+        const school = document.querySelector('.header-card .school-name-input')?.value || 'School';
+
+        const opt = {
+            margin:      [8, 8, 8, 8],
+            filename:    `${school}_${month}${year}.pdf`,
+            image:       { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true },
+            jsPDF:       { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+
+        html2pdf().set(opt).from(spooler).save().then(() => {
+            spooler.remove();
+            btn.textContent = '⬇️ Download & Save';
+            btn.disabled = false;
+        }).catch(err => {
+            console.error('PDF error:', err);
+            spooler.remove();
+            btn.textContent = '⬇️ Download & Save';
+            btn.disabled = false;
+            setStatus('❌ PDF generation failed', 'err');
+        });
     };
 </script>
 
@@ -872,10 +950,9 @@
         });
     }
 
-    // Print Spooler Fixes for Leave Card & Dynamic Rows
-    window.addEventListener('beforeprint', function() {
+    // Build the print spooler DOM — used by both PDF download and browser print
+    window._buildSpooler = function() {
         const spooler = document.createElement('div');
-        spooler.id = 'print-spooler';
         const tRows = Array.from(document.querySelectorAll('#teacher-tbody .teacher-row'));
         const lRows = Array.from(document.querySelectorAll('#leave-tbody .leave-row'));
         const numSets = Math.ceil(tRows.length / 4) || 1;
@@ -906,6 +983,15 @@
             spooler.appendChild(p2);
             if(s < numSets-1) { const pb2=document.createElement('div'); pb2.className='page-break print-only'; spooler.appendChild(pb2); }
         }
+        return spooler;
+    };
+
+    // Keep browser print working too (Ctrl+P fallback)
+    window.addEventListener('beforeprint', function() {
+        const existing = document.getElementById('print-spooler');
+        if (existing) existing.remove();
+        const spooler = window._buildSpooler();
+        spooler.id = 'print-spooler';
         document.body.appendChild(spooler);
     });
     window.addEventListener('afterprint', () => { const s=document.getElementById('print-spooler'); if(s) s.remove(); });
