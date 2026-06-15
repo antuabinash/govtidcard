@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Enrollment Age Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary-blue: #1E3A8A;
+            --primary-light: #DBEAFE;
+            --primary-gold: #F59E0B;
+            --bg-color: #F3F4F6;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --white: #FFFFFF;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --border: #E5E7EB;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0 10px;
+        }
+
+        .header h1 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            border-top: 4px solid var(--primary-gold);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #F9FAFB;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            background-color: var(--white);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        .btn-calc {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .btn-calc:hover {
+            background-color: #172a6b;
+            transform: translateY(-2px);
+        }
+        
+        .btn-calc:active {
+            transform: scale(0.98);
+        }
+
+        /* Results Area */
+        #result-area {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .result-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .age-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin: 12px 0;
+            padding: 16px;
+            background: var(--primary-light);
+            border-radius: 8px;
+        }
+
+        .eligible-badge {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        /* Status Colors */
+        .status-sishu {
+            background-color: #FEF3C7;
+            color: #D97706;
+            border: 2px solid #FDE68A;
+        }
+
+        .status-class1 {
+            background-color: #D1FAE5;
+            color: #059669;
+            border: 2px solid #A7F3D0;
+        }
+
+        .status-none {
+            background-color: #FEE2E2;
+            color: #DC2626;
+            border: 2px solid #FECACA;
+        }
+
+        .info-note {
+            background: #F3F4F6;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 20px;
+            border-left: 4px solid var(--text-light);
+            text-align: left;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .back-link {
+            text-align: center;
+            display: block;
+            margin-top: 20px;
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Admission Age Calculator</h1>
+            <p>Enrollment eligibility as per NEP 2020 Guidelines</p>
+        </div>
+
+        <div class="card">
+            <div class="form-group">
+                <label>Student Name (Optional)</label>
+                <input type="text" id="student-name" placeholder="Enter student's name">
+            </div>
+
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" id="dob" required>
+            </div>
+
+            <div class="form-group">
+                <label>Academic Year</label>
+                <select id="academic-year">
+                    <option value="2025">2025-26</option>
+                    <option value="2026" selected>2026-27</option>
+                    <option value="2027">2027-28</option>
+                    <option value="2028">2028-29</option>
+                </select>
+            </div>
+
+            <button class="btn-calc" onclick="calculateAge()">Check Eligibility</button>
+        </div>
+
+        <div id="result-area">
+            <div class="result-card">
+                <h3 style="color: var(--text-dark); font-size: 1.1rem;" id="res-name-display">Eligibility Result</h3>
+                
+                <p style="color: var(--text-light); margin-top: 10px; font-size: 0.9rem;">
+                    Age as of <strong style="color: var(--text-dark);" id="res-cutoff-date">1st September, 2026</strong>:
+                </p>
+                
+                <div class="age-display" id="res-exact-age">
+                    -- Years, -- Months, -- Days
+                </div>
+
+                <div id="res-badge" class="eligible-badge status-none">
+                    Pending Calculation
+                </div>
+
+                <div class="info-note">
+                    <strong>Rule Applied:</strong><br>
+                    • Sishu Vatika (Pre-School): 5 to 6 years.<br>
+                    • Class 1: 6+ years.<br>
+                    <em>Calculated as of 1st September of the selected academic year.</em>
+                </div>
+            </div>
+        </div>
+        
+        <a href="govschool_portal.html" class="back-link">← Back to Portal</a>
+    </div>
+
+    <script>
+        function calculateAge() {
+            const nameInput = document.getElementById('student-name').value;
+            const dobInput = document.getElementById('dob').value;
+            const yearInput = document.getElementById('academic-year').value;
+            
+            if (!dobInput) {
+                alert("Please enter the Date of Birth!");
+                return;
+            }
+
+            const dob = new Date(dobInput);
+            const academicYear = parseInt(yearInput);
+            
+            // Cut-off date is September 1st of the academic year
+            const cutoffDate = new Date(academicYear, 8, 1); // Month is 0-indexed (8 = September)
+            
+            if (dob > cutoffDate) {
+                alert("Date of Birth cannot be after the cutoff date (1st Sept " + academicYear + ").");
+                return;
+            }
+
+            // Calculate exact age
+            let years = cutoffDate.getFullYear() - dob.getFullYear();
+            let months = cutoffDate.getMonth() - dob.getMonth();
+            let days = cutoffDate.getDate() - dob.getDate();
+
+            if (days < 0) {
+                months--;
+                // Get days in the previous month
+                const prevMonthDate = new Date(cutoffDate.getFullYear(), cutoffDate.getMonth(), 0);
+                days += prevMonthDate.getDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Update UI with calculated data
+            const nameDisplay = nameInput ? `Result for ${nameInput}` : "Eligibility Result";
+            document.getElementById('res-name-display').innerText = nameDisplay;
+            document.getElementById('res-cutoff-date').innerText = `1st September, ${academicYear}`;
+            document.getElementById('res-exact-age').innerText = `${years} Years, ${months} Months, ${days} Days`;
+
+            // Determine Eligibility Class & Badge Styling
+            const badge = document.getElementById('res-badge');
+            
+            // Reset classes
+            badge.classList.remove('status-sishu', 'status-class1', 'status-none');
+
+            if (years >= 6) {
+                badge.innerText = "Eligible for: Class 1";
+                badge.classList.add('status-class1');
+            } else if (years === 5) {
+                badge.innerText = "Eligible for: Sishu Vatika";
+                badge.classList.add('status-sishu');
+            } else {
+                badge.innerText = "Not Eligible (< 5 Years)";
+                badge.classList.add('status-none');
+            }
+
+            // Show result area
+            document.getElementById('result-area').style.display = 'block';
+            
+            // Scroll to result smoothly
+            setTimeout(() => {
+                document.getElementById('result-area').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
