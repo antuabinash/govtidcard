@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Leave Application Writer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --bg-color: #F3F4F6;
+            --surface: #FFFFFF;
+            --text-main: #1F2937;
+            --border: #D1D5DB;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: nowrap; /* Use flex-direction instead of wrap for tighter control */
+            flex-direction: row;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Form Controls Area */
+        .controls-panel {
+            flex: 0 0 400px; /* Fixed width on PC */
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .controls-panel h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #374151;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            background-color: #f9fafb;
+            transition: all 0.2s ease;
+        }
+        
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+        }
+        .form-row > .form-group {
+            flex: 1;
+            min-width: 0; /* Prevents flex items from overflowing */
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+        }
+        .btn-whatsapp:hover:not(:disabled) {
+            background-color: #1EBE57;
+        }
+
+        /* Live Preview Area (A4 Paper) */
+        .preview-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 0; /* Allows shrinking below 600px if needed */
+        }
+
+        .preview-title {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: var(--surface);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        /* Responsive scaling wrapper */
+        .a4-scaling-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .a4-wrapper {
+            background-color: #e8e9eb; 
+            background-size: cover;
+            background-position: center;
+            
+            width: 210mm; 
+            min-height: 297mm; 
+            padding: 25mm 20mm;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 2px;
+            font-family: 'Caveat', cursive;
+            font-size: 25px;
+            color: #0000cd; 
+            line-height: 1.6;
+            letter-spacing: 1px;
+            position: relative;
+            flex-shrink: 0; /* Prevent flex from changing the physical mm size */
+        }
+
+        .paper-content {
+            position: relative;
+            z-index: 1;
+            mix-blend-mode: multiply; 
+        }
+
+        .header-block { margin-bottom: 2rem; }
+
+        .subject-line {
+            font-weight: normal; 
+            text-decoration: none; 
+            margin-bottom: 2rem;
+            text-align: left;
+            font-size: 26px;
+        }
+
+        .body-paragraph {
+            text-indent: 50px;
+            margin-bottom: 2rem;
+            text-align: justify;
+        }
+
+        .footer-block {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .signature-area {
+            text-align: center;
+            min-width: 150px;
+        }
+
+        #sig-preview-img {
+            max-width: 250px; 
+            max-height: 140px;
+            display: none;
+            margin: 0 auto -10px auto;
+            mix-blend-mode: multiply; 
+        }
+
+        .dynamic-text {
+            color: inherit; 
+            padding: 0 4px;
+        }
+
+        /* --- RESPONSIVE MOBILE UI --- */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column; /* Stacks controls ON TOP of preview */
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+            .controls-panel {
+                flex: none;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .preview-panel {
+                flex: none;
+                width: 100%;
+            }
+            
+            /* Dynamic A4 Scaling via Transform */
+            .a4-wrapper {
+                transform: scale(0.65);
+                transform-origin: top center;
+                margin-bottom: -104mm; /* 297mm * (1 - 0.65) */
+            }
+        }
+
+        @media (max-width: 600px) {
+            .controls-panel {
+                padding: 1rem;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            .a4-wrapper {
+                transform: scale(0.44);
+                transform-origin: top center;
+                margin-bottom: -166mm; /* 297mm * (1 - 0.44) */
+            }
+        }
+        
+        @media (max-width: 380px) {
+            .a4-wrapper {
+                transform: scale(0.38);
+                transform-origin: top center;
+                margin-bottom: -184mm; /* 297mm * (1 - 0.38) */
+            }
+            header h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="no-print">
+        <h1>Handwritten Application Writer</h1>
+    </header>
+
+    <div class="container">
+        
+        <!-- Controls Panel (On Top for Mobile, Left for PC) -->
+        <div class="controls-panel">
+            <h2>Application Details</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>To (Authority)</label>
+                    <input type="text" id="in-authority" value="The Headmaster" oninput="updatePreview()">
+                </div>
+                <div class="form-group">
+                    <label>Salutation</label>
+                    <select id="in-salutation" onchange="updatePreview()">
+                        <option value="Sir">Sir</option>
+                        <option value="Madam">Madam</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>School / Institution Name</label>
+                <input type="text" id="in-school" value="Govt. High School" oninput="updatePreview()">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Application Date</label>
+                    <input type="date" id="in-app-date" onchange="updatePreview()">
+                </div>
+                <div class="form-group">
+                    <label>Place</label>
+                    <input type="text" id="in-place" placeholder="e.g. Bhubaneswar" oninput="updatePreview()">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group" style="flex: 0.5;">
+                    <label>No. of Days</label>
+                    <select id="in-leave-days" onchange="updatePreview()">
+                        <option value="a Half Day">Half Day</option>
+                        <option value="1 Day" selected>1 Day</option>
+                        <option value="2 Days">2 Days</option>
+                        <option value="3 Days">3 Days</option>
+                        <option value="4 Days">4 Days</option>
+                        <option value="5 Days">5 Days</option>
+                        <option value="10 Days">10 Days</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>From Date</label>
+                    <input type="date" id="in-from-date" onchange="updatePreview()">
+                </div>
+                <div class="form-group">
+                    <label>To Date</label>
+                    <input type="date" id="in-to-date" onchange="updatePreview()">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Reason for Leave</label>
+                <textarea id="in-reason" rows="3" oninput="updatePreview()">some urgent personal work at home</textarea>
+            </div>
+            
+            <hr style="margin: 1.5rem 0; border-color: #E5E7EB;">
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="in-name" value="Your Name" oninput="updatePreview()">
+                </div>
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input type="text" id="in-role" value="Teacher" oninput="updatePreview()">
+                </div>
+            </div>
+            
+            <!-- Custom Paper Upload -->
+            <div class="form-group" style="background:#EEF2FF; padding:12px; border-radius:8px; border: 1px dashed #4F46E5; margin-bottom: 1rem;">
+                <label style="color: #1E40AF; margin-bottom: 2px;">📄 Custom Paper Background</label>
+                <small style="color:#4F46E5; display:block; margin-bottom: 8px;">Upload your own plain paper image here.</small>
+                <input type="file" id="in-bg" accept="image/*" onchange="handleBackground(event)" style="background: white; border-color: #4F46E5;">
+            </div>
+
+            <!-- Signature Upload -->
+            <div class="form-group" style="background:#F9FAFB; padding:12px; border-radius:8px; border: 1px dashed #9CA3AF;">
+                <label style="margin-bottom: 2px;">✍️ Upload Signature</label>
+                <small style="color:#6B7280; display:block; margin-bottom: 8px;">Auto background removal & blue ink conversion!</small>
+                <input type="file" id="in-signature" accept="image/*" onchange="handleSignature(event)" style="background: white;">
+            </div>
+
+            <button id="share-btn" class="btn btn-whatsapp" onclick="shareViaWhatsApp()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.245 3.483 5.236 3.483 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.308 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.347-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                Share Image via WhatsApp
+            </button>
+        </div>
+
+        <!-- Preview Panel (On Bottom for Mobile, Right for PC) -->
+        <div class="preview-panel">
+            <div class="preview-title">
+                Live A4 Preview (Plain Paper)
+            </div>
+            
+            <div class="a4-scaling-wrapper">
+                <div class="a4-wrapper" id="print-area">
+                    <div class="paper-content">
+                        <div class="header-block">
+                            To,<br>
+                            <span class="dynamic-text" id="out-authority">The Headmaster</span>,<br>
+                            <span class="dynamic-text" id="out-school">Govt. High School</span>.
+                        </div>
+
+                        <div class="subject-line">
+                            Sub: Application for <span class="dynamic-text" id="out-leave-type-sub">Casual Leave</span>
+                        </div>
+
+                        <div>
+                            Respected <span class="dynamic-text" id="out-salutation">Sir</span>,<br><br>
+                            <div class="body-paragraph">
+                                With due respect and humble submission, I would like to state that I am <span class="dynamic-text" id="out-name">Your Name</span>, working as a <span class="dynamic-text" id="out-role">Teacher</span> in your esteemed institution. 
+                            </div>
+                            <div class="body-paragraph">
+                                I am writing to request you to kindly grant me <span class="dynamic-text" id="out-leave-days">1 Day</span> casual leave <span class="dynamic-text" id="out-leave-date-range">for __/__/____</span>. The reason for my absence is due to <span class="dynamic-text" id="out-reason">some urgent personal work at home</span>. 
+                            </div>
+                            <div class="body-paragraph">
+                                I have ensured that my responsibilities for the duration are properly adjusted. I shall be highly obliged to you for your kind consideration.
+                            </div>
+                        </div>
+
+                        <div class="footer-block">
+                            <div class="thank-you">
+                                Thanking you,<br><br>
+                                <strong>Date:</strong> <span class="dynamic-text" id="out-app-date">__/__/____</span><br>
+                                <strong>Place:</strong> <span class="dynamic-text" id="out-place">________________</span>
+                            </div>
+                            <div class="signature-area">
+                                Yours faithfully,<br>
+                                <img id="sig-preview-img" src="" alt="Signature">
+                                <br>
+                                (<span class="dynamic-text" id="out-role-sign">Teacher</span>)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function formatDateString(dateString) {
+            if (!dateString) return "";
+            const d = new Date(dateString);
+            return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth()+1).toString().padStart(2, '0')}/${d.getFullYear()}`;
+        }
+
+        window.onload = () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('in-app-date').value = today;
+            document.getElementById('in-from-date').value = today;
+            document.getElementById('in-to-date').value = today;
+            updatePreview();
+        };
+
+        function updatePreview() {
+            // Text Fields
+            const authority = document.getElementById('in-authority').value || "The Headmaster";
+            const school = document.getElementById('in-school').value || "Govt. High School";
+            const salutation = document.getElementById('in-salutation').value;
+            const place = document.getElementById('in-place').value || "________________";
+            const name = document.getElementById('in-name').value || "Your Name";
+            const role = document.getElementById('in-role').value || "Teacher";
+            const reason = document.getElementById('in-reason').value || "some urgent work";
+            
+            // App Date
+            const appDateVal = document.getElementById('in-app-date').value;
+            document.getElementById('out-app-date').innerText = appDateVal ? formatDateString(appDateVal) : "__/__/____";
+
+            // Leave Duration
+            const leaveDays = document.getElementById('in-leave-days').value;
+            const fromDateVal = document.getElementById('in-from-date').value;
+            const toDateVal = document.getElementById('in-to-date').value;
+            
+            let dateRangeStr = "for __/__/____";
+            if (fromDateVal) {
+                const fromStr = formatDateString(fromDateVal);
+                if (toDateVal && toDateVal !== fromDateVal) {
+                    const toStr = formatDateString(toDateVal);
+                    dateRangeStr = `from ${fromStr} to ${toStr}`;
+                } else {
+                    dateRangeStr = `for ${fromStr}`;
+                }
+            }
+
+            // Update UI mapping
+            document.getElementById('out-authority').innerText = authority;
+            document.getElementById('out-school').innerText = school;
+            document.getElementById('out-salutation').innerText = salutation;
+            document.getElementById('out-place').innerText = place;
+            document.getElementById('out-leave-days').innerText = leaveDays;
+            document.getElementById('out-leave-date-range').innerText = dateRangeStr;
+            document.getElementById('out-reason').innerText = reason;
+            document.getElementById('out-name').innerText = name;
+            document.getElementById('out-role').innerText = role;
+            document.getElementById('out-role-sign').innerText = role;
+        }
+
+        function handleBackground(event) {
+            const file = event.target.files[0];
+            const a4 = document.getElementById('print-area');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    a4.style.backgroundImage = `url(${e.target.result})`;
+                    a4.style.backgroundColor = 'transparent';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                a4.style.backgroundImage = 'none';
+                a4.style.backgroundColor = '#e8e9eb'; 
+            }
+        }
+
+        function handleSignature(event) {
+            const file = event.target.files[0];
+            const sigImg = document.getElementById('sig-preview-img');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const tempImg = new Image();
+                    tempImg.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = tempImg.width;
+                        canvas.height = tempImg.height;
+                        ctx.drawImage(tempImg, 0, 0);
+                        
+                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        const data = imageData.data;
+                        
+                        for (let i = 0; i < data.length; i += 4) {
+                            const r = data[i];
+                            const g = data[i + 1];
+                            const b = data[i + 2];
+                            
+                            const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
+                            
+                            if (brightness > 200) {
+                                data[i + 3] = 0; 
+                            } else {
+                                data[i + 3] = 255 - brightness; 
+                                data[i] = 0;       
+                                data[i + 1] = 0;   
+                                data[i + 2] = 205; 
+                            }
+                        }
+                        
+                        ctx.putImageData(imageData, 0, 0);
+                        sigImg.src = canvas.toDataURL('image/png');
+                        sigImg.style.display = 'block';
+                    };
+                    tempImg.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                sigImg.style.display = 'none';
+                sigImg.src = "";
+            }
+        }
+
+        async function shareViaWhatsApp() {
+            const printArea = document.getElementById('print-area');
+            const btn = document.getElementById('share-btn');
+            const originalHTML = btn.innerHTML;
+            
+            btn.innerHTML = "⏳ Generating Image...";
+            btn.disabled = true;
+
+            try {
+                // Ensure proper scrolling context before capture
+                window.scrollTo(0, 0);
+                
+                const canvas = await html2canvas(printArea, { 
+                    scale: 2, 
+                    useCORS: true,
+                    backgroundColor: null // Preserve background correctly
+                });
+                
+                canvas.toBlob(async (blob) => {
+                    const file = new File([blob], "Leave_Application.png", { type: "image/png" });
+                    
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({
+                                title: 'Leave Application',
+                                files: [file]
+                            });
+                        } catch (err) {
+                            console.log("Share cancelled or failed.", err);
+                        }
+                    } else {
+                        alert("Direct app sharing is not supported on this device/browser. The application has been downloaded as an image. You can now easily send it via WhatsApp Web.");
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = "Leave_Application.png";
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }
+                    
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                }, 'image/png');
+
+            } catch (error) {
+                console.error("Error generating image: ", error);
+                alert("An error occurred while generating the image.");
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
