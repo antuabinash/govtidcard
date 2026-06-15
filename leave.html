@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Application Writer</title>
+    <!-- Import UI Font and Handwriting Font -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- html2canvas for image generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
@@ -187,6 +189,7 @@
         }
 
         .a4-wrapper {
+            /* Set to gray by default */
             background-color: #e8e9eb; 
             background-size: cover;
             background-position: center;
@@ -390,11 +393,19 @@
                 </div>
             </div>
             
-            <!-- Custom Paper Upload -->
+            <!-- Custom Paper Background Select -->
             <div class="form-group" style="background:#EEF2FF; padding:12px; border-radius:8px; border: 1px dashed #4F46E5; margin-bottom: 1rem;">
-                <label style="color: #1E40AF; margin-bottom: 2px;">📄 Custom Paper Background</label>
-                <small style="color:#4F46E5; display:block; margin-bottom: 8px;">Upload your own plain paper image here.</small>
-                <input type="file" id="in-bg" accept="image/*" onchange="handleBackground(event)" style="background: white; border-color: #4F46E5;">
+                <label style="color: #1E40AF; margin-bottom: 2px;">📄 Choose Paper Background</label>
+                <select id="in-bg-select" onchange="changeBackgroundType()">
+                    <option value="gray">Default Gray Paper</option>
+                    <option value="white">Plain White Paper</option>
+                    <option value="custom">Upload Custom Background</option>
+                </select>
+                
+                <div id="custom-bg-upload" style="display: none; margin-top: 10px;">
+                    <small style="color:#4F46E5; display:block; margin-bottom: 8px;">Upload your own plain paper image here.</small>
+                    <input type="file" id="in-bg" accept="image/*" onchange="handleBackground(event)" style="background: white; border-color: #4F46E5;">
+                </div>
             </div>
 
             <!-- Signature Upload -->
@@ -520,6 +531,35 @@
             document.getElementById('out-role-sign').innerText = role;
         }
 
+        // --- NEW: Handle Background Selection ---
+        function changeBackgroundType() {
+            const selectVal = document.getElementById('in-bg-select').value;
+            const uploadDiv = document.getElementById('custom-bg-upload');
+            const a4 = document.getElementById('print-area');
+
+            if (selectVal === 'gray') {
+                uploadDiv.style.display = 'none';
+                a4.style.backgroundImage = 'none';
+                a4.style.backgroundColor = '#e8e9eb'; // Default gray
+            } else if (selectVal === 'white') {
+                uploadDiv.style.display = 'none';
+                a4.style.backgroundImage = 'none';
+                a4.style.backgroundColor = '#ffffff'; // Plain white
+            } else if (selectVal === 'custom') {
+                uploadDiv.style.display = 'block';
+                // Will wait for file upload to set background image
+                const fileInput = document.getElementById('in-bg');
+                if(!fileInput.files.length) {
+                    // Temporarily set to gray until an image is chosen
+                    a4.style.backgroundImage = 'none';
+                    a4.style.backgroundColor = '#e8e9eb'; 
+                } else {
+                    // Trigger the upload handle again
+                    handleBackground({ target: fileInput });
+                }
+            }
+        }
+
         function handleBackground(event) {
             const file = event.target.files[0];
             const a4 = document.getElementById('print-area');
@@ -530,9 +570,6 @@
                     a4.style.backgroundColor = 'transparent';
                 }
                 reader.readAsDataURL(file);
-            } else {
-                a4.style.backgroundImage = 'none';
-                a4.style.backgroundColor = '#e8e9eb'; 
             }
         }
 
