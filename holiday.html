@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Holiday List 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #EEF2FF;
+            --background: #F3F4F6;
+            --surface: #FFFFFF;
+            --text-main: #111827;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+            --tag-bg: #FEF3C7;
+            --tag-text: #D97706;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-main);
+            padding: 16px;
+            line-height: 1.5;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 24px 0 16px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 4px 12px rgba(0,0,0,0.02);
+            transition: transform 0.1s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .holiday-name {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .sl-no {
+            color: var(--primary);
+            font-weight: 700;
+            margin-right: 4px;
+        }
+
+        .date-badge {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .card-body {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #F9FAFB;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #F3F4F6;
+        }
+
+        .info-item span {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .tag {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: auto;
+        }
+
+        .total-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #4338CA 100%);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+
+        .total-card span {
+            font-size: 1.1rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .total-card strong {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        /* Subtle animation for page load */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container > * {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        
+        .container > *:nth-child(n) {
+            animation-delay: calc(0.03s * var(--i, 1));
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Elementary Schools</h1>
+        <p>Holiday Calendar 2026</p>
+    </div>
+    
+    <div class="container">
+        
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">1</span> New Years' Day</h2>
+                <div class="date-badge">01.01.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Thursday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">2</span> Makar Sankranti</h2>
+                <div class="date-badge">14.01.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Wednesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">3</span> Subash Chandra Bose Jayanti / Vir Surendra Sai Jayanti / Basanta Panchami</h2>
+                <div class="date-badge">23.01.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Friday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                <div class="tag">Observance</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">4</span> Republic Day</h2>
+                <div class="date-badge">26.01.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Monday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                <div class="tag">Observance</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">5</span> Dola Purnima</h2>
+                <div class="date-badge">03.03.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Tuesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">6</span> Holi</h2>
+                <div class="date-badge">04.03.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Wednesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">7</span> Id Ul Fitr</h2>
+                <div class="date-badge">21.03.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Saturday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">8</span> Sri Ram Navami</h2>
+                <div class="date-badge">27.03.2025</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Friday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">9</span> Utkal Divas</h2>
+                <div class="date-badge">01.04.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Wednesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                <div class="tag">Observance</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">10</span> Good Friday</h2>
+                <div class="date-badge">03.04.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Friday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">11</span> Maha Vishuva Sankranti / Dr. B.R Ambedkar Jayanti</h2>
+                <div class="date-badge">14.04.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Tuesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">12</span> Budda Purnima / Pandit Raghunath Murmu's Birthday</h2>
+                <div class="date-badge">01.05.2025</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Friday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">13</span> Summer Vacation</h2>
+                <div class="date-badge">06.05.2026 to 17.06.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Wed to Wed</span></div>
+                <div class="info-item">⏳ <span>38 Days</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">14</span> Maharam</h2>
+                <div class="date-badge">26.06.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Friday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">15</span> Ratha Yatra</h2>
+                <div class="date-badge">16.07.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Thursday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">16</span> Bahuda Yatra</h2>
+                <div class="date-badge">24.07.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Friday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">17</span> Independence Day</h2>
+                <div class="date-badge">15.08.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Saturday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                <div class="tag">Observance</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">18</span> Birthday of Prophet Mohammad</h2>
+                <div class="date-badge">26.08.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Wednesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">19</span> Jhulana Purnima / Rakshya Bandhan</h2>
+                <div class="date-badge">27.08.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Thursday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">20</span> Janmashtami</h2>
+                <div class="date-badge">04.09.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Friday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">21</span> Ganesh Puja</h2>
+                <div class="date-badge">14.09.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Monday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                <div class="tag">Observance</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">22</span> Nuakhai</h2>
+                <div class="date-badge">15.09.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Tuesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">23</span> Day Following Nuakhai</h2>
+                <div class="date-badge">16.09.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Wednesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">24</span> Gandhi Jayanti</h2>
+                <div class="date-badge">02.10.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Friday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                <div class="tag">Observance</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">25</span> Mahalaya</h2>
+                <div class="date-badge">10.10.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Saturday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">26</span> Puja Vacation</h2>
+                <div class="date-badge">17.10.2026 to 26.10.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Sat to Mon</span></div>
+                <div class="info-item">⏳ <span>8 Days</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">27</span> Rahas Purnima</h2>
+                <div class="date-badge">24.11.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Tuesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">28</span> Prathamastami</h2>
+                <div class="date-badge">01.12.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Tuesday</span></div>
+                <div class="info-item">⏳ <span>1 Day</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">29</span> Winter Vacation/ Break</h2>
+                <div class="date-badge">23.12.2026 to 31.12.2026</div>
+            </div>
+            <div class="card-body">
+                <div class="info-item">📅 <span>Wed to Thu</span></div>
+                <div class="info-item">⏳ <span>8 Days</span></div>
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="holiday-name"><span class="sl-no">30</span> Local / Visitors Holiday</h2>
+                <div class="date-badge">2 days</div>
+            </div>
+            <div class="card-body">
+                
+                <div class="info-item">⏳ <span>2 Days</span></div>
+                
+            </div>
+        </div>
+        <div class="total-card" style="--i: 31;">
+            <span>Grand Total</span>
+            <strong>82 Days</strong>
+        </div>
+    </div>
+    
+    <script>
+        // Set dynamic animation delay variable for staggered load
+        document.querySelectorAll('.card').forEach((card, index) => {
+            card.style.setProperty('--i', index + 1);
+        });
+    </script>
+</body>
+</html>
