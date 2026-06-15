@@ -113,9 +113,35 @@
             flex-direction: column;
             justify-content: space-between; /* Push button to bottom */
             height: 100%; /* Ensure all cards are same height */
+            position: relative; /* Added for the NEW tag positioning */
         }
         .service-card h2 { color: var(--primary-blue); margin-bottom: 1rem; }
         .service-card p { color: var(--text-light); margin-bottom: 2rem; flex-grow: 1; }
+
+        /* === New Tag === */
+        .new-tag {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+            z-index: 10;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
 
         /* === Slider/Carousel (Catalog Page) === */
         .slider-container {
@@ -259,6 +285,7 @@
                 </div>
 
                 <div class="service-card">
+                    <div class="new-tag">New</div>
                     <h2>Student ID Card</h2>
                     <p>Order high-quality, government-style student ID cards for your school in bulk.</p>
                     <button class="btn btn-gold" onclick="switchPage('catalog-page')">Order ID Cards</button>
@@ -279,7 +306,7 @@
                 <div class="service-card">
                     <h2>Admission Age Calculator</h2>
                     <p>Calculate student eligibility for Sishu Vatika or Class 1 based on NEP 2020 Guidelines.</p>
-                    <a href="calculator.html" class="btn" style="background-color: #DB2777;">Calculate Age</a>
+                    <a href="age_calculator.html" class="btn" style="background-color: #DB2777;">Calculate Age</a>
                 </div>
             </div>
         </div>
