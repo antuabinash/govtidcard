@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GovSchool Portal - ID Card Order</title>
+    <title>GovSchool Portal</title>
     <style>
         /* === CSS Variables & Reset === */
         :root {
@@ -67,6 +68,7 @@
             text-decoration: none;
             transition: var(--transition);
             text-align: center;
+            width: 100%; /* Make buttons full width in cards */
         }
         .btn:hover {
             background-color: #172a6b;
@@ -83,7 +85,6 @@
         .btn-green {
             background-color: #25D366; 
             color: white;
-            width: 100%;
             font-size: 1.1rem;
             padding: 1rem;
             border-radius: 8px;
@@ -109,9 +110,13 @@
             text-align: center;
             box-shadow: var(--shadow-sm);
             border-top: 5px solid var(--primary-blue);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Push button to bottom */
+            height: 100%; /* Ensure all cards are same height */
         }
         .service-card h2 { color: var(--primary-blue); margin-bottom: 1rem; }
-        .service-card p { color: var(--text-light); margin-bottom: 2rem; }
+        .service-card p { color: var(--text-light); margin-bottom: 2rem; flex-grow: 1; }
 
         /* === Slider/Carousel (Catalog Page) === */
         .slider-container {
@@ -136,7 +141,7 @@
         }
         .slide img {
             width: 100%;
-            height: 250px; /* Adjust banner height as needed */
+            height: 250px;
             object-fit: cover;
             display: block;
         }
@@ -230,12 +235,18 @@
             box-shadow: var(--shadow-md);
             border: 1px solid #E5E7EB;
         }
+        
+        .back-btn-top {
+             background: #6c757d; 
+             margin-bottom: 1rem;
+             width: auto; /* override full width for back buttons */
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Bill & ID Portal</h1>
+        <h1>GovSchool Portal</h1>
     </header>
 
     <div class="container">
@@ -253,11 +264,18 @@
                     <p>Order high-quality, government-style student ID cards for your school in bulk.</p>
                     <button class="btn btn-gold" onclick="switchPage('catalog-page')">Order ID Cards</button>
                 </div>
+                
+                <!-- NEW HOLIDAY LIST CARD ADDED HERE -->
+                <div class="service-card">
+                    <h2>School Holiday List 2026</h2>
+                    <p>View the complete calendar year holiday schedule for Elementary Schools.</p>
+                    <a href="holiday_list_mobile_ui.html" class="btn" style="background-color: #059669;">View Holiday List</a>
+                </div>
             </div>
         </div>
 
         <div id="catalog-page" class="hidden">
-            <button class="btn" style="background:#6c757d; margin-bottom:1rem;" onclick="switchPage('home-page')">&larr; Back</button>
+            <button class="btn back-btn-top" onclick="switchPage('home-page')">&larr; Back</button>
             
             <div class="slider-container">
                 <div class="slider-wrapper" id="sliderWrapper">
@@ -283,12 +301,12 @@
                     <li>✅ Durable laminated finish</li>
                 </ul>
                 <div class="price-tag">₹17 / card</div>
-                <button class="btn btn-gold" style="font-size:1.2rem; padding: 1rem 2rem;" onclick="switchPage('order-page')">Customize & Preview</button>
+                <button class="btn btn-gold" style="font-size:1.2rem; padding: 1rem 2rem; width: auto;" onclick="switchPage('order-page')">Customize & Preview</button>
             </div>
         </div>
 
         <div id="order-page" class="hidden">
-            <button class="btn" style="background:#6c757d; margin-bottom:1rem;" onclick="switchPage('catalog-page')">&larr; Back to Catalog</button>
+            <button class="btn back-btn-top" onclick="switchPage('catalog-page')">&larr; Back to Catalog</button>
             
             <div class="preview-wrapper">
                 
@@ -554,7 +572,9 @@
         // WhatsApp Order Logic (Simplified)
         function sendWhatsAppOrder() {
             const schoolName = document.getElementById('in-school').value.trim() || "my school";
-            const message = `Hi, I want to order student ID cards for ${schoolName}.\n\nI have checked the preview on the portal. Please share further details on how to place the order.`;
+            const message = `Hi, I want to order student ID cards for ${schoolName}.
+
+I have checked the preview on the portal. Please share further details on how to place the order.`;
             const waUrl = `https://wa.me/${7855800205}?text=${encodeURIComponent(message)}`;
             window.open(waUrl, '_blank');
         }
