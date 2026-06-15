@@ -15,7 +15,6 @@
             --white: #FFFFFF;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
             --transition: all 0.3s ease;
         }
 
@@ -51,7 +50,6 @@
             margin: 2rem auto;
             padding: 0 1rem;
         }
-        .hidden { display: none !important; }
 
         /* === Buttons === */
         .btn {
@@ -67,7 +65,7 @@
             text-decoration: none;
             transition: var(--transition);
             text-align: center;
-            width: 100%; /* Make buttons full width in cards */
+            width: 100%;
         }
         .btn:hover {
             background-color: #172a6b;
@@ -81,26 +79,13 @@
             background-color: #d97706;
             color: var(--white);
         }
-        .btn-green {
-            background-color: #25D366; 
-            color: white;
-            font-size: 1.1rem;
-            padding: 1rem;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 1rem;
-        }
-        .btn-green:hover { background-color: #1ebe57; }
 
-        /* === Home Page === */
+        /* === Home Page Grid === */
         .home-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
         .service-card {
             background: var(--white);
@@ -111,9 +96,9 @@
             border-top: 5px solid var(--primary-blue);
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Push button to bottom */
-            height: 100%; /* Ensure all cards are same height */
-            position: relative; /* Added for the NEW tag positioning */
+            justify-content: space-between;
+            height: 100%;
+            position: relative;
         }
         .service-card h2 { color: var(--primary-blue); margin-bottom: 1rem; }
         .service-card p { color: var(--text-light); margin-bottom: 2rem; flex-grow: 1; }
@@ -142,130 +127,6 @@
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
-
-        /* === Slider/Carousel (Catalog Page) === */
-        .slider-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
-            position: relative;
-            background: #E5E7EB;
-        }
-        .slider-wrapper {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .slide {
-            min-width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .slide img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-        }
-        .slider-nav {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-        }
-        .slider-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        .slider-dot.active {
-            background: var(--primary-gold);
-            transform: scale(1.2);
-        }
-
-        /* === Catalog Features === */
-        .single-product {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
-            box-shadow: var(--shadow-md);
-            border: 2px solid var(--primary-gold);
-        }
-        .single-product h3 { font-size: 1.5rem; color: var(--primary-blue); margin-bottom: 1rem; }
-        .single-product ul { text-align: left; margin: 1rem auto; max-width: 300px; color: var(--text-dark); }
-        .single-product li { margin-bottom: 0.5rem; }
-        .price-tag { font-size: 2rem; font-weight: bold; color: var(--primary-blue); margin: 1.5rem 0; }
-
-        /* === Order & Preview Layout === */
-        .preview-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            margin-top: 1rem;
-        }
-        .form-section { flex: 1 1 350px; }
-        .card-section {
-            flex: 1 1 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: var(--bg-color);
-            padding: 2rem;
-            border-radius: 8px;
-        }
-
-        /* === Forms === */
-        .form-row { display: flex; gap: 10px; }
-        .form-row .form-group { flex: 1; }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600; color: var(--primary-blue); }
-        .form-group input, .form-group select {
-            width: 100%; padding: 0.75rem; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 1rem;
-        }
-        .form-group input:focus { outline: none; border-color: var(--primary-blue); }
-
-        /* === Canvas Specifics === */
-        #cardCanvas {
-            width: 100%;
-            max-width: 250px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            background-color: #fff;
-        }
-
-        /* === Order Box === */
-        .order-box {
-            width: 100%;
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            box-shadow: var(--shadow-md);
-            border: 1px solid #E5E7EB;
-        }
-        
-        .back-btn-top {
-             background: #6c757d; 
-             margin-bottom: 1rem;
-             width: auto; /* override full width for back buttons */
-        }
     </style>
 </head>
 <body>
@@ -275,351 +136,39 @@
     </header>
 
     <div class="container">
-        
-        <div id="home-page">
-            <div class="home-grid">
-                <div class="service-card">
-                    <h2>Monthly Salary Bill Generator</h2>
-                    <p>Generate and download monthly salary bills for the school staff easily and securely.</p>
-                    <a href="mrbill.html" class="btn">Open Generator</a>
-                </div>
-
-                <div class="service-card">
-                    <div class="new-tag">New</div>
-                    <h2>Student ID Card</h2>
-                    <p>Order high-quality, government-style student ID cards for your school in bulk.</p>
-                    <button class="btn btn-gold" onclick="switchPage('catalog-page')">Order ID Cards</button>
-                </div>
-                
-                <div class="service-card">
-                    <h2>School Holiday List 2026</h2>
-                    <p>View the complete calendar year holiday schedule for Elementary Schools.</p>
-                    <a href="holiday.html" class="btn" style="background-color: #059669;">View Holiday List</a>
-                </div>
-
-                <div class="service-card">
-                    <h2>Leave Application Writer</h2>
-                    <p>Generate a realistic handwritten casual leave application with your auto-blended signature.</p>
-                    <a href="leave.html" class="btn" style="background-color: #8B5CF6;">Write Application</a>
-                </div>
-
-                <div class="service-card">
-                    <h2>Admission Age Calculator</h2>
-                    <p>Calculate student eligibility for Sishu Vatika or Class 1 based on NEP 2020 Guidelines.</p>
-                    <a href="age_calculator.html" class="btn" style="background-color: #DB2777;">Calculate Age</a>
-                </div>
+        <div class="home-grid">
+            <div class="service-card">
+                <h2>Monthly Salary Bill Generator</h2>
+                <p>Generate and download monthly salary bills for the school staff easily and securely.</p>
+                <a href="mrbill.html" class="btn">Open Generator</a>
             </div>
-        </div>
 
-        <div id="catalog-page" class="hidden">
-            <button class="btn back-btn-top" onclick="switchPage('home-page')">&larr; Back</button>
+            <div class="service-card">
+                <div class="new-tag">New</div>
+                <h2>Student ID Card</h2>
+                <p>Order high-quality, government-style student ID cards for your school in bulk.</p>
+                <a href="id.html" class="btn btn-gold">Order ID Cards</a>
+            </div>
             
-            <div class="slider-container">
-                <div class="slider-wrapper" id="sliderWrapper">
-                    <div class="slide">
-                        <img src="banner1.png" alt="ID Card Design Banner 1" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23E5E7EB%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%236B7280%22%20dy%3D%22.3em%22%3EBanner%201%20Placeholder%3C%2Ftext%3E%3C%2Fsvg%3E'">
-                    </div>
-                    <div class="slide">
-                        <img src="banner2.png" alt="ID Card Design Banner 2" onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23D1D5DB%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20font-size%3D%2220%22%20text-anchor%3D%22middle%22%20fill%3D%22%234B5563%22%20dy%3D%22.3em%22%3EBanner%202%20Placeholder%3C%2Ftext%3E%3C%2Fsvg%3E'">
-                    </div>
-                </div>
-                <div class="slider-nav">
-                    <div class="slider-dot active" onclick="goToSlide(0)"></div>
-                    <div class="slider-dot" onclick="goToSlide(1)"></div>
-                </div>
+            <div class="service-card">
+                <h2>School Holiday List 2026</h2>
+                <p>View the complete calendar year holiday schedule for Elementary Schools.</p>
+                <a href="holiday.html" class="btn" style="background-color: #059669;">View Holiday List</a>
             </div>
 
-            <div class="single-product">
-                <h3>🪪 Government School PVC ID Card</h3>
-                <ul>
-                    <li>✅ High-quality PVC card</li>
-                    <li>✅ Front & Back printing</li>
-                    <li>✅ Custom Student Photo & Details</li>
-                    <li>✅ Durable laminated finish</li>
-                </ul>
-                <div class="price-tag">₹17 / card</div>
-                <button class="btn btn-gold" style="font-size:1.2rem; padding: 1rem 2rem; width: auto;" onclick="switchPage('order-page')">Customize & Preview</button>
+            <div class="service-card">
+                <h2>Leave Application Writer</h2>
+                <p>Generate a realistic handwritten casual leave application with your auto-blended signature.</p>
+                <a href="leave.html" class="btn" style="background-color: #8B5CF6;">Write Application</a>
+            </div>
+
+            <div class="service-card">
+                <h2>Admission Age Calculator</h2>
+                <p>Calculate student eligibility for Sishu Vatika or Class 1 based on NEP 2020 Guidelines.</p>
+                <a href="age_calculator.html" class="btn" style="background-color: #DB2777;">Calculate Age</a>
             </div>
         </div>
-
-        <div id="order-page" class="hidden">
-            <button class="btn back-btn-top" onclick="switchPage('catalog-page')">&larr; Back to Catalog</button>
-            
-            <div class="preview-wrapper">
-                
-                <div class="form-section">
-                    <h3 style="color:var(--primary-blue); margin-bottom:1rem; border-bottom:2px solid var(--primary-gold); padding-bottom:5px;">Check Your Design</h3>
-                    
-                    <div class="form-group">
-                        <label>School Name</label>
-                        <input type="text" id="in-school" placeholder="E.g. Govt. High School" oninput="renderCard()">
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Block / District</label>
-                            <input type="text" id="in-address" placeholder="E.g. Balianta, Khordha" oninput="renderCard()">
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #eee;">
-                        <label>HM Signature (Upload Image)</label>
-                        <input type="file" id="in-sign" accept="image/*" onchange="handleImageUpload(event, 'sign')">
-                    </div>
-
-                    <hr style="border:0; border-top:1px solid #ddd; margin:1.5rem 0;">
-
-                    <div class="form-group">
-                        <label>Student Name</label>
-                        <input type="text" id="in-name" placeholder="E.g. Rahul Kumar" oninput="renderCard()">
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Class</label>
-                            <input type="text" id="in-class" placeholder="E.g. 5" oninput="renderCard()">
-                        </div>
-                        <div class="form-group">
-                            <label>Roll No</label>
-                            <input type="text" id="in-roll" placeholder="E.g. 12" oninput="renderCard()">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Blood Group</label>
-                            <select id="in-blood" onchange="renderCard()">
-                                <option value="">-Select-</option>
-                                <option value="A+">A+</option><option value="B+">B+</option>
-                                <option value="O+">O+</option><option value="AB+">AB+</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Mobile No</label>
-                            <input type="text" id="in-mobile" placeholder="E.g. 9876543210" oninput="renderCard()">
-                        </div>
-                    </div>
-
-                    <div class="form-group" style="background:#f8f9fa; padding:10px; border-radius:6px; border:1px solid #eee;">
-                        <label>Student Photo (Upload or Capture)</label>
-                        <input type="file" id="in-photo" accept="image/*" capture="environment" onchange="handleImageUpload(event, 'photo')">
-                    </div>
-                </div>
-
-                <div class="card-section">
-                    <h3 style="color:var(--text-dark); margin-bottom:1rem;">Live Canvas Preview</h3>
-                    
-                    <canvas id="cardCanvas" width="638" height="1012"></canvas>
-
-                    <div class="order-box">
-                        <h3 style="color:var(--primary-blue); text-align:center; margin-bottom:0.5rem;">Proceed to Order</h3>
-                        <p style="text-align:center; color:var(--text-light); font-size: 0.9rem;">Tap the button below to connect with us on WhatsApp to finalize your design and place your order.</p>
-
-                        <button class="btn btn-green" onclick="sendWhatsAppOrder()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.245 3.483 5.236 3.483 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.308 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.347-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                            Order on WhatsApp
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <script>
-        // === Configuration ===
-        const WHATSAPP_NUMBER = "919999999999"; 
-        const CARD_W = 638;
-        const CARD_H = 1012;
-
-        // === State Variables ===
-        let templateImg = new Image();
-        let studentPhoto = null;
-        let hmSignature = null;
-        let templateLoaded = false;
-
-        // Load background.png from the same directory
-        templateImg.src = 'background.png';
-        templateImg.onload = () => {
-            templateLoaded = true;
-            renderCard(); 
-        };
-        templateImg.onerror = () => {
-            console.warn("background.png not found. Showing blank canvas outline.");
-            renderCard();
-        };
-
-        // Navigation
-        function switchPage(pageId) {
-            document.getElementById('home-page').classList.add('hidden');
-            document.getElementById('catalog-page').classList.add('hidden');
-            document.getElementById('order-page').classList.add('hidden');
-            document.getElementById(pageId).classList.remove('hidden');
-            window.scrollTo(0, 0);
-            if(pageId === 'order-page') renderCard();
-        }
-
-        // === Slider Logic ===
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.slider-dot');
-        const wrapper = document.getElementById('sliderWrapper');
-        let slideInterval;
-
-        function goToSlide(index) {
-            currentSlide = index;
-            wrapper.style.transform = `translateX(-${index * 100}%)`;
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-        }
-
-        // Auto slide every 3.5 seconds
-        function startSlider() {
-            slideInterval = setInterval(() => {
-                if(!document.getElementById('catalog-page').classList.contains('hidden')) {
-                    let next = (currentSlide + 1) % slides.length;
-                    goToSlide(next);
-                }
-            }, 3500);
-        }
-        startSlider(); // Start on load
-
-        // Handle Image Uploads (Photo & Signature)
-        function handleImageUpload(event, type) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = () => renderCard(); // re-render when image is ready
-                    img.src = e.target.result;
-                    
-                    if (type === 'photo') studentPhoto = img;
-                    if (type === 'sign') hmSignature = img;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // === Main Drawing Engine (Based on Coordinates) ===
-        function renderCard() {
-            const canvas = document.getElementById('cardCanvas');
-            const ctx = canvas.getContext('2d');
-            
-            // Clear Canvas
-            ctx.clearRect(0, 0, CARD_W, CARD_H);
-
-            // 1. Draw Background
-            if (templateLoaded) {
-                ctx.drawImage(templateImg, 0, 0, CARD_W, CARD_H);
-            } else {
-                ctx.fillStyle = "#E5E7EB";
-                ctx.fillRect(0, 0, CARD_W, CARD_H);
-                ctx.fillStyle = "#9CA3AF";
-                ctx.font = "20px Arial";
-                ctx.textAlign = "center";
-                ctx.fillText("background.png missing", CARD_W/2, CARD_H/2);
-            }
-
-            // Get Input Values
-            const schoolName = document.getElementById('in-school').value || "GOVT. SCHOOL NAME";
-            const address = document.getElementById('in-address').value || "Block, District";
-            const studentName = document.getElementById('in-name').value || "Student Name";
-            const className = document.getElementById('in-class').value || "--";
-            const rollNo = document.getElementById('in-roll').value || "--";
-            const mobile = document.getElementById('in-mobile').value || "--";
-            const blood = document.getElementById('in-blood').value || "--";
-
-            // Set Font Styling (Fallback to sans-serif if OdiaFont is not loaded)
-            const fontFamily = 'system-ui, sans-serif';
-
-            // 2. School Name & Address (Top Section)
-            ctx.fillStyle = '#FFFFFF'; 
-            ctx.textAlign = 'left'; 
-            
-            // Auto-scale school name font
-            const MAX_W = 611 - 121;
-            let fs = 45; 
-            ctx.font = `bold ${fs}px ${fontFamily}`;
-            while (ctx.measureText(schoolName).width > MAX_W && fs > 10) { 
-                fs--; 
-                ctx.font = `bold ${fs}px ${fontFamily}`; 
-            }
-            ctx.fillText(schoolName, 121, 55);
-
-            // Address
-            ctx.font = `30px ${fontFamily}`; 
-            ctx.fillText(address, 198, 94);
-
-            // 3. HM Signature (Bottom Section)
-            if (hmSignature) {
-                const maxW = 180, maxH = 60;
-                const ratio = Math.min(maxW / hmSignature.width, maxH / hmSignature.height);
-                const dw = hmSignature.width * ratio;
-                const dh = hmSignature.height * ratio;
-                ctx.drawImage(hmSignature, 434, 881, dw, dh);
-            }
-
-            // 4. Student Photo
-            const px = 222, py = 250, pw = 187, ph = 225;
-            
-            ctx.fillStyle = '#FFFFFF'; 
-            ctx.fillRect(px, py, pw, ph);
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(px, py, pw, ph);
-
-            if (studentPhoto) {
-                // Center crop the uploaded photo into the box
-                const hRatio = pw / studentPhoto.width;
-                const vRatio = ph / studentPhoto.height;
-                const ratio = Math.max(hRatio, vRatio);
-                const centerShift_x = (pw - studentPhoto.width * ratio) / 2;
-                const centerShift_y = (ph - studentPhoto.height * ratio) / 2;  
-
-                ctx.drawImage(studentPhoto, 0, 0, studentPhoto.width, studentPhoto.height,
-                              px + centerShift_x, py + centerShift_y, studentPhoto.width * ratio, studentPhoto.height * ratio);
-            } else {
-                ctx.fillStyle = '#9CA3AF';
-                ctx.font = `20px ${fontFamily}`;
-                ctx.textAlign = "center";
-                ctx.fillText("PHOTO", px + (pw/2), py + (ph/2) + 5);
-                ctx.textAlign = "left"; 
-            }
-
-            // 5. Student Text Details
-            ctx.fillStyle = '#000000'; 
-            ctx.font = `bold 38px ${fontFamily}`;
-            const textX = 227;
-            
-            ctx.fillText(studentName, textX, 543);
-            ctx.fillText(className, textX, 613);
-            ctx.fillText(rollNo, textX, 756);
-            ctx.fillText(mobile, textX, 827);
-
-            // Blood Group (White text, bottom right specific box)
-            if(blood !== "--") {
-                ctx.fillStyle = '#FFFFFF'; 
-                ctx.font = `bold 23px ${fontFamily}`;
-                ctx.fillText(blood, 480, 383);
-            }
-        }
-
-        // WhatsApp Order Logic (Simplified)
-        function sendWhatsAppOrder() {
-            const schoolName = document.getElementById('in-school').value.trim() || "my school";
-            const message = `Hi, I want to order student ID cards for ${schoolName}.
-
-I have checked the preview on the portal. Please share further details on how to place the order.`;
-            const waUrl = `https://wa.me/${7855800205}?text=${encodeURIComponent(message)}`;
-            window.open(waUrl, '_blank');
-        }
-
-        // Initial Render
-        window.onload = () => {
-            if(!templateLoaded) renderCard(); 
-        };
-    </script>
 </body>
 </html>
