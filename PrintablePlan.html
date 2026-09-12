@@ -62,7 +62,6 @@
             .print-header h2 { margin: 0 0 5px 0; font-size: 18px; text-transform: uppercase; }
             .print-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; }
             
-            /* Tighter font and padding to fit 10 columns */
             table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; }
             th, td { border: 1px solid #000; padding: 4px; vertical-align: top; word-wrap: break-word; line-height: 1.2; }
             th { background-color: #f0f0f0 !important; font-weight: bold; text-align: left; }
@@ -72,7 +71,7 @@
             .col-class { width: 8%; }
             .col-topic { width: 10%; }
             .col-lo { width: 15%; }
-            .col-step { width: 11.5%; } /* Used for all 5 Panchapadi steps */
+            .col-step { width: 11.5%; } 
             .col-tlm { width: 6.5%; }
             
             .print-text { margin-bottom: 3px; }
@@ -292,12 +291,42 @@
             selectElem.disabled = true;
         }
 
+        // --- CUSTOM FORMATTERS FOR SPACE SAVING ---
+        
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
             return `<div class="print-text">${cleaned}</div>`;
         }
 
+        function formatLO(text) {
+            if (!text || text === 'nan') return '';
+            // Chop off the "[Codes: ... ]" string completely
+            let cleaned = String(text).split(/\s*\|\s*\[Codes:/)[0];
+            cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').trim();
+            return `<div class="print-text">${cleaned}</div>`;
+        }
+
+        function formatPanchapadi(text) {
+            if (!text || text === 'nan') return '';
+            
+            // 1. Split the text and keep ONLY the teacher's portion (ignores everything after "Student Response")
+            let teacherPart = String(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
+            
+            // 2. Remove the "TEACHER" label completely to save space (since it's implied in this column)
+            teacherPart = teacherPart.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
+            
+            // 3. Clean up the remaining pipes and spacing
+            let cleaned = teacherPart.replace(/\|/g, '<br>').trim();
+            if (cleaned.endsWith('<br>')) {
+                cleaned = cleaned.substring(0, cleaned.length - 4).trim();
+            }
+            
+            return `<div class="print-text">${cleaned}</div>`;
+        }
+
+        // --- PRINT GENERATION ---
+        
         function generatePrintPlan() {
             const tbody = document.getElementById('print-tbody');
             tbody.innerHTML = '';
@@ -330,13 +359,13 @@
                         <td class="col-topic"><b>${chap}</b><br><br>${plan.Topic || ''}</td>
                         <td class="col-lo">
                             <b>Comp:</b><br>${formatPrint(plan.Competency)}
-                            <br><b>LO:</b><br>${formatPrint(plan.LearningOutcomes)}
+                            <br><b>LO:</b><br>${formatLO(plan.LearningOutcomes)}
                         </td>
-                        <td class="col-step">${formatPrint(p.Aditi)}</td>
-                        <td class="col-step">${formatPrint(p.Bodha)}</td>
-                        <td class="col-step">${formatPrint(p.Abhyasa)}</td>
-                        <td class="col-step">${formatPrint(p.Prayoga)}</td>
-                        <td class="col-step">${formatPrint(p.Prasara)}</td>
+                        <td class="col-step">${formatPanchapadi(p.Aditi)}</td>
+                        <td class="col-step">${formatPanchapadi(p.Bodha)}</td>
+                        <td class="col-step">${formatPanchapadi(p.Abhyasa)}</td>
+                        <td class="col-step">${formatPanchapadi(p.Prayoga)}</td>
+                        <td class="col-step">${formatPanchapadi(p.Prasara)}</td>
                         <td class="col-tlm">${formatPrint(plan.TLM)}</td>
                     `;
                     
