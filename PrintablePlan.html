@@ -69,40 +69,23 @@
         /* --- PDF & PRINT TABLE DESIGN (Hidden from screen UI) --- */
         #pdf-export-content { display: none; }
 
-        /* The actual Print Styles used when the OS PDF engine takes over */
         @media print {
-            /* Hide the entire website UI */
             .no-print, .container { display: none !important; }
-            
-            /* Show ONLY the export content */
             #pdf-export-content { 
-                display: block !important; 
-                width: 100% !important; 
-                padding: 0 !important; 
-                margin: 0 !important;
-                background: white; 
-                color: black;
-                font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif;
+                display: block !important; width: 100% !important; padding: 0 !important; margin: 0 !important;
+                background: white; color: black; font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif;
             }
-            
-            /* Tell the OS to use A4 Landscape */
             @page { size: A4 landscape; margin: 6mm; }
             body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-
             .pdf-header { text-align: center; margin-bottom: 12px; }
             .pdf-header h2 { margin: 0 0 6px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
             .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
-            
             .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
             .pdf-table thead { display: table-header-group; }
-            
-            /* Critical: Prevent rows from splitting in half across pages */
             .pdf-table tbody, .pdf-table tr { page-break-inside: avoid; break-inside: avoid; } 
-            
             .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 5px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
             .pdf-table th { background-color: #f1f5f9 !important; font-weight: bold; text-align: left; }
             
-            /* Optimized Column Widths */
             .col-period { width: 3.5%; text-align: center; font-weight: bold; }
             .col-class { width: 7.5%; }
             .col-topic { width: 10%; }
@@ -114,7 +97,6 @@
             .col-prayoga { width: 10.5%; }
             .col-prasara { width: 10.5%; }
             .col-tlm { width: 8%; }
-            
             .pdf-text { margin-bottom: 3px; }
             .pdf-text b { font-size: 9px; }
         }
@@ -122,7 +104,6 @@
 </head>
 <body>
 
-    <!-- UI SECTION -->
     <div class="container no-print">
         <header>
             <h1>🖨️ Lesson Plan Generator</h1>
@@ -148,9 +129,9 @@
             <div class="card print-cta-card" style="display: flex; justify-content: space-between; align-items: center; background: #e0e7ff; border-color: var(--primary);">
                 <div>
                     <h3 style="color: var(--primary); margin-bottom: 0.25rem;">Plan Complete?</h3>
-                    <p style="font-size: 0.95rem; color: #4338ca;">Tap the button below and select <b>"Save as PDF"</b>.</p>
+                    <p style="font-size: 0.95rem; color: #4338ca; margin-bottom: 0.75rem;">Tap the button below and select <b>"Save as PDF"</b>.</p>
+                    <button class="btn-secondary" style="background: #fee2e2; color: #dc2626; border: none; border-radius: 0.4rem; cursor: pointer; font-weight: bold;" onclick="clearSavedPlan()">🗑️ Start Fresh Plan</button>
                 </div>
-                <!-- Single, highly optimized Native Print button -->
                 <button class="btn" onclick="nativePrintPDF()" style="box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4);">
                     🖨️ Save as PDF / Print
                 </button>
@@ -158,7 +139,6 @@
         </div>
     </div>
 
-    <!-- RENDER CONTAINER (Hidden until Native Print handles it) -->
     <div id="pdf-export-content"></div>
 
     <script>
@@ -172,7 +152,11 @@
                     db = data;
                     classList = Object.keys(db).sort();
                     document.getElementById('status-card').classList.add('hidden');
-                    document.getElementById('setup-card').classList.remove('hidden');
+                    
+                    // Try to load saved memory, if none exists, show the setup screen
+                    if (!loadPlanFromStorage()) {
+                        document.getElementById('setup-card').classList.remove('hidden');
+                    }
                 })
                 .catch(err => {
                     document.getElementById('status-text').innerHTML = "❌ Failed to load database.<br><span style='font-size:14px; color:gray;'>Make sure master_lesson_database.json is in the same folder.</span>";
@@ -180,6 +164,80 @@
                 });
         });
 
+        // --- AUTO-SAVE MEMORY SYSTEM ---
+        function savePlanToStorage() {
+            const numPeriods = document.getElementById('numPeriods').value;
+            let validPeriods = [];
+            
+            document.querySelectorAll('.period-block').forEach(block => {
+                let rowDataList = [];
+                block.querySelectorAll('.lesson-row').forEach(row => {
+                    rowDataList.push({
+                        cls: row.querySelector('.sel-class').value,
+                        subj: row.querySelector('.sel-subj').value,
+                        chap: row.querySelector('.sel-chap').value,
+                        lessKey: row.querySelector('.sel-less').value
+                    });
+                });
+                validPeriods.push(rowDataList);
+            });
+
+            localStorage.setItem('lessonGuruAutoSave', JSON.stringify({
+                numPeriods: numPeriods,
+                periods: validPeriods
+            }));
+        }
+
+        function loadPlanFromStorage() {
+            const saved = localStorage.getItem('lessonGuruAutoSave');
+            if (!saved) return false;
+
+            try {
+                const data = JSON.parse(saved);
+                if (!data.periods || data.periods.length === 0) return false;
+                
+                document.getElementById('numPeriods').value = data.numPeriods;
+                const container = document.getElementById('periods-container');
+                container.innerHTML = '';
+
+                data.periods.forEach((rowsData, index) => {
+                    const i = index + 1;
+                    const pBlock = document.createElement('div');
+                    pBlock.className = 'period-block';
+                    pBlock.innerHTML = `
+                        <div class="period-title">
+                            School Period ${i}
+                            <button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button>
+                        </div>
+                        <div id="rows-container-${i}"></div>
+                    `;
+                    container.appendChild(pBlock);
+
+                    if (rowsData.length === 0) {
+                        addLessonRow(i);
+                    } else {
+                        rowsData.forEach(r => addLessonRow(i, r));
+                    }
+                });
+
+                document.getElementById('builder-area').classList.remove('hidden');
+                return true;
+            } catch(e) {
+                console.error("Save memory corrupted", e);
+                return false;
+            }
+        }
+
+        function clearSavedPlan() {
+            if(confirm("Are you sure you want to clear your current plan and start fresh?")) {
+                localStorage.removeItem('lessonGuruAutoSave');
+                document.getElementById('builder-area').classList.add('hidden');
+                document.getElementById('setup-card').classList.remove('hidden');
+                document.getElementById('periods-container').innerHTML = '';
+            }
+        }
+
+        // --- BUILDER FUNCTIONS ---
         function buildPeriodForms() {
             const num = parseInt(document.getElementById('numPeriods').value);
             if (num < 1 || isNaN(num)) return;
@@ -193,7 +251,7 @@
                 pBlock.innerHTML = `
                     <div class="period-title">
                         School Period ${i}
-                        <button class="btn btn-secondary" onclick="addLessonRow(${i})">+ Add Class</button>
+                        <button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button>
                     </div>
                     <div id="rows-container-${i}"></div>
                 `;
@@ -202,28 +260,46 @@
             }
             document.getElementById('setup-card').classList.add('hidden');
             document.getElementById('builder-area').classList.remove('hidden');
+            savePlanToStorage();
         }
 
-        function addLessonRow(periodNum) {
+        function addLessonRow(periodNum, presetData = null) {
             const container = document.getElementById(`rows-container-${periodNum}`);
-            const rowId = `row-${periodNum}-${Date.now()}`;
+            const rowId = `row-${periodNum}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
             const row = document.createElement('div');
             row.className = 'lesson-row';
             row.id = rowId;
             row.innerHTML = `
                 <div>
                     <label>Class</label>
-                    <select class="sel-class" onchange="updateSubjects('${rowId}')">
+                    <select class="sel-class" onchange="updateSubjects('${rowId}'); savePlanToStorage();">
                         <option value="">Select Class...</option>
                         ${classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('')}
                     </select>
                 </div>
-                <div><label>Subject</label><select class="sel-subj" onchange="updateChapters('${rowId}')" disabled><option>...</option></select></div>
-                <div><label>Chapter</label><select class="sel-chap" onchange="updateLessons('${rowId}')" disabled><option>...</option></select></div>
-                <div><label>Lesson / Period</label><select class="sel-less" disabled><option>...</option></select></div>
-                <div><button class="remove-btn" onclick="document.getElementById('${rowId}').remove()">✖ Remove</button></div>
+                <div><label>Subject</label><select class="sel-subj" onchange="updateChapters('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
+                <div><label>Chapter</label><select class="sel-chap" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
+                <div><label>Lesson / Period</label><select class="sel-less" onchange="savePlanToStorage();" disabled><option>...</option></select></div>
+                <div><button class="remove-btn" onclick="document.getElementById('${rowId}').remove(); savePlanToStorage();">✖ Remove</button></div>
             `;
             container.appendChild(row);
+
+            // If loading from memory, cascade the dropdowns automatically
+            if (presetData && presetData.cls) {
+                row.querySelector('.sel-class').value = presetData.cls;
+                updateSubjects(rowId);
+                if (presetData.subj) {
+                    row.querySelector('.sel-subj').value = presetData.subj;
+                    updateChapters(rowId);
+                    if (presetData.chap) {
+                        row.querySelector('.sel-chap').value = presetData.chap;
+                        updateLessons(rowId);
+                        if (presetData.lessKey) {
+                            row.querySelector('.sel-less').value = presetData.lessKey;
+                        }
+                    }
+                }
+            }
         }
 
         function updateSubjects(rowId) {
@@ -275,6 +351,7 @@
 
         function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
+        // --- PDF ENGINE ---
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
@@ -320,8 +397,6 @@
 
             if (validPeriods.length === 0) return false;
 
-            // We generate ONE massive table here. 
-            // The OS Print Engine automatically splits it cleanly across A4 pages.
             container.innerHTML = `
                 <div class="pdf-header">
                     <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
@@ -380,15 +455,11 @@
             return true;
         }
 
-        // --- NATIVE PRINT ENGINE (FLAWLESS ODIA TEXT) ---
         function nativePrintPDF() {
             if (!buildPDFHTML()) {
                 alert("Please fully select at least one lesson plan.");
                 return;
             }
-            
-            // Trigger the native OS Print/PDF Engine.
-            // (The @media print CSS automatically hides the UI and shows the Table)
             window.print();
         }
     </script>
