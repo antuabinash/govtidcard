@@ -50,7 +50,7 @@
             @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         }
 
-        /* --- PRINT STYLES (A4 Landscape - 10 Columns) --- */
+        /* --- PRINT STYLES (A4 Landscape - Strict 4-Period Pages) --- */
         @media print {
             @page { size: A4 landscape; margin: 6mm; }
             body { margin: 0; padding: 0; background: white; font-family: sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -58,12 +58,26 @@
             .no-print { display: none !important; }
             #print-area { display: block; width: 100%; }
             
-            .print-header { text-align: center; margin-bottom: 12px; }
+            /* PAGE BREAK ENGINE */
+            .print-page {
+                page-break-after: always; /* Force printer to start a new page */
+                break-after: page;
+                width: 100%;
+                /* Slight padding to avoid edges */
+                padding-bottom: 10px; 
+            }
+            /* Do not break the very last page */
+            .print-page:last-child {
+                page-break-after: auto;
+                break-after: auto;
+            }
+            
+            .print-header { text-align: center; margin-bottom: 10px; }
             .print-header h2 { margin: 0 0 5px 0; font-size: 18px; text-transform: uppercase; }
             .print-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; }
             
             table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; }
-            th, td { border: 1px solid #000; padding: 4px; vertical-align: top; word-wrap: break-word; line-height: 1.2; }
+            th, td { border: 1px solid #000; padding: 5px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
             th { background-color: #f0f0f0 !important; font-weight: bold; text-align: left; }
             
             /* Calculated Column Widths */
@@ -96,7 +110,7 @@
             <h2 style="margin-bottom: 1rem;">Setup Daily Routine</h2>
             <label>How many teaching periods do you have today?</label>
             <div style="display: flex; gap: 1rem; align-items: center;">
-                <input type="number" id="numPeriods" min="1" max="10" value="4" style="max-width: 150px;">
+                <input type="number" id="numPeriods" min="1" max="10" value="7" style="max-width: 150px;">
                 <button class="btn" onclick="buildPeriodForms()">Start Planning</button>
             </div>
         </div>
@@ -114,36 +128,8 @@
         </div>
     </div>
 
-    <!-- PRINT SECTION -->
-    <div id="print-area">
-        <div class="print-header">
-            <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
-            <div class="print-meta">
-                <span>Teacher Name: _______________________</span>
-                <span>Date: ____/____/20___</span>
-                <span>Day: _______________</span>
-            </div>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th class="col-period">Prd</th>
-                    <th class="col-class">Class/Subj</th>
-                    <th class="col-topic">Topic</th>
-                    <th class="col-lo">Competency & LO</th>
-                    <th class="col-step">ଅଧୀତି (Adhiti)</th>
-                    <th class="col-step">ବୋଧ (Bodha)</th>
-                    <th class="col-step">ଅଭ୍ୟାସ (Abhyasa)</th>
-                    <th class="col-step">ପ୍ରୟୋଗ (Prayoga)</th>
-                    <th class="col-step">ପ୍ରସାର (Prasara)</th>
-                    <th class="col-tlm">TLM</th>
-                </tr>
-            </thead>
-            <tbody id="print-tbody">
-                <!-- Rows injected here -->
-            </tbody>
-        </table>
-    </div>
+    <!-- PRINT SECTION (Dynamically Built) -->
+    <div id="print-area"></div>
 
     <script>
         let db = {};
@@ -291,8 +277,7 @@
             selectElem.disabled = true;
         }
 
-        // --- CUSTOM FORMATTERS FOR SPACE SAVING ---
-        
+        // --- CUSTOM FORMATTERS ---
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
@@ -301,7 +286,6 @@
 
         function formatLO(text) {
             if (!text || text === 'nan') return '';
-            // Chop off the "[Codes: ... ]" string completely
             let cleaned = String(text).split(/\s*\|\s*\[Codes:/)[0];
             cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').trim();
             return `<div class="print-text">${cleaned}</div>`;
@@ -309,75 +293,125 @@
 
         function formatPanchapadi(text) {
             if (!text || text === 'nan') return '';
-            
-            // 1. Split the text and keep ONLY the teacher's portion (ignores everything after "Student Response")
             let teacherPart = String(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
-            
-            // 2. Remove the "TEACHER" label completely to save space (since it's implied in this column)
             teacherPart = teacherPart.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
             
-            // 3. Clean up the remaining pipes and spacing
             let cleaned = teacherPart.replace(/\|/g, '<br>').trim();
-            if (cleaned.endsWith('<br>')) {
-                cleaned = cleaned.substring(0, cleaned.length - 4).trim();
-            }
-            
+            if (cleaned.endsWith('<br>')) cleaned = cleaned.substring(0, cleaned.length - 4).trim();
             return `<div class="print-text">${cleaned}</div>`;
         }
 
-        // --- PRINT GENERATION ---
-        
+        // --- 4. PAGINATION ENGINE (4 Periods per Page) ---
         function generatePrintPlan() {
-            const tbody = document.getElementById('print-tbody');
-            tbody.innerHTML = '';
+            const printArea = document.getElementById('print-area');
+            printArea.innerHTML = '';
             
             const periodBlocks = document.querySelectorAll('.period-block');
+            let validPeriods = [];
             
+            // Gather all completed periods from the UI
             periodBlocks.forEach((block, index) => {
                 const pNum = index + 1;
                 const rows = block.querySelectorAll('.lesson-row');
+                let rowDataList = [];
                 
-                rows.forEach((row, rIndex) => {
+                rows.forEach(row => {
                     const cls = row.querySelector('.sel-class').value;
                     const subj = row.querySelector('.sel-subj').value;
                     const chap = row.querySelector('.sel-chap').value;
                     const lessKey = row.querySelector('.sel-less').value;
-                    
                     if (!cls || !subj || !chap || lessKey === "") return;
                     
-                    const plan = db[cls][subj][chap][lessKey];
-                    const p = plan.Panchapadi || {};
-                    
-                    const tr = document.createElement('tr');
-                    
-                    if (rIndex === 0) {
-                        tr.innerHTML += `<td class="col-period" rowspan="${rows.length}">${pNum}</td>`;
-                    }
-
-                    tr.innerHTML += `
-                        <td class="col-class"><b>${cls.replace('_', ' ')}</b><br>${subj}</td>
-                        <td class="col-topic"><b>${chap}</b><br><br>${plan.Topic || ''}</td>
-                        <td class="col-lo">
-                            <b>Comp:</b><br>${formatPrint(plan.Competency)}
-                            <br><b>LO:</b><br>${formatLO(plan.LearningOutcomes)}
-                        </td>
-                        <td class="col-step">${formatPanchapadi(p.Aditi)}</td>
-                        <td class="col-step">${formatPanchapadi(p.Bodha)}</td>
-                        <td class="col-step">${formatPanchapadi(p.Abhyasa)}</td>
-                        <td class="col-step">${formatPanchapadi(p.Prayoga)}</td>
-                        <td class="col-step">${formatPanchapadi(p.Prasara)}</td>
-                        <td class="col-tlm">${formatPrint(plan.TLM)}</td>
-                    `;
-                    
-                    tbody.appendChild(tr);
+                    rowDataList.push({ cls, subj, chap, lessKey });
                 });
+                
+                if (rowDataList.length > 0) {
+                    validPeriods.push({ pNum, rowDataList });
+                }
             });
 
-            if (tbody.innerHTML === '') {
+            if (validPeriods.length === 0) {
                 alert("Please fully select at least one lesson plan before printing.");
                 return;
             }
 
+            // Slice the periods into chunks of 4 (e.g. 1-4 on Page 1, 5-7 on Page 2)
+            const periodsPerPage = 4;
+            
+            for (let i = 0; i < validPeriods.length; i += periodsPerPage) {
+                const chunk = validPeriods.slice(i, i + periodsPerPage);
+                
+                // Create a hard-page-break container for this chunk
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'print-page';
+                
+                // Inject the Table Header for this specific page
+                pageDiv.innerHTML = `
+                    <div class="print-header">
+                        <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
+                        <div class="print-meta">
+                            <span>Teacher Name: _______________________</span>
+                            <span>Date: ____/____/20___</span>
+                            <span>Day: _______________</span>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-period">Prd</th>
+                                <th class="col-class">Class/Subj</th>
+                                <th class="col-topic">Topic</th>
+                                <th class="col-lo">Competency & LO</th>
+                                <th class="col-step">ଅଧୀତି (Adhiti)</th>
+                                <th class="col-step">ବୋଧ (Bodha)</th>
+                                <th class="col-step">ଅଭ୍ୟାସ (Abhyasa)</th>
+                                <th class="col-step">ପ୍ରୟୋଗ (Prayoga)</th>
+                                <th class="col-step">ପ୍ରସାର (Prasara)</th>
+                                <th class="col-tlm">TLM</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                `;
+                
+                const tbody = pageDiv.querySelector('tbody');
+                
+                // Inject the period rows into this page's table
+                chunk.forEach(period => {
+                    period.rowDataList.forEach((rData, rIndex) => {
+                        const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
+                        const p = plan.Panchapadi || {};
+                        
+                        const tr = document.createElement('tr');
+                        
+                        // Merge the Period number cell if there are multiple classes
+                        if (rIndex === 0) {
+                            tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
+                        }
+
+                        tr.innerHTML += `
+                            <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
+                            <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
+                            <td class="col-lo">
+                                <b>Comp:</b><br>${formatPrint(plan.Competency)}
+                                <br><b>LO:</b><br>${formatLO(plan.LearningOutcomes)}
+                            </td>
+                            <td class="col-step">${formatPanchapadi(p.Aditi)}</td>
+                            <td class="col-step">${formatPanchapadi(p.Bodha)}</td>
+                            <td class="col-step">${formatPanchapadi(p.Abhyasa)}</td>
+                            <td class="col-step">${formatPanchapadi(p.Prayoga)}</td>
+                            <td class="col-step">${formatPanchapadi(p.Prasara)}</td>
+                            <td class="col-tlm">${formatPrint(plan.TLM)}</td>
+                        `;
+                        
+                        tbody.appendChild(tr);
+                    });
+                });
+                
+                printArea.appendChild(pageDiv);
+            }
+
+            // Trigger Browser Print
             window.print();
         }
     </script>
