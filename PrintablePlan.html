@@ -201,7 +201,7 @@
     <div id="edit-profile-modal" class="hidden no-print">
         <div class="modal-content card">
             <div class="modal-header">
-                <h2>Update Profile</h2>
+                <h2>Update Profile & Settings</h2>
                 <button class="close-modal" onclick="closeProfileModal()">×</button>
             </div>
             <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
@@ -216,6 +216,11 @@
                 <div>
                     <label>Update Date</label>
                     <input type="date" id="modalPlanDate">
+                </div>
+                <!-- ADDED: Modify periods from modal -->
+                <div>
+                    <label>Teaching Periods Today</label>
+                    <input type="number" id="modalNumPeriods" min="1" max="10">
                 </div>
             </div>
             <button class="btn" style="width: 100%;" onclick="saveUpdatedProfile()">Save & Update</button>
@@ -351,6 +356,7 @@
             document.getElementById('modalSchoolName').value = document.getElementById('schoolName').value;
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
             document.getElementById('modalPlanDate').value = document.getElementById('planDate').value;
+            document.getElementById('modalNumPeriods').value = document.getElementById('numPeriods').value; // Populate periods
             document.getElementById('edit-profile-modal').classList.remove('hidden');
         }
 
@@ -358,10 +364,46 @@
             document.getElementById('edit-profile-modal').classList.add('hidden');
         }
 
+        // NEW LOGIC to safely add/remove periods without clearing existing ones
+        function adjustPeriods(newNum) {
+            const container = document.getElementById('periods-container');
+            const currentBlocks = container.querySelectorAll('.period-block');
+            const currentNum = currentBlocks.length;
+
+            if (newNum > currentNum) {
+                // Add new missing periods
+                for (let i = currentNum + 1; i <= newNum; i++) {
+                    const pBlock = document.createElement('div');
+                    pBlock.className = 'period-block';
+                    pBlock.innerHTML = `
+                        <div class="period-title">
+                            School Period ${i}
+                            <button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button>
+                        </div>
+                        <div id="rows-container-${i}"></div>
+                    `;
+                    container.appendChild(pBlock);
+                    addLessonRow(i);
+                }
+            } else if (newNum < currentNum) {
+                // Remove excess periods from the bottom
+                for (let i = currentNum; i > newNum; i--) {
+                    container.removeChild(currentBlocks[i - 1]);
+                }
+            }
+        }
+
         function saveUpdatedProfile() {
             document.getElementById('schoolName').value = document.getElementById('modalSchoolName').value;
             document.getElementById('teacherName').value = document.getElementById('modalTeacherName').value;
             document.getElementById('planDate').value = document.getElementById('modalPlanDate').value;
+            
+            // Adjust periods
+            const updatedPeriods = parseInt(document.getElementById('modalNumPeriods').value);
+            if (!isNaN(updatedPeriods) && updatedPeriods >= 1) {
+                document.getElementById('numPeriods').value = updatedPeriods;
+                adjustPeriods(updatedPeriods);
+            }
             
             updateUIHeader();
             savePlanToStorage();
@@ -525,7 +567,7 @@
                     
                     if (cls && subj && chap && lessKey !== "") {
                         allRows.push({ pNum, cls, subj, chap, lessKey, isFirstInPeriod });
-                        isFirstInPeriod = false; // Ensures period number only prints on the top row of that period
+                        isFirstInPeriod = false; 
                     }
                 });
             });
@@ -579,7 +621,6 @@
                     <div style="${pageBreakStyle}">
                         <table class="pdf-table">
                             <thead>
-                                <!-- Embed header in thead so it repeats flawlessly on every new printed sheet -->
                                 <tr>
                                     <th colspan="11" class="print-header-cell">
                                         <div class="pdf-header">
