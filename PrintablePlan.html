@@ -6,9 +6,6 @@
     <title>Lesson Plan Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Direct PDF Generator -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <style>
         /* --- UI STYLES (Screen Only) --- */
         :root {
@@ -20,8 +17,8 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding: 2rem; }
+        .container { max-width: 1000px; margin: 0 auto; }
         
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border); }
         h1 { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
@@ -35,12 +32,10 @@
         }
         input[type="number"]:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); background: #ffffff; }
         
-        .btn { background: var(--primary); color: white; padding: 0.85rem 1.5rem; border-radius: 0.6rem; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
-        .btn-secondary { background: #e2e8f0; color: #334155; }
-        .btn-secondary:hover { background: #cbd5e1; }
-        .btn-success { background: #10b981; }
-        .btn-success:hover { background: #059669; }
+        .btn { background: var(--primary); color: white; padding: 1rem 1.5rem; border-radius: 0.6rem; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 1.1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
+        .btn-secondary { background: #e2e8f0; color: #334155; padding: 0.75rem 1rem; font-size: 0.9rem;}
+        .btn-secondary:hover { background: #cbd5e1; transform: translateY(0); box-shadow: none; }
         
         .period-block { background: #f1f5f9; padding: 1.5rem; border-radius: 0.85rem; border: 1px solid #cbd5e1; margin-bottom: 1.5rem; }
         .period-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 1rem; color: #1e293b; display: flex; justify-content: space-between; align-items: center; }
@@ -54,17 +49,9 @@
         .spinner { border: 4px solid #e2e8f0; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 1rem auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Fullscreen Loading Modal during PDF creation */
-        #pdf-loading-modal {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px);
-            z-index: 100000; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; color: white;
-        }
-
         /* --- MOBILE SCREEN ADAPTATIONS --- */
         @media screen and (max-width: 768px) {
-            .container { padding: 1rem 0.75rem; }
+            body { padding: 1rem 0.75rem; }
             h1 { font-size: 1.5rem; }
             .card { padding: 1.25rem; }
             .setup-flex { flex-direction: column; align-items: stretch !important; gap: 0.75rem !important; }
@@ -76,50 +63,60 @@
             .lesson-row > div:last-child { position: absolute; top: 0.75rem; right: 0.75rem; }
             .remove-btn { padding: 0.4rem 0.75rem; font-size: 0.85rem; border-radius: 0.4rem; }
             .print-cta-card { flex-direction: column; text-align: center; gap: 1.25rem; }
-            .action-buttons { display: flex; flex-direction: column; gap: 0.75rem; width: 100%; }
-            .action-buttons button { width: 100%; }
+            .print-cta-card button { width: 100%; }
         }
 
-        /* --- PDF & PRINT TABLE DESIGN --- */
-        #pdf-export-content {
-            width: 1122px; /* Standard A4 Landscape pixel canvas at 96 DPI */
-            background: #ffffff;
-            color: #000000;
-            padding: 24px;
-            font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif;
-            box-sizing: border-box;
-            margin: 0 auto;
-        }
+        /* --- PDF & PRINT TABLE DESIGN (Hidden from screen UI) --- */
+        #pdf-export-content { display: none; }
 
-        .pdf-header { text-align: center; margin-bottom: 12px; }
-        .pdf-header h2 { margin: 0 0 6px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
-        .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
-        
-        .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
-        .pdf-table thead { display: table-header-group; }
-        .pdf-table tbody { page-break-inside: avoid; break-inside: avoid; } 
-        .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 5px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
-        .pdf-table th { background-color: #f1f5f9 !important; font-weight: bold; text-align: left; }
-        
-        .col-period { width: 3.5%; text-align: center; font-weight: bold; }
-        .col-class { width: 7.5%; }
-        .col-topic { width: 10%; }
-        .col-comp { width: 8%; }
-        .col-lo { width: 9%; }
-        .col-aditi { width: 9%; }
-        .col-bodha { width: 15%; }
-        .col-abhyasa { width: 9%; }
-        .col-prayoga { width: 10.5%; }
-        .col-prasara { width: 10.5%; }
-        .col-tlm { width: 8%; }
-        
-        .pdf-text { margin-bottom: 3px; }
-        .pdf-text b { font-size: 9px; }
-
+        /* The actual Print Styles used when the OS PDF engine takes over */
         @media print {
+            /* Hide the entire website UI */
             .no-print, .container { display: none !important; }
-            #pdf-export-content { display: block !important; width: 100% !important; padding: 0 !important; }
+            
+            /* Show ONLY the export content */
+            #pdf-export-content { 
+                display: block !important; 
+                width: 100% !important; 
+                padding: 0 !important; 
+                margin: 0 !important;
+                background: white; 
+                color: black;
+                font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif;
+            }
+            
+            /* Tell the OS to use A4 Landscape */
             @page { size: A4 landscape; margin: 6mm; }
+            body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+            .pdf-header { text-align: center; margin-bottom: 12px; }
+            .pdf-header h2 { margin: 0 0 6px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
+            .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
+            
+            .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
+            .pdf-table thead { display: table-header-group; }
+            
+            /* Critical: Prevent rows from splitting in half across pages */
+            .pdf-table tbody, .pdf-table tr { page-break-inside: avoid; break-inside: avoid; } 
+            
+            .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 5px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
+            .pdf-table th { background-color: #f1f5f9 !important; font-weight: bold; text-align: left; }
+            
+            /* Optimized Column Widths */
+            .col-period { width: 3.5%; text-align: center; font-weight: bold; }
+            .col-class { width: 7.5%; }
+            .col-topic { width: 10%; }
+            .col-comp { width: 8%; }
+            .col-lo { width: 9%; }
+            .col-aditi { width: 9%; }
+            .col-bodha { width: 15%; }
+            .col-abhyasa { width: 9%; }
+            .col-prayoga { width: 10.5%; }
+            .col-prasara { width: 10.5%; }
+            .col-tlm { width: 8%; }
+            
+            .pdf-text { margin-bottom: 3px; }
+            .pdf-text b { font-size: 9px; }
         }
     </style>
 </head>
@@ -151,25 +148,18 @@
             <div class="card print-cta-card" style="display: flex; justify-content: space-between; align-items: center; background: #e0e7ff; border-color: var(--primary);">
                 <div>
                     <h3 style="color: var(--primary); margin-bottom: 0.25rem;">Plan Complete?</h3>
-                    <p style="font-size: 0.95rem; color: #4338ca;">Download a crystal-clear A4 Landscape PDF directly.</p>
+                    <p style="font-size: 0.95rem; color: #4338ca;">Tap the button below and select <b>"Save as PDF"</b>.</p>
                 </div>
-                <div class="action-buttons" style="display: flex; gap: 0.5rem;">
-                    <button id="btnDownload" class="btn btn-success" onclick="downloadDirectPDF()">📥 Download Direct PDF</button>
-                    <button class="btn" onclick="nativePrintPDF()">🖨️ Print / Vector PDF</button>
-                </div>
+                <!-- Single, highly optimized Native Print button -->
+                <button class="btn" onclick="nativePrintPDF()" style="box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4);">
+                    🖨️ Save as PDF / Print
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- FULLSCREEN LOADING MODAL -->
-    <div id="pdf-loading-modal" class="hidden">
-        <div class="spinner" style="border-color: rgba(255,255,255,0.2); border-top-color: #10b981; width: 60px; height: 60px; margin-bottom: 1.5rem; border-width: 5px;"></div>
-        <h2 style="font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem;">Generating PDF Pages...</h2>
-        <p style="color: #cbd5e1; font-size: 1rem;">Please wait while we format your lesson plan.</p>
-    </div>
-
-    <!-- RENDER CONTAINER (Hidden naturally, injected dynamically during generation) -->
-    <div id="pdf-export-content" style="display: none;"></div>
+    <!-- RENDER CONTAINER (Hidden until Native Print handles it) -->
+    <div id="pdf-export-content"></div>
 
     <script>
         let db = {};
@@ -330,140 +320,76 @@
 
             if (validPeriods.length === 0) return false;
 
-            const periodsPerPage = 4;
-            
-            for (let i = 0; i < validPeriods.length; i += periodsPerPage) {
-                const chunk = validPeriods.slice(i, i + periodsPerPage);
-                
-                const pageDiv = document.createElement('div');
-                
-                // Instructs html2pdf to hard-break pages cleanly
-                if (i > 0) {
-                    const pageBreak = document.createElement('div');
-                    pageBreak.className = 'html2pdf__page-break';
-                    container.appendChild(pageBreak);
-                }
-
-                pageDiv.innerHTML = `
-                    <div class="pdf-header">
-                        <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
-                        <div class="pdf-meta">
-                            <span>Teacher Name: _______________________</span>
-                            <span>Date: ____/____/20___</span>
-                            <span>Day: _______________</span>
-                        </div>
+            // We generate ONE massive table here. 
+            // The OS Print Engine automatically splits it cleanly across A4 pages.
+            container.innerHTML = `
+                <div class="pdf-header">
+                    <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
+                    <div class="pdf-meta">
+                        <span>Teacher Name: _______________________</span>
+                        <span>Date: ____/____/20___</span>
+                        <span>Day: _______________</span>
                     </div>
-                    <table class="pdf-table">
-                        <thead>
-                            <tr>
-                                <th class="col-period">Prd</th>
-                                <th class="col-class">Class/Subj</th>
-                                <th class="col-topic">Topic</th>
-                                <th class="col-comp">Competency</th>
-                                <th class="col-lo">Learning Outcome</th>
-                                <th class="col-aditi">ଅଧୀତି (Adhiti)</th>
-                                <th class="col-bodha">ବୋଧ (Bodha)</th>
-                                <th class="col-abhyasa">ଅଭ୍ୟାସ (Abhyasa)</th>
-                                <th class="col-prayoga">ପ୍ରୟୋଗ (Prayoga)</th>
-                                <th class="col-prasara">ପ୍ରସାର (Prasara)</th>
-                                <th class="col-tlm">TLM</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                `;
-                
-                const tbody = pageDiv.querySelector('tbody');
-                
-                chunk.forEach(period => {
-                    period.rowDataList.forEach((rData, rIndex) => {
-                        const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
-                        const p = plan.Panchapadi || {};
-                        const tr = document.createElement('tr');
-                        
-                        if (rIndex === 0) tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
+                </div>
+                <table class="pdf-table">
+                    <thead>
+                        <tr>
+                            <th class="col-period">Prd</th>
+                            <th class="col-class">Class/Subj</th>
+                            <th class="col-topic">Topic</th>
+                            <th class="col-comp">Competency</th>
+                            <th class="col-lo">Learning Outcome</th>
+                            <th class="col-aditi">ଅଧୀତି (Adhiti)</th>
+                            <th class="col-bodha">ବୋଧ (Bodha)</th>
+                            <th class="col-abhyasa">ଅଭ୍ୟାସ (Abhyasa)</th>
+                            <th class="col-prayoga">ପ୍ରୟୋଗ (Prayoga)</th>
+                            <th class="col-prasara">ପ୍ରସାର (Prasara)</th>
+                            <th class="col-tlm">TLM</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            `;
 
-                        tr.innerHTML += `
-                            <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
-                            <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                            <td class="col-comp">${formatPrint(plan.Competency)}</td>
-                            <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
-                            <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
-                            <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
-                            <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
-                            <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
-                            <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
-                            <td class="col-tlm">${formatPrint(plan.TLM)}</td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
+            const tbody = container.querySelector('tbody');
+
+            validPeriods.forEach(period => {
+                period.rowDataList.forEach((rData, rIndex) => {
+                    const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
+                    const p = plan.Panchapadi || {};
+                    const tr = document.createElement('tr');
+                    
+                    if (rIndex === 0) tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
+
+                    tr.innerHTML += `
+                        <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
+                        <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
+                        <td class="col-comp">${formatPrint(plan.Competency)}</td>
+                        <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
+                        <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
+                        <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
+                        <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
+                        <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
+                        <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
+                        <td class="col-tlm">${formatPrint(plan.TLM)}</td>
+                    `;
+                    tbody.appendChild(tr);
                 });
-                container.appendChild(pageDiv);
-            }
+            });
+
             return true;
         }
 
-        // --- DIRECT PDF DOWNLOAD ENGINE ---
-        async function downloadDirectPDF() {
-            if (!buildPDFHTML()) return alert("Please fully select at least one lesson plan.");
-
-            const modal = document.getElementById('pdf-loading-modal');
-            const mainUI = document.querySelector('.container');
-            const element = document.getElementById('pdf-export-content');
-            
-            modal.classList.remove('hidden');
-
-            // The Core Fix: Hide the UI, put the PDF container in the normal page flow 
-            // so the browser naturally measures its full multi-page height without clipping.
-            mainUI.style.display = 'none';
-            element.style.display = 'block';
-
-            // Wait to ensure DOM reflows completely
-            await new Promise(resolve => setTimeout(resolve, 400));
-            
-            // Scroll to absolute top to guarantee no offset clipping
-            window.scrollTo(0, 0);
-
-            const opt = {
-                margin:       [6, 6, 6, 6],
-                filename:     'Daily_Lesson_Plan.pdf',
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { 
-                    scale: 2.5, 
-                    useCORS: true, 
-                    logging: false,
-                    scrollY: 0
-                },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
-                pagebreak:    { mode: ['css', 'legacy'] }
-            };
-
-            try {
-                await html2pdf().set(opt).from(element).save();
-            } catch (err) {
-                console.error(err);
-                alert("An error occurred while generating the PDF. Please try Native Print.");
-            } finally {
-                // Restore original state
-                element.style.display = 'none';
-                mainUI.style.display = 'block';
-                modal.classList.add('hidden');
-            }
-        }
-
+        // --- NATIVE PRINT ENGINE (FLAWLESS ODIA TEXT) ---
         function nativePrintPDF() {
-            if (!buildPDFHTML()) return alert("Please fully select at least one lesson plan.");
+            if (!buildPDFHTML()) {
+                alert("Please fully select at least one lesson plan.");
+                return;
+            }
             
-            const mainUI = document.querySelector('.container');
-            const element = document.getElementById('pdf-export-content');
-            
-            mainUI.style.display = 'none';
-            element.style.display = 'block';
-            
+            // Trigger the native OS Print/PDF Engine.
+            // (The @media print CSS automatically hides the UI and shows the Table)
             window.print();
-            
-            element.style.display = 'none';
-            mainUI.style.display = 'block';
         }
     </script>
 </body>
