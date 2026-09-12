@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson Plan Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Industry Standard Screenshot Engine for Sharing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         /* --- UI STYLES (Screen Only) --- */
         :root {
@@ -32,10 +36,12 @@
             }
             input[type="number"]:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); background: #ffffff; }
             
-            .btn { background: var(--primary); color: white; padding: 0.85rem 1.5rem; border-radius: 0.6rem; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 1rem; }
+            .btn { background: var(--primary); color: white; padding: 0.85rem 1.5rem; border-radius: 0.6rem; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
             .btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
             .btn-secondary { background: #e2e8f0; color: #334155; }
             .btn-secondary:hover { background: #cbd5e1; }
+            .btn-success { background: #10b981; }
+            .btn-success:hover { background: #059669; }
             
             .period-block { background: #f1f5f9; padding: 1.5rem; border-radius: 0.85rem; border: 1px solid #cbd5e1; margin-bottom: 1.5rem; }
             .period-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 1rem; color: #1e293b; display: flex; justify-content: space-between; align-items: center; }
@@ -44,7 +50,6 @@
             .remove-btn { background: #fee2e2; color: #dc2626; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer; border: none; font-weight: bold; transition: 0.2s; }
             .remove-btn:hover { background: #fecaca; }
             
-            #print-area { display: none; }
             .hidden { display: none !important; }
             
             .spinner { border: 4px solid #e2e8f0; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 1rem auto; }
@@ -69,45 +74,49 @@
             .remove-btn { padding: 0.4rem 0.75rem; font-size: 0.85rem; border-radius: 0.4rem; }
             
             .print-cta-card { flex-direction: column; text-align: center; gap: 1.25rem; }
-            .print-cta-card button { width: 100%; }
+            .action-buttons { display: flex; flex-direction: column; gap: 0.75rem; width: 100%; }
+            .action-buttons button { width: 100%; }
         }
 
-        /* --- SMART PRINT STYLES (A4 Landscape - Dynamic Auto-Breaks) --- */
+        /* --- GLOBAL TABLE STYLES (Used by Browser Print & Image Share) --- */
+        #print-area { display: none; background: white; font-family: sans-serif; color: black; }
+        .print-page { width: 100%; padding-bottom: 10px; background: white; }
+        .print-header { text-align: center; margin-bottom: 10px; }
+        .print-header h2 { margin: 0 0 5px 0; font-size: 18px; text-transform: uppercase; color: black; }
+        .print-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; color: black;}
+        
+        #print-area table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; color: black; }
+        #print-area th, #print-area td { border: 1px solid #000; padding: 4px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
+        #print-area th { background-color: #f0f0f0 !important; font-weight: bold; text-align: left; }
+        
+        .col-period { width: 3%; text-align: center; font-weight: bold; }
+        .col-class { width: 7%; }
+        .col-topic { width: 10%; }
+        .col-comp { width: 8%; }
+        .col-lo { width: 9%; }
+        .col-aditi { width: 9%; }
+        .col-bodha { width: 15%; }
+        .col-abhyasa { width: 9%; }
+        .col-prayoga { width: 11%; }
+        .col-prasara { width: 11%; }
+        .col-tlm { width: 8%; }
+        
+        .print-text { margin-bottom: 3px; }
+        .print-text b { font-size: 9px; }
+
+        /* --- SMART PRINT SPECIFIC STYLES --- */
         @media print {
             @page { size: A4 landscape; margin: 6mm; }
-            body { margin: 0; padding: 0; background: white; font-family: sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body { margin: 0; padding: 0; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             
             .no-print { display: none !important; }
-            #print-area { display: block; width: 100%; }
+            #print-area { display: block !important; width: 100%; }
             
-            .print-header { text-align: center; margin-bottom: 10px; }
-            .print-header h2 { margin: 0 0 5px 0; font-size: 18px; text-transform: uppercase; }
-            .print-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; }
+            .print-page { page-break-after: always; break-after: page; }
+            .print-page:last-child { page-break-after: auto; break-after: auto; }
             
-            /* The Smart Table Engine */
-            table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; }
-            thead { display: table-header-group; } /* Automatically repeats headers on new pages */
-            tbody { page-break-inside: avoid; break-inside: avoid; } /* Prevents a period from tearing in half */
-            tr { page-break-inside: avoid; break-inside: avoid; }
-            
-            th, td { border: 1px solid #000; padding: 4px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
-            th { background-color: #f0f0f0 !important; font-weight: bold; text-align: left; }
-            
-            /* Custom Widths: Bodha gets maximum width (15%) */
-            .col-period { width: 3%; text-align: center; font-weight: bold; }
-            .col-class { width: 7%; }
-            .col-topic { width: 10%; }
-            .col-comp { width: 8%; }
-            .col-lo { width: 9%; }
-            .col-aditi { width: 9%; }
-            .col-bodha { width: 15%; } /* <-- Maximized for dense text */
-            .col-abhyasa { width: 9%; }
-            .col-prayoga { width: 11%; }
-            .col-prasara { width: 11%; }
-            .col-tlm { width: 8%; }
-            
-            .print-text { margin-bottom: 3px; }
-            .print-text b { font-size: 9px; }
+            #print-area table thead { display: table-header-group; }
+            #print-area table tbody, #print-area table tr { page-break-inside: avoid; break-inside: avoid; }
         }
     </style>
 </head>
@@ -137,15 +146,18 @@
             
             <div class="card print-cta-card" style="display: flex; justify-content: space-between; align-items: center; background: #e0e7ff; border-color: var(--primary);">
                 <div>
-                    <h3 style="color: var(--primary); margin-bottom: 0.25rem;">Ready to Print?</h3>
-                    <p style="font-size: 0.95rem; color: #4338ca;">Ensure all selections are made before generating.</p>
+                    <h3 style="color: var(--primary); margin-bottom: 0.25rem;">Plan Complete?</h3>
+                    <p style="font-size: 0.95rem; color: #4338ca;">Print as PDF or Share directly to WhatsApp.</p>
                 </div>
-                <button class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;" onclick="generatePrintPlan()">📄 Generate A4 Plan</button>
+                <div class="action-buttons" style="display: flex; gap: 0.5rem;">
+                    <button id="btnShare" class="btn btn-success" onclick="executeAction('share')">📤 Share to App</button>
+                    <button class="btn" onclick="executeAction('print')">🖨️ Print / Save PDF</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- PRINT SECTION -->
+    <!-- INVISIBLE PRINT/SHARE CONTAINER -->
     <div id="print-area"></div>
 
     <script>
@@ -177,7 +189,6 @@
             for (let i = 1; i <= num; i++) {
                 const pBlock = document.createElement('div');
                 pBlock.className = 'period-block';
-                pBlock.id = `period-block-${i}`;
                 
                 pBlock.innerHTML = `
                     <div class="period-title">
@@ -223,7 +234,7 @@
                     <select class="sel-less" disabled><option>...</option></select>
                 </div>
                 <div>
-                    <button class="remove-btn" onclick="document.getElementById('${rowId}').remove()" title="Remove this class">✖ Remove</button>
+                    <button class="remove-btn" onclick="document.getElementById('${rowId}').remove()">✖ Remove</button>
                 </div>
             `;
             container.appendChild(row);
@@ -235,10 +246,8 @@
             const subjSel = row.querySelector('.sel-subj');
             const chapSel = row.querySelector('.sel-chap');
             const lessSel = row.querySelector('.sel-less');
-            
             resetSelect(chapSel); resetSelect(lessSel);
             if (!cls) return resetSelect(subjSel);
-            
             populateSelect(subjSel, Object.keys(db[cls] || {}), "Select Subject...");
         }
 
@@ -248,10 +257,8 @@
             const subj = row.querySelector('.sel-subj').value;
             const chapSel = row.querySelector('.sel-chap');
             const lessSel = row.querySelector('.sel-less');
-            
             resetSelect(lessSel);
             if (!subj) return resetSelect(chapSel);
-            
             populateSelect(chapSel, Object.keys(db[cls][subj] || {}), "Select Chapter...");
         }
 
@@ -261,7 +268,6 @@
             const subj = row.querySelector('.sel-subj').value;
             const chap = row.querySelector('.sel-chap').value;
             const lessSel = row.querySelector('.sel-less');
-            
             if (!chap) return resetSelect(lessSel);
             
             const lessonsData = db[cls][subj][chap] || {};
@@ -294,6 +300,7 @@
             selectElem.disabled = true;
         }
 
+        // --- FORMATTERS ---
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
@@ -311,13 +318,13 @@
             if (!text || text === 'nan') return '';
             let teacherPart = String(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
             teacherPart = teacherPart.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
-            
             let cleaned = teacherPart.replace(/\|/g, '<br>').trim();
             if (cleaned.endsWith('<br>')) cleaned = cleaned.substring(0, cleaned.length - 4).trim();
             return `<div class="print-text">${cleaned}</div>`;
         }
 
-        function generatePrintPlan() {
+        // --- CORE LOGIC: BUILD TABLE IN BACKGROUND ---
+        function buildTableHTML() {
             const printArea = document.getElementById('print-area');
             printArea.innerHTML = '';
             
@@ -334,25 +341,17 @@
                     const subj = row.querySelector('.sel-subj').value;
                     const chap = row.querySelector('.sel-chap').value;
                     const lessKey = row.querySelector('.sel-less').value;
-                    if (!cls || !subj || !chap || lessKey === "") return;
-                    
-                    rowDataList.push({ cls, subj, chap, lessKey });
+                    if (cls && subj && chap && lessKey !== "") {
+                        rowDataList.push({ cls, subj, chap, lessKey });
+                    }
                 });
-                
-                if (rowDataList.length > 0) {
-                    validPeriods.push({ pNum, rowDataList });
-                }
+                if (rowDataList.length > 0) validPeriods.push({ pNum, rowDataList });
             });
 
-            if (validPeriods.length === 0) {
-                alert("Please fully select at least one lesson plan before printing.");
-                return;
-            }
+            if (validPeriods.length === 0) return false;
 
-            // Build the Smart Printing Container
             const pageDiv = document.createElement('div');
             pageDiv.className = 'print-page';
-            
             pageDiv.innerHTML = `
                 <div class="print-header">
                     <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
@@ -383,20 +382,14 @@
             
             const table = pageDiv.querySelector('table');
             
-            // Loop through each period and append it as its own TBODY block
             validPeriods.forEach(period => {
-                // tbody with CSS break-inside: avoid will lock this entire period together so it never tears across pages
                 const tbody = document.createElement('tbody');
-                
                 period.rowDataList.forEach((rData, rIndex) => {
                     const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
                     const p = plan.Panchapadi || {};
-                    
                     const tr = document.createElement('tr');
                     
-                    if (rIndex === 0) {
-                        tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
-                    }
+                    if (rIndex === 0) tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
 
                     tr.innerHTML += `
                         <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
@@ -410,15 +403,77 @@
                         <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
                         <td class="col-tlm">${formatPrint(plan.TLM)}</td>
                     `;
-                    
                     tbody.appendChild(tr);
                 });
-                
                 table.appendChild(tbody);
             });
             
             printArea.appendChild(pageDiv);
-            window.print();
+            return true;
+        }
+
+        // --- ACTION HANDLER (Print PDF or Share Image) ---
+        async function executeAction(actionType) {
+            if (!buildTableHTML()) {
+                alert("Please fully select at least one lesson plan before generating.");
+                return;
+            }
+
+            if (actionType === 'print') {
+                // Triggers native Browser Print / Save as PDF
+                window.print();
+            } 
+            else if (actionType === 'share') {
+                const btn = document.getElementById('btnShare');
+                const ogText = btn.innerHTML;
+                btn.innerHTML = '⏳ Generating Image...';
+                
+                const printArea = document.getElementById('print-area');
+                
+                // Temporarily force table on-screen (hidden behind UI) for image capture
+                printArea.style.display = 'block';
+                printArea.style.position = 'absolute';
+                printArea.style.left = '-9999px';
+                printArea.style.top = '0';
+                printArea.style.width = '1200px'; // Force A4 landscape width ratio
+                
+                try {
+                    const canvas = await html2canvas(printArea, { scale: 2, useCORS: true });
+                    
+                    canvas.toBlob(async (blob) => {
+                        const file = new File([blob], 'Daily_Lesson_Plan.jpg', { type: 'image/jpeg' });
+                        
+                        // Check if device supports Web Share API with Files (Android/iOS usually do)
+                        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                            await navigator.share({
+                                title: 'Daily Lesson Plan',
+                                text: 'Here is my lesson plan for today.',
+                                files: [file]
+                            });
+                        } else {
+                            // Fallback for Desktop: Auto-Download Image
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = 'Daily_Lesson_Plan.jpg';
+                            a.click();
+                            URL.revokeObjectURL(url);
+                            alert("Sharing to apps is not supported on this browser. The image has been downloaded instead.");
+                        }
+                    }, 'image/jpeg', 0.9);
+                } catch (err) {
+                    console.error(err);
+                    alert("Failed to generate shareable image.");
+                } finally {
+                    // Restore original hidden state
+                    printArea.style.display = 'none';
+                    printArea.style.position = '';
+                    printArea.style.left = '';
+                    printArea.style.top = '';
+                    printArea.style.width = '';
+                    btn.innerHTML = ogText;
+                }
+            }
         }
     </script>
 </body>
