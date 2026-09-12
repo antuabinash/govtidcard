@@ -6,7 +6,7 @@
     <title>Lesson Plan Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Industry Standard Direct PDF Generator -->
+    <!-- Direct PDF Generator -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
@@ -19,7 +19,7 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding: 2rem; }
         .container { max-width: 1000px; margin: 0 auto; }
         
@@ -54,81 +54,78 @@
         .spinner { border: 4px solid #e2e8f0; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 1rem auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- NATIVE MOBILE APP OPTIMIZATIONS --- */
+        /* Fullscreen Loading Modal during PDF creation */
+        #pdf-loading-modal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(4px);
+            z-index: 100000; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; color: white;
+        }
+
+        /* --- MOBILE SCREEN ADAPTATIONS --- */
         @media screen and (max-width: 768px) {
             body { padding: 1rem 0.75rem; }
             h1 { font-size: 1.5rem; }
             .card { padding: 1.25rem; }
-            
             .setup-flex { flex-direction: column; align-items: stretch !important; gap: 0.75rem !important; }
             .setup-flex input { max-width: 100% !important; }
-            
             .period-block { padding: 1rem; }
             .period-title { flex-direction: column; align-items: flex-start; gap: 0.75rem; font-size: 1.15rem; }
             .period-title button { width: 100%; padding: 0.75rem; }
-            
             .lesson-row { grid-template-columns: 1fr; gap: 0.85rem; position: relative; padding: 3rem 1rem 1rem 1rem; }
             .lesson-row > div:last-child { position: absolute; top: 0.75rem; right: 0.75rem; }
             .remove-btn { padding: 0.4rem 0.75rem; font-size: 0.85rem; border-radius: 0.4rem; }
-            
             .print-cta-card { flex-direction: column; text-align: center; gap: 1.25rem; }
             .action-buttons { display: flex; flex-direction: column; gap: 0.75rem; width: 100%; }
             .action-buttons button { width: 100%; }
         }
 
-        /* --- STRICT PDF EXPORT STYLES (Hidden from UI) --- */
-        /* This container uses exact millimeter sizing to guarantee perfect A4 Landscape rendering */
-        #pdf-export-container {
-            position: absolute;
-            left: -9999px;
-            top: 0;
-            width: 297mm; /* Exact A4 Landscape Width */
-            background: white;
-            color: black;
-            font-family: sans-serif;
-        }
-
-        .pdf-page {
-            width: 297mm;
-            padding: 10mm;
+        /* --- PDF & PRINT TABLE DESIGN --- */
+        #pdf-export-content {
+            width: 1122px; /* Standard A4 Landscape pixel canvas at 96 DPI */
+            background: #ffffff;
+            color: #000000;
+            padding: 24px;
+            font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif;
             box-sizing: border-box;
-            background: white;
         }
 
-        .pdf-header { text-align: center; margin-bottom: 15px; }
-        .pdf-header h2 { margin: 0 0 5px 0; font-size: 20px; text-transform: uppercase; color: black; }
-        .pdf-meta { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 10px; border-bottom: 2px solid #000; padding-bottom: 5px; color: black;}
+        .pdf-header { text-align: center; margin-bottom: 12px; }
+        .pdf-header h2 { margin: 0 0 6px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
+        .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
         
-        .pdf-table { width: 100%; border-collapse: collapse; font-size: 10.5px; table-layout: fixed; color: black; }
-        .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 6px; vertical-align: top; word-wrap: break-word; line-height: 1.3; }
-        .pdf-table th { background-color: #e5e7eb !important; font-weight: bold; text-align: left; }
+        .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
+        .pdf-table thead { display: table-header-group; }
+        .pdf-table tbody { page-break-inside: avoid; break-inside: avoid; } /* Smart Auto-Break: never splits period */
+        .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 5px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
+        .pdf-table th { background-color: #f1f5f9 !important; font-weight: bold; text-align: left; }
         
-        .col-period { width: 3%; text-align: center; font-weight: bold; }
-        .col-class { width: 7%; }
+        /* Calculated Column Widths */
+        .col-period { width: 3.5%; text-align: center; font-weight: bold; }
+        .col-class { width: 7.5%; }
         .col-topic { width: 10%; }
         .col-comp { width: 8%; }
         .col-lo { width: 9%; }
         .col-aditi { width: 9%; }
-        .col-bodha { width: 15%; }
+        .col-bodha { width: 15%; } /* Extra width for dense text */
         .col-abhyasa { width: 9%; }
-        .col-prayoga { width: 11%; }
-        .col-prasara { width: 11%; }
+        .col-prayoga { width: 10.5%; }
+        .col-prasara { width: 10.5%; }
         .col-tlm { width: 8%; }
         
-        .pdf-text { margin-bottom: 4px; }
-        .pdf-text b { font-size: 10px; }
+        .pdf-text { margin-bottom: 3px; }
+        .pdf-text b { font-size: 9px; }
 
-        /* Fallback Native Print styles just in case they click "Print (Vector)" */
         @media print {
             .no-print, .container { display: none !important; }
-            #pdf-export-container { position: static !important; left: 0 !important; display: block !important; }
-            @page { size: A4 landscape; margin: 0mm; }
-            .pdf-page { page-break-after: always; }
+            #pdf-export-content { position: static !important; display: block !important; width: 100% !important; padding: 0 !important; }
+            @page { size: A4 landscape; margin: 6mm; }
         }
     </style>
 </head>
 <body>
 
+    <!-- UI SECTION -->
     <div class="container no-print">
         <header>
             <h1>🖨️ Lesson Plan Generator</h1>
@@ -154,19 +151,25 @@
             <div class="card print-cta-card" style="display: flex; justify-content: space-between; align-items: center; background: #e0e7ff; border-color: var(--primary);">
                 <div>
                     <h3 style="color: var(--primary); margin-bottom: 0.25rem;">Plan Complete?</h3>
-                    <p style="font-size: 0.95rem; color: #4338ca;">Download a high-quality PDF directly to your device.</p>
+                    <p style="font-size: 0.95rem; color: #4338ca;">Download a crystal-clear A4 Landscape PDF directly.</p>
                 </div>
                 <div class="action-buttons" style="display: flex; gap: 0.5rem;">
-                    <button id="btnDownload" class="btn btn-success" onclick="downloadDirectPDF()">📥 Download PDF</button>
-                    <!-- Kept as a fallback: Native Print offers true vector rendering -->
-                    <button class="btn" onclick="nativePrintPDF()">🖨️ Print (Vector)</button>
+                    <button id="btnDownload" class="btn btn-success" onclick="downloadDirectPDF()">📥 Download Direct PDF</button>
+                    <button class="btn" onclick="nativePrintPDF()">🖨️ Print / Vector PDF</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- INVISIBLE HIGH-RES PDF CONTAINER -->
-    <div id="pdf-export-container"></div>
+    <!-- FULLSCREEN LOADING MODAL -->
+    <div id="pdf-loading-modal" class="hidden">
+        <div class="spinner" style="border-color: rgba(255,255,255,0.2); border-top-color: #fff; width: 50px; height: 50px; margin-bottom: 1.5rem;"></div>
+        <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem;">Rendering High-Res PDF...</h2>
+        <p style="color: #cbd5e1; font-size: 0.95rem;">Compiling Panchapadi steps and Odia text.</p>
+    </div>
+
+    <!-- RENDER CONTAINER (Hidden until PDF generation) -->
+    <div id="pdf-export-content" style="display: none;"></div>
 
     <script>
         let db = {};
@@ -282,7 +285,6 @@
 
         function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
-        // --- FORMATTERS ---
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
@@ -305,9 +307,8 @@
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
-        // --- HTML BUILDER (A4 Strict Sizing) ---
         function buildPDFHTML() {
-            const container = document.getElementById('pdf-export-container');
+            const container = document.getElementById('pdf-export-content');
             container.innerHTML = '';
             
             const periodBlocks = document.querySelectorAll('.period-block');
@@ -329,112 +330,120 @@
 
             if (validPeriods.length === 0) return false;
 
-            const periodsPerPage = 4;
-            
-            for (let i = 0; i < validPeriods.length; i += periodsPerPage) {
-                const chunk = validPeriods.slice(i, i + periodsPerPage);
-                
-                const pageDiv = document.createElement('div');
-                pageDiv.className = 'pdf-page';
-                
-                // For html2pdf.js pagination engine
-                if (i > 0) {
-                    const pageBreak = document.createElement('div');
-                    pageBreak.className = 'html2pdf__page-break';
-                    container.appendChild(pageBreak);
-                }
-
-                pageDiv.innerHTML = `
-                    <div class="pdf-header">
-                        <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
-                        <div class="pdf-meta">
-                            <span>Teacher Name: _______________________</span>
-                            <span>Date: ____/____/20___</span>
-                            <span>Day: _______________</span>
-                        </div>
+            container.innerHTML = `
+                <div class="pdf-header">
+                    <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
+                    <div class="pdf-meta">
+                        <span>Teacher Name: _______________________</span>
+                        <span>Date: ____/____/20___</span>
+                        <span>Day: _______________</span>
                     </div>
-                    <table class="pdf-table">
-                        <thead>
-                            <tr>
-                                <th class="col-period">Prd</th>
-                                <th class="col-class">Class/Subj</th>
-                                <th class="col-topic">Topic</th>
-                                <th class="col-comp">Competency</th>
-                                <th class="col-lo">Learning Outcome</th>
-                                <th class="col-aditi">ଅଧୀତି (Adhiti)</th>
-                                <th class="col-bodha">ବୋଧ (Bodha)</th>
-                                <th class="col-abhyasa">ଅଭ୍ୟାସ (Abhyasa)</th>
-                                <th class="col-prayoga">ପ୍ରୟୋଗ (Prayoga)</th>
-                                <th class="col-prasara">ପ୍ରସାର (Prasara)</th>
-                                <th class="col-tlm">TLM</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                `;
-                
-                const tbody = pageDiv.querySelector('tbody');
-                
-                chunk.forEach(period => {
-                    period.rowDataList.forEach((rData, rIndex) => {
-                        const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
-                        const p = plan.Panchapadi || {};
-                        const tr = document.createElement('tr');
-                        
-                        if (rIndex === 0) tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
+                </div>
+                <table class="pdf-table">
+                    <thead>
+                        <tr>
+                            <th class="col-period">Prd</th>
+                            <th class="col-class">Class/Subj</th>
+                            <th class="col-topic">Topic</th>
+                            <th class="col-comp">Competency</th>
+                            <th class="col-lo">Learning Outcome</th>
+                            <th class="col-aditi">ଅଧୀତି (Adhiti)</th>
+                            <th class="col-bodha">ବୋଧ (Bodha)</th>
+                            <th class="col-abhyasa">ଅଭ୍ୟାସ (Abhyasa)</th>
+                            <th class="col-prayoga">ପ୍ରୟୋଗ (Prayoga)</th>
+                            <th class="col-prasara">ପ୍ରସାର (Prasara)</th>
+                            <th class="col-tlm">TLM</th>
+                        </tr>
+                    </thead>
+                </table>
+            `;
 
-                        tr.innerHTML += `
-                            <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
-                            <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                            <td class="col-comp">${formatPrint(plan.Competency)}</td>
-                            <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
-                            <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
-                            <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
-                            <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
-                            <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
-                            <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
-                            <td class="col-tlm">${formatPrint(plan.TLM)}</td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
+            const table = container.querySelector('table');
+
+            validPeriods.forEach(period => {
+                const tbody = document.createElement('tbody');
+                period.rowDataList.forEach((rData, rIndex) => {
+                    const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
+                    const p = plan.Panchapadi || {};
+                    const tr = document.createElement('tr');
+                    
+                    if (rIndex === 0) tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
+
+                    tr.innerHTML += `
+                        <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
+                        <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
+                        <td class="col-comp">${formatPrint(plan.Competency)}</td>
+                        <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
+                        <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
+                        <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
+                        <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
+                        <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
+                        <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
+                        <td class="col-tlm">${formatPrint(plan.TLM)}</td>
+                    `;
+                    tbody.appendChild(tr);
                 });
-                container.appendChild(pageDiv);
-            }
+                table.appendChild(tbody);
+            });
+
             return true;
         }
 
-        // --- 1. DIRECT PDF DOWNLOAD (High Quality Configuration) ---
-        function downloadDirectPDF() {
+        // --- DIRECT PDF DOWNLOAD ENGINE ---
+        async function downloadDirectPDF() {
             if (!buildPDFHTML()) return alert("Please fully select at least one lesson plan.");
 
-            const btn = document.getElementById('btnDownload');
-            const ogText = btn.innerHTML;
-            btn.innerHTML = '⏳ Generating PDF...';
-
-            const element = document.getElementById('pdf-export-container');
+            const modal = document.getElementById('pdf-loading-modal');
+            const element = document.getElementById('pdf-export-content');
             
-            // The Secret Configuration for Crystal Clear Odia Font Rendering inside a PDF
-            var opt = {
-                margin:       0, // Margins handled by CSS padding
+            modal.classList.remove('hidden');
+
+            // Set coordinates to (0,0) so html2canvas renders the content cleanly
+            element.style.display = 'block';
+            element.style.position = 'fixed';
+            element.style.top = '0';
+            element.style.left = '0';
+            element.style.zIndex = '9999'; // Underneath the modal (z-index 100000)
+
+            // Allow the browser a brief moment to calculate layout and fonts
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            const opt = {
+                margin:       [6, 6, 6, 6],
                 filename:     'Daily_Lesson_Plan.pdf',
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { scale: 4, useCORS: true, letterRendering: true }, // Scale 4 = Retina Resolution Quality
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2.5, // Crisp 240 DPI on a 16GB PC
+                    useCORS: true, 
+                    logging: false,
+                    scrollX: 0,
+                    scrollY: 0
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
+                pagebreak:    { mode: ['css', 'legacy'], avoid: 'tbody' }
             };
 
-            html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerHTML = ogText;
-            }).catch(err => {
+            try {
+                await html2pdf().set(opt).from(element).save();
+            } catch (err) {
                 console.error(err);
-                alert("An error occurred during PDF generation.");
-                btn.innerHTML = ogText;
-            });
+                alert("An error occurred while generating the PDF.");
+            } finally {
+                element.style.display = 'none';
+                element.style.position = '';
+                element.style.top = '';
+                element.style.left = '';
+                element.style.zIndex = '';
+                modal.classList.add('hidden');
+            }
         }
 
-        // --- 2. FALLBACK NATIVE PRINT (100% True Vector) ---
         function nativePrintPDF() {
             if (!buildPDFHTML()) return alert("Please fully select at least one lesson plan.");
+            const element = document.getElementById('pdf-export-content');
+            element.style.display = 'block';
             window.print();
+            element.style.display = 'none';
         }
     </script>
 </body>
