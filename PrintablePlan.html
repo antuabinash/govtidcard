@@ -64,14 +64,7 @@
             .period-title { flex-direction: column; align-items: flex-start; gap: 0.75rem; font-size: 1.15rem; }
             .period-title button { width: 100%; padding: 0.75rem; }
             
-            /* Stack form inputs vertically on mobile */
-            .lesson-row { 
-                grid-template-columns: 1fr; 
-                gap: 0.85rem; 
-                position: relative;
-                padding: 3rem 1rem 1rem 1rem; 
-            }
-            /* Pin the remove button to the top right of the stacked card */
+            .lesson-row { grid-template-columns: 1fr; gap: 0.85rem; position: relative; padding: 3rem 1rem 1rem 1rem; }
             .lesson-row > div:last-child { position: absolute; top: 0.75rem; right: 0.75rem; }
             .remove-btn { padding: 0.4rem 0.75rem; font-size: 0.85rem; border-radius: 0.4rem; }
             
@@ -79,7 +72,7 @@
             .print-cta-card button { width: 100%; }
         }
 
-        /* --- PRINT STYLES (A4 Landscape - Strict 4-Period Pages) --- */
+        /* --- PRINT STYLES (A4 Landscape - 11 Columns) --- */
         @media print {
             @page { size: A4 landscape; margin: 6mm; }
             body { margin: 0; padding: 0; background: white; font-family: sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -94,16 +87,19 @@
             .print-header h2 { margin: 0 0 5px 0; font-size: 18px; text-transform: uppercase; }
             .print-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; }
             
-            table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; }
-            th, td { border: 1px solid #000; padding: 5px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
+            /* Tighter padding to fit 11 columns */
+            table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; }
+            th, td { border: 1px solid #000; padding: 4px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
             th { background-color: #f0f0f0 !important; font-weight: bold; text-align: left; }
             
+            /* Calculated Column Widths for 11 Columns (Total 100%) */
             .col-period { width: 3%; text-align: center; font-weight: bold; }
-            .col-class { width: 8%; }
-            .col-topic { width: 10%; }
-            .col-lo { width: 15%; }
-            .col-step { width: 11.5%; } 
-            .col-tlm { width: 6.5%; }
+            .col-class { width: 7%; }
+            .col-topic { width: 9%; }
+            .col-comp { width: 9%; }
+            .col-lo { width: 10%; }
+            .col-step { width: 11%; } /* 5 columns * 11 = 55% */
+            .col-tlm { width: 7%; }
             
             .print-text { margin-bottom: 3px; }
             .print-text b { font-size: 9px; }
@@ -371,7 +367,8 @@
                                 <th class="col-period">Prd</th>
                                 <th class="col-class">Class/Subj</th>
                                 <th class="col-topic">Topic</th>
-                                <th class="col-lo">Competency & LO</th>
+                                <th class="col-comp">Competency</th>
+                                <th class="col-lo">Learning Outcome</th>
                                 <th class="col-step">ଅଧୀତି (Adhiti)</th>
                                 <th class="col-step">ବୋଧ (Bodha)</th>
                                 <th class="col-step">ଅଭ୍ୟାସ (Abhyasa)</th>
@@ -400,10 +397,8 @@
                         tr.innerHTML += `
                             <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
                             <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                            <td class="col-lo">
-                                <b>Comp:</b><br>${formatPrint(plan.Competency)}
-                                <br><b>LO:</b><br>${formatLO(plan.LearningOutcomes)}
-                            </td>
+                            <td class="col-comp">${formatPrint(plan.Competency)}</td>
+                            <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
                             <td class="col-step">${formatPanchapadi(p.Aditi)}</td>
                             <td class="col-step">${formatPanchapadi(p.Bodha)}</td>
                             <td class="col-step">${formatPanchapadi(p.Abhyasa)}</td>
