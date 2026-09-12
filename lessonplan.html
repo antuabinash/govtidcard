@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ଶିକ୍ଷକ ସାଥୀ Portal</title>
+    <title>ଶିକ୍ଷକ ସାଥୀ - Lesson Plans</title>
     <style>
         /* === App Variables & Reset === */
         :root {
@@ -161,18 +161,8 @@
         }
 
         /* Themed Icon Colors */
-        .bg-blue { background: #E0F2FE; color: #0284C7; }
-        .bg-gold { background: #FEF3C7; color: #D97706; }
-        .bg-indigo { background: #E0E7FF; color: #4F46E5; }
-        .bg-rose { background: #FFE4E6; color: #E11D48; }
-        .bg-teal { background: #CCFBF1; color: #0D9488; }
         .bg-purple { background: #EDE9FE; color: #7C3AED; }
-        .bg-emerald { background: #D1FAE5; color: #059669; }
-        .bg-pink { background: #FCE7F3; color: #DB2777; }
-        .bg-orange { background: #FFEDD5; color: #EA580C; }
-        .bg-brown { background: #F3E8E0; color: #8B4513; }
-        .bg-slate { background: #E2E8F0; color: #475569; }
-        .bg-cyan { background: #CFFAFE; color: #0891B2; }
+        .bg-teal { background: #CCFBF1; color: #0D9488; }
 
         /* Card Text */
         .app-card h3 {
@@ -209,17 +199,8 @@
             z-index: 10;
         }
 
-        .badge-hot { background: linear-gradient(135deg, #F97316, #EA580C); box-shadow: 0 4px 8px rgba(234, 88, 12, 0.3); }
         .badge-new { background: linear-gradient(135deg, #EF4444, #DC2626); box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3); }
-        .badge-daily { background: linear-gradient(135deg, #8B5CF6, #6D28D9); box-shadow: 0 4px 8px rgba(109, 40, 217, 0.3); }
-        .badge-alert { background: linear-gradient(135deg, #F43F5E, #BE123C); box-shadow: 0 4px 8px rgba(190, 18, 60, 0.3); animation: pulse 2s infinite; }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
         /* Utility */
         .hidden { display: none !important; }
 
@@ -230,11 +211,11 @@
     <header>
         <div class="header-content">
             <!-- Hamburger Menu Button (Left) -->
-            <button class="hamburger-btn" aria-label="Menu" onclick="alert('Menu clicked - link your sidebar here!')">
+            <button class="hamburger-btn" aria-label="Menu" onclick="window.history.back();">
+                <!-- Changed to a Back Arrow icon for easier navigation -->
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
             </button>
 
@@ -245,121 +226,26 @@
 
     <!-- Smart Search Bar -->
     <div class="search-container">
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search tools, links, books..." onkeyup="filterTiles()">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search lesson plans..." onkeyup="filterTiles()">
     </div>
 
     <div class="container">
         <!-- MAIN DASHBOARD VIEW -->
         <div class="app-grid" id="tile-grid">
 
-            <!-- 1. Lesson Plan (New) -->
-            <a href="lessonplan.html" class="app-card">
+            <!-- 1. Lesson Plan -->
+            <a href="lsplan.html" class="app-card">
                 <div class="icon-box bg-purple">📝</div>
                 <h3>Lesson Plan</h3>
-                <p>Access and create daily lesson plans easily.</p>
+                <p>Access and create your standard lesson plans easily.</p>
             </a>
 
-            <!-- 2. Textbook Solutions -->
-            <a href="final/index.html" class="app-card">
-                <div class="icon-box bg-teal">💡</div>
-                <h3>Solutions Guide</h3>
-                <p>Comprehensive, step-by-step textbook solutions.</p>
-            </a>
-
-            <!-- 3. Student Textbooks (Moved to 3rd) -->
-            <a href="textbook.html" class="app-card">
-                <div class="icon-box bg-blue">📚</div>
-                <h3>Textbooks</h3>
-                <p>Digital textbooks, syllabus, and study materials (Class 1-10).</p>
-            </a>
-
-            <!-- Useful Apps -->
-            <a href="usefullapp.html" class="app-card">
-                <div class="icon-box bg-cyan">📱</div>
-                <h3>Useful Apps</h3>
-                <p>Essential educational and departmental Android apps.</p>
-            </a>
-
-            <!-- HIDDEN: Salary Bill 
-            <a href="mrbill.html" class="app-card">
-                <div class="badge badge-hot">Hot</div>
-                <div class="icon-box bg-blue">💸</div>
-                <h3>Salary Bill Gen</h3>
-                <p>Generate and download monthly salary bills securely.</p>
-            </a>
-            -->
-
-            <!-- Student ID -->
-            <a href="id.html" class="app-card">
+            <!-- 2. Daily Lesson Plan (Printable) -->
+            <a href="PrintablePlan.html" class="app-card">
                 <div class="badge badge-new">New</div>
-                <div class="icon-box bg-gold">🪪</div>
-                <h3>Student ID</h3>
-                <p>Order high-quality, government-style student ID cards.</p>
-            </a>
-
-            <!-- Daily Prayer News -->
-            <a href="news.html" class="app-card">
-                <div class="badge badge-daily">Daily</div>
-                <div class="icon-box bg-indigo">📰</div>
-                <h3>Prayer News</h3>
-                <p>Latest headlines, thought for the day, and current affairs.</p>
-            </a>
-
-            <!-- Sikhya Suchana -->
-            <a href="suchana.html" class="app-card">
-                <div class="badge badge-alert">Alert</div>
-                <div class="icon-box bg-rose">🔔</div>
-                <h3>Sikhya Suchana</h3>
-                <p>Educational notices, circulars, and departmental updates.</p>
-            </a>
-
-            <!-- HRMS Links -->
-            <a href="https://apps.hrmsodisha.gov.in/index.htm" class="app-card">
-                <div class="icon-box bg-slate">🌐</div>
-                <h3>HRMS</h3>
-                <p>Direct access to Odisha HRMS, OSEPA, and official teacher portals.</p>
-            </a>
-
-             <!-- OSEPA Links -->
-            <a href="https://osepa.odisha.gov.in/" class="app-card">
-                <div class="icon-box bg-slate">🌐</div>
-                <h3>OSEPA</h3>
-                <p>Direct access to Odisha HRMS, OSEPA, and official teacher portals.</p>
-            </a>
-
-            <!-- Leave App -->
-            <a href="leave.html" class="app-card">
-                <div class="icon-box bg-purple">✍️</div>
-                <h3>Leave Writer</h3>
-                <p>Auto-generate handwritten casual leave applications.</p>
-            </a>
-
-            <!-- Holiday List -->
-            <a href="holiday.html" class="app-card">
-                <div class="icon-box bg-emerald">🗓️</div>
-                <h3>Holiday List</h3>
-                <p>Complete 2026 calendar year schedule for Elementary Schools.</p>
-            </a>
-
-            <!-- Age Calc -->
-            <a href="calculator.html" class="app-card">
-                <div class="icon-box bg-pink">🧮</div>
-                <h3>Age Calculator</h3>
-                <p>Check NEP 2020 admission eligibility for Sishu Vatika/Class 1.</p>
-            </a>
-
-            <!-- Full Forms -->
-            <a href="fullform.html" class="app-card">
-                <div class="icon-box bg-orange">📖</div>
-                <h3>Full Forms</h3>
-                <p>Dictionary of 200+ essential Odisha educational acronyms.</p>
-            </a>
-
-            <!-- OTET -->
-            <a href="otet.html" class="app-card">
-                <div class="icon-box bg-brown">🎓</div>
-                <h3>OTET Schedule</h3>
-                <p>Historical dates and upcoming exam timelines.</p>
+                <div class="icon-box bg-teal">🖨️</div>
+                <h3>Daily Lesson Plan</h3>
+                <p>Generate, format, and download daily printable lesson plans.</p>
             </a>
 
         </div>
