@@ -26,11 +26,11 @@
         .card { background: var(--card-bg); padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 1.5rem; }
         
         label { font-weight: 600; display: block; margin-bottom: 0.5rem; font-size: 0.95rem; color: #334155; }
-        input[type="number"], select { 
+        input[type="text"], input[type="number"], input[type="date"], select { 
             width: 100%; padding: 0.85rem; border-radius: 0.6rem; border: 1px solid #cbd5e1; 
             font-size: 1rem; background: #f8fafc; outline: none; transition: 0.2s;
         }
-        input[type="number"]:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); background: #ffffff; }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); background: #ffffff; }
         
         .btn { background: var(--primary); color: white; padding: 1rem 1.5rem; border-radius: 0.6rem; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 1.1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
         .btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
@@ -44,6 +44,8 @@
         .remove-btn { background: #fee2e2; color: #dc2626; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer; border: none; font-weight: bold; transition: 0.2s; }
         .remove-btn:hover { background: #fecaca; }
         
+        .setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+        
         .hidden { display: none !important; }
         
         .spinner { border: 4px solid #e2e8f0; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 1rem auto; }
@@ -54,8 +56,7 @@
             body { padding: 1rem 0.75rem; }
             h1 { font-size: 1.5rem; }
             .card { padding: 1.25rem; }
-            .setup-flex { flex-direction: column; align-items: stretch !important; gap: 0.75rem !important; }
-            .setup-flex input { max-width: 100% !important; }
+            .setup-grid { grid-template-columns: 1fr; gap: 1rem; }
             .period-block { padding: 1rem; }
             .period-title { flex-direction: column; align-items: flex-start; gap: 0.75rem; font-size: 1.15rem; }
             .period-title button { width: 100%; padding: 0.75rem; }
@@ -77,9 +78,12 @@
             }
             @page { size: A4 landscape; margin: 6mm; }
             body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            
             .pdf-header { text-align: center; margin-bottom: 12px; }
-            .pdf-header h2 { margin: 0 0 6px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
+            .pdf-header h2 { margin: 0 0 4px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
+            .pdf-school { font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #334155; }
             .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
+            
             .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
             .pdf-table thead { display: table-header-group; }
             .pdf-table tbody, .pdf-table tr { page-break-inside: avoid; break-inside: avoid; } 
@@ -104,6 +108,7 @@
 </head>
 <body>
 
+    <!-- UI SECTION -->
     <div class="container no-print">
         <header>
             <h1>🖨️ Lesson Plan Generator</h1>
@@ -115,12 +120,26 @@
         </div>
 
         <div id="setup-card" class="card hidden">
-            <h2 style="margin-bottom: 1rem;">Setup Daily Routine</h2>
-            <label>How many teaching periods do you have today?</label>
-            <div class="setup-flex" style="display: flex; gap: 1rem; align-items: center;">
-                <input type="number" id="numPeriods" min="1" max="10" value="7" style="max-width: 150px;">
-                <button class="btn" onclick="buildPeriodForms()">Start Planning</button>
+            <h2 style="margin-bottom: 1rem;">Daily Plan Setup</h2>
+            <div class="setup-grid">
+                <div>
+                    <label>School Name</label>
+                    <input type="text" id="schoolName" placeholder="Enter School Name...">
+                </div>
+                <div>
+                    <label>Teacher Name</label>
+                    <input type="text" id="teacherName" placeholder="Enter Your Name...">
+                </div>
+                <div>
+                    <label>Plan Date</label>
+                    <input type="date" id="planDate">
+                </div>
+                <div>
+                    <label>Teaching Periods Today</label>
+                    <input type="number" id="numPeriods" min="1" max="10" value="7">
+                </div>
             </div>
+            <button class="btn" style="width: 100%;" onclick="buildPeriodForms()">Start Planning</button>
         </div>
 
         <div id="builder-area" class="hidden">
@@ -146,6 +165,9 @@
         let classList = [];
 
         document.addEventListener("DOMContentLoaded", () => {
+            // Auto-fill today's date by default
+            document.getElementById('planDate').valueAsDate = new Date();
+
             fetch('master_lesson_database.json')
                 .then(response => response.json())
                 .then(data => {
@@ -153,7 +175,6 @@
                     classList = Object.keys(db).sort();
                     document.getElementById('status-card').classList.add('hidden');
                     
-                    // Try to load saved memory, if none exists, show the setup screen
                     if (!loadPlanFromStorage()) {
                         document.getElementById('setup-card').classList.remove('hidden');
                     }
@@ -183,6 +204,9 @@
             });
 
             localStorage.setItem('lessonGuruAutoSave', JSON.stringify({
+                schoolName: document.getElementById('schoolName').value,
+                teacherName: document.getElementById('teacherName').value,
+                planDate: document.getElementById('planDate').value,
                 numPeriods: numPeriods,
                 periods: validPeriods
             }));
@@ -194,6 +218,12 @@
 
             try {
                 const data = JSON.parse(saved);
+                
+                // Restore Profile Data
+                if(data.schoolName) document.getElementById('schoolName').value = data.schoolName;
+                if(data.teacherName) document.getElementById('teacherName').value = data.teacherName;
+                if(data.planDate) document.getElementById('planDate').value = data.planDate;
+
                 if (!data.periods || data.periods.length === 0) return false;
                 
                 document.getElementById('numPeriods').value = data.numPeriods;
@@ -230,7 +260,16 @@
 
         function clearSavedPlan() {
             if(confirm("Are you sure you want to clear your current plan and start fresh?")) {
+                // Keep the teacher's profile info but wipe the periods
+                const sName = document.getElementById('schoolName').value;
+                const tName = document.getElementById('teacherName').value;
+                
                 localStorage.removeItem('lessonGuruAutoSave');
+                
+                document.getElementById('schoolName').value = sName;
+                document.getElementById('teacherName').value = tName;
+                document.getElementById('planDate').valueAsDate = new Date(); // Reset to today
+
                 document.getElementById('builder-area').classList.add('hidden');
                 document.getElementById('setup-card').classList.remove('hidden');
                 document.getElementById('periods-container').innerHTML = '';
@@ -284,7 +323,6 @@
             `;
             container.appendChild(row);
 
-            // If loading from memory, cascade the dropdowns automatically
             if (presetData && presetData.cls) {
                 row.querySelector('.sel-class').value = presetData.cls;
                 updateSubjects(rowId);
@@ -351,7 +389,6 @@
 
         function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
-        // --- PDF ENGINE ---
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
@@ -397,13 +434,25 @@
 
             if (validPeriods.length === 0) return false;
 
+            // Fetch Header Values
+            const schoolName = document.getElementById('schoolName').value || "_______________________";
+            const teacherName = document.getElementById('teacherName').value || "_______________________";
+            
+            // Format the raw YYYY-MM-DD date into nice DD/MM/YYYY
+            const rawDate = document.getElementById('planDate').value;
+            let formattedDate = "____/____/20___";
+            if(rawDate) {
+                const parts = rawDate.split('-');
+                if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+
             container.innerHTML = `
                 <div class="pdf-header">
                     <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
+                    <div class="pdf-school">School: ${schoolName}</div>
                     <div class="pdf-meta">
-                        <span>Teacher Name: _______________________</span>
-                        <span>Date: ____/____/20___</span>
-                        <span>Day: _______________</span>
+                        <span>Teacher Name: ${teacherName}</span>
+                        <span>Date: ${formattedDate}</span>
                     </div>
                 </div>
                 <table class="pdf-table">
