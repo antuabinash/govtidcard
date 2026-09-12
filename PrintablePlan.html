@@ -72,7 +72,7 @@
             .print-cta-card button { width: 100%; }
         }
 
-        /* --- PRINT STYLES (A4 Landscape - 11 Columns) --- */
+        /* --- SMART PRINT STYLES (A4 Landscape - Dynamic Auto-Breaks) --- */
         @media print {
             @page { size: A4 landscape; margin: 6mm; }
             body { margin: 0; padding: 0; background: white; font-family: sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -80,26 +80,31 @@
             .no-print { display: none !important; }
             #print-area { display: block; width: 100%; }
             
-            .print-page { page-break-after: always; break-after: page; width: 100%; padding-bottom: 10px; }
-            .print-page:last-child { page-break-after: auto; break-after: auto; }
-            
             .print-header { text-align: center; margin-bottom: 10px; }
             .print-header h2 { margin: 0 0 5px 0; font-size: 18px; text-transform: uppercase; }
             .print-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; }
             
-            /* Tighter padding to fit 11 columns */
+            /* The Smart Table Engine */
             table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; }
+            thead { display: table-header-group; } /* Automatically repeats headers on new pages */
+            tbody { page-break-inside: avoid; break-inside: avoid; } /* Prevents a period from tearing in half */
+            tr { page-break-inside: avoid; break-inside: avoid; }
+            
             th, td { border: 1px solid #000; padding: 4px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
             th { background-color: #f0f0f0 !important; font-weight: bold; text-align: left; }
             
-            /* Calculated Column Widths for 11 Columns (Total 100%) */
+            /* Custom Widths: Bodha gets maximum width (15%) */
             .col-period { width: 3%; text-align: center; font-weight: bold; }
             .col-class { width: 7%; }
-            .col-topic { width: 9%; }
-            .col-comp { width: 9%; }
-            .col-lo { width: 10%; }
-            .col-step { width: 11%; } /* 5 columns * 11 = 55% */
-            .col-tlm { width: 7%; }
+            .col-topic { width: 10%; }
+            .col-comp { width: 8%; }
+            .col-lo { width: 9%; }
+            .col-aditi { width: 9%; }
+            .col-bodha { width: 15%; } /* <-- Maximized for dense text */
+            .col-abhyasa { width: 9%; }
+            .col-prayoga { width: 11%; }
+            .col-prasara { width: 11%; }
+            .col-tlm { width: 8%; }
             
             .print-text { margin-bottom: 3px; }
             .print-text b { font-size: 9px; }
@@ -344,76 +349,75 @@
                 return;
             }
 
-            const periodsPerPage = 4;
+            // Build the Smart Printing Container
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'print-page';
             
-            for (let i = 0; i < validPeriods.length; i += periodsPerPage) {
-                const chunk = validPeriods.slice(i, i + periodsPerPage);
-                
-                const pageDiv = document.createElement('div');
-                pageDiv.className = 'print-page';
-                
-                pageDiv.innerHTML = `
-                    <div class="print-header">
-                        <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
-                        <div class="print-meta">
-                            <span>Teacher Name: _______________________</span>
-                            <span>Date: ____/____/20___</span>
-                            <span>Day: _______________</span>
-                        </div>
+            pageDiv.innerHTML = `
+                <div class="print-header">
+                    <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
+                    <div class="print-meta">
+                        <span>Teacher Name: _______________________</span>
+                        <span>Date: ____/____/20___</span>
+                        <span>Day: _______________</span>
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="col-period">Prd</th>
-                                <th class="col-class">Class/Subj</th>
-                                <th class="col-topic">Topic</th>
-                                <th class="col-comp">Competency</th>
-                                <th class="col-lo">Learning Outcome</th>
-                                <th class="col-step">ଅଧୀତି (Adhiti)</th>
-                                <th class="col-step">ବୋଧ (Bodha)</th>
-                                <th class="col-step">ଅଭ୍ୟାସ (Abhyasa)</th>
-                                <th class="col-step">ପ୍ରୟୋଗ (Prayoga)</th>
-                                <th class="col-step">ପ୍ରସାର (Prasara)</th>
-                                <th class="col-tlm">TLM</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                `;
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-period">Prd</th>
+                            <th class="col-class">Class/Subj</th>
+                            <th class="col-topic">Topic</th>
+                            <th class="col-comp">Competency</th>
+                            <th class="col-lo">Learning Outcome</th>
+                            <th class="col-aditi">ଅଧୀତି (Adhiti)</th>
+                            <th class="col-bodha">ବୋଧ (Bodha)</th>
+                            <th class="col-abhyasa">ଅଭ୍ୟାସ (Abhyasa)</th>
+                            <th class="col-prayoga">ପ୍ରୟୋଗ (Prayoga)</th>
+                            <th class="col-prasara">ପ୍ରସାର (Prasara)</th>
+                            <th class="col-tlm">TLM</th>
+                        </tr>
+                    </thead>
+                </table>
+            `;
+            
+            const table = pageDiv.querySelector('table');
+            
+            // Loop through each period and append it as its own TBODY block
+            validPeriods.forEach(period => {
+                // tbody with CSS break-inside: avoid will lock this entire period together so it never tears across pages
+                const tbody = document.createElement('tbody');
                 
-                const tbody = pageDiv.querySelector('tbody');
-                
-                chunk.forEach(period => {
-                    period.rowDataList.forEach((rData, rIndex) => {
-                        const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
-                        const p = plan.Panchapadi || {};
-                        
-                        const tr = document.createElement('tr');
-                        
-                        if (rIndex === 0) {
-                            tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
-                        }
+                period.rowDataList.forEach((rData, rIndex) => {
+                    const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
+                    const p = plan.Panchapadi || {};
+                    
+                    const tr = document.createElement('tr');
+                    
+                    if (rIndex === 0) {
+                        tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
+                    }
 
-                        tr.innerHTML += `
-                            <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
-                            <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                            <td class="col-comp">${formatPrint(plan.Competency)}</td>
-                            <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
-                            <td class="col-step">${formatPanchapadi(p.Aditi)}</td>
-                            <td class="col-step">${formatPanchapadi(p.Bodha)}</td>
-                            <td class="col-step">${formatPanchapadi(p.Abhyasa)}</td>
-                            <td class="col-step">${formatPanchapadi(p.Prayoga)}</td>
-                            <td class="col-step">${formatPanchapadi(p.Prasara)}</td>
-                            <td class="col-tlm">${formatPrint(plan.TLM)}</td>
-                        `;
-                        
-                        tbody.appendChild(tr);
-                    });
+                    tr.innerHTML += `
+                        <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
+                        <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
+                        <td class="col-comp">${formatPrint(plan.Competency)}</td>
+                        <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
+                        <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
+                        <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
+                        <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
+                        <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
+                        <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
+                        <td class="col-tlm">${formatPrint(plan.TLM)}</td>
+                    `;
+                    
+                    tbody.appendChild(tr);
                 });
                 
-                printArea.appendChild(pageDiv);
-            }
-
+                table.appendChild(tbody);
+            });
+            
+            printArea.appendChild(pageDiv);
             window.print();
         }
     </script>
