@@ -6,7 +6,7 @@
     <title>Lesson Plan Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Industry Standard Screenshot Engine for Sharing -->
+    <!-- Industry Standard Screenshot Engine -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <style>
@@ -78,7 +78,7 @@
             .action-buttons button { width: 100%; }
         }
 
-        /* --- GLOBAL TABLE STYLES (Used by Browser Print & Image Share) --- */
+        /* --- GLOBAL TABLE STYLES --- */
         #print-area { display: none; background: white; font-family: sans-serif; color: black; }
         .print-page { width: 100%; padding-bottom: 10px; background: white; }
         .print-header { text-align: center; margin-bottom: 10px; }
@@ -103,6 +103,18 @@
         
         .print-text { margin-bottom: 3px; }
         .print-text b { font-size: 9px; }
+
+        /* --- HIGH-RESOLUTION SNAPSHOT MODE (For Sharing) --- */
+        .snapshot-mode {
+            width: 1800px !important; /* Force a massive width for high-res output */
+            padding: 30px !important;
+            background: white !important;
+        }
+        .snapshot-mode table { font-size: 14px !important; }
+        .snapshot-mode th, .snapshot-mode td { padding: 10px !important; border-width: 1.5px !important; line-height: 1.4 !important; }
+        .snapshot-mode .print-header h2 { font-size: 28px !important; margin-bottom: 15px !important; }
+        .snapshot-mode .print-meta { font-size: 16px !important; margin-bottom: 15px !important; border-bottom-width: 3px !important; }
+        .snapshot-mode .print-text b { font-size: 14px !important; }
 
         /* --- SMART PRINT SPECIFIC STYLES --- */
         @media print {
@@ -352,6 +364,8 @@
 
             const pageDiv = document.createElement('div');
             pageDiv.className = 'print-page';
+            
+            // Build one unified table for sharing mode, CSS will handle page breaks for PDF
             pageDiv.innerHTML = `
                 <div class="print-header">
                     <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
@@ -420,57 +434,60 @@
             }
 
             if (actionType === 'print') {
-                // Triggers native Browser Print / Save as PDF
                 window.print();
             } 
             else if (actionType === 'share') {
                 const btn = document.getElementById('btnShare');
                 const ogText = btn.innerHTML;
-                btn.innerHTML = '⏳ Generating Image...';
+                btn.innerHTML = '⏳ Generating HD Image...';
                 
                 const printArea = document.getElementById('print-area');
                 
-                // Temporarily force table on-screen (hidden behind UI) for image capture
+                // 1. Force the area to be massively wide and visible but hidden from user view
+                printArea.classList.add('snapshot-mode');
                 printArea.style.display = 'block';
                 printArea.style.position = 'absolute';
                 printArea.style.left = '-9999px';
                 printArea.style.top = '0';
-                printArea.style.width = '1200px'; // Force A4 landscape width ratio
                 
                 try {
-                    const canvas = await html2canvas(printArea, { scale: 2, useCORS: true });
+                    // 2. Take a 2x scaled screenshot of the 1800px table (Yields a crisp 3600px image)
+                    const canvas = await html2canvas(printArea, { 
+                        scale: 2, 
+                        useCORS: true,
+                        backgroundColor: '#ffffff',
+                        windowWidth: 1800 
+                    });
                     
                     canvas.toBlob(async (blob) => {
                         const file = new File([blob], 'Daily_Lesson_Plan.jpg', { type: 'image/jpeg' });
                         
-                        // Check if device supports Web Share API with Files (Android/iOS usually do)
+                        // 3. Share it via Native APIs
                         if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                             await navigator.share({
                                 title: 'Daily Lesson Plan',
-                                text: 'Here is my lesson plan for today.',
                                 files: [file]
                             });
                         } else {
-                            // Fallback for Desktop: Auto-Download Image
+                            // Fallback for Desktop
                             const url = URL.createObjectURL(blob);
                             const a = document.createElement('a');
                             a.href = url;
                             a.download = 'Daily_Lesson_Plan.jpg';
                             a.click();
                             URL.revokeObjectURL(url);
-                            alert("Sharing to apps is not supported on this browser. The image has been downloaded instead.");
                         }
-                    }, 'image/jpeg', 0.9);
+                    }, 'image/jpeg', 0.85); // 0.85 compression to keep file size reasonable
                 } catch (err) {
                     console.error(err);
                     alert("Failed to generate shareable image.");
                 } finally {
-                    // Restore original hidden state
+                    // 4. Restore everything to normal
+                    printArea.classList.remove('snapshot-mode');
                     printArea.style.display = 'none';
                     printArea.style.position = '';
                     printArea.style.left = '';
                     printArea.style.top = '';
-                    printArea.style.width = '';
                     btn.innerHTML = ogText;
                 }
             }
