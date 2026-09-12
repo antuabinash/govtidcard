@@ -25,29 +25,58 @@
             
             .card { background: var(--card-bg); padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 1.5rem; }
             
-            label { font-weight: 600; display: block; margin-bottom: 0.5rem; font-size: 0.95rem; }
+            label { font-weight: 600; display: block; margin-bottom: 0.5rem; font-size: 0.95rem; color: #334155; }
             input[type="number"], select { 
-                width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #cbd5e1; 
+                width: 100%; padding: 0.85rem; border-radius: 0.6rem; border: 1px solid #cbd5e1; 
                 font-size: 1rem; background: #f8fafc; outline: none; transition: 0.2s;
             }
-            input[type="number"]:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+            input[type="number"]:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); background: #ffffff; }
             
-            .btn { background: var(--primary); color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 1rem; }
+            .btn { background: var(--primary); color: white; padding: 0.85rem 1.5rem; border-radius: 0.6rem; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; font-size: 1rem; }
             .btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
             .btn-secondary { background: #e2e8f0; color: #334155; }
             .btn-secondary:hover { background: #cbd5e1; }
             
-            .period-block { background: #f1f5f9; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #cbd5e1; margin-bottom: 1.5rem; }
+            .period-block { background: #f1f5f9; padding: 1.5rem; border-radius: 0.85rem; border: 1px solid #cbd5e1; margin-bottom: 1.5rem; }
             .period-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 1rem; color: #1e293b; display: flex; justify-content: space-between; align-items: center; }
             
-            .lesson-row { display: grid; grid-template-columns: 1fr 1fr 1.5fr 1.5fr auto; gap: 1rem; background: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; border: 1px solid var(--border); align-items: end; }
-            .remove-btn { background: #fee2e2; color: #dc2626; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer; border: none; font-weight: bold; }
+            .lesson-row { display: grid; grid-template-columns: 1fr 1fr 1.5fr 1.5fr auto; gap: 1rem; background: white; padding: 1rem; border-radius: 0.75rem; margin-bottom: 1rem; border: 1px solid var(--border); align-items: end; }
+            .remove-btn { background: #fee2e2; color: #dc2626; padding: 0.75rem; border-radius: 0.5rem; cursor: pointer; border: none; font-weight: bold; transition: 0.2s; }
+            .remove-btn:hover { background: #fecaca; }
             
             #print-area { display: none; }
             .hidden { display: none !important; }
             
             .spinner { border: 4px solid #e2e8f0; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 1rem auto; }
             @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        }
+
+        /* --- NATIVE MOBILE APP OPTIMIZATIONS --- */
+        @media screen and (max-width: 768px) {
+            body { padding: 1rem 0.75rem; }
+            h1 { font-size: 1.5rem; }
+            .card { padding: 1.25rem; }
+            
+            .setup-flex { flex-direction: column; align-items: stretch !important; gap: 0.75rem !important; }
+            .setup-flex input { max-width: 100% !important; }
+            
+            .period-block { padding: 1rem; }
+            .period-title { flex-direction: column; align-items: flex-start; gap: 0.75rem; font-size: 1.15rem; }
+            .period-title button { width: 100%; padding: 0.75rem; }
+            
+            /* Stack form inputs vertically on mobile */
+            .lesson-row { 
+                grid-template-columns: 1fr; 
+                gap: 0.85rem; 
+                position: relative;
+                padding: 3rem 1rem 1rem 1rem; 
+            }
+            /* Pin the remove button to the top right of the stacked card */
+            .lesson-row > div:last-child { position: absolute; top: 0.75rem; right: 0.75rem; }
+            .remove-btn { padding: 0.4rem 0.75rem; font-size: 0.85rem; border-radius: 0.4rem; }
+            
+            .print-cta-card { flex-direction: column; text-align: center; gap: 1.25rem; }
+            .print-cta-card button { width: 100%; }
         }
 
         /* --- PRINT STYLES (A4 Landscape - Strict 4-Period Pages) --- */
@@ -58,19 +87,8 @@
             .no-print { display: none !important; }
             #print-area { display: block; width: 100%; }
             
-            /* PAGE BREAK ENGINE */
-            .print-page {
-                page-break-after: always; /* Force printer to start a new page */
-                break-after: page;
-                width: 100%;
-                /* Slight padding to avoid edges */
-                padding-bottom: 10px; 
-            }
-            /* Do not break the very last page */
-            .print-page:last-child {
-                page-break-after: auto;
-                break-after: auto;
-            }
+            .print-page { page-break-after: always; break-after: page; width: 100%; padding-bottom: 10px; }
+            .print-page:last-child { page-break-after: auto; break-after: auto; }
             
             .print-header { text-align: center; margin-bottom: 10px; }
             .print-header h2 { margin: 0 0 5px 0; font-size: 18px; text-transform: uppercase; }
@@ -80,7 +98,6 @@
             th, td { border: 1px solid #000; padding: 5px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
             th { background-color: #f0f0f0 !important; font-weight: bold; text-align: left; }
             
-            /* Calculated Column Widths */
             .col-period { width: 3%; text-align: center; font-weight: bold; }
             .col-class { width: 8%; }
             .col-topic { width: 10%; }
@@ -95,7 +112,6 @@
 </head>
 <body>
 
-    <!-- UI SECTION -->
     <div class="container no-print">
         <header>
             <h1>🖨️ Lesson Plan Generator</h1>
@@ -109,7 +125,7 @@
         <div id="setup-card" class="card hidden">
             <h2 style="margin-bottom: 1rem;">Setup Daily Routine</h2>
             <label>How many teaching periods do you have today?</label>
-            <div style="display: flex; gap: 1rem; align-items: center;">
+            <div class="setup-flex" style="display: flex; gap: 1rem; align-items: center;">
                 <input type="number" id="numPeriods" min="1" max="10" value="7" style="max-width: 150px;">
                 <button class="btn" onclick="buildPeriodForms()">Start Planning</button>
             </div>
@@ -118,17 +134,17 @@
         <div id="builder-area" class="hidden">
             <div id="periods-container"></div>
             
-            <div class="card" style="display: flex; justify-content: space-between; align-items: center; background: #e0e7ff; border-color: var(--primary);">
+            <div class="card print-cta-card" style="display: flex; justify-content: space-between; align-items: center; background: #e0e7ff; border-color: var(--primary);">
                 <div>
                     <h3 style="color: var(--primary); margin-bottom: 0.25rem;">Ready to Print?</h3>
-                    <p style="font-size: 0.9rem; color: #4338ca;">Ensure all selections are made before generating.</p>
+                    <p style="font-size: 0.95rem; color: #4338ca;">Ensure all selections are made before generating.</p>
                 </div>
-                <button class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;" onclick="generatePrintPlan()">📄 Generate & Print A4</button>
+                <button class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;" onclick="generatePrintPlan()">📄 Generate A4 Plan</button>
             </div>
         </div>
     </div>
 
-    <!-- PRINT SECTION (Dynamically Built) -->
+    <!-- PRINT SECTION -->
     <div id="print-area"></div>
 
     <script>
@@ -165,7 +181,7 @@
                 pBlock.innerHTML = `
                     <div class="period-title">
                         School Period ${i}
-                        <button class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="addLessonRow(${i})">+ Add Class</button>
+                        <button class="btn btn-secondary" onclick="addLessonRow(${i})">+ Add Class</button>
                     </div>
                     <div id="rows-container-${i}"></div>
                 `;
@@ -206,7 +222,7 @@
                     <select class="sel-less" disabled><option>...</option></select>
                 </div>
                 <div>
-                    <button class="remove-btn" onclick="document.getElementById('${rowId}').remove()" title="Remove this class">✖</button>
+                    <button class="remove-btn" onclick="document.getElementById('${rowId}').remove()" title="Remove this class">✖ Remove</button>
                 </div>
             `;
             container.appendChild(row);
@@ -277,7 +293,6 @@
             selectElem.disabled = true;
         }
 
-        // --- CUSTOM FORMATTERS ---
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
@@ -301,7 +316,6 @@
             return `<div class="print-text">${cleaned}</div>`;
         }
 
-        // --- 4. PAGINATION ENGINE (4 Periods per Page) ---
         function generatePrintPlan() {
             const printArea = document.getElementById('print-area');
             printArea.innerHTML = '';
@@ -309,7 +323,6 @@
             const periodBlocks = document.querySelectorAll('.period-block');
             let validPeriods = [];
             
-            // Gather all completed periods from the UI
             periodBlocks.forEach((block, index) => {
                 const pNum = index + 1;
                 const rows = block.querySelectorAll('.lesson-row');
@@ -335,17 +348,14 @@
                 return;
             }
 
-            // Slice the periods into chunks of 4 (e.g. 1-4 on Page 1, 5-7 on Page 2)
             const periodsPerPage = 4;
             
             for (let i = 0; i < validPeriods.length; i += periodsPerPage) {
                 const chunk = validPeriods.slice(i, i + periodsPerPage);
                 
-                // Create a hard-page-break container for this chunk
                 const pageDiv = document.createElement('div');
                 pageDiv.className = 'print-page';
                 
-                // Inject the Table Header for this specific page
                 pageDiv.innerHTML = `
                     <div class="print-header">
                         <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
@@ -376,7 +386,6 @@
                 
                 const tbody = pageDiv.querySelector('tbody');
                 
-                // Inject the period rows into this page's table
                 chunk.forEach(period => {
                     period.rowDataList.forEach((rData, rIndex) => {
                         const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
@@ -384,7 +393,6 @@
                         
                         const tr = document.createElement('tr');
                         
-                        // Merge the Period number cell if there are multiple classes
                         if (rIndex === 0) {
                             tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
                         }
@@ -411,7 +419,6 @@
                 printArea.appendChild(pageDiv);
             }
 
-            // Trigger Browser Print
             window.print();
         }
     </script>
