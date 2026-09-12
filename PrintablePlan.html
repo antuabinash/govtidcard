@@ -98,28 +98,36 @@
             @page { size: A4 landscape; margin: 6mm; }
             body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             
-            .pdf-header { text-align: center; margin-bottom: 12px; }
+            .pdf-header { text-align: center; margin-bottom: 6px; width: 100%; }
             .pdf-header h2 { margin: 0 0 4px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
             .pdf-school { font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #334155; }
-            .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
+            .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 4px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
             
             .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
             .pdf-table thead { display: table-header-group; }
-            .pdf-table tbody, .pdf-table tr { page-break-inside: avoid; break-inside: avoid; } 
+            
+            /* Ensures strict row protection from splitting across pages */
+            .pdf-table tbody, .pdf-table tr, .pdf-table td { page-break-inside: avoid !important; break-inside: avoid !important; } 
+            
             .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 5px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
             .pdf-table th { background-color: #f1f5f9 !important; font-weight: bold; text-align: left; }
             
+            /* Custom Header Cell to embed Header inside Table for Pagination */
+            th.print-header-cell { background-color: white !important; border: none !important; padding: 0 0 10px 0 !important; }
+            
+            /* --- ADJUSTED COLUMN WIDTHS --- */
             .col-period { width: 3.5%; text-align: center; font-weight: bold; }
-            .col-class { width: 7.5%; }
-            .col-topic { width: 10%; }
-            .col-comp { width: 8%; }
-            .col-lo { width: 9%; }
+            .col-class { width: 6%; }    /* Thinned down */
+            .col-topic { width: 7.5%; }  /* Thinned down */
+            .col-comp { width: 10%; }    /* Expanded */
+            .col-lo { width: 11%; }      /* Expanded */
             .col-aditi { width: 9%; }
             .col-bodha { width: 15%; }
             .col-abhyasa { width: 9%; }
             .col-prayoga { width: 10.5%; }
             .col-prasara { width: 10.5%; }
             .col-tlm { width: 8%; }
+            
             .pdf-text { margin-bottom: 3px; }
             .pdf-text b { font-size: 9px; }
         }
@@ -165,7 +173,7 @@
         <!-- Main Builder Area -->
         <div id="builder-area" class="hidden">
             
-            <!-- NEW: Profile Header showing current info -->
+            <!-- Profile Header showing current info -->
             <div id="profile-header-card" class="card">
                 <div id="profile-info">
                     <div id="display-school">School Name</div>
@@ -221,7 +229,6 @@
         let classList = [];
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Auto-fill today's date by default
             document.getElementById('planDate').valueAsDate = new Date();
 
             fetch('master_lesson_database.json')
@@ -275,12 +282,11 @@
             try {
                 const data = JSON.parse(saved);
                 
-                // Restore Profile Data
                 if(data.schoolName) document.getElementById('schoolName').value = data.schoolName;
                 if(data.teacherName) document.getElementById('teacherName').value = data.teacherName;
                 if(data.planDate) document.getElementById('planDate').value = data.planDate;
 
-                updateUIHeader(); // NEW: Update the UI header with these loaded values
+                updateUIHeader(); 
 
                 if (!data.periods || data.periods.length === 0) return false;
                 
@@ -316,7 +322,6 @@
             }
         }
 
-        // NEW: Updates the UI header in builder area
         function updateUIHeader() {
             const school = document.getElementById('schoolName').value || "No School Defined";
             const teacher = document.getElementById('teacherName').value || "No Name Defined";
@@ -341,13 +346,11 @@
             }
         }
 
-        // --- NEW: PROFILE MODAL LOGIC ---
+        // --- PROFILE MODAL LOGIC ---
         function openProfileModal() {
-            // Fill modal inputs with current values
             document.getElementById('modalSchoolName').value = document.getElementById('schoolName').value;
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
             document.getElementById('modalPlanDate').value = document.getElementById('planDate').value;
-            
             document.getElementById('edit-profile-modal').classList.remove('hidden');
         }
 
@@ -356,13 +359,12 @@
         }
 
         function saveUpdatedProfile() {
-            // Copy modal values back to main hidden setup inputs
             document.getElementById('schoolName').value = document.getElementById('modalSchoolName').value;
             document.getElementById('teacherName').value = document.getElementById('modalTeacherName').value;
             document.getElementById('planDate').value = document.getElementById('modalPlanDate').value;
             
-            updateUIHeader(); // Update the UI
-            savePlanToStorage(); // Save to localstorage
+            updateUIHeader();
+            savePlanToStorage();
             closeProfileModal();
         }
 
@@ -387,7 +389,7 @@
                 container.appendChild(pBlock);
                 addLessonRow(i);
             }
-            updateUIHeader(); // Update header when planning starts
+            updateUIHeader(); 
             document.getElementById('setup-card').classList.add('hidden');
             document.getElementById('builder-area').classList.remove('hidden');
             savePlanToStorage();
@@ -507,23 +509,28 @@
             container.innerHTML = '';
             
             const periodBlocks = document.querySelectorAll('.period-block');
-            let validPeriods = [];
+            let allRows = [];
             
+            // Extract all valid rows into a flat array
             periodBlocks.forEach((block, index) => {
                 const pNum = index + 1;
                 const rows = block.querySelectorAll('.lesson-row');
-                let rowDataList = [];
+                let isFirstInPeriod = true;
+                
                 rows.forEach(row => {
                     const cls = row.querySelector('.sel-class').value;
                     const subj = row.querySelector('.sel-subj').value;
                     const chap = row.querySelector('.sel-chap').value;
                     const lessKey = row.querySelector('.sel-less').value;
-                    if (cls && subj && chap && lessKey !== "") rowDataList.push({ cls, subj, chap, lessKey });
+                    
+                    if (cls && subj && chap && lessKey !== "") {
+                        allRows.push({ pNum, cls, subj, chap, lessKey, isFirstInPeriod });
+                        isFirstInPeriod = false; // Ensures period number only prints on the top row of that period
+                    }
                 });
-                if (rowDataList.length > 0) validPeriods.push({ pNum, rowDataList });
             });
 
-            if (validPeriods.length === 0) return false;
+            if (allRows.length === 0) return false;
 
             // Fetch Header Values
             const schoolName = document.getElementById('schoolName').value || "_______________________";
@@ -536,60 +543,76 @@
                 if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            container.innerHTML = `
-                <div class="pdf-header">
-                    <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
-                    <div class="pdf-school">School: ${schoolName}</div>
-                    <div class="pdf-meta">
-                        <span>Teacher Name: ${teacherName}</span>
-                        <span>Date: ${formattedDate}</span>
-                    </div>
-                </div>
-                <table class="pdf-table">
-                    <thead>
-                        <tr>
-                            <th class="col-period">Prd</th>
-                            <th class="col-class">Class/Subj</th>
-                            <th class="col-topic">Topic</th>
-                            <th class="col-comp">Competency</th>
-                            <th class="col-lo">Learning Outcome</th>
-                            <th class="col-aditi">ଅଧୀତି (Adhiti)</th>
-                            <th class="col-bodha">ବୋଧ (Bodha)</th>
-                            <th class="col-abhyasa">ଅଭ୍ୟାସ (Abhyasa)</th>
-                            <th class="col-prayoga">ପ୍ରୟୋଗ (Prayoga)</th>
-                            <th class="col-prasara">ପ୍ରସାର (Prasara)</th>
-                            <th class="col-tlm">TLM</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            `;
-
-            const tbody = container.querySelector('tbody');
-
-            validPeriods.forEach(period => {
-                period.rowDataList.forEach((rData, rIndex) => {
+            // PAGINATION LOGIC: Chunk rows into max 6 per table/page. 
+            const MAX_ROWS = 6;
+            
+            for (let i = 0; i < allRows.length; i += MAX_ROWS) {
+                const chunk = allRows.slice(i, i + MAX_ROWS);
+                let tbodyHTML = '';
+                
+                chunk.forEach(rData => {
                     const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
                     const p = plan.Panchapadi || {};
-                    const tr = document.createElement('tr');
-                    
-                    if (rIndex === 0) tr.innerHTML += `<td class="col-period" rowspan="${period.rowDataList.length}">${period.pNum}</td>`;
+                    let periodDisplay = rData.isFirstInPeriod ? rData.pNum : '';
 
-                    tr.innerHTML += `
-                        <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
-                        <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                        <td class="col-comp">${formatPrint(plan.Competency)}</td>
-                        <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
-                        <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
-                        <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
-                        <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
-                        <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
-                        <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
-                        <td class="col-tlm">${formatPrint(plan.TLM)}</td>
+                    tbodyHTML += `
+                        <tr>
+                            <td class="col-period">${periodDisplay}</td>
+                            <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
+                            <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
+                            <td class="col-comp">${formatPrint(plan.Competency)}</td>
+                            <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
+                            <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
+                            <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
+                            <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
+                            <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
+                            <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
+                            <td class="col-tlm">${formatPrint(plan.TLM)}</td>
+                        </tr>
                     `;
-                    tbody.appendChild(tr);
                 });
-            });
+
+                // Generate table with page break (unless it's the last chunk)
+                const pageBreakStyle = (i + MAX_ROWS < allRows.length) ? 'page-break-after: always;' : '';
+                
+                container.innerHTML += `
+                    <div style="${pageBreakStyle}">
+                        <table class="pdf-table">
+                            <thead>
+                                <!-- Embed header in thead so it repeats flawlessly on every new printed sheet -->
+                                <tr>
+                                    <th colspan="11" class="print-header-cell">
+                                        <div class="pdf-header">
+                                            <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
+                                            <div class="pdf-school">School: ${schoolName}</div>
+                                            <div class="pdf-meta">
+                                                <span>Teacher Name: ${teacherName}</span>
+                                                <span>Date: ${formattedDate}</span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="col-period">Prd</th>
+                                    <th class="col-class">Class/Subj</th>
+                                    <th class="col-topic">Topic</th>
+                                    <th class="col-comp">Competency</th>
+                                    <th class="col-lo">Learning Outcome</th>
+                                    <th class="col-aditi">ଅଧୀତି (Adhiti)</th>
+                                    <th class="col-bodha">ବୋଧ (Bodha)</th>
+                                    <th class="col-abhyasa">ଅଭ୍ୟାସ (Abhyasa)</th>
+                                    <th class="col-prayoga">ପ୍ରୟୋଗ (Prayoga)</th>
+                                    <th class="col-prasara">ପ୍ରସାର (Prasara)</th>
+                                    <th class="col-tlm">TLM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tbodyHTML}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
 
             return true;
         }
