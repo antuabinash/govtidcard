@@ -34,17 +34,6 @@
         
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; }
 
-        /* Glassmorphism Sticky Header */
-        header { 
-            position: sticky; top: 0; z-index: 50;
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 1rem 1.5rem; 
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        h1 { font-size: 1.4rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; display: flex; align-items: center; gap: 0.5rem; }
-
         .container { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
         
         .card { 
@@ -146,9 +135,7 @@
 
         /* --- MOBILE SCREEN ADAPTATIONS --- */
         @media screen and (max-width: 768px) {
-            header { padding: 1rem 1.25rem; }
             .container { padding: 1.5rem 1rem; }
-            h1 { font-size: 1.3rem; }
             .card { padding: 1.5rem; }
             #profile-header-card { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
             #profile-header-card button { width: 100%; }
@@ -172,11 +159,6 @@
 </head>
 <body>
 
-    <!-- UI HEADER -->
-    <header class="no-print">
-        <h1>🎒 ଶିକ୍ଷକ ସାଥୀ</h1>
-    </header>
-
     <!-- MAIN APP CONTAINER -->
     <div class="container no-print" id="main-container">
         
@@ -199,15 +181,17 @@
 
         <!-- SMART READY CARD (Greets returning user) -->
         <div id="ready-card" class="card hidden" style="text-align: center; border-color: #10b981; background: #ecfdf5; padding: 2.5rem 1.5rem;">
-            <h2 id="ready-title" style="color: #065f46; margin-bottom: 0.5rem; font-weight: 800; font-size: 1.6rem;">✅ Today's Plan is Ready!</h2>
-            <p id="ready-date-text" style="color: #047857; font-weight: 600; margin-bottom: 1.5rem; font-size: 1.1rem;"></p>
+            <h2 id="ready-title" style="color: #065f46; margin-bottom: 0.5rem; font-weight: 800; font-size: 1.6rem;">ଅଭିନନ୍ଦନ! 🎉</h2>
+            <p id="ready-desc-text" style="color: #047857; font-weight: 500; margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.5;">
+                <!-- Odia translation injected via JavaScript -->
+            </p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <button class="btn btn-secondary" onclick="showBuilder()" style="background: white; border: 1px solid #a7f3d0; color: #065f46;">✏️ Edit Plan</button>
-                <button class="btn" onclick="generatePlanPreview()" style="background: #10b981; box-shadow: 0 4px 12px rgba(16,185,129,0.3); padding: 0.85rem 2rem;">✨ Open Plan</button>
+                <button class="btn btn-secondary" onclick="showBuilder()" style="background: white; border: 1px solid #a7f3d0; color: #065f46;">✏️ ଏଡିଟ୍ କରନ୍ତୁ (Edit)</button>
+                <button class="btn" onclick="generatePlanPreview()" style="background: #10b981; box-shadow: 0 4px 12px rgba(16,185,129,0.3); padding: 0.85rem 2rem;">✨ ଦେଖନ୍ତୁ (View Plan)</button>
             </div>
         </div>
 
-        <!-- Builder Area (Hidden behind Edit button if saved) -->
+        <!-- Builder Area -->
         <div id="builder-area" class="hidden">
             <div id="profile-header-card" class="card">
                 <div id="profile-info">
@@ -273,6 +257,19 @@
         let db = {};
         let classList = [];
 
+        // --- TIME SHIFT ENGINE (12:00 NOON Logic) ---
+        function getTargetPlanDate() {
+            let d = new Date();
+            // If it is 12:00 PM or later, assume they are preparing for tomorrow
+            if (d.getHours() >= 12) {
+                d.setDate(d.getDate() + 1);
+            }
+            let y = d.getFullYear();
+            let m = String(d.getMonth() + 1).padStart(2, '0');
+            let day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             fetch('master_lesson_database.json')
                 .then(response => response.json())
@@ -282,8 +279,8 @@
                     document.getElementById('status-card').classList.add('hidden');
                     
                     if (!loadPlanFromStorage()) {
-                        // First time setup: Set DOM to today and show Setup Card
-                        document.getElementById('planDate').valueAsDate = new Date();
+                        // First time setup: Set DOM to target date
+                        document.getElementById('planDate').value = getTargetPlanDate();
                         document.getElementById('setup-card').classList.remove('hidden');
                     }
                 })
@@ -325,11 +322,10 @@
             try {
                 let data = JSON.parse(saved);
                 
-                const todayStr = new Date().toISOString().split('T')[0];
-                let didAdvance = false;
+                const targetDateStr = getTargetPlanDate();
 
-                // 1. Time-Aware Logic: If saved date is older than today, auto-advance syllabus!
-                if (data.planDate && data.planDate < todayStr && data.periods && data.periods.length > 0) {
+                // 1. Time-Aware Logic: If saved date is older than target date, auto-advance syllabus!
+                if (data.planDate && data.planDate < targetDateStr && data.periods && data.periods.length > 0) {
                     data.periods = data.periods.map(periodRows => {
                         return periodRows.map(row => {
                             if (!row.cls || !row.subj || !row.chap || row.lessKey === "") return row;
@@ -363,8 +359,7 @@
                         });
                     });
                     
-                    data.planDate = todayStr;
-                    didAdvance = true;
+                    data.planDate = targetDateStr;
                     // Resave immediately so memory is updated
                     localStorage.setItem('lessonGuruAutoSave', JSON.stringify(data));
                 }
@@ -372,7 +367,7 @@
                 // 2. Populate UI with updated data
                 if(data.schoolName) document.getElementById('schoolName').value = data.schoolName;
                 if(data.teacherName) document.getElementById('teacherName').value = data.teacherName;
-                document.getElementById('planDate').value = todayStr; // Force DOM to today's date
+                document.getElementById('planDate').value = targetDateStr; 
                 
                 updateUIHeader(); 
 
@@ -395,19 +390,17 @@
                     else rowsData.forEach(r => addLessonRow(i, r));
                 });
                 
-                // 3. UI Flow Control: Show "Ready Card" instead of the massive builder area
+                // 3. UI Flow Control: Formatted Odia Success Message
                 document.getElementById('setup-card').classList.add('hidden');
                 
-                const rawDate = document.getElementById('planDate').value;
-                let formattedDate = "Today";
-                if(rawDate) {
-                    const parts = rawDate.split('-');
+                let formattedDate = targetDateStr;
+                if(targetDateStr) {
+                    const parts = targetDateStr.split('-');
                     if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
                 }
                 
-                document.getElementById('ready-title').innerText = didAdvance ? "✅ Syllabus Auto-Advanced!" : "✅ Today's Plan is Ready!";
-                document.getElementById('ready-date-text').innerText = `Date: ${formattedDate}`;
-                
+                const odiaMsg = `ଆଜିର (${formattedDate}) ପାଠ୍ୟ ଖସଡ଼ା ଆପଣଙ୍କ ପାଇଁ ପ୍ରସ୍ତୁତ ଅଛି। ଦୟାକରି ଏହାକୁ ଦେଖନ୍ତୁ। ଯଦି କିଛି ପରିବର୍ତ୍ତନ କରିବାକୁ ଚାହୁଁଛନ୍ତି, ତେବେ ଏଡିଟ୍ (Edit) କରନ୍ତୁ। ଧନ୍ୟବାଦ।`;
+                document.getElementById('ready-desc-text').innerText = odiaMsg;
                 document.getElementById('ready-card').classList.remove('hidden');
                 
                 return true;
@@ -423,7 +416,6 @@
         function backToEdit() {
             document.getElementById('preview-area').classList.add('hidden');
             document.getElementById('main-container').classList.remove('hidden');
-            // When going back from preview, assume they want to see the builder to make changes
             document.getElementById('ready-card').classList.add('hidden'); 
             document.getElementById('builder-area').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -441,7 +433,7 @@
                 localStorage.removeItem('lessonGuruAutoSave');
                 document.getElementById('schoolName').value = sName;
                 document.getElementById('teacherName').value = tName;
-                document.getElementById('planDate').valueAsDate = new Date(); 
+                document.getElementById('planDate').value = getTargetPlanDate(); 
                 document.getElementById('builder-area').classList.add('hidden');
                 document.getElementById('ready-card').classList.add('hidden');
                 document.getElementById('setup-card').classList.remove('hidden');
@@ -717,7 +709,7 @@
             window.scrollTo(0, 0);
         }
 
-        // --- FLAWLESS ODIA PDF SNAPSHOT ENGINE ---
+        // --- FLAWLESS ODIA PDF SNAPSHOT ENGINE WITH SMART NAMING ---
         async function sharePlanViaApp() {
             const btn = document.getElementById('btnShare');
             const ogText = btn.innerHTML;
@@ -741,7 +733,7 @@
             });
 
             const schoolName = document.getElementById('schoolName').value || "_______________________";
-            const teacherName = document.getElementById('teacherName').value || "_______________________";
+            const teacherName = document.getElementById('teacherName').value || "Teacher";
             const rawDate = document.getElementById('planDate').value;
             let formattedDate = "____/____/20___";
             if(rawDate) {
@@ -852,7 +844,13 @@
                 }
 
                 const pdfBlob = pdf.output('blob');
-                const file = new File([pdfBlob], 'Daily_Lesson_Plan.pdf', { type: 'application/pdf' });
+                
+                // Smart Custom File Naming
+                const safeTeacherName = teacherName.replace(/[^a-zA-Z0-9]/g, '_');
+                const safeDate = formattedDate.replace(/\//g, '-');
+                const customFileName = `${safeTeacherName}_LessonPlan_${safeDate}.pdf`;
+                
+                const file = new File([pdfBlob], customFileName, { type: 'application/pdf' });
                 
                 if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
@@ -863,7 +861,7 @@
                     const url = URL.createObjectURL(pdfBlob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'Daily_Lesson_Plan.pdf';
+                    a.download = customFileName;
                     a.click();
                     URL.revokeObjectURL(url);
                     alert("Sharing natively is not supported. File Downloaded.");
