@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson Plan Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Embed Universal Fonts to Guarantee Flawless Odia PDF Rendering -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- PDF Generation Engine for Direct App Sharing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -19,7 +23,7 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; padding: 2rem; }
         .container { max-width: 1000px; margin: 0 auto; }
         
@@ -76,20 +80,21 @@
             box-shadow: var(--shadow); overflow-x: auto; margin-bottom: 1.5rem; border: 1px solid var(--border);
         }
 
-        #pdf-export-content { 
-            min-width: 1000px; /* Allows horizontal scrolling on mobile preview */
-            background: white; color: black; font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif;
+        #pdf-preview-content, #temp-pdf-export { 
+            min-width: 1000px; 
+            background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif;
         }
+        
+        /* Ensure specific Odia font assignment for the generated text */
+        .pdf-text { font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; margin-bottom: 3px; }
         
         .pdf-header { text-align: center; margin-bottom: 12px; width: 100%; }
         .pdf-header h2 { margin: 0 0 4px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
         .pdf-school { font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #334155; }
         .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 4px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
         
-        .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
-        .pdf-table thead { display: table-header-group; } /* Standard HTML repeating header for printing */
-        
-        /* Auto-Break protection: Prevents rows from being sliced in half horizontally */
+        .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; margin-bottom: 10px; }
+        .pdf-table thead { display: table-header-group; } 
         .pdf-table tbody tr { page-break-inside: avoid !important; break-inside: avoid !important; } 
         
         .pdf-table th, .pdf-table td { 
@@ -100,8 +105,11 @@
         .pdf-table th { background-color: #f1f5f9 !important; font-weight: bold; text-align: left; }
         
         .col-period { text-align: center; font-weight: bold; }
-        .pdf-text { margin-bottom: 3px; }
         .pdf-text b { font-size: 9px; }
+
+        /* The hard page break specifically for html2pdf to recognize */
+        .html2pdf__page-break { height: 0; width: 100%; page-break-before: always; border: none; margin: 0; padding: 0; }
+        .pdf-page { padding: 15px; background: white; }
 
         /* --- MOBILE SCREEN ADAPTATIONS --- */
         @media screen and (max-width: 768px) {
@@ -128,7 +136,7 @@
         @media print {
             .no-print, .container:not(#preview-area), .modal-overlay { display: none !important; }
             #preview-wrapper { padding: 0; box-shadow: none; border: none; margin: 0; overflow: visible; }
-            #pdf-export-content { min-width: 100%; width: 100% !important; display: block !important; }
+            #pdf-preview-content { min-width: 100%; width: 100% !important; display: block !important; }
             @page { size: A4 landscape; margin: 6mm; }
             body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
@@ -147,33 +155,18 @@
             <h3 id="status-text">Loading Database...</h3>
         </div>
 
-        <!-- Initial Setup Card -->
         <div id="setup-card" class="card hidden">
             <h2 style="margin-bottom: 1rem;">Daily Plan Setup</h2>
             <div class="setup-grid">
-                <div>
-                    <label>School Name</label>
-                    <input type="text" id="schoolName" placeholder="Enter School Name...">
-                </div>
-                <div>
-                    <label>Teacher Name</label>
-                    <input type="text" id="teacherName" placeholder="Enter Your Name...">
-                </div>
-                <div>
-                    <label>Plan Date</label>
-                    <input type="date" id="planDate">
-                </div>
-                <div>
-                    <label>Teaching Periods Today</label>
-                    <input type="number" id="numPeriods" min="1" max="10" value="7">
-                </div>
+                <div><label>School Name</label><input type="text" id="schoolName" placeholder="Enter School Name..."></div>
+                <div><label>Teacher Name</label><input type="text" id="teacherName" placeholder="Enter Your Name..."></div>
+                <div><label>Plan Date</label><input type="date" id="planDate"></div>
+                <div><label>Teaching Periods Today</label><input type="number" id="numPeriods" min="1" max="10" value="7"></div>
             </div>
             <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="buildPeriodForms()">Start Planning</button>
         </div>
 
-        <!-- Main Builder Area -->
         <div id="builder-area" class="hidden">
-            
             <div id="profile-header-card" class="card">
                 <div id="profile-info">
                     <div id="display-school">School Name</div>
@@ -203,10 +196,9 @@
             <h1 style="font-size: 1.5rem;">📄 Plan Preview</h1>
         </header>
 
-        <!-- Scrollable Wrapper for Mobile -->
+        <!-- Scrollable Wrapper for Mobile showing seamless continuous table -->
         <div id="preview-wrapper">
-            <!-- PRINT CONTAINER -->
-            <div id="pdf-export-content"></div>
+            <div id="pdf-preview-content"></div>
         </div>
 
         <div class="card action-bar no-print" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; background: #e0e7ff; border-color: var(--primary);">
@@ -215,6 +207,9 @@
             <button id="btnShare" class="btn" onclick="sharePlanViaApp()">📤 Share via App</button>
         </div>
     </div>
+
+    <!-- HIDDEN EXPORT CONTAINER (Pre-chopped specifically for Share PDF logic) -->
+    <div id="temp-pdf-export" style="display: none; position: absolute; left: -9999px; top: 0;"></div>
 
     <!-- PROFILE MODAL -->
     <div id="edit-profile-modal" class="modal-overlay hidden no-print">
@@ -257,7 +252,7 @@
                 });
         });
 
-        // --- AUTO-SAVE MEMORY SYSTEM ---
+        // --- MEMORY SYSTEM ---
         function savePlanToStorage() {
             const numPeriods = document.getElementById('numPeriods').value;
             let validPeriods = [];
@@ -326,7 +321,6 @@
                 document.getElementById('builder-area').classList.remove('hidden');
                 return true;
             } catch(e) {
-                console.error("Save memory corrupted", e);
                 return false;
             }
         }
@@ -355,6 +349,7 @@
             }
         }
 
+        // --- PROFILE MODAL ---
         function openProfileModal() {
             document.getElementById('modalSchoolName').value = document.getElementById('schoolName').value;
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
@@ -363,9 +358,7 @@
             document.getElementById('edit-profile-modal').classList.remove('hidden');
         }
 
-        function closeProfileModal() {
-            document.getElementById('edit-profile-modal').classList.add('hidden');
-        }
+        function closeProfileModal() { document.getElementById('edit-profile-modal').classList.add('hidden'); }
 
         function adjustPeriods(newNum) {
             const container = document.getElementById('periods-container');
@@ -377,19 +370,14 @@
                     const pBlock = document.createElement('div');
                     pBlock.className = 'period-block';
                     pBlock.innerHTML = `
-                        <div class="period-title">
-                            School Period ${i}
-                            <button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button>
-                        </div>
+                        <div class="period-title">School Period ${i}<button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button></div>
                         <div id="rows-container-${i}"></div>
                     `;
                     container.appendChild(pBlock);
                     addLessonRow(i);
                 }
             } else if (newNum < currentNum) {
-                for (let i = currentNum; i > newNum; i--) {
-                    container.removeChild(currentBlocks[i - 1]);
-                }
+                for (let i = currentNum; i > newNum; i--) { container.removeChild(currentBlocks[i - 1]); }
             }
         }
 
@@ -403,27 +391,20 @@
                 document.getElementById('numPeriods').value = updatedPeriods;
                 adjustPeriods(updatedPeriods);
             }
-            
-            updateUIHeader();
-            savePlanToStorage();
-            closeProfileModal();
+            updateUIHeader(); savePlanToStorage(); closeProfileModal();
         }
 
+        // --- BUILDER FUNCTIONS ---
         function buildPeriodForms() {
             const num = parseInt(document.getElementById('numPeriods').value);
             if (num < 1 || isNaN(num)) return;
-
             const container = document.getElementById('periods-container');
             container.innerHTML = '';
-
             for (let i = 1; i <= num; i++) {
                 const pBlock = document.createElement('div');
                 pBlock.className = 'period-block';
                 pBlock.innerHTML = `
-                    <div class="period-title">
-                        School Period ${i}
-                        <button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button>
-                    </div>
+                    <div class="period-title">School Period ${i}<button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button></div>
                     <div id="rows-container-${i}"></div>
                 `;
                 container.appendChild(pBlock);
@@ -442,13 +423,7 @@
             row.className = 'lesson-row';
             row.id = rowId;
             row.innerHTML = `
-                <div>
-                    <label>Class</label>
-                    <select class="sel-class" onchange="updateSubjects('${rowId}'); savePlanToStorage();">
-                        <option value="">Select Class...</option>
-                        ${classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('')}
-                    </select>
-                </div>
+                <div><label>Class</label><select class="sel-class" onchange="updateSubjects('${rowId}'); savePlanToStorage();"><option value="">Select Class...</option>${classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('')}</select></div>
                 <div><label>Subject</label><select class="sel-subj" onchange="updateChapters('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
                 <div><label>Chapter</label><select class="sel-chap" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
                 <div><label>Lesson / Period</label><select class="sel-less" onchange="savePlanToStorage();" disabled><option>...</option></select></div>
@@ -457,17 +432,12 @@
             container.appendChild(row);
 
             if (presetData && presetData.cls) {
-                row.querySelector('.sel-class').value = presetData.cls;
-                updateSubjects(rowId);
+                row.querySelector('.sel-class').value = presetData.cls; updateSubjects(rowId);
                 if (presetData.subj) {
-                    row.querySelector('.sel-subj').value = presetData.subj;
-                    updateChapters(rowId);
+                    row.querySelector('.sel-subj').value = presetData.subj; updateChapters(rowId);
                     if (presetData.chap) {
-                        row.querySelector('.sel-chap').value = presetData.chap;
-                        updateLessons(rowId);
-                        if (presetData.lessKey) {
-                            row.querySelector('.sel-less').value = presetData.lessKey;
-                        }
+                        row.querySelector('.sel-chap').value = presetData.chap; updateLessons(rowId);
+                        if (presetData.lessKey) row.querySelector('.sel-less').value = presetData.lessKey;
                     }
                 }
             }
@@ -504,8 +474,7 @@
             lessSel.innerHTML = '<option value="">Select Lesson...</option>';
             lessons.forEach(key => {
                 const name = Array.isArray(lessonsData) ? lessonsData[key].Period : key;
-                const opt = document.createElement('option');
-                opt.value = key; opt.textContent = name;
+                const opt = document.createElement('option'); opt.value = key; opt.textContent = name;
                 lessSel.appendChild(opt);
             });
             lessSel.disabled = false;
@@ -513,10 +482,7 @@
 
         function populateSelect(selectElem, items, placeholder) {
             selectElem.innerHTML = `<option value="">${placeholder}</option>`;
-            items.forEach(item => {
-                const opt = document.createElement('option'); opt.value = item; opt.textContent = item;
-                selectElem.appendChild(opt);
-            });
+            items.forEach(item => { const opt = document.createElement('option'); opt.value = item; opt.textContent = item; selectElem.appendChild(opt); });
             selectElem.disabled = false;
         }
 
@@ -546,9 +512,7 @@
             if (!text || text === 'nan') return '';
             let cleaned = String(text);
             const codeMatch = cleaned.match(/\[\s*Codes?:/i);
-            if (codeMatch) {
-                cleaned = cleaned.substring(0, codeMatch.index);
-            }
+            if (codeMatch) cleaned = cleaned.substring(0, codeMatch.index);
             cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '').trim();
             return `<div class="pdf-text">${cleaned}</div>`;
         }
@@ -568,7 +532,6 @@
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
-
         // --- PLAN PREVIEW & UI TOGGLE ---
         function backToEdit() {
             document.getElementById('preview-area').classList.add('hidden');
@@ -576,9 +539,9 @@
             document.getElementById('builder-area').classList.remove('hidden');
         }
 
-        // Generates the plan as ONE continuous HTML table
+        // Generates the plan as ONE continuous HTML table for Screen/Print
         function generatePlanPreview() {
-            const container = document.getElementById('pdf-export-content');
+            const container = document.getElementById('pdf-preview-content');
             container.innerHTML = '';
             
             const periodBlocks = document.querySelectorAll('.period-block');
@@ -602,10 +565,7 @@
                 });
             });
 
-            if (allRows.length === 0) {
-                alert("Please fully select at least one lesson plan to generate.");
-                return;
-            }
+            if (allRows.length === 0) return alert("Please fully select at least one lesson plan to generate.");
 
             const schoolName = document.getElementById('schoolName').value || "_______________________";
             const teacherName = document.getElementById('teacherName').value || "_______________________";
@@ -618,7 +578,6 @@
             }
 
             let tbodyHTML = '';
-            
             allRows.forEach(rData => {
                 const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
                 const p = plan.Panchapadi || {};
@@ -641,7 +600,6 @@
                 `;
             });
 
-            // Clean Continuous Layout: Header sits OUTSIDE the table so it only prints on Page 1
             container.innerHTML = `
                 <div class="pdf-header">
                     <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
@@ -679,33 +637,137 @@
             window.scrollTo(0, 0);
         }
 
-        // --- DIRECT PDF SHARE ENGINE ---
+        // --- DIRECT PDF SHARE ENGINE WITH EXPLICIT CHUNKING ---
+        // This is a special builder only for html2pdf to ensure clean A4 page breaks.
         async function sharePlanViaApp() {
             const btn = document.getElementById('btnShare');
             const ogText = btn.innerHTML;
             btn.innerHTML = '⏳ Processing PDF...';
             
-            const element = document.getElementById('pdf-export-content');
+            // Re-extract data
+            const periodBlocks = document.querySelectorAll('.period-block');
+            let allRows = [];
+            periodBlocks.forEach((block, index) => {
+                const pNum = index + 1;
+                let isFirstInPeriod = true;
+                block.querySelectorAll('.lesson-row').forEach(row => {
+                    const cls = row.querySelector('.sel-class').value;
+                    const subj = row.querySelector('.sel-subj').value;
+                    const chap = row.querySelector('.sel-chap').value;
+                    const lessKey = row.querySelector('.sel-less').value;
+                    if (cls && subj && chap && lessKey !== "") {
+                        allRows.push({ pNum, cls, subj, chap, lessKey, isFirstInPeriod });
+                        isFirstInPeriod = false; 
+                    }
+                });
+            });
+
+            const schoolName = document.getElementById('schoolName').value || "_______________________";
+            const teacherName = document.getElementById('teacherName').value || "_______________________";
+            const rawDate = document.getElementById('planDate').value;
+            let formattedDate = "____/____/20___";
+            if(rawDate) {
+                const parts = rawDate.split('-');
+                if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+
+            // Target the hidden export container
+            const container = document.getElementById('temp-pdf-export');
+            container.innerHTML = '';
+            container.style.display = 'block';
+            container.style.width = '1122px'; // Standard A4 Landscape pixel width
+
+            const MAX_ROWS = 4; // Explicitly chunk into 4 periods per A4 page
             
-            // Temporarily lock width to desktop size so mobile views don't squish the PDF
-            element.style.width = '1122px'; 
-            
+            for (let i = 0; i < allRows.length; i += MAX_ROWS) {
+                const chunk = allRows.slice(i, i + MAX_ROWS);
+                let tbodyHTML = '';
+                
+                chunk.forEach(rData => {
+                    const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
+                    const p = plan.Panchapadi || {};
+                    let periodDisplay = rData.isFirstInPeriod ? rData.pNum : '';
+
+                    tbodyHTML += `
+                        <tr>
+                            <td class="col-period">${periodDisplay}</td>
+                            <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
+                            <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
+                            <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
+                            <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes)}</td>
+                            <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
+                            <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
+                            <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
+                            <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
+                            <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
+                            <td class="col-tlm">${formatPrint(plan.TLM)}</td>
+                        </tr>
+                    `;
+                });
+
+                // Only show the Title Block (School/Name/Date) on Page 1
+                let headerBlock = '';
+                if (i === 0) {
+                    headerBlock = `
+                        <div class="pdf-header">
+                            <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
+                            <div class="pdf-school">School: ${schoolName}</div>
+                            <div class="pdf-meta">
+                                <span>Teacher Name: ${teacherName}</span>
+                                <span>Date: ${formattedDate}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Explicit html2pdf page break element
+                const isNotFirstPage = (i > 0) ? '<div class="html2pdf__page-break"></div>' : '';
+                
+                container.innerHTML += `
+                    ${isNotFirstPage}
+                    <div class="pdf-page">
+                        ${headerBlock}
+                        <table class="pdf-table">
+                            ${getTableColgroup()}
+                            <thead>
+                                <tr>
+                                    <th class="col-period">Prd</th>
+                                    <th class="col-class">Class /<br>Subj</th>
+                                    <th class="col-topic">Topic</th>
+                                    <th class="col-comp">Competency</th>
+                                    <th class="col-lo">Learning<br>Outcome</th>
+                                    <th class="col-aditi">ଅଧୀତି<br>(Adhiti)</th>
+                                    <th class="col-bodha">ବୋଧ<br>(Bodha)</th>
+                                    <th class="col-abhyasa">ଅଭ୍ୟାସ<br>(Abhyasa)</th>
+                                    <th class="col-prayoga">ପ୍ରୟୋଗ<br>(Prayoga)</th>
+                                    <th class="col-prasara">ପ୍ରସାର<br>(Prasara)</th>
+                                    <th class="col-tlm">TLM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tbodyHTML}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            // IMPORTANT: Removed 'letterRendering' which was destroying Odia conjuncts
             const opt = {
-                margin:       [10, 5, 10, 5], // Add safe margins for clean page breaks
+                margin:       [5, 5, 5, 5], 
                 filename:     'Daily_Lesson_Plan.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
                     scale: 2, 
                     useCORS: true, 
-                    windowWidth: 1200 
+                    windowWidth: 1122 
                 }, 
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
-                // Crucial: Instructs the engine to never slice a table row in half
-                pagebreak:    { mode: ['css', 'legacy'], avoid: 'tr' } 
+                pagebreak:    { mode: ['css', 'legacy'] } 
             };
 
             try {
-                const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+                const pdfBlob = await html2pdf().set(opt).from(container).outputPdf('blob');
                 const file = new File([pdfBlob], 'Daily_Lesson_Plan.pdf', { type: 'application/pdf' });
                 
                 if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -726,7 +788,8 @@
                 console.error(err);
                 alert("Error generating PDF. Please use the Print option instead.");
             } finally {
-                element.style.width = ''; // Restore responsive width
+                container.style.display = 'none'; 
+                container.innerHTML = '';
                 btn.innerHTML = ogText;
             }
         }
