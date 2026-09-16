@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson Plan Generator</title>
     
-    <!-- Embed Universal Fonts to Guarantee Flawless Odia PDF Rendering -->
+    <!-- Embed Universal Fonts to Guarantee Flawless Odia Screen Rendering -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- PDF Generation Engine for Direct App Sharing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- NEW ENGINES: High-Res Snapshot & PDF Assembler (Bypasses text-shaping bugs) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         /* --- UI STYLES (Screen Only) --- */
@@ -44,7 +45,6 @@
         .btn-secondary { background: #e2e8f0; color: #334155; padding: 0.75rem 1rem; font-size: 0.9rem;}
         .btn-secondary:hover { background: #cbd5e1; transform: translateY(0); box-shadow: none; }
         
-        /* UI Profile Header */
         #profile-header-card { display: flex; justify-content: space-between; align-items: center; background: #e0e7ff; border-color: #c7d2fe; }
         #profile-info { display: flex; flex-direction: column; gap: 0.25rem; }
         #display-school { font-weight: 800; font-size: 1.1rem; color: var(--primary); }
@@ -59,7 +59,6 @@
         
         .setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
         
-        /* Modal Styles */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
@@ -80,7 +79,7 @@
             box-shadow: var(--shadow); overflow-x: auto; margin-bottom: 1.5rem; border: 1px solid var(--border);
         }
 
-        #pdf-preview-content, #temp-pdf-export { 
+        #pdf-preview-content { 
             min-width: 1000px; 
             background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif;
         }
@@ -102,13 +101,19 @@
             word-wrap: break-word; word-break: normal; overflow-wrap: break-word; 
         }
         .pdf-table th { background-color: #f1f5f9 !important; font-weight: bold; text-align: left; }
+        th.print-header-cell { background-color: white !important; border: none !important; padding: 0 0 10px 0 !important; }
         
         .col-period { text-align: center; font-weight: bold; }
         .pdf-text b { font-size: 9px; }
 
-        /* The hard page break specifically for html2pdf to recognize */
-        .html2pdf__page-break { height: 0; width: 100%; page-break-before: always; border: none; margin: 0; padding: 0; }
-        .pdf-page { padding: 15px; background: white; }
+        /* Snapshot specific container formatting */
+        .pdf-page { 
+            width: 1122px; /* Fixed A4 Landscape pixel width */
+            padding: 20px; 
+            background: white; 
+            box-sizing: border-box; 
+            font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif;
+        }
 
         /* --- MOBILE SCREEN ADAPTATIONS --- */
         @media screen and (max-width: 768px) {
@@ -131,9 +136,9 @@
             .action-bar button { width: 100%; }
         }
 
-        /* --- PRINT OVERRIDES --- */
+        /* --- PRINT OVERRIDES (For the native Print Engine) --- */
         @media print {
-            .no-print, .container:not(#preview-area), .modal-overlay { display: none !important; }
+            .no-print, .container:not(#preview-area), .modal-overlay, #temp-pdf-export { display: none !important; }
             #preview-wrapper { padding: 0; box-shadow: none; border: none; margin: 0; overflow: visible; }
             #pdf-preview-content { min-width: 100%; width: 100% !important; display: block !important; }
             @page { size: A4 landscape; margin: 6mm; }
@@ -195,7 +200,6 @@
             <h1 style="font-size: 1.5rem;">📄 Plan Preview</h1>
         </header>
 
-        <!-- Scrollable Wrapper for Mobile showing seamless continuous table -->
         <div id="preview-wrapper">
             <div id="pdf-preview-content"></div>
         </div>
@@ -207,7 +211,7 @@
         </div>
     </div>
 
-    <!-- HIDDEN EXPORT CONTAINER (Now correctly rendered in DOM to fix HTML2PDF blank bug) -->
+    <!-- HIDDEN EXPORT CONTAINER (For Image Snapshots) -->
     <div id="temp-pdf-export" style="display: none;"></div>
 
     <!-- PROFILE MODAL -->
@@ -251,11 +255,9 @@
                 });
         });
 
-        // --- MEMORY SYSTEM ---
         function savePlanToStorage() {
             const numPeriods = document.getElementById('numPeriods').value;
             let validPeriods = [];
-            
             document.querySelectorAll('.period-block').forEach(block => {
                 let rowDataList = [];
                 block.querySelectorAll('.lesson-row').forEach(row => {
@@ -281,10 +283,8 @@
         function loadPlanFromStorage() {
             const saved = localStorage.getItem('lessonGuruAutoSave');
             if (!saved) return false;
-
             try {
                 const data = JSON.parse(saved);
-                
                 if(data.schoolName) document.getElementById('schoolName').value = data.schoolName;
                 if(data.teacherName) document.getElementById('teacherName').value = data.teacherName;
                 if(data.planDate !== undefined) document.getElementById('planDate').value = data.planDate;
@@ -302,53 +302,37 @@
                     const pBlock = document.createElement('div');
                     pBlock.className = 'period-block';
                     pBlock.innerHTML = `
-                        <div class="period-title">
-                            School Period ${i}
-                            <button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button>
-                        </div>
+                        <div class="period-title">School Period ${i}<button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button></div>
                         <div id="rows-container-${i}"></div>
                     `;
                     container.appendChild(pBlock);
-
-                    if (rowsData.length === 0) {
-                        addLessonRow(i);
-                    } else {
-                        rowsData.forEach(r => addLessonRow(i, r));
-                    }
+                    if (rowsData.length === 0) addLessonRow(i);
+                    else rowsData.forEach(r => addLessonRow(i, r));
                 });
-
                 document.getElementById('builder-area').classList.remove('hidden');
                 return true;
-            } catch(e) {
-                return false;
-            }
+            } catch(e) { return false; }
         }
 
         function updateUIHeader() {
-            const school = document.getElementById('schoolName').value || "No School Defined";
-            const teacher = document.getElementById('teacherName').value || "No Name Defined";
-            document.getElementById('display-school').innerText = school;
-            document.getElementById('display-teacher').innerText = teacher;
+            document.getElementById('display-school').innerText = document.getElementById('schoolName').value || "No School Defined";
+            document.getElementById('display-teacher').innerText = document.getElementById('teacherName').value || "No Name Defined";
         }
 
         function clearSavedPlan() {
             if(confirm("Are you sure you want to clear your current plan and start fresh?")) {
                 const sName = document.getElementById('schoolName').value;
                 const tName = document.getElementById('teacherName').value;
-                
                 localStorage.removeItem('lessonGuruAutoSave');
-                
                 document.getElementById('schoolName').value = sName;
                 document.getElementById('teacherName').value = tName;
                 document.getElementById('planDate').valueAsDate = new Date(); 
-
                 document.getElementById('builder-area').classList.add('hidden');
                 document.getElementById('setup-card').classList.remove('hidden');
                 document.getElementById('periods-container').innerHTML = '';
             }
         }
 
-        // --- PROFILE MODAL ---
         function openProfileModal() {
             document.getElementById('modalSchoolName').value = document.getElementById('schoolName').value;
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
@@ -363,20 +347,16 @@
             const container = document.getElementById('periods-container');
             const currentBlocks = container.querySelectorAll('.period-block');
             const currentNum = currentBlocks.length;
-
             if (newNum > currentNum) {
                 for (let i = currentNum + 1; i <= newNum; i++) {
                     const pBlock = document.createElement('div');
                     pBlock.className = 'period-block';
-                    pBlock.innerHTML = `
-                        <div class="period-title">School Period ${i}<button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button></div>
-                        <div id="rows-container-${i}"></div>
-                    `;
+                    pBlock.innerHTML = `<div class="period-title">School Period ${i}<button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button></div><div id="rows-container-${i}"></div>`;
                     container.appendChild(pBlock);
                     addLessonRow(i);
                 }
             } else if (newNum < currentNum) {
-                for (let i = currentNum; i > newNum; i--) { container.removeChild(currentBlocks[i - 1]); }
+                for (let i = currentNum; i > newNum; i--) container.removeChild(currentBlocks[i - 1]);
             }
         }
 
@@ -384,7 +364,6 @@
             document.getElementById('schoolName').value = document.getElementById('modalSchoolName').value;
             document.getElementById('teacherName').value = document.getElementById('modalTeacherName').value;
             document.getElementById('planDate').value = document.getElementById('modalPlanDate').value;
-            
             const updatedPeriods = parseInt(document.getElementById('modalNumPeriods').value);
             if (!isNaN(updatedPeriods) && updatedPeriods >= 1) {
                 document.getElementById('numPeriods').value = updatedPeriods;
@@ -393,7 +372,6 @@
             updateUIHeader(); savePlanToStorage(); closeProfileModal();
         }
 
-        // --- BUILDER FUNCTIONS ---
         function buildPeriodForms() {
             const num = parseInt(document.getElementById('numPeriods').value);
             if (num < 1 || isNaN(num)) return;
@@ -402,10 +380,7 @@
             for (let i = 1; i <= num; i++) {
                 const pBlock = document.createElement('div');
                 pBlock.className = 'period-block';
-                pBlock.innerHTML = `
-                    <div class="period-title">School Period ${i}<button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button></div>
-                    <div id="rows-container-${i}"></div>
-                `;
+                pBlock.innerHTML = `<div class="period-title">School Period ${i}<button class="btn btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button></div><div id="rows-container-${i}"></div>`;
                 container.appendChild(pBlock);
                 addLessonRow(i);
             }
@@ -484,10 +459,8 @@
             items.forEach(item => { const opt = document.createElement('option'); opt.value = item; opt.textContent = item; selectElem.appendChild(opt); });
             selectElem.disabled = false;
         }
-
         function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
-        // --- MATH PERFECT COLUMNS ---
         function getTableColgroup() {
             return `
                 <colgroup>
@@ -506,7 +479,6 @@
             `;
         }
 
-        // --- TEXT SCRUBBER FORMATTERS ---
         function formatCompAndLO(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text);
@@ -531,7 +503,6 @@
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
-        // --- PLAN PREVIEW & UI TOGGLE ---
         function backToEdit() {
             document.getElementById('preview-area').classList.add('hidden');
             document.getElementById('main-container').classList.remove('hidden');
@@ -555,7 +526,6 @@
                     const subj = row.querySelector('.sel-subj').value;
                     const chap = row.querySelector('.sel-chap').value;
                     const lessKey = row.querySelector('.sel-less').value;
-                    
                     if (cls && subj && chap && lessKey !== "") {
                         allRows.push({ pNum, cls, subj, chap, lessKey, isFirstInPeriod });
                         isFirstInPeriod = false; 
@@ -635,13 +605,13 @@
             window.scrollTo(0, 0);
         }
 
-        // --- DIRECT PDF SHARE ENGINE WITH THE FLOW SWAP TRICK ---
+        // --- NEW: FLAWLESS ODIA PDF SNAPSHOT ENGINE ---
         async function sharePlanViaApp() {
             const btn = document.getElementById('btnShare');
             const ogText = btn.innerHTML;
-            btn.innerHTML = '⏳ Processing PDF...';
+            btn.innerHTML = '⏳ Processing Flawless PDF...';
             
-            // Re-extract data
+            // 1. Re-extract current data
             const periodBlocks = document.querySelectorAll('.period-block');
             let allRows = [];
             periodBlocks.forEach((block, index) => {
@@ -668,13 +638,11 @@
                 if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            // Target the hidden export container and the main preview area
+            // 2. Prepare the completely hidden Snapshot Canvas
             const container = document.getElementById('temp-pdf-export');
-            const previewArea = document.getElementById('preview-area');
-            
             container.innerHTML = '';
             
-            const MAX_ROWS = 4; // Explicitly chunk into 4 periods per A4 page
+            const MAX_ROWS = 4; // Explicitly chunk into 4 periods per A4 page to prevent height cutoff
             
             for (let i = 0; i < allRows.length; i += MAX_ROWS) {
                 const chunk = allRows.slice(i, i + MAX_ROWS);
@@ -716,11 +684,8 @@
                     `;
                 }
 
-                const isNotFirstPage = (i > 0) ? '<div class="html2pdf__page-break"></div>' : '';
-                
                 container.innerHTML += `
-                    ${isNotFirstPage}
-                    <div class="pdf-page">
+                    <div class="pdf-page" id="export-page-${i}">
                         ${headerBlock}
                         <table class="pdf-table">
                             ${getTableColgroup()}
@@ -747,32 +712,43 @@
                 `;
             }
 
-            // THE FLOW SWAP TRICK: 
-            // Hide the UI, put the PDF container in the normal page flow 
-            // so the browser naturally measures its height and html2canvas captures it perfectly.
-            previewArea.style.display = 'none';
+            // 3. Move it onto the screen securely so the Snapshot engine can "see" it
             container.style.display = 'block';
-            container.style.width = '1122px'; // Standard A4 Landscape pixel width
+            container.style.position = 'fixed';
+            container.style.top = '0';
+            container.style.left = '-9999px'; // Safely out of viewport
+            container.style.zIndex = '-1';
 
-            // Allow the DOM to reflow quickly
-            await new Promise(resolve => setTimeout(resolve, 300));
-            window.scrollTo(0, 0);
-
-            const opt = {
-                margin:       [5, 5, 5, 5], 
-                filename:     'Daily_Lesson_Plan.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { 
-                    scale: 2, 
-                    useCORS: true, 
-                    windowWidth: 1122 
-                }, 
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
-                pagebreak:    { mode: ['css', 'legacy'] } 
-            };
+            // Wait briefly to ensure fonts are fully applied
+            await new Promise(resolve => setTimeout(resolve, 500));
 
             try {
-                const pdfBlob = await html2pdf().set(opt).from(container).outputPdf('blob');
+                // Initialize standard jsPDF (A4 Landscape)
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('l', 'mm', 'a4');
+                
+                const pages = container.querySelectorAll('.pdf-page');
+
+                // 4. Snap high-quality pictures of each page individually
+                for (let i = 0; i < pages.length; i++) {
+                    const dataUrl = await htmlToImage.toPng(pages[i], {
+                        pixelRatio: 2.5, // Crisp resolution
+                        backgroundColor: '#ffffff',
+                        width: 1122
+                    });
+
+                    if (i > 0) pdf.addPage();
+                    
+                    // Paste the perfect Odia picture onto the PDF Canvas
+                    const imgProps = pdf.getImageProperties(dataUrl);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                    
+                    pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                }
+
+                // 5. Generate and Share File
+                const pdfBlob = pdf.output('blob');
                 const file = new File([pdfBlob], 'Daily_Lesson_Plan.pdf', { type: 'application/pdf' });
                 
                 if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -793,10 +769,8 @@
                 console.error(err);
                 alert("Error generating PDF. Please use the Print option instead.");
             } finally {
-                // Restore the original UI states
                 container.style.display = 'none'; 
                 container.innerHTML = '';
-                previewArea.style.display = 'block'; 
                 btn.innerHTML = ogText;
             }
         }
