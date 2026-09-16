@@ -91,7 +91,7 @@
             .modal-content { padding: 1.5rem; }
         }
 
-        /* --- PDF & PRINT TABLE DESIGN (Hidden from screen UI) --- */
+        /* --- PDF & PRINT TABLE DESIGN --- */
         #pdf-export-content { display: none; }
 
         @media print {
@@ -108,14 +108,14 @@
             .pdf-school { font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #334155; }
             .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 4px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
             
-            .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
+            .pdf-table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; color: #000; }
             .pdf-table thead { display: table-header-group; }
             .pdf-table tbody, .pdf-table tr, .pdf-table td { page-break-inside: avoid !important; break-inside: avoid !important; } 
             
-            /* FORCE WORD WRAP AND REDUCE PADDING TO ALLOW MASSIVE COLUMN SQUEEZING */
+            /* FORCE WORD WRAP AND REDUCE PADDING TO ALLOW SQUEEZING */
             .pdf-table th, .pdf-table td { 
                 border: 1px solid #000; 
-                padding: 3px; 
+                padding: 4px 3px; /* Tighter padding */
                 vertical-align: top; 
                 line-height: 1.25; 
                 word-wrap: break-word;
@@ -126,18 +126,8 @@
             
             th.print-header-cell { background-color: white !important; border: none !important; padding: 0 0 10px 0 !important; }
             
-            /* AGGRESSIVELY SQUEEZED COLUMNS */
-            .col-period { width: 3%; text-align: center; font-weight: bold; }
-            .col-class { width: 6%; }    
-            .col-topic { width: 7%; }  
-            .col-comp { width: 12%; }    
-            .col-lo { width: 12%; }      
-            .col-aditi { width: 8%; }
-            .col-bodha { width: 18%; }   
-            .col-abhyasa { width: 8%; }
-            .col-prayoga { width: 9%; }
-            .col-prasara { width: 9%; }
-            .col-tlm { width: 8%; }
+            /* Colgroup completely overrides any browser math guessing */
+            .col-period { text-align: center; font-weight: bold; }
             
             .pdf-text { margin-bottom: 3px; }
             .pdf-text b { font-size: 9px; }
@@ -228,7 +218,7 @@
         </div>
     </div>
 
-    <!-- BULK GENERATION MODAL (Asks for Holidays BEFORE 7/30 Day Printing) -->
+    <!-- BULK GENERATION MODAL -->
     <div id="bulk-plan-modal" class="modal-overlay hidden no-print">
         <div class="modal-content card">
             <div class="modal-header">
@@ -712,6 +702,26 @@
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
+        // --- HTML TABLE GENERATOR TRICK ---
+        // This generates the specific Colgroup required to force browser column widths
+        function getTableColgroup() {
+            return `
+                <colgroup>
+                    <col style="width: 2.5%;">
+                    <col style="width: 5%;">
+                    <col style="width: 7%;">
+                    <col style="width: 12%;">
+                    <col style="width: 12%;">
+                    <col style="width: 8%;">
+                    <col style="width: 20.5%;">
+                    <col style="width: 8%;">
+                    <col style="width: 8.5%;">
+                    <col style="width: 8.5%;">
+                    <col style="width: 8%;">
+                </colgroup>
+            `;
+        }
+
         // --- BULK MULTI-DAY PDF GENERATOR ---
         function generateBulkPDF(daysCount, skipSun, excludedDatesArr) {
             const container = document.getElementById('pdf-export-content');
@@ -784,6 +794,7 @@
                     fullHTML += `
                         <div style="${pageBreakStyle}">
                             <table class="pdf-table">
+                                ${getTableColgroup()}
                                 <thead>
                                     <tr>
                                         <th colspan="11" class="print-header-cell">
@@ -928,6 +939,7 @@
                 container.innerHTML += `
                     <div style="${pageBreakStyle}">
                         <table class="pdf-table">
+                            ${getTableColgroup()}
                             <thead>
                                 <tr>
                                     <th colspan="11" class="print-header-cell">
