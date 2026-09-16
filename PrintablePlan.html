@@ -85,7 +85,6 @@
             background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif;
         }
         
-        /* Ensure specific Odia font assignment for the generated text */
         .pdf-text { font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; margin-bottom: 3px; }
         
         .pdf-header { text-align: center; margin-bottom: 12px; width: 100%; }
@@ -208,8 +207,8 @@
         </div>
     </div>
 
-    <!-- HIDDEN EXPORT CONTAINER (Pre-chopped specifically for Share PDF logic) -->
-    <div id="temp-pdf-export" style="display: none; position: absolute; left: -9999px; top: 0;"></div>
+    <!-- HIDDEN EXPORT CONTAINER (Now correctly rendered in DOM to fix HTML2PDF blank bug) -->
+    <div id="temp-pdf-export" style="display: none;"></div>
 
     <!-- PROFILE MODAL -->
     <div id="edit-profile-modal" class="modal-overlay hidden no-print">
@@ -539,7 +538,6 @@
             document.getElementById('builder-area').classList.remove('hidden');
         }
 
-        // Generates the plan as ONE continuous HTML table for Screen/Print
         function generatePlanPreview() {
             const container = document.getElementById('pdf-preview-content');
             container.innerHTML = '';
@@ -637,8 +635,7 @@
             window.scrollTo(0, 0);
         }
 
-        // --- DIRECT PDF SHARE ENGINE WITH EXPLICIT CHUNKING ---
-        // This is a special builder only for html2pdf to ensure clean A4 page breaks.
+        // --- DIRECT PDF SHARE ENGINE WITH THE FLOW SWAP TRICK ---
         async function sharePlanViaApp() {
             const btn = document.getElementById('btnShare');
             const ogText = btn.innerHTML;
@@ -671,12 +668,12 @@
                 if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            // Target the hidden export container
+            // Target the hidden export container and the main preview area
             const container = document.getElementById('temp-pdf-export');
+            const previewArea = document.getElementById('preview-area');
+            
             container.innerHTML = '';
-            container.style.display = 'block';
-            container.style.width = '1122px'; // Standard A4 Landscape pixel width
-
+            
             const MAX_ROWS = 4; // Explicitly chunk into 4 periods per A4 page
             
             for (let i = 0; i < allRows.length; i += MAX_ROWS) {
@@ -705,7 +702,6 @@
                     `;
                 });
 
-                // Only show the Title Block (School/Name/Date) on Page 1
                 let headerBlock = '';
                 if (i === 0) {
                     headerBlock = `
@@ -720,7 +716,6 @@
                     `;
                 }
 
-                // Explicit html2pdf page break element
                 const isNotFirstPage = (i > 0) ? '<div class="html2pdf__page-break"></div>' : '';
                 
                 container.innerHTML += `
@@ -752,7 +747,17 @@
                 `;
             }
 
-            // IMPORTANT: Removed 'letterRendering' which was destroying Odia conjuncts
+            // THE FLOW SWAP TRICK: 
+            // Hide the UI, put the PDF container in the normal page flow 
+            // so the browser naturally measures its height and html2canvas captures it perfectly.
+            previewArea.style.display = 'none';
+            container.style.display = 'block';
+            container.style.width = '1122px'; // Standard A4 Landscape pixel width
+
+            // Allow the DOM to reflow quickly
+            await new Promise(resolve => setTimeout(resolve, 300));
+            window.scrollTo(0, 0);
+
             const opt = {
                 margin:       [5, 5, 5, 5], 
                 filename:     'Daily_Lesson_Plan.pdf',
@@ -788,8 +793,10 @@
                 console.error(err);
                 alert("Error generating PDF. Please use the Print option instead.");
             } finally {
+                // Restore the original UI states
                 container.style.display = 'none'; 
                 container.innerHTML = '';
+                previewArea.style.display = 'block'; 
                 btn.innerHTML = ogText;
             }
         }
