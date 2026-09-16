@@ -58,7 +58,7 @@
             background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
             z-index: 10000; display: flex; align-items: center; justify-content: center;
         }
-        .modal-content { background: white; padding: 2.5rem; border-radius: 1rem; width: 90%; max-width: 500px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid var(--border); }
+        .modal-content { background: white; padding: 2.5rem; border-radius: 1rem; width: 90%; max-width: 600px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid var(--border); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
         .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
 
@@ -115,21 +115,32 @@
             /* Custom Header Cell to embed Header inside Table for Pagination */
             th.print-header-cell { background-color: white !important; border: none !important; padding: 0 0 10px 0 !important; }
             
-            /* --- ADJUSTED COLUMN WIDTHS --- */
+            /* --- DEFAULT COLUMN WIDTHS (Text & Code Mode) --- */
             .col-period { width: 3.5%; text-align: center; font-weight: bold; }
-            .col-class { width: 6%; }    /* Thinned down */
-            .col-topic { width: 7.5%; }  /* Thinned down */
-            .col-comp { width: 10%; }    /* Expanded */
-            .col-lo { width: 11%; }      /* Expanded */
+            .col-class { width: 6%; }    
+            .col-topic { width: 7.5%; }  
+            .col-comp { width: 10%; }    
+            .col-lo { width: 11%; }      
             .col-aditi { width: 9%; }
             .col-bodha { width: 15%; }
             .col-abhyasa { width: 9%; }
             .col-prayoga { width: 10.5%; }
             .col-prasara { width: 10.5%; }
             .col-tlm { width: 8%; }
+
+            /* --- OVERRIDES FOR "CODES ONLY" MODE --- */
+            /* Comp & LO get shrunk, and Panchapadi expands by 11% total */
+            .print-codes-only .col-comp { width: 5%; }
+            .print-codes-only .col-lo { width: 5%; }
+            .print-codes-only .col-aditi { width: 11%; }
+            .print-codes-only .col-bodha { width: 19%; }
+            .print-codes-only .col-abhyasa { width: 11%; }
+            .print-codes-only .col-prayoga { width: 12%; }
+            .print-codes-only .col-prasara { width: 12%; }
             
             .pdf-text { margin-bottom: 3px; }
             .pdf-text b { font-size: 9px; }
+            .code-badge { font-weight: 800; color: #000; }
         }
     </style>
 </head>
@@ -159,12 +170,20 @@
                     <input type="text" id="teacherName" placeholder="Enter Your Name...">
                 </div>
                 <div>
-                    <label>Plan Date</label>
+                    <label>Plan Date (Leave blank for future plans)</label>
                     <input type="date" id="planDate">
                 </div>
                 <div>
                     <label>Teaching Periods Today</label>
                     <input type="number" id="numPeriods" min="1" max="10" value="7">
+                </div>
+                <!-- NEW: Print Style Selection -->
+                <div style="grid-column: 1 / -1;">
+                    <label>Print Style (Competency & LO)</label>
+                    <select id="printStyle">
+                        <option value="full">Show Full Text & Codes</option>
+                        <option value="code_only">Show Codes Only (Saves space for Panchapadi)</option>
+                    </select>
                 </div>
             </div>
             <button class="btn" style="width: 100%;" onclick="buildPeriodForms()">Start Planning</button>
@@ -179,7 +198,7 @@
                     <div id="display-school">School Name</div>
                     <div id="display-teacher">Teacher Name</div>
                 </div>
-                <button class="btn-secondary" onclick="openProfileModal()">✏️ Edit Profile</button>
+                <button class="btn-secondary" onclick="openProfileModal()">✏️ Edit Profile & Settings</button>
             </div>
 
             <div id="periods-container"></div>
@@ -187,8 +206,11 @@
             <div class="card print-cta-card" style="display: flex; justify-content: space-between; align-items: center; background: #e0e7ff; border-color: var(--primary); margin-top: 2rem;">
                 <div>
                     <h3 style="color: var(--primary); margin-bottom: 0.25rem;">Plan Complete?</h3>
-                    <p style="font-size: 0.95rem; color: #4338ca; margin-bottom: 0.75rem;">Tap the button below and select <b>"Save as PDF"</b>.</p>
-                    <button class="btn-secondary" style="background: #fee2e2; color: #dc2626; border: none; border-radius: 0.4rem; cursor: pointer; font-weight: bold;" onclick="clearSavedPlan()">🗑️ Start Fresh Plan</button>
+                    <p style="font-size: 0.95rem; color: #4338ca; margin-bottom: 0.75rem;">Generate your PDF or quickly prep for tomorrow.</p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button class="btn-secondary" style="background: #10b981; color: white; border: none; border-radius: 0.4rem; cursor: pointer; font-weight: bold;" onclick="advanceToNextDay()">⏩ Auto-Plan Next Day</button>
+                        <button class="btn-secondary" style="background: #fee2e2; color: #dc2626; border: none; border-radius: 0.4rem; cursor: pointer; font-weight: bold;" onclick="clearSavedPlan()">🗑️ Start Fresh Plan</button>
+                    </div>
                 </div>
                 <button class="btn" onclick="nativePrintPDF()" style="box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4);">
                     🖨️ Save as PDF / Print
@@ -204,7 +226,7 @@
                 <h2>Update Profile & Settings</h2>
                 <button class="close-modal" onclick="closeProfileModal()">×</button>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+            <div class="setup-grid" style="margin-bottom: 1.5rem;">
                 <div>
                     <label>School Name</label>
                     <input type="text" id="modalSchoolName">
@@ -217,16 +239,23 @@
                     <label>Update Date</label>
                     <input type="date" id="modalPlanDate">
                 </div>
-                <!-- ADDED: Modify periods from modal -->
                 <div>
-                    <label>Teaching Periods Today</label>
+                    <label>Teaching Periods</label>
                     <input type="number" id="modalNumPeriods" min="1" max="10">
+                </div>
+                <div style="grid-column: 1 / -1;">
+                    <label>Print Style (Competency & LO)</label>
+                    <select id="modalPrintStyle">
+                        <option value="full">Show Full Text & Codes</option>
+                        <option value="code_only">Show Codes Only (Saves space for Panchapadi)</option>
+                    </select>
                 </div>
             </div>
             <button class="btn" style="width: 100%;" onclick="saveUpdatedProfile()">Save & Update</button>
         </div>
     </div>
 
+    <!-- PRINT CONTAINER -->
     <div id="pdf-export-content"></div>
 
     <script>
@@ -275,6 +304,7 @@
                 schoolName: document.getElementById('schoolName').value,
                 teacherName: document.getElementById('teacherName').value,
                 planDate: document.getElementById('planDate').value,
+                printStyle: document.getElementById('printStyle').value,
                 numPeriods: numPeriods,
                 periods: validPeriods
             }));
@@ -289,7 +319,8 @@
                 
                 if(data.schoolName) document.getElementById('schoolName').value = data.schoolName;
                 if(data.teacherName) document.getElementById('teacherName').value = data.teacherName;
-                if(data.planDate) document.getElementById('planDate').value = data.planDate;
+                if(data.planDate !== undefined) document.getElementById('planDate').value = data.planDate; // Allows blank dates
+                if(data.printStyle) document.getElementById('printStyle').value = data.printStyle;
 
                 updateUIHeader(); 
 
@@ -338,16 +369,76 @@
             if(confirm("Are you sure you want to clear your current plan and start fresh?")) {
                 const sName = document.getElementById('schoolName').value;
                 const tName = document.getElementById('teacherName').value;
+                const pStyle = document.getElementById('printStyle').value;
                 
                 localStorage.removeItem('lessonGuruAutoSave');
                 
                 document.getElementById('schoolName').value = sName;
                 document.getElementById('teacherName').value = tName;
                 document.getElementById('planDate').valueAsDate = new Date(); 
+                document.getElementById('printStyle').value = pStyle;
 
                 document.getElementById('builder-area').classList.add('hidden');
                 document.getElementById('setup-card').classList.remove('hidden');
                 document.getElementById('periods-container').innerHTML = '';
+            }
+        }
+
+        // --- NEW: AUTO-ADVANCE TO NEXT DAY (Future Plans) ---
+        function advanceToNextDay() {
+            const rows = document.querySelectorAll('.lesson-row');
+            let overflowWarning = false;
+
+            rows.forEach(row => {
+                const clsSel = row.querySelector('.sel-class');
+                const subjSel = row.querySelector('.sel-subj');
+                const chapSel = row.querySelector('.sel-chap');
+                const lessSel = row.querySelector('.sel-less');
+
+                if (clsSel.value && subjSel.value && chapSel.value && lessSel.value !== "") {
+                    const cls = clsSel.value;
+                    const subj = subjSel.value;
+                    let chap = chapSel.value;
+                    
+                    const chapters = Object.keys(db[cls][subj] || {});
+                    let chapIndex = chapters.indexOf(chap);
+
+                    const periodData = db[cls][subj][chap];
+                    const periods = Array.isArray(periodData) ? periodData.map((_, i) => i.toString()) : Object.keys(periodData);
+                    let pIndex = periods.indexOf(lessSel.value.toString());
+                    
+                    // Logic to jump forward 1 period
+                    if (pIndex + 1 < periods.length) {
+                        // Same chapter, next period
+                        lessSel.value = periods[pIndex + 1];
+                    } else {
+                        // End of chapter, bump to next chapter
+                        if (chapIndex + 1 < chapters.length) {
+                            const nextChap = chapters[chapIndex + 1];
+                            chapSel.value = nextChap;
+                            
+                            // Manually trigger the lessons update logic for the new chapter
+                            updateLessons(row.id);
+                            
+                            // Select the very first period of the new chapter
+                            const nextPeriodData = db[cls][subj][nextChap];
+                            const nextPeriods = Array.isArray(nextPeriodData) ? nextPeriodData.map((_, i) => i.toString()) : Object.keys(nextPeriodData);
+                            lessSel.value = nextPeriods[0];
+                        } else {
+                            overflowWarning = true; // Subject completed!
+                        }
+                    }
+                }
+            });
+
+            // Clear Date field since it's a future plan
+            document.getElementById('planDate').value = "";
+            savePlanToStorage();
+            
+            if (overflowWarning) {
+                alert("Advanced successfully! Note: Some classes have reached the end of their subject syllabus and remained unchanged.");
+            } else {
+                alert("Successfully auto-planned the next day! All periods have been bumped forward.");
             }
         }
 
@@ -356,7 +447,8 @@
             document.getElementById('modalSchoolName').value = document.getElementById('schoolName').value;
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
             document.getElementById('modalPlanDate').value = document.getElementById('planDate').value;
-            document.getElementById('modalNumPeriods').value = document.getElementById('numPeriods').value; // Populate periods
+            document.getElementById('modalNumPeriods').value = document.getElementById('numPeriods').value; 
+            document.getElementById('modalPrintStyle').value = document.getElementById('printStyle').value; 
             document.getElementById('edit-profile-modal').classList.remove('hidden');
         }
 
@@ -364,14 +456,12 @@
             document.getElementById('edit-profile-modal').classList.add('hidden');
         }
 
-        // NEW LOGIC to safely add/remove periods without clearing existing ones
         function adjustPeriods(newNum) {
             const container = document.getElementById('periods-container');
             const currentBlocks = container.querySelectorAll('.period-block');
             const currentNum = currentBlocks.length;
 
             if (newNum > currentNum) {
-                // Add new missing periods
                 for (let i = currentNum + 1; i <= newNum; i++) {
                     const pBlock = document.createElement('div');
                     pBlock.className = 'period-block';
@@ -386,7 +476,6 @@
                     addLessonRow(i);
                 }
             } else if (newNum < currentNum) {
-                // Remove excess periods from the bottom
                 for (let i = currentNum; i > newNum; i--) {
                     container.removeChild(currentBlocks[i - 1]);
                 }
@@ -397,8 +486,8 @@
             document.getElementById('schoolName').value = document.getElementById('modalSchoolName').value;
             document.getElementById('teacherName').value = document.getElementById('modalTeacherName').value;
             document.getElementById('planDate').value = document.getElementById('modalPlanDate').value;
+            document.getElementById('printStyle').value = document.getElementById('modalPrintStyle').value;
             
-            // Adjust periods
             const updatedPeriods = parseInt(document.getElementById('modalNumPeriods').value);
             if (!isNaN(updatedPeriods) && updatedPeriods >= 1) {
                 document.getElementById('numPeriods').value = updatedPeriods;
@@ -524,16 +613,27 @@
 
         function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
+        // --- NEW: SMART FORMATTERS (Text & Codes vs Codes Only) ---
+        function formatCompAndLO(text, isCodeOnly) {
+            if (!text || text === 'nan') return '';
+            
+            if (isCodeOnly) {
+                // Look for [Codes: ...] or just [...] and extract only what's inside
+                const match = String(text).match(/\[(Codes?:?\s*)?(.*?)\]/i);
+                if (match && match[2]) {
+                    return `<div class="pdf-text code-badge">${match[2].trim()}</div>`;
+                }
+                return `<div class="pdf-text">-</div>`; // Fallback if no code exists
+            } else {
+                // Show full text and codes
+                let cleaned = String(text).replace(/\|/g, '<br>').replace(/✓/g, '').trim();
+                return `<div class="pdf-text">${cleaned}</div>`;
+            }
+        }
+
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
-            return `<div class="pdf-text">${cleaned}</div>`;
-        }
-
-        function formatLO(text) {
-            if (!text || text === 'nan') return '';
-            let cleaned = String(text).split(/\s*\|\s*\[Codes:/)[0];
-            cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').trim();
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
@@ -550,10 +650,17 @@
             const container = document.getElementById('pdf-export-content');
             container.innerHTML = '';
             
+            // Check Print Style setting
+            const isCodeOnly = document.getElementById('printStyle').value === 'code_only';
+            if (isCodeOnly) {
+                container.classList.add('print-codes-only');
+            } else {
+                container.classList.remove('print-codes-only');
+            }
+            
             const periodBlocks = document.querySelectorAll('.period-block');
             let allRows = [];
             
-            // Extract all valid rows into a flat array
             periodBlocks.forEach((block, index) => {
                 const pNum = index + 1;
                 const rows = block.querySelectorAll('.lesson-row');
@@ -574,7 +681,6 @@
 
             if (allRows.length === 0) return false;
 
-            // Fetch Header Values
             const schoolName = document.getElementById('schoolName').value || "_______________________";
             const teacherName = document.getElementById('teacherName').value || "_______________________";
             
@@ -585,7 +691,6 @@
                 if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            // PAGINATION LOGIC: Chunk rows into max 6 per table/page. 
             const MAX_ROWS = 6;
             
             for (let i = 0; i < allRows.length; i += MAX_ROWS) {
@@ -602,8 +707,8 @@
                             <td class="col-period">${periodDisplay}</td>
                             <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
                             <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                            <td class="col-comp">${formatPrint(plan.Competency)}</td>
-                            <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
+                            <td class="col-comp">${formatCompAndLO(plan.Competency, isCodeOnly)}</td>
+                            <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes, isCodeOnly)}</td>
                             <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
                             <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
                             <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
@@ -614,7 +719,6 @@
                     `;
                 });
 
-                // Generate table with page break (unless it's the last chunk)
                 const pageBreakStyle = (i + MAX_ROWS < allRows.length) ? 'page-break-after: always;' : '';
                 
                 container.innerHTML += `
