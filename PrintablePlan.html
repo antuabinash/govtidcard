@@ -112,10 +112,9 @@
             .pdf-table thead { display: table-header-group; }
             .pdf-table tbody, .pdf-table tr, .pdf-table td { page-break-inside: avoid !important; break-inside: avoid !important; } 
             
-            /* FORCE WORD WRAP AND REDUCE PADDING TO ALLOW SQUEEZING */
             .pdf-table th, .pdf-table td { 
                 border: 1px solid #000; 
-                padding: 4px 3px; /* Tighter padding */
+                padding: 4px 3px; 
                 vertical-align: top; 
                 line-height: 1.25; 
                 word-wrap: break-word;
@@ -126,7 +125,6 @@
             
             th.print-header-cell { background-color: white !important; border: none !important; padding: 0 0 10px 0 !important; }
             
-            /* Colgroup completely overrides any browser math guessing */
             .col-period { text-align: center; font-weight: bold; }
             
             .pdf-text { margin-bottom: 3px; }
@@ -686,24 +684,8 @@
 
         function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
-        // --- FORMATTERS ---
-        function formatPrint(text) {
-            if (!text || text === 'nan') return '';
-            let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
-            return `<div class="pdf-text">${cleaned}</div>`;
-        }
-
-        function formatPanchapadi(text) {
-            if (!text || text === 'nan') return '';
-            let teacherPart = String(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
-            teacherPart = teacherPart.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
-            let cleaned = teacherPart.replace(/\|/g, '<br>').trim();
-            if (cleaned.endsWith('<br>')) cleaned = cleaned.substring(0, cleaned.length - 4).trim();
-            return `<div class="pdf-text">${cleaned}</div>`;
-        }
 
         // --- HTML TABLE GENERATOR TRICK ---
-        // This generates the specific Colgroup required to force browser column widths
         function getTableColgroup() {
             return `
                 <colgroup>
@@ -720,6 +702,39 @@
                     <col style="width: 8%;">
                 </colgroup>
             `;
+        }
+
+        // --- NEW: SMART FORMATTERS (REMOVES [CODES: ...] AUTOMATICALLY) ---
+        function formatCompAndLO(text) {
+            if (!text || text === 'nan') return '';
+            
+            let cleaned = String(text);
+            
+            // Text Scrubber: Finds "[Code", "[Codes" and instantly slices off everything after it
+            const codeMatch = cleaned.match(/\[\s*Codes?:/i);
+            if (codeMatch) {
+                cleaned = cleaned.substring(0, codeMatch.index);
+            }
+            
+            // Clean up visual spacing, pipes, checkmarks, and emojis
+            cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '').trim();
+            
+            return `<div class="pdf-text">${cleaned}</div>`;
+        }
+
+        function formatPrint(text) {
+            if (!text || text === 'nan') return '';
+            let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
+            return `<div class="pdf-text">${cleaned}</div>`;
+        }
+
+        function formatPanchapadi(text) {
+            if (!text || text === 'nan') return '';
+            let teacherPart = String(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
+            teacherPart = teacherPart.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
+            let cleaned = teacherPart.replace(/\|/g, '<br>').trim();
+            if (cleaned.endsWith('<br>')) cleaned = cleaned.substring(0, cleaned.length - 4).trim();
+            return `<div class="pdf-text">${cleaned}</div>`;
         }
 
         // --- BULK MULTI-DAY PDF GENERATOR ---
@@ -776,8 +791,8 @@
                                 <td class="col-period">${periodDisplay}</td>
                                 <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
                                 <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                                <td class="col-comp">${formatPrint(plan.Competency)}</td>
-                                <td class="col-lo">${formatPrint(plan.LearningOutcomes)}</td>
+                                <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
+                                <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes)}</td>
                                 <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
                                 <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
                                 <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
@@ -922,8 +937,8 @@
                             <td class="col-period">${periodDisplay}</td>
                             <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
                             <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                            <td class="col-comp">${formatPrint(plan.Competency)}</td>
-                            <td class="col-lo">${formatPrint(plan.LearningOutcomes)}</td>
+                            <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
+                            <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes)}</td>
                             <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
                             <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
                             <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
