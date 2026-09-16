@@ -58,12 +58,12 @@
         .holiday-tag span:hover { color: #991b1b; }
 
         /* Modal Styles */
-        #edit-profile-modal {
+        .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px);
             z-index: 10000; display: flex; align-items: center; justify-content: center;
         }
-        .modal-content { background: white; padding: 2.5rem; border-radius: 1rem; width: 90%; max-width: 650px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid var(--border); }
+        .modal-content { background: white; padding: 2.5rem; border-radius: 1rem; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid var(--border); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
         .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
 
@@ -95,7 +95,7 @@
         #pdf-export-content { display: none; }
 
         @media print {
-            .no-print, .container, #edit-profile-modal { display: none !important; }
+            .no-print, .container, .modal-overlay { display: none !important; }
             #pdf-export-content { 
                 display: block !important; width: 100% !important; padding: 0 !important; margin: 0 !important;
                 background: white; color: black; font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif;
@@ -110,7 +110,6 @@
             
             .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
             .pdf-table thead { display: table-header-group; }
-            
             .pdf-table tbody, .pdf-table tr, .pdf-table td { page-break-inside: avoid !important; break-inside: avoid !important; } 
             
             .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 5px; vertical-align: top; word-wrap: break-word; line-height: 1.25; }
@@ -118,29 +117,21 @@
             
             th.print-header-cell { background-color: white !important; border: none !important; padding: 0 0 10px 0 !important; }
             
+            /* Clean Compact Columns */
             .col-period { width: 2.5%; text-align: center; font-weight: bold; }
             .col-class { width: 5%; }    
             .col-topic { width: 6.5%; }  
             .col-comp { width: 10%; }    
             .col-lo { width: 11%; }      
             .col-aditi { width: 9%; }
-            .col-bodha { width: 18%; }   
+            .col-bodha { width: 18%; } /* Maximized width for dense instructions */  
             .col-abhyasa { width: 9%; }
             .col-prayoga { width: 10.5%; }
             .col-prasara { width: 10.5%; }
             .col-tlm { width: 8%; }
 
-            .print-codes-only .col-comp { width: 5%; }
-            .print-codes-only .col-lo { width: 5%; }
-            .print-codes-only .col-aditi { width: 11%; }
-            .print-codes-only .col-bodha { width: 22%; }
-            .print-codes-only .col-abhyasa { width: 11%; }
-            .print-codes-only .col-prayoga { width: 12%; }
-            .print-codes-only .col-prasara { width: 12%; }
-            
             .pdf-text { margin-bottom: 3px; }
             .pdf-text b { font-size: 9px; }
-            .code-badge { font-weight: 800; color: #000; }
         }
     </style>
 </head>
@@ -177,30 +168,6 @@
                     <label>Teaching Periods Today</label>
                     <input type="number" id="numPeriods" min="1" max="10" value="7">
                 </div>
-
-                <!-- Print Style Selection -->
-                <div style="grid-column: 1 / -1;">
-                    <label>Print Style (Competency & LO)</label>
-                    <select id="printStyle">
-                        <option value="full">Show Full Text & Codes</option>
-                        <option value="code_only">Show Codes Only (Saves space for Panchapadi)</option>
-                    </select>
-                </div>
-
-                <!-- Holiday & Exclusion Manager -->
-                <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border);">
-                    <label>Exclude Dates (Holidays / Leaves)</label>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <input type="date" id="holidayInput" style="flex: 1;">
-                        <button class="btn-secondary" onclick="addHoliday('holidayInput')" style="flex: none; background: #e2e8f0; font-weight: bold;">+ Add Date</button>
-                    </div>
-                    <div id="holidayList" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;"></div>
-                    
-                    <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer; margin-top: 0.5rem;">
-                        <input type="checkbox" id="skipSundays" checked style="width: 1.25rem; height: 1.25rem; cursor: pointer;"> 
-                        Automatically skip Sundays
-                    </label>
-                </div>
             </div>
             <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="buildPeriodForms()">Start Planning</button>
         </div>
@@ -213,7 +180,7 @@
                     <div id="display-school">School Name</div>
                     <div id="display-teacher">Teacher Name</div>
                 </div>
-                <button class="btn-secondary" onclick="openProfileModal()">✏️ Edit Profile & Dates</button>
+                <button class="btn-secondary" onclick="openProfileModal()">✏️ Edit Profile & Settings</button>
             </div>
 
             <div id="periods-container"></div>
@@ -223,8 +190,8 @@
                     <h3 style="color: var(--primary); margin-bottom: 0.25rem;">Plan Complete?</h3>
                     <p style="font-size: 0.95rem; color: #4338ca; margin-bottom: 0.75rem;">Generate your PDF or quickly generate multi-day plans.</p>
                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                        <button class="btn-secondary" style="background: #10b981; color: white; border: none; border-radius: 0.4rem; cursor: pointer; font-weight: bold;" onclick="generateBulkPDF(7)">📅 Print Next 7 Days</button>
-                        <button class="btn-secondary" style="background: #0ea5e9; color: white; border: none; border-radius: 0.4rem; cursor: pointer; font-weight: bold;" onclick="generateBulkPDF(30)">📅 Print Next 30 Days</button>
+                        <button class="btn-secondary" style="background: #10b981; color: white; border: none; border-radius: 0.4rem; cursor: pointer; font-weight: bold;" onclick="openBulkModal(7)">📅 Print Next 7 Days</button>
+                        <button class="btn-secondary" style="background: #0ea5e9; color: white; border: none; border-radius: 0.4rem; cursor: pointer; font-weight: bold;" onclick="openBulkModal(30)">📅 Print Next 30 Days</button>
                         <button class="btn-secondary" style="background: #fee2e2; color: #dc2626; border: none; border-radius: 0.4rem; cursor: pointer; font-weight: bold;" onclick="clearSavedPlan()">🗑️ Start Fresh Plan</button>
                     </div>
                 </div>
@@ -235,11 +202,11 @@
         </div>
     </div>
 
-    <!-- UPDATE PROFILE MODAL -->
-    <div id="edit-profile-modal" class="hidden no-print">
+    <!-- PROFILE MODAL -->
+    <div id="edit-profile-modal" class="modal-overlay hidden no-print">
         <div class="modal-content card">
             <div class="modal-header">
-                <h2>Update Profile & Dates</h2>
+                <h2>Update Profile & Settings</h2>
                 <button class="close-modal" onclick="closeProfileModal()">×</button>
             </div>
             <div class="setup-grid" style="margin-bottom: 1.5rem;">
@@ -247,30 +214,38 @@
                 <div><label>Teacher Name</label><input type="text" id="modalTeacherName"></div>
                 <div><label>Start Date</label><input type="date" id="modalPlanDate"></div>
                 <div><label>Teaching Periods</label><input type="number" id="modalNumPeriods" min="1" max="10"></div>
-                
-                <div style="grid-column: 1 / -1;">
-                    <label>Print Style (Competency & LO)</label>
-                    <select id="modalPrintStyle">
-                        <option value="full">Show Full Text & Codes</option>
-                        <option value="code_only">Show Codes Only (Saves space for Panchapadi)</option>
-                    </select>
-                </div>
-
-                <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border);">
-                    <label>Exclude Dates (Holidays / Leaves)</label>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <input type="date" id="modalHolidayInput" style="flex: 1;">
-                        <button class="btn-secondary" onclick="addHoliday('modalHolidayInput')" style="flex: none; background: #e2e8f0; font-weight: bold;">+ Add Date</button>
-                    </div>
-                    <div id="modalHolidayList" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;"></div>
-                    
-                    <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer; margin-top: 0.5rem;">
-                        <input type="checkbox" id="modalSkipSundays" style="width: 1.25rem; height: 1.25rem; cursor: pointer;"> 
-                        Automatically skip Sundays
-                    </label>
-                </div>
             </div>
             <button class="btn" style="width: 100%;" onclick="saveUpdatedProfile()">Save & Update</button>
+        </div>
+    </div>
+
+    <!-- BULK GENERATION MODAL (Asks for Holidays BEFORE 7/30 Day Printing) -->
+    <div id="bulk-plan-modal" class="modal-overlay hidden no-print">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h2 id="bulk-modal-title">Plan Next X Days</h2>
+                <button class="close-modal" onclick="closeBulkModal()">×</button>
+            </div>
+            
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                Before generating your continuous plan, please select any dates you want the system to automatically skip (e.g., Holidays, CL, Exams).
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
+                <label>Add Holiday / Leave Date</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="date" id="bulkHolidayInput" style="flex: 1;">
+                    <button class="btn-secondary" onclick="addBulkHoliday()" style="flex: none; background: #e2e8f0; font-weight: bold;">+ Add</button>
+                </div>
+                <div id="bulkHolidayList" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;"></div>
+                
+                <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600; cursor: pointer; margin-top: 1rem;">
+                    <input type="checkbox" id="bulkSkipSundays" checked style="width: 1.25rem; height: 1.25rem; cursor: pointer;"> 
+                    Automatically skip all Sundays
+                </label>
+            </div>
+
+            <button class="btn" style="width: 100%; background: #10b981;" onclick="executeBulkPDF()">🚀 Generate Multi-Day PDF</button>
         </div>
     </div>
 
@@ -280,7 +255,10 @@
     <script>
         let db = {};
         let classList = [];
-        let excludedDates = []; // Array of YYYY-MM-DD strings
+        
+        // Variables for bulk generation
+        let bulkDaysCount = 7;
+        let bulkExcludedDates = [];
 
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('planDate').valueAsDate = new Date();
@@ -302,34 +280,50 @@
                 });
         });
 
-        // --- HOLIDAY MANAGER LOGIC ---
-        function addHoliday(inputId) {
-            const input = document.getElementById(inputId);
+        // --- BULK MODAL & HOLIDAY LOGIC ---
+        function openBulkModal(days) {
+            bulkDaysCount = days;
+            bulkExcludedDates = []; // Reset on open
+            document.getElementById('bulk-modal-title').innerText = `Plan Next ${days} Days`;
+            document.getElementById('bulkHolidayList').innerHTML = '';
+            document.getElementById('bulkHolidayInput').value = '';
+            document.getElementById('bulkSkipSundays').checked = true;
+            document.getElementById('bulk-plan-modal').classList.remove('hidden');
+        }
+
+        function closeBulkModal() {
+            document.getElementById('bulk-plan-modal').classList.add('hidden');
+        }
+
+        function addBulkHoliday() {
+            const input = document.getElementById('bulkHolidayInput');
             const val = input.value;
-            if (val && !excludedDates.includes(val)) {
-                excludedDates.push(val);
-                excludedDates.sort(); // Keep them chronological
-                renderHolidays();
-                savePlanToStorage();
+            if (val && !bulkExcludedDates.includes(val)) {
+                bulkExcludedDates.push(val);
+                bulkExcludedDates.sort();
+                renderBulkHolidays();
             }
             input.value = '';
         }
 
-        function removeHoliday(dateStr) {
-            excludedDates = excludedDates.filter(d => d !== dateStr);
-            renderHolidays();
-            savePlanToStorage();
+        function removeBulkHoliday(dateStr) {
+            bulkExcludedDates = bulkExcludedDates.filter(d => d !== dateStr);
+            renderBulkHolidays();
         }
 
-        function renderHolidays() {
-            const html = excludedDates.map(d => {
+        function renderBulkHolidays() {
+            const html = bulkExcludedDates.map(d => {
                 const parts = d.split('-');
                 const display = `${parts[2]}/${parts[1]}/${parts[0]}`;
-                return `<div class="holiday-tag">${display} <span onclick="removeHoliday('${d}')">✕</span></div>`;
+                return `<div class="holiday-tag">${display} <span onclick="removeBulkHoliday('${d}')">✕</span></div>`;
             }).join('');
-            
-            document.getElementById('holidayList').innerHTML = html;
-            document.getElementById('modalHolidayList').innerHTML = html;
+            document.getElementById('bulkHolidayList').innerHTML = html;
+        }
+
+        function executeBulkPDF() {
+            const skipSun = document.getElementById('bulkSkipSundays').checked;
+            closeBulkModal();
+            generateBulkPDF(bulkDaysCount, skipSun, bulkExcludedDates);
         }
 
         // --- AUTO-SAVE MEMORY SYSTEM ---
@@ -354,9 +348,6 @@
                 schoolName: document.getElementById('schoolName').value,
                 teacherName: document.getElementById('teacherName').value,
                 planDate: document.getElementById('planDate').value,
-                printStyle: document.getElementById('printStyle').value,
-                skipSundays: document.getElementById('skipSundays').checked,
-                excludedDates: excludedDates,
                 numPeriods: numPeriods,
                 periods: validPeriods
             }));
@@ -371,14 +362,7 @@
                 
                 if(data.schoolName) document.getElementById('schoolName').value = data.schoolName;
                 if(data.teacherName) document.getElementById('teacherName').value = data.teacherName;
-                if(data.planDate) document.getElementById('planDate').value = data.planDate;
-                if(data.printStyle) document.getElementById('printStyle').value = data.printStyle;
-                if(data.skipSundays !== undefined) document.getElementById('skipSundays').checked = data.skipSundays;
-                
-                if(data.excludedDates) {
-                    excludedDates = data.excludedDates;
-                    renderHolidays();
-                }
+                if(data.planDate !== undefined) document.getElementById('planDate').value = data.planDate;
 
                 updateUIHeader(); 
 
@@ -427,16 +411,12 @@
             if(confirm("Are you sure you want to clear your current plan and start fresh?")) {
                 const sName = document.getElementById('schoolName').value;
                 const tName = document.getElementById('teacherName').value;
-                const pStyle = document.getElementById('printStyle').value;
-                const skipSun = document.getElementById('skipSundays').checked;
                 
                 localStorage.removeItem('lessonGuruAutoSave');
                 
                 document.getElementById('schoolName').value = sName;
                 document.getElementById('teacherName').value = tName;
                 document.getElementById('planDate').valueAsDate = new Date(); 
-                document.getElementById('printStyle').value = pStyle;
-                document.getElementById('skipSundays').checked = skipSun;
 
                 document.getElementById('builder-area').classList.add('hidden');
                 document.getElementById('setup-card').classList.remove('hidden');
@@ -462,7 +442,7 @@
                     const nextPeriods = Array.isArray(nextPeriodData) ? nextPeriodData.map((_, i) => i.toString()) : Object.keys(nextPeriodData);
                     return { nextChap: nextChap, nextLessKey: nextPeriods[0] };
                 } else {
-                    return { nextChap: chap, nextLessKey: lessKey }; // Stay on last lesson
+                    return { nextChap: chap, nextLessKey: lessKey }; // Stay on last lesson if syllabus is empty
                 }
             }
         }
@@ -491,12 +471,10 @@
         }
 
         // --- DATE SCHEDULING ENGINE ---
-        function getValidWorkingDays(startDateStr, requiredDaysCount) {
+        function getValidWorkingDays(startDateStr, requiredDaysCount, skipSun, excludedDatesArr) {
             let workingDays = [];
             let currentDate = startDateStr ? new Date(startDateStr) : new Date();
             currentDate.setHours(0,0,0,0);
-            
-            let skipSun = document.getElementById('skipSundays').checked;
 
             while(workingDays.length < requiredDaysCount) {
                 let yyyy = currentDate.getFullYear();
@@ -505,20 +483,20 @@
                 let dateStr = `${yyyy}-${mm}-${dd}`;
                 
                 let isSunday = currentDate.getDay() === 0;
-                let isHoliday = excludedDates.includes(dateStr);
+                let isHoliday = excludedDatesArr.includes(dateStr);
                 
                 if ((skipSun && isSunday) || isHoliday) {
                     // Skip day
                 } else {
                     workingDays.push({
-                        display: `${dd}/${mm}/${yyyy}`, // Formats correctly for printing
+                        display: `${dd}/${mm}/${yyyy}`, // Clean format for PDF
                         raw: dateStr
                     });
                 }
                 currentDate.setDate(currentDate.getDate() + 1);
             }
             
-            // Calculate what the VERY NEXT valid working day is to reset the UI Date picker
+            // Find the VERY NEXT valid working day to reset the UI
             let nextDate = new Date(currentDate);
             while(true) {
                 let yyyy = nextDate.getFullYear();
@@ -526,7 +504,7 @@
                 let dd = String(nextDate.getDate()).padStart(2, '0');
                 let dateStr = `${yyyy}-${mm}-${dd}`;
                 
-                if (((skipSun && nextDate.getDay() === 0) || excludedDates.includes(dateStr))) {
+                if (((skipSun && nextDate.getDay() === 0) || excludedDatesArr.includes(dateStr))) {
                     nextDate.setDate(nextDate.getDate() + 1);
                 } else {
                     break;
@@ -549,8 +527,6 @@
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
             document.getElementById('modalPlanDate').value = document.getElementById('planDate').value;
             document.getElementById('modalNumPeriods').value = document.getElementById('numPeriods').value; 
-            document.getElementById('modalPrintStyle').value = document.getElementById('printStyle').value; 
-            document.getElementById('modalSkipSundays').checked = document.getElementById('skipSundays').checked; 
             document.getElementById('edit-profile-modal').classList.remove('hidden');
         }
 
@@ -588,8 +564,6 @@
             document.getElementById('schoolName').value = document.getElementById('modalSchoolName').value;
             document.getElementById('teacherName').value = document.getElementById('modalTeacherName').value;
             document.getElementById('planDate').value = document.getElementById('modalPlanDate').value;
-            document.getElementById('printStyle').value = document.getElementById('modalPrintStyle').value;
-            document.getElementById('skipSundays').checked = document.getElementById('modalSkipSundays').checked;
             
             const updatedPeriods = parseInt(document.getElementById('modalNumPeriods').value);
             if (!isNaN(updatedPeriods) && updatedPeriods >= 1) {
@@ -716,25 +690,17 @@
 
         function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
-        // --- SMART FORMATTERS ---
-        function formatCompAndLO(text, isCodeOnly) {
-            if (!text || text === 'nan') return '';
-            
-            if (isCodeOnly) {
-                const match = String(text).match(/\[(Codes?:?\s*)?(.*?)\]/i);
-                if (match && match[2]) {
-                    return `<div class="pdf-text code-badge">${match[2].trim()}</div>`;
-                }
-                return `<div class="pdf-text">-</div>`; 
-            } else {
-                let cleaned = String(text).replace(/\|/g, '<br>').replace(/✓/g, '').trim();
-                return `<div class="pdf-text">${cleaned}</div>`;
-            }
-        }
-
+        // --- FORMATTERS ---
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
+            return `<div class="pdf-text">${cleaned}</div>`;
+        }
+
+        function formatLO(text) {
+            if (!text || text === 'nan') return '';
+            let cleaned = String(text).split(/\s*\|\s*\[Codes:/)[0];
+            cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').trim();
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
@@ -748,16 +714,9 @@
         }
 
         // --- BULK MULTI-DAY PDF GENERATOR ---
-        function generateBulkPDF(daysCount) {
+        function generateBulkPDF(daysCount, skipSun, excludedDatesArr) {
             const container = document.getElementById('pdf-export-content');
             container.innerHTML = '';
-            
-            const isCodeOnly = document.getElementById('printStyle').value === 'code_only';
-            if (isCodeOnly) {
-                container.classList.add('print-codes-only');
-            } else {
-                container.classList.remove('print-codes-only');
-            }
             
             let currentState = [];
             document.querySelectorAll('.period-block').forEach((block, index) => {
@@ -785,15 +744,14 @@
             const schoolName = document.getElementById('schoolName').value || "_______________________";
             const teacherName = document.getElementById('teacherName').value || "_______________________";
             
-            // Run the Date Scheduler Engine
-            const schedule = getValidWorkingDays(document.getElementById('planDate').value, daysCount);
+            // Run the Date Scheduler Engine with User's Modal Settings
+            const schedule = getValidWorkingDays(document.getElementById('planDate').value, daysCount, skipSun, excludedDatesArr);
             
             const MAX_ROWS = 6;
             let fullHTML = '';
 
             for (let d = 1; d <= daysCount; d++) {
                 
-                // Get the exact formatted date for this iteration
                 const printedDate = schedule.days[d - 1].display;
 
                 for (let i = 0; i < currentState.length; i += MAX_ROWS) {
@@ -810,8 +768,8 @@
                                 <td class="col-period">${periodDisplay}</td>
                                 <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
                                 <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                                <td class="col-comp">${formatCompAndLO(plan.Competency, isCodeOnly)}</td>
-                                <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes, isCodeOnly)}</td>
+                                <td class="col-comp">${formatPrint(plan.Competency)}</td>
+                                <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
                                 <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
                                 <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
                                 <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
@@ -836,7 +794,7 @@
                                                 <div class="pdf-school">School: ${schoolName}</div>
                                                 <div class="pdf-meta">
                                                     <span>Teacher Name: ${teacherName}</span>
-                                                    <span>Date: ${printedDate} &nbsp;&nbsp;&nbsp; (Day ${d})</span>
+                                                    <span>Date: ${printedDate}</span>
                                                 </div>
                                             </div>
                                         </th>
@@ -882,7 +840,7 @@
 
             container.innerHTML = fullHTML;
             
-            // Automatically advance the UI and the Date Picker to prepare for the next batch
+            // Advance UI and Date Picker
             let postGenState = [];
             currentState.forEach(rData => {
                 let nextInfo = getNextPeriod(rData.cls, rData.subj, rData.chap, rData.lessKey);
@@ -903,16 +861,9 @@
         }
 
         // --- SINGLE DAY PRINT ENGINE ---
-        function buildPDFHTML() {
+        function buildSinglePDFHTML() {
             const container = document.getElementById('pdf-export-content');
             container.innerHTML = '';
-            
-            const isCodeOnly = document.getElementById('printStyle').value === 'code_only';
-            if (isCodeOnly) {
-                container.classList.add('print-codes-only');
-            } else {
-                container.classList.remove('print-codes-only');
-            }
             
             const periodBlocks = document.querySelectorAll('.period-block');
             let allRows = [];
@@ -940,7 +891,6 @@
             const schoolName = document.getElementById('schoolName').value || "_______________________";
             const teacherName = document.getElementById('teacherName').value || "_______________________";
             
-            // Format single date directly
             const rawDate = document.getElementById('planDate').value;
             let formattedDate = "____/____/20___";
             if(rawDate) {
@@ -964,8 +914,8 @@
                             <td class="col-period">${periodDisplay}</td>
                             <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
                             <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                            <td class="col-comp">${formatCompAndLO(plan.Competency, isCodeOnly)}</td>
-                            <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes, isCodeOnly)}</td>
+                            <td class="col-comp">${formatPrint(plan.Competency)}</td>
+                            <td class="col-lo">${formatLO(plan.LearningOutcomes)}</td>
                             <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
                             <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
                             <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
@@ -1020,7 +970,7 @@
         }
 
         function nativePrintPDF() {
-            if (!buildPDFHTML()) {
+            if (!buildSinglePDFHTML()) {
                 alert("Please fully select at least one lesson plan.");
                 return;
             }
