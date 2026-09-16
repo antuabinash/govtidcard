@@ -81,15 +81,15 @@
             background: white; color: black; font-family: 'Plus Jakarta Sans', 'Nirmala UI', 'Kalinga', sans-serif;
         }
         
-        .pdf-header { text-align: center; margin-bottom: 6px; width: 100%; }
+        .pdf-header { text-align: center; margin-bottom: 12px; width: 100%; }
         .pdf-header h2 { margin: 0 0 4px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
         .pdf-school { font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #334155; }
         .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 4px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
         
         .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; }
-        .pdf-table thead { display: table-header-group; }
+        .pdf-table thead { display: table-header-group; } /* Standard HTML repeating header for printing */
         
-        /* Prevent awkward breaks inside rows */
+        /* Auto-Break protection: Prevents rows from being sliced in half horizontally */
         .pdf-table tbody tr { page-break-inside: avoid !important; break-inside: avoid !important; } 
         
         .pdf-table th, .pdf-table td { 
@@ -98,7 +98,6 @@
             word-wrap: break-word; word-break: normal; overflow-wrap: break-word; 
         }
         .pdf-table th { background-color: #f1f5f9 !important; font-weight: bold; text-align: left; }
-        th.print-header-cell { background-color: white !important; border: none !important; padding: 0 0 10px 0 !important; }
         
         .col-period { text-align: center; font-weight: bold; }
         .pdf-text { margin-bottom: 3px; }
@@ -198,13 +197,15 @@
         </div>
     </div>
 
-    <!-- PREVIEW AREA -->
+    <!-- PREVIEW AREA (Shows Generated Plan + Actions) -->
     <div class="container hidden" id="preview-area">
         <header class="no-print">
             <h1 style="font-size: 1.5rem;">📄 Plan Preview</h1>
         </header>
 
+        <!-- Scrollable Wrapper for Mobile -->
         <div id="preview-wrapper">
+            <!-- PRINT CONTAINER -->
             <div id="pdf-export-content"></div>
         </div>
 
@@ -575,6 +576,7 @@
             document.getElementById('builder-area').classList.remove('hidden');
         }
 
+        // Generates the plan as ONE continuous HTML table
         function generatePlanPreview() {
             const container = document.getElementById('pdf-export-content');
             container.innerHTML = '';
@@ -615,82 +617,69 @@
                 if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            // PAGINATION FIX: Limit to 4 periods per page so the paper height isn't exceeded
-            const MAX_ROWS = 4;
+            let tbodyHTML = '';
             
-            for (let i = 0; i < allRows.length; i += MAX_ROWS) {
-                const chunk = allRows.slice(i, i + MAX_ROWS);
-                let tbodyHTML = '';
-                
-                chunk.forEach(rData => {
-                    const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
-                    const p = plan.Panchapadi || {};
-                    let periodDisplay = rData.isFirstInPeriod ? rData.pNum : '';
+            allRows.forEach(rData => {
+                const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
+                const p = plan.Panchapadi || {};
+                let periodDisplay = rData.isFirstInPeriod ? rData.pNum : '';
 
-                    tbodyHTML += `
-                        <tr>
-                            <td class="col-period">${periodDisplay}</td>
-                            <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
-                            <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                            <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
-                            <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes)}</td>
-                            <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
-                            <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
-                            <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
-                            <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
-                            <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
-                            <td class="col-tlm">${formatPrint(plan.TLM)}</td>
-                        </tr>
-                    `;
-                });
-
-                const pageBreakStyle = (i + MAX_ROWS < allRows.length) ? 'page-break-after: always;' : '';
-                
-                container.innerHTML += `
-                    <div style="${pageBreakStyle}">
-                        <table class="pdf-table">
-                            ${getTableColgroup()}
-                            <thead>
-                                <tr>
-                                    <th colspan="11" class="print-header-cell">
-                                        <div class="pdf-header">
-                                            <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
-                                            <div class="pdf-school">School: ${schoolName}</div>
-                                            <div class="pdf-meta">
-                                                <span>Teacher Name: ${teacherName}</span>
-                                                <span>Date: ${formattedDate}</span>
-                                            </div>
-                                        </div>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th class="col-period">Prd</th>
-                                    <th class="col-class">Class /<br>Subj</th>
-                                    <th class="col-topic">Topic</th>
-                                    <th class="col-comp">Competency</th>
-                                    <th class="col-lo">Learning<br>Outcome</th>
-                                    <th class="col-aditi">ଅଧୀତି<br>(Adhiti)</th>
-                                    <th class="col-bodha">ବୋଧ<br>(Bodha)</th>
-                                    <th class="col-abhyasa">ଅଭ୍ୟାସ<br>(Abhyasa)</th>
-                                    <th class="col-prayoga">ପ୍ରୟୋଗ<br>(Prayoga)</th>
-                                    <th class="col-prasara">ପ୍ରସାର<br>(Prasara)</th>
-                                    <th class="col-tlm">TLM</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${tbodyHTML}
-                            </tbody>
-                        </table>
-                    </div>
+                tbodyHTML += `
+                    <tr>
+                        <td class="col-period">${periodDisplay}</td>
+                        <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
+                        <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
+                        <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
+                        <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes)}</td>
+                        <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
+                        <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
+                        <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
+                        <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
+                        <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
+                        <td class="col-tlm">${formatPrint(plan.TLM)}</td>
+                    </tr>
                 `;
-            }
+            });
+
+            // Clean Continuous Layout: Header sits OUTSIDE the table so it only prints on Page 1
+            container.innerHTML = `
+                <div class="pdf-header">
+                    <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
+                    <div class="pdf-school">School: ${schoolName}</div>
+                    <div class="pdf-meta">
+                        <span>Teacher Name: ${teacherName}</span>
+                        <span>Date: ${formattedDate}</span>
+                    </div>
+                </div>
+                <table class="pdf-table">
+                    ${getTableColgroup()}
+                    <thead>
+                        <tr>
+                            <th class="col-period">Prd</th>
+                            <th class="col-class">Class /<br>Subj</th>
+                            <th class="col-topic">Topic</th>
+                            <th class="col-comp">Competency</th>
+                            <th class="col-lo">Learning<br>Outcome</th>
+                            <th class="col-aditi">ଅଧୀତି<br>(Adhiti)</th>
+                            <th class="col-bodha">ବୋଧ<br>(Bodha)</th>
+                            <th class="col-abhyasa">ଅଭ୍ୟାସ<br>(Abhyasa)</th>
+                            <th class="col-prayoga">ପ୍ରୟୋଗ<br>(Prayoga)</th>
+                            <th class="col-prasara">ପ୍ରସାର<br>(Prasara)</th>
+                            <th class="col-tlm">TLM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tbodyHTML}
+                    </tbody>
+                </table>
+            `;
 
             document.getElementById('main-container').classList.add('hidden');
             document.getElementById('preview-area').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
 
-        // --- DIRECT PDF SHARE ENGINE WITH FORCED A4 DIMENSIONS ---
+        // --- DIRECT PDF SHARE ENGINE ---
         async function sharePlanViaApp() {
             const btn = document.getElementById('btnShare');
             const ogText = btn.innerHTML;
@@ -698,21 +687,21 @@
             
             const element = document.getElementById('pdf-export-content');
             
-            // The magic fix: Temporarily force the table width so the mobile 
-            // browser doesn't squish the canvas snapshot.
+            // Temporarily lock width to desktop size so mobile views don't squish the PDF
             element.style.width = '1122px'; 
             
             const opt = {
-                margin:       [5, 5, 5, 5],
+                margin:       [10, 5, 10, 5], // Add safe margins for clean page breaks
                 filename:     'Daily_Lesson_Plan.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
                     scale: 2, 
                     useCORS: true, 
-                    windowWidth: 1200 // Forces engine to render like a desktop
+                    windowWidth: 1200 
                 }, 
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
-                pagebreak:    { mode: ['css', 'legacy'] }
+                // Crucial: Instructs the engine to never slice a table row in half
+                pagebreak:    { mode: ['css', 'legacy'], avoid: 'tr' } 
             };
 
             try {
@@ -737,7 +726,7 @@
                 console.error(err);
                 alert("Error generating PDF. Please use the Print option instead.");
             } finally {
-                element.style.width = ''; // Restore to responsive view
+                element.style.width = ''; // Restore responsive width
                 btn.innerHTML = ogText;
             }
         }
