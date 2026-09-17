@@ -118,6 +118,7 @@
         .modal-icon { font-size: 40px; margin-bottom: 16px; background: #F4F6F9; width: 70px; height: 70px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05); }
         .modal-content h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; color: var(--text-main); }
         .modal-content p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; text-align: justify; }
+        
         .btn-primary { width: 100%; padding: 14px; border-radius: 12px; background: var(--primary); color: white; font-weight: 700; border: none; font-size: 16px; margin-bottom: 12px; cursor: pointer; }
         .btn-secondary { width: 100%; padding: 14px; border-radius: 12px; background: #F2F2F7; color: var(--text-main); font-weight: 600; border: none; font-size: 15px; cursor: pointer; }
     </style>
@@ -167,6 +168,9 @@
             </a>
             <a href="#" class="drawer-menu-item" onclick="openModal('privacyModal')">
                 <span class="drawer-icon">🛡️</span> Privacy Policy
+            </a>
+            <a href="#" class="drawer-menu-item" onclick="openModal('copyrightModal')">
+                <span class="drawer-icon">⚖️</span> Content & Copyright Notice
             </a>
             <a href="mailto:andigital1996@gmail.com" class="drawer-menu-item">
                 <span class="drawer-icon">📧</span> Contact via Email
@@ -303,6 +307,37 @@
         </div>
     </div>
 
+    <!-- Copyright Modal -->
+    <div id="copyrightModal" class="modal-overlay">
+        <div class="modal-content" style="text-align: left;">
+            <div class="modal-icon" style="margin: 0 auto 16px; display: flex;">⚖️</div>
+            <h3 style="text-align: center;">Content Source & Copyright Notice</h3>
+            <p style="text-align: justify; margin-bottom: 12px; font-size: 13.5px; color: var(--text-muted);">
+                The lesson-plan data available on this website has been compiled from a PDF that was publicly available in a Telegram group. The PDF did not contain any identifiable author information, copyright notice, or ownership details at the time it was obtained.
+            </p>
+            <p style="text-align: justify; margin-bottom: 12px; font-size: 13.5px; color: var(--text-muted);">
+                If you believe that any of the material published on this website is your original copyrighted content or that you hold the relevant rights, please feel free to contact us and provide the details of the material and your ownership claim.
+            </p>
+            <p style="text-align: justify; margin-bottom: 16px; font-size: 13.5px; color: var(--text-muted);">
+                We take intellectual-property concerns seriously. If a legitimate ownership claim is established, we will review the matter and, where appropriate, promptly remove the relevant content from our website.
+            </p>
+            
+            <h4 style="margin-bottom: 8px; color: var(--text-main); font-size: 15px;">Contact Us</h4>
+            <p style="margin-bottom: 16px; font-size: 14px; background: #f9fafb; padding: 10px; border-radius: 8px; border: 1px solid #e5e7eb;">
+                <strong>Email:</strong> <a href="mailto:andigital1996@gmail.com" style="color: var(--primary); text-decoration: none;">andigital1996@gmail.com</a><br>
+                <strong>WhatsApp:</strong> <a href="https://wa.me/917855800205" target="_blank" style="color: var(--primary); text-decoration: none;">78558 00205</a>
+            </p>
+
+            <p style="text-align: justify; margin-bottom: 12px; font-size: 13.5px; color: var(--text-muted);">
+                Please include the specific content you are concerned about and any relevant information supporting your claim.
+            </p>
+            <p style="text-align: center; margin-bottom: 24px; font-weight: 600; font-size: 14px;">
+                Thank you for your understanding and cooperation.
+            </p>
+            <button onclick="closeModal('copyrightModal')" class="btn-secondary">Close</button>
+        </div>
+    </div>
+
     <!-- UI & PWA Script -->
     <script>
         /* === UI Navigation Logic === */
@@ -398,7 +433,6 @@
 
         function dismissInstallModal() {
             closeModal('installModal');
-            // Record timestamp so user is not prompted again for 24 hours
             localStorage.setItem(INSTALL_PROMPT_KEY, Date.now().toString());
         }
 
@@ -406,10 +440,8 @@
             e.preventDefault();
             deferredPrompt = e;
             
-            // Show header icon so user can still install manually if desired
             headerInstallBtn.style.display = 'flex';
             
-            // Check if 24 hours have passed since the modal was last shown/dismissed
             const lastPrompt = localStorage.getItem(INSTALL_PROMPT_KEY);
             const now = Date.now();
             
@@ -439,17 +471,12 @@
         /* === SERVICE WORKER: Auto-Update Registration === */
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // updateViaCache: 'none' bypasses HTTP caching on sw.js
                 navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
                     .then(reg => {
-                        // Force a check against the server for an updated sw.js
                         reg.update();
-
-                        // Listen for a new version installing in the background
                         reg.addEventListener('updatefound', () => {
                             const newWorker = reg.installing;
                             newWorker.addEventListener('statechange', () => {
-                                // Once installed and an existing active controller is present, prompt/reload
                                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                                     console.log('New update available.');
                                 }
@@ -459,7 +486,6 @@
                     .catch(err => console.log('Service Worker Failed', err));
             });
 
-            // Reload seamlessly when the new service worker activates and claims the client
             let refreshing = false;
             navigator.serviceWorker.addEventListener('controllerchange', () => {
                 if (!refreshing) {
