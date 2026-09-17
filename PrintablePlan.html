@@ -640,8 +640,8 @@
 
         // --- INIT & CHUNK LOADING ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Update to point to the db_chunk folder
-            fetch('db_chunk/index.json')
+            // Update to point to the db_chunks folder
+            fetch('db_chunks/index.json')
                 .then(r => { if (!r.ok) throw new Error(); return r.json(); })
                 .then(data => {
                     indexDb = data;
@@ -671,8 +671,8 @@
 
             try {
                 const safeName = className.replace(/ /g, '_');
-                // Update to point to the db_chunk folder
-                const res = await fetch(`db_chunk/chunk_${safeName}.json`);
+                // Update to point to the db_chunks folder
+                const res = await fetch(`db_chunks/chunk_${safeName}.json`);
                 if (!res.ok) throw new Error("Chunk missing");
                 
                 const data = await res.json();
