@@ -2,118 +2,158 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ଶିକ୍ଷକ ସାଥୀ - Lesson Plan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Lesson Plan - ଶିକ୍ଷକ ସାଥୀ</title>
     
-    <!-- Embed Universal Fonts to Guarantee Flawless Odia Screen Rendering -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- High-Res Snapshot & PDF Assembler -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         /* --- PREMIUM NATIVE UI STYLES --- */
         :root {
-            --primary: #4f46e5; 
-            --primary-hover: #4338ca;
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-main: #111827; 
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-            --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.03);
-            --radius-lg: 16px;
-            --radius-md: 10px;
+            --app-bg: #F2F2F7;
+            --card-bg: #FFFFFF;
+            --text-main: #1C1C1E;
+            --text-muted: #8E8E93;
+            --primary: #0284C7; 
+            --primary-hover: #0369A1;
+            --radius-xl: 24px;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --shadow-app: 0 8px 24px rgba(149, 157, 165, 0.1);
+            --safe-area-pt: env(safe-area-inset-top, 20px);
+            --safe-area-pb: env(safe-area-inset-bottom, 20px);
+            --border: #E5E5EA;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Plus Jakarta Sans", "Noto Sans Oriya", sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; }
+        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; min-height: 100vh; padding-bottom: calc(100px + var(--safe-area-pb)); overflow-x: hidden; }
+
+        /* === App Header === */
+        header {
+            padding: calc(var(--safe-area-pt) + 16px) 24px 16px 24px;
+            background: linear-gradient(135deg, #0369A1, #0284C7);
+            position: sticky; top: 0; z-index: 50;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        }
+
+        .header-content { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+        .app-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF; }
+
+        .back-btn {
+            background: transparent; border: none; color: #FFFFFF; cursor: pointer; padding: 8px; margin-left: -8px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .back-btn:active { background-color: rgba(255, 255, 255, 0.2); }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
         
         .card { 
             background: var(--card-bg); padding: 1.5rem; 
-            border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); 
-            margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.05);
+            border-radius: var(--radius-lg); box-shadow: var(--shadow-app); 
+            margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.03);
         }
         
-        label { font-weight: 700; display: block; margin-bottom: 0.25rem; font-size: 0.8rem; color: #4b5563; text-transform: uppercase; letter-spacing: 0.5px; }
+        label { font-weight: 700; display: block; margin-bottom: 0.35rem; font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        /* Ultra-Compact Modern Inputs */
         input[type="text"], input[type="number"], input[type="date"], select { 
-            width: 100%; padding: 0.65rem 1rem; border-radius: var(--radius-md); 
-            border: 1px solid #d1d5db; font-size: 0.95rem; font-weight: 600;
+            width: 100%; padding: 0.85rem 1rem; border-radius: var(--radius-md); 
+            border: 1px solid #d1d5db; font-size: 1rem; font-weight: 600;
             background: #f9fafb; color: #1f2937; outline: none; transition: all 0.2s ease;
+            appearance: none; -webkit-appearance: none;
         }
-        input:focus, select:focus { background: #ffffff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15); }
+        input:focus, select:focus { background: #ffffff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15); }
         
-        /* Native-feel Buttons */
+        /* Buttons */
         .btn { 
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            color: white; padding: 0.85rem 1.5rem; border-radius: var(--radius-md); font-weight: 700; 
+            color: white; padding: 0.85rem 1.2rem; border-radius: var(--radius-md); font-weight: 700; 
             cursor: pointer; border: none; transition: all 0.2s; font-size: 1rem; 
             display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
         }
-        .btn:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2); }
+        .btn:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2); }
         
         .btn-secondary { 
-            background: #f3f4f6; color: #374151; padding: 0.75rem 1rem; font-size: 0.9rem; font-weight: 700;
-            border-radius: var(--radius-md); border: 1px solid #e5e7eb; box-shadow: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+            background: #E5E5EA; color: var(--text-main); padding: 0.85rem 1rem; font-size: 0.95rem; font-weight: 700;
+            border-radius: var(--radius-md); border: none; box-shadow: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; transition: 0.2s;
         }
-        .btn-secondary:active { background: #e5e7eb; transform: scale(0.96); }
-        .btn-danger { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
-        .btn-danger:active { background: #fca5a5; }
-        
-        /* Profile Header */
-        #profile-header-card { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to right, #e0e7ff, #f5f3ff); border: 1px solid #c7d2fe; padding: 1.25rem 1.5rem; }
-        #display-school { font-weight: 800; font-size: 1.1rem; color: var(--primary); }
-        #display-teacher { font-size: 0.9rem; color: #6b21a8; font-weight: 600;}
+        .btn-secondary:active { background: #D1D1D6; transform: scale(0.96); }
 
-        /* Ultra-Compact Period Builder Blocks */
-        .period-block { background: #ffffff; padding: 1rem; border-radius: var(--radius-lg); box-shadow: 0 2px 8px rgba(0,0,0,0.03); border: 1px solid var(--border); margin-bottom: 1rem; }
-        .period-title { font-size: 1.1rem; font-weight: 800; color: #111827; display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.75rem; margin-bottom: 0.75rem; border-bottom: 1px dashed #e5e7eb; }
-        .lesson-row { display: grid; grid-template-columns: 1fr 1fr 1.5fr 1.5fr auto; gap: 0.75rem; background: #f8fafc; padding: 0.75rem; border-radius: var(--radius-md); margin-bottom: 0.5rem; border: 1px solid #f1f5f9; align-items: end; }
-        .remove-btn { background: #fee2e2; color: #ef4444; padding: 0.65rem; border-radius: 0.5rem; cursor: pointer; border: none; font-weight: bold; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
-        .remove-btn:active { transform: scale(0.92); background: #fca5a5; }
+        /* Workspace Header */
+        .workspace-header {
+            display: flex; flex-direction: column; gap: 1rem; background: var(--card-bg); 
+            padding: 1.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-app); 
+            margin-bottom: 1.5rem; border: 1px solid var(--border);
+        }
+        .profile-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px dashed var(--border); }
+        .date-row { display: flex; flex-direction: column; gap: 0.5rem;}
         
-        .setup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        /* Horizontal Tabs for Periods */
+        .tabs-container {
+            display: flex; gap: 0.75rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1rem;
+            scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .tabs-container::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            padding: 0.6rem 1.2rem; background: #F2F2F7; border: 1px solid var(--border);
+            border-radius: 100px; font-weight: 700; font-size: 0.9rem; color: var(--text-muted);
+            cursor: pointer; white-space: nowrap; transition: 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--primary); color: white; border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+        }
+
+        /* Period Form Container */
+        .period-pane { display: none; animation: fadeIn 0.3s ease; }
+        .period-pane.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+
+        .setup-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
 
         /* FIXED BOTTOM ACTION BAR */
         .fixed-action-bar {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-top: 1px solid var(--border); display: flex; justify-content: center; gap: 0.5rem;
+            border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
             padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
             z-index: 1000; box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
         }
-        .fixed-action-bar button { flex: 1; padding: 0.85rem 0; font-size: 0.95rem; border-radius: var(--radius-md); }
-        
+        .fixed-action-bar .btn-secondary { width: 45px; height: 45px; padding: 0; flex-shrink: 0; border-radius: 50%; } /* Circle prev/next btns */
+        .fixed-action-bar .btn-generate { flex: 1; height: 45px; }
+
         /* Modals */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
             z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem;
+            opacity: 0; pointer-events: none; transition: 0.3s;
         }
-        .modal-content { background: white; padding: 1.5rem; border-radius: var(--radius-lg); width: 100%; max-width: 400px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal-content { background: white; padding: 1.5rem; border-radius: var(--radius-lg); width: 100%; max-width: 400px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: translateY(20px); transition: 0.3s; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
-        .modal-header h2 { font-size: 1.25rem; font-weight: 800; }
-        .close-modal { background: #f3f4f6; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; }
+        .close-modal { background: #E5E5EA; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; color: var(--text-main); font-weight: bold; }
 
         .hidden { display: none !important; }
-        .spinner { border: 4px solid #f3f4f6; border-top: 4px solid var(--primary); border-radius: 50%; width: 36px; height: 36px; animation: spin 0.8s linear infinite; margin: 0 auto 1rem auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* --- PREVIEW AND PRINT STYLES --- */
-        #preview-area { padding-bottom: 100px; }
-        #preview-wrapper { background: white; padding: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); overflow-x: auto; margin-bottom: 1.5rem; border: 1px solid var(--border); }
-        #pdf-preview-content, #temp-pdf-export { min-width: 1000px; background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; }
+        #preview-wrapper { background: white; padding: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-app); overflow-x: auto; margin-bottom: 1.5rem; border: 1px solid var(--border); }
+        #pdf-preview-content { min-width: 1000px; background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; }
+        
+        /* The Hidden Export container logic changed for better mobile memory support */
+        #temp-pdf-export { 
+            position: absolute; top: 0; left: 0; z-index: -100; opacity: 0; pointer-events: none; 
+            width: 1122px; background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; 
+        }
         
         .pdf-text { font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; margin-bottom: 3px; }
         .pdf-header { text-align: center; margin-bottom: 12px; width: 100%; }
@@ -133,21 +173,6 @@
         .html2pdf__page-break { height: 0; width: 100%; page-break-before: always; border: none; margin: 0; padding: 0; }
         .pdf-page { width: 1122px; padding: 20px; background: white; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; }
 
-        /* --- MOBILE SCREEN ADAPTATIONS --- */
-        @media screen and (max-width: 768px) {
-            .container { padding: 1.5rem 1rem; }
-            .card { padding: 1.5rem; }
-            #profile-header-card { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
-            #profile-header-card button { width: 100%; }
-            .setup-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-            .lesson-row { grid-template-columns: 1fr 1fr; gap: 0.75rem; position: relative; padding: 2.5rem 0.75rem 0.75rem 0.75rem; }
-            .lesson-row > div:last-child { position: absolute; top: 0.5rem; right: 0.5rem; }
-            .remove-btn { padding: 0.4rem 0.6rem; font-size: 0.8rem; }
-            .print-cta-card { flex-direction: column; text-align: center; gap: 1rem; }
-            .print-cta-card button { width: 100%; }
-        }
-
-        /* --- PRINT OVERRIDES --- */
         @media print {
             .no-print, .container:not(#preview-area), .modal-overlay, #temp-pdf-export, .fixed-action-bar { display: none !important; }
             #preview-wrapper { padding: 0; box-shadow: none; border: none; margin: 0; overflow: visible; }
@@ -159,266 +184,203 @@
 </head>
 <body>
 
+    <!-- UI HEADER -->
+    <header class="no-print">
+        <div class="header-content">
+            <button class="back-btn" aria-label="Back" onclick="window.history.back();">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
+            <h1 class="app-title">Daily Lesson Plan</h1>
+        </div>
+    </header>
+
     <!-- MAIN APP CONTAINER -->
     <div class="container no-print" id="main-container">
-        
-        <div id="status-card" class="card" style="text-align: center;">
-            <div class="spinner"></div>
-            <h3 id="status-text" style="color: #4b5563;">Syncing Syllabus...</h3>
-        </div>
 
         <!-- Setup Card (First Time Only) -->
-        <div id="setup-card" class="card hidden">
-            <h2 style="margin-bottom: 1.25rem; font-weight: 800; color: #111827;">Plan Settings</h2>
+        <div id="setup-card" class="card">
+            <h2 style="margin-bottom: 1.25rem; font-weight: 800; color: var(--primary);">Setup Profile</h2>
             <div class="setup-grid">
                 <div><label>School Name</label><input type="text" id="schoolName" placeholder="e.g. Govt. High School..."></div>
                 <div><label>Teacher Name</label><input type="text" id="teacherName" placeholder="e.g. Abinash Mahapatra..."></div>
-                <div><label>Plan Date</label><input type="date" id="planDate"></div>
-                <div><label>Teaching Periods Today</label><input type="number" id="numPeriods" min="1" max="10" value="7"></div>
+                <div><label>Total Periods</label><input type="number" id="numPeriods" min="1" max="10" value="7"></div>
             </div>
-            <button class="btn" style="width: 100%; margin-top: 0.5rem;" onclick="buildPeriodForms()">Create Workspace</button>
-        </div>
-
-        <!-- SMART READY CARD (Greets returning user) -->
-        <div id="ready-card" class="card hidden" style="text-align: center; border-color: #10b981; background: #ecfdf5; padding: 2.5rem 1.5rem;">
-            <h2 id="ready-title" style="color: #065f46; margin-bottom: 0.5rem; font-weight: 800; font-size: 1.6rem;">ଅଭିନନ୍ଦନ! 🎉</h2>
-            <p id="ready-desc-text" style="color: #047857; font-weight: 500; margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.5;">
-                <!-- Odia translation injected via JavaScript -->
-            </p>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <button class="btn btn-secondary" onclick="showBuilder()" style="background: white; border: 1px solid #a7f3d0; color: #065f46;">✏️ ଏଡିଟ୍ କରନ୍ତୁ (Edit)</button>
-                <button class="btn" onclick="generatePlanPreview()" style="background: #10b981; box-shadow: 0 4px 12px rgba(16,185,129,0.3); padding: 0.85rem 2rem;">✨ ଦେଖନ୍ତୁ (View Plan)</button>
-            </div>
+            <button class="btn" style="width: 100%; margin-top: 0.5rem;" onclick="initializeWorkspace()">Continue to Workspace</button>
         </div>
 
         <!-- Builder Area -->
         <div id="builder-area" class="hidden">
-            <div id="profile-header-card" class="card">
-                <div id="profile-info">
-                    <div id="display-school">School Name</div>
-                    <div id="display-teacher">Teacher Name</div>
+            <!-- Workspace Header (Profile + Date) -->
+            <div class="workspace-header">
+                <div class="profile-row">
+                    <div>
+                        <div id="display-school" style="font-weight: 800; font-size: 1.1rem; color: var(--primary);">School Name</div>
+                        <div id="display-teacher" style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">Teacher Name</div>
+                    </div>
+                    <button class="btn-secondary" onclick="openProfileModal()" style="padding: 0.5rem 0.8rem; font-size: 0.8rem;">⚙️ Edit</button>
                 </div>
-                <button class="btn-secondary" onclick="openProfileModal()" style="padding: 0.5rem 0.8rem;">⚙️ Settings</button>
+                <div class="date-row">
+                    <label>Lesson Plan Date</label>
+                    <input type="date" id="planDate" onchange="savePlanToStorage()">
+                </div>
             </div>
 
-            <div id="periods-container"></div>
-            
-            <div class="card print-cta-card" style="display: flex; justify-content: space-between; align-items: center; border-color: var(--primary); background: white;">
-                <div style="flex: 1;">
-                    <h3 style="color: #111827; margin-bottom: 0.25rem; font-weight: 800;">Ready to Export?</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">Generate your final plan for sharing or printing.</p>
-                    <button class="btn-secondary btn-danger" onclick="clearSavedPlan()" style="font-size: 0.8rem; padding: 0.5rem 0.75rem;">🗑️ Reset Everything</button>
-                </div>
-                <button class="btn" onclick="generatePlanPreview()" style="padding: 1rem 2rem;">
-                    ✨ View Plan
-                </button>
+            <!-- Tabbed Period Navigation -->
+            <div class="tabs-container" id="periodTabs"></div>
+
+            <!-- Forms Container -->
+            <div class="card" style="padding: 1.25rem;">
+                <div id="periods-container"></div>
             </div>
         </div>
+    </div>
+
+    <!-- BUILDER FOOTER -->
+    <div class="fixed-action-bar no-print hidden" id="builder-footer">
+        <button class="btn-secondary" onclick="prevPeriod()" id="btnPrev">⬅️</button>
+        <button class="btn btn-generate" onclick="generatePlanPreview()">✨ Generate Plan</button>
+        <button class="btn-secondary" onclick="nextPeriod()" id="btnNext">➡️</button>
     </div>
 
     <!-- PREVIEW & ACTION AREA -->
     <div class="container hidden" id="preview-area">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;" class="no-print">
-            <h2 style="font-size: 1.4rem; font-weight: 800; color: #111827;">📄 Print Preview</h2>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">📄 Print Preview</h2>
         </div>
 
         <div id="preview-wrapper">
             <div id="pdf-preview-content"></div>
         </div>
-
-        <!-- FIXED BOTTOM ACTION BAR -->
-        <div class="fixed-action-bar no-print">
-            <button class="btn-secondary" onclick="backToEdit()">✏️ Edit</button>
-            <button class="btn" style="background: #10b981; color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);" onclick="window.print()">🖨️ Print</button>
-            <button id="btnShare" class="btn" onclick="sharePlanViaApp()">📤 Share</button>
-        </div>
     </div>
 
-    <div id="temp-pdf-export" style="display: none;"></div>
+    <!-- PREVIEW FOOTER -->
+    <div class="fixed-action-bar no-print hidden" id="preview-footer">
+        <button class="btn-secondary" onclick="backToEdit()" style="flex: 1; border-radius: var(--radius-md);">✏️ Edit</button>
+        <button class="btn" style="background: #10B981; color: white; flex: 1; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);" onclick="window.print()">🖨️ Print</button>
+        <button id="btnShare" class="btn" onclick="sharePlanViaApp()" style="flex: 1;">📤 Share</button>
+    </div>
+
+    <!-- HIDDEN EXPORT CONTAINER -->
+    <div id="temp-pdf-export"></div>
 
     <!-- PROFILE MODAL -->
-    <div id="edit-profile-modal" class="modal-overlay hidden no-print">
+    <div id="edit-profile-modal" class="modal-overlay no-print">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Plan Settings</h2>
+                <h2>Profile Settings</h2>
                 <button class="close-modal" onclick="closeProfileModal()">✕</button>
             </div>
             <div class="setup-grid" style="margin-bottom: 1.5rem;">
                 <div><label>School Name</label><input type="text" id="modalSchoolName"></div>
                 <div><label>Teacher Name</label><input type="text" id="modalTeacherName"></div>
-                <div><label>Plan Date</label><input type="date" id="modalPlanDate"></div>
-                <div><label>Periods</label><input type="number" id="modalNumPeriods" min="1" max="10"></div>
+                <div><label>Total Periods</label><input type="number" id="modalNumPeriods" min="1" max="10"></div>
             </div>
-            <button class="btn" style="width: 100%;" onclick="saveUpdatedProfile()">Apply Changes</button>
+            <button class="btn" style="width: 100%;" onclick="saveUpdatedProfile()">Save Settings</button>
         </div>
     </div>
 
     <script>
         let db = {};
         let classList = [];
+        let isDbLoaded = false;
+        let currentPeriodIndex = 1;
+        let totalPeriods = 1;
 
-        // --- TIME SHIFT ENGINE (12:00 NOON Logic) ---
-        function getTargetPlanDate() {
-            let d = new Date();
-            // If it is 12:00 PM or later, assume they are preparing for tomorrow
-            if (d.getHours() >= 12) {
-                d.setDate(d.getDate() + 1);
-            }
-            let y = d.getFullYear();
-            let m = String(d.getMonth() + 1).padStart(2, '0');
-            let day = String(d.getDate()).padStart(2, '0');
-            return `${y}-${m}-${day}`;
-        }
-
+        // --- ASYNC DATABASE LOADING ---
         document.addEventListener("DOMContentLoaded", () => {
             fetch('master_lesson_database.json')
                 .then(response => response.json())
                 .then(data => {
                     db = data;
                     classList = Object.keys(db).sort();
-                    document.getElementById('status-card').classList.add('hidden');
-                    
-                    if (!loadPlanFromStorage()) {
-                        // First time setup: Set DOM to target date
-                        document.getElementById('planDate').value = getTargetPlanDate();
-                        document.getElementById('setup-card').classList.remove('hidden');
+                    isDbLoaded = true;
+                    // If workspace is active, hydrate dropdowns
+                    if (!document.getElementById('builder-area').classList.contains('hidden')) {
+                        hydrateAllDropdowns();
                     }
                 })
                 .catch(err => {
-                    document.getElementById('status-text').innerHTML = "❌ Failed to load database.<br><span style='font-size:14px; color:gray;'>Ensure JSON is in the folder.</span>";
-                    document.querySelector('.spinner').style.display = 'none';
+                    console.error("DB Load Error", err);
                 });
+
+            // Init State
+            if (!loadPlanFromStorage()) {
+                document.getElementById('planDate').valueAsDate = new Date();
+                document.getElementById('setup-card').classList.remove('hidden');
+            }
         });
 
+        // --- CORE STATE MANAGEMENT ---
+        function initializeWorkspace() {
+            const sName = document.getElementById('schoolName').value;
+            const tName = document.getElementById('teacherName').value;
+            const nPeriods = parseInt(document.getElementById('numPeriods').value) || 7;
+
+            if(!sName || !tName) return alert("Please enter your Name and School.");
+
+            totalPeriods = nPeriods;
+            
+            document.getElementById('setup-card').classList.add('hidden');
+            document.getElementById('builder-area').classList.remove('hidden');
+            document.getElementById('builder-footer').classList.remove('hidden');
+            
+            updateUIHeader();
+            buildTabsAndForms();
+            savePlanToStorage();
+        }
+
         function savePlanToStorage() {
-            const numPeriods = document.getElementById('numPeriods').value;
             let validPeriods = [];
-            document.querySelectorAll('.period-block').forEach(block => {
-                let rowDataList = [];
-                block.querySelectorAll('.lesson-row').forEach(row => {
-                    rowDataList.push({
-                        cls: row.querySelector('.sel-class').value,
-                        subj: row.querySelector('.sel-subj').value,
-                        chap: row.querySelector('.sel-chap').value,
-                        lessKey: row.querySelector('.sel-less').value
-                    });
-                });
-                validPeriods.push(rowDataList);
+            document.querySelectorAll('.period-pane').forEach(pane => {
+                validPeriods.push([{
+                    cls: pane.querySelector('.sel-class').value,
+                    subj: pane.querySelector('.sel-subj').value,
+                    chap: pane.querySelector('.sel-chap').value,
+                    lessKey: pane.querySelector('.sel-less').value
+                }]);
             });
 
             localStorage.setItem('lessonGuruAutoSave', JSON.stringify({
                 schoolName: document.getElementById('schoolName').value,
                 teacherName: document.getElementById('teacherName').value,
                 planDate: document.getElementById('planDate').value,
-                numPeriods: numPeriods,
+                numPeriods: totalPeriods,
                 periods: validPeriods
             }));
         }
 
-        // --- SMART AUTO-ADVANCE MEMORY ENGINE ---
         function loadPlanFromStorage() {
             const saved = localStorage.getItem('lessonGuruAutoSave');
             if (!saved) return false;
             try {
                 let data = JSON.parse(saved);
                 
-                const targetDateStr = getTargetPlanDate();
-
-                // 1. Time-Aware Logic: If saved date is older than target date, auto-advance syllabus!
-                if (data.planDate && data.planDate < targetDateStr && data.periods && data.periods.length > 0) {
-                    data.periods = data.periods.map(periodRows => {
-                        return periodRows.map(row => {
-                            if (!row.cls || !row.subj || !row.chap || row.lessKey === "") return row;
-                            
-                            const chapters = Object.keys(db[row.cls][row.subj] || {});
-                            let chapIndex = chapters.indexOf(row.chap);
-                            const periodData = db[row.cls][row.subj][row.chap];
-                            const periods = Array.isArray(periodData) ? periodData.map((_, i) => i.toString()) : Object.keys(periodData);
-                            let pIndex = periods.indexOf(row.lessKey.toString());
-                            
-                            if (pIndex + 1 < periods.length) {
-                                // Next Period
-                                row.lessKey = periods[pIndex + 1];
-                            } else {
-                                // Chapter finished
-                                if (chapIndex + 1 < chapters.length) {
-                                    // Jump to next chapter
-                                    row.chap = chapters[chapIndex + 1];
-                                    const nextPData = db[row.cls][row.subj][row.chap];
-                                    const nextPs = Array.isArray(nextPData) ? nextPData.map((_, i) => i.toString()) : Object.keys(nextPData);
-                                    row.lessKey = nextPs[0];
-                                } else {
-                                    // SUBJECT FINISHED: Wrap to Chapter 1, Period 1
-                                    row.chap = chapters[0];
-                                    const firstPData = db[row.cls][row.subj][row.chap];
-                                    const firstPs = Array.isArray(firstPData) ? firstPData.map((_, i) => i.toString()) : Object.keys(firstPData);
-                                    row.lessKey = firstPs[0];
-                                }
-                            }
-                            return row;
-                        });
-                    });
-                    
-                    data.planDate = targetDateStr;
-                    // Resave immediately so memory is updated
-                    localStorage.setItem('lessonGuruAutoSave', JSON.stringify(data));
-                }
-
-                // 2. Populate UI with updated data
-                if(data.schoolName) document.getElementById('schoolName').value = data.schoolName;
-                if(data.teacherName) document.getElementById('teacherName').value = data.teacherName;
-                document.getElementById('planDate').value = targetDateStr; 
+                document.getElementById('schoolName').value = data.schoolName || "";
+                document.getElementById('teacherName').value = data.teacherName || "";
                 
+                // Fallback to today if date is missing
+                if (data.planDate) {
+                    document.getElementById('planDate').value = data.planDate;
+                } else {
+                    document.getElementById('planDate').valueAsDate = new Date();
+                }
+                
+                totalPeriods = parseInt(data.numPeriods) || 7;
+                document.getElementById('numPeriods').value = totalPeriods;
+
                 updateUIHeader(); 
 
-                if (!data.periods || data.periods.length === 0) return false;
-                
-                document.getElementById('numPeriods').value = data.numPeriods;
-                const container = document.getElementById('periods-container');
-                container.innerHTML = '';
-
-                data.periods.forEach((rowsData, index) => {
-                    const i = index + 1;
-                    const pBlock = document.createElement('div');
-                    pBlock.className = 'period-block';
-                    pBlock.innerHTML = `
-                        <div class="period-title">Period ${i}<button class="btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">+ Add</button></div>
-                        <div id="rows-container-${i}"></div>
-                    `;
-                    container.appendChild(pBlock);
-                    if (rowsData.length === 0) addLessonRow(i);
-                    else rowsData.forEach(r => addLessonRow(i, r));
-                });
-                
-                // 3. UI Flow Control: Formatted Odia Success Message
                 document.getElementById('setup-card').classList.add('hidden');
-                
-                let formattedDate = targetDateStr;
-                if(targetDateStr) {
-                    const parts = targetDateStr.split('-');
-                    if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
-                }
-                
-                const odiaMsg = `ଆଜିର (${formattedDate}) ପାଠ୍ୟ ଖସଡ଼ା ଆପଣଙ୍କ ପାଇଁ ପ୍ରସ୍ତୁତ ଅଛି। ଦୟାକରି ଏହାକୁ ଦେଖନ୍ତୁ। ଯଦି କିଛି ପରିବର୍ତ୍ତନ କରିବାକୁ ଚାହୁଁଛନ୍ତି, ତେବେ ଏଡିଟ୍ (Edit) କରନ୍ତୁ। ଧନ୍ୟବାଦ।`;
-                document.getElementById('ready-desc-text').innerText = odiaMsg;
-                document.getElementById('ready-card').classList.remove('hidden');
+                document.getElementById('builder-area').classList.remove('hidden');
+                document.getElementById('builder-footer').classList.remove('hidden');
+
+                buildTabsAndForms(data.periods);
                 
                 return true;
             } catch(e) { return false; }
-        }
-
-        // --- UI NAVIGATION ---
-        function showBuilder() {
-            document.getElementById('ready-card').classList.add('hidden');
-            document.getElementById('builder-area').classList.remove('hidden');
-        }
-
-        function backToEdit() {
-            document.getElementById('preview-area').classList.add('hidden');
-            document.getElementById('main-container').classList.remove('hidden');
-            document.getElementById('ready-card').classList.add('hidden'); 
-            document.getElementById('builder-area').classList.remove('hidden');
-            window.scrollTo(0, 0);
         }
 
         function updateUIHeader() {
@@ -426,135 +388,134 @@
             document.getElementById('display-teacher').innerText = document.getElementById('teacherName').value || "No Name";
         }
 
-        function clearSavedPlan() {
-            if(confirm("Are you sure you want to reset? This wipes your daily schedule.")) {
-                const sName = document.getElementById('schoolName').value;
-                const tName = document.getElementById('teacherName').value;
-                localStorage.removeItem('lessonGuruAutoSave');
-                document.getElementById('schoolName').value = sName;
-                document.getElementById('teacherName').value = tName;
-                document.getElementById('planDate').value = getTargetPlanDate(); 
-                document.getElementById('builder-area').classList.add('hidden');
-                document.getElementById('ready-card').classList.add('hidden');
-                document.getElementById('setup-card').classList.remove('hidden');
-                document.getElementById('periods-container').innerHTML = '';
-            }
-        }
+        // --- PAGINATED UI LOGIC ---
+        function buildTabsAndForms(savedPeriodsData = null) {
+            const tabsContainer = document.getElementById('periodTabs');
+            const formsContainer = document.getElementById('periods-container');
+            tabsContainer.innerHTML = '';
+            formsContainer.innerHTML = '';
 
-        function openProfileModal() {
-            document.getElementById('modalSchoolName').value = document.getElementById('schoolName').value;
-            document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
-            document.getElementById('modalPlanDate').value = document.getElementById('planDate').value;
-            document.getElementById('modalNumPeriods').value = document.getElementById('numPeriods').value; 
-            document.getElementById('edit-profile-modal').classList.remove('hidden');
-        }
+            for (let i = 1; i <= totalPeriods; i++) {
+                // Build Tab
+                const tab = document.createElement('button');
+                tab.className = `tab-btn ${i === 1 ? 'active' : ''}`;
+                tab.id = `tab-${i}`;
+                tab.innerText = `Period ${i}`;
+                tab.onclick = () => switchPeriod(i);
+                tabsContainer.appendChild(tab);
 
-        function closeProfileModal() { document.getElementById('edit-profile-modal').classList.add('hidden'); }
+                // Build Form Pane
+                const pane = document.createElement('div');
+                pane.className = `period-pane ${i === 1 ? 'active' : ''}`;
+                pane.id = `pane-${i}`;
+                const rowId = `row-${i}`;
+                
+                pane.innerHTML = `
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Configure Period ${i}</h3>
+                    <div class="form-grid">
+                        <div><label>Class</label><select class="sel-class" onchange="updateSubjects('${rowId}'); savePlanToStorage();"><option value="">Select Class...</option></select></div>
+                        <div><label>Subject</label><select class="sel-subj" onchange="updateChapters('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
+                        <div><label>Chapter</label><select class="sel-chap" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
+                        <div><label>Lesson</label><select class="sel-less" onchange="savePlanToStorage();" disabled><option>...</option></select></div>
+                    </div>
+                `;
+                formsContainer.appendChild(pane);
 
-        function adjustPeriods(newNum) {
-            const container = document.getElementById('periods-container');
-            const currentBlocks = container.querySelectorAll('.period-block');
-            const currentNum = currentBlocks.length;
-
-            if (newNum > currentNum) {
-                for (let i = currentNum + 1; i <= newNum; i++) {
-                    const pBlock = document.createElement('div');
-                    pBlock.className = 'period-block';
-                    pBlock.innerHTML = `<div class="period-title">Period ${i}<button class="btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">+ Add</button></div><div id="rows-container-${i}"></div>`;
-                    container.appendChild(pBlock);
-                    addLessonRow(i);
+                // Restore Data if available
+                if (savedPeriodsData && savedPeriodsData[i-1] && savedPeriodsData[i-1][0]) {
+                    const preset = savedPeriodsData[i-1][0];
+                    pane.dataset.presetCls = preset.cls;
+                    pane.dataset.presetSubj = preset.subj;
+                    pane.dataset.presetChap = preset.chap;
+                    pane.dataset.presetLess = preset.lessKey;
                 }
-            } else if (newNum < currentNum) {
-                for (let i = currentNum; i > newNum; i--) container.removeChild(currentBlocks[i - 1]);
             }
+
+            currentPeriodIndex = 1;
+            updateFooterButtons();
+            
+            if(isDbLoaded) hydrateAllDropdowns();
         }
 
-        function saveUpdatedProfile() {
-            document.getElementById('schoolName').value = document.getElementById('modalSchoolName').value;
-            document.getElementById('teacherName').value = document.getElementById('modalTeacherName').value;
-            document.getElementById('planDate').value = document.getElementById('modalPlanDate').value;
-            const updatedPeriods = parseInt(document.getElementById('modalNumPeriods').value);
-            if (!isNaN(updatedPeriods) && updatedPeriods >= 1) {
-                document.getElementById('numPeriods').value = updatedPeriods;
-                adjustPeriods(updatedPeriods);
-            }
-            updateUIHeader(); savePlanToStorage(); closeProfileModal();
+        function switchPeriod(index) {
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.period-pane').forEach(p => p.classList.remove('active'));
+            
+            document.getElementById(`tab-${index}`).classList.add('active');
+            document.getElementById(`pane-${index}`).classList.add('active');
+            
+            // Scroll tabs into view
+            document.getElementById(`tab-${index}`).scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            
+            currentPeriodIndex = index;
+            updateFooterButtons();
         }
 
-        function buildPeriodForms() {
-            const num = parseInt(document.getElementById('numPeriods').value);
-            if (num < 1 || isNaN(num)) return;
-            const container = document.getElementById('periods-container');
-            container.innerHTML = '';
-            for (let i = 1; i <= num; i++) {
-                const pBlock = document.createElement('div');
-                pBlock.className = 'period-block';
-                pBlock.innerHTML = `<div class="period-title">Period ${i}<button class="btn-secondary" onclick="addLessonRow(${i}); savePlanToStorage();" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">+ Add</button></div><div id="rows-container-${i}"></div>`;
-                container.appendChild(pBlock);
-                addLessonRow(i);
-            }
-            updateUIHeader(); 
-            document.getElementById('setup-card').classList.add('hidden');
-            document.getElementById('builder-area').classList.remove('hidden');
-            savePlanToStorage();
+        function prevPeriod() { if (currentPeriodIndex > 1) switchPeriod(currentPeriodIndex - 1); }
+        function nextPeriod() { if (currentPeriodIndex < totalPeriods) switchPeriod(currentPeriodIndex + 1); }
+
+        function updateFooterButtons() {
+            document.getElementById('btnPrev').style.visibility = currentPeriodIndex === 1 ? 'hidden' : 'visible';
+            document.getElementById('btnNext').style.visibility = currentPeriodIndex === totalPeriods ? 'hidden' : 'visible';
         }
 
-        function addLessonRow(periodNum, presetData = null) {
-            const container = document.getElementById(`rows-container-${periodNum}`);
-            const rowId = `row-${periodNum}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
-            const row = document.createElement('div');
-            row.className = 'lesson-row';
-            row.id = rowId;
-            row.innerHTML = `
-                <div><label>Class</label><select class="sel-class" onchange="updateSubjects('${rowId}'); savePlanToStorage();"><option value="">Class...</option>${classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('')}</select></div>
-                <div><label>Subject</label><select class="sel-subj" onchange="updateChapters('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
-                <div><label>Chapter</label><select class="sel-chap" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
-                <div><label>Lesson</label><select class="sel-less" onchange="savePlanToStorage();" disabled><option>...</option></select></div>
-                <div><button class="remove-btn" onclick="document.getElementById('${rowId}').remove(); savePlanToStorage();">✕</button></div>
-            `;
-            container.appendChild(row);
+        // --- DROPDOWN LOGIC ---
+        function hydrateAllDropdowns() {
+            const classOptions = `<option value="">Select Class...</option>` + classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('');
+            
+            for (let i = 1; i <= totalPeriods; i++) {
+                const pane = document.getElementById(`pane-${i}`);
+                const clsSel = pane.querySelector('.sel-class');
+                clsSel.innerHTML = classOptions;
 
-            if (presetData && presetData.cls) {
-                row.querySelector('.sel-class').value = presetData.cls; updateSubjects(rowId);
-                if (presetData.subj) {
-                    row.querySelector('.sel-subj').value = presetData.subj; updateChapters(rowId);
-                    if (presetData.chap) {
-                        row.querySelector('.sel-chap').value = presetData.chap; updateLessons(rowId);
-                        if (presetData.lessKey) row.querySelector('.sel-less').value = presetData.lessKey;
+                // Apply presets if they exist
+                if (pane.dataset.presetCls) {
+                    clsSel.value = pane.dataset.presetCls;
+                    updateSubjects(`row-${i}`);
+                    if (pane.dataset.presetSubj) {
+                        pane.querySelector('.sel-subj').value = pane.dataset.presetSubj;
+                        updateChapters(`row-${i}`);
+                        if (pane.dataset.presetChap) {
+                            pane.querySelector('.sel-chap').value = pane.dataset.presetChap;
+                            updateLessons(`row-${i}`);
+                            if (pane.dataset.presetLess) {
+                                pane.querySelector('.sel-less').value = pane.dataset.presetLess;
+                            }
+                        }
                     }
                 }
             }
         }
 
         function updateSubjects(rowId) {
-            const row = document.getElementById(rowId);
-            const cls = row.querySelector('.sel-class').value;
-            resetSelect(row.querySelector('.sel-chap')); resetSelect(row.querySelector('.sel-less'));
-            if (!cls) return resetSelect(row.querySelector('.sel-subj'));
-            populateSelect(row.querySelector('.sel-subj'), Object.keys(db[cls] || {}), "Subject...");
+            const pane = document.getElementById(rowId.replace('row-', 'pane-'));
+            const cls = pane.querySelector('.sel-class').value;
+            resetSelect(pane.querySelector('.sel-chap')); resetSelect(pane.querySelector('.sel-less'));
+            if (!cls) return resetSelect(pane.querySelector('.sel-subj'));
+            populateSelect(pane.querySelector('.sel-subj'), Object.keys(db[cls] || {}), "Select Subject...");
         }
 
         function updateChapters(rowId) {
-            const row = document.getElementById(rowId);
-            const cls = row.querySelector('.sel-class').value;
-            const subj = row.querySelector('.sel-subj').value;
-            resetSelect(row.querySelector('.sel-less'));
-            if (!subj) return resetSelect(row.querySelector('.sel-chap'));
-            populateSelect(row.querySelector('.sel-chap'), Object.keys(db[cls][subj] || {}), "Chapter...");
+            const pane = document.getElementById(rowId.replace('row-', 'pane-'));
+            const cls = pane.querySelector('.sel-class').value;
+            const subj = pane.querySelector('.sel-subj').value;
+            resetSelect(pane.querySelector('.sel-less'));
+            if (!subj) return resetSelect(pane.querySelector('.sel-chap'));
+            populateSelect(pane.querySelector('.sel-chap'), Object.keys(db[cls][subj] || {}), "Select Chapter...");
         }
 
         function updateLessons(rowId) {
-            const row = document.getElementById(rowId);
-            const cls = row.querySelector('.sel-class').value;
-            const subj = row.querySelector('.sel-subj').value;
-            const chap = row.querySelector('.sel-chap').value;
-            const lessSel = row.querySelector('.sel-less');
+            const pane = document.getElementById(rowId.replace('row-', 'pane-'));
+            const cls = pane.querySelector('.sel-class').value;
+            const subj = pane.querySelector('.sel-subj').value;
+            const chap = pane.querySelector('.sel-chap').value;
+            const lessSel = pane.querySelector('.sel-less');
             if (!chap) return resetSelect(lessSel);
             
             const lessonsData = db[cls][subj][chap] || {};
             const lessons = Array.isArray(lessonsData) ? lessonsData.map((l, i) => i) : Object.keys(lessonsData);
             
-            lessSel.innerHTML = '<option value="">Lesson...</option>';
+            lessSel.innerHTML = '<option value="">Select Lesson...</option>';
             lessons.forEach(key => {
                 const name = Array.isArray(lessonsData) ? lessonsData[key].Period : key;
                 const opt = document.createElement('option'); opt.value = key; opt.textContent = name;
@@ -570,22 +531,35 @@
         }
         function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
+        // --- PROFILE MODAL ---
+        function openProfileModal() {
+            document.getElementById('modalSchoolName').value = document.getElementById('schoolName').value;
+            document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
+            document.getElementById('modalNumPeriods').value = totalPeriods; 
+            document.getElementById('edit-profile-modal').classList.add('active');
+        }
+
+        function closeProfileModal() { document.getElementById('edit-profile-modal').classList.remove('active'); }
+
+        function saveUpdatedProfile() {
+            document.getElementById('schoolName').value = document.getElementById('modalSchoolName').value;
+            document.getElementById('teacherName').value = document.getElementById('modalTeacherName').value;
+            const newPeriods = parseInt(document.getElementById('modalNumPeriods').value);
+            
+            if (!isNaN(newPeriods) && newPeriods >= 1 && newPeriods !== totalPeriods) {
+                totalPeriods = newPeriods;
+                document.getElementById('numPeriods').value = totalPeriods;
+                
+                // Keep existing data, just adjust tabs
+                const saved = JSON.parse(localStorage.getItem('lessonGuruAutoSave')) || {};
+                buildTabsAndForms(saved.periods);
+            }
+            updateUIHeader(); savePlanToStorage(); closeProfileModal();
+        }
+
+        // --- PDF GENERATION UTILS ---
         function getTableColgroup() {
-            return `
-                <colgroup>
-                    <col style="width: 3%;">
-                    <col style="width: 7%;">
-                    <col style="width: 8%;">
-                    <col style="width: 10%;">
-                    <col style="width: 10%;">
-                    <col style="width: 9%;">
-                    <col style="width: 17%;">
-                    <col style="width: 9%;">
-                    <col style="width: 9%;">
-                    <col style="width: 9%;">
-                    <col style="width: 9%;">
-                </colgroup>
-            `;
+            return `<colgroup><col style="width: 3%;"><col style="width: 7%;"><col style="width: 8%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 9%;"><col style="width: 17%;"><col style="width: 9%;"><col style="width: 9%;"><col style="width: 9%;"><col style="width: 9%;"></colgroup>`;
         }
 
         function formatCompAndLO(text) {
@@ -612,36 +586,36 @@
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
+        function backToEdit() {
+            document.getElementById('preview-area').classList.add('hidden');
+            document.getElementById('preview-footer').classList.add('hidden');
+            document.getElementById('main-container').classList.remove('hidden');
+            document.getElementById('builder-footer').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
         function generatePlanPreview() {
             const container = document.getElementById('pdf-preview-content');
             container.innerHTML = '';
             
-            const periodBlocks = document.querySelectorAll('.period-block');
             let allRows = [];
             
-            periodBlocks.forEach((block, index) => {
-                const pNum = index + 1;
-                const rows = block.querySelectorAll('.lesson-row');
-                let isFirstInPeriod = true;
+            for(let i=1; i<=totalPeriods; i++) {
+                const pane = document.getElementById(`pane-${i}`);
+                const cls = pane.querySelector('.sel-class').value;
+                const subj = pane.querySelector('.sel-subj').value;
+                const chap = pane.querySelector('.sel-chap').value;
+                const lessKey = pane.querySelector('.sel-less').value;
                 
-                rows.forEach(row => {
-                    const cls = row.querySelector('.sel-class').value;
-                    const subj = row.querySelector('.sel-subj').value;
-                    const chap = row.querySelector('.sel-chap').value;
-                    const lessKey = row.querySelector('.sel-less').value;
-                    
-                    if (cls && subj && chap && lessKey !== "") {
-                        allRows.push({ pNum, cls, subj, chap, lessKey, isFirstInPeriod });
-                        isFirstInPeriod = false; 
-                    }
-                });
-            });
+                if (cls && subj && chap && lessKey !== "") {
+                    allRows.push({ pNum: i, cls, subj, chap, lessKey });
+                }
+            }
 
-            if (allRows.length === 0) return alert("Please select at least one lesson plan to generate.");
+            if (allRows.length === 0) return alert("Please fully configure at least one period before generating.");
 
             const schoolName = document.getElementById('schoolName').value || "_______________________";
             const teacherName = document.getElementById('teacherName').value || "_______________________";
-            
             const rawDate = document.getElementById('planDate').value;
             let formattedDate = "____/____/20___";
             if(rawDate) {
@@ -653,11 +627,10 @@
             allRows.forEach(rData => {
                 const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
                 const p = plan.Panchapadi || {};
-                let periodDisplay = rData.isFirstInPeriod ? rData.pNum : '';
 
                 tbodyHTML += `
                     <tr>
-                        <td class="col-period">${periodDisplay}</td>
+                        <td class="col-period">${rData.pNum}</td>
                         <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
                         <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
                         <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
@@ -698,39 +671,35 @@
                             <th class="col-tlm">TLM</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        ${tbodyHTML}
-                    </tbody>
+                    <tbody>${tbodyHTML}</tbody>
                 </table>
             `;
 
             document.getElementById('main-container').classList.add('hidden');
+            document.getElementById('builder-footer').classList.add('hidden');
+            
             document.getElementById('preview-area').classList.remove('hidden');
+            document.getElementById('preview-footer').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
 
-        // --- FLAWLESS ODIA PDF SNAPSHOT ENGINE WITH SMART NAMING ---
+        // --- FLAWLESS ODIA PDF SNAPSHOT ENGINE ---
         async function sharePlanViaApp() {
             const btn = document.getElementById('btnShare');
             const ogText = btn.innerHTML;
             btn.innerHTML = '⏳ Processing...';
             
-            const periodBlocks = document.querySelectorAll('.period-block');
             let allRows = [];
-            periodBlocks.forEach((block, index) => {
-                const pNum = index + 1;
-                let isFirstInPeriod = true;
-                block.querySelectorAll('.lesson-row').forEach(row => {
-                    const cls = row.querySelector('.sel-class').value;
-                    const subj = row.querySelector('.sel-subj').value;
-                    const chap = row.querySelector('.sel-chap').value;
-                    const lessKey = row.querySelector('.sel-less').value;
-                    if (cls && subj && chap && lessKey !== "") {
-                        allRows.push({ pNum, cls, subj, chap, lessKey, isFirstInPeriod });
-                        isFirstInPeriod = false; 
-                    }
-                });
-            });
+            for(let i=1; i<=totalPeriods; i++) {
+                const pane = document.getElementById(`pane-${i}`);
+                const cls = pane.querySelector('.sel-class').value;
+                const subj = pane.querySelector('.sel-subj').value;
+                const chap = pane.querySelector('.sel-chap').value;
+                const lessKey = pane.querySelector('.sel-less').value;
+                if (cls && subj && chap && lessKey !== "") {
+                    allRows.push({ pNum: i, cls, subj, chap, lessKey });
+                }
+            }
 
             const schoolName = document.getElementById('schoolName').value || "_______________________";
             const teacherName = document.getElementById('teacherName').value || "Teacher";
@@ -745,7 +714,6 @@
             container.innerHTML = '';
             
             const MAX_ROWS = 4; 
-            
             for (let i = 0; i < allRows.length; i += MAX_ROWS) {
                 const chunk = allRows.slice(i, i + MAX_ROWS);
                 let tbodyHTML = '';
@@ -753,11 +721,9 @@
                 chunk.forEach(rData => {
                     const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
                     const p = plan.Panchapadi || {};
-                    let periodDisplay = rData.isFirstInPeriod ? rData.pNum : '';
-
                     tbodyHTML += `
                         <tr>
-                            <td class="col-period">${periodDisplay}</td>
+                            <td class="col-period">${rData.pNum}</td>
                             <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
                             <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
                             <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
@@ -806,19 +772,14 @@
                                     <th class="col-tlm">TLM</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                ${tbodyHTML}
-                            </tbody>
+                            <tbody>${tbodyHTML}</tbody>
                         </table>
                     </div>
                 `;
             }
 
-            container.style.display = 'block';
-            container.style.position = 'fixed';
-            container.style.top = '0';
-            container.style.left = '-9999px'; 
-            container.style.zIndex = '-1';
+            // Fixed error rendering bug by using absolute position on screen instead of left:-9999px
+            container.style.opacity = '1';
 
             await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -828,24 +789,21 @@
                 const pages = container.querySelectorAll('.pdf-page');
 
                 for (let i = 0; i < pages.length; i++) {
+                    // Lowered pixelRatio from 2.5 to 2.0 to prevent mobile memory crash
                     const dataUrl = await htmlToImage.toPng(pages[i], {
-                        pixelRatio: 2.5, 
+                        pixelRatio: 2.0, 
                         backgroundColor: '#ffffff',
                         width: 1122
                     });
 
                     if (i > 0) pdf.addPage();
-                    
                     const imgProps = pdf.getImageProperties(dataUrl);
                     const pdfWidth = pdf.internal.pageSize.getWidth();
                     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                    
                     pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight);
                 }
 
                 const pdfBlob = pdf.output('blob');
-                
-                // Smart Custom File Naming
                 const safeTeacherName = teacherName.replace(/[^a-zA-Z0-9]/g, '_');
                 const safeDate = formattedDate.replace(/\//g, '-');
                 const customFileName = `${safeTeacherName}_LessonPlan_${safeDate}.pdf`;
@@ -853,10 +811,7 @@
                 const file = new File([pdfBlob], customFileName, { type: 'application/pdf' });
                 
                 if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: 'Daily Lesson Plan',
-                        files: [file]
-                    });
+                    await navigator.share({ title: 'Daily Lesson Plan', files: [file] });
                 } else {
                     const url = URL.createObjectURL(pdfBlob);
                     const a = document.createElement('a');
@@ -868,9 +823,9 @@
                 }
             } catch (err) {
                 console.error(err);
-                alert("Error generating PDF. Please use Print.");
+                alert("Error generating PDF. Please use the Print option instead.");
             } finally {
-                container.style.display = 'none'; 
+                container.style.opacity = '0'; 
                 container.innerHTML = '';
                 btn.innerHTML = ogText;
             }
