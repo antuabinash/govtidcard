@@ -2,169 +2,152 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Lesson Plan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Lesson Plan - ଶିକ୍ଷକ ସାଥୀ</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* === App Variables & Reset (Synced with index.html) === */
         :root {
-            --primary: #4f46e5;
-            --primary-active: #4338ca;
-            --bg-color: #f2f2f7; /* Native iOS gray background */
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --safe-area-bottom: env(safe-area-inset-bottom, 20px);
+            --app-bg: #F4F6F9;
+            --card-bg: #FFFFFF;
+            --text-main: #1D1D1F;
+            --text-muted: #86868B;
+            --primary: #007AFF;
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --safe-area-pt: env(safe-area-inset-top, 16px);
+            --safe-area-pb: env(safe-area-inset-bottom, 20px);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Noto Sans Oriya", "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: calc(40px + var(--safe-area-pb)); overflow-x: hidden; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: var(--safe-area-bottom);
+        /* === Header === */
+        header { 
+            padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; 
+            background: rgba(244, 246, 249, 0.85); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); 
+            position: sticky; top: 0; z-index: 100; 
+            border-bottom: 1px solid rgba(0,0,0,0.03); 
+            display: flex; justify-content: flex-start; align-items: center; gap: 16px;
         }
-
-        /* Native Sticky App Bar */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 60px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            padding: 0 1rem;
+        
+        .icon-btn { 
+            background: #FFFFFF; border: none; width: 40px; height: 40px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            color: var(--text-main); box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            cursor: pointer; transition: transform 0.2s; flex-shrink: 0;
         }
+        .icon-btn:active { transform: scale(0.9); }
 
-        .header-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 60%;
-            text-align: center;
-        }
+        .app-title { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .back-btn {
-            position: absolute;
-            left: 1rem;
-            display: none;
-            align-items: center;
-            gap: 0.2rem;
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 0.5rem 0;
-        }
+        .container { max-width: 800px; margin: 0 auto; padding: 16px 24px; }
 
-        .back-btn svg { width: 20px; height: 20px; fill: currentColor; }
-        .back-btn:active { opacity: 0.6; }
-
-        .container { padding: 1rem; max-width: 600px; margin: 0 auto; }
-
-        /* Status / Loading Section */
+        /* === Status & Loading === */
         #status-section {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: var(--card-bg); padding: 3rem 1.5rem; border-radius: 1rem;
-            text-align: center; margin-top: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            background: var(--card-bg); padding: 40px 24px; border-radius: var(--radius-xl);
+            text-align: center; margin-top: 24px; box-shadow: var(--shadow-soft);
         }
         .spinner {
-            border: 3px solid #e2e8f0; border-top: 3px solid var(--primary); border-radius: 50%;
-            width: 36px; height: 36px; animation: spin 1s linear infinite; margin-bottom: 1rem;
+            border: 4px solid #f3f4f6; border-top: 4px solid var(--primary); border-radius: 50%;
+            width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-bottom: 16px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Native List View Setup */
-        #app-content { display: flex; flex-direction: column; gap: 0.75rem; }
+        /* === Modern List Tiles === */
+        #app-content { display: flex; flex-direction: column; gap: 12px; }
 
-        /* Mobile List Tiles */
         .tile {
             background: var(--card-bg); 
-            border-radius: 1rem; 
-            padding: 1rem; 
+            border-radius: var(--radius-lg); 
+            padding: 16px; 
             cursor: pointer;
             display: flex; 
             align-items: center; 
             justify-content: space-between;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            transition: background 0.15s ease;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border: 1px solid rgba(255,255,255,0.8);
         }
-        .tile:active { background: #e2e8f0; } /* Native touch feedback */
+        .tile:active { transform: scale(0.96); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
 
-        .tile-left { display: flex; align-items: center; gap: 1rem; width: 100%; overflow: hidden;}
-        .tile-icon { 
-            font-size: 1.5rem; background: #eff6ff; width: 3rem; height: 3rem; 
-            display: flex; align-items: center; justify-content: center; 
-            border-radius: 0.75rem; flex-shrink: 0;
-        }
-        .tile-info { display: flex; flex-direction: column; gap: 0.2rem; overflow: hidden; white-space: nowrap; }
-        .tile-title { font-size: 1.05rem; font-weight: 700; color: var(--text-main); text-overflow: ellipsis; overflow: hidden; }
-        .tile-subtitle { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+        .tile-left { display: flex; align-items: center; gap: 16px; width: 100%; overflow: hidden;}
         
-        .chevron { color: #cbd5e1; flex-shrink: 0; margin-left: 0.5rem; }
-        .chevron svg { width: 24px; height: 24px; fill: currentColor; }
-
-        /* Lesson Plan Viewer (Mobile Cards) */
-        .lesson-plan { background: transparent; padding: 0; }
-        .plan-header { 
-            background: var(--card-bg); padding: 1.5rem; border-radius: 1rem; 
-            margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        /* Gradient Icon Boxes */
+        .icon-box { 
+            width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; 
+            justify-content: center; font-size: 26px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); flex-shrink: 0;
         }
-        .plan-topic { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 0.25rem; line-height: 1.3;}
+        .grad-purple { background: linear-gradient(135deg, #B1B0FC 0%, #E0C3FC 100%); }
+        .grad-blue { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
+        .grad-teal { background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%); }
+        .grad-orange { background: linear-gradient(135deg, #F6D365 0%, #FDA085 100%); }
+
+        .tile-info { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+        .tile-title { font-size: 16px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tile-subtitle { font-size: 13px; color: var(--text-muted); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+        
+        .chevron { color: #C7C7CC; flex-shrink: 0; margin-left: 8px; }
+        .chevron svg { width: 22px; height: 22px; fill: currentColor; }
+
+        /* === Detailed Lesson Plan Viewer === */
+        .lesson-plan { background: transparent; padding: 0; }
+        
+        .plan-header { 
+            background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+            padding: 24px; border-radius: var(--radius-xl); 
+            margin-bottom: 20px; box-shadow: 0 12px 24px rgba(118, 75, 162, 0.25);
+            color: white;
+        }
+        .plan-topic { font-size: 22px; font-weight: 800; margin-bottom: 6px; line-height: 1.3;}
+        .plan-meta { font-size: 14px; font-weight: 600; opacity: 0.9; }
         
         .section-box { 
-            background: var(--card-bg); border-radius: 1rem; padding: 1.25rem; 
-            margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+            background: var(--card-bg); border-radius: var(--radius-lg); padding: 20px; 
+            margin-bottom: 16px; box-shadow: var(--shadow-soft); 
         }
-        .section-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800; color: #64748b; margin-bottom: 0.75rem; }
-        .section-content { font-size: 0.95rem; line-height: 1.6; color: #1e293b; }
+        .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
+        .section-content { font-size: 15px; line-height: 1.6; color: var(--text-main); }
         
-        .panchapadi-grid { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
-        .step-card { background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 0.5rem; }
-        .step-name { font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; font-size: 1rem;}
+        .panchapadi-grid { display: flex; flex-direction: column; gap: 12px; }
+        .step-card { background: #F8F9FA; border-left: 4px solid var(--primary); padding: 16px; border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+        .step-name { font-weight: 800; color: var(--primary); margin-bottom: 8px; font-size: 14px;}
         
-        .missing-data { color: #94a3b8; font-style: italic; }
+        .missing-data { color: #A0AEC0; font-style: italic; font-size: 14px;}
         .hidden { display: none !important; }
 
-        /* Typography tweaks for smaller screens */
-        @media screen and (max-width: 400px) {
-            .tile-title { font-size: 0.95rem; }
-            .tile-icon { width: 2.5rem; height: 2.5rem; font-size: 1.2rem; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Native App Bar -->
+    <!-- Native App Header -->
     <header>
-        <button id="backBtn" class="back-btn" onclick="navigateBack()">
-            <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
-            Back
+        <button id="backBtn" class="icon-btn hidden" onclick="navigateBack()" aria-label="Go Back">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
         </button>
-        <div id="headerTitle" class="header-title">LessonGuru</div>
+        <h1 id="headerTitle" class="app-title">Lesson Plans</h1>
     </header>
 
     <div class="container">
         <!-- Loading / Status Screen -->
         <div id="status-section">
             <div id="loading-spinner" class="spinner"></div>
-            <h2 id="status-title" style="margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 800;">Connecting...</h2>
-            <p id="status-msg" style="color: var(--text-muted); font-size: 0.9rem;">Fetching databases securely.</p>
+            <h2 id="status-title" style="margin-bottom: 8px; font-size: 20px; font-weight: 800; color: var(--text-main);">Connecting...</h2>
+            <p id="status-msg" style="color: var(--text-muted); font-size: 14px;">Fetching syllabus database securely.</p>
         </div>
 
-        <!-- App List Content -->
+        <!-- Dynamic List Content -->
         <div id="app-content"></div>
 
         <!-- Detailed Lesson Plan Viewer -->
@@ -176,25 +159,44 @@
         let currentPath = [];
         let isViewingLesson = false;
 
-        // Formatting utilities
-        function formatData(text) {
-            if (!text || String(text).trim() === '' || text === 'nan') {
-                return '<span class="missing-data">Data not available</span>';
-            }
-            return String(text).replace(/\|/g, '<br><br>').replace(/\n/g, '<br>');
-        }
-
-        function escapeForHTML(str) {
-            return String(str)
-                .replace(/\\/g, '\\\\')
-                .replace(/'/g, "\\'")
-                .replace(/"/g, '&quot;');
-        }
-
         // SVG icon for list items
         const chevronRight = `<div class="chevron"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></div>`;
 
-        // --- GITHUB AUTO-FETCH LOGIC ---
+        // --- SMART FORMATTERS ---
+
+        // Formats General Text (CG, LO, Comp) - removes weird [Codes:] brackets
+        function formatStandard(text) {
+            if (!text || String(text).trim() === '' || text === 'nan') return '<span class="missing-data">Data not available</span>';
+            let cleaned = String(text);
+            const codeMatch = cleaned.match(/\[\s*Codes?:/i);
+            if (codeMatch) cleaned = cleaned.substring(0, codeMatch.index);
+            
+            return cleaned.replace(/\|/g, '<br><br>').replace(/✓/g, '').trim() || '<span class="missing-data">Data not available</span>';
+        }
+
+        // Specifically Isolates ONLY the Teacher's Action in Panchapadi
+        function formatPanchapadi(text) {
+            if (!text || String(text).trim() === '' || text === 'nan') return '<span class="missing-data">Data not available</span>';
+            let cleaned = String(text);
+            
+            // 1. Delete the entire Student Reaction section
+            cleaned = cleaned.split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
+            
+            // 2. Delete the Teacher Action Label/Header
+            cleaned = cleaned.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
+            
+            // 3. Format line breaks neatly
+            cleaned = cleaned.replace(/\|/g, '<br><br>').trim();
+            if (cleaned.endsWith('<br><br>')) cleaned = cleaned.substring(0, cleaned.length - 8).trim();
+            
+            return cleaned || '<span class="missing-data">Data not available</span>';
+        }
+
+        function escapeForHTML(str) {
+            return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        // --- DATABASE FETCH ---
         document.addEventListener("DOMContentLoaded", () => {
             fetch('master_lesson_database.json')
                 .then(response => {
@@ -210,20 +212,20 @@
                     console.error('Fetch error:', error);
                     document.getElementById('loading-spinner').classList.add('hidden');
                     document.getElementById('status-title').innerText = "Connection Failed";
-                    document.getElementById('status-title').style.color = "#ef4444";
+                    document.getElementById('status-title').style.color = "#FF3B30";
                     document.getElementById('status-msg').innerHTML = "Could not load database. Please try again.";
                 });
         });
 
-        // --- Native Header Navigation ---
+        // --- NAVIGATION ENGINE ---
         function updateHeader(title) {
             document.getElementById('headerTitle').innerText = title;
             const backBtn = document.getElementById('backBtn');
             
             if (currentPath.length > 0 || isViewingLesson) {
-                backBtn.style.display = 'flex';
+                backBtn.classList.remove('hidden');
             } else {
-                backBtn.style.display = 'none';
+                backBtn.classList.add('hidden');
             }
         }
 
@@ -244,10 +246,10 @@
             document.getElementById('app-content').innerHTML = '';
             document.getElementById('app-content').classList.remove('hidden');
             document.getElementById('lesson-plan-viewer').classList.add('hidden');
-            window.scrollTo(0, 0); // Scroll to top on transition
+            window.scrollTo(0, 0); 
         }
 
-        // --- Render Views (Native List Styles) ---
+        // --- RENDER VIEWS ---
         function renderClasses() {
             currentPath = [];
             updateHeader('Select Class');
@@ -260,10 +262,10 @@
                 container.innerHTML += `
                     <div class="tile" onclick="renderSubjects('${escapeForHTML(className)}')">
                         <div class="tile-left">
-                            <div class="tile-icon">🏫</div>
+                            <div class="icon-box grad-purple">🏫</div>
                             <div class="tile-info">
                                 <div class="tile-title">${cleanName}</div>
-                                <div class="tile-subtitle">${subjectCount} Subjects</div>
+                                <div class="tile-subtitle">${subjectCount} Subjects Available</div>
                             </div>
                         </div>
                         ${chevronRight}
@@ -282,7 +284,7 @@
                 container.innerHTML += `
                     <div class="tile" onclick="renderChapters('${escapeForHTML(className)}', '${escapeForHTML(subjectName)}')">
                         <div class="tile-left">
-                            <div class="tile-icon">📘</div>
+                            <div class="icon-box grad-blue">📘</div>
                             <div class="tile-info">
                                 <div class="tile-title">${subjectName}</div>
                                 <div class="tile-subtitle">${chapterCount} Chapters</div>
@@ -304,10 +306,10 @@
                 container.innerHTML += `
                     <div class="tile" onclick="renderPeriods('${escapeForHTML(className)}', '${escapeForHTML(subjectName)}', '${escapeForHTML(chapterName)}')">
                         <div class="tile-left">
-                            <div class="tile-icon">🔖</div>
+                            <div class="icon-box grad-teal">🔖</div>
                             <div class="tile-info">
                                 <div class="tile-title">${chapterName}</div>
-                                <div class="tile-subtitle">${periodCount} Periods</div>
+                                <div class="tile-subtitle">${periodCount} Active Periods</div>
                             </div>
                         </div>
                         ${chevronRight}
@@ -317,7 +319,7 @@
 
         function renderPeriods(className, subjectName, chapterName) {
             currentPath = [className, subjectName, chapterName];
-            updateHeader('Periods');
+            updateHeader(chapterName);
             clearView();
             const container = document.getElementById('app-content');
             
@@ -328,14 +330,18 @@
                 const isArray = Array.isArray(periodData);
                 const periodName = isArray ? periodItem.Period : periodItem;
                 const indexKey = isArray ? index : periodName;
+                
+                // Smart Topic Extraction for the Subtitle
+                const plan = isArray ? periodItem : periodData[periodName];
+                const topicDesc = (plan.Topic && plan.Topic !== 'nan') ? plan.Topic : chapterName;
 
                 container.innerHTML += `
                     <div class="tile" onclick="renderLessonPlan('${escapeForHTML(className)}', '${escapeForHTML(subjectName)}', '${escapeForHTML(chapterName)}', '${escapeForHTML(indexKey)}')">
                         <div class="tile-left">
-                            <div class="tile-icon">⏱️</div>
+                            <div class="icon-box grad-orange">⏱️</div>
                             <div class="tile-info">
                                 <div class="tile-title">${periodName}</div>
-                                <div class="tile-subtitle">View Details</div>
+                                <div class="tile-subtitle">${topicDesc}</div>
                             </div>
                         </div>
                         ${chevronRight}
@@ -353,48 +359,51 @@
                 const p = plan.Panchapadi || {};
 
                 isViewingLesson = true;
-                updateHeader("Lesson Details");
+                updateHeader("Lesson Overview");
                 
                 document.getElementById('app-content').classList.add('hidden');
                 const viewer = document.getElementById('lesson-plan-viewer');
                 viewer.classList.remove('hidden');
                 window.scrollTo(0, 0);
 
+                const displayTopic = (plan.Topic && plan.Topic !== 'nan') ? plan.Topic : chapterName;
+                const displayPeriod = plan.Period || periodKey;
+
                 viewer.innerHTML = `
                     <div class="plan-header">
-                        <div class="plan-topic">🎯 ${plan.Topic || 'Lesson Plan'}</div>
-                        <div style="color: var(--text-muted); font-weight: 600; font-size: 0.95rem; margin-top: 0.5rem;">${plan.Period || periodKey}</div>
+                        <div class="plan-topic">${displayTopic}</div>
+                        <div class="plan-meta">${className.replace('_', ' ')} • ${subjectName} • ${displayPeriod}</div>
                     </div>
 
                     <div class="section-box">
-                        <div class="section-title">📊 Curricular Goal (CG)</div>
-                        <div class="section-content">${formatData(plan.CG)}</div>
+                        <div class="section-title">📊 Curricular Goal</div>
+                        <div class="section-content">${formatStandard(plan.CG)}</div>
                     </div>
 
                     <div class="section-box">
                         <div class="section-title">🛡️ Competency</div>
-                        <div class="section-content">${formatData(plan.Competency)}</div>
+                        <div class="section-content">${formatStandard(plan.Competency)}</div>
                     </div>
 
                     <div class="section-box">
                         <div class="section-title">✅ Learning Outcomes</div>
-                        <div class="section-content">${formatData(plan.LearningOutcomes)}</div>
+                        <div class="section-content">${formatStandard(plan.LearningOutcomes)}</div>
                     </div>
 
                     <div class="section-box" style="background: transparent; border: none; padding: 0; box-shadow: none;">
-                        <div class="section-title" style="margin-bottom: 0;">🖐️ Panchapadi Steps</div>
+                        <div class="section-title" style="margin-bottom: 8px;">🖐️ Teacher Action (Panchapadi)</div>
                         <div class="panchapadi-grid">
-                            <div class="step-card"><div class="step-name">1. ଅଧୀତି (Adhiti)</div><div class="section-content">${formatData(p.Aditi)}</div></div>
-                            <div class="step-card"><div class="step-name">2. ବୋଧ (Bodha)</div><div class="section-content">${formatData(p.Bodha)}</div></div>
-                            <div class="step-card"><div class="step-name">3. ଅଭ୍ୟାସ (Abhyasa)</div><div class="section-content">${formatData(p.Abhyasa)}</div></div>
-                            <div class="step-card"><div class="step-name">4. ପ୍ରୟୋଗ (Prayoga)</div><div class="section-content">${formatData(p.Prayoga)}</div></div>
-                            <div class="step-card"><div class="step-name">5. ପ୍ରସାର (Prasara)</div><div class="section-content">${formatData(p.Prasara)}</div></div>
+                            <div class="step-card"><div class="step-name">1. ଅଧୀତି (Adhiti)</div><div class="section-content">${formatPanchapadi(p.Aditi)}</div></div>
+                            <div class="step-card"><div class="step-name">2. ବୋଧ (Bodha)</div><div class="section-content">${formatPanchapadi(p.Bodha)}</div></div>
+                            <div class="step-card"><div class="step-name">3. ଅଭ୍ୟାସ (Abhyasa)</div><div class="section-content">${formatPanchapadi(p.Abhyasa)}</div></div>
+                            <div class="step-card"><div class="step-name">4. ପ୍ରୟୋଗ (Prayoga)</div><div class="section-content">${formatPanchapadi(p.Prayoga)}</div></div>
+                            <div class="step-card"><div class="step-name">5. ପ୍ରସାର (Prasara)</div><div class="section-content">${formatPanchapadi(p.Prasara)}</div></div>
                         </div>
                     </div>
 
-                    <div class="section-box" style="background: #fffbeb; border: 1px solid #fde68a;">
-                        <div class="section-title" style="color: #d97706;">🎒 TLM Required</div>
-                        <div class="section-content" style="color: #92400e; font-weight: 600;">${formatData(plan.TLM)}</div>
+                    <div class="section-box" style="background: #FFFBEB; border: 1px solid #FDE68A;">
+                        <div class="section-title" style="color: #D97706;">🎒 TLM Required</div>
+                        <div class="section-content" style="color: #92400E; font-weight: 600;">${formatStandard(plan.TLM)}</div>
                     </div>
                 `;
             } catch (err) {
