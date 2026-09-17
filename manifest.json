@@ -1,0 +1,23 @@
+{
+  "name": "ଶିକ୍ଷକ ସାଥୀ",
+  "short_name": "ଶିକ୍ଷକ ସାଥୀ",
+  "description": "The ultimate portal for Teachers in Odisha.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F4F6F9",
+  "theme_color": "#007AFF",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
