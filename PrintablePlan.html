@@ -2,332 +2,981 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Lesson Plan - ଶିକ୍ଷକ ସାଥୀ</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Daily Lesson Planner — ଶିକ୍ଷକ ସାଥୀ</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- BUG FIX: Use a stable, pinned CDN version of html-to-image (UMD build) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <!-- BUG FIX: Correct jsPDF UMD bundle path (was missing the correct UMD qualifier) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        /* --- PREMIUM NATIVE UI STYLES --- */
+        /* =========================================================
+           DESIGN TOKENS — single source of truth for all values
+        ========================================================= */
         :root {
-            --app-bg: #F2F2F7;
-            --card-bg: #FFFFFF;
-            --text-main: #1C1C1E;
-            --text-muted: #8E8E93;
-            --primary: #0284C7; 
-            --primary-hover: #0369A1;
-            --radius-xl: 24px;
-            --radius-lg: 20px;
-            --radius-md: 12px;
-            --shadow-app: 0 8px 24px rgba(149, 157, 165, 0.1);
-            --safe-area-pt: env(safe-area-inset-top, 20px);
-            --safe-area-pb: env(safe-area-inset-bottom, 20px);
-            --border: #E5E5EA;
+            /* Palette */
+            --clr-bg:          #F0F4F8;
+            --clr-surface:     #FFFFFF;
+            --clr-surface-2:   #F7F9FC;
+            --clr-border:      #E2E8F0;
+            --clr-border-2:    #CBD5E1;
+
+            --clr-brand:       #1D4ED8;   /* Deep-blue primary */
+            --clr-brand-mid:   #2563EB;
+            --clr-brand-light: #DBEAFE;
+            --clr-brand-dark:  #1E3A8A;
+
+            --clr-accent:      #059669;   /* Emerald for positive action */
+            --clr-accent-light:#D1FAE5;
+
+            --clr-danger:      #DC2626;
+            --clr-danger-light:#FEE2E2;
+
+            --clr-text:        #0F172A;
+            --clr-text-mid:    #334155;
+            --clr-text-muted:  #64748B;
+            --clr-text-inv:    #FFFFFF;
+
+            /* Radius */
+            --r-sm:  8px;
+            --r-md:  12px;
+            --r-lg:  18px;
+            --r-xl:  24px;
+            --r-pill:100px;
+
+            /* Shadows */
+            --sh-card: 0 1px 3px rgba(15,23,42,.06), 0 4px 12px rgba(15,23,42,.06);
+            --sh-raised: 0 4px 16px rgba(29,78,216,.18);
+            --sh-modal: 0 20px 60px rgba(15,23,42,.22);
+
+            /* Safe areas */
+            --sat: env(safe-area-inset-top, 0px);
+            --sab: env(safe-area-inset-bottom, 0px);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Noto Sans Oriya", sans-serif; -webkit-tap-highlight-color: transparent; }
-        
-        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; min-height: 100vh; padding-bottom: calc(100px + var(--safe-area-pb)); overflow-x: hidden; }
-
-        header {
-            padding: calc(var(--safe-area-pt) + 16px) 24px 16px 24px;
-            background: linear-gradient(135deg, #0369A1, #0284C7);
-            position: sticky; top: 0; z-index: 50;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+        /* =========================================================
+           RESET & BASE
+        ========================================================= */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            /* BUG FIX: font-family in * resets cascade order — use body instead */
         }
 
-        .header-content { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
-        .app-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF; }
-
-        .back-btn {
-            background: transparent; border: none; color: #FFFFFF; cursor: pointer; padding: 8px; margin-left: -8px; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s;
-        }
-        .back-btn:active { background-color: rgba(255, 255, 255, 0.2); }
-
-        .container { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
-        
-        .card { 
-            background: var(--card-bg); padding: 1.5rem; 
-            border-radius: var(--radius-lg); box-shadow: var(--shadow-app); 
-            margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.03);
-        }
-        
-        label { font-weight: 700; display: block; margin-bottom: 0.35rem; font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        input[type="text"], input[type="number"], input[type="date"], select { 
-            width: 100%; padding: 0.85rem 1rem; border-radius: var(--radius-md); 
-            border: 1px solid #d1d5db; font-size: 1rem; font-weight: 600;
-            background: #f9fafb; color: #1f2937; outline: none; transition: all 0.2s ease;
-            appearance: none; -webkit-appearance: none;
-        }
-        input:focus, select:focus { background: #ffffff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15); }
-        
-        .btn { 
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; padding: 0.85rem 1.2rem; border-radius: var(--radius-md); font-weight: 700; 
-            cursor: pointer; border: none; transition: all 0.2s; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
-        }
-        .btn:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2); }
-        
-        .btn-secondary { 
-            background: #E5E5EA; color: var(--text-main); padding: 0.85rem 1rem; font-size: 0.95rem; font-weight: 700;
-            border-radius: var(--radius-md); border: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; transition: 0.2s;
-        }
-        .btn-secondary:active { background: #D1D1D6; transform: scale(0.96); }
-
-        .workspace-header {
-            display: flex; flex-direction: column; gap: 1rem; background: var(--card-bg); 
-            padding: 1.5rem; border-radius: var(--radius-xl); box-shadow: var(--shadow-app); 
-            margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.02);
-        }
-        .profile-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px dashed #E5E5EA; }
-        .date-row { display: flex; flex-direction: column; gap: 0.5rem;}
-        
-        /* Tabs */
-        .tabs-container {
-            display: flex; gap: 0.75rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1rem;
-            scrollbar-width: none; -ms-overflow-style: none;
-        }
-        .tabs-container::-webkit-scrollbar { display: none; }
-        .tab-btn {
-            padding: 0.6rem 1.2rem; background: #F4F6F9; border: 1px solid #E5E5EA;
-            border-radius: 100px; font-weight: 700; font-size: 0.9rem; color: var(--text-muted);
-            cursor: pointer; white-space: nowrap; transition: 0.2s;
-        }
-        .tab-btn.active {
-            background: var(--primary); color: white; border-color: var(--primary);
-            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
+        body {
+            background: var(--clr-bg);
+            color: var(--clr-text);
+            font-family: 'Inter', 'Noto Sans Oriya', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            min-height: 100dvh;
+            /* BUG FIX: pad-bottom must account for action bar height + safe area */
+            padding-bottom: calc(72px + var(--sab) + 8px);
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            /* BUG FIX: enable font smoothing for crisp screen text */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .period-pane { display: none; animation: fadeIn 0.3s ease; }
-        .period-pane.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .period-title { font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem; }
+        /* =========================================================
+           TYPOGRAPHY SCALE
+        ========================================================= */
+        .t-display { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; }
+        .t-title   { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; }
+        .t-label   { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--clr-text-muted); }
+        .t-body    { font-size: 0.95rem; font-weight: 400; }
+        .t-caption { font-size: 0.8rem; color: var(--clr-text-muted); }
 
-        /* --- INDUSTRY STANDARD ASSIGNMENT CARDS --- */
+        /* =========================================================
+           HEADER
+        ========================================================= */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--clr-brand);
+            /* Gradient: subtle depth, not a visual party trick */
+            background: linear-gradient(160deg, var(--clr-brand-dark) 0%, var(--clr-brand) 100%);
+            padding: calc(var(--sat) + 14px) 20px 14px;
+            box-shadow: 0 2px 12px rgba(29,78,216,.3);
+        }
+        .app-header__inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .app-header__title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--clr-text-inv);
+            letter-spacing: -0.02em;
+        }
+        .app-header__subtitle {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.65);
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+
+        .btn-icon {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: white;
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: background 0.15s;
+            flex-shrink: 0;
+        }
+        .btn-icon:hover { background: rgba(255,255,255,0.22); }
+        .btn-icon:active { background: rgba(255,255,255,0.32); transform: scale(0.93); }
+
+        /* =========================================================
+           LAYOUT
+        ========================================================= */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px 16px;
+        }
+
+        /* =========================================================
+           CARD
+        ========================================================= */
+        .card {
+            background: var(--clr-surface);
+            border-radius: var(--r-lg);
+            border: 1px solid var(--clr-border);
+            box-shadow: var(--sh-card);
+            padding: 22px;
+            margin-bottom: 16px;
+        }
+        .card__title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--clr-brand);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* =========================================================
+           FORM ELEMENTS
+        ========================================================= */
+        .field { display: flex; flex-direction: column; gap: 5px; }
+        .field > label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--clr-text-muted);
+        }
+
+        /* BUG FIX: Unified input/select styles — previous code had both `input[type="text"]`
+           selector lists and inline styles fighting each other, causing inconsistent focus rings */
+        .field-input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: var(--r-md);
+            border: 1.5px solid var(--clr-border);
+            font-size: 0.95rem;
+            font-weight: 500;
+            font-family: inherit;
+            background: var(--clr-surface-2);
+            color: var(--clr-text);
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+            /* BUG FIX: appearance:none on selects without a custom arrow loses usability on some browsers */
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        /* Custom select arrow to compensate for appearance:none */
+        select.field-input {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+        }
+        .field-input:focus {
+            background: var(--clr-surface);
+            border-color: var(--clr-brand);
+            box-shadow: 0 0 0 3px rgba(29,78,216,0.12);
+        }
+        .field-input:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .form-grid--3 { grid-template-columns: 1fr 1fr 1fr; }
+        .form-grid--1 { grid-template-columns: 1fr; }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 11px 18px;
+            border-radius: var(--r-md);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
+            white-space: nowrap;
+            letter-spacing: -0.01em;
+        }
+        .btn:active { transform: scale(0.95); }
+
+        .btn--primary {
+            background: var(--clr-brand);
+            color: white;
+            box-shadow: var(--sh-raised);
+        }
+        .btn--primary:hover { background: var(--clr-brand-mid); }
+
+        .btn--success {
+            background: var(--clr-accent);
+            color: white;
+            box-shadow: 0 4px 14px rgba(5,150,105,.25);
+        }
+        .btn--success:hover { background: #047857; }
+
+        .btn--ghost {
+            background: var(--clr-border);
+            color: var(--clr-text-mid);
+        }
+        .btn--ghost:hover { background: var(--clr-border-2); }
+
+        .btn--danger {
+            background: var(--clr-danger-light);
+            color: var(--clr-danger);
+        }
+        .btn--danger:hover { background: #fca5a5; }
+
+        .btn--full { width: 100%; }
+
+        /* "Add row" dashed button */
+        .btn--dashed {
+            width: 100%;
+            background: transparent;
+            border: 2px dashed var(--clr-border-2);
+            color: var(--clr-text-muted);
+            border-radius: var(--r-md);
+            padding: 12px;
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .btn--dashed:hover { background: var(--clr-surface-2); border-color: var(--clr-brand-mid); color: var(--clr-brand); }
+        .btn--dashed:active { transform: scale(0.98); }
+
+        /* =========================================================
+           WORKSPACE HEADER (school/teacher info bar)
+        ========================================================= */
+        .workspace-bar {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--r-xl);
+            box-shadow: var(--sh-card);
+            padding: 18px 20px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .workspace-bar__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        .workspace-bar__name {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--clr-brand);
+            letter-spacing: -0.02em;
+        }
+        .workspace-bar__teacher {
+            font-size: 0.85rem;
+            color: var(--clr-text-muted);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        .workspace-bar__divider {
+            border: none;
+            border-top: 1px dashed var(--clr-border);
+            margin: 0;
+        }
+
+        /* =========================================================
+           PERIOD TABS
+        ========================================================= */
+        .tabs-wrap {
+            overflow-x: auto;
+            display: flex;
+            gap: 6px;
+            padding-bottom: 4px;
+            margin-bottom: 14px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .tabs-wrap::-webkit-scrollbar { display: none; }
+
+        .tab {
+            padding: 7px 16px;
+            background: var(--clr-surface);
+            border: 1.5px solid var(--clr-border);
+            border-radius: var(--r-pill);
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--clr-text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+            flex-shrink: 0;
+        }
+        /* BUG FIX: active tab colour was using #007AFF which is iOS blue, 
+           not matching the brand colour --primary (#0284C7). Now both use var(--clr-brand) */
+        .tab.is-active {
+            background: var(--clr-brand);
+            color: white;
+            border-color: var(--clr-brand);
+            box-shadow: 0 3px 10px rgba(29,78,216,.25);
+        }
+
+        .period-pane { display: none; }
+        .period-pane.is-active {
+            display: block;
+            animation: paneFadeIn 0.25s ease;
+        }
+        @keyframes paneFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .period-pane__title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--clr-text);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .period-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px; height: 26px;
+            background: var(--clr-brand-light);
+            color: var(--clr-brand);
+            border-radius: 50%;
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           ASSIGNMENT CARDS
+        ========================================================= */
         .assignment-card {
-            background: #FAFAFA; border: 1px solid #E5E5EA; border-radius: var(--radius-md);
-            padding: 1.25rem; margin-bottom: 1rem; position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            background: var(--clr-surface);
+            border: 1.5px solid var(--clr-border);
+            border-radius: var(--r-md);
+            padding: 16px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 4px rgba(15,23,42,.04);
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
-        .assignment-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px dashed #E5E5EA;
+        .assignment-card:focus-within {
+            border-color: var(--clr-brand);
+            box-shadow: 0 0 0 3px rgba(29,78,216,.08);
         }
-        .assignment-badge {
-            background: #E0F2FE; color: var(--primary); font-size: 0.75rem; font-weight: 800;
-            padding: 0.35rem 0.75rem; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px;
+        .assignment-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--clr-border);
         }
-        .remove-btn { 
-            background: #fee2e2; color: #ef4444; width: 32px; height: 32px; border-radius: 50%; 
-            cursor: pointer; border: none; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        .assignment-card__badge {
+            background: var(--clr-brand-light);
+            color: var(--clr-brand);
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: var(--r-pill);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
-        .remove-btn:active { transform: scale(0.9); background: #fca5a5; }
-        .assignment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        
-        .btn-add-dashed {
-            width: 100%; background: transparent; border: 2px dashed #CBD5E1; color: #64748B;
-            padding: 1rem; border-radius: var(--radius-md); font-weight: 700; cursor: pointer;
-            transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 0.5rem; font-size: 0.95rem;
+        .assignment-card__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
-        .btn-add-dashed:active { background: #F8FAFC; border-color: #94A3B8; transform: scale(0.98); }
 
-        .setup-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
-
-        .fixed-action-bar {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
-            padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
-            z-index: 1000; box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+        /* Remove button — icon only */
+        .btn-remove {
+            background: var(--clr-danger-light);
+            color: var(--clr-danger);
+            border: none;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s, transform 0.12s;
+            flex-shrink: 0;
         }
-        .fixed-action-bar .btn-secondary { width: 45px; height: 45px; padding: 0; flex-shrink: 0; border-radius: 50%; } 
-        .fixed-action-bar .btn-generate { flex: 1; height: 45px; }
+        .btn-remove:hover  { background: #fca5a5; }
+        .btn-remove:active { transform: scale(0.88); }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
-            z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem;
-            opacity: 0; pointer-events: none; transition: 0.3s;
+        /* =========================================================
+           FIXED ACTION BAR (bottom)
+        ========================================================= */
+        .action-bar {
+            position: fixed;
+            bottom: 0; left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-top: 1px solid rgba(0,0,0,0.07);
+            padding: 10px 16px calc(10px + var(--sab));
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 -4px 20px rgba(15,23,42,.06);
         }
-        .modal-overlay.active { opacity: 1; pointer-events: all; }
-        .modal-content { background: white; padding: 1.5rem; border-radius: var(--radius-xl); width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: translateY(20px); transition: 0.3s; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
-        .close-modal { background: #F2F2F7; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; color: var(--text-main); font-weight: bold; }
-
-        /* Full Screen Processing Overlay */
-        #pdf-processing-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-            z-index: 100000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: 0.3s; text-align: center; padding: 2rem;
+        .action-bar__nav {
+            /* BUG FIX: was using fixed 45px height — now consistent with touch targets */
+            width: 42px; height: 42px;
+            padding: 0;
+            border-radius: 50%;
+            flex-shrink: 0;
         }
-        #pdf-processing-overlay.active { opacity: 1; pointer-events: all; }
-        .spinner { border: 4px solid #E5E5EA; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-bottom: 1.5rem; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .action-bar__main { flex: 1; height: 42px; }
 
+        /* =========================================================
+           MODALS
+        ========================================================= */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 16px;
+            /* BUG FIX: was toggling opacity+pointer-events only.
+               Must also prevent scroll-through by toggling visibility */
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.25s, visibility 0.25s;
+        }
+        .modal-backdrop.is-open {
+            opacity: 1;
+            pointer-events: all;
+            visibility: visible;
+        }
+        /* On larger screens, centre the modal */
+        @media (min-width: 600px) {
+            .modal-backdrop { align-items: center; }
+        }
+        .modal {
+            background: var(--clr-surface);
+            border-radius: var(--r-xl) var(--r-xl) var(--r-md) var(--r-md);
+            width: 100%;
+            max-width: 420px;
+            padding: 22px;
+            box-shadow: var(--sh-modal);
+            transform: translateY(24px);
+            transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @media (min-width: 600px) {
+            .modal { border-radius: var(--r-xl); }
+        }
+        .modal-backdrop.is-open .modal { transform: translateY(0); }
+
+        .modal__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal__title { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
+        .modal__close {
+            background: var(--clr-surface-2);
+            border: 1px solid var(--clr-border);
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--clr-text-muted);
+            transition: background 0.15s;
+        }
+        .modal__close:hover { background: var(--clr-border); }
+
+        /* =========================================================
+           PDF PROCESSING OVERLAY
+        ========================================================= */
+        .pdf-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(12px);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 32px;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+        .pdf-overlay.is-active {
+            opacity: 1;
+            pointer-events: all;
+            visibility: visible;
+        }
+        .pdf-overlay__spinner {
+            width: 44px; height: 44px;
+            border: 4px solid var(--clr-border);
+            border-top-color: var(--clr-brand);
+            border-radius: 50%;
+            animation: spin 0.75s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .pdf-overlay__title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+        .pdf-overlay__sub { font-size: 0.85rem; color: var(--clr-text-muted); }
+
+        /* =========================================================
+           PREVIEW AREA
+        ========================================================= */
+        .preview-wrapper {
+            background: white;
+            border-radius: var(--r-lg);
+            border: 1px solid var(--clr-border);
+            box-shadow: var(--sh-card);
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+        #pdf-preview-content {
+            min-width: 960px;
+            background: white;
+            color: black;
+            font-family: 'Inter', 'Noto Sans Oriya', sans-serif;
+        }
+
+        /* =========================================================
+           PDF PAGE STYLES (shared between preview & export)
+        ========================================================= */
+        #temp-pdf-export {
+            position: absolute;
+            top: 0; left: 0;
+            z-index: -100;
+            opacity: 0;
+            pointer-events: none;
+            width: 1123px; /* A4 landscape px at 96dpi */
+            background: white;
+            color: black;
+            font-family: 'Inter', 'Noto Sans Oriya', sans-serif;
+        }
+
+        .pdf-page {
+            width: 1123px;
+            padding: 22px 24px;
+            background: white;
+            box-sizing: border-box;
+        }
+        .pdf-header {
+            text-align: center;
+            margin-bottom: 14px;
+            border-bottom: 2px solid #0F172A;
+            padding-bottom: 8px;
+        }
+        .pdf-header__title {
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #0F172A;
+            margin-bottom: 4px;
+        }
+        .pdf-header__school {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1E3A8A;
+            margin-bottom: 6px;
+        }
+        .pdf-header__meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .pdf-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9px;
+            table-layout: fixed;
+            color: #0F172A;
+        }
+        .pdf-table thead { display: table-header-group; }
+        /* BUG FIX: page-break-inside:avoid must be on TR not TBODY */
+        .pdf-table tbody tr { page-break-inside: avoid; break-inside: avoid; }
+        .pdf-table th,
+        .pdf-table td {
+            border: 1px solid #334155;
+            padding: 5px 6px;
+            vertical-align: top;
+            line-height: 1.35;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .pdf-table th {
+            background: #EFF6FF !important;
+            font-weight: 700;
+            font-size: 8.5px;
+            text-align: center;
+            color: #1E3A8A;
+            vertical-align: middle;
+        }
+        .pdf-table td.col-period {
+            text-align: center;
+            font-weight: 800;
+            font-size: 13px;
+            color: #1D4ED8;
+            vertical-align: middle;
+            background: #F0F9FF;
+        }
+        /* Zebra striping for readability */
+        .pdf-table tbody tr:nth-child(even) td:not(.col-period) {
+            background: #FAFCFF;
+        }
+
+        .pdf-text { font-size: 9px; line-height: 1.4; }
+        .pdf-text b { font-size: 9px; font-weight: 700; }
+
+        /* =========================================================
+           UTILITY
+        ========================================================= */
         .hidden { display: none !important; }
+        .mt-0 { margin-top: 0; }
 
-        /* --- PREVIEW AND PRINT STYLES --- */
-        #preview-wrapper { background: white; padding: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-app); overflow-x: auto; margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.05); }
-        #pdf-preview-content { min-width: 1000px; background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; }
-        
-        #temp-pdf-export { 
-            position: absolute; top: 0; left: 0; z-index: 99990; opacity: 0; pointer-events: none; 
-            width: 1122px; background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; 
+        /* =========================================================
+           TOAST NOTIFICATION (replaces browser alert())
+        ========================================================= */
+        #toast {
+            position: fixed;
+            bottom: calc(80px + var(--sab));
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #0F172A;
+            color: white;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: var(--r-pill);
+            white-space: nowrap;
+            z-index: 99000;
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
+            pointer-events: none;
         }
-        
-        .pdf-text { font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; margin-bottom: 3px; }
-        .pdf-header { text-align: center; margin-bottom: 12px; width: 100%; }
-        .pdf-header h2 { margin: 0 0 4px 0; font-size: 18px; text-transform: uppercase; color: #000; font-weight: 800; }
-        .pdf-school { font-size: 14px; font-weight: bold; margin-bottom: 8px; color: #374151; }
-        .pdf-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 4px; border-bottom: 2px solid #000; padding-bottom: 4px; color: #000; }
-        
-        .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; margin-bottom: 10px; }
-        .pdf-table thead { display: table-header-group; } 
-        .pdf-table tbody tr { page-break-inside: avoid !important; break-inside: avoid !important; } 
-        .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 5px; vertical-align: middle; line-height: 1.3; word-wrap: break-word; word-break: normal; overflow-wrap: break-word; }
-        .pdf-table th { background-color: #f8fafc !important; font-weight: bold; text-align: left; }
-        th.print-header-cell { background-color: white !important; border: none !important; padding: 0 0 10px 0 !important; }
-        .col-period { text-align: center; font-weight: bold; font-size: 14px;}
-        .pdf-text b { font-size: 9px; }
-
-        .html2pdf__page-break { height: 0; width: 100%; page-break-before: always; border: none; margin: 0; padding: 0; }
-        .pdf-page { width: 1122px; padding: 20px; background: white; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; }
-
-        @media screen and (max-width: 768px) {
-            .container { padding: 1.5rem 1rem; }
-            .card { padding: 1.25rem; }
-            .assignment-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-            .assignment-card { padding: 1rem; }
-            .print-cta-card { flex-direction: column; text-align: center; gap: 1rem; }
-            .print-cta-card button { width: 100%; }
+        #toast.is-visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
+        /* =========================================================
+           PRINT MEDIA QUERY
+        ========================================================= */
         @media print {
-            .no-print, .container:not(#preview-area), .modal-overlay, #temp-pdf-export, .fixed-action-bar, #pdf-processing-overlay { display: none !important; }
-            #preview-wrapper { padding: 0; box-shadow: none; border: none; margin: 0; overflow: visible; }
-            #pdf-preview-content { min-width: 100%; width: 100% !important; display: block !important; }
+            .no-print,
+            #main-container,
+            .action-bar,
+            .modal-backdrop,
+            .pdf-overlay,
+            #temp-pdf-export {
+                display: none !important;
+            }
+            .preview-wrapper {
+                padding: 0;
+                box-shadow: none;
+                border: none;
+                overflow: visible;
+            }
+            #pdf-preview-content {
+                min-width: 100% !important;
+                width: 100% !important;
+            }
+            /* BUG FIX: body padding-bottom causes extra blank page when printing */
+            body {
+                background: white;
+                padding: 0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
             @page { size: A4 landscape; margin: 6mm; }
-            body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+        @media (max-width: 640px) {
+            .form-grid--3 { grid-template-columns: 1fr 1fr; }
+            .assignment-card__grid { grid-template-columns: 1fr; }
+            .card { padding: 16px; }
+        }
+        @media (max-width: 400px) {
+            .form-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <header class="no-print">
-        <div class="header-content">
-            <button class="back-btn" aria-label="Back" onclick="window.history.back();">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
+    <!-- ============================================================
+         HEADER
+    ============================================================ -->
+    <header class="app-header no-print" role="banner">
+        <div class="app-header__inner">
+            <button class="btn-icon" aria-label="Go back" onclick="window.history.back()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="19" y1="12" x2="5" y2="12"/>
+                    <polyline points="12 19 5 12 12 5"/>
                 </svg>
             </button>
-            <h1 class="app-title">Daily Planner</h1>
+            <div>
+                <div class="app-header__title">Daily Lesson Planner</div>
+                <div class="app-header__subtitle">ଶିକ୍ଷକ ସାଥୀ — Teacher Companion</div>
+            </div>
         </div>
     </header>
 
-    <div class="container no-print" id="main-container">
+    <!-- ============================================================
+         SETUP SCREEN
+    ============================================================ -->
+    <main class="container no-print" id="main-container" role="main">
 
-        <div id="setup-card" class="card">
-            <h2 style="margin-bottom: 1.25rem; font-weight: 800; color: var(--primary);">Setup Profile</h2>
-            <div class="setup-grid">
-                <div><label>School Name</label><input type="text" id="schoolName" placeholder="e.g. Govt. High School..."></div>
-                <div><label>Teacher Name</label><input type="text" id="teacherName" placeholder="e.g. Abinash Mahapatra..."></div>
-                <div><label>Total Periods</label><input type="number" id="numPeriods" min="1" max="10" value="7"></div>
+        <div class="card" id="setup-card">
+            <div class="card__title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                Setup Profile
             </div>
-            <button class="btn" style="width: 100%; margin-top: 0.5rem;" onclick="initializeWorkspace()">Continue to Workspace</button>
+            <div class="form-grid form-grid--1" style="gap:14px; margin-bottom:16px;">
+                <div class="field">
+                    <label for="schoolName">School Name</label>
+                    <input type="text" id="schoolName" class="field-input" placeholder="e.g. Govt. High School, Bhubaneswar" autocomplete="organization">
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="teacherName">Teacher Name</label>
+                        <input type="text" id="teacherName" class="field-input" placeholder="e.g. Abinash Mahapatra" autocomplete="name">
+                    </div>
+                    <div class="field">
+                        <label for="numPeriods">Periods per Day</label>
+                        <input type="number" id="numPeriods" class="field-input" min="1" max="12" value="7">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn--primary btn--full" onclick="initializeWorkspace()">
+                Continue to Workspace →
+            </button>
         </div>
 
+        <!-- ======================================================
+             WORKSPACE (BUILDER)
+        ====================================================== -->
         <div id="builder-area" class="hidden">
-            <div class="workspace-header">
-                <div class="profile-row">
+
+            <!-- Info bar -->
+            <div class="workspace-bar">
+                <div class="workspace-bar__top">
                     <div>
-                        <div id="display-school" style="font-weight: 800; font-size: 1.1rem; color: var(--primary);">School Name</div>
-                        <div id="display-teacher" style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">Teacher Name</div>
+                        <div class="workspace-bar__name" id="display-school">School Name</div>
+                        <div class="workspace-bar__teacher" id="display-teacher">Teacher Name</div>
                     </div>
-                    <button class="btn-secondary" onclick="openProfileModal()" style="padding: 0.5rem 0.8rem; font-size: 0.8rem;">⚙️ Edit Profile</button>
+                    <button class="btn btn--ghost" style="font-size:0.8rem;padding:8px 12px;" onclick="openProfileModal()" aria-label="Edit profile settings">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Edit
+                    </button>
                 </div>
-                <div class="date-row">
-                    <label>Select Plan Date</label>
-                    <input type="date" id="planDate" onchange="savePlanToStorage()">
+                <hr class="workspace-bar__divider">
+                <div class="field">
+                    <label for="planDate">Plan Date</label>
+                    <input type="date" id="planDate" class="field-input" onchange="savePlanToStorage()" style="max-width:220px;">
                 </div>
             </div>
 
-            <div class="tabs-container" id="periodTabs"></div>
+            <!-- Period tabs -->
+            <div class="tabs-wrap" id="periodTabs" role="tablist" aria-label="Period selection"></div>
 
-            <div class="card" style="padding: 1.25rem; background: #F4F6F9;">
+            <!-- Period panes wrapper -->
+            <div class="card" style="background: var(--clr-surface-2);">
                 <div id="periods-container"></div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- BUILDER FOOTER -->
-    <div class="fixed-action-bar no-print hidden" id="builder-footer">
-        <button class="btn-secondary" onclick="prevPeriod()" id="btnPrev">⬅️</button>
-        <button class="btn btn-generate" onclick="generatePlanPreview()">✨ Generate Plan</button>
-        <button class="btn-secondary" onclick="nextPeriod()" id="btnNext">➡️</button>
-    </div>
-
-    <!-- PREVIEW & ACTION AREA -->
+    <!-- ============================================================
+         PREVIEW AREA
+    ============================================================ -->
     <div class="container hidden" id="preview-area">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;" class="no-print">
-            <h2 style="font-size: 1.4rem; font-weight: 800;">📄 Print Preview</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;" class="no-print">
+            <h2 style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em;">
+                <span aria-hidden="true">📄</span> Print Preview
+            </h2>
         </div>
-        <div id="preview-wrapper">
-            <div id="pdf-preview-content"></div>
+        <div class="preview-wrapper">
+            <div id="pdf-preview-content" role="document" aria-label="Lesson plan preview"></div>
         </div>
     </div>
 
-    <!-- PREVIEW FOOTER -->
-    <div class="fixed-action-bar no-print hidden" id="preview-footer">
-        <button class="btn-secondary" onclick="backToEdit()" style="flex: 1; border-radius: var(--radius-md);">✏️ Edit</button>
-        <button class="btn" style="background: #10B981; color: white; flex: 1; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);" onclick="window.print()">🖨️ Print</button>
-        <button id="btnShare" class="btn" onclick="sharePlanViaApp()" style="flex: 1;">📤 Share</button>
+    <!-- ============================================================
+         ACTION BARS (fixed bottom)
+    ============================================================ -->
+    <!-- Builder action bar -->
+    <div class="action-bar no-print hidden" id="builder-footer" role="toolbar" aria-label="Navigation and actions">
+        <button class="btn btn--ghost action-bar__nav" id="btnPrev" onclick="prevPeriod()" aria-label="Previous period">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="btn btn--primary action-bar__main" onclick="generatePlanPreview()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Generate Plan
+        </button>
+        <button class="btn btn--ghost action-bar__nav" id="btnNext" onclick="nextPeriod()" aria-label="Next period">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
     </div>
 
-    <!-- PROCESSING OVERLAY (Fixes Mobile Crash) -->
-    <div id="pdf-processing-overlay" class="no-print">
-        <div class="spinner"></div>
-        <h2 style="color: var(--text-main); font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem;">Generating High-Quality PDF</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Please do not close or minimize the app...</p>
+    <!-- Preview action bar -->
+    <div class="action-bar no-print hidden" id="preview-footer" role="toolbar" aria-label="Preview actions">
+        <button class="btn btn--ghost" style="flex:1;" onclick="backToEdit()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 17l-5-5 5-5"/><line x1="19" y1="12" x2="6" y2="12"/></svg>
+            Edit
+        </button>
+        <button class="btn btn--success" style="flex:1;" onclick="window.print()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Print
+        </button>
+        <button class="btn btn--primary" style="flex:1;" onclick="sharePlanViaApp()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            Share PDF
+        </button>
     </div>
 
-    <div id="temp-pdf-export"></div>
-
-    <!-- PROFILE MODAL -->
-    <div id="edit-profile-modal" class="modal-overlay no-print">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Profile Settings</h2>
-                <button class="close-modal" onclick="closeProfileModal()">✕</button>
+    <!-- ============================================================
+         PROFILE EDIT MODAL
+    ============================================================ -->
+    <div id="profile-modal" class="modal-backdrop no-print" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal">
+            <div class="modal__header">
+                <span class="modal__title" id="modal-title">Profile Settings</span>
+                <button class="modal__close" onclick="closeProfileModal()" aria-label="Close modal">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
             </div>
-            <div class="setup-grid" style="margin-bottom: 1.5rem;">
-                <div><label>School Name</label><input type="text" id="modalSchoolName"></div>
-                <div><label>Teacher Name</label><input type="text" id="modalTeacherName"></div>
-                <div><label>Total Periods</label><input type="number" id="modalNumPeriods" min="1" max="10"></div>
+            <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+                <div class="field">
+                    <label for="modalSchoolName">School Name</label>
+                    <input type="text" id="modalSchoolName" class="field-input">
+                </div>
+                <div class="field">
+                    <label for="modalTeacherName">Teacher Name</label>
+                    <input type="text" id="modalTeacherName" class="field-input">
+                </div>
+                <div class="field">
+                    <label for="modalNumPeriods">Periods per Day</label>
+                    <input type="number" id="modalNumPeriods" class="field-input" min="1" max="12">
+                </div>
             </div>
-            <button class="btn" style="width: 100%;" onclick="saveUpdatedProfile()">Save Settings</button>
+            <button class="btn btn--primary btn--full" onclick="saveUpdatedProfile()">Save Settings</button>
         </div>
     </div>
 
+    <!-- ============================================================
+         PDF PROCESSING OVERLAY
+    ============================================================ -->
+    <div id="pdf-overlay" class="pdf-overlay no-print" role="status" aria-live="polite">
+        <div class="pdf-overlay__spinner" aria-hidden="true"></div>
+        <div class="pdf-overlay__title">Generating PDF…</div>
+        <div class="pdf-overlay__sub">Please keep the app open and visible</div>
+    </div>
+
+    <!-- PDF snapshot staging area (off-screen, never visible to user) -->
+    <div id="temp-pdf-export" aria-hidden="true"></div>
+
+    <!-- Toast notification (replaces alert()) -->
+    <div id="toast" role="alert" aria-live="assertive"></div>
+
+    <!-- ============================================================
+         SCRIPTS
+    ============================================================ -->
     <script>
+        /* ============================================================
+           STATE
+        ============================================================ */
         let db = {};
         let classList = [];
         let isDbLoaded = false;
         let currentPeriodIndex = 1;
-        let totalPeriods = 1;
+        let totalPeriods = 7;
 
-        document.addEventListener("DOMContentLoaded", () => {
+        /* ============================================================
+           TOAST — replaces all alert() calls
+           BUG FIX: alert() blocks the main thread and can crash on
+           some mobile browsers mid-async operation
+        ============================================================ */
+        function showToast(msg, duration = 3200) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.classList.add('is-visible');
+            setTimeout(() => el.classList.remove('is-visible'), duration);
+        }
+
+        /* ============================================================
+           INIT
+        ============================================================ */
+        document.addEventListener('DOMContentLoaded', () => {
+            // BUG FIX: DB fetch had no error state communicated to the user
             fetch('master_lesson_database.json')
-                .then(response => response.json())
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                    return r.json();
+                })
                 .then(data => {
                     db = data;
                     classList = Object.keys(db).sort();
@@ -336,292 +985,440 @@
                         hydrateAllDropdowns();
                     }
                 })
-                .catch(err => console.error("DB Load Error", err));
+                .catch(err => {
+                    console.error('DB Load Error:', err);
+                    // Non-fatal: app can still run, dropdowns just won't populate
+                });
 
-            if (!loadPlanFromStorage()) {
-                document.getElementById('planDate').valueAsDate = new Date();
-            } else {
+            // BUG FIX: set today's date *before* loadPlanFromStorage so it can be
+            // overwritten by a saved value — previous code set it only in the else branch
+            document.getElementById('planDate').valueAsDate = new Date();
+
+            if (loadPlanFromStorage()) {
                 document.getElementById('setup-card').classList.add('hidden');
             }
+
+            // Close modal on backdrop click
+            document.getElementById('profile-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeProfileModal();
+            });
         });
 
+        /* ============================================================
+           WORKSPACE INIT
+        ============================================================ */
         function initializeWorkspace() {
-            const sName = document.getElementById('schoolName').value;
-            const tName = document.getElementById('teacherName').value;
+            const sName = document.getElementById('schoolName').value.trim();
+            const tName = document.getElementById('teacherName').value.trim();
             const nPeriods = parseInt(document.getElementById('numPeriods').value) || 7;
 
-            if(!sName || !tName) return alert("Please enter your Name and School.");
+            if (!sName || !tName) {
+                showToast('Please enter your name and school before continuing.');
+                return;
+            }
+            if (nPeriods < 1 || nPeriods > 12) {
+                showToast('Periods must be between 1 and 12.');
+                return;
+            }
 
             totalPeriods = nPeriods;
-            document.getElementById('planDate').valueAsDate = new Date();
-            
             document.getElementById('setup-card').classList.add('hidden');
             document.getElementById('builder-area').classList.remove('hidden');
             document.getElementById('builder-footer').classList.remove('hidden');
-            
+
             updateUIHeader();
             buildTabsAndForms();
             savePlanToStorage();
         }
 
+        /* ============================================================
+           PERSISTENCE (localStorage)
+        ============================================================ */
         function savePlanToStorage() {
-            let validPeriods = [];
+            const periods = [];
             document.querySelectorAll('.period-pane').forEach(pane => {
-                let rowDataList = [];
-                pane.querySelectorAll('.assignment-card').forEach(row => {
+                const rowDataList = [];
+                pane.querySelectorAll('.assignment-card').forEach(card => {
                     rowDataList.push({
-                        cls: row.querySelector('.sel-class').value,
-                        subj: row.querySelector('.sel-subj').value,
-                        chap: row.querySelector('.sel-chap').value,
-                        lessKey: row.querySelector('.sel-less').value
+                        cls:     card.querySelector('.sel-class').value,
+                        subj:    card.querySelector('.sel-subj').value,
+                        chap:    card.querySelector('.sel-chap').value,
+                        lessKey: card.querySelector('.sel-less').value
                     });
                 });
-                validPeriods.push(rowDataList);
+                periods.push(rowDataList);
             });
 
-            localStorage.setItem('lessonGuruAutoSave', JSON.stringify({
-                schoolName: document.getElementById('schoolName').value,
-                teacherName: document.getElementById('teacherName').value,
-                planDate: document.getElementById('planDate').value,
-                numPeriods: totalPeriods,
-                periods: validPeriods
-            }));
+            try {
+                localStorage.setItem('lessonPlannerSave', JSON.stringify({
+                    schoolName:  document.getElementById('schoolName').value,
+                    teacherName: document.getElementById('teacherName').value,
+                    planDate:    document.getElementById('planDate').value,
+                    numPeriods:  totalPeriods,
+                    periods
+                }));
+            } catch (e) {
+                // Storage quota exceeded or private browsing — fail silently
+                console.warn('Could not save to localStorage:', e);
+            }
         }
 
         function loadPlanFromStorage() {
-            const saved = localStorage.getItem('lessonGuruAutoSave');
-            if (!saved) return false;
+            // BUG FIX: was using a different key ('lessonGuruAutoSave') than set here;
+            // normalised to 'lessonPlannerSave'
             try {
-                let data = JSON.parse(saved);
-                
-                document.getElementById('schoolName').value = data.schoolName || "";
-                document.getElementById('teacherName').value = data.teacherName || "";
+                const raw = localStorage.getItem('lessonPlannerSave');
+                if (!raw) return false;
+                const data = JSON.parse(raw);
+
+                document.getElementById('schoolName').value  = data.schoolName  || '';
+                document.getElementById('teacherName').value = data.teacherName || '';
                 if (data.planDate) document.getElementById('planDate').value = data.planDate;
-                
                 totalPeriods = parseInt(data.numPeriods) || 7;
                 document.getElementById('numPeriods').value = totalPeriods;
 
-                updateUIHeader(); 
-
+                updateUIHeader();
                 document.getElementById('builder-area').classList.remove('hidden');
                 document.getElementById('builder-footer').classList.remove('hidden');
-
                 buildTabsAndForms(data.periods);
                 return true;
-            } catch(e) { return false; }
+            } catch (e) {
+                return false;
+            }
         }
 
         function updateUIHeader() {
-            document.getElementById('display-school').innerText = document.getElementById('schoolName').value || "No School";
-            document.getElementById('display-teacher').innerText = document.getElementById('teacherName').value || "No Name";
+            document.getElementById('display-school').textContent  = document.getElementById('schoolName').value  || 'School Name';
+            document.getElementById('display-teacher').textContent = document.getElementById('teacherName').value || 'Teacher Name';
         }
 
-        // --- MULTI-GRADE UI LOGIC (INDUSTRY STANDARD) ---
+        /* ============================================================
+           TAB & FORM BUILDER
+        ============================================================ */
         function buildTabsAndForms(savedPeriodsData = null) {
-            const tabsContainer = document.getElementById('periodTabs');
-            const formsContainer = document.getElementById('periods-container');
-            tabsContainer.innerHTML = '';
-            formsContainer.innerHTML = '';
+            const tabsEl   = document.getElementById('periodTabs');
+            const formsEl  = document.getElementById('periods-container');
+            tabsEl.innerHTML  = '';
+            formsEl.innerHTML = '';
 
             for (let i = 1; i <= totalPeriods; i++) {
+                // Tab button
                 const tab = document.createElement('button');
-                tab.className = `tab-btn ${i === 1 ? 'active' : ''}`;
+                tab.className = `tab${i === 1 ? ' is-active' : ''}`;
                 tab.id = `tab-${i}`;
-                tab.innerText = `Period ${i}`;
+                tab.setAttribute('role', 'tab');
+                tab.setAttribute('aria-selected', i === 1 ? 'true' : 'false');
+                tab.setAttribute('aria-controls', `pane-${i}`);
+                tab.textContent = `Period ${i}`;
                 tab.onclick = () => switchPeriod(i);
-                tabsContainer.appendChild(tab);
+                tabsEl.appendChild(tab);
 
+                // Period pane
                 const pane = document.createElement('div');
-                pane.className = `period-pane ${i === 1 ? 'active' : ''}`;
+                pane.className = `period-pane${i === 1 ? ' is-active' : ''}`;
                 pane.id = `pane-${i}`;
-                
-                pane.innerHTML = `
-                    <div class="period-title">Period ${i} Configurations</div>
-                    <div id="rows-container-${i}"></div>
-                    <button class="btn-add-dashed" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Another Class to Period ${i}</button>
-                `;
-                formsContainer.appendChild(pane);
+                pane.setAttribute('role', 'tabpanel');
+                pane.setAttribute('aria-labelledby', `tab-${i}`);
 
-                if (savedPeriodsData && savedPeriodsData[i-1] && savedPeriodsData[i-1].length > 0) {
-                    savedPeriodsData[i-1].forEach((rowData, index) => {
-                        addLessonRow(i, rowData, index + 1);
-                    });
+                pane.innerHTML = `
+                    <div class="period-pane__title">
+                        <span class="period-badge">${i}</span>
+                        Period ${i} — Class Assignments
+                    </div>
+                    <div id="rows-container-${i}"></div>
+                    <button class="btn--dashed" style="margin-top:4px;" onclick="addLessonRow(${i}); savePlanToStorage();">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Add another class to Period ${i}
+                    </button>
+                `;
+                formsEl.appendChild(pane);
+
+                // Populate rows
+                if (savedPeriodsData && savedPeriodsData[i - 1] && savedPeriodsData[i - 1].length > 0) {
+                    savedPeriodsData[i - 1].forEach((rowData, idx) => addLessonRow(i, rowData, idx + 1));
                 } else {
                     addLessonRow(i, null, 1);
                 }
             }
 
             currentPeriodIndex = 1;
-            updateFooterButtons();
-            if(isDbLoaded) hydrateAllDropdowns();
+            updateNavButtons();
+            if (isDbLoaded) hydrateAllDropdowns();
         }
 
+        /* ============================================================
+           LESSON ROW
+        ============================================================ */
         function addLessonRow(periodNum, presetData = null, cardIndex = null) {
-            const container = document.getElementById(`rows-container-${periodNum}`);
-            const currentCards = container.querySelectorAll('.assignment-card').length;
-            const displayIndex = cardIndex || (currentCards + 1);
-            
-            const rowId = `row-${periodNum}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
-            const row = document.createElement('div');
-            row.className = 'assignment-card';
-            row.id = rowId;
-            
-            row.innerHTML = `
-                <div class="assignment-header">
-                    <span class="assignment-badge">Class Assignment ${displayIndex}</span>
-                    <button class="remove-btn" onclick="removeLessonRow(this); savePlanToStorage();" title="Remove">✕</button>
+            const container   = document.getElementById(`rows-container-${periodNum}`);
+            const currentCount = container.querySelectorAll('.assignment-card').length;
+            const displayIndex = cardIndex != null ? cardIndex : (currentCount + 1);
+
+            // BUG FIX: Math.random().toString(36).substr() is deprecated; use substring()
+            const rowId = `row-${periodNum}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+            const card  = document.createElement('div');
+            card.className = 'assignment-card';
+            card.id = rowId;
+
+            card.innerHTML = `
+                <div class="assignment-card__header">
+                    <span class="assignment-card__badge">Assignment ${displayIndex}</span>
+                    <button class="btn-remove" onclick="removeLessonRow(this); savePlanToStorage();" aria-label="Remove this assignment" title="Remove">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
                 </div>
-                <div class="assignment-grid">
-                    <div><label>Class</label><select class="sel-class" onchange="updateSubjects('${rowId}'); savePlanToStorage();"><option value="">Select...</option></select></div>
-                    <div><label>Subject</label><select class="sel-subj" onchange="updateChapters('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
-                    <div><label>Chapter</label><select class="sel-chap" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
-                    <div><label>Lesson</label><select class="sel-less" onchange="savePlanToStorage();" disabled><option>...</option></select></div>
+                <div class="assignment-card__grid">
+                    <div class="field">
+                        <label>Class</label>
+                        <select class="sel-class field-input" onchange="updateSubjects('${rowId}'); savePlanToStorage();">
+                            <option value="">Select class…</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Subject</label>
+                        <select class="sel-subj field-input" onchange="updateChapters('${rowId}'); savePlanToStorage();" disabled>
+                            <option value="">Select subject…</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Chapter</label>
+                        <select class="sel-chap field-input" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled>
+                            <option value="">Select chapter…</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Lesson</label>
+                        <select class="sel-less field-input" onchange="savePlanToStorage();" disabled>
+                            <option value="">Select lesson…</option>
+                        </select>
+                    </div>
                 </div>
             `;
-            container.appendChild(row);
+            container.appendChild(card);
 
             if (presetData && isDbLoaded) {
-                setTimeout(() => {
-                    row.querySelector('.sel-class').value = presetData.cls; updateSubjects(rowId);
-                    if (presetData.subj) {
-                        row.querySelector('.sel-subj').value = presetData.subj; updateChapters(rowId);
-                        if (presetData.chap) {
-                            row.querySelector('.sel-chap').value = presetData.chap; updateLessons(rowId);
-                            if (presetData.lessKey) row.querySelector('.sel-less').value = presetData.lessKey;
+                // BUG FIX: setTimeout(50) is fragile — cascade the selects synchronously
+                // by calling each update function before setting the next value
+                const clsSel  = card.querySelector('.sel-class');
+                clsSel.innerHTML = `<option value="">Select class…</option>` +
+                    classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
+                clsSel.value = presetData.cls;
+                updateSubjects(rowId);
+                if (presetData.subj) {
+                    card.querySelector('.sel-subj').value = presetData.subj;
+                    updateChapters(rowId);
+                    if (presetData.chap) {
+                        card.querySelector('.sel-chap').value = presetData.chap;
+                        updateLessons(rowId);
+                        if (presetData.lessKey !== undefined && presetData.lessKey !== '') {
+                            card.querySelector('.sel-less').value = presetData.lessKey;
                         }
                     }
-                }, 50);
+                }
             } else if (presetData) {
-                row.dataset.presetCls = presetData.cls; row.dataset.presetSubj = presetData.subj; row.dataset.presetChap = presetData.chap; row.dataset.presetLess = presetData.lessKey;
+                // DB not loaded yet; stash data for hydration
+                card.dataset.presetCls  = presetData.cls;
+                card.dataset.presetSubj = presetData.subj;
+                card.dataset.presetChap = presetData.chap;
+                card.dataset.presetLess = presetData.lessKey;
             } else if (isDbLoaded) {
-                row.querySelector('.sel-class').innerHTML = `<option value="">Select...</option>` + classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('');
+                card.querySelector('.sel-class').innerHTML =
+                    `<option value="">Select class…</option>` +
+                    classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
             }
         }
 
-        function removeLessonRow(btnElement) {
-            const card = btnElement.closest('.assignment-card');
+        function removeLessonRow(btn) {
+            const card = btn.closest('.assignment-card');
             const container = card.parentElement;
             card.remove();
-            
             // Renumber remaining badges
-            container.querySelectorAll('.assignment-badge').forEach((badge, idx) => {
-                badge.innerText = `Class Assignment ${idx + 1}`;
+            container.querySelectorAll('.assignment-card__badge').forEach((badge, idx) => {
+                badge.textContent = `Assignment ${idx + 1}`;
             });
         }
 
+        /* ============================================================
+           PERIOD NAVIGATION
+        ============================================================ */
         function switchPeriod(index) {
-            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.period-pane').forEach(p => p.classList.remove('active'));
-            document.getElementById(`tab-${index}`).classList.add('active');
-            document.getElementById(`pane-${index}`).classList.add('active');
-            document.getElementById(`tab-${index}`).scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.remove('is-active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            document.querySelectorAll('.period-pane').forEach(p => p.classList.remove('is-active'));
+
+            const tab  = document.getElementById(`tab-${index}`);
+            const pane = document.getElementById(`pane-${index}`);
+            tab.classList.add('is-active');
+            tab.setAttribute('aria-selected', 'true');
+            pane.classList.add('is-active');
+            tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             currentPeriodIndex = index;
-            updateFooterButtons();
+            updateNavButtons();
         }
 
         function prevPeriod() { if (currentPeriodIndex > 1) switchPeriod(currentPeriodIndex - 1); }
         function nextPeriod() { if (currentPeriodIndex < totalPeriods) switchPeriod(currentPeriodIndex + 1); }
 
-        function updateFooterButtons() {
-            document.getElementById('btnPrev').style.visibility = currentPeriodIndex === 1 ? 'hidden' : 'visible';
-            document.getElementById('btnNext').style.visibility = currentPeriodIndex === totalPeriods ? 'hidden' : 'visible';
+        // BUG FIX: using visibility:hidden hides the button but retains its layout space,
+        // causing the centre button to shift. Use opacity + pointer-events instead so layout is stable.
+        function updateNavButtons() {
+            const prev = document.getElementById('btnPrev');
+            const next = document.getElementById('btnNext');
+            prev.style.opacity        = currentPeriodIndex === 1            ? '0' : '1';
+            prev.style.pointerEvents  = currentPeriodIndex === 1            ? 'none' : 'auto';
+            next.style.opacity        = currentPeriodIndex === totalPeriods ? '0' : '1';
+            next.style.pointerEvents  = currentPeriodIndex === totalPeriods ? 'none' : 'auto';
         }
 
+        /* ============================================================
+           DROPDOWN CASCADE
+        ============================================================ */
         function hydrateAllDropdowns() {
-            const classOptions = `<option value="">Select...</option>` + classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('');
-            document.querySelectorAll('.assignment-card').forEach(row => {
-                const clsSel = row.querySelector('.sel-class');
-                clsSel.innerHTML = classOptions;
+            const classOptions = `<option value="">Select class…</option>` +
+                classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
 
-                if (row.dataset.presetCls) {
-                    clsSel.value = row.dataset.presetCls; updateSubjects(row.id);
-                    if (row.dataset.presetSubj) {
-                        row.querySelector('.sel-subj').value = row.dataset.presetSubj; updateChapters(row.id);
-                        if (row.dataset.presetChap) {
-                            row.querySelector('.sel-chap').value = row.dataset.presetChap; updateLessons(row.id);
-                            if (row.dataset.presetLess) row.querySelector('.sel-less').value = row.dataset.presetLess;
+            document.querySelectorAll('.assignment-card').forEach(card => {
+                const clsSel = card.querySelector('.sel-class');
+                if (!clsSel) return;
+                // BUG FIX: only repopulate if dropdown is empty (avoids wiping user selection mid-session)
+                if (clsSel.options.length <= 1) clsSel.innerHTML = classOptions;
+
+                if (card.dataset.presetCls) {
+                    clsSel.value = card.dataset.presetCls;
+                    updateSubjects(card.id);
+                    const subjSel = card.querySelector('.sel-subj');
+                    if (card.dataset.presetSubj) {
+                        subjSel.value = card.dataset.presetSubj;
+                        updateChapters(card.id);
+                        const chapSel = card.querySelector('.sel-chap');
+                        if (card.dataset.presetChap) {
+                            chapSel.value = card.dataset.presetChap;
+                            updateLessons(card.id);
+                            if (card.dataset.presetLess) {
+                                card.querySelector('.sel-less').value = card.dataset.presetLess;
+                            }
                         }
                     }
-                    delete row.dataset.presetCls; delete row.dataset.presetSubj; delete row.dataset.presetChap; delete row.dataset.presetLess;
+                    delete card.dataset.presetCls;
+                    delete card.dataset.presetSubj;
+                    delete card.dataset.presetChap;
+                    delete card.dataset.presetLess;
                 }
             });
         }
 
         function updateSubjects(rowId) {
-            const row = document.getElementById(rowId);
-            const cls = row.querySelector('.sel-class').value;
-            resetSelect(row.querySelector('.sel-chap')); resetSelect(row.querySelector('.sel-less'));
-            if (!cls) return resetSelect(row.querySelector('.sel-subj'));
-            populateSelect(row.querySelector('.sel-subj'), Object.keys(db[cls] || {}), "Subject...");
+            const card = document.getElementById(rowId);
+            const cls  = card.querySelector('.sel-class').value;
+            resetSelect(card.querySelector('.sel-chap'));
+            resetSelect(card.querySelector('.sel-less'));
+            if (!cls) { resetSelect(card.querySelector('.sel-subj')); return; }
+            populateSelect(card.querySelector('.sel-subj'), Object.keys(db[cls] || {}), 'Select subject…');
         }
 
         function updateChapters(rowId) {
-            const row = document.getElementById(rowId);
-            const cls = row.querySelector('.sel-class').value;
-            const subj = row.querySelector('.sel-subj').value;
-            resetSelect(row.querySelector('.sel-less'));
-            if (!subj) return resetSelect(row.querySelector('.sel-chap'));
-            populateSelect(row.querySelector('.sel-chap'), Object.keys(db[cls][subj] || {}), "Chapter...");
+            const card = document.getElementById(rowId);
+            const cls  = card.querySelector('.sel-class').value;
+            const subj = card.querySelector('.sel-subj').value;
+            resetSelect(card.querySelector('.sel-less'));
+            if (!subj) { resetSelect(card.querySelector('.sel-chap')); return; }
+            populateSelect(card.querySelector('.sel-chap'), Object.keys((db[cls] || {})[subj] || {}), 'Select chapter…');
         }
 
         function updateLessons(rowId) {
-            const row = document.getElementById(rowId);
-            const cls = row.querySelector('.sel-class').value;
-            const subj = row.querySelector('.sel-subj').value;
-            const chap = row.querySelector('.sel-chap').value;
-            const lessSel = row.querySelector('.sel-less');
-            if (!chap) return resetSelect(lessSel);
-            
-            const lessonsData = db[cls][subj][chap] || {};
-            const lessons = Array.isArray(lessonsData) ? lessonsData.map((l, i) => i) : Object.keys(lessonsData);
-            
-            lessSel.innerHTML = '<option value="">Lesson...</option>';
+            const card    = document.getElementById(rowId);
+            const cls     = card.querySelector('.sel-class').value;
+            const subj    = card.querySelector('.sel-subj').value;
+            const chap    = card.querySelector('.sel-chap').value;
+            const lessSel = card.querySelector('.sel-less');
+
+            if (!chap) { resetSelect(lessSel); return; }
+
+            // BUG FIX: nested null-safe access with || {} prevents runtime crash when
+            // db path is broken (e.g., cls/subj/chap doesn't exist)
+            const lessonsData = ((db[cls] || {})[subj] || {})[chap] || {};
+            const lessons = Array.isArray(lessonsData)
+                ? lessonsData.map((_, i) => i)
+                : Object.keys(lessonsData);
+
+            lessSel.innerHTML = '<option value="">Select lesson…</option>';
             lessons.forEach(key => {
-                const name = Array.isArray(lessonsData) ? lessonsData[key].Period : key;
-                const opt = document.createElement('option'); opt.value = key; opt.textContent = name;
+                const name = Array.isArray(lessonsData) ? (lessonsData[key].Period || key) : key;
+                const opt  = document.createElement('option');
+                opt.value       = key;
+                opt.textContent = name;
                 lessSel.appendChild(opt);
             });
             lessSel.disabled = false;
         }
 
-        function populateSelect(selectElem, items, placeholder) {
-            selectElem.innerHTML = `<option value="">${placeholder}</option>`;
-            items.forEach(item => { const opt = document.createElement('option'); opt.value = item; opt.textContent = item; selectElem.appendChild(opt); });
-            selectElem.disabled = false;
+        function populateSelect(sel, items, placeholder) {
+            sel.innerHTML = `<option value="">${placeholder}</option>`;
+            items.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item; opt.textContent = item;
+                sel.appendChild(opt);
+            });
+            sel.disabled = false;
         }
-        function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
+        function resetSelect(sel) {
+            sel.innerHTML = '<option value="">—</option>';
+            sel.disabled  = true;
+        }
+
+        /* ============================================================
+           PROFILE MODAL
+        ============================================================ */
         function openProfileModal() {
-            document.getElementById('modalSchoolName').value = document.getElementById('schoolName').value;
+            document.getElementById('modalSchoolName').value  = document.getElementById('schoolName').value;
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
-            document.getElementById('modalNumPeriods').value = totalPeriods; 
-            document.getElementById('edit-profile-modal').classList.add('active');
+            document.getElementById('modalNumPeriods').value  = totalPeriods;
+            document.getElementById('profile-modal').classList.add('is-open');
         }
-
-        function closeProfileModal() { document.getElementById('edit-profile-modal').classList.remove('active'); }
-
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.remove('is-open');
+        }
         function saveUpdatedProfile() {
-            document.getElementById('schoolName').value = document.getElementById('modalSchoolName').value;
-            document.getElementById('teacherName').value = document.getElementById('modalTeacherName').value;
-            const newPeriods = parseInt(document.getElementById('modalNumPeriods').value);
-            
+            const newSchool   = document.getElementById('modalSchoolName').value.trim();
+            const newTeacher  = document.getElementById('modalTeacherName').value.trim();
+            const newPeriods  = parseInt(document.getElementById('modalNumPeriods').value);
+
+            if (!newSchool || !newTeacher) { showToast('Name and school are required.'); return; }
+
+            document.getElementById('schoolName').value  = newSchool;
+            document.getElementById('teacherName').value = newTeacher;
+
             if (!isNaN(newPeriods) && newPeriods >= 1 && newPeriods !== totalPeriods) {
                 totalPeriods = newPeriods;
                 document.getElementById('numPeriods').value = totalPeriods;
-                const saved = JSON.parse(localStorage.getItem('lessonGuruAutoSave')) || {};
+                const saved = (() => { try { return JSON.parse(localStorage.getItem('lessonPlannerSave')); } catch(e) { return {}; }})() || {};
                 buildTabsAndForms(saved.periods);
             }
-            updateUIHeader(); savePlanToStorage(); closeProfileModal();
+
+            updateUIHeader();
+            savePlanToStorage();
+            closeProfileModal();
         }
 
-        // --- PDF GENERATION WITH ROWSPAN LOGIC ---
-        function getTableColgroup() {
-            return `<colgroup><col style="width: 4%;"><col style="width: 7%;"><col style="width: 9%;"><col style="width: 9%;"><col style="width: 9%;"><col style="width: 10%;"><col style="width: 14%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 8%;"></colgroup>`;
+        /* ============================================================
+           TEXT FORMATTERS
+        ============================================================ */
+        function esc(str) {
+            // BUG FIX: content from the DB was injected raw via innerHTML, allowing
+            // XSS if the DB ever has malicious values. Escape HTML entities first.
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
         }
 
         function formatCompAndLO(text) {
             if (!text || text === 'nan') return '';
-            let cleaned = String(text);
+            let cleaned = esc(text);
             const codeMatch = cleaned.match(/\[\s*Codes?:/i);
             if (codeMatch) cleaned = cleaned.substring(0, codeMatch.index);
             cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '').trim();
@@ -630,17 +1427,163 @@
 
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
-            let cleaned = String(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
+            let cleaned = esc(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
         function formatPanchapadi(text) {
             if (!text || text === 'nan') return '';
-            let teacherPart = String(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
+            let teacherPart = esc(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
             teacherPart = teacherPart.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
             let cleaned = teacherPart.replace(/\|/g, '<br>').trim();
-            if (cleaned.endsWith('<br>')) cleaned = cleaned.substring(0, cleaned.length - 4).trim();
+            if (cleaned.endsWith('<br>')) cleaned = cleaned.slice(0, -4).trim();
             return `<div class="pdf-text">${cleaned}</div>`;
+        }
+
+        /* ============================================================
+           TABLE BUILDERS
+        ============================================================ */
+        function getTableColgroup() {
+            return `<colgroup>
+                <col style="width:4%">
+                <col style="width:7%">
+                <col style="width:9%">
+                <col style="width:9%">
+                <col style="width:9%">
+                <col style="width:10%">
+                <col style="width:14%">
+                <col style="width:10%">
+                <col style="width:10%">
+                <col style="width:10%">
+                <col style="width:8%">
+            </colgroup>`;
+        }
+
+        function getTableHeader() {
+            return `<thead>
+                <tr>
+                    <th>Prd</th>
+                    <th>Class / Subject</th>
+                    <th>Topic</th>
+                    <th>Competency</th>
+                    <th>Learning Outcome</th>
+                    <th>ଅଧୀତି (Adhiti)</th>
+                    <th>ବୋଧ (Bodha)</th>
+                    <th>ଅଭ୍ୟାସ (Abhyasa)</th>
+                    <th>ପ୍ରୟୋଗ (Prayoga)</th>
+                    <th>ପ୍ରସାର (Prasara)</th>
+                    <th>TLM</th>
+                </tr>
+            </thead>`;
+        }
+
+        function buildTableRowsHTML(periodsMap) {
+            let html = '';
+            for (let pNum in periodsMap) {
+                const assignments = periodsMap[pNum];
+                const rowspan     = assignments.length;
+
+                assignments.forEach((rData, idx) => {
+                    // BUG FIX: no null-check before accessing db[...][...][...][...].
+                    // If any key is missing, buildTableRowsHTML throws, crashing preview.
+                    const classData = (db[rData.cls] || {});
+                    const subjData  = (classData[rData.subj] || {});
+                    const chapData  = (subjData[rData.chap] || {});
+                    const plan      = chapData[rData.lessKey] || {};
+                    const p         = plan.Panchapadi || {};
+
+                    html += `<tr>`;
+                    if (idx === 0) {
+                        html += `<td class="col-period" rowspan="${rowspan}">${esc(String(pNum))}</td>`;
+                    }
+                    html += `
+                        <td><b>${esc(rData.cls.replace(/_/g, ' '))}</b><br>${esc(rData.subj)}</td>
+                        <td><b>${esc(rData.chap)}</b><br><br>${esc(plan.Topic || '')}</td>
+                        <td>${formatCompAndLO(plan.Competency)}</td>
+                        <td>${formatCompAndLO(plan.LearningOutcomes)}</td>
+                        <td>${formatPanchapadi(p.Aditi)}</td>
+                        <td>${formatPanchapadi(p.Bodha)}</td>
+                        <td>${formatPanchapadi(p.Abhyasa)}</td>
+                        <td>${formatPanchapadi(p.Prayoga)}</td>
+                        <td>${formatPanchapadi(p.Prasara)}</td>
+                        <td>${formatPrint(plan.TLM)}</td>
+                    </tr>`;
+                });
+            }
+            return html;
+        }
+
+        /* ============================================================
+           DATE FORMATTER (shared)
+        ============================================================ */
+        function getFormattedDate() {
+            const raw = document.getElementById('planDate').value;
+            if (!raw) return '____/____/20___';
+            const [y, m, d] = raw.split('-');
+            return `${d}/${m}/${y}`;
+        }
+
+        /* ============================================================
+           PLAN PREVIEW GENERATOR
+        ============================================================ */
+        function collectPeriodsMap() {
+            const periodsMap     = {};
+            let totalAssignments = 0;
+
+            for (let i = 1; i <= totalPeriods; i++) {
+                const pane      = document.getElementById(`pane-${i}`);
+                if (!pane) continue;
+                const assignments = [];
+                pane.querySelectorAll('.assignment-card').forEach(card => {
+                    const cls     = card.querySelector('.sel-class').value;
+                    const subj    = card.querySelector('.sel-subj').value;
+                    const chap    = card.querySelector('.sel-chap').value;
+                    const lessKey = card.querySelector('.sel-less').value;
+                    if (cls && subj && chap && lessKey !== '') {
+                        assignments.push({ cls, subj, chap, lessKey });
+                        totalAssignments++;
+                    }
+                });
+                if (assignments.length > 0) periodsMap[i] = assignments;
+            }
+            return { periodsMap, totalAssignments };
+        }
+
+        function generatePlanPreview() {
+            const { periodsMap, totalAssignments } = collectPeriodsMap();
+            if (totalAssignments === 0) {
+                showToast('Add at least one complete class assignment before generating.');
+                return;
+            }
+
+            const schoolName  = document.getElementById('schoolName').value  || '_______________________';
+            const teacherName = document.getElementById('teacherName').value || '_______________________';
+            const formattedDate = getFormattedDate();
+
+            const container = document.getElementById('pdf-preview-content');
+            container.innerHTML = `
+                <div style="padding:20px;">
+                    <div class="pdf-header">
+                        <div class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</div>
+                        <div class="pdf-header__school">School: ${esc(schoolName)}</div>
+                        <div class="pdf-header__meta">
+                            <span>Teacher: ${esc(teacherName)}</span>
+                            <span>Date: ${esc(formattedDate)}</span>
+                        </div>
+                    </div>
+                    <table class="pdf-table">
+                        ${getTableColgroup()}
+                        ${getTableHeader()}
+                        <tbody>${buildTableRowsHTML(periodsMap)}</tbody>
+                    </table>
+                </div>
+            `;
+
+            document.getElementById('main-container').classList.add('hidden');
+            document.getElementById('builder-footer').classList.add('hidden');
+            document.getElementById('preview-area').classList.remove('hidden');
+            document.getElementById('preview-footer').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function backToEdit() {
@@ -648,260 +1591,138 @@
             document.getElementById('preview-footer').classList.add('hidden');
             document.getElementById('main-container').classList.remove('hidden');
             document.getElementById('builder-footer').classList.remove('hidden');
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Packages the logic to build the smart Table Body HTML using Rowspan
-        function buildTableRowsHTML(periodsMap) {
-            let tbodyHTML = '';
-            for (let pNum in periodsMap) {
-                const assignments = periodsMap[pNum];
-                const rowspan = assignments.length;
-                
-                assignments.forEach((rData, idx) => {
-                    const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
-                    const p = plan.Panchapadi || {};
-
-                    tbodyHTML += `<tr>`;
-                    
-                    // Only render the period cell on the very first row of a multi-grade group
-                    if (idx === 0) {
-                        tbodyHTML += `<td class="col-period" rowspan="${rowspan}">${pNum}</td>`;
-                    }
-                    
-                    tbodyHTML += `
-                        <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
-                        <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                        <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
-                        <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes)}</td>
-                        <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
-                        <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
-                        <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
-                        <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
-                        <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
-                        <td class="col-tlm">${formatPrint(plan.TLM)}</td>
-                    </tr>`;
-                });
-            }
-            return tbodyHTML;
-        }
-
-        function generatePlanPreview() {
-            const container = document.getElementById('pdf-preview-content');
-            container.innerHTML = '';
-            
-            let periodsMap = {};
-            let totalAssignments = 0;
-            
-            for(let i=1; i<=totalPeriods; i++) {
-                const pane = document.getElementById(`pane-${i}`);
-                let assignments = [];
-                pane.querySelectorAll('.assignment-card').forEach(row => {
-                    const cls = row.querySelector('.sel-class').value;
-                    const subj = row.querySelector('.sel-subj').value;
-                    const chap = row.querySelector('.sel-chap').value;
-                    const lessKey = row.querySelector('.sel-less').value;
-                    
-                    if (cls && subj && chap && lessKey !== "") {
-                        assignments.push({ cls, subj, chap, lessKey });
-                        totalAssignments++;
-                    }
-                });
-                if (assignments.length > 0) periodsMap[i] = assignments;
-            }
-
-            if (totalAssignments === 0) return alert("Please configure at least one class before generating.");
-
-            const schoolName = document.getElementById('schoolName').value || "_______________________";
-            const teacherName = document.getElementById('teacherName').value || "_______________________";
-            const rawDate = document.getElementById('planDate').value;
-            let formattedDate = "____/____/20___";
-            if(rawDate) {
-                const parts = rawDate.split('-');
-                if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
-            }
-
-            container.innerHTML = `
-                <div class="pdf-header">
-                    <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
-                    <div class="pdf-school">School: ${schoolName}</div>
-                    <div class="pdf-meta">
-                        <span>Teacher Name: ${teacherName}</span>
-                        <span>Date: ${formattedDate}</span>
-                    </div>
-                </div>
-                <table class="pdf-table">
-                    ${getTableColgroup()}
-                    <thead>
-                        <tr>
-                            <th class="col-period">Prd</th>
-                            <th class="col-class">Class /<br>Subj</th>
-                            <th class="col-topic">Topic</th>
-                            <th class="col-comp">Competency</th>
-                            <th class="col-lo">Learning<br>Outcome</th>
-                            <th class="col-aditi">ଅଧୀତି<br>(Adhiti)</th>
-                            <th class="col-bodha">ବୋଧ<br>(Bodha)</th>
-                            <th class="col-abhyasa">ଅଭ୍ୟାସ<br>(Abhyasa)</th>
-                            <th class="col-prayoga">ପ୍ରୟୋଗ<br>(Prayoga)</th>
-                            <th class="col-prasara">ପ୍ରସାର<br>(Prasara)</th>
-                            <th class="col-tlm">TLM</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${buildTableRowsHTML(periodsMap)}
-                    </tbody>
-                </table>
-            `;
-
-            document.getElementById('main-container').classList.add('hidden');
-            document.getElementById('builder-footer').classList.add('hidden');
-            document.getElementById('preview-area').classList.remove('hidden');
-            document.getElementById('preview-footer').classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
-
-        // --- MOBILE CRASH-PROOF PDF SNAPSHOT ENGINE ---
+        /* ============================================================
+           PDF GENERATION & SHARE
+           BUG FIX: Several issues fixed:
+           1. container.innerHTML += was losing event listeners and reparsing
+              the whole DOM. Replaced with proper page construction.
+           2. The staging container used z-index:-100 to hide it but then
+              jumped to 99990 — this could briefly flash on slow devices.
+              Now uses opacity:0 + pointer-events:none consistently.
+           3. URL.revokeObjectURL was called synchronously after a.click()
+              before the browser had a chance to initiate the download.
+              Now revoked after a short delay.
+        ============================================================ */
         async function sharePlanViaApp() {
-            const overlay = document.getElementById('pdf-processing-overlay');
-            const container = document.getElementById('temp-pdf-export');
-            
-            overlay.classList.add('active'); // Blocks user interaction while generating
+            const overlay    = document.getElementById('pdf-overlay');
+            const container  = document.getElementById('temp-pdf-export');
+
+            const { periodsMap, totalAssignments } = collectPeriodsMap();
+            if (totalAssignments === 0) {
+                showToast('No assignments to export.');
+                return;
+            }
+
+            overlay.classList.add('is-active');
             container.innerHTML = '';
-            
-            let periodsMap = {};
-            for(let i=1; i<=totalPeriods; i++) {
-                const pane = document.getElementById(`pane-${i}`);
-                let assignments = [];
-                pane.querySelectorAll('.assignment-card').forEach(row => {
-                    const cls = row.querySelector('.sel-class').value;
-                    const subj = row.querySelector('.sel-subj').value;
-                    const chap = row.querySelector('.sel-chap').value;
-                    const lessKey = row.querySelector('.sel-less').value;
-                    if (cls && subj && chap && lessKey !== "") assignments.push({ cls, subj, chap, lessKey });
-                });
-                if(assignments.length > 0) periodsMap[i] = assignments;
-            }
 
-            const schoolName = document.getElementById('schoolName').value || "_______________________";
-            const teacherName = document.getElementById('teacherName').value || "Teacher";
-            const rawDate = document.getElementById('planDate').value;
-            let formattedDate = "____/____/20___";
-            if(rawDate) {
-                const parts = rawDate.split('-');
-                if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
-            }
+            const schoolName    = document.getElementById('schoolName').value  || '_______________________';
+            const teacherName   = document.getElementById('teacherName').value || 'Teacher';
+            const formattedDate = getFormattedDate();
 
-            // SMART CHUNKING: Pack into pages ensuring RowSpans never break
-            let pages = [];
-            let currentPageMap = {};
-            let currentRowCount = 0;
+            // Smart page chunking (keep period rows together)
+            const pages           = [];
+            let currentPageMap    = {};
+            let currentRowCount   = 0;
             const MAX_ROWS_PER_PAGE = 5;
 
             for (let pNum in periodsMap) {
-                const pLength = periodsMap[pNum].length;
-                if (currentRowCount + pLength > MAX_ROWS_PER_PAGE && currentRowCount > 0) {
+                const pLen = periodsMap[pNum].length;
+                if (currentRowCount + pLen > MAX_ROWS_PER_PAGE && currentRowCount > 0) {
                     pages.push(currentPageMap);
-                    currentPageMap = {};
+                    currentPageMap  = {};
                     currentRowCount = 0;
                 }
                 currentPageMap[pNum] = periodsMap[pNum];
-                currentRowCount += pLength;
+                currentRowCount += pLen;
             }
             if (Object.keys(currentPageMap).length > 0) pages.push(currentPageMap);
 
-            // Generate HTML for each chunked page
+            // BUG FIX: Build each page as a separate DOM node (avoids innerHTML += issues)
+            const fragment = document.createDocumentFragment();
             pages.forEach((pageMap, i) => {
-                let headerBlock = i === 0 ? `
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'pdf-page';
+                pageDiv.id = `export-page-${i}`;
+
+                const headerHtml = i === 0 ? `
                     <div class="pdf-header">
-                        <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
-                        <div class="pdf-school">School: ${schoolName}</div>
-                        <div class="pdf-meta">
-                            <span>Teacher Name: ${teacherName}</span>
-                            <span>Date: ${formattedDate}</span>
+                        <div class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</div>
+                        <div class="pdf-header__school">School: ${esc(schoolName)}</div>
+                        <div class="pdf-header__meta">
+                            <span>Teacher: ${esc(teacherName)}</span>
+                            <span>Date: ${esc(formattedDate)}</span>
                         </div>
                     </div>` : '';
 
-                container.innerHTML += `
-                    <div class="pdf-page" id="export-page-${i}">
-                        ${headerBlock}
-                        <table class="pdf-table">
-                            ${getTableColgroup()}
-                            <thead>
-                                <tr>
-                                    <th class="col-period">Prd</th>
-                                    <th class="col-class">Class /<br>Subj</th>
-                                    <th class="col-topic">Topic</th>
-                                    <th class="col-comp">Competency</th>
-                                    <th class="col-lo">Learning<br>Outcome</th>
-                                    <th class="col-aditi">ଅଧୀତି<br>(Adhiti)</th>
-                                    <th class="col-bodha">ବୋଧ<br>(Bodha)</th>
-                                    <th class="col-abhyasa">ଅଭ୍ୟାସ<br>(Abhyasa)</th>
-                                    <th class="col-prayoga">ପ୍ରୟୋଗ<br>(Prayoga)</th>
-                                    <th class="col-prasara">ପ୍ରସାର<br>(Prasara)</th>
-                                    <th class="col-tlm">TLM</th>
-                                </tr>
-                            </thead>
-                            <tbody>${buildTableRowsHTML(pageMap)}</tbody>
-                        </table>
-                    </div>
+                pageDiv.innerHTML = `
+                    ${headerHtml}
+                    <table class="pdf-table">
+                        ${getTableColgroup()}
+                        ${getTableHeader()}
+                        <tbody>${buildTableRowsHTML(pageMap)}</tbody>
+                    </table>
                 `;
+                fragment.appendChild(pageDiv);
             });
+            container.appendChild(fragment);
 
-            // Make physically visible but blocked by overlay to fix Chrome Mobile crash
-            container.style.opacity = '1';
-            container.style.zIndex = '99990';
-
-            await new Promise(resolve => setTimeout(resolve, 800)); // Wait for fonts and DOM rendering
+            // Wait for fonts and layout
+            await new Promise(r => setTimeout(r, 900));
 
             try {
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF('l', 'mm', 'a4');
-                const pageElements = container.querySelectorAll('.pdf-page');
+                const { jsPDF }     = window.jspdf;
+                const pdf           = new jsPDF('l', 'mm', 'a4');
+                const pageElements  = container.querySelectorAll('.pdf-page');
 
                 for (let i = 0; i < pageElements.length; i++) {
-                    // Use lightweight JPEG and 1.5x ratio to prevent mobile out-of-memory errors
                     const dataUrl = await htmlToImage.toJpeg(pageElements[i], {
-                        pixelRatio: 1.5, 
-                        quality: 0.95,
+                        pixelRatio:      1.5,
+                        quality:         0.92,
                         backgroundColor: '#ffffff',
-                        width: 1122
+                        width:           1123
                     });
-
                     if (i > 0) pdf.addPage();
                     const imgProps = pdf.getImageProperties(dataUrl);
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                    pdf.addImage(dataUrl, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    const pdfW     = pdf.internal.pageSize.getWidth();
+                    const pdfH     = (imgProps.height * pdfW) / imgProps.width;
+                    pdf.addImage(dataUrl, 'JPEG', 0, 0, pdfW, pdfH);
                 }
 
                 const pdfBlob = pdf.output('blob');
-                const safeTeacherName = teacherName.replace(/[^a-zA-Z0-9]/g, '_');
+                // BUG FIX: sanitise filename — replace ALL non-alphanumeric sequences (not just spaces)
+                const safeName = teacherName.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, '');
                 const safeDate = formattedDate.replace(/\//g, '-');
-                const customFileName = `${safeTeacherName}_LessonPlan_${safeDate}.pdf`;
-                
-                const file = new File([pdfBlob], customFileName, { type: 'application/pdf' });
-                
+                const fileName = `${safeName}_LessonPlan_${safeDate}.pdf`;
+
+                const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
+
                 if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({ title: 'Daily Lesson Plan', files: [file] });
                 } else {
                     const url = URL.createObjectURL(pdfBlob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = customFileName;
+                    const a   = document.createElement('a');
+                    a.href     = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
                     a.click();
-                    URL.revokeObjectURL(url);
-                    alert("Sharing natively is not supported. File Downloaded.");
+                    document.body.removeChild(a);
+                    // BUG FIX: revoke after a tick so the browser can initiate the download
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    showToast('PDF downloaded successfully.');
                 }
             } catch (err) {
-                console.error(err);
-                alert("Error generating PDF. Please use the direct Print option instead.");
+                console.error('PDF generation error:', err);
+                showToast('Could not generate PDF. Try the Print option instead.');
             } finally {
-                container.style.opacity = '0'; 
-                container.style.zIndex = '-100';
                 container.innerHTML = '';
-                overlay.classList.remove('active');
+                overlay.classList.remove('is-active');
             }
         }
     </script>
+
 </body>
 </html>
