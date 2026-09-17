@@ -279,7 +279,7 @@
         .workspace-bar__divider { border: none; border-top: 1px dashed var(--clr-border); margin: 0; }
 
         /* =========================================================
-           PERIOD TABS (Wrapped Multi-line)
+           PERIOD TABS
         ========================================================= */
         .tabs-wrap {
             display: flex;
@@ -640,8 +640,8 @@
 
         // --- INIT & CHUNK LOADING ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Update to point to the db_chunks folder
-            fetch('db_chunks/index.json')
+            // Append cache buster to force the newest file from the server
+            fetch('db_chunks/index.json?t=' + Date.now())
                 .then(r => { if (!r.ok) throw new Error(); return r.json(); })
                 .then(data => {
                     indexDb = data;
@@ -671,12 +671,22 @@
 
             try {
                 const safeName = className.replace(/ /g, '_');
-                // Update to point to the db_chunks folder
-                const res = await fetch(`db_chunks/chunk_${safeName}.json`);
+                // Append cache buster to bypass aggressive server caching
+                const res = await fetch(`db_chunks/chunk_${safeName}.json?t=${Date.now()}`);
                 if (!res.ok) throw new Error("Chunk missing");
                 
                 const data = await res.json();
-                Object.assign(db, data);
+                
+                // Smart Merge: Bypass key formatting issues. If the exact key isn't found, 
+                // it maps the first key found in the file to the selected className.
+                if (data[className]) {
+                    Object.assign(db, data);
+                } else {
+                    const keys = Object.keys(data);
+                    if (keys.length > 0) {
+                        db[className] = data[keys[0]];
+                    }
+                }
             } catch (err) {
                 console.error(err);
                 showToast("Failed to load class syllabus.");
@@ -808,6 +818,10 @@
             card.className = 'assignment-card';
             card.id = rowId;
 
+            // BUG FIX: Generate options directly inside HTML so newly added rows have class options instantly
+            const classOptions = `<option value="">Select class…</option>` +
+                classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
+
             card.innerHTML = `
                 <div class="assignment-card__header">
                     <span class="assignment-card__badge">Assignment ${displayIndex}</span>
@@ -819,7 +833,7 @@
                     <div class="field">
                         <label>Class</label>
                         <select class="sel-class field-input" onchange="handleClassChange('${rowId}')">
-                            <option value="">Select class…</option>
+                            ${classOptions}
                         </select>
                     </div>
                     <div class="field">
@@ -872,8 +886,8 @@
 
             for (const card of document.querySelectorAll('.assignment-card')) {
                 const clsSel = card.querySelector('.sel-class');
-                if (!clsSel || clsSel.options.length > 1) continue; 
-                clsSel.innerHTML = classOptions;
+                if (!clsSel) continue; 
+                if (clsSel.options.length <= 1) clsSel.innerHTML = classOptions;
 
                 if (card.dataset.presetCls) {
                     clsSel.value = card.dataset.presetCls;
@@ -917,7 +931,8 @@
         function updateSubjectsSync(rowId) {
             const card = document.getElementById(rowId);
             const cls  = card.querySelector('.sel-class').value;
-            populateSelect(card.querySelector('.sel-subj'), Object.keys(db[cls] || {}), 'Select subject…');
+            const subjectData = db[cls] || {};
+            populateSelect(card.querySelector('.sel-subj'), Object.keys(subjectData), 'Select subject…');
         }
 
         function updateChapters(rowId) {
