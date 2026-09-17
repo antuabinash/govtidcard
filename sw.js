@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sikhya-sathi-cache-v7';
+const CACHE_NAME = 'sikhya-sathi-cache-v8';
 
 // These are the files from your repo that will be cached for offline use
 const urlsToCache = [
