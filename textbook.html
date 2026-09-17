@@ -2,85 +2,183 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ଶିକ୍ଷକ ସାଥୀ - Textbooks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Digital Library - ଶିକ୍ଷକ ସାଥୀ</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#F4F6F9">
+
     <style>
-        /* Modern Variables */
+        /* === App Variables & Reset (From Index UI) === */
         :root {
-            --app-bg: #F0F2F5;
+            --app-bg: #F4F6F9;
             --card-bg: #FFFFFF;
-            --text-main: #1C1C1E;
-            --text-muted: #6B7280;
-            --primary-blue: #2563EB;
-            --primary-hover: #1D4ED8;
-            --radius-lg: 20px;
-            --radius-md: 16px;
-            --radius-sm: 10px;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05);
-            --safe-area-pt: env(safe-area-inset-top, 20px);
+            --text-main: #1D1D1F;
+            --text-muted: #86868B;
+            --primary: #007AFF;
+            --primary-hover: #0056b3;
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --safe-area-pt: env(safe-area-inset-top, 16px);
+            --safe-area-pb: env(safe-area-inset-bottom, 20px);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
-        
-        header { padding: calc(var(--safe-area-pt) + 16px) 24px 16px 24px; background: linear-gradient(135deg, #1E40AF, #3B82F6); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2); }
-        .header-content { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
-        .app-title { font-size: 24px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px; }
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
-        .textbook-header { font-size: 22px; font-weight: 800; margin-bottom: 24px; color: #111827; }
+        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: calc(60px + var(--safe-area-pb)); overflow-x: hidden; }
 
-        .class-section { background: var(--card-bg); border-radius: var(--radius-lg); margin-bottom: 20px; box-shadow: var(--shadow-sm); border: 1px solid rgba(229, 231, 235, 0.8); transition: box-shadow 0.3s; }
-        .class-section:hover { box-shadow: var(--shadow-md); }
+        /* === Header === */
+        header { 
+            padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; 
+            background: rgba(244, 246, 249, 0.85); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            border-bottom: 1px solid rgba(0,0,0,0.03); 
+            display: flex; 
+            align-items: center; 
+        }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .app-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
         
-        .class-header { padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; background: transparent; }
-        .class-header h3 { font-size: 19px; font-weight: 700; color: #111827; }
-        .class-header p { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
-        .icon-box { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; background: #DBEAFE; color: var(--primary-blue); }
-        
-        .chevron { margin-left: auto; width: 24px; height: 24px; color: #9CA3AF; transition: transform 0.3s ease; }
-        .class-section.active .chevron { transform: rotate(180deg); }
+        .icon-btn { 
+            background: #FFFFFF; border: none; width: 40px; height: 40px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; color: var(--primary); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; 
+            text-decoration: none;
+        }
+        .icon-btn:active { transform: scale(0.9); }
 
-        .subject-grid { display: none; padding: 0 20px 24px 20px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; border-top: 1px solid rgba(229, 231, 235, 0.5); margin-top: 8px; padding-top: 24px; }
-        .class-section.active .subject-grid { display: grid; }
+        /* === Container & Titles === */
+        .container { max-width: 1000px; margin: 0 auto; padding: 24px 20px; }
+        .section-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
 
-        /* Modified subject card for standard anchor tags */
-        .subject-card { background: #F8FAFC; border-radius: var(--radius-md); padding: 20px; text-decoration: none; border: 1px solid #E2E8F0; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s ease; cursor: pointer; height: 100%; }
-        .subject-card:hover, .subject-card:active { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1); border-color: #BFDBFE; background: #FFFFFF; }
+        /* === Accordion Class Sections === */
+        .class-section { 
+            background: var(--card-bg); 
+            border-radius: var(--radius-lg); 
+            margin-bottom: 16px; 
+            box-shadow: var(--shadow-soft); 
+            border: 1px solid rgba(255,255,255,0.8); 
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease; 
+            overflow: hidden;
+        }
+        .class-section:active { transform: scale(0.98); }
         
-        .subject-card-title { font-size: 16px; font-weight: 700; color: #1E293B; display: flex; align-items: flex-start; gap: 10px; line-height: 1.4; margin-bottom: 16px; }
-        .book-icon { font-size: 20px; }
+        .class-header { 
+            padding: 16px 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 16px; 
+            cursor: pointer; 
+            background: transparent; 
+            user-select: none;
+        }
+        .class-header h3 { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 2px;}
+        .class-header p { font-size: 13px; color: var(--text-muted); }
         
-        .read-btn { background: var(--primary-blue); color: white; padding: 10px 16px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; border: none; display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; transition: background 0.2s; }
+        .chevron { margin-left: auto; width: 24px; height: 24px; color: var(--text-muted); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .class-section.active .chevron { transform: rotate(180deg); color: var(--primary); }
+
+        /* === Gradients from Index UI === */
+        .icon-box { 
+            width: 52px; height: 52px; border-radius: 16px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 24px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); 
+        }
+        .grad-blue { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
+        .grad-purple { background: linear-gradient(135deg, #B1B0FC 0%, #E0C3FC 100%); }
+        .grad-orange { background: linear-gradient(135deg, #FF9A44 0%, #FC6076 100%); }
+        .grad-teal { background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%); }
+        .grad-pink { background: linear-gradient(135deg, #FF758C 0%, #FF7EB3 100%); }
+        .grad-indigo { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); }
+        .grad-gold { background: linear-gradient(135deg, #F6D365 0%, #FDA085 100%); }
+        .grad-green { background: linear-gradient(135deg, #0BA360 0%, #3CBA92 100%); }
+        .grad-slate { background: linear-gradient(135deg, #89F7FE 0%, #66A6FF 100%); }
+        .grad-brown { background: linear-gradient(135deg, #D4A373 0%, #FAEDCD 100%); }
+
+        /* === Subject Grid === */
+        .subject-grid { 
+            display: none; 
+            padding: 0 20px 20px 20px; 
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+            gap: 16px; 
+            border-top: 1px solid rgba(0,0,0,0.03); 
+            margin-top: 4px; 
+            padding-top: 20px; 
+        }
+        @media (min-width: 600px) { .subject-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
+        .class-section.active .subject-grid { display: grid; animation: fadeIn 0.4s ease forwards; }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        /* === Subject Cards === */
+        .subject-card { 
+            background: var(--app-bg); 
+            border-radius: var(--radius-md); 
+            padding: 16px; 
+            text-decoration: none; 
+            border: 1px solid rgba(0,0,0,0.03); 
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
+            transition: all 0.2s ease; cursor: pointer; height: 100%; text-align: center;
+        }
+        .subject-card:hover, .subject-card:active { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.12); 
+            border-color: rgba(0, 122, 255, 0.2); 
+            background: #FFFFFF; 
+        }
+        
+        .subject-card-title { 
+            font-size: 14px; font-weight: 700; color: var(--text-main); 
+            display: flex; flex-direction: column; align-items: center; gap: 8px; 
+            line-height: 1.3; margin-bottom: 16px; 
+        }
+        .book-icon { font-size: 28px; margin-bottom: 4px; display: inline-block;}
+        
+        .read-btn { 
+            background: var(--primary); color: white; padding: 10px 16px; 
+            border-radius: 20px; font-size: 12px; font-weight: 700; border: none; 
+            display: flex; justify-content: center; align-items: center; gap: 6px; 
+            width: 100%; transition: background 0.2s; 
+        }
         .subject-card:hover .read-btn { background: var(--primary-hover); }
 
-        @media (max-width: 600px) {
-            .class-header { padding: 16px; }
-            .icon-box { width: 48px; height: 48px; font-size: 22px; }
-        }
     </style>
 </head>
 <body>
     <header>
-        <div class="header-content">
-            <h1 class="app-title">ଶିକ୍ଷକ ସାଥୀ</h1>
+        <div class="header-left">
+            <!-- Back button taking user to Index UI -->
+            <a href="index.html" class="icon-btn" aria-label="Back">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <h1 class="app-title">Digital Library</h1>
         </div>
     </header>
 
     <div class="container">
-        <h2 class="textbook-header">Digital Library</h2>
+        <h2 class="section-title">Odia Medium Textbooks</h2>
         <div id="accordion-container">
 
             <!-- Class 1 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">1️⃣</div>
+                    <div class="icon-box grad-blue"><span>1️⃣</span></div>
                     <div>
                         <h3>Class 1</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 2 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/1-Pyo5zq_BiY8XdxWOm5jZpvF1PWDozJ8/view" target="_blank" class="subject-card">
@@ -97,12 +195,12 @@
             <!-- Class 2 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">2️⃣</div>
+                    <div class="icon-box grad-purple"><span>2️⃣</span></div>
                     <div>
                         <h3>Class 2</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 2 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/1snXWubi_xeuL_qvs-Ak4CteB8M8zDH8T/view" target="_blank" class="subject-card">
@@ -119,12 +217,12 @@
             <!-- Class 3 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">3️⃣</div>
+                    <div class="icon-box grad-orange"><span>3️⃣</span></div>
                     <div>
                         <h3>Class 3</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 6 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/1ux0_2nFKKmYOd-DMhK7rn0pvuguqlNKH/view" target="_blank" class="subject-card">
@@ -157,12 +255,12 @@
             <!-- Class 4 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">4️⃣</div>
+                    <div class="icon-box grad-teal"><span>4️⃣</span></div>
                     <div>
                         <h3>Class 4</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 6 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/19AKcxRtfY13D1fAp6wtY-E66ZY5Soitu/view" target="_blank" class="subject-card">
@@ -195,12 +293,12 @@
             <!-- Class 5 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">5️⃣</div>
+                    <div class="icon-box grad-pink"><span>5️⃣</span></div>
                     <div>
                         <h3>Class 5</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 6 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/1sXuNx_kBiv2TBjN8XhId2oDUqwAomyYn/view" target="_blank" class="subject-card">
@@ -233,12 +331,12 @@
             <!-- Class 6 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">6️⃣</div>
+                    <div class="icon-box grad-indigo"><span>6️⃣</span></div>
                     <div>
                         <h3>Class 6</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 10 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/1i07TFhhag5LRCOWamWnoyrcwlOrRq4Rv/view" target="_blank" class="subject-card">
@@ -287,12 +385,12 @@
             <!-- Class 7 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">7️⃣</div>
+                    <div class="icon-box grad-gold"><span>7️⃣</span></div>
                     <div>
                         <h3>Class 7</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 10 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/1coviHL0u4vmTI0G5KhrSTYTPVTjfCeya/view" target="_blank" class="subject-card">
@@ -341,12 +439,12 @@
             <!-- Class 8 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">8️⃣</div>
+                    <div class="icon-box grad-green"><span>8️⃣</span></div>
                     <div>
                         <h3>Class 8</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 10 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/15wOcjqQgNY8K7M7oB3TjXSZ_sq3kK78X/view" target="_blank" class="subject-card">
@@ -395,12 +493,12 @@
             <!-- Class 9 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">9️⃣</div>
+                    <div class="icon-box grad-slate"><span>9️⃣</span></div>
                     <div>
                         <h3>Class 9</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 14 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/1GWFkTcpYInf6nFeO3X6ijP3Ukfw-tf45/view" target="_blank" class="subject-card">
@@ -465,12 +563,12 @@
             <!-- Class 10 -->
             <div class="class-section">
                 <div class="class-header">
-                    <div class="icon-box">🔟</div>
+                    <div class="icon-box grad-brown"><span>🔟</span></div>
                     <div>
                         <h3>Class 10</h3>
-                        <p>Tap to view subjects</p>
+                        <p>View 14 subjects</p>
                     </div>
-                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="subject-grid">
                     <a href="https://drive.google.com/file/d/1BE6czLwMB7vXDy_y-fAS576qCT3nRyLi/view" target="_blank" class="subject-card">
@@ -536,14 +634,16 @@
     </div>
 
     <script>
-        // Simple Accordion Logic
+        // Modern Accordion Logic
         document.querySelectorAll('.class-header').forEach(header => {
             header.addEventListener('click', () => {
                 const parentSection = header.parentElement;
                 
                 // Close all others
                 document.querySelectorAll('.class-section').forEach(section => {
-                    if (section !== parentSection) section.classList.remove('active');
+                    if (section !== parentSection) {
+                        section.classList.remove('active');
+                    }
                 });
                 
                 // Toggle clicked section
