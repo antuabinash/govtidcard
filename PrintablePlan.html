@@ -283,7 +283,7 @@
         ========================================================= */
         .tabs-wrap {
             display: flex;
-            flex-wrap: wrap;       /* Allows tabs to break into two lines */
+            flex-wrap: wrap;
             justify-content: center; 
             gap: 8px;
             margin-bottom: 14px;
@@ -640,8 +640,8 @@
 
         // --- INIT & CHUNK LOADING ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Fetch tiny index first
-            fetch('chunk_index.json')
+            // Update to point to the db_chunk folder
+            fetch('db_chunk/index.json')
                 .then(r => { if (!r.ok) throw new Error(); return r.json(); })
                 .then(data => {
                     indexDb = data;
@@ -671,7 +671,8 @@
 
             try {
                 const safeName = className.replace(/ /g, '_');
-                const res = await fetch(`chunk_${safeName}.json`);
+                // Update to point to the db_chunk folder
+                const res = await fetch(`db_chunk/chunk_${safeName}.json`);
                 if (!res.ok) throw new Error("Chunk missing");
                 
                 const data = await res.json();
@@ -1087,7 +1088,7 @@
 
         function generatePlanPreview() {
             const { periodsMap, totalAssignments } = collectPeriodsMap();
-            if (totalAssignments === 0) return showToast('Add at least one class assignment before generating.');
+            if (totalAssignments === 0) return showToast('Add at least one complete class assignment before generating.');
 
             const schoolName  = document.getElementById('schoolName').value  || '_______________________';
             const teacherName = document.getElementById('teacherName').value || '_______________________';
