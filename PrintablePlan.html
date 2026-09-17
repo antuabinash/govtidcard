@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ଶିକ୍ଷକ ସାଥୀ - Lesson Plan</title>
+    <title>Lesson Plan - ଶିକ୍ଷକ ସାଥୀ</title>
     
-    <!-- Embed Universal Fonts to Guarantee Flawless Odia Screen Rendering -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
@@ -14,90 +13,83 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        /* === App Variables & Reset (Synced 100% with index.html) === */
+        /* --- PREMIUM NATIVE UI STYLES --- */
         :root {
-            --app-bg: #F4F6F9;
+            --app-bg: #F2F2F7;
             --card-bg: #FFFFFF;
-            --text-main: #1D1D1F;
-            --text-muted: #86868B;
-            --primary: #007AFF;
-            --primary-hover: #0056b3;
+            --text-main: #1C1C1E;
+            --text-muted: #8E8E93;
+            --primary: #0284C7; 
+            --primary-hover: #0369A1;
             --radius-xl: 24px;
-            --radius-lg: 18px;
+            --radius-lg: 20px;
             --radius-md: 12px;
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
-            --safe-area-pt: env(safe-area-inset-top, 16px);
+            --shadow-app: 0 8px 24px rgba(149, 157, 165, 0.1);
+            --safe-area-pt: env(safe-area-inset-top, 20px);
             --safe-area-pb: env(safe-area-inset-bottom, 20px);
+            --border: #E5E5EA;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Noto Sans Oriya", sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; min-height: 100vh; padding-bottom: calc(100px + var(--safe-area-pb)); overflow-x: hidden; }
 
-        /* === Header === */
-        header { 
-            padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; 
-            background: rgba(244, 246, 249, 0.85); 
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); 
-            position: sticky; top: 0; z-index: 100; 
-            border-bottom: 1px solid rgba(0,0,0,0.03); 
-            display: flex; justify-content: flex-start; align-items: center; gap: 16px;
+        header {
+            padding: calc(var(--safe-area-pt) + 16px) 24px 16px 24px;
+            background: linear-gradient(135deg, #0369A1, #0284C7);
+            position: sticky; top: 0; z-index: 50;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
         }
-        
-        .icon-btn { 
-            background: #FFFFFF; border: none; width: 40px; height: 40px; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            color: var(--text-main); box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-            cursor: pointer; transition: transform 0.2s; flex-shrink: 0;
-        }
-        .icon-btn:active { transform: scale(0.9); }
 
-        .app-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
+        .header-content { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; gap: 16px; }
+        .app-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF; }
+
+        .back-btn {
+            background: transparent; border: none; color: #FFFFFF; cursor: pointer; padding: 8px; margin-left: -8px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .back-btn:active { background-color: rgba(255, 255, 255, 0.2); }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
         
         .card { 
             background: var(--card-bg); padding: 1.5rem; 
-            border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); 
-            margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.02);
+            border-radius: var(--radius-lg); box-shadow: var(--shadow-app); 
+            margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.03);
         }
         
-        label { font-weight: 700; display: block; margin-bottom: 0.35rem; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        label { font-weight: 700; display: block; margin-bottom: 0.35rem; font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        /* Modern Inputs */
         input[type="text"], input[type="number"], input[type="date"], select { 
             width: 100%; padding: 0.85rem 1rem; border-radius: var(--radius-md); 
-            border: 1px solid #E5E5EA; font-size: 1rem; font-weight: 600;
-            background: #f9fafb; color: var(--text-main); outline: none; transition: all 0.2s ease;
+            border: 1px solid #d1d5db; font-size: 1rem; font-weight: 600;
+            background: #f9fafb; color: #1f2937; outline: none; transition: all 0.2s ease;
             appearance: none; -webkit-appearance: none;
         }
-        input:focus, select:focus { background: #ffffff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
+        input:focus, select:focus { background: #ffffff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15); }
         
-        /* Buttons */
         .btn { 
-            background: var(--primary); color: white; padding: 0.85rem 1.2rem; border-radius: var(--radius-md); font-weight: 700; 
-            cursor: pointer; border: none; transition: all 0.2s; font-size: 1rem; 
-            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; padding: 0.85rem 1.2rem; border-radius: var(--radius-md); font-weight: 700; 
+            cursor: pointer; border: none; transition: all 0.2s; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
         }
-        .btn:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(0, 122, 255, 0.2); }
+        .btn:active { transform: scale(0.96); box-shadow: 0 2px 6px rgba(2, 132, 199, 0.2); }
         
         .btn-secondary { 
-            background: #F2F2F7; color: var(--text-main); padding: 0.85rem 1rem; font-size: 0.95rem; font-weight: 700;
-            border-radius: var(--radius-md); border: none; box-shadow: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; transition: 0.2s;
+            background: #E5E5EA; color: var(--text-main); padding: 0.85rem 1rem; font-size: 0.95rem; font-weight: 700;
+            border-radius: var(--radius-md); border: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; transition: 0.2s;
         }
-        .btn-secondary:active { background: #E5E5EA; transform: scale(0.96); }
+        .btn-secondary:active { background: #D1D1D6; transform: scale(0.96); }
 
-        /* Workspace Header */
         .workspace-header {
             display: flex; flex-direction: column; gap: 1rem; background: var(--card-bg); 
-            padding: 1.5rem; border-radius: var(--radius-xl); box-shadow: var(--shadow-soft); 
+            padding: 1.5rem; border-radius: var(--radius-xl); box-shadow: var(--shadow-app); 
             margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.02);
         }
         .profile-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 1px dashed #E5E5EA; }
         .date-row { display: flex; flex-direction: column; gap: 0.5rem;}
         
-        /* Horizontal Tabs for Periods */
+        /* Tabs */
         .tabs-container {
             display: flex; gap: 0.75rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 1rem;
             scrollbar-width: none; -ms-overflow-style: none;
@@ -113,31 +105,41 @@
             box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
         }
 
-        /* Period Form Container */
         .period-pane { display: none; animation: fadeIn 0.3s ease; }
         .period-pane.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .period-title { font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin-bottom: 1rem; }
 
-        .period-title { 
-            font-size: 1.3rem; font-weight: 800; color: var(--text-main); 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 2px solid #F4F6F9; 
+        /* --- INDUSTRY STANDARD ASSIGNMENT CARDS --- */
+        .assignment-card {
+            background: #FAFAFA; border: 1px solid #E5E5EA; border-radius: var(--radius-md);
+            padding: 1.25rem; margin-bottom: 1rem; position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-
-        .lesson-row { 
-            display: grid; grid-template-columns: 1fr 1fr 1.5fr 1.5fr auto; gap: 0.75rem; 
-            background: #FAFAFA; padding: 1rem; border-radius: var(--radius-md); 
-            margin-bottom: 1rem; border: 1px solid #E5E5EA; align-items: end; position: relative;
+        .assignment-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px dashed #E5E5EA;
+        }
+        .assignment-badge {
+            background: #E0F2FE; color: var(--primary); font-size: 0.75rem; font-weight: 800;
+            padding: 0.35rem 0.75rem; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px;
         }
         .remove-btn { 
-            background: #fee2e2; color: #ef4444; padding: 0.85rem; 
-            border-radius: 0.5rem; cursor: pointer; border: none; font-weight: bold; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+            background: #fee2e2; color: #ef4444; width: 32px; height: 32px; border-radius: 50%; 
+            cursor: pointer; border: none; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: 0.2s;
         }
-        .remove-btn:active { transform: scale(0.92); background: #fca5a5; }
+        .remove-btn:active { transform: scale(0.9); background: #fca5a5; }
+        .assignment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        
+        .btn-add-dashed {
+            width: 100%; background: transparent; border: 2px dashed #CBD5E1; color: #64748B;
+            padding: 1rem; border-radius: var(--radius-md); font-weight: 700; cursor: pointer;
+            transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 0.5rem; font-size: 0.95rem;
+        }
+        .btn-add-dashed:active { background: #F8FAFC; border-color: #94A3B8; transform: scale(0.98); }
 
         .setup-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
 
-        /* FIXED BOTTOM ACTION BAR */
         .fixed-action-bar {
             position: fixed; bottom: 0; left: 0; width: 100%;
             background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -145,13 +147,12 @@
             padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
             z-index: 1000; box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
         }
-        .fixed-action-bar .btn-secondary { width: 45px; height: 45px; padding: 0; flex-shrink: 0; border-radius: 50%; } /* Circle prev/next btns */
+        .fixed-action-bar .btn-secondary { width: 45px; height: 45px; padding: 0; flex-shrink: 0; border-radius: 50%; } 
         .fixed-action-bar .btn-generate { flex: 1; height: 45px; }
 
-        /* Modals */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
             z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem;
             opacity: 0; pointer-events: none; transition: 0.3s;
         }
@@ -161,14 +162,25 @@
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
         .close-modal { background: #F2F2F7; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; color: var(--text-main); font-weight: bold; }
 
+        /* Full Screen Processing Overlay */
+        #pdf-processing-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            z-index: 100000; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: 0.3s; text-align: center; padding: 2rem;
+        }
+        #pdf-processing-overlay.active { opacity: 1; pointer-events: all; }
+        .spinner { border: 4px solid #E5E5EA; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-bottom: 1.5rem; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         .hidden { display: none !important; }
 
         /* --- PREVIEW AND PRINT STYLES --- */
-        #preview-wrapper { background: white; padding: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); overflow-x: auto; margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.05); }
+        #preview-wrapper { background: white; padding: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-app); overflow-x: auto; margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.05); }
         #pdf-preview-content { min-width: 1000px; background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; }
         
         #temp-pdf-export { 
-            position: absolute; top: 0; left: 0; z-index: -100; opacity: 0; pointer-events: none; 
+            position: absolute; top: 0; left: 0; z-index: 99990; opacity: 0; pointer-events: none; 
             width: 1122px; background: white; color: black; font-family: 'Plus Jakarta Sans', 'Noto Sans Oriya', sans-serif; 
         }
         
@@ -181,10 +193,10 @@
         .pdf-table { width: 100%; border-collapse: collapse; font-size: 9.5px; table-layout: fixed; color: #000; margin-bottom: 10px; }
         .pdf-table thead { display: table-header-group; } 
         .pdf-table tbody tr { page-break-inside: avoid !important; break-inside: avoid !important; } 
-        .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 5px; vertical-align: top; line-height: 1.3; word-wrap: break-word; word-break: normal; overflow-wrap: break-word; }
+        .pdf-table th, .pdf-table td { border: 1px solid #000; padding: 5px; vertical-align: middle; line-height: 1.3; word-wrap: break-word; word-break: normal; overflow-wrap: break-word; }
         .pdf-table th { background-color: #f8fafc !important; font-weight: bold; text-align: left; }
         th.print-header-cell { background-color: white !important; border: none !important; padding: 0 0 10px 0 !important; }
-        .col-period { text-align: center; font-weight: bold; }
+        .col-period { text-align: center; font-weight: bold; font-size: 14px;}
         .pdf-text b { font-size: 9px; }
 
         .html2pdf__page-break { height: 0; width: 100%; page-break-before: always; border: none; margin: 0; padding: 0; }
@@ -193,18 +205,14 @@
         @media screen and (max-width: 768px) {
             .container { padding: 1.5rem 1rem; }
             .card { padding: 1.25rem; }
-            #profile-header-card { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
-            #profile-header-card button { width: 100%; }
-            .setup-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-            .lesson-row { grid-template-columns: 1fr 1fr; gap: 0.75rem; position: relative; padding: 2.5rem 0.75rem 0.75rem 0.75rem; }
-            .lesson-row > div:last-child { position: absolute; top: 0.5rem; right: 0.5rem; }
-            .remove-btn { padding: 0.4rem 0.6rem; font-size: 0.8rem; }
+            .assignment-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+            .assignment-card { padding: 1rem; }
             .print-cta-card { flex-direction: column; text-align: center; gap: 1rem; }
             .print-cta-card button { width: 100%; }
         }
 
         @media print {
-            .no-print, .container:not(#preview-area), .modal-overlay, #temp-pdf-export, .fixed-action-bar { display: none !important; }
+            .no-print, .container:not(#preview-area), .modal-overlay, #temp-pdf-export, .fixed-action-bar, #pdf-processing-overlay { display: none !important; }
             #preview-wrapper { padding: 0; box-shadow: none; border: none; margin: 0; overflow: visible; }
             #pdf-preview-content { min-width: 100%; width: 100% !important; display: block !important; }
             @page { size: A4 landscape; margin: 6mm; }
@@ -214,21 +222,20 @@
 </head>
 <body>
 
-    <!-- UI HEADER -->
     <header class="no-print">
-        <button class="icon-btn" aria-label="Back" onclick="window.history.back();">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-        </button>
-        <h1 class="app-title">Daily Planner</h1>
+        <div class="header-content">
+            <button class="back-btn" aria-label="Back" onclick="window.history.back();">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
+            <h1 class="app-title">Daily Planner</h1>
+        </div>
     </header>
 
-    <!-- MAIN APP CONTAINER -->
     <div class="container no-print" id="main-container">
 
-        <!-- Setup Card (First Time Only) -->
         <div id="setup-card" class="card">
             <h2 style="margin-bottom: 1.25rem; font-weight: 800; color: var(--primary);">Setup Profile</h2>
             <div class="setup-grid">
@@ -239,9 +246,7 @@
             <button class="btn" style="width: 100%; margin-top: 0.5rem;" onclick="initializeWorkspace()">Continue to Workspace</button>
         </div>
 
-        <!-- Builder Area -->
         <div id="builder-area" class="hidden">
-            <!-- Workspace Header (Profile + Date) -->
             <div class="workspace-header">
                 <div class="profile-row">
                     <div>
@@ -256,11 +261,9 @@
                 </div>
             </div>
 
-            <!-- Tabbed Period Navigation -->
             <div class="tabs-container" id="periodTabs"></div>
 
-            <!-- Forms Container -->
-            <div class="card" style="padding: 1.25rem;">
+            <div class="card" style="padding: 1.25rem; background: #F4F6F9;">
                 <div id="periods-container"></div>
             </div>
         </div>
@@ -278,7 +281,6 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;" class="no-print">
             <h2 style="font-size: 1.4rem; font-weight: 800;">📄 Print Preview</h2>
         </div>
-
         <div id="preview-wrapper">
             <div id="pdf-preview-content"></div>
         </div>
@@ -291,7 +293,13 @@
         <button id="btnShare" class="btn" onclick="sharePlanViaApp()" style="flex: 1;">📤 Share</button>
     </div>
 
-    <!-- HIDDEN EXPORT CONTAINER -->
+    <!-- PROCESSING OVERLAY (Fixes Mobile Crash) -->
+    <div id="pdf-processing-overlay" class="no-print">
+        <div class="spinner"></div>
+        <h2 style="color: var(--text-main); font-weight: 800; font-size: 1.2rem; margin-bottom: 0.5rem;">Generating High-Quality PDF</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Please do not close or minimize the app...</p>
+    </div>
+
     <div id="temp-pdf-export"></div>
 
     <!-- PROFILE MODAL -->
@@ -317,7 +325,6 @@
         let currentPeriodIndex = 1;
         let totalPeriods = 1;
 
-        // --- ASYNC DATABASE LOADING ---
         document.addEventListener("DOMContentLoaded", () => {
             fetch('master_lesson_database.json')
                 .then(response => response.json())
@@ -325,23 +332,19 @@
                     db = data;
                     classList = Object.keys(db).sort();
                     isDbLoaded = true;
-                    // Hydrate dropdowns if workspace is active
                     if (!document.getElementById('builder-area').classList.contains('hidden')) {
                         hydrateAllDropdowns();
                     }
                 })
-                .catch(err => {
-                    console.error("DB Load Error", err);
-                });
+                .catch(err => console.error("DB Load Error", err));
 
-            // Init State
             if (!loadPlanFromStorage()) {
                 document.getElementById('planDate').valueAsDate = new Date();
-                document.getElementById('setup-card').classList.remove('hidden');
+            } else {
+                document.getElementById('setup-card').classList.add('hidden');
             }
         });
 
-        // --- CORE STATE MANAGEMENT ---
         function initializeWorkspace() {
             const sName = document.getElementById('schoolName').value;
             const tName = document.getElementById('teacherName').value;
@@ -350,6 +353,7 @@
             if(!sName || !tName) return alert("Please enter your Name and School.");
 
             totalPeriods = nPeriods;
+            document.getElementById('planDate').valueAsDate = new Date();
             
             document.getElementById('setup-card').classList.add('hidden');
             document.getElementById('builder-area').classList.remove('hidden');
@@ -364,7 +368,7 @@
             let validPeriods = [];
             document.querySelectorAll('.period-pane').forEach(pane => {
                 let rowDataList = [];
-                pane.querySelectorAll('.lesson-row').forEach(row => {
+                pane.querySelectorAll('.assignment-card').forEach(row => {
                     rowDataList.push({
                         cls: row.querySelector('.sel-class').value,
                         subj: row.querySelector('.sel-subj').value,
@@ -392,24 +396,17 @@
                 
                 document.getElementById('schoolName').value = data.schoolName || "";
                 document.getElementById('teacherName').value = data.teacherName || "";
-                
-                if (data.planDate) {
-                    document.getElementById('planDate').value = data.planDate;
-                } else {
-                    document.getElementById('planDate').valueAsDate = new Date();
-                }
+                if (data.planDate) document.getElementById('planDate').value = data.planDate;
                 
                 totalPeriods = parseInt(data.numPeriods) || 7;
                 document.getElementById('numPeriods').value = totalPeriods;
 
                 updateUIHeader(); 
 
-                document.getElementById('setup-card').classList.add('hidden');
                 document.getElementById('builder-area').classList.remove('hidden');
                 document.getElementById('builder-footer').classList.remove('hidden');
 
                 buildTabsAndForms(data.periods);
-                
                 return true;
             } catch(e) { return false; }
         }
@@ -419,7 +416,7 @@
             document.getElementById('display-teacher').innerText = document.getElementById('teacherName').value || "No Name";
         }
 
-        // --- MULTI-GRADE UI LOGIC ---
+        // --- MULTI-GRADE UI LOGIC (INDUSTRY STANDARD) ---
         function buildTabsAndForms(savedPeriodsData = null) {
             const tabsContainer = document.getElementById('periodTabs');
             const formsContainer = document.getElementById('periods-container');
@@ -427,7 +424,6 @@
             formsContainer.innerHTML = '';
 
             for (let i = 1; i <= totalPeriods; i++) {
-                // Build Tab
                 const tab = document.createElement('button');
                 tab.className = `tab-btn ${i === 1 ? 'active' : ''}`;
                 tab.id = `tab-${i}`;
@@ -435,27 +431,23 @@
                 tab.onclick = () => switchPeriod(i);
                 tabsContainer.appendChild(tab);
 
-                // Build Form Pane
                 const pane = document.createElement('div');
                 pane.className = `period-pane ${i === 1 ? 'active' : ''}`;
                 pane.id = `pane-${i}`;
                 
                 pane.innerHTML = `
-                    <div class="period-title">
-                        <div>Period ${i} Configuration</div>
-                        <button class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Class</button>
-                    </div>
+                    <div class="period-title">Period ${i} Configurations</div>
                     <div id="rows-container-${i}"></div>
+                    <button class="btn-add-dashed" onclick="addLessonRow(${i}); savePlanToStorage();">+ Add Another Class to Period ${i}</button>
                 `;
                 formsContainer.appendChild(pane);
 
-                // Restore Data if available, allowing MULTIPLE rows per period
                 if (savedPeriodsData && savedPeriodsData[i-1] && savedPeriodsData[i-1].length > 0) {
-                    savedPeriodsData[i-1].forEach(rowData => {
-                        addLessonRow(i, rowData);
+                    savedPeriodsData[i-1].forEach((rowData, index) => {
+                        addLessonRow(i, rowData, index + 1);
                     });
                 } else {
-                    addLessonRow(i); // Create at least one empty row
+                    addLessonRow(i, null, 1);
                 }
             }
 
@@ -464,22 +456,30 @@
             if(isDbLoaded) hydrateAllDropdowns();
         }
 
-        function addLessonRow(periodNum, presetData = null) {
+        function addLessonRow(periodNum, presetData = null, cardIndex = null) {
             const container = document.getElementById(`rows-container-${periodNum}`);
+            const currentCards = container.querySelectorAll('.assignment-card').length;
+            const displayIndex = cardIndex || (currentCards + 1);
+            
             const rowId = `row-${periodNum}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
             const row = document.createElement('div');
-            row.className = 'lesson-row';
+            row.className = 'assignment-card';
             row.id = rowId;
+            
             row.innerHTML = `
-                <div><label>Class</label><select class="sel-class" onchange="updateSubjects('${rowId}'); savePlanToStorage();"><option value="">Class...</option></select></div>
-                <div><label>Subject</label><select class="sel-subj" onchange="updateChapters('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
-                <div><label>Chapter</label><select class="sel-chap" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
-                <div><label>Lesson</label><select class="sel-less" onchange="savePlanToStorage();" disabled><option>...</option></select></div>
-                <div><button class="remove-btn" onclick="document.getElementById('${rowId}').remove(); savePlanToStorage();">✕</button></div>
+                <div class="assignment-header">
+                    <span class="assignment-badge">Class Assignment ${displayIndex}</span>
+                    <button class="remove-btn" onclick="removeLessonRow(this); savePlanToStorage();" title="Remove">✕</button>
+                </div>
+                <div class="assignment-grid">
+                    <div><label>Class</label><select class="sel-class" onchange="updateSubjects('${rowId}'); savePlanToStorage();"><option value="">Select...</option></select></div>
+                    <div><label>Subject</label><select class="sel-subj" onchange="updateChapters('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
+                    <div><label>Chapter</label><select class="sel-chap" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled><option>...</option></select></div>
+                    <div><label>Lesson</label><select class="sel-less" onchange="savePlanToStorage();" disabled><option>...</option></select></div>
+                </div>
             `;
             container.appendChild(row);
 
-            // If we have preset data AND the db is already loaded, populate it
             if (presetData && isDbLoaded) {
                 setTimeout(() => {
                     row.querySelector('.sel-class').value = presetData.cls; updateSubjects(rowId);
@@ -487,34 +487,34 @@
                         row.querySelector('.sel-subj').value = presetData.subj; updateChapters(rowId);
                         if (presetData.chap) {
                             row.querySelector('.sel-chap').value = presetData.chap; updateLessons(rowId);
-                            if (presetData.lessKey) {
-                                row.querySelector('.sel-less').value = presetData.lessKey;
-                            }
+                            if (presetData.lessKey) row.querySelector('.sel-less').value = presetData.lessKey;
                         }
                     }
                 }, 50);
             } else if (presetData) {
-                // Temporary store dataset if DB hasn't loaded yet
-                row.dataset.presetCls = presetData.cls;
-                row.dataset.presetSubj = presetData.subj;
-                row.dataset.presetChap = presetData.chap;
-                row.dataset.presetLess = presetData.lessKey;
+                row.dataset.presetCls = presetData.cls; row.dataset.presetSubj = presetData.subj; row.dataset.presetChap = presetData.chap; row.dataset.presetLess = presetData.lessKey;
             } else if (isDbLoaded) {
-                // Populate class list for new empty row
-                const classOptions = `<option value="">Class...</option>` + classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('');
-                row.querySelector('.sel-class').innerHTML = classOptions;
+                row.querySelector('.sel-class').innerHTML = `<option value="">Select...</option>` + classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('');
             }
+        }
+
+        function removeLessonRow(btnElement) {
+            const card = btnElement.closest('.assignment-card');
+            const container = card.parentElement;
+            card.remove();
+            
+            // Renumber remaining badges
+            container.querySelectorAll('.assignment-badge').forEach((badge, idx) => {
+                badge.innerText = `Class Assignment ${idx + 1}`;
+            });
         }
 
         function switchPeriod(index) {
             document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.period-pane').forEach(p => p.classList.remove('active'));
-            
             document.getElementById(`tab-${index}`).classList.add('active');
             document.getElementById(`pane-${index}`).classList.add('active');
-            
             document.getElementById(`tab-${index}`).scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            
             currentPeriodIndex = index;
             updateFooterButtons();
         }
@@ -527,29 +527,21 @@
             document.getElementById('btnNext').style.visibility = currentPeriodIndex === totalPeriods ? 'hidden' : 'visible';
         }
 
-        // --- DROPDOWN LOGIC ---
         function hydrateAllDropdowns() {
-            const classOptions = `<option value="">Class...</option>` + classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('');
-            
-            document.querySelectorAll('.lesson-row').forEach(row => {
+            const classOptions = `<option value="">Select...</option>` + classList.map(c => `<option value="${c}">${c.replace('_', ' ')}</option>`).join('');
+            document.querySelectorAll('.assignment-card').forEach(row => {
                 const clsSel = row.querySelector('.sel-class');
                 clsSel.innerHTML = classOptions;
 
                 if (row.dataset.presetCls) {
-                    clsSel.value = row.dataset.presetCls;
-                    updateSubjects(row.id);
+                    clsSel.value = row.dataset.presetCls; updateSubjects(row.id);
                     if (row.dataset.presetSubj) {
-                        row.querySelector('.sel-subj').value = row.dataset.presetSubj;
-                        updateChapters(row.id);
+                        row.querySelector('.sel-subj').value = row.dataset.presetSubj; updateChapters(row.id);
                         if (row.dataset.presetChap) {
-                            row.querySelector('.sel-chap').value = row.dataset.presetChap;
-                            updateLessons(row.id);
-                            if (row.dataset.presetLess) {
-                                row.querySelector('.sel-less').value = row.dataset.presetLess;
-                            }
+                            row.querySelector('.sel-chap').value = row.dataset.presetChap; updateLessons(row.id);
+                            if (row.dataset.presetLess) row.querySelector('.sel-less').value = row.dataset.presetLess;
                         }
                     }
-                    // Clean up dataset
                     delete row.dataset.presetCls; delete row.dataset.presetSubj; delete row.dataset.presetChap; delete row.dataset.presetLess;
                 }
             });
@@ -599,7 +591,6 @@
         }
         function resetSelect(selectElem) { selectElem.innerHTML = '<option>...</option>'; selectElem.disabled = true; }
 
-        // --- PROFILE MODAL ---
         function openProfileModal() {
             document.getElementById('modalSchoolName').value = document.getElementById('schoolName').value;
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
@@ -617,17 +608,15 @@
             if (!isNaN(newPeriods) && newPeriods >= 1 && newPeriods !== totalPeriods) {
                 totalPeriods = newPeriods;
                 document.getElementById('numPeriods').value = totalPeriods;
-                
-                // Retain previously filled rows while adjusting total panes
                 const saved = JSON.parse(localStorage.getItem('lessonGuruAutoSave')) || {};
                 buildTabsAndForms(saved.periods);
             }
             updateUIHeader(); savePlanToStorage(); closeProfileModal();
         }
 
-        // --- PDF GENERATION UTILS ---
+        // --- PDF GENERATION WITH ROWSPAN LOGIC ---
         function getTableColgroup() {
-            return `<colgroup><col style="width: 3%;"><col style="width: 7%;"><col style="width: 8%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 9%;"><col style="width: 17%;"><col style="width: 9%;"><col style="width: 9%;"><col style="width: 9%;"><col style="width: 9%;"></colgroup>`;
+            return `<colgroup><col style="width: 4%;"><col style="width: 7%;"><col style="width: 9%;"><col style="width: 9%;"><col style="width: 9%;"><col style="width: 10%;"><col style="width: 14%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 10%;"><col style="width: 8%;"></colgroup>`;
         }
 
         function formatCompAndLO(text) {
@@ -645,7 +634,6 @@
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
-        // Specifically extracts ONLY the teacher's task
         function formatPanchapadi(text) {
             if (!text || text === 'nan') return '';
             let teacherPart = String(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
@@ -663,51 +651,25 @@
             window.scrollTo(0, 0);
         }
 
-        function generatePlanPreview() {
-            const container = document.getElementById('pdf-preview-content');
-            container.innerHTML = '';
-            
-            let allRows = [];
-            
-            // Extract MULTI-GRADE rows accurately
-            for(let i=1; i<=totalPeriods; i++) {
-                const pane = document.getElementById(`pane-${i}`);
-                let isFirstInPeriod = true;
-                pane.querySelectorAll('.lesson-row').forEach(row => {
-                    const cls = row.querySelector('.sel-class').value;
-                    const subj = row.querySelector('.sel-subj').value;
-                    const chap = row.querySelector('.sel-chap').value;
-                    const lessKey = row.querySelector('.sel-less').value;
-                    
-                    if (cls && subj && chap && lessKey !== "") {
-                        allRows.push({ pNum: i, cls, subj, chap, lessKey, isFirstInPeriod });
-                        isFirstInPeriod = false; // Next row in same period will have blank period cell
-                    }
-                });
-            }
-
-            if (allRows.length === 0) return alert("Please fully configure at least one period before generating.");
-
-            const schoolName = document.getElementById('schoolName').value || "_______________________";
-            const teacherName = document.getElementById('teacherName').value || "_______________________";
-            const rawDate = document.getElementById('planDate').value;
-            let formattedDate = "____/____/20___";
-            if(rawDate) {
-                const parts = rawDate.split('-');
-                if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
-            }
-
+        // Packages the logic to build the smart Table Body HTML using Rowspan
+        function buildTableRowsHTML(periodsMap) {
             let tbodyHTML = '';
-            allRows.forEach(rData => {
-                const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
-                const p = plan.Panchapadi || {};
+            for (let pNum in periodsMap) {
+                const assignments = periodsMap[pNum];
+                const rowspan = assignments.length;
                 
-                // Leave Period # blank if it's a multi-grade row in the same period
-                let periodDisplay = rData.isFirstInPeriod ? rData.pNum : '';
+                assignments.forEach((rData, idx) => {
+                    const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
+                    const p = plan.Panchapadi || {};
 
-                tbodyHTML += `
-                    <tr>
-                        <td class="col-period">${periodDisplay}</td>
+                    tbodyHTML += `<tr>`;
+                    
+                    // Only render the period cell on the very first row of a multi-grade group
+                    if (idx === 0) {
+                        tbodyHTML += `<td class="col-period" rowspan="${rowspan}">${pNum}</td>`;
+                    }
+                    
+                    tbodyHTML += `
                         <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
                         <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
                         <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
@@ -718,9 +680,46 @@
                         <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
                         <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
                         <td class="col-tlm">${formatPrint(plan.TLM)}</td>
-                    </tr>
-                `;
-            });
+                    </tr>`;
+                });
+            }
+            return tbodyHTML;
+        }
+
+        function generatePlanPreview() {
+            const container = document.getElementById('pdf-preview-content');
+            container.innerHTML = '';
+            
+            let periodsMap = {};
+            let totalAssignments = 0;
+            
+            for(let i=1; i<=totalPeriods; i++) {
+                const pane = document.getElementById(`pane-${i}`);
+                let assignments = [];
+                pane.querySelectorAll('.assignment-card').forEach(row => {
+                    const cls = row.querySelector('.sel-class').value;
+                    const subj = row.querySelector('.sel-subj').value;
+                    const chap = row.querySelector('.sel-chap').value;
+                    const lessKey = row.querySelector('.sel-less').value;
+                    
+                    if (cls && subj && chap && lessKey !== "") {
+                        assignments.push({ cls, subj, chap, lessKey });
+                        totalAssignments++;
+                    }
+                });
+                if (assignments.length > 0) periodsMap[i] = assignments;
+            }
+
+            if (totalAssignments === 0) return alert("Please configure at least one class before generating.");
+
+            const schoolName = document.getElementById('schoolName').value || "_______________________";
+            const teacherName = document.getElementById('teacherName').value || "_______________________";
+            const rawDate = document.getElementById('planDate').value;
+            let formattedDate = "____/____/20___";
+            if(rawDate) {
+                const parts = rawDate.split('-');
+                if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
 
             container.innerHTML = `
                 <div class="pdf-header">
@@ -748,38 +747,39 @@
                             <th class="col-tlm">TLM</th>
                         </tr>
                     </thead>
-                    <tbody>${tbodyHTML}</tbody>
+                    <tbody>
+                        ${buildTableRowsHTML(periodsMap)}
+                    </tbody>
                 </table>
             `;
 
             document.getElementById('main-container').classList.add('hidden');
             document.getElementById('builder-footer').classList.add('hidden');
-            
             document.getElementById('preview-area').classList.remove('hidden');
             document.getElementById('preview-footer').classList.remove('hidden');
             window.scrollTo(0, 0);
         }
 
-        // --- FLAWLESS ODIA PDF SNAPSHOT ENGINE ---
+        // --- MOBILE CRASH-PROOF PDF SNAPSHOT ENGINE ---
         async function sharePlanViaApp() {
-            const btn = document.getElementById('btnShare');
-            const ogText = btn.innerHTML;
-            btn.innerHTML = '⏳ Processing...';
+            const overlay = document.getElementById('pdf-processing-overlay');
+            const container = document.getElementById('temp-pdf-export');
             
-            let allRows = [];
+            overlay.classList.add('active'); // Blocks user interaction while generating
+            container.innerHTML = '';
+            
+            let periodsMap = {};
             for(let i=1; i<=totalPeriods; i++) {
                 const pane = document.getElementById(`pane-${i}`);
-                let isFirstInPeriod = true;
-                pane.querySelectorAll('.lesson-row').forEach(row => {
+                let assignments = [];
+                pane.querySelectorAll('.assignment-card').forEach(row => {
                     const cls = row.querySelector('.sel-class').value;
                     const subj = row.querySelector('.sel-subj').value;
                     const chap = row.querySelector('.sel-chap').value;
                     const lessKey = row.querySelector('.sel-less').value;
-                    if (cls && subj && chap && lessKey !== "") {
-                        allRows.push({ pNum: i, cls, subj, chap, lessKey, isFirstInPeriod });
-                        isFirstInPeriod = false;
-                    }
+                    if (cls && subj && chap && lessKey !== "") assignments.push({ cls, subj, chap, lessKey });
                 });
+                if(assignments.length > 0) periodsMap[i] = assignments;
             }
 
             const schoolName = document.getElementById('schoolName').value || "_______________________";
@@ -791,49 +791,35 @@
                 if(parts.length === 3) formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
             }
 
-            const container = document.getElementById('temp-pdf-export');
-            container.innerHTML = '';
-            
-            const MAX_ROWS = 4; 
-            for (let i = 0; i < allRows.length; i += MAX_ROWS) {
-                const chunk = allRows.slice(i, i + MAX_ROWS);
-                let tbodyHTML = '';
-                
-                chunk.forEach(rData => {
-                    const plan = db[rData.cls][rData.subj][rData.chap][rData.lessKey];
-                    const p = plan.Panchapadi || {};
-                    let periodDisplay = rData.isFirstInPeriod ? rData.pNum : '';
+            // SMART CHUNKING: Pack into pages ensuring RowSpans never break
+            let pages = [];
+            let currentPageMap = {};
+            let currentRowCount = 0;
+            const MAX_ROWS_PER_PAGE = 5;
 
-                    tbodyHTML += `
-                        <tr>
-                            <td class="col-period">${periodDisplay}</td>
-                            <td class="col-class"><b>${rData.cls.replace('_', ' ')}</b><br>${rData.subj}</td>
-                            <td class="col-topic"><b>${rData.chap}</b><br><br>${plan.Topic || ''}</td>
-                            <td class="col-comp">${formatCompAndLO(plan.Competency)}</td>
-                            <td class="col-lo">${formatCompAndLO(plan.LearningOutcomes)}</td>
-                            <td class="col-aditi">${formatPanchapadi(p.Aditi)}</td>
-                            <td class="col-bodha">${formatPanchapadi(p.Bodha)}</td>
-                            <td class="col-abhyasa">${formatPanchapadi(p.Abhyasa)}</td>
-                            <td class="col-prayoga">${formatPanchapadi(p.Prayoga)}</td>
-                            <td class="col-prasara">${formatPanchapadi(p.Prasara)}</td>
-                            <td class="col-tlm">${formatPrint(plan.TLM)}</td>
-                        </tr>
-                    `;
-                });
-
-                let headerBlock = '';
-                if (i === 0) {
-                    headerBlock = `
-                        <div class="pdf-header">
-                            <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
-                            <div class="pdf-school">School: ${schoolName}</div>
-                            <div class="pdf-meta">
-                                <span>Teacher Name: ${teacherName}</span>
-                                <span>Date: ${formattedDate}</span>
-                            </div>
-                        </div>
-                    `;
+            for (let pNum in periodsMap) {
+                const pLength = periodsMap[pNum].length;
+                if (currentRowCount + pLength > MAX_ROWS_PER_PAGE && currentRowCount > 0) {
+                    pages.push(currentPageMap);
+                    currentPageMap = {};
+                    currentRowCount = 0;
                 }
+                currentPageMap[pNum] = periodsMap[pNum];
+                currentRowCount += pLength;
+            }
+            if (Object.keys(currentPageMap).length > 0) pages.push(currentPageMap);
+
+            // Generate HTML for each chunked page
+            pages.forEach((pageMap, i) => {
+                let headerBlock = i === 0 ? `
+                    <div class="pdf-header">
+                        <h2>Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</h2>
+                        <div class="pdf-school">School: ${schoolName}</div>
+                        <div class="pdf-meta">
+                            <span>Teacher Name: ${teacherName}</span>
+                            <span>Date: ${formattedDate}</span>
+                        </div>
+                    </div>` : '';
 
                 container.innerHTML += `
                     <div class="pdf-page" id="export-page-${i}">
@@ -855,24 +841,28 @@
                                     <th class="col-tlm">TLM</th>
                                 </tr>
                             </thead>
-                            <tbody>${tbodyHTML}</tbody>
+                            <tbody>${buildTableRowsHTML(pageMap)}</tbody>
                         </table>
                     </div>
                 `;
-            }
+            });
 
+            // Make physically visible but blocked by overlay to fix Chrome Mobile crash
             container.style.opacity = '1';
+            container.style.zIndex = '99990';
 
-            await new Promise(resolve => setTimeout(resolve, 500));
+            await new Promise(resolve => setTimeout(resolve, 800)); // Wait for fonts and DOM rendering
 
             try {
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('l', 'mm', 'a4');
-                const pages = container.querySelectorAll('.pdf-page');
+                const pageElements = container.querySelectorAll('.pdf-page');
 
-                for (let i = 0; i < pages.length; i++) {
-                    const dataUrl = await htmlToImage.toPng(pages[i], {
-                        pixelRatio: 2.0, 
+                for (let i = 0; i < pageElements.length; i++) {
+                    // Use lightweight JPEG and 1.5x ratio to prevent mobile out-of-memory errors
+                    const dataUrl = await htmlToImage.toJpeg(pageElements[i], {
+                        pixelRatio: 1.5, 
+                        quality: 0.95,
                         backgroundColor: '#ffffff',
                         width: 1122
                     });
@@ -881,7 +871,7 @@
                     const imgProps = pdf.getImageProperties(dataUrl);
                     const pdfWidth = pdf.internal.pageSize.getWidth();
                     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-                    pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                    pdf.addImage(dataUrl, 'JPEG', 0, 0, pdfWidth, pdfHeight);
                 }
 
                 const pdfBlob = pdf.output('blob');
@@ -904,11 +894,12 @@
                 }
             } catch (err) {
                 console.error(err);
-                alert("Error generating PDF. Please use the Print option instead.");
+                alert("Error generating PDF. Please use the direct Print option instead.");
             } finally {
                 container.style.opacity = '0'; 
+                container.style.zIndex = '-100';
                 container.innerHTML = '';
-                btn.innerHTML = ogText;
+                overlay.classList.remove('active');
             }
         }
     </script>
