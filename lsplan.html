@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* === App Variables & Reset (Synced with index.html) === */
+        /* === App Variables & Reset === */
         :root {
             --app-bg: #F4F6F9;
             --card-bg: #FFFFFF;
@@ -56,6 +56,14 @@
             background: var(--card-bg); padding: 40px 24px; border-radius: var(--radius-xl);
             text-align: center; margin-top: 24px; box-shadow: var(--shadow-soft);
         }
+        
+        /* New Transparent Overlay for Chunk Loading */
+        #chunk-loader {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(244, 246, 249, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        
         .spinner {
             border: 4px solid #f3f4f6; border-top: 4px solid var(--primary); border-radius: 50%;
             width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-bottom: 16px;
@@ -140,11 +148,11 @@
     </header>
 
     <div class="container">
-        <!-- Loading / Status Screen -->
+        <!-- Initial Index Loading Screen -->
         <div id="status-section">
             <div id="loading-spinner" class="spinner"></div>
             <h2 id="status-title" style="margin-bottom: 8px; font-size: 20px; font-weight: 800; color: var(--text-main);">Connecting...</h2>
-            <p id="status-msg" style="color: var(--text-muted); font-size: 14px;">Fetching syllabus database securely.</p>
+            <p id="status-msg" style="color: var(--text-muted); font-size: 14px;">Loading portal securely.</p>
         </div>
 
         <!-- Dynamic List Content -->
@@ -153,42 +161,38 @@
         <!-- Detailed Lesson Plan Viewer -->
         <div id="lesson-plan-viewer" class="lesson-plan hidden"></div>
     </div>
+    
+    <!-- Chunk Loading Overlay -->
+    <div id="chunk-loader" class="hidden">
+        <div class="spinner"></div>
+        <h3 style="color: var(--text-main); font-weight: 800; margin-bottom: 4px;">Downloading Class Data</h3>
+        <p style="color: var(--text-muted); font-size: 13px;">Fast caching in progress...</p>
+    </div>
 
     <script>
-        let db = {};
+        let dbIndex = {};        // Stores only the lightweight index
+        let loadedClasses = {};  // Caches heavy chunk data once downloaded
         let currentPath = [];
         let isViewingLesson = false;
 
-        // SVG icon for list items
         const chevronRight = `<div class="chevron"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></div>`;
 
         // --- SMART FORMATTERS ---
-
-        // Formats General Text (CG, LO, Comp) - removes weird [Codes:] brackets
         function formatStandard(text) {
             if (!text || String(text).trim() === '' || text === 'nan') return '<span class="missing-data">Data not available</span>';
             let cleaned = String(text);
             const codeMatch = cleaned.match(/\[\s*Codes?:/i);
             if (codeMatch) cleaned = cleaned.substring(0, codeMatch.index);
-            
             return cleaned.replace(/\|/g, '<br><br>').replace(/✓/g, '').trim() || '<span class="missing-data">Data not available</span>';
         }
 
-        // Specifically Isolates ONLY the Teacher's Action in Panchapadi
         function formatPanchapadi(text) {
             if (!text || String(text).trim() === '' || text === 'nan') return '<span class="missing-data">Data not available</span>';
             let cleaned = String(text);
-            
-            // 1. Delete the entire Student Reaction section
             cleaned = cleaned.split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
-            
-            // 2. Delete the Teacher Action Label/Header
             cleaned = cleaned.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
-            
-            // 3. Format line breaks neatly
             cleaned = cleaned.replace(/\|/g, '<br><br>').trim();
             if (cleaned.endsWith('<br><br>')) cleaned = cleaned.substring(0, cleaned.length - 8).trim();
-            
             return cleaned || '<span class="missing-data">Data not available</span>';
         }
 
@@ -196,15 +200,16 @@
             return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
         }
 
-        // --- DATABASE FETCH ---
+        // --- LAZY LOAD FETCH ENGINE ---
         document.addEventListener("DOMContentLoaded", () => {
-            fetch('master_lesson_database.json')
+            // Fetch ONLY the tiny index file immediately
+            fetch('db_chunks/index.json')
                 .then(response => {
-                    if (!response.ok) throw new Error('File not found');
+                    if (!response.ok) throw new Error('Index not found');
                     return response.json();
                 })
                 .then(data => {
-                    db = data;
+                    dbIndex = data;
                     document.getElementById('status-section').classList.add('hidden');
                     renderClasses();
                 })
@@ -213,15 +218,38 @@
                     document.getElementById('loading-spinner').classList.add('hidden');
                     document.getElementById('status-title').innerText = "Connection Failed";
                     document.getElementById('status-title').style.color = "#FF3B30";
-                    document.getElementById('status-msg').innerHTML = "Could not load database. Please try again.";
+                    document.getElementById('status-msg').innerHTML = "Could not load the database index. Please check your db_chunks folder.";
                 });
         });
+        
+        // This function triggers when a Class is clicked
+        function lazyLoadClass(className) {
+            // If we already downloaded this class, load it instantly from memory
+            if (loadedClasses[className]) {
+                renderSubjects(className);
+                return;
+            }
+            
+            // Show the loading overlay while downloading the 2MB chunk
+            document.getElementById('chunk-loader').classList.remove('hidden');
+            
+            fetch(dbIndex[className].file)
+                .then(response => response.json())
+                .then(data => {
+                    loadedClasses[className] = data; // Cache it
+                    document.getElementById('chunk-loader').classList.add('hidden');
+                    renderSubjects(className);
+                })
+                .catch(err => {
+                    alert("Failed to download class data. Please check your internet connection.");
+                    document.getElementById('chunk-loader').classList.add('hidden');
+                });
+        }
 
         // --- NAVIGATION ENGINE ---
         function updateHeader(title) {
             document.getElementById('headerTitle').innerText = title;
             const backBtn = document.getElementById('backBtn');
-            
             if (currentPath.length > 0 || isViewingLesson) {
                 backBtn.classList.remove('hidden');
             } else {
@@ -256,16 +284,18 @@
             clearView();
             const container = document.getElementById('app-content');
             
-            Object.keys(db).sort().forEach(className => {
-                const subjectCount = Object.keys(db[className] || {}).length;
+            Object.keys(dbIndex).sort().forEach(className => {
+                const info = dbIndex[className];
                 const cleanName = className.replace('_', ' ');
+                
+                // Clicking a class triggers the Lazy Loader
                 container.innerHTML += `
-                    <div class="tile" onclick="renderSubjects('${escapeForHTML(className)}')">
+                    <div class="tile" onclick="lazyLoadClass('${escapeForHTML(className)}')">
                         <div class="tile-left">
                             <div class="icon-box grad-purple">🏫</div>
                             <div class="tile-info">
                                 <div class="tile-title">${cleanName}</div>
-                                <div class="tile-subtitle">${subjectCount} Subjects Available</div>
+                                <div class="tile-subtitle">${info.subjectCount} Subjects Available</div>
                             </div>
                         </div>
                         ${chevronRight}
@@ -279,8 +309,11 @@
             clearView();
             const container = document.getElementById('app-content');
             
-            Object.keys(db[className] || {}).forEach(subjectName => {
-                const chapterCount = Object.keys(db[className][subjectName] || {}).length;
+            // We now pull from loadedClasses memory cache instead of global db
+            const subjects = loadedClasses[className];
+            
+            Object.keys(subjects).forEach(subjectName => {
+                const chapterCount = Object.keys(subjects[subjectName] || {}).length;
                 container.innerHTML += `
                     <div class="tile" onclick="renderChapters('${escapeForHTML(className)}', '${escapeForHTML(subjectName)}')">
                         <div class="tile-left">
@@ -301,8 +334,10 @@
             clearView();
             const container = document.getElementById('app-content');
             
-            Object.keys(db[className][subjectName] || {}).forEach(chapterName => {
-                const periodCount = Object.keys(db[className][subjectName][chapterName] || {}).length;
+            const chapters = loadedClasses[className][subjectName] || {};
+            
+            Object.keys(chapters).forEach(chapterName => {
+                const periodCount = Object.keys(chapters[chapterName] || {}).length;
                 container.innerHTML += `
                     <div class="tile" onclick="renderPeriods('${escapeForHTML(className)}', '${escapeForHTML(subjectName)}', '${escapeForHTML(chapterName)}')">
                         <div class="tile-left">
@@ -323,7 +358,7 @@
             clearView();
             const container = document.getElementById('app-content');
             
-            const periodData = db[className][subjectName][chapterName] || {};
+            const periodData = loadedClasses[className][subjectName][chapterName] || {};
             const periods = Array.isArray(periodData) ? periodData : Object.keys(periodData);
             
             periods.forEach((periodItem, index) => {
@@ -331,7 +366,6 @@
                 const periodName = isArray ? periodItem.Period : periodItem;
                 const indexKey = isArray ? index : periodName;
                 
-                // Smart Topic Extraction for the Subtitle
                 const plan = isArray ? periodItem : periodData[periodName];
                 const topicDesc = (plan.Topic && plan.Topic !== 'nan') ? plan.Topic : chapterName;
 
@@ -351,9 +385,9 @@
 
         function renderLessonPlan(className, subjectName, chapterName, periodKey) {
             try {
-                const isArray = Array.isArray(db[className][subjectName][chapterName]);
+                const isArray = Array.isArray(loadedClasses[className][subjectName][chapterName]);
                 const actualKey = isArray ? parseInt(periodKey) : periodKey;
-                const plan = db[className][subjectName][chapterName][actualKey];
+                const plan = loadedClasses[className][subjectName][chapterName][actualKey];
                 
                 if (!plan) throw new Error("Plan data is empty.");
                 const p = plan.Panchapadi || {};
