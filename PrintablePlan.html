@@ -212,7 +212,7 @@
         .btn-remove:active { transform: scale(0.88); }
 
         /* =========================================================
-           FIXED ACTION BAR (bottom)
+           FIXED ACTION BAR
         ========================================================= */
         .action-bar {
             position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.92);
@@ -256,20 +256,29 @@
         .pdf-overlay__sub { font-size: 0.85rem; color: var(--clr-text-muted); }
 
         /* =========================================================
-           PREVIEW AREA & PDF EXPORT STYLES
+           PREVIEW AREA & PDF EXPORT STYLES (Single Page Layout)
         ========================================================= */
         .preview-wrapper {
             background: white; border-radius: var(--r-lg); border: 1px solid var(--clr-border);
             box-shadow: var(--sh-card); overflow-x: auto; margin-bottom: 16px;
         }
-        #pdf-preview-content { min-width: 960px; background: white; color: black; font-family: 'Inter', 'Noto Sans Oriya', sans-serif; }
         
-        #temp-pdf-export {
-            position: absolute; top: 0; left: 0; z-index: -100; opacity: 0; pointer-events: none;
-            width: 1123px; background: white; color: black; font-family: 'Inter', 'Noto Sans Oriya', sans-serif;
+        #pdf-preview-content { 
+            width: 1123px; /* Exact Pixel ratio for A4 landscape to ensure perfect snapshot */
+            background: white; 
+            color: black; 
+            font-family: 'Inter', 'Noto Sans Oriya', sans-serif; 
+            padding: 24px;
+            box-sizing: border-box;
         }
 
-        .pdf-page { width: 1123px; padding: 22px 24px; background: white; box-sizing: border-box; }
+        /* Focus outline when editing the preview */
+        [contenteditable="true"]:focus {
+            outline: 2px dashed rgba(29, 78, 216, 0.4);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
         .pdf-header { text-align: center; margin-bottom: 14px; border-bottom: 2px solid #0F172A; padding-bottom: 8px; }
         .pdf-header__title { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #0F172A; margin-bottom: 4px; }
         .pdf-header__school { font-size: 12px; font-weight: 700; color: #1E3A8A; margin-bottom: 6px; }
@@ -277,7 +286,11 @@
 
         .pdf-table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; color: #0F172A; }
         .pdf-table thead { display: table-header-group; }
-        .pdf-table tbody tr { page-break-inside: avoid; break-inside: avoid; }
+        
+        /* THE FIX: Allow natural splitting of rows when printing so there is no white space */
+        .pdf-table tbody tr { page-break-inside: auto; break-inside: auto; }
+        .pdf-table td, .pdf-table th { page-break-inside: auto; break-inside: auto; }
+
         .pdf-table th, .pdf-table td { border: 1px solid #334155; padding: 5px 6px; vertical-align: top; line-height: 1.35; word-wrap: break-word; overflow-wrap: break-word; }
         .pdf-table th { background: #EFF6FF !important; font-weight: 700; font-size: 8.5px; text-align: center; color: #1E3A8A; vertical-align: middle; }
         .pdf-table td.col-period { text-align: center; font-weight: 800; font-size: 13px; color: #1D4ED8; vertical-align: middle; background: #F0F9FF; }
@@ -295,9 +308,9 @@
         #toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         @media print {
-            .no-print, #main-container, .action-bar, .modal-backdrop, .chunk-overlay, #temp-pdf-export { display: none !important; }
-            .preview-wrapper { padding: 0; box-shadow: none; border: none; overflow: visible; }
-            #pdf-preview-content { min-width: 100% !important; width: 100% !important; }
+            .no-print, #main-container, .action-bar, .modal-backdrop, .chunk-overlay { display: none !important; }
+            .preview-wrapper { padding: 0; box-shadow: none; border: none; overflow: visible !important; width: 100% !important; }
+            #pdf-preview-content { min-width: 100% !important; width: 100% !important; padding: 0 !important; }
             body { background: white; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             @page { size: A4 landscape; margin: 6mm; }
         }
@@ -383,10 +396,11 @@
     <div class="container hidden" id="preview-area">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;" class="no-print">
             <h2 style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em;">
-                <span>📄</span> Print Preview
+                <span>📄</span> Print Preview <span style="font-size: 0.8rem; color: var(--clr-brand); margin-left: 8px; font-weight: 600;">(Tap text to edit)</span>
             </h2>
         </div>
         <div class="preview-wrapper">
+            <!-- This div is fully captured. We inject contenteditable inside its children -->
             <div id="pdf-preview-content" role="document"></div>
         </div>
     </div>
@@ -443,8 +457,6 @@
         <div class="pdf-overlay__sub">Please keep the app open and visible</div>
     </div>
 
-    <!-- Hidden PDF staging area -->
-    <div id="temp-pdf-export"></div>
     <div id="toast" role="alert"></div>
 
     <script>
@@ -483,7 +495,6 @@
             });
         });
 
-        // 🟢 THE FIX: Ultra-Resilient Unwrap Logic
         async function loadClassChunk(className) {
             if (db[className]) return; 
             const loader = document.getElementById('chunk-overlay');
@@ -496,15 +507,12 @@
                 
                 const data = await res.json();
                 
-                // Smart check to find the wrapper, regardless of underscores or spaces
                 const possibleKeys = [className, className.replace(/_/g, ' '), className.replace(/ /g, '_')];
                 let foundKey = possibleKeys.find(k => data[k] !== undefined);
 
                 if (foundKey) {
-                    // JSON has the Class wrapper (e.g. {"Class 1": {"Math": ...}})
                     db[className] = data[foundKey];
                 } else {
-                    // JSON has no wrapper, it directly lists the subjects (e.g. {"Math": ...})
                     db[className] = data;
                 }
             } catch (err) {
@@ -873,7 +881,6 @@
                     html += `<tr>`;
                     if (idx === 0) html += `<td class="col-period" rowspan="${rowspan}">${esc(String(pNum))}</td>`;
                     
-                    // 🟢 THE FIX: The PDF explicitly separates Chapter, Period Name, and Topic
                     html += `
                         <td><b>${esc(rData.cls.replace(/_/g, ' '))}</b><br>${esc(rData.subj)}</td>
                         <td>
@@ -925,6 +932,7 @@
             return { periodsMap, totalAssignments };
         }
 
+        // 🟢 THE FIX: The Preview wrapper is now fully contenteditable
         function generatePlanPreview() {
             const { periodsMap, totalAssignments } = collectPeriodsMap();
             if (totalAssignments === 0) return showToast('Add at least one complete class assignment before generating.');
@@ -934,21 +942,19 @@
             const formattedDate = getFormattedDate();
 
             document.getElementById('pdf-preview-content').innerHTML = `
-                <div style="padding:20px;">
-                    <div class="pdf-header">
-                        <div class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</div>
-                        <div class="pdf-header__school">School: ${esc(schoolName)}</div>
-                        <div class="pdf-header__meta">
-                            <span>Teacher: ${esc(teacherName)}</span>
-                            <span>Date: ${esc(formattedDate)}</span>
-                        </div>
+                <div class="pdf-header" contenteditable="true" spellcheck="false">
+                    <div class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</div>
+                    <div class="pdf-header__school">School: ${esc(schoolName)}</div>
+                    <div class="pdf-header__meta">
+                        <span>Teacher: ${esc(teacherName)}</span>
+                        <span>Date: ${esc(formattedDate)}</span>
                     </div>
-                    <table class="pdf-table">
-                        ${getTableColgroup()}
-                        ${getTableHeader()}
-                        <tbody>${buildTableRowsHTML(periodsMap)}</tbody>
-                    </table>
                 </div>
+                <table class="pdf-table" contenteditable="true" spellcheck="false">
+                    ${getTableColgroup()}
+                    ${getTableHeader()}
+                    <tbody>${buildTableRowsHTML(periodsMap)}</tbody>
+                </table>
             `;
 
             document.getElementById('main-container').classList.add('hidden');
@@ -966,84 +972,43 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // 🟢 THE FIX: Shared PDF now captures the single, live-edited preview dynamically sized.
         async function sharePlanViaApp() {
             const overlay   = document.getElementById('pdf-overlay');
-            const container = document.getElementById('temp-pdf-export');
-
-            const { periodsMap, totalAssignments } = collectPeriodsMap();
-            if (totalAssignments === 0) return showToast('No assignments to export.');
+            const elementToCapture = document.getElementById('pdf-preview-content');
 
             overlay.classList.add('is-active');
-            container.innerHTML = '';
-
-            const schoolName    = document.getElementById('schoolName').value  || '_______________________';
-            const teacherName   = document.getElementById('teacherName').value || 'Teacher';
-            const formattedDate = getFormattedDate();
-
-            const pages             = [];
-            let currentPageMap      = {};
-            let currentRowCount     = 0;
-            const MAX_ROWS_PER_PAGE = 5;
-
-            for (let pNum in periodsMap) {
-                const pLen = periodsMap[pNum].length;
-                if (currentRowCount + pLen > MAX_ROWS_PER_PAGE && currentRowCount > 0) {
-                    pages.push(currentPageMap);
-                    currentPageMap  = {};
-                    currentRowCount = 0;
-                }
-                currentPageMap[pNum] = periodsMap[pNum];
-                currentRowCount += pLen;
-            }
-            if (Object.keys(currentPageMap).length > 0) pages.push(currentPageMap);
-
-            const fragment = document.createDocumentFragment();
-            pages.forEach((pageMap, i) => {
-                const pageDiv = document.createElement('div');
-                pageDiv.className = 'pdf-page';
-                
-                const headerHtml = i === 0 ? `
-                    <div class="pdf-header">
-                        <div class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</div>
-                        <div class="pdf-header__school">School: ${esc(schoolName)}</div>
-                        <div class="pdf-header__meta">
-                            <span>Teacher: ${esc(teacherName)}</span>
-                            <span>Date: ${esc(formattedDate)}</span>
-                        </div>
-                    </div>` : '';
-
-                pageDiv.innerHTML = `
-                    ${headerHtml}
-                    <table class="pdf-table">
-                        ${getTableColgroup()}
-                        ${getTableHeader()}
-                        <tbody>${buildTableRowsHTML(pageMap)}</tbody>
-                    </table>
-                `;
-                fragment.appendChild(pageDiv);
-            });
-            container.appendChild(fragment);
-
-            await new Promise(r => setTimeout(r, 900));
 
             try {
-                const { jsPDF }     = window.jspdf;
-                const pdf           = new jsPDF('l', 'mm', 'a4');
-                const pageElements  = container.querySelectorAll('.pdf-page');
+                // Wait for layout to settle
+                await new Promise(r => setTimeout(r, 100));
 
-                for (let i = 0; i < pageElements.length; i++) {
-                    const dataUrl = await htmlToImage.toJpeg(pageElements[i], {
-                        pixelRatio:      1.5,
-                        quality:         0.92,
-                        backgroundColor: '#ffffff',
-                        width:           1123
-                    });
-                    if (i > 0) pdf.addPage();
-                    const imgProps = pdf.getImageProperties(dataUrl);
-                    const pdfW     = pdf.internal.pageSize.getWidth();
-                    const pdfH     = (imgProps.height * pdfW) / imgProps.width;
-                    pdf.addImage(dataUrl, 'JPEG', 0, 0, pdfW, pdfH);
-                }
+                const teacherName = document.getElementById('teacherName').value || 'Teacher';
+                const formattedDate = getFormattedDate();
+
+                // Generate high quality PNG (Crisp text)
+                const dataUrl = await htmlToImage.toPng(elementToCapture, {
+                    pixelRatio: 2.0,
+                    backgroundColor: '#ffffff'
+                });
+
+                // Calculate custom height to fit perfectly without cutting off anything
+                const tempImg = new Image();
+                tempImg.src = dataUrl;
+                await new Promise(resolve => tempImg.onload = resolve);
+
+                const mmWidth = 297; // A4 Width in mm
+                const mmHeight = (tempImg.height * mmWidth) / tempImg.width;
+
+                const { jsPDF } = window.jspdf;
+                // Create custom height single-page PDF
+                const pdf = new jsPDF({
+                    orientation: mmWidth > mmHeight ? 'l' : 'p',
+                    unit: 'mm',
+                    format: [mmWidth, mmHeight]
+                });
+
+                pdf.addImage(dataUrl, 'PNG', 0, 0, mmWidth, mmHeight);
 
                 const pdfBlob = pdf.output('blob');
                 const safeName = teacherName.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, '');
@@ -1069,7 +1034,6 @@
                 console.error('PDF generation error:', err);
                 showToast('Could not generate PDF. Try the Print option instead.');
             } finally {
-                container.innerHTML = '';
                 overlay.classList.remove('is-active');
             }
         }
