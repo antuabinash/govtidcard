@@ -15,7 +15,7 @@
 
     <style>
         /* =========================================================
-           DESIGN TOKENS — single source of truth for all values
+           DESIGN TOKENS
         ========================================================= */
         :root {
             --clr-bg:          #F0F4F8;
@@ -24,12 +24,12 @@
             --clr-border:      #E2E8F0;
             --clr-border-2:    #CBD5E1;
 
-            --clr-brand:       #1D4ED8;   /* Deep-blue primary */
+            --clr-brand:       #1D4ED8;
             --clr-brand-mid:   #2563EB;
             --clr-brand-light: #DBEAFE;
             --clr-brand-dark:  #1E3A8A;
 
-            --clr-accent:      #059669;   /* Emerald for positive action */
+            --clr-accent:      #059669;
             --clr-accent-light:#D1FAE5;
 
             --clr-danger:      #DC2626;
@@ -57,11 +57,7 @@
         /* =========================================================
            RESET & BASE
         ========================================================= */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background: var(--clr-bg);
@@ -76,9 +72,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* =========================================================
-           TYPOGRAPHY SCALE
-        ========================================================= */
         .t-display { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; }
         .t-title   { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; }
         .t-label   { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--clr-text-muted); }
@@ -89,44 +82,19 @@
            HEADER
         ========================================================= */
         .app-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--clr-brand);
+            position: sticky; top: 0; z-index: 100;
             background: linear-gradient(160deg, var(--clr-brand-dark) 0%, var(--clr-brand) 100%);
             padding: calc(var(--sat) + 14px) 20px 14px;
             box-shadow: 0 2px 12px rgba(29,78,216,.3);
         }
-        .app-header__inner {
-            max-width: 960px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .app-header__title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--clr-text-inv);
-            letter-spacing: -0.02em;
-        }
-        .app-header__subtitle {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.65);
-            font-weight: 500;
-            letter-spacing: 0.04em;
-        }
+        .app-header__inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 14px; }
+        .app-header__title { font-size: 1.15rem; font-weight: 700; color: var(--clr-text-inv); letter-spacing: -0.02em; }
+        .app-header__subtitle { font-size: 0.7rem; color: rgba(255,255,255,0.65); font-weight: 500; letter-spacing: 0.04em; }
 
         .btn-icon {
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.18);
-            color: white;
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: background 0.15s;
-            flex-shrink: 0;
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); color: white;
+            width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background 0.15s; flex-shrink: 0;
         }
         .btn-icon:hover { background: rgba(255,255,255,0.22); }
         .btn-icon:active { background: rgba(255,255,255,0.32); transform: scale(0.93); }
@@ -134,101 +102,41 @@
         /* =========================================================
            LAYOUT & CARDS
         ========================================================= */
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 20px 16px;
-        }
-
-        .card {
-            background: var(--clr-surface);
-            border-radius: var(--r-lg);
-            border: 1px solid var(--clr-border);
-            box-shadow: var(--sh-card);
-            padding: 22px;
-            margin-bottom: 16px;
-        }
-        .card__title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--clr-brand);
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .container { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
+        .card { background: var(--clr-surface); border-radius: var(--r-lg); border: 1px solid var(--clr-border); box-shadow: var(--sh-card); padding: 22px; margin-bottom: 16px; }
+        .card__title { font-size: 1rem; font-weight: 700; color: var(--clr-brand); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
 
         /* =========================================================
            FORM ELEMENTS
         ========================================================= */
         .field { display: flex; flex-direction: column; gap: 5px; }
-        .field > label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--clr-text-muted);
-        }
-
+        .field > label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--clr-text-muted); }
         .field-input {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: var(--r-md);
-            border: 1.5px solid var(--clr-border);
-            font-size: 0.95rem;
-            font-weight: 500;
-            font-family: inherit;
-            background: var(--clr-surface-2);
-            color: var(--clr-text);
-            outline: none;
-            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-            appearance: none;
-            -webkit-appearance: none;
+            width: 100%; padding: 10px 12px; border-radius: var(--r-md); border: 1.5px solid var(--clr-border);
+            font-size: 0.95rem; font-weight: 500; font-family: inherit; background: var(--clr-surface-2);
+            color: var(--clr-text); outline: none; transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+            appearance: none; -webkit-appearance: none;
         }
         select.field-input {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            padding-right: 32px;
+            background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
         }
-        .field-input:focus {
-            background: var(--clr-surface);
-            border-color: var(--clr-brand);
-            box-shadow: 0 0 0 3px rgba(29,78,216,0.12);
-        }
-        .field-input:disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-        }
+        .field-input:focus { background: var(--clr-surface); border-color: var(--clr-brand); box-shadow: 0 0 0 3px rgba(29,78,216,0.12); }
+        .field-input:disabled { opacity: 0.55; cursor: not-allowed; }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .form-grid--1 { grid-template-columns: 1fr; }
 
         /* =========================================================
            BUTTONS
         ========================================================= */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            padding: 11px 18px;
-            border-radius: var(--r-md);
-            font-family: inherit;
-            font-size: 0.9rem;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
-            white-space: nowrap;
-            letter-spacing: -0.01em;
+            display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 11px 18px;
+            border-radius: var(--r-md); font-family: inherit; font-size: 0.9rem; font-weight: 700;
+            cursor: pointer; border: none; transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
+            white-space: nowrap; letter-spacing: -0.01em;
         }
         .btn:active { transform: scale(0.95); }
-
         .btn--primary { background: var(--clr-brand); color: white; box-shadow: var(--sh-raised); }
         .btn--primary:hover { background: var(--clr-brand-mid); }
         .btn--success { background: var(--clr-accent); color: white; box-shadow: 0 4px 14px rgba(5,150,105,.25); }
@@ -238,18 +146,9 @@
         .btn--full { width: 100%; }
 
         .btn--dashed {
-            width: 100%;
-            background: transparent;
-            border: 2px dashed var(--clr-border-2);
-            color: var(--clr-text-muted);
-            border-radius: var(--r-md);
-            padding: 12px;
-            font-family: inherit;
-            font-size: 0.88rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.15s, border-color 0.15s;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
+            width: 100%; background: transparent; border: 2px dashed var(--clr-border-2); color: var(--clr-text-muted);
+            border-radius: var(--r-md); padding: 12px; font-family: inherit; font-size: 0.88rem; font-weight: 600;
+            cursor: pointer; transition: background 0.15s, border-color 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px;
         }
         .btn--dashed:hover { background: var(--clr-surface-2); border-color: var(--clr-brand-mid); color: var(--clr-brand); }
         .btn--dashed:active { transform: scale(0.98); }
@@ -258,22 +157,10 @@
            WORKSPACE HEADER
         ========================================================= */
         .workspace-bar {
-            background: var(--clr-surface);
-            border: 1px solid var(--clr-border);
-            border-radius: var(--r-xl);
-            box-shadow: var(--sh-card);
-            padding: 18px 20px;
-            margin-bottom: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+            background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--r-xl);
+            box-shadow: var(--sh-card); padding: 18px 20px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 14px;
         }
-        .workspace-bar__top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-        }
+        .workspace-bar__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
         .workspace-bar__name { font-size: 1.05rem; font-weight: 800; color: var(--clr-brand); letter-spacing: -0.02em; }
         .workspace-bar__teacher { font-size: 0.85rem; color: var(--clr-text-muted); font-weight: 500; margin-top: 2px; }
         .workspace-bar__divider { border: none; border-top: 1px dashed var(--clr-border); margin: 0; }
@@ -281,75 +168,34 @@
         /* =========================================================
            PERIOD TABS
         ========================================================= */
-        .tabs-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; 
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-
+        .tabs-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 14px; }
         .tab {
-            padding: 8px 16px;
-            background: var(--clr-surface);
-            border: 1.5px solid var(--clr-border);
-            border-radius: var(--r-pill);
-            font-family: inherit;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--clr-text-muted);
-            cursor: pointer;
-            white-space: nowrap;
-            transition: background 0.15s, color 0.15s, border-color 0.15s;
+            padding: 8px 16px; background: var(--clr-surface); border: 1.5px solid var(--clr-border);
+            border-radius: var(--r-pill); font-family: inherit; font-size: 0.85rem; font-weight: 700;
+            color: var(--clr-text-muted); cursor: pointer; white-space: nowrap; transition: background 0.15s, color 0.15s, border-color 0.15s;
         }
-        .tab.is-active {
-            background: var(--clr-brand);
-            color: white;
-            border-color: var(--clr-brand);
-            box-shadow: 0 3px 10px rgba(29,78,216,.25);
-        }
+        .tab.is-active { background: var(--clr-brand); color: white; border-color: var(--clr-brand); box-shadow: 0 3px 10px rgba(29,78,216,.25); }
 
         .period-pane { display: none; }
-        .period-pane.is-active {
-            display: block;
-            animation: paneFadeIn 0.25s ease;
-        }
-        @keyframes paneFadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .period-pane__title {
-            font-size: 0.95rem;
-            font-weight: 800;
-            color: var(--clr-text);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .period-pane.is-active { display: block; animation: paneFadeIn 0.25s ease; }
+        @keyframes paneFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .period-pane__title { font-size: 0.95rem; font-weight: 800; color: var(--clr-text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .period-badge {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 26px; height: 26px; background: var(--clr-brand-light);
-            color: var(--clr-brand); border-radius: 50%;
-            font-size: 0.72rem; font-weight: 800;
+            display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+            background: var(--clr-brand-light); color: var(--clr-brand); border-radius: 50%; font-size: 0.72rem; font-weight: 800;
         }
 
         /* =========================================================
            ASSIGNMENT CARDS
         ========================================================= */
         .assignment-card {
-            background: var(--clr-surface);
-            border: 1.5px solid var(--clr-border);
-            border-radius: var(--r-md);
-            padding: 16px;
-            margin-bottom: 10px;
-            box-shadow: 0 1px 4px rgba(15,23,42,.04);
-            transition: border-color 0.15s, box-shadow 0.15s;
+            background: var(--clr-surface); border: 1.5px solid var(--clr-border); border-radius: var(--r-md);
+            padding: 16px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(15,23,42,.04); transition: border-color 0.15s, box-shadow 0.15s;
         }
         .assignment-card:focus-within { border-color: var(--clr-brand); box-shadow: 0 0 0 3px rgba(29,78,216,.08); }
         .assignment-card__header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--clr-border);
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--clr-border);
         }
         .assignment-card__badge {
             background: var(--clr-brand-light); color: var(--clr-brand); font-size: 0.7rem; font-weight: 800;
@@ -369,17 +215,9 @@
            FIXED ACTION BAR (bottom)
         ========================================================= */
         .action-bar {
-            position: fixed;
-            bottom: 0; left: 0;
-            width: 100%;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-            border-top: 1px solid rgba(0,0,0,0.07);
-            padding: 10px 16px calc(10px + var(--sab));
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-top: 1px solid rgba(0,0,0,0.07);
+            padding: 10px 16px calc(10px + var(--sab)); z-index: 200; display: flex; align-items: center; gap: 8px;
             box-shadow: 0 -4px 20px rgba(15,23,42,.06);
         }
         .action-bar__main { flex: 1; height: 44px; }
@@ -388,27 +226,18 @@
            MODALS & OVERLAYS
         ========================================================= */
         .modal-backdrop, .chunk-overlay {
-            position: fixed; inset: 0; z-index: 1000;
-            display: flex; align-items: center; justify-content: center;
-            padding: 16px; opacity: 0; pointer-events: none; visibility: hidden;
-            transition: opacity 0.25s, visibility 0.25s;
+            position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+            padding: 16px; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.25s, visibility 0.25s;
         }
         .modal-backdrop { background: rgba(15,23,42,0.5); backdrop-filter: blur(5px); }
         .chunk-overlay { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); z-index: 99999; flex-direction: column; text-align: center;}
-        
         .modal-backdrop.is-open, .chunk-overlay.is-active { opacity: 1; pointer-events: all; visibility: visible; }
 
         .modal {
-            background: var(--clr-surface);
-            border-radius: var(--r-xl);
-            width: 100%; max-width: 420px;
-            padding: 22px;
-            box-shadow: var(--sh-modal);
-            transform: translateY(24px);
-            transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            background: var(--clr-surface); border-radius: var(--r-xl); width: 100%; max-width: 420px;
+            padding: 22px; box-shadow: var(--sh-modal); transform: translateY(24px); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
         }
         .modal-backdrop.is-open .modal { transform: translateY(0); }
-
         .modal__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .modal__title { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
         .modal__close {
@@ -457,9 +286,6 @@
         .pdf-text { font-size: 9px; line-height: 1.4; }
         .pdf-text b { font-size: 9px; font-weight: 700; }
 
-        /* =========================================================
-           UTILITIES & TOAST
-        ========================================================= */
         .hidden { display: none !important; }
         #toast {
             position: fixed; bottom: calc(80px + var(--sab)); left: 50%; transform: translateX(-50%) translateY(20px);
@@ -488,7 +314,7 @@
     <header class="app-header no-print" role="banner">
         <div class="app-header__inner">
             <button class="btn-icon" aria-label="Go back" onclick="window.history.back()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             </button>
             <div>
                 <div class="app-header__title">Daily Lesson Planner</div>
@@ -501,7 +327,7 @@
     <main class="container no-print" id="main-container" role="main">
         <div class="card" id="setup-card">
             <div class="card__title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                 Setup Profile
             </div>
             <div class="form-grid form-grid--1" style="gap:14px; margin-bottom:16px;">
@@ -534,7 +360,7 @@
                         <div class="workspace-bar__teacher" id="display-teacher">Teacher Name</div>
                     </div>
                     <button class="btn btn--ghost" style="font-size:0.8rem;padding:8px 12px;" onclick="openProfileModal()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit
                     </button>
                 </div>
                 <hr class="workspace-bar__divider">
@@ -557,7 +383,7 @@
     <div class="container hidden" id="preview-area">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;" class="no-print">
             <h2 style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em;">
-                <span aria-hidden="true">📄</span> Print Preview
+                <span>📄</span> Print Preview
             </h2>
         </div>
         <div class="preview-wrapper">
@@ -566,24 +392,22 @@
     </div>
 
     <!-- ACTION BARS -->
-    <!-- Builder: Only Generate Button, No Nav Arrows -->
     <div class="action-bar no-print hidden" id="builder-footer" role="toolbar">
         <button class="btn btn--primary btn--full action-bar__main" onclick="generatePlanPreview()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             Generate Plan
         </button>
     </div>
 
-    <!-- Preview -->
     <div class="action-bar no-print hidden" id="preview-footer" role="toolbar">
         <button class="btn btn--ghost" style="flex:1;" onclick="backToEdit()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 17l-5-5 5-5"/><line x1="19" y1="12" x2="6" y2="12"/></svg> Edit
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5"/><line x1="19" y1="12" x2="6" y2="12"/></svg> Edit
         </button>
         <button class="btn btn--success" style="flex:1;" onclick="window.print()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print
         </button>
         <button class="btn btn--primary" style="flex:1;" onclick="sharePlanViaApp()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> Share PDF
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> Share PDF
         </button>
     </div>
 
@@ -593,7 +417,7 @@
             <div class="modal__header">
                 <span class="modal__title">Profile Settings</span>
                 <button class="modal__close" onclick="closeProfileModal()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
             <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
@@ -624,9 +448,8 @@
     <div id="toast" role="alert"></div>
 
     <script>
-        // --- STATE ---
-        let db = {};       // Stores fetched chunks
-        let indexDb = {};  // Stores lightweight structural map
+        let db = {};       
+        let indexDb = {};  
         let classList = [];
         let currentPeriodIndex = 1;
         let totalPeriods = 7;
@@ -638,9 +461,7 @@
             setTimeout(() => el.classList.remove('is-visible'), duration);
         }
 
-        // --- INIT & CHUNK LOADING ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Append cache buster to force the newest file from the server
             fetch('db_chunks/index.json?t=' + Date.now())
                 .then(r => { if (!r.ok) throw new Error(); return r.json(); })
                 .then(data => {
@@ -662,30 +483,22 @@
             });
         });
 
-        // Async Chunk Fetcher
         async function loadClassChunk(className) {
-            if (db[className]) return; // Already in memory
-            
+            if (db[className]) return; 
             const loader = document.getElementById('chunk-overlay');
             loader.classList.add('is-active');
 
             try {
                 const safeName = className.replace(/ /g, '_');
-                // Append cache buster to bypass aggressive server caching
                 const res = await fetch(`db_chunks/chunk_${safeName}.json?t=${Date.now()}`);
                 if (!res.ok) throw new Error("Chunk missing");
                 
                 const data = await res.json();
-                
-                // Smart Merge: Bypass key formatting issues. If the exact key isn't found, 
-                // it maps the first key found in the file to the selected className.
                 if (data[className]) {
                     Object.assign(db, data);
                 } else {
                     const keys = Object.keys(data);
-                    if (keys.length > 0) {
-                        db[className] = data[keys[0]];
-                    }
+                    if (keys.length > 0) db[className] = data[keys[0]];
                 }
             } catch (err) {
                 console.error(err);
@@ -713,7 +526,6 @@
             savePlanToStorage();
         }
 
-        // --- PERSISTENCE ---
         function savePlanToStorage() {
             const periods = [];
             document.querySelectorAll('.period-pane').forEach(pane => {
@@ -728,7 +540,6 @@
                 });
                 periods.push(rowDataList);
             });
-
             try {
                 localStorage.setItem('lessonPlannerSave', JSON.stringify({
                     schoolName:  document.getElementById('schoolName').value,
@@ -745,7 +556,6 @@
                 const raw = localStorage.getItem('lessonPlannerSave');
                 if (!raw) return false;
                 const data = JSON.parse(raw);
-
                 document.getElementById('schoolName').value  = data.schoolName  || '';
                 document.getElementById('teacherName').value = data.teacherName || '';
                 if (data.planDate) document.getElementById('planDate').value = data.planDate;
@@ -765,7 +575,6 @@
             document.getElementById('display-teacher').textContent = document.getElementById('teacherName').value || 'Teacher Name';
         }
 
-        // --- TAB & FORM BUILDER ---
         function buildTabsAndForms(savedPeriodsData = null) {
             const tabsEl   = document.getElementById('periodTabs');
             const formsEl  = document.getElementById('periods-container');
@@ -773,7 +582,6 @@
             formsEl.innerHTML = '';
 
             for (let i = 1; i <= totalPeriods; i++) {
-                // Tab button
                 const tab = document.createElement('button');
                 tab.className = `tab${i === 1 ? ' is-active' : ''}`;
                 tab.id = `tab-${i}`;
@@ -781,7 +589,6 @@
                 tab.onclick = () => switchPeriod(i);
                 tabsEl.appendChild(tab);
 
-                // Period pane
                 const pane = document.createElement('div');
                 pane.className = `period-pane${i === 1 ? ' is-active' : ''}`;
                 pane.id = `pane-${i}`;
@@ -818,7 +625,6 @@
             card.className = 'assignment-card';
             card.id = rowId;
 
-            // BUG FIX: Generate options directly inside HTML so newly added rows have class options instantly
             const classOptions = `<option value="">Select class…</option>` +
                 classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
 
@@ -845,7 +651,7 @@
                         <select class="sel-chap field-input" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled><option value="">Select chapter…</option></select>
                     </div>
                     <div class="field">
-                        <label>Lesson</label>
+                        <label>Lesson / Period</label>
                         <select class="sel-less field-input" onchange="savePlanToStorage();" disabled><option value="">Select lesson…</option></select>
                     </div>
                 </div>
@@ -869,17 +675,14 @@
             });
         }
 
-        // --- NAVIGATION ---
         function switchPeriod(index) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('is-active'));
             document.querySelectorAll('.period-pane').forEach(p => p.classList.remove('is-active'));
-
             document.getElementById(`tab-${index}`).classList.add('is-active');
             document.getElementById(`pane-${index}`).classList.add('is-active');
             currentPeriodIndex = index;
         }
 
-        // --- DROPDOWN LOGIC ---
         async function hydrateAllDropdowns() {
             const classOptions = `<option value="">Select class…</option>` +
                 classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
@@ -891,7 +694,7 @@
 
                 if (card.dataset.presetCls) {
                     clsSel.value = card.dataset.presetCls;
-                    await loadClassChunk(card.dataset.presetCls); // Ensure DB chunk is loaded
+                    await loadClassChunk(card.dataset.presetCls);
                     
                     updateSubjectsSync(card.id);
                     const subjSel = card.querySelector('.sel-subj');
@@ -923,7 +726,7 @@
                 return; 
             }
             
-            await loadClassChunk(cls); // Async fetch
+            await loadClassChunk(cls);
             updateSubjectsSync(rowId);
             savePlanToStorage();
         }
@@ -956,11 +759,20 @@
             const lessonsData = ((db[cls] || {})[subj] || {})[chap] || {};
             const lessons = Array.isArray(lessonsData) ? lessonsData.map((_, i) => i) : Object.keys(lessonsData);
 
-            lessSel.innerHTML = '<option value="">Select lesson…</option>';
+            lessSel.innerHTML = '<option value="">Select period…</option>';
             lessons.forEach(key => {
-                const name = Array.isArray(lessonsData) ? (lessonsData[key].Period || key) : key;
+                const planObj = Array.isArray(lessonsData) ? lessonsData[key] : lessonsData[key];
+                const pKey = Array.isArray(lessonsData) ? (planObj.Period || key) : key;
+                
+                // Add the specific Topic name to the dropdown for easy viewing
+                let displayName = pKey;
+                if (planObj.Topic && planObj.Topic !== 'nan') {
+                    displayName += ` — ${planObj.Topic}`;
+                }
+
                 const opt  = document.createElement('option');
-                opt.value  = key; opt.textContent = name;
+                opt.value  = key; 
+                opt.textContent = displayName;
                 lessSel.appendChild(opt);
             });
             lessSel.disabled = false;
@@ -978,7 +790,6 @@
 
         function resetSelect(sel) { sel.innerHTML = '<option value="">—</option>'; sel.disabled = true; }
 
-        // --- PROFILE MODAL ---
         function openProfileModal() {
             document.getElementById('modalSchoolName').value  = document.getElementById('schoolName').value;
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
@@ -992,7 +803,6 @@
             const newPeriods = parseInt(document.getElementById('modalNumPeriods').value);
 
             if (!newSchool || !newTeacher) return showToast('Name and school are required.');
-
             document.getElementById('schoolName').value  = newSchool;
             document.getElementById('teacherName').value = newTeacher;
 
@@ -1002,11 +812,9 @@
                 const saved = (() => { try { return JSON.parse(localStorage.getItem('lessonPlannerSave')); } catch(e) { return {}; }})() || {};
                 buildTabsAndForms(saved.periods);
             }
-
             updateUIHeader(); savePlanToStorage(); closeProfileModal();
         }
 
-        // --- FORMATTERS ---
         function esc(str) {
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
@@ -1032,12 +840,11 @@
             return `<div class="pdf-text">${cleaned}</div>`;
         }
 
-        // --- TABLE BUILDERS ---
         function getTableColgroup() {
-            return `<colgroup><col style="width:4%"><col style="width:7%"><col style="width:9%"><col style="width:9%"><col style="width:9%"><col style="width:10%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:8%"></colgroup>`;
+            return `<colgroup><col style="width:4%"><col style="width:7%"><col style="width:10%"><col style="width:9%"><col style="width:9%"><col style="width:9%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:8%"></colgroup>`;
         }
         function getTableHeader() {
-            return `<thead><tr><th>Prd</th><th>Class / Subject</th><th>Topic</th><th>Competency</th><th>Learning Outcome</th><th>ଅଧୀତି (Adhiti)</th><th>ବୋଧ (Bodha)</th><th>ଅଭ୍ୟାସ (Abhyasa)</th><th>ପ୍ରୟୋଗ (Prayoga)</th><th>ପ୍ରସାର (Prasara)</th><th>TLM</th></tr></thead>`;
+            return `<thead><tr><th>Prd</th><th>Class / Subject</th><th>Chapter & Period</th><th>Competency</th><th>Learning Outcome</th><th>ଅଧୀତି (Adhiti)</th><th>ବୋଧ (Bodha)</th><th>ଅଭ୍ୟାସ (Abhyasa)</th><th>ପ୍ରୟୋଗ (Prayoga)</th><th>ପ୍ରସାର (Prasara)</th><th>TLM</th></tr></thead>`;
         }
         function buildTableRowsHTML(periodsMap) {
             let html = '';
@@ -1052,11 +859,22 @@
                     const plan      = chapData[rData.lessKey] || {};
                     const p         = plan.Panchapadi || {};
 
+                    let topicText = '';
+                    if (plan.Topic && plan.Topic !== 'nan') {
+                        topicText = `<div style="margin-top:4px;">${esc(plan.Topic)}</div>`;
+                    }
+
                     html += `<tr>`;
                     if (idx === 0) html += `<td class="col-period" rowspan="${rowspan}">${esc(String(pNum))}</td>`;
+                    
+                    // Fixed Layout: Chapter -> Lesson Name -> Topic
                     html += `
                         <td><b>${esc(rData.cls.replace(/_/g, ' '))}</b><br>${esc(rData.subj)}</td>
-                        <td><b>${esc(rData.chap)}</b><br><br>${esc(plan.Topic || '')}</td>
+                        <td>
+                            <b>${esc(rData.chap)}</b>
+                            <div style="color:#1D4ED8; font-weight:800; margin-top:6px;">${esc(rData.lessKey)}</div>
+                            ${topicText}
+                        </td>
                         <td>${formatCompAndLO(plan.Competency)}</td>
                         <td>${formatCompAndLO(plan.LearningOutcomes)}</td>
                         <td>${formatPanchapadi(p.Aditi)}</td>
