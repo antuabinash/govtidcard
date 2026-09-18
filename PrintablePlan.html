@@ -483,6 +483,7 @@
             });
         });
 
+        // 🟢 THE FIX: Ultra-Resilient Unwrap Logic
         async function loadClassChunk(className) {
             if (db[className]) return; 
             const loader = document.getElementById('chunk-overlay');
@@ -494,11 +495,17 @@
                 if (!res.ok) throw new Error("Chunk missing");
                 
                 const data = await res.json();
-                if (data[className]) {
-                    Object.assign(db, data);
+                
+                // Smart check to find the wrapper, regardless of underscores or spaces
+                const possibleKeys = [className, className.replace(/_/g, ' '), className.replace(/ /g, '_')];
+                let foundKey = possibleKeys.find(k => data[k] !== undefined);
+
+                if (foundKey) {
+                    // JSON has the Class wrapper (e.g. {"Class 1": {"Math": ...}})
+                    db[className] = data[foundKey];
                 } else {
-                    const keys = Object.keys(data);
-                    if (keys.length > 0) db[className] = data[keys[0]];
+                    // JSON has no wrapper, it directly lists the subjects (e.g. {"Math": ...})
+                    db[className] = data;
                 }
             } catch (err) {
                 console.error(err);
@@ -764,7 +771,6 @@
                 const planObj = Array.isArray(lessonsData) ? lessonsData[key] : lessonsData[key];
                 const pKey = Array.isArray(lessonsData) ? (planObj.Period || key) : key;
                 
-                // Add the specific Topic name to the dropdown for easy viewing
                 let displayName = pKey;
                 if (planObj.Topic && planObj.Topic !== 'nan') {
                     displayName += ` — ${planObj.Topic}`;
@@ -867,7 +873,7 @@
                     html += `<tr>`;
                     if (idx === 0) html += `<td class="col-period" rowspan="${rowspan}">${esc(String(pNum))}</td>`;
                     
-                    // Fixed Layout: Chapter -> Lesson Name -> Topic
+                    // 🟢 THE FIX: The PDF explicitly separates Chapter, Period Name, and Topic
                     html += `
                         <td><b>${esc(rData.cls.replace(/_/g, ' '))}</b><br>${esc(rData.subj)}</td>
                         <td>
