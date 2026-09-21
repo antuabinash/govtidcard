@@ -23,18 +23,14 @@
             --clr-surface-2:   #F7F9FC;
             --clr-border:      #E2E8F0;
             --clr-border-2:    #CBD5E1;
-
             --clr-brand:       #1D4ED8;
             --clr-brand-mid:   #2563EB;
             --clr-brand-light: #DBEAFE;
             --clr-brand-dark:  #1E3A8A;
-
             --clr-accent:      #059669;
             --clr-accent-light:#D1FAE5;
-
             --clr-danger:      #DC2626;
             --clr-danger-light:#FEE2E2;
-
             --clr-text:        #0F172A;
             --clr-text-mid:    #334155;
             --clr-text-muted:  #64748B;
@@ -60,23 +56,13 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background: var(--clr-bg);
-            color: var(--clr-text);
+            background: var(--clr-bg); color: var(--clr-text);
             font-family: 'Inter', 'Noto Sans Oriya', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            min-height: 100dvh;
+            line-height: 1.6; min-height: 100dvh;
             padding-bottom: calc(72px + var(--sab) + 8px);
-            overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
         }
-
-        .t-display { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; }
-        .t-title   { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.02em; }
-        .t-label   { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--clr-text-muted); }
-        .t-body    { font-size: 0.95rem; font-weight: 400; }
-        .t-caption { font-size: 0.8rem; color: var(--clr-text-muted); }
 
         /* =========================================================
            HEADER
@@ -84,8 +70,7 @@
         .app-header {
             position: sticky; top: 0; z-index: 100;
             background: linear-gradient(160deg, var(--clr-brand-dark) 0%, var(--clr-brand) 100%);
-            padding: calc(var(--sat) + 14px) 20px 14px;
-            box-shadow: 0 2px 12px rgba(29,78,216,.3);
+            padding: calc(var(--sat) + 14px) 20px 14px; box-shadow: 0 2px 12px rgba(29,78,216,.3);
         }
         .app-header__inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 14px; }
         .app-header__title { font-size: 1.15rem; font-weight: 700; color: var(--clr-text-inv); letter-spacing: -0.02em; }
@@ -144,7 +129,6 @@
         .btn--ghost { background: var(--clr-border); color: var(--clr-text-mid); }
         .btn--ghost:hover { background: var(--clr-border-2); }
         .btn--full { width: 100%; }
-
         .btn--dashed {
             width: 100%; background: transparent; border: 2px dashed var(--clr-border-2); color: var(--clr-text-muted);
             border-radius: var(--r-md); padding: 12px; font-family: inherit; font-size: 0.88rem; font-weight: 600;
@@ -194,9 +178,7 @@
             padding: 16px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(15,23,42,.04); transition: border-color 0.15s, box-shadow 0.15s;
         }
         .assignment-card:focus-within { border-color: var(--clr-brand); box-shadow: 0 0 0 3px rgba(29,78,216,.08); }
-        .assignment-card__header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--clr-border);
-        }
+        .assignment-card__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--clr-border); }
         .assignment-card__badge {
             background: var(--clr-brand-light); color: var(--clr-brand); font-size: 0.7rem; font-weight: 800;
             padding: 4px 10px; border-radius: var(--r-pill); letter-spacing: 0.04em; text-transform: uppercase;
@@ -236,6 +218,7 @@
         .modal {
             background: var(--clr-surface); border-radius: var(--r-xl); width: 100%; max-width: 420px;
             padding: 22px; box-shadow: var(--sh-modal); transform: translateY(24px); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            max-height: 90vh; overflow-y: auto;
         }
         .modal-backdrop.is-open .modal { transform: translateY(0); }
         .modal__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -256,7 +239,7 @@
         .pdf-overlay__sub { font-size: 0.85rem; color: var(--clr-text-muted); }
 
         /* =========================================================
-           PREVIEW AREA & PDF EXPORT STYLES (Single Page Layout)
+           PREVIEW AREA & PDF STYLES
         ========================================================= */
         .preview-wrapper {
             background: white; border-radius: var(--r-lg); border: 1px solid var(--clr-border);
@@ -264,20 +247,18 @@
         }
         
         #pdf-preview-content { 
-            width: 1123px; /* Exact Pixel ratio for A4 landscape to ensure perfect snapshot */
-            background: white; 
-            color: black; 
-            font-family: 'Inter', 'Noto Sans Oriya', sans-serif; 
-            padding: 24px;
-            box-sizing: border-box;
+            width: 1123px; /* A4 Landscape width to guarantee flawless HD scaling */
+            background: white; color: black; font-family: 'Inter', 'Noto Sans Oriya', sans-serif; 
+            padding: 24px; box-sizing: border-box;
         }
 
-        /* Focus outline when editing the preview */
-        [contenteditable="true"]:focus {
-            outline: 2px dashed rgba(29, 78, 216, 0.4);
-            outline-offset: 4px;
-            border-radius: 4px;
+        [contenteditable="true"]:focus { outline: 2px dashed rgba(29, 78, 216, 0.4); outline-offset: 4px; border-radius: 4px; }
+
+        .daily-plan-block {
+            background: white; padding: 0 0 40px 0; margin-bottom: 40px; 
+            border-bottom: 2px dashed var(--clr-border);
         }
+        .daily-plan-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
         .pdf-header { text-align: center; margin-bottom: 14px; border-bottom: 2px solid #0F172A; padding-bottom: 8px; }
         .pdf-header__title { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #0F172A; margin-bottom: 4px; }
@@ -287,11 +268,10 @@
         .pdf-table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; color: #0F172A; }
         .pdf-table thead { display: table-header-group; }
         
-        /* THE FIX: Allow natural splitting of rows when printing so there is no white space */
+        /* Auto-split periods correctly to eliminate massive bottom blank spaces */
         .pdf-table tbody tr { page-break-inside: auto; break-inside: auto; }
-        .pdf-table td, .pdf-table th { page-break-inside: auto; break-inside: auto; }
-
-        .pdf-table th, .pdf-table td { border: 1px solid #334155; padding: 5px 6px; vertical-align: top; line-height: 1.35; word-wrap: break-word; overflow-wrap: break-word; }
+        .pdf-table td, .pdf-table th { page-break-inside: auto; break-inside: auto; border: 1px solid #334155; padding: 5px 6px; vertical-align: top; line-height: 1.35; word-wrap: break-word; overflow-wrap: break-word; }
+        
         .pdf-table th { background: #EFF6FF !important; font-weight: 700; font-size: 8.5px; text-align: center; color: #1E3A8A; vertical-align: middle; }
         .pdf-table td.col-period { text-align: center; font-weight: 800; font-size: 13px; color: #1D4ED8; vertical-align: middle; background: #F0F9FF; }
         .pdf-table tbody tr:nth-child(even) td:not(.col-period) { background: #FAFCFF; }
@@ -311,6 +291,10 @@
             .no-print, #main-container, .action-bar, .modal-backdrop, .chunk-overlay { display: none !important; }
             .preview-wrapper { padding: 0; box-shadow: none; border: none; overflow: visible !important; width: 100% !important; }
             #pdf-preview-content { min-width: 100% !important; width: 100% !important; padding: 0 !important; }
+            
+            /* Physical Paper: Force a clean page break before a new day starts */
+            .daily-plan-block { page-break-after: always; break-after: page; border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+            
             body { background: white; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             @page { size: A4 landscape; margin: 6mm; }
         }
@@ -378,12 +362,11 @@
                 </div>
                 <hr class="workspace-bar__divider">
                 <div class="field">
-                    <label for="planDate">Plan Date</label>
+                    <label for="planDate">Start Date</label>
                     <input type="date" id="planDate" class="field-input" onchange="savePlanToStorage()" style="max-width:220px;">
                 </div>
             </div>
 
-            <!-- Wrapped Multi-line Period Tabs -->
             <div class="tabs-wrap" id="periodTabs" role="tablist"></div>
 
             <div class="card" style="background: var(--clr-surface-2);">
@@ -400,16 +383,19 @@
             </h2>
         </div>
         <div class="preview-wrapper">
-            <!-- This div is fully captured. We inject contenteditable inside its children -->
             <div id="pdf-preview-content" role="document"></div>
         </div>
     </div>
 
     <!-- ACTION BARS -->
     <div class="action-bar no-print hidden" id="builder-footer" role="toolbar">
-        <button class="btn btn--primary btn--full action-bar__main" onclick="generatePlanPreview()">
+        <button class="btn btn--success" style="flex:1;" onclick="openWeeklyModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Auto-Weekly Plan
+        </button>
+        <button class="btn btn--primary" style="flex:1;" onclick="generatePlanPreview()">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            Generate Plan
+            Single Day Plan
         </button>
     </div>
 
@@ -443,6 +429,40 @@
         </div>
     </div>
 
+    <!-- WEEKLY PLAN SETUP MODAL -->
+    <div id="weekly-modal" class="modal-backdrop no-print" role="dialog">
+        <div class="modal">
+            <div class="modal__header">
+                <span class="modal__title">Generate Auto-Weekly Plan</span>
+                <button class="modal__close" onclick="closeWeeklyModal()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+                <div class="field">
+                    <label>Start Date</label>
+                    <input type="date" id="weeklyStartDate" class="field-input">
+                </div>
+                <div class="field">
+                    <label>Days to Generate</label>
+                    <input type="number" id="weeklyNumDays" class="field-input" min="1" max="30" value="7">
+                </div>
+                <div class="field" style="flex-direction: row; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="excludeSundays" checked style="width:18px;height:18px;accent-color:var(--clr-brand);">
+                    <label for="excludeSundays" style="font-size: 0.9rem; text-transform:none; color:var(--clr-text); font-weight:600;">Exclude Sundays Automatically</label>
+                </div>
+                <div class="field">
+                    <label>Exclude Specific Dates (Holidays)</label>
+                    <div id="holiday-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom: 8px;">
+                        <!-- dynamic holiday inputs go here -->
+                    </div>
+                    <button class="btn btn--dashed" style="padding: 8px;" onclick="addHolidayField()">+ Add Holiday Date</button>
+                </div>
+            </div>
+            <button class="btn btn--success btn--full" onclick="generateWeeklyPlan()">🚀 Generate Weekly Plan</button>
+        </div>
+    </div>
+
     <!-- DB CHUNK LOADING OVERLAY -->
     <div id="chunk-overlay" class="chunk-overlay no-print">
         <div class="pdf-overlay__spinner"></div>
@@ -450,7 +470,6 @@
         <div class="pdf-overlay__sub">Fetching class data instantly</div>
     </div>
 
-    <!-- PDF PROCESSING OVERLAY -->
     <div id="pdf-overlay" class="chunk-overlay no-print">
         <div class="pdf-overlay__spinner"></div>
         <div class="pdf-overlay__title">Generating PDF…</div>
@@ -493,6 +512,9 @@
             document.getElementById('profile-modal').addEventListener('click', function(e) {
                 if (e.target === this) closeProfileModal();
             });
+            document.getElementById('weekly-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeWeeklyModal();
+            });
         });
 
         async function loadClassChunk(className) {
@@ -506,7 +528,6 @@
                 if (!res.ok) throw new Error("Chunk missing");
                 
                 const data = await res.json();
-                
                 const possibleKeys = [className, className.replace(/_/g, ' '), className.replace(/ /g, '_')];
                 let foundKey = possibleKeys.find(k => data[k] !== undefined);
 
@@ -780,9 +801,7 @@
                 const pKey = Array.isArray(lessonsData) ? (planObj.Period || key) : key;
                 
                 let displayName = pKey;
-                if (planObj.Topic && planObj.Topic !== 'nan') {
-                    displayName += ` — ${planObj.Topic}`;
-                }
+                if (planObj.Topic && planObj.Topic !== 'nan') displayName += ` — ${planObj.Topic}`;
 
                 const opt  = document.createElement('option');
                 opt.value  = key; 
@@ -804,6 +823,7 @@
 
         function resetSelect(sel) { sel.innerHTML = '<option value="">—</option>'; sel.disabled = true; }
 
+        // --- PROFILE MODALS ---
         function openProfileModal() {
             document.getElementById('modalSchoolName').value  = document.getElementById('schoolName').value;
             document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
@@ -829,9 +849,29 @@
             updateUIHeader(); savePlanToStorage(); closeProfileModal();
         }
 
-        function esc(str) {
-            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        // --- WEEKLY MODAL LOGIC ---
+        function openWeeklyModal() {
+            const pd = document.getElementById('planDate').value;
+            document.getElementById('weeklyStartDate').value = pd || new Date().toISOString().split('T')[0];
+            document.getElementById('holiday-list').innerHTML = '';
+            document.getElementById('weekly-modal').classList.add('is-open');
         }
+        function closeWeeklyModal() { document.getElementById('weekly-modal').classList.remove('is-open'); }
+        function addHolidayField() {
+            const hl = document.getElementById('holiday-list');
+            const wrap = document.createElement('div');
+            wrap.style.display = 'flex'; wrap.style.gap = '8px';
+            wrap.innerHTML = `
+                <input type="date" class="field-input holiday-input">
+                <button class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:2px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            `;
+            hl.appendChild(wrap);
+        }
+
+        // --- FORMATTERS ---
+        function esc(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
         function formatCompAndLO(text) {
             if (!text || text === 'nan') return '';
             let cleaned = esc(text);
@@ -860,6 +900,7 @@
         function getTableHeader() {
             return `<thead><tr><th>Prd</th><th>Class / Subject</th><th>Chapter & Period</th><th>Competency</th><th>Learning Outcome</th><th>ଅଧୀତି (Adhiti)</th><th>ବୋଧ (Bodha)</th><th>ଅଭ୍ୟାସ (Abhyasa)</th><th>ପ୍ରୟୋଗ (Prayoga)</th><th>ପ୍ରସାର (Prasara)</th><th>TLM</th></tr></thead>`;
         }
+
         function buildTableRowsHTML(periodsMap) {
             let html = '';
             for (let pNum in periodsMap) {
@@ -902,11 +943,25 @@
             return html;
         }
 
-        function getFormattedDate() {
-            const raw = document.getElementById('planDate').value;
-            if (!raw) return '____/____/20___';
-            const [y, m, d] = raw.split('-');
-            return `${d}/${m}/${y}`;
+        // 🟢 THE FIX: Unified Daily Builder for both Single & Weekly Plans
+        function buildDailyPlanHTML(periodsMap, formattedDate, schoolName, teacherName) {
+            return `
+                <div class="daily-plan-block">
+                    <div class="pdf-header" contenteditable="true" spellcheck="false">
+                        <div class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</div>
+                        <div class="pdf-header__school">School: ${esc(schoolName)}</div>
+                        <div class="pdf-header__meta">
+                            <span>Teacher: ${esc(teacherName)}</span>
+                            <span style="color:#DC2626; font-weight:800;">Date: ${esc(formattedDate)}</span>
+                        </div>
+                    </div>
+                    <table class="pdf-table" contenteditable="true" spellcheck="false">
+                        ${getTableColgroup()}
+                        ${getTableHeader()}
+                        <tbody>${buildTableRowsHTML(periodsMap)}</tbody>
+                    </table>
+                </div>
+            `;
         }
 
         function collectPeriodsMap() {
@@ -932,33 +987,119 @@
             return { periodsMap, totalAssignments };
         }
 
-        // 🟢 THE FIX: The Preview wrapper is now fully contenteditable
+        // --- SINGLE PLAN ---
         function generatePlanPreview() {
             const { periodsMap, totalAssignments } = collectPeriodsMap();
             if (totalAssignments === 0) return showToast('Add at least one complete class assignment before generating.');
 
             const schoolName  = document.getElementById('schoolName').value  || '_______________________';
             const teacherName = document.getElementById('teacherName').value || '_______________________';
-            const formattedDate = getFormattedDate();
+            
+            const raw = document.getElementById('planDate').value;
+            let formattedDate = '____/____/20___';
+            if (raw) { const [y, m, d] = raw.split('-'); formattedDate = `${d}/${m}/${y}`; }
 
-            document.getElementById('pdf-preview-content').innerHTML = `
-                <div class="pdf-header" contenteditable="true" spellcheck="false">
-                    <div class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</div>
-                    <div class="pdf-header__school">School: ${esc(schoolName)}</div>
-                    <div class="pdf-header__meta">
-                        <span>Teacher: ${esc(teacherName)}</span>
-                        <span>Date: ${esc(formattedDate)}</span>
-                    </div>
-                </div>
-                <table class="pdf-table" contenteditable="true" spellcheck="false">
-                    ${getTableColgroup()}
-                    ${getTableHeader()}
-                    <tbody>${buildTableRowsHTML(periodsMap)}</tbody>
-                </table>
-            `;
+            document.getElementById('pdf-preview-content').innerHTML = buildDailyPlanHTML(periodsMap, formattedDate, schoolName, teacherName);
 
             document.getElementById('main-container').classList.add('hidden');
             document.getElementById('builder-footer').classList.add('hidden');
+            document.getElementById('preview-area').classList.remove('hidden');
+            document.getElementById('preview-footer').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- AUTO-WEEKLY PLAN INTELLIGENCE ENGINE ---
+        function getValidDates(startDateStr, numDays, excludeSundays, excludeDatesArray) {
+            let validDates = [];
+            const [y, m, d] = startDateStr.split('-');
+            let currentDate = new Date(y, m - 1, d); // local time
+
+            while (validDates.length < numDays) {
+                let isSunday = currentDate.getDay() === 0;
+                
+                let cy = currentDate.getFullYear();
+                let cm = String(currentDate.getMonth() + 1).padStart(2, '0');
+                let cd = String(currentDate.getDate()).padStart(2, '0');
+                let checkStr = `${cy}-${cm}-${cd}`;
+
+                let isExcluded = excludeDatesArray.includes(checkStr);
+
+                if (!((isSunday && excludeSundays) || isExcluded)) {
+                    validDates.push(`${cd}/${cm}/${cy}`);
+                }
+                currentDate.setDate(currentDate.getDate() + 1); 
+            }
+            return validDates;
+        }
+
+        function getNextLesson(cls, subj, currentChap, currentLessKey) {
+            const subjectData = db[cls]?.[subj];
+            if (!subjectData) return { chap: currentChap, lessKey: currentLessKey };
+
+            const chapters = Object.keys(subjectData);
+            if (chapters.length === 0) return { chap: currentChap, lessKey: currentLessKey };
+
+            let flatLessons = [];
+            chapters.forEach(chap => {
+                const lessonsData = subjectData[chap];
+                if (!lessonsData) return;
+                const lessKeys = Array.isArray(lessonsData) ? lessonsData.map((_, i) => String(i)) : Object.keys(lessonsData);
+                lessKeys.forEach(lk => {
+                    flatLessons.push({ chap: chap, lessKey: String(lk) });
+                });
+            });
+
+            if (flatLessons.length === 0) return { chap: currentChap, lessKey: currentLessKey };
+
+            let currentIndex = flatLessons.findIndex(l => l.chap === currentChap && l.lessKey === String(currentLessKey));
+            if (currentIndex === -1) currentIndex = 0;
+
+            // Magic Wrap-Around: Progresses sequentially, then loops back to Chapter 1 Lesson 1
+            let nextIndex = (currentIndex + 1) % flatLessons.length;
+            return flatLessons[nextIndex];
+        }
+
+        function generateWeeklyPlan() {
+            const { periodsMap, totalAssignments } = collectPeriodsMap();
+            if (totalAssignments === 0) return showToast('Add at least one class assignment before generating.');
+
+            const schoolName  = document.getElementById('schoolName').value  || '_______________________';
+            const teacherName = document.getElementById('teacherName').value || '_______________________';
+            
+            const startDateRaw = document.getElementById('weeklyStartDate').value;
+            if (!startDateRaw) return showToast('Please select a start date.');
+
+            const numDays = parseInt(document.getElementById('weeklyNumDays').value) || 7;
+            const excludeSundays = document.getElementById('excludeSundays').checked;
+            
+            const excludeDatesArray = [];
+            document.querySelectorAll('.holiday-input').forEach(input => {
+                if (input.value) excludeDatesArray.push(input.value);
+            });
+
+            const validDates = getValidDates(startDateRaw, numDays, excludeSundays, excludeDatesArray);
+            let currentPeriodsMap = JSON.parse(JSON.stringify(periodsMap)); 
+            let megaHtml = '';
+
+            validDates.forEach(dateStr => {
+                megaHtml += buildDailyPlanHTML(currentPeriodsMap, dateStr, schoolName, teacherName);
+                
+                // Auto-Advance lessons for the NEXT day
+                for (let pNum in currentPeriodsMap) {
+                    currentPeriodsMap[pNum].forEach(assignment => {
+                        const next = getNextLesson(assignment.cls, assignment.subj, assignment.chap, assignment.lessKey);
+                        assignment.chap = next.chap;
+                        assignment.lessKey = next.lessKey;
+                    });
+                }
+            });
+
+            document.getElementById('pdf-preview-content').innerHTML = megaHtml;
+
+            document.getElementById('main-container').classList.add('hidden');
+            document.getElementById('builder-footer').classList.add('hidden');
+            document.getElementById('weekly-modal').classList.remove('is-open');
+            
             document.getElementById('preview-area').classList.remove('hidden');
             document.getElementById('preview-footer').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -976,17 +1117,13 @@
         async function sharePlanViaApp() {
             const overlay   = document.getElementById('pdf-overlay');
             const elementToCapture = document.getElementById('pdf-preview-content');
-
             overlay.classList.add('is-active');
 
             try {
-                // Wait for layout to settle
-                await new Promise(r => setTimeout(r, 100));
-
+                await new Promise(r => setTimeout(r, 100)); // Layout settle
                 const teacherName = document.getElementById('teacherName').value || 'Teacher';
-                const formattedDate = getFormattedDate();
 
-                // Generate high quality PNG (Crisp text)
+                // Generate high quality PNG of the ENTIRE continuous block
                 const dataUrl = await htmlToImage.toPng(elementToCapture, {
                     pixelRatio: 2.0,
                     backgroundColor: '#ffffff'
@@ -1002,17 +1139,14 @@
 
                 const { jsPDF } = window.jspdf;
                 // Create custom height single-page PDF
-                const pdf = new jsPDF({
-                    orientation: mmWidth > mmHeight ? 'l' : 'p',
-                    unit: 'mm',
-                    format: [mmWidth, mmHeight]
-                });
-
+                const pdf = new jsPDF({ orientation: mmWidth > mmHeight ? 'l' : 'p', unit: 'mm', format: [mmWidth, mmHeight] });
                 pdf.addImage(dataUrl, 'PNG', 0, 0, mmWidth, mmHeight);
 
                 const pdfBlob = pdf.output('blob');
                 const safeName = teacherName.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, '');
-                const safeDate = formattedDate.replace(/\//g, '-');
+                
+                const raw = document.getElementById('planDate').value;
+                const safeDate = raw ? raw.replace(/\//g, '-') : 'Weekly_Plan';
                 const fileName = `${safeName}_LessonPlan_${safeDate}.pdf`;
 
                 const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
