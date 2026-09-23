@@ -238,11 +238,23 @@
             });
         }
 
-        // --- NEW COPY ALL FUNCTION ---
+        // --- NEW COPY WITH AI PROMPT FUNCTION ---
         function copyPanchapadi() {
-            const text = document.getElementById('edit-panchapadi-bulk').value;
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('📋 Copied all 5 steps to clipboard!');
+            const aiPrompt = `Please rewrite the following 5-step lesson plan to make it completely unique and plagiarism-free. You must strictly follow these rules:
+
+1. Keep the exact bracketed tags: You must include [Adhiti], [Bodha], [Abhyasa], [Prayoga], and [Prasara] exactly as they are written. Do not change, translate, or remove them.
+2. Make it short and concise: Summarize the steps to be brief and to the point.
+3. Focus ONLY on the teacher's actions: Write only what the teacher is doing. Do not include the students' reactions or responses.
+4. No extra subheadings: Do NOT write "Teacher's work", "Teacher:", or "ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ". Just write the direct action immediately under the bracketed tag.
+5. Maintain the exact educational context: Keep the original language (Odia/English) and do not change the core meaning of the lesson.
+
+Here is the text to rewrite:\n\n`;
+
+            const rawText = document.getElementById('edit-panchapadi-bulk').value;
+            const fullTextToCopy = aiPrompt + rawText;
+
+            navigator.clipboard.writeText(fullTextToCopy).then(() => {
+                showToast('📋 AI Prompt & Lesson copied! Ready to paste into ChatGPT.');
             }).catch(() => {
                 showToast('❌ Failed to copy text.');
             });
@@ -276,11 +288,11 @@
                 <div class="section-box" style="border-left-color: #007AFF;">
                     <div class="section-title" style="display:flex; justify-content:space-between; align-items:center; color: #007AFF;">
                         <span>Panchapadi (All 5 Steps)</span>
-                        <button class="btn btn-ghost" style="padding:6px 12px; font-size:12px; width:auto; margin:0; box-shadow:none;" onclick="copyPanchapadi()">📋 Copy All</button>
+                        <button class="btn btn-ghost" style="padding:6px 12px; font-size:12px; width:auto; margin:0; box-shadow:none;" onclick="copyPanchapadi()">📋 Copy All + Prompt</button>
                     </div>
-                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
-                        Copy this text, ask AI to rewrite it to avoid plagiarism, and paste it back here. <br>
-                        <b style="color:var(--text-main);">⚠️ IMPORTANT: Do not delete the bracket tags (e.g. [Adhiti])!</b>
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px; line-height: 1.5;">
+                        Click <b>Copy All</b>, paste into your AI, and then paste the AI's response back here. <br>
+                        <b style="color:var(--text-main);">⚠️ IMPORTANT: Do not delete the bracket tags (e.g. [Adhiti]) when pasting back!</b>
                     </p>
                     <textarea id="edit-panchapadi-bulk" class="edit-area" style="min-height: 400px;">${bulkPanchapadi}</textarea>
                 </div>
