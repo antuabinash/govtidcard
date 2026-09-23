@@ -91,8 +91,8 @@
     <div id="toast"></div>
 
     <script>
-        // YOUR FIREBASE URL (No SDK required!)
-        const DB_BASE_URL = 'https://livequizapp-5e433-default-rtdb.firebaseio.com';
+        // YOUR FIREBASE URL
+        const DB_BASE_URL = 'https://livequizapp-5e433-default-rtdb.firebaseio.com/Sikhya_Sathi_DB';
         
         let dbIndex = {};        
         let loadedClasses = {};  
@@ -112,7 +112,6 @@
 
         // --- FETCH INDEX FROM FIREBASE ---
         document.addEventListener("DOMContentLoaded", () => {
-            // shallow=true returns just the Class names instantly!
             fetch(`${DB_BASE_URL}/.json?shallow=true`)
                 .then(res => res.json())
                 .then(data => {
@@ -135,7 +134,6 @@
             }
             document.getElementById('chunk-loader').classList.remove('hidden');
             
-            // Fetch only that specific class node from the cloud
             fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}.json`)
                 .then(res => res.json())
                 .then(data => {
@@ -240,6 +238,16 @@
             });
         }
 
+        // --- NEW COPY ALL FUNCTION ---
+        function copyPanchapadi() {
+            const text = document.getElementById('edit-panchapadi-bulk').value;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('📋 Copied all 5 steps to clipboard!');
+            }).catch(() => {
+                showToast('❌ Failed to copy text.');
+            });
+        }
+
         function renderLessonPlan(className, subjectName, chapterName, periodKey) {
             const isArray = Array.isArray(loadedClasses[className][subjectName][chapterName]);
             const actualKey = isArray ? parseInt(periodKey) : periodKey;
@@ -251,6 +259,9 @@
             const viewer = document.getElementById('lesson-plan-viewer');
             viewer.classList.remove('hidden'); window.scrollTo(0, 0);
 
+            // Combines all 5 steps into one text block
+            const bulkPanchapadi = `[Adhiti]\n${getRawText(p.Aditi)}\n\n[Bodha]\n${getRawText(p.Bodha)}\n\n[Abhyasa]\n${getRawText(p.Abhyasa)}\n\n[Prayoga]\n${getRawText(p.Prayoga)}\n\n[Prasara]\n${getRawText(p.Prasara)}`;
+
             viewer.innerHTML = `
                 <div class="plan-header">
                     <div class="plan-topic">Editing: ${plan.Period || periodKey}</div>
@@ -260,11 +271,20 @@
                 <div class="section-box"><div class="section-title">Curricular Goal</div><textarea id="edit-cg" class="edit-area">${getRawText(plan.CG)}</textarea></div>
                 <div class="section-box"><div class="section-title">Competency</div><textarea id="edit-comp" class="edit-area">${getRawText(plan.Competency)}</textarea></div>
                 <div class="section-box"><div class="section-title">Learning Outcomes</div><textarea id="edit-lo" class="edit-area">${getRawText(plan.LearningOutcomes)}</textarea></div>
-                <div class="section-box"><div class="section-title">Panchapadi: 1. Adhiti (ଅଧୀତି)</div><textarea id="edit-p1" class="edit-area">${getRawText(p.Aditi)}</textarea></div>
-                <div class="section-box"><div class="section-title">Panchapadi: 2. Bodha (ବୋଧ)</div><textarea id="edit-p2" class="edit-area">${getRawText(p.Bodha)}</textarea></div>
-                <div class="section-box"><div class="section-title">Panchapadi: 3. Abhyasa (ଅଭ୍ୟାସ)</div><textarea id="edit-p3" class="edit-area">${getRawText(p.Abhyasa)}</textarea></div>
-                <div class="section-box"><div class="section-title">Panchapadi: 4. Prayoga (ପ୍ରୟୋଗ)</div><textarea id="edit-p4" class="edit-area">${getRawText(p.Prayoga)}</textarea></div>
-                <div class="section-box"><div class="section-title">Panchapadi: 5. Prasara (ପ୍ରସାର)</div><textarea id="edit-p5" class="edit-area">${getRawText(p.Prasara)}</textarea></div>
+                
+                <!-- NEW BULK PANCHAPADI EDITOR -->
+                <div class="section-box" style="border-left-color: #007AFF;">
+                    <div class="section-title" style="display:flex; justify-content:space-between; align-items:center; color: #007AFF;">
+                        <span>Panchapadi (All 5 Steps)</span>
+                        <button class="btn btn-ghost" style="padding:6px 12px; font-size:12px; width:auto; margin:0; box-shadow:none;" onclick="copyPanchapadi()">📋 Copy All</button>
+                    </div>
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+                        Copy this text, ask AI to rewrite it to avoid plagiarism, and paste it back here. <br>
+                        <b style="color:var(--text-main);">⚠️ IMPORTANT: Do not delete the bracket tags (e.g. [Adhiti])!</b>
+                    </p>
+                    <textarea id="edit-panchapadi-bulk" class="edit-area" style="min-height: 400px;">${bulkPanchapadi}</textarea>
+                </div>
+
                 <div class="section-box"><div class="section-title">TLM Required</div><textarea id="edit-tlm" class="edit-area">${getRawText(plan.TLM)}</textarea></div>
 
                 <button class="btn btn-primary" onclick="saveLessonToCloud('${className}', '${subjectName.replace(/'/g, "\\'")}', '${chapterName.replace(/'/g, "\\'")}', '${periodKey}')">
@@ -278,10 +298,18 @@
         async function saveLessonToCloud(className, subjectName, chapterName, periodKey) {
             const isArray = Array.isArray(loadedClasses[className][subjectName][chapterName]);
             const actualKey = isArray ? parseInt(periodKey) : periodKey;
-            
             const setVal = (val) => val.trim() === '' ? 'nan' : val.trim();
 
-            // Prepare the payload
+            // Extract the 5 steps back out of the bulk textarea
+            const bulkText = document.getElementById('edit-panchapadi-bulk').value;
+            
+            // Ultra-safe Regex parser that stops at the next bracket or end of file
+            const extractStep = (tag) => {
+                const regex = new RegExp(`\\[${tag}\\]([\\s\\S]*?)(?=\\[Adhiti\\]|\\[Bodha\\]|\\[Abhyasa\\]|\\[Prayoga\\]|\\[Prasara\\]|$)`, 'i');
+                const match = bulkText.match(regex);
+                return match ? match[1].trim() : 'nan';
+            };
+
             const updatedPlan = {
                 Topic: setVal(document.getElementById('edit-topic').value),
                 CG: setVal(document.getElementById('edit-cg').value),
@@ -289,15 +317,14 @@
                 LearningOutcomes: setVal(document.getElementById('edit-lo').value),
                 TLM: setVal(document.getElementById('edit-tlm').value),
                 Panchapadi: {
-                    Aditi: setVal(document.getElementById('edit-p1').value),
-                    Bodha: setVal(document.getElementById('edit-p2').value),
-                    Abhyasa: setVal(document.getElementById('edit-p3').value),
-                    Prayoga: setVal(document.getElementById('edit-p4').value),
-                    Prasara: setVal(document.getElementById('edit-p5').value)
+                    Aditi: setVal(extractStep('Adhiti')),
+                    Bodha: setVal(extractStep('Bodha')),
+                    Abhyasa: setVal(extractStep('Abhyasa')),
+                    Prayoga: setVal(extractStep('Prayoga')),
+                    Prasara: setVal(extractStep('Prasara'))
                 }
             };
             
-            // Keep the Period name intact if it exists
             if (loadedClasses[className][subjectName][chapterName][actualKey].Period) {
                 updatedPlan.Period = loadedClasses[className][subjectName][chapterName][actualKey].Period;
             }
@@ -305,11 +332,9 @@
             document.getElementById('chunk-loader').classList.remove('hidden');
             document.querySelector('#chunk-loader h3').innerText = "Uploading to Cloud...";
 
-            // The exact path to this specific period in Firebase
             const url = `${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subjectName)}/${encodeURIComponent(chapterName)}/${encodeURIComponent(actualKey)}.json`;
 
             try {
-                // PATCH tells Firebase to update just this object without deleting siblings
                 const res = await fetch(url, {
                     method: 'PATCH', 
                     body: JSON.stringify(updatedPlan)
