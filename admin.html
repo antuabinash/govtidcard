@@ -12,14 +12,15 @@
     <style>
         :root {
             --app-bg: #F4F6F9; --card-bg: #FFFFFF; --text-main: #1D1D1F; --text-muted: #86868B;
-            --primary: #FF3B30; --success: #34C759; --radius-xl: 24px; --radius-lg: 18px; --radius-md: 12px;
+            --primary: #FF3B30; --success: #34C759; --ai-purple: #7C3AED; --radius-xl: 24px; --radius-lg: 18px; --radius-md: 12px;
             --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
             --safe-area-pt: env(safe-area-inset-top, 16px); --safe-area-pb: env(safe-area-inset-bottom, 20px);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Noto Sans Oriya", sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: calc(40px + var(--safe-area-pb)); overflow-x: hidden; }
 
-        header { padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; background: rgba(255, 235, 238, 0.95); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--primary); display: flex; align-items: center; gap: 16px; }
+        header { padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; background: rgba(255, 235, 238, 0.95); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--primary); display: flex; align-items: center; justify-content: space-between; }
+        .header-left { display: flex; align-items: center; gap: 14px; }
         .icon-btn { background: #FFFFFF; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; flex-shrink: 0; }
         .icon-btn:active { transform: scale(0.9); }
         .app-title { font-size: 20px; font-weight: 800; color: var(--primary); }
@@ -54,9 +55,10 @@
         .edit-area { width: 100%; min-height: 80px; padding: 12px; border: 1.5px solid #E2E8F0; border-radius: 8px; font-family: 'Noto Sans Oriya', sans-serif; font-size: 15px; background: #F8FAFC; resize: vertical; outline: none; }
         .edit-area:focus { border-color: var(--primary); background: #FFFFFF; }
         
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; width: 100%; margin-bottom: 12px; transition: transform 0.2s;}
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; width: 100%; margin-bottom: 12px; transition: transform 0.2s, opacity 0.2s;}
         .btn:active { transform: scale(0.96); }
         .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 14px rgba(255,59,48,0.3); }
+        .btn-ai { background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); color: white; box-shadow: 0 4px 14px rgba(109,40,217,0.3); }
         .btn-ghost { background: #E2E8F0; color: var(--text-main); }
         .hidden { display: none !important; }
         
@@ -67,10 +69,15 @@
 <body>
 
     <header>
-        <button id="backBtn" class="icon-btn hidden" onclick="navigateBack()">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <div class="header-left">
+            <button id="backBtn" class="icon-btn hidden" onclick="navigateBack()">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+            <h1 id="headerTitle" class="app-title">Cloud Admin <span class="admin-badge">LIVE</span></h1>
+        </div>
+        <button class="btn btn-ghost" style="width: auto; margin: 0; padding: 8px 14px; font-size: 12px;" onclick="configureApiKey()">
+            🔑 API Key
         </button>
-        <h1 id="headerTitle" class="app-title">Cloud Admin <span class="admin-badge">LIVE</span></h1>
     </header>
 
     <div class="container">
@@ -86,13 +93,14 @@
     
     <div id="chunk-loader" class="hidden">
         <div class="spinner"></div>
-        <h3 style="color: var(--text-main); font-weight: 800; margin-bottom: 4px;">Syncing with Cloud</h3>
+        <h3 id="loader-title" style="color: var(--text-main); font-weight: 800; margin-bottom: 4px;">Syncing with Cloud</h3>
     </div>
     <div id="toast"></div>
 
     <script>
-        // YOUR FIREBASE URL
-        const DB_BASE_URL = 'https://livequizapp-5e433-default-rtdb.firebaseio.com/Sikhya_Sathi_DB';
+        // FIREBASE URL DIRECTLY POINTING TO ROOT
+        const DB_BASE_URL = 'https://livequizapp-5e433-default-rtdb.firebaseio.com';
+        const DEFAULT_GEMINI_KEY = 'AQ.Ab8RN6KoutpBdX4P1DF_vR5MUFpTZd9x0xu08EK_c2mN2mgfbg';
         
         let dbIndex = {};        
         let loadedClasses = {};  
@@ -105,10 +113,19 @@
             const el = document.getElementById('toast');
             el.textContent = msg;
             el.classList.add('is-visible');
-            setTimeout(() => el.classList.remove('is-visible'), 3000);
+            setTimeout(() => el.classList.remove('is-visible'), 3200);
         }
 
         function getRawText(text) { return (!text || text === 'nan') ? '' : String(text); }
+
+        function configureApiKey() {
+            const currentKey = localStorage.getItem('gemini_api_key') || DEFAULT_GEMINI_KEY;
+            const newKey = prompt("Edit your Google Gemini API Key:\n(Leave as is to use your default key)", currentKey);
+            if (newKey !== null) {
+                localStorage.setItem('gemini_api_key', newKey.trim());
+                showToast(newKey.trim() ? '🔑 Gemini API Key Saved!' : '⚠️ API Key Removed.');
+            }
+        }
 
         // --- FETCH INDEX FROM FIREBASE ---
         document.addEventListener("DOMContentLoaded", () => {
@@ -126,25 +143,33 @@
                 });
         });
         
-        // --- FETCH SPECIFIC CLASS FROM FIREBASE ---
         function lazyLoadClass(className) {
             if (loadedClasses[className]) {
                 renderSubjects(className);
                 return;
             }
-            document.getElementById('chunk-loader').classList.remove('hidden');
+            showLoader("Syncing with Cloud...");
             
             fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}.json`)
                 .then(res => res.json())
                 .then(data => {
                     loadedClasses[className] = data || {};
-                    document.getElementById('chunk-loader').classList.add('hidden');
+                    hideLoader();
                     renderSubjects(className);
                 })
                 .catch(err => {
                     alert("Failed to download class data from cloud.");
-                    document.getElementById('chunk-loader').classList.add('hidden');
+                    hideLoader();
                 });
+        }
+
+        function showLoader(text) {
+            document.getElementById('loader-title').innerText = text;
+            document.getElementById('chunk-loader').classList.remove('hidden');
+        }
+
+        function hideLoader() {
+            document.getElementById('chunk-loader').classList.add('hidden');
         }
 
         function updateHeader(title) {
@@ -238,26 +263,59 @@
             });
         }
 
-        // --- NEW COPY WITH AI PROMPT FUNCTION ---
-        function copyPanchapadi() {
-            const aiPrompt = `Please rewrite the following 5-step lesson plan to make it completely unique and plagiarism-free. You must strictly follow these rules:
+        // --- GEMINI AI AUTO-REWRITE ENGINE ---
+        async function rewritePanchapadiWithAI() {
+            const apiKey = localStorage.getItem('gemini_api_key') || DEFAULT_GEMINI_KEY;
 
-1. Keep the exact bracketed tags: You must include [Adhiti], [Bodha], [Abhyasa], [Prayoga], and [Prasara] exactly as they are written. Do not change, translate, or remove them.
-2. Make it short and concise: Summarize the steps to be brief and to the point.
-3. Focus ONLY on the teacher's actions: Write only what the teacher is doing. Do not include the students' reactions or responses.
-4. No extra subheadings: Do NOT write "Teacher's work", "Teacher:", or "ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ". Just write the direct action immediately under the bracketed tag.
-5. Maintain the exact educational context: Keep the original language (Odia/English) and do not change the core meaning of the lesson.
+            const currentText = document.getElementById('edit-panchapadi-bulk').value;
+            if (!currentText.trim()) {
+                showToast("⚠️ Nothing to rewrite in Panchapadi.");
+                return;
+            }
 
-Here is the text to rewrite:\n\n`;
+            showLoader("Gemini AI is rewriting lesson...");
 
-            const rawText = document.getElementById('edit-panchapadi-bulk').value;
-            const fullTextToCopy = aiPrompt + rawText;
+            const promptText = `You are an expert curriculum assistant. Rewrite the following 5-step Panchapadi lesson plan into fresh, original, concise text to eliminate copyright issues while preserving educational intent.
 
-            navigator.clipboard.writeText(fullTextToCopy).then(() => {
-                showToast('📋 AI Prompt & Lesson copied! Ready to paste into ChatGPT.');
-            }).catch(() => {
-                showToast('❌ Failed to copy text.');
-            });
+STRICT RULES:
+1. Keep the exact bracketed tags: [Adhiti], [Bodha], [Abhyasa], [Prayoga], and [Prasara]. Do not alter, omit, or translate these tags.
+2. Make each step short, punchy, and concise (1-2 sentences per step).
+3. Describe ONLY the teacher's actions. Never include student reactions or responses.
+4. NEVER include labels like "Teacher:", "Teacher's work", or "ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ". Write the direct action immediately under each tag.
+5. Maintain the original language (Odia or English). Keep all technical/subject terms accurate.
+
+Input to rewrite:
+${currentText}`;
+
+            try {
+                const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey.trim())}`;
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptText }] }],
+                        generationConfig: { temperature: 0.3 }
+                    })
+                });
+
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.error?.message || `HTTP ${res.status}`);
+                }
+
+                const data = await res.json();
+                const aiOutput = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (!aiOutput) throw new Error("Received empty response from Gemini.");
+
+                document.getElementById('edit-panchapadi-bulk').value = aiOutput.trim();
+                showToast('✨ Rewritten by Gemini! Review and click Save.');
+            } catch (err) {
+                console.error('Gemini API Error:', err);
+                alert(`Gemini AI Error: ${err.message}\nCheck your API key in the top right.`);
+            } finally {
+                hideLoader();
+            }
         }
 
         function renderLessonPlan(className, subjectName, chapterName, periodKey) {
@@ -271,7 +329,6 @@ Here is the text to rewrite:\n\n`;
             const viewer = document.getElementById('lesson-plan-viewer');
             viewer.classList.remove('hidden'); window.scrollTo(0, 0);
 
-            // Combines all 5 steps into one text block
             const bulkPanchapadi = `[Adhiti]\n${getRawText(p.Aditi)}\n\n[Bodha]\n${getRawText(p.Bodha)}\n\n[Abhyasa]\n${getRawText(p.Abhyasa)}\n\n[Prayoga]\n${getRawText(p.Prayoga)}\n\n[Prasara]\n${getRawText(p.Prasara)}`;
 
             viewer.innerHTML = `
@@ -284,17 +341,17 @@ Here is the text to rewrite:\n\n`;
                 <div class="section-box"><div class="section-title">Competency</div><textarea id="edit-comp" class="edit-area">${getRawText(plan.Competency)}</textarea></div>
                 <div class="section-box"><div class="section-title">Learning Outcomes</div><textarea id="edit-lo" class="edit-area">${getRawText(plan.LearningOutcomes)}</textarea></div>
                 
-                <!-- NEW BULK PANCHAPADI EDITOR -->
-                <div class="section-box" style="border-left-color: #007AFF;">
-                    <div class="section-title" style="display:flex; justify-content:space-between; align-items:center; color: #007AFF;">
-                        <span>Panchapadi (All 5 Steps)</span>
-                        <button class="btn btn-ghost" style="padding:6px 12px; font-size:12px; width:auto; margin:0; box-shadow:none;" onclick="copyPanchapadi()">📋 Copy All + Prompt</button>
+                <div class="section-box" style="border-left-color: #7C3AED;">
+                    <div class="section-title" style="display:flex; justify-content:space-between; align-items:center; color: #7C3AED;">
+                        <span>Panchapadi (5 Steps)</span>
+                        <button class="btn btn-ai" style="width:auto; margin:0; padding:6px 14px; font-size:12px;" onclick="rewritePanchapadiWithAI()">
+                            ✨ Auto-Rewrite with AI
+                        </button>
                     </div>
-                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px; line-height: 1.5;">
-                        Click <b>Copy All</b>, paste into your AI, and then paste the AI's response back here. <br>
-                        <b style="color:var(--text-main);">⚠️ IMPORTANT: Do not delete the bracket tags (e.g. [Adhiti]) when pasting back!</b>
+                    <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+                        Click <b>Auto-Rewrite with AI</b> to rewrite and shorten with Gemini. Keep tags like <code>[Adhiti]</code> intact.
                     </p>
-                    <textarea id="edit-panchapadi-bulk" class="edit-area" style="min-height: 400px;">${bulkPanchapadi}</textarea>
+                    <textarea id="edit-panchapadi-bulk" class="edit-area" style="min-height: 360px;">${bulkPanchapadi}</textarea>
                 </div>
 
                 <div class="section-box"><div class="section-title">TLM Required</div><textarea id="edit-tlm" class="edit-area">${getRawText(plan.TLM)}</textarea></div>
@@ -312,10 +369,8 @@ Here is the text to rewrite:\n\n`;
             const actualKey = isArray ? parseInt(periodKey) : periodKey;
             const setVal = (val) => val.trim() === '' ? 'nan' : val.trim();
 
-            // Extract the 5 steps back out of the bulk textarea
             const bulkText = document.getElementById('edit-panchapadi-bulk').value;
             
-            // Ultra-safe Regex parser that stops at the next bracket or end of file
             const extractStep = (tag) => {
                 const regex = new RegExp(`\\[${tag}\\]([\\s\\S]*?)(?=\\[Adhiti\\]|\\[Bodha\\]|\\[Abhyasa\\]|\\[Prayoga\\]|\\[Prasara\\]|$)`, 'i');
                 const match = bulkText.match(regex);
@@ -341,8 +396,7 @@ Here is the text to rewrite:\n\n`;
                 updatedPlan.Period = loadedClasses[className][subjectName][chapterName][actualKey].Period;
             }
 
-            document.getElementById('chunk-loader').classList.remove('hidden');
-            document.querySelector('#chunk-loader h3').innerText = "Uploading to Cloud...";
+            showLoader("Uploading to Cloud...");
 
             const url = `${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subjectName)}/${encodeURIComponent(chapterName)}/${encodeURIComponent(actualKey)}.json`;
 
@@ -354,17 +408,14 @@ Here is the text to rewrite:\n\n`;
                 
                 if (!res.ok) throw new Error("Cloud save failed.");
 
-                // Update local memory so we don't have to re-download
                 loadedClasses[className][subjectName][chapterName][actualKey] = updatedPlan;
-
                 showToast('☁️ Update Pushed Live to all Devices!');
                 navigateBack();
             } catch (err) {
                 console.error(err);
                 alert("Failed to save to Firebase. Check internet connection.");
             } finally {
-                document.getElementById('chunk-loader').classList.add('hidden');
-                document.querySelector('#chunk-loader h3').innerText = "Downloading Class Database";
+                hideLoader();
             }
         }
     </script>
