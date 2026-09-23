@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Cloud Admin - ଶିକ୍ଷକ ସାଥୀ</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --app-bg: #F4F6F9; --card-bg: #FFFFFF; --text-main: #1D1D1F; --text-muted: #86868B;
+            --primary: #FF3B30; --success: #34C759; --radius-xl: 24px; --radius-lg: 18px; --radius-md: 12px;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --safe-area-pt: env(safe-area-inset-top, 16px); --safe-area-pb: env(safe-area-inset-bottom, 20px);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Noto Sans Oriya", sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: calc(40px + var(--safe-area-pb)); overflow-x: hidden; }
+
+        header { padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; background: rgba(255, 235, 238, 0.95); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--primary); display: flex; align-items: center; gap: 16px; }
+        .icon-btn { background: #FFFFFF; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; flex-shrink: 0; }
+        .icon-btn:active { transform: scale(0.9); }
+        .app-title { font-size: 20px; font-weight: 800; color: var(--primary); }
+        .admin-badge { background: var(--primary); color: white; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 100px; vertical-align: middle; margin-left: 8px;}
+
+        .container { max-width: 800px; margin: 0 auto; padding: 16px 24px; }
+        #status-section { display: flex; flex-direction: column; align-items: center; background: var(--card-bg); padding: 40px 24px; border-radius: var(--radius-xl); text-align: center; margin-top: 24px; box-shadow: var(--shadow-soft); }
+        #chunk-loader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(244, 246, 249, 0.85); backdrop-filter: blur(8px); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner { border: 4px solid #f3f4f6; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        #app-content { display: flex; flex-direction: column; gap: 12px; }
+        .tile { background: var(--card-bg); border-radius: var(--radius-lg); padding: 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-soft); transition: transform 0.2s; }
+        .tile:active { transform: scale(0.96); }
+        .tile-left { display: flex; align-items: center; gap: 16px; width: 100%; overflow: hidden;}
+        .icon-box { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); flex-shrink: 0; }
+        .grad-purple { background: linear-gradient(135deg, #B1B0FC 0%, #E0C3FC 100%); }
+        .grad-blue { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
+        .grad-teal { background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%); }
+        .grad-orange { background: linear-gradient(135deg, #F6D365 0%, #FDA085 100%); }
+        .tile-info { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+        .tile-title { font-size: 16px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tile-subtitle { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+        .chevron svg { width: 22px; height: 22px; fill: #C7C7CC; }
+
+        .lesson-plan { background: transparent; padding: 0; }
+        .plan-header { background: linear-gradient(135deg, #FF3B30 0%, #C62828 100%); padding: 24px; border-radius: var(--radius-xl); margin-bottom: 20px; color: white; box-shadow: 0 12px 24px rgba(255, 59, 48, 0.25); }
+        .plan-topic { font-size: 22px; font-weight: 800; margin-bottom: 6px; line-height: 1.3;}
+        .plan-meta { font-size: 14px; font-weight: 600; opacity: 0.9; }
+        .section-box { background: var(--card-bg); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-soft); border-left: 4px solid var(--primary); }
+        .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
+        .edit-area { width: 100%; min-height: 80px; padding: 12px; border: 1.5px solid #E2E8F0; border-radius: 8px; font-family: 'Noto Sans Oriya', sans-serif; font-size: 15px; background: #F8FAFC; resize: vertical; outline: none; }
+        .edit-area:focus { border-color: var(--primary); background: #FFFFFF; }
+        
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; width: 100%; margin-bottom: 12px; transition: transform 0.2s;}
+        .btn:active { transform: scale(0.96); }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 14px rgba(255,59,48,0.3); }
+        .btn-ghost { background: #E2E8F0; color: var(--text-main); }
+        .hidden { display: none !important; }
+        
+        #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: #1D1D1F; color: white; font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 100px; z-index: 99000; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+        #toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button id="backBtn" class="icon-btn hidden" onclick="navigateBack()">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+        <h1 id="headerTitle" class="app-title">Cloud Admin <span class="admin-badge">LIVE</span></h1>
+    </header>
+
+    <div class="container">
+        <div id="status-section">
+            <div id="loading-spinner" class="spinner"></div>
+            <h2 id="status-title" style="margin-bottom: 8px; font-size: 20px; font-weight: 800;">Connecting to Firebase...</h2>
+            <p id="status-msg" style="color: var(--text-muted); font-size: 14px;">Loading portal securely.</p>
+        </div>
+
+        <div id="app-content"></div>
+        <div id="lesson-plan-viewer" class="lesson-plan hidden"></div>
+    </div>
+    
+    <div id="chunk-loader" class="hidden">
+        <div class="spinner"></div>
+        <h3 style="color: var(--text-main); font-weight: 800; margin-bottom: 4px;">Syncing with Cloud</h3>
+    </div>
+    <div id="toast"></div>
+
+    <script>
+        // YOUR FIREBASE URL (No SDK required!)
+        const DB_BASE_URL = 'https://livequizapp-5e433-default-rtdb.firebaseio.com';
+        
+        let dbIndex = {};        
+        let loadedClasses = {};  
+        let currentPath = [];
+        let isViewingLesson = false;
+
+        const chevronRight = `<div class="chevron"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></div>`;
+
+        function showToast(msg) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.classList.add('is-visible');
+            setTimeout(() => el.classList.remove('is-visible'), 3000);
+        }
+
+        function getRawText(text) { return (!text || text === 'nan') ? '' : String(text); }
+
+        // --- FETCH INDEX FROM FIREBASE ---
+        document.addEventListener("DOMContentLoaded", () => {
+            // shallow=true returns just the Class names instantly!
+            fetch(`${DB_BASE_URL}/.json?shallow=true`)
+                .then(res => res.json())
+                .then(data => {
+                    dbIndex = data || {};
+                    document.getElementById('status-section').classList.add('hidden');
+                    renderClasses();
+                })
+                .catch(err => {
+                    document.getElementById('loading-spinner').classList.add('hidden');
+                    document.getElementById('status-title').innerText = "Connection Failed";
+                    document.getElementById('status-msg').innerHTML = "Could not reach Firebase.";
+                });
+        });
+        
+        // --- FETCH SPECIFIC CLASS FROM FIREBASE ---
+        function lazyLoadClass(className) {
+            if (loadedClasses[className]) {
+                renderSubjects(className);
+                return;
+            }
+            document.getElementById('chunk-loader').classList.remove('hidden');
+            
+            // Fetch only that specific class node from the cloud
+            fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}.json`)
+                .then(res => res.json())
+                .then(data => {
+                    loadedClasses[className] = data || {};
+                    document.getElementById('chunk-loader').classList.add('hidden');
+                    renderSubjects(className);
+                })
+                .catch(err => {
+                    alert("Failed to download class data from cloud.");
+                    document.getElementById('chunk-loader').classList.add('hidden');
+                });
+        }
+
+        function updateHeader(title) {
+            document.getElementById('headerTitle').innerHTML = `${title} <span class="admin-badge">LIVE</span>`;
+            document.getElementById('backBtn').classList.toggle('hidden', currentPath.length === 0 && !isViewingLesson);
+        }
+
+        function navigateBack() {
+            if (isViewingLesson) {
+                isViewingLesson = false;
+                renderPeriods(currentPath[0], currentPath[1], currentPath[2]);
+            } else if (currentPath.length === 3) {
+                renderChapters(currentPath[0], currentPath[1]);
+            } else if (currentPath.length === 2) {
+                renderSubjects(currentPath[0]);
+            } else if (currentPath.length === 1) {
+                renderClasses();
+            }
+        }
+
+        function clearView() {
+            document.getElementById('app-content').innerHTML = '';
+            document.getElementById('app-content').classList.remove('hidden');
+            document.getElementById('lesson-plan-viewer').classList.add('hidden');
+            window.scrollTo(0, 0); 
+        }
+
+        function renderClasses() {
+            currentPath = []; updateHeader('Admin Panel'); clearView();
+            const container = document.getElementById('app-content');
+            Object.keys(dbIndex).sort().forEach(className => {
+                const cleanName = className.replace(/_/g, ' ');
+                container.innerHTML += `
+                    <div class="tile" onclick="lazyLoadClass('${className}')">
+                        <div class="tile-left"><div class="icon-box grad-purple">☁️</div>
+                        <div class="tile-info"><div class="tile-title">${cleanName}</div><div class="tile-subtitle">Cloud Synced</div></div></div>
+                        ${chevronRight}
+                    </div>`;
+            });
+        }
+
+        function renderSubjects(className) {
+            currentPath = [className]; updateHeader(className.replace(/_/g, ' ')); clearView();
+            const container = document.getElementById('app-content');
+            const subjects = loadedClasses[className];
+            Object.keys(subjects).forEach(subjectName => {
+                const chapterCount = Object.keys(subjects[subjectName] || {}).length;
+                container.innerHTML += `
+                    <div class="tile" onclick="renderChapters('${className}', '${subjectName.replace(/'/g, "\\'")}')">
+                        <div class="tile-left"><div class="icon-box grad-blue">📘</div>
+                        <div class="tile-info"><div class="tile-title">${subjectName}</div><div class="tile-subtitle">${chapterCount} Chapters</div></div></div>
+                        ${chevronRight}
+                    </div>`;
+            });
+        }
+
+        function renderChapters(className, subjectName) {
+            currentPath = [className, subjectName]; updateHeader(subjectName); clearView();
+            const container = document.getElementById('app-content');
+            const chapters = loadedClasses[className][subjectName] || {};
+            Object.keys(chapters).forEach(chapterName => {
+                const periodCount = Object.keys(chapters[chapterName] || {}).length;
+                container.innerHTML += `
+                    <div class="tile" onclick="renderPeriods('${className}', '${subjectName.replace(/'/g, "\\'")}', '${chapterName.replace(/'/g, "\\'")}')">
+                        <div class="tile-left"><div class="icon-box grad-teal">🔖</div>
+                        <div class="tile-info"><div class="tile-title">${chapterName}</div><div class="tile-subtitle">${periodCount} Active Periods</div></div></div>
+                        ${chevronRight}
+                    </div>`;
+            });
+        }
+
+        function renderPeriods(className, subjectName, chapterName) {
+            currentPath = [className, subjectName, chapterName]; updateHeader(chapterName); clearView();
+            const container = document.getElementById('app-content');
+            const periodData = loadedClasses[className][subjectName][chapterName] || {};
+            const periods = Array.isArray(periodData) ? periodData : Object.keys(periodData);
+            
+            periods.forEach((periodItem, index) => {
+                const isArray = Array.isArray(periodData);
+                const periodName = isArray ? periodItem.Period : periodItem;
+                const indexKey = isArray ? index : periodName;
+                const plan = isArray ? periodItem : periodData[periodName];
+                const topicDesc = (plan.Topic && plan.Topic !== 'nan') ? plan.Topic : 'Edit Period...';
+
+                container.innerHTML += `
+                    <div class="tile" onclick="renderLessonPlan('${className}', '${subjectName.replace(/'/g, "\\'")}', '${chapterName.replace(/'/g, "\\'")}', '${indexKey}')">
+                        <div class="tile-left"><div class="icon-box grad-orange">✏️</div>
+                        <div class="tile-info"><div class="tile-title">${periodName}</div><div class="tile-subtitle">${topicDesc}</div></div></div>
+                        ${chevronRight}
+                    </div>`;
+            });
+        }
+
+        function renderLessonPlan(className, subjectName, chapterName, periodKey) {
+            const isArray = Array.isArray(loadedClasses[className][subjectName][chapterName]);
+            const actualKey = isArray ? parseInt(periodKey) : periodKey;
+            const plan = loadedClasses[className][subjectName][chapterName][actualKey];
+            const p = plan.Panchapadi || {};
+
+            isViewingLesson = true; updateHeader("Edit Lesson Data");
+            document.getElementById('app-content').classList.add('hidden');
+            const viewer = document.getElementById('lesson-plan-viewer');
+            viewer.classList.remove('hidden'); window.scrollTo(0, 0);
+
+            viewer.innerHTML = `
+                <div class="plan-header">
+                    <div class="plan-topic">Editing: ${plan.Period || periodKey}</div>
+                    <div class="plan-meta">${className.replace(/_/g, ' ')} • ${subjectName}</div>
+                </div>
+                <div class="section-box"><div class="section-title">Topic Description</div><textarea id="edit-topic" class="edit-area">${getRawText(plan.Topic)}</textarea></div>
+                <div class="section-box"><div class="section-title">Curricular Goal</div><textarea id="edit-cg" class="edit-area">${getRawText(plan.CG)}</textarea></div>
+                <div class="section-box"><div class="section-title">Competency</div><textarea id="edit-comp" class="edit-area">${getRawText(plan.Competency)}</textarea></div>
+                <div class="section-box"><div class="section-title">Learning Outcomes</div><textarea id="edit-lo" class="edit-area">${getRawText(plan.LearningOutcomes)}</textarea></div>
+                <div class="section-box"><div class="section-title">Panchapadi: 1. Adhiti (ଅଧୀତି)</div><textarea id="edit-p1" class="edit-area">${getRawText(p.Aditi)}</textarea></div>
+                <div class="section-box"><div class="section-title">Panchapadi: 2. Bodha (ବୋଧ)</div><textarea id="edit-p2" class="edit-area">${getRawText(p.Bodha)}</textarea></div>
+                <div class="section-box"><div class="section-title">Panchapadi: 3. Abhyasa (ଅଭ୍ୟାସ)</div><textarea id="edit-p3" class="edit-area">${getRawText(p.Abhyasa)}</textarea></div>
+                <div class="section-box"><div class="section-title">Panchapadi: 4. Prayoga (ପ୍ରୟୋଗ)</div><textarea id="edit-p4" class="edit-area">${getRawText(p.Prayoga)}</textarea></div>
+                <div class="section-box"><div class="section-title">Panchapadi: 5. Prasara (ପ୍ରସାର)</div><textarea id="edit-p5" class="edit-area">${getRawText(p.Prasara)}</textarea></div>
+                <div class="section-box"><div class="section-title">TLM Required</div><textarea id="edit-tlm" class="edit-area">${getRawText(plan.TLM)}</textarea></div>
+
+                <button class="btn btn-primary" onclick="saveLessonToCloud('${className}', '${subjectName.replace(/'/g, "\\'")}', '${chapterName.replace(/'/g, "\\'")}', '${periodKey}')">
+                    Save to Cloud (Live)
+                </button>
+                <button class="btn btn-ghost" onclick="navigateBack()">Cancel</button>
+            `;
+        }
+
+        // --- DIRECT FIREBASE CLOUD SAVE ---
+        async function saveLessonToCloud(className, subjectName, chapterName, periodKey) {
+            const isArray = Array.isArray(loadedClasses[className][subjectName][chapterName]);
+            const actualKey = isArray ? parseInt(periodKey) : periodKey;
+            
+            const setVal = (val) => val.trim() === '' ? 'nan' : val.trim();
+
+            // Prepare the payload
+            const updatedPlan = {
+                Topic: setVal(document.getElementById('edit-topic').value),
+                CG: setVal(document.getElementById('edit-cg').value),
+                Competency: setVal(document.getElementById('edit-comp').value),
+                LearningOutcomes: setVal(document.getElementById('edit-lo').value),
+                TLM: setVal(document.getElementById('edit-tlm').value),
+                Panchapadi: {
+                    Aditi: setVal(document.getElementById('edit-p1').value),
+                    Bodha: setVal(document.getElementById('edit-p2').value),
+                    Abhyasa: setVal(document.getElementById('edit-p3').value),
+                    Prayoga: setVal(document.getElementById('edit-p4').value),
+                    Prasara: setVal(document.getElementById('edit-p5').value)
+                }
+            };
+            
+            // Keep the Period name intact if it exists
+            if (loadedClasses[className][subjectName][chapterName][actualKey].Period) {
+                updatedPlan.Period = loadedClasses[className][subjectName][chapterName][actualKey].Period;
+            }
+
+            document.getElementById('chunk-loader').classList.remove('hidden');
+            document.querySelector('#chunk-loader h3').innerText = "Uploading to Cloud...";
+
+            // The exact path to this specific period in Firebase
+            const url = `${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subjectName)}/${encodeURIComponent(chapterName)}/${encodeURIComponent(actualKey)}.json`;
+
+            try {
+                // PATCH tells Firebase to update just this object without deleting siblings
+                const res = await fetch(url, {
+                    method: 'PATCH', 
+                    body: JSON.stringify(updatedPlan)
+                });
+                
+                if (!res.ok) throw new Error("Cloud save failed.");
+
+                // Update local memory so we don't have to re-download
+                loadedClasses[className][subjectName][chapterName][actualKey] = updatedPlan;
+
+                showToast('☁️ Update Pushed Live to all Devices!');
+                navigateBack();
+            } catch (err) {
+                console.error(err);
+                alert("Failed to save to Firebase. Check internet connection.");
+            } finally {
+                document.getElementById('chunk-loader').classList.add('hidden');
+                document.querySelector('#chunk-loader h3').innerText = "Downloading Class Database";
+            }
+        }
+    </script>
+</body>
+</html>
