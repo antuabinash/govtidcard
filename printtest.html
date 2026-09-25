@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Daily Lesson Planner — ଶିକ୍ଷକ ସାଥୀ</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Stable CDN version of html-to-image (UMD build) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        /* =========================================================
+           DESIGN TOKENS
+        ========================================================= */
+        :root {
+            --clr-bg:          #F0F4F8;
+            --clr-surface:     #FFFFFF;
+            --clr-surface-2:   #F7F9FC;
+            --clr-border:      #E2E8F0;
+            --clr-border-2:    #CBD5E1;
+            --clr-brand:       #1D4ED8;
+            --clr-brand-mid:   #2563EB;
+            --clr-brand-light: #DBEAFE;
+            --clr-brand-dark:  #1E3A8A;
+            --clr-accent:      #059669;
+            --clr-accent-light:#D1FAE5;
+            --clr-danger:      #DC2626;
+            --clr-danger-light:#FEE2E2;
+            --clr-text:        #0F172A;
+            --clr-text-mid:    #334155;
+            --clr-text-muted:  #64748B;
+            --clr-text-inv:    #FFFFFF;
+
+            --r-sm:  8px;
+            --r-md:  12px;
+            --r-lg:  18px;
+            --r-xl:  24px;
+            --r-pill:100px;
+
+            --sh-card: 0 1px 3px rgba(15,23,42,.06), 0 4px 12px rgba(15,23,42,.06);
+            --sh-raised: 0 4px 16px rgba(29,78,216,.18);
+            --sh-modal: 0 20px 60px rgba(15,23,42,.22);
+
+            --sat: env(safe-area-inset-top, 0px);
+            --sab: env(safe-area-inset-bottom, 0px);
+        }
+
+        /* =========================================================
+           RESET & BASE
+        ========================================================= */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--clr-bg); color: var(--clr-text);
+            font-family: 'Inter', 'Noto Sans Oriya', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6; min-height: 100dvh;
+            padding-bottom: calc(72px + var(--sab) + 8px);
+            overflow-x: hidden; -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+        .app-header {
+            position: sticky; top: 0; z-index: 100;
+            background: linear-gradient(160deg, var(--clr-brand-dark) 0%, var(--clr-brand) 100%);
+            padding: calc(var(--sat) + 14px) 20px 14px; box-shadow: 0 2px 12px rgba(29,78,216,.3);
+        }
+        .app-header__inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 14px; }
+        .app-header__title { font-size: 1.15rem; font-weight: 700; color: var(--clr-text-inv); letter-spacing: -0.02em; }
+        .app-header__subtitle { font-size: 0.7rem; color: rgba(255,255,255,0.65); font-weight: 500; letter-spacing: 0.04em; }
+
+        .btn-icon {
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); color: white;
+            width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background 0.15s; flex-shrink: 0;
+        }
+        .btn-icon:hover { background: rgba(255,255,255,0.22); }
+        .btn-icon:active { background: rgba(255,255,255,0.32); transform: scale(0.93); }
+
+        /* =========================================================
+           LAYOUT & CARDS
+        ========================================================= */
+        .container { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
+        .card { background: var(--clr-surface); border-radius: var(--r-lg); border: 1px solid var(--clr-border); box-shadow: var(--sh-card); padding: 22px; margin-bottom: 16px; }
+        .card__title { font-size: 1rem; font-weight: 700; color: var(--clr-brand); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+
+        /* =========================================================
+           FORM ELEMENTS
+        ========================================================= */
+        .field { display: flex; flex-direction: column; gap: 5px; }
+        .field > label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--clr-text-muted); }
+        .field-input {
+            width: 100%; padding: 10px 12px; border-radius: var(--r-md); border: 1.5px solid var(--clr-border);
+            font-size: 0.95rem; font-weight: 500; font-family: inherit; background: var(--clr-surface-2);
+            color: var(--clr-text); outline: none; transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+            appearance: none; -webkit-appearance: none;
+        }
+        select.field-input {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
+        }
+        .field-input:focus { background: var(--clr-surface); border-color: var(--clr-brand); box-shadow: 0 0 0 3px rgba(29,78,216,0.12); }
+        .field-input:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .form-grid--1 { grid-template-columns: 1fr; }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 11px 18px;
+            border-radius: var(--r-md); font-family: inherit; font-size: 0.9rem; font-weight: 700;
+            cursor: pointer; border: none; transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
+            white-space: nowrap; letter-spacing: -0.01em;
+        }
+        .btn:active { transform: scale(0.95); }
+        .btn--primary { background: var(--clr-brand); color: white; box-shadow: var(--sh-raised); }
+        .btn--primary:hover { background: var(--clr-brand-mid); }
+        .btn--success { background: var(--clr-accent); color: white; box-shadow: 0 4px 14px rgba(5,150,105,.25); }
+        .btn--success:hover { background: #047857; }
+        .btn--ghost { background: var(--clr-border); color: var(--clr-text-mid); }
+        .btn--ghost:hover { background: var(--clr-border-2); }
+        .btn--full { width: 100%; }
+        .btn--dashed {
+            width: 100%; background: transparent; border: 2px dashed var(--clr-border-2); color: var(--clr-text-muted);
+            border-radius: var(--r-md); padding: 12px; font-family: inherit; font-size: 0.88rem; font-weight: 600;
+            cursor: pointer; transition: background 0.15s, border-color 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .btn--dashed:hover { background: var(--clr-surface-2); border-color: var(--clr-brand-mid); color: var(--clr-brand); }
+        .btn--dashed:active { transform: scale(0.98); }
+
+        /* =========================================================
+           WORKSPACE HEADER
+        ========================================================= */
+        .workspace-bar {
+            background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--r-xl);
+            box-shadow: var(--sh-card); padding: 18px 20px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 14px;
+        }
+        .workspace-bar__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .workspace-bar__name { font-size: 1.05rem; font-weight: 800; color: var(--clr-brand); letter-spacing: -0.02em; }
+        .workspace-bar__teacher { font-size: 0.85rem; color: var(--clr-text-muted); font-weight: 500; margin-top: 2px; }
+        .workspace-bar__divider { border: none; border-top: 1px dashed var(--clr-border); margin: 0; }
+
+        /* =========================================================
+           PERIOD TABS
+        ========================================================= */
+        .tabs-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 14px; }
+        .tab {
+            padding: 8px 16px; background: var(--clr-surface); border: 1.5px solid var(--clr-border);
+            border-radius: var(--r-pill); font-family: inherit; font-size: 0.85rem; font-weight: 700;
+            color: var(--clr-text-muted); cursor: pointer; white-space: nowrap; transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .tab.is-active { background: var(--clr-brand); color: white; border-color: var(--clr-brand); box-shadow: 0 3px 10px rgba(29,78,216,.25); }
+
+        .period-pane { display: none; }
+        .period-pane.is-active { display: block; animation: paneFadeIn 0.25s ease; }
+        @keyframes paneFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .period-pane__title { font-size: 0.95rem; font-weight: 800; color: var(--clr-text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .period-badge {
+            display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+            background: var(--clr-brand-light); color: var(--clr-brand); border-radius: 50%; font-size: 0.72rem; font-weight: 800;
+        }
+
+        /* =========================================================
+           ASSIGNMENT CARDS
+        ========================================================= */
+        .assignment-card {
+            background: var(--clr-surface); border: 1.5px solid var(--clr-border); border-radius: var(--r-md);
+            padding: 16px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(15,23,42,.04); transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .assignment-card:focus-within { border-color: var(--clr-brand); box-shadow: 0 0 0 3px rgba(29,78,216,.08); }
+        .assignment-card__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--clr-border); }
+        .assignment-card__badge {
+            background: var(--clr-brand-light); color: var(--clr-brand); font-size: 0.7rem; font-weight: 800;
+            padding: 4px 10px; border-radius: var(--r-pill); letter-spacing: 0.04em; text-transform: uppercase;
+        }
+        .assignment-card__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .btn-remove {
+            background: var(--clr-danger-light); color: var(--clr-danger); border: none; width: 30px; height: 30px;
+            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s, transform 0.12s; flex-shrink: 0;
+        }
+        .btn-remove:hover  { background: #fca5a5; }
+        .btn-remove:active { transform: scale(0.88); }
+
+        /* =========================================================
+           FIXED ACTION BAR
+        ========================================================= */
+        .action-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-top: 1px solid rgba(0,0,0,0.07);
+            padding: 10px 16px calc(10px + var(--sab)); z-index: 200; display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 -4px 20px rgba(15,23,42,.06);
+        }
+        .action-bar__main { flex: 1; height: 44px; }
+
+        /* =========================================================
+           MODALS & OVERLAYS
+        ========================================================= */
+        .modal-backdrop, .chunk-overlay {
+            position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+            padding: 16px; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.25s, visibility 0.25s;
+        }
+        .modal-backdrop { background: rgba(15,23,42,0.5); backdrop-filter: blur(5px); }
+        .chunk-overlay { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); z-index: 99999; flex-direction: column; text-align: center;}
+        .modal-backdrop.is-open, .chunk-overlay.is-active { opacity: 1; pointer-events: all; visibility: visible; }
+
+        .modal {
+            background: var(--clr-surface); border-radius: var(--r-xl); width: 100%; max-width: 420px;
+            padding: 22px; box-shadow: var(--sh-modal); transform: translateY(24px); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .modal-backdrop.is-open .modal { transform: translateY(0); }
+        .modal__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal__title { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
+        .modal__close {
+            background: var(--clr-surface-2); border: 1px solid var(--clr-border); width: 32px; height: 32px;
+            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--clr-text-muted); transition: background 0.15s;
+        }
+        .modal__close:hover { background: var(--clr-border); }
+
+        .pdf-overlay__spinner {
+            width: 44px; height: 44px; border: 4px solid var(--clr-border); border-top-color: var(--clr-brand);
+            border-radius: 50%; animation: spin 0.75s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .pdf-overlay__title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--clr-text); }
+        .pdf-overlay__sub { font-size: 0.85rem; color: var(--clr-text-muted); }
+
+        /* =========================================================
+           PREVIEW AREA & PDF STYLES
+        ========================================================= */
+        .preview-wrapper {
+            background: white; border-radius: var(--r-lg); border: 1px solid var(--clr-border);
+            box-shadow: var(--sh-card); overflow-x: auto; margin-bottom: 16px;
+        }
+        
+        #pdf-preview-content { 
+            width: 1123px; /* A4 Landscape width to guarantee flawless HD scaling */
+            background: white; color: black; font-family: 'Inter', 'Noto Sans Oriya', sans-serif; 
+            padding: 24px; box-sizing: border-box;
+        }
+
+        [contenteditable="true"]:focus { outline: 2px dashed rgba(29, 78, 216, 0.4); outline-offset: 4px; border-radius: 4px; }
+
+        .daily-plan-block {
+            background: white; padding: 0 0 40px 0; margin-bottom: 40px; 
+            border-bottom: 2px dashed var(--clr-border);
+        }
+        .daily-plan-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        .pdf-header { text-align: center; margin-bottom: 14px; border-bottom: 2px solid #0F172A; padding-bottom: 8px; }
+        .pdf-header__title { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #0F172A; margin-bottom: 4px; }
+        .pdf-header__school { font-size: 12px; font-weight: 700; color: #1E3A8A; margin-bottom: 6px; }
+        .pdf-header__meta { display: flex; justify-content: space-between; font-size: 10px; font-weight: 600; color: #334155; }
+
+        .pdf-table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; color: #0F172A; }
+        .pdf-table thead { display: table-header-group; }
+        
+        /* Auto-split periods correctly to eliminate massive bottom blank spaces */
+        .pdf-table tbody tr { page-break-inside: auto; break-inside: auto; }
+        .pdf-table td, .pdf-table th { page-break-inside: auto; break-inside: auto; border: 1px solid #334155; padding: 5px 6px; vertical-align: top; line-height: 1.35; word-wrap: break-word; overflow-wrap: break-word; }
+        
+        .pdf-table th { background: #EFF6FF !important; font-weight: 700; font-size: 8.5px; text-align: center; color: #1E3A8A; vertical-align: middle; }
+        .pdf-table td.col-period { text-align: center; font-weight: 800; font-size: 13px; color: #1D4ED8; vertical-align: middle; background: #F0F9FF; }
+        .pdf-table tbody tr:nth-child(even) td:not(.col-period) { background: #FAFCFF; }
+
+        .pdf-text { font-size: 9px; line-height: 1.4; }
+        .pdf-text b { font-size: 9px; font-weight: 700; }
+
+        .hidden { display: none !important; }
+        #toast {
+            position: fixed; bottom: calc(80px + var(--sab)); left: 50%; transform: translateX(-50%) translateY(20px);
+            background: #0F172A; color: white; font-size: 0.85rem; font-weight: 600; padding: 10px 18px;
+            border-radius: var(--r-pill); white-space: nowrap; z-index: 99000; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none;
+        }
+        #toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        @media print {
+            .no-print, #main-container, .action-bar, .modal-backdrop, .chunk-overlay { display: none !important; }
+            .preview-wrapper { padding: 0; box-shadow: none; border: none; overflow: visible !important; width: 100% !important; }
+            #pdf-preview-content { min-width: 100% !important; width: 100% !important; padding: 0 !important; }
+            
+            /* Physical Paper: Force a clean page break before a new day starts */
+            .daily-plan-block { page-break-after: always; break-after: page; border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+            
+            body { background: white; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            @page { size: A4 landscape; margin: 6mm; }
+        }
+        @media (max-width: 640px) {
+            .form-grid--3 { grid-template-columns: 1fr 1fr; }
+            .assignment-card__grid { grid-template-columns: 1fr; }
+            .card { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="app-header no-print" role="banner">
+        <div class="app-header__inner">
+            <button class="btn-icon" aria-label="Go back" onclick="window.history.back()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </button>
+            <div>
+                <div class="app-header__title">Daily Lesson Planner</div>
+                <div class="app-header__subtitle">ଶିକ୍ଷକ ସାଥୀ — Teacher Companion</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SETUP SCREEN -->
+    <main class="container no-print" id="main-container" role="main">
+        <div class="card" id="setup-card">
+            <div class="card__title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                Setup Profile
+            </div>
+            <div class="form-grid form-grid--1" style="gap:14px; margin-bottom:16px;">
+                <div class="field">
+                    <label for="schoolName">School Name</label>
+                    <input type="text" id="schoolName" class="field-input" placeholder="e.g. Govt. High School, Bhubaneswar" autocomplete="organization">
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="teacherName">Teacher Name</label>
+                        <input type="text" id="teacherName" class="field-input" placeholder="e.g. Abinash Mahapatra" autocomplete="name">
+                    </div>
+                    <div class="field">
+                        <label for="numPeriods">Periods per Day</label>
+                        <input type="number" id="numPeriods" class="field-input" min="1" max="12" value="7">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn--primary btn--full" onclick="initializeWorkspace()">
+                Continue to Workspace →
+            </button>
+        </div>
+
+        <!-- WORKSPACE (BUILDER) -->
+        <div id="builder-area" class="hidden">
+            <div class="workspace-bar">
+                <div class="workspace-bar__top">
+                    <div>
+                        <div class="workspace-bar__name" id="display-school">School Name</div>
+                        <div class="workspace-bar__teacher" id="display-teacher">Teacher Name</div>
+                    </div>
+                    <button class="btn btn--ghost" style="font-size:0.8rem;padding:8px 12px;" onclick="openProfileModal()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit
+                    </button>
+                </div>
+                <hr class="workspace-bar__divider">
+                <div class="field">
+                    <label for="planDate">Start Date</label>
+                    <input type="date" id="planDate" class="field-input" onchange="savePlanToStorage()" style="max-width:220px;">
+                </div>
+            </div>
+
+            <div class="tabs-wrap" id="periodTabs" role="tablist"></div>
+
+            <div class="card" style="background: var(--clr-surface-2);">
+                <div id="periods-container"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- PREVIEW AREA -->
+    <div class="container hidden" id="preview-area">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;" class="no-print">
+            <h2 style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em;">
+                <span>📄</span> Print Preview <span style="font-size: 0.8rem; color: var(--clr-brand); margin-left: 8px; font-weight: 600;">(Tap text to edit)</span>
+            </h2>
+        </div>
+        <div class="preview-wrapper">
+            <div id="pdf-preview-content" role="document"></div>
+        </div>
+    </div>
+
+    <!-- ACTION BARS -->
+    <div class="action-bar no-print hidden" id="builder-footer" role="toolbar">
+        <button class="btn btn--success" style="flex:1;" onclick="openWeeklyModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Auto-Weekly Plan
+        </button>
+        <button class="btn btn--primary" style="flex:1;" onclick="generatePlanPreview()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Single Day Plan
+        </button>
+    </div>
+
+    <div class="action-bar no-print hidden" id="preview-footer" role="toolbar">
+        <button class="btn btn--ghost" style="flex:1;" onclick="backToEdit()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5"/><line x1="19" y1="12" x2="6" y2="12"/></svg> Edit
+        </button>
+        <button class="btn btn--success" style="flex:1;" onclick="window.print()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print
+        </button>
+        <button class="btn btn--primary" style="flex:1;" onclick="sharePlanViaApp()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> Share PDF
+        </button>
+    </div>
+
+    <!-- PROFILE MODAL -->
+    <div id="profile-modal" class="modal-backdrop no-print" role="dialog">
+        <div class="modal">
+            <div class="modal__header">
+                <span class="modal__title">Profile Settings</span>
+                <button class="modal__close" onclick="closeProfileModal()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+                <div class="field"><label>School Name</label><input type="text" id="modalSchoolName" class="field-input"></div>
+                <div class="field"><label>Teacher Name</label><input type="text" id="modalTeacherName" class="field-input"></div>
+                <div class="field"><label>Periods per Day</label><input type="number" id="modalNumPeriods" class="field-input" min="1" max="12"></div>
+            </div>
+            <button class="btn btn--primary btn--full" onclick="saveUpdatedProfile()">Save Settings</button>
+        </div>
+    </div>
+
+    <!-- WEEKLY PLAN SETUP MODAL -->
+    <div id="weekly-modal" class="modal-backdrop no-print" role="dialog">
+        <div class="modal">
+            <div class="modal__header">
+                <span class="modal__title">Generate Auto-Weekly Plan</span>
+                <button class="modal__close" onclick="closeWeeklyModal()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+                <div class="field">
+                    <label>Start Date</label>
+                    <input type="date" id="weeklyStartDate" class="field-input">
+                </div>
+                <div class="field">
+                    <label>Days to Generate</label>
+                    <input type="number" id="weeklyNumDays" class="field-input" min="1" max="30" value="7">
+                </div>
+                <div class="field" style="flex-direction: row; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="excludeSundays" checked style="width:18px;height:18px;accent-color:var(--clr-brand);">
+                    <label for="excludeSundays" style="font-size: 0.9rem; text-transform:none; color:var(--clr-text); font-weight:600;">Exclude Sundays Automatically</label>
+                </div>
+                <div class="field">
+                    <label>Exclude Specific Dates (Holidays)</label>
+                    <div id="holiday-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom: 8px;">
+                        <!-- dynamic holiday inputs go here -->
+                    </div>
+                    <button class="btn btn--dashed" style="padding: 8px;" onclick="addHolidayField()">+ Add Holiday Date</button>
+                </div>
+            </div>
+            <button class="btn btn--success btn--full" onclick="generateWeeklyPlan()">🚀 Generate Weekly Plan</button>
+        </div>
+    </div>
+
+    <!-- DB CHUNK LOADING OVERLAY -->
+    <div id="chunk-overlay" class="chunk-overlay no-print">
+        <div class="pdf-overlay__spinner"></div>
+        <div class="pdf-overlay__title">Loading Syllabus...</div>
+        <div class="pdf-overlay__sub">Fetching class data instantly from the cloud</div>
+    </div>
+
+    <div id="pdf-overlay" class="chunk-overlay no-print">
+        <div class="pdf-overlay__spinner"></div>
+        <div class="pdf-overlay__title">Generating PDF…</div>
+        <div class="pdf-overlay__sub">Please keep the app open and visible</div>
+    </div>
+
+    <div id="toast" role="alert"></div>
+
+    <script>
+        const DB_BASE_URL = 'https://livequizapp-5e433-default-rtdb.firebaseio.com';
+        
+        let db = {};       
+        let indexDb = {};  
+        let classList = [];
+        let currentPeriodIndex = 1;
+        let totalPeriods = 7;
+
+        function showToast(msg, duration = 3200) {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.classList.add('is-visible');
+            setTimeout(() => el.classList.remove('is-visible'), duration);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch(`${DB_BASE_URL}/.json?shallow=true`)
+                .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+                .then(data => {
+                    indexDb = data || {};
+                    classList = Object.keys(indexDb).sort(smartSort);
+                    
+                    document.getElementById('planDate').valueAsDate = new Date();
+                    if (loadPlanFromStorage()) {
+                        document.getElementById('setup-card').classList.add('hidden');
+                    }
+                })
+                .catch(err => {
+                    console.error('Index Load Error:', err);
+                    showToast('Failed to connect to Firebase database.');
+                });
+
+            document.getElementById('profile-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeProfileModal();
+            });
+            document.getElementById('weekly-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeWeeklyModal();
+            });
+        });
+
+        // ================= PROGRESSIVE FIREBASE LOADING =================
+        async function loadClassChunk(className) {
+            if (db[className]) return; 
+            const loader = document.getElementById('chunk-overlay');
+            loader.classList.add('is-active');
+
+            try {
+                // Fetches data directly from Firebase based on the exact Class name
+                const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}.json`);
+                if (!res.ok) throw new Error("Cloud data missing");
+                
+                const data = await res.json();
+                db[className] = data || {};
+            } catch (err) {
+                console.error(err);
+                showToast("Failed to load class syllabus from Cloud.");
+            } finally {
+                loader.classList.remove('is-active');
+            }
+        }
+        // ================================================================
+
+        function extractNumber(str) {
+            const match = String(str).match(/\d+/);
+            return match ? parseInt(match[0], 10) : null;
+        }
+
+        function smartSort(a, b) {
+            const numA = extractNumber(a);
+            const numB = extractNumber(b);
+            if (numA !== null && numB !== null && numA !== numB) {
+                return numA - numB;
+            }
+            return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: 'base' });
+        }
+
+        function initializeWorkspace() {
+            const sName = document.getElementById('schoolName').value.trim();
+            const tName = document.getElementById('teacherName').value.trim();
+            const nPeriods = parseInt(document.getElementById('numPeriods').value) || 7;
+
+            if (!sName || !tName) return showToast('Please enter your name and school.');
+            if (nPeriods < 1 || nPeriods > 12) return showToast('Periods must be between 1 and 12.');
+
+            totalPeriods = nPeriods;
+            document.getElementById('setup-card').classList.add('hidden');
+            document.getElementById('builder-area').classList.remove('hidden');
+            document.getElementById('builder-footer').classList.remove('hidden');
+
+            updateUIHeader();
+            buildTabsAndForms();
+            savePlanToStorage();
+        }
+
+        function savePlanToStorage() {
+            const periods = [];
+            document.querySelectorAll('.period-pane').forEach(pane => {
+                const rowDataList = [];
+                pane.querySelectorAll('.assignment-card').forEach(card => {
+                    rowDataList.push({
+                        cls:     card.querySelector('.sel-class').value,
+                        subj:    card.querySelector('.sel-subj').value,
+                        chap:    card.querySelector('.sel-chap').value,
+                        lessKey: card.querySelector('.sel-less').value
+                    });
+                });
+                periods.push(rowDataList);
+            });
+            try {
+                localStorage.setItem('lessonPlannerSave', JSON.stringify({
+                    schoolName:  document.getElementById('schoolName').value,
+                    teacherName: document.getElementById('teacherName').value,
+                    planDate:    document.getElementById('planDate').value,
+                    numPeriods:  totalPeriods,
+                    periods
+                }));
+            } catch (e) {}
+        }
+
+        function loadPlanFromStorage() {
+            try {
+                const raw = localStorage.getItem('lessonPlannerSave');
+                if (!raw) return false;
+                const data = JSON.parse(raw);
+                document.getElementById('schoolName').value  = data.schoolName  || '';
+                document.getElementById('teacherName').value = data.teacherName || '';
+                if (data.planDate) document.getElementById('planDate').value = data.planDate;
+                totalPeriods = parseInt(data.numPeriods) || 7;
+                document.getElementById('numPeriods').value = totalPeriods;
+
+                updateUIHeader();
+                document.getElementById('builder-area').classList.remove('hidden');
+                document.getElementById('builder-footer').classList.remove('hidden');
+                buildTabsAndForms(data.periods);
+                return true;
+            } catch (e) { return false; }
+        }
+
+        function updateUIHeader() {
+            document.getElementById('display-school').textContent  = document.getElementById('schoolName').value  || 'School Name';
+            document.getElementById('display-teacher').textContent = document.getElementById('teacherName').value || 'Teacher Name';
+        }
+
+        function buildTabsAndForms(savedPeriodsData = null) {
+            const tabsEl   = document.getElementById('periodTabs');
+            const formsEl  = document.getElementById('periods-container');
+            tabsEl.innerHTML  = '';
+            formsEl.innerHTML = '';
+
+            for (let i = 1; i <= totalPeriods; i++) {
+                const tab = document.createElement('button');
+                tab.className = `tab${i === 1 ? ' is-active' : ''}`;
+                tab.id = `tab-${i}`;
+                tab.textContent = `Period ${i}`;
+                tab.onclick = () => switchPeriod(i);
+                tabsEl.appendChild(tab);
+
+                const pane = document.createElement('div');
+                pane.className = `period-pane${i === 1 ? ' is-active' : ''}`;
+                pane.id = `pane-${i}`;
+
+                pane.innerHTML = `
+                    <div class="period-pane__title">
+                        <span class="period-badge">${i}</span> Period ${i} — Assignments
+                    </div>
+                    <div id="rows-container-${i}"></div>
+                    <button class="btn--dashed" style="margin-top:4px;" onclick="addLessonRow(${i}); savePlanToStorage();">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Add class to Period ${i}
+                    </button>
+                `;
+                formsEl.appendChild(pane);
+
+                if (savedPeriodsData && savedPeriodsData[i - 1] && savedPeriodsData[i - 1].length > 0) {
+                    savedPeriodsData[i - 1].forEach((rowData, idx) => addLessonRow(i, rowData, idx + 1));
+                } else {
+                    addLessonRow(i, null, 1);
+                }
+            }
+            currentPeriodIndex = 1;
+            hydrateAllDropdowns();
+        }
+
+        function addLessonRow(periodNum, presetData = null, cardIndex = null) {
+            const container = document.getElementById(`rows-container-${periodNum}`);
+            const currentCount = container.querySelectorAll('.assignment-card').length;
+            const displayIndex = cardIndex != null ? cardIndex : (currentCount + 1);
+
+            const rowId = `row-${periodNum}-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+            const card  = document.createElement('div');
+            card.className = 'assignment-card';
+            card.id = rowId;
+
+            const classOptions = `<option value="">Select class…</option>` +
+                classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
+
+            card.innerHTML = `
+                <div class="assignment-card__header">
+                    <span class="assignment-card__badge">Assignment ${displayIndex}</span>
+                    <button class="btn-remove" onclick="removeLessonRow(this); savePlanToStorage();">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                <div class="assignment-card__grid">
+                    <div class="field">
+                        <label>Class</label>
+                        <select class="sel-class field-input" onchange="handleClassChange('${rowId}')">
+                            ${classOptions}
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Subject</label>
+                        <select class="sel-subj field-input" onchange="updateChapters('${rowId}'); savePlanToStorage();" disabled><option value="">Select subject…</option></select>
+                    </div>
+                    <div class="field">
+                        <label>Chapter</label>
+                        <select class="sel-chap field-input" onchange="updateLessons('${rowId}'); savePlanToStorage();" disabled><option value="">Select chapter…</option></select>
+                    </div>
+                    <div class="field">
+                        <label>Lesson / Period</label>
+                        <select class="sel-less field-input" onchange="savePlanToStorage();" disabled><option value="">Select lesson…</option></select>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+
+            if (presetData) {
+                card.dataset.presetCls  = presetData.cls;
+                card.dataset.presetSubj = presetData.subj;
+                card.dataset.presetChap = presetData.chap;
+                card.dataset.presetLess = presetData.lessKey;
+            }
+        }
+
+        function removeLessonRow(btn) {
+            const card = btn.closest('.assignment-card');
+            const container = card.parentElement;
+            card.remove();
+            container.querySelectorAll('.assignment-card__badge').forEach((badge, idx) => {
+                badge.textContent = `Assignment ${idx + 1}`;
+            });
+        }
+
+        function switchPeriod(index) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('is-active'));
+            document.querySelectorAll('.period-pane').forEach(p => p.classList.remove('is-active'));
+            document.getElementById(`tab-${index}`).classList.add('is-active');
+            document.getElementById(`pane-${index}`).classList.add('is-active');
+            currentPeriodIndex = index;
+        }
+
+        async function hydrateAllDropdowns() {
+            const classOptions = `<option value="">Select class…</option>` +
+                classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
+
+            for (const card of document.querySelectorAll('.assignment-card')) {
+                const clsSel = card.querySelector('.sel-class');
+                if (!clsSel) continue; 
+                if (clsSel.options.length <= 1) clsSel.innerHTML = classOptions;
+
+                if (card.dataset.presetCls) {
+                    clsSel.value = card.dataset.presetCls;
+                    await loadClassChunk(card.dataset.presetCls);
+                    
+                    updateSubjectsSync(card.id);
+                    const subjSel = card.querySelector('.sel-subj');
+                    if (card.dataset.presetSubj) {
+                        subjSel.value = card.dataset.presetSubj;
+                        updateChapters(card.id);
+                        if (card.dataset.presetChap) {
+                            card.querySelector('.sel-chap').value = card.dataset.presetChap;
+                            updateLessons(card.id);
+                            if (card.dataset.presetLess) {
+                                card.querySelector('.sel-less').value = card.dataset.presetLess;
+                            }
+                        }
+                    }
+                    delete card.dataset.presetCls; delete card.dataset.presetSubj; delete card.dataset.presetChap; delete card.dataset.presetLess;
+                }
+            }
+        }
+
+        async function handleClassChange(rowId) {
+            const card = document.getElementById(rowId);
+            const cls = card.querySelector('.sel-class').value;
+            resetSelect(card.querySelector('.sel-chap'));
+            resetSelect(card.querySelector('.sel-less'));
+            
+            if (!cls) { 
+                resetSelect(card.querySelector('.sel-subj')); 
+                savePlanToStorage(); 
+                return; 
+            }
+            
+            await loadClassChunk(cls);
+            updateSubjectsSync(rowId);
+            savePlanToStorage();
+        }
+
+        function updateSubjectsSync(rowId) {
+            const card = document.getElementById(rowId);
+            const cls  = card.querySelector('.sel-class').value;
+            const subjectData = db[cls] || {};
+            populateSelect(card.querySelector('.sel-subj'), Object.keys(subjectData).sort(smartSort), 'Select subject…');
+        }
+
+        function updateChapters(rowId) {
+            const card = document.getElementById(rowId);
+            const cls  = card.querySelector('.sel-class').value;
+            const subj = card.querySelector('.sel-subj').value;
+            resetSelect(card.querySelector('.sel-less'));
+            if (!subj) return resetSelect(card.querySelector('.sel-chap'));
+            populateSelect(card.querySelector('.sel-chap'), Object.keys((db[cls] || {})[subj] || {}).sort(smartSort), 'Select chapter…');
+        }
+
+        function updateLessons(rowId) {
+            const card    = document.getElementById(rowId);
+            const cls     = card.querySelector('.sel-class').value;
+            const subj    = card.querySelector('.sel-subj').value;
+            const chap    = card.querySelector('.sel-chap').value;
+            const lessSel = card.querySelector('.sel-less');
+
+            if (!chap) return resetSelect(lessSel);
+
+            const lessonsData = ((db[cls] || {})[subj] || {})[chap] || {};
+            
+            const isArray = Array.isArray(lessonsData);
+            let lessons = [];
+            
+            if (isArray) {
+                lessons = lessonsData.map((_, i) => String(i));
+            } else {
+                lessons = Object.keys(lessonsData).sort((keyA, keyB) => {
+                    const planA = lessonsData[keyA] || {};
+                    const planB = lessonsData[keyB] || {};
+                    return smartSort(planA.Period || keyA, planB.Period || keyB);
+                });
+            }
+
+            lessSel.innerHTML = '<option value="">Select period…</option>';
+            lessons.forEach(key => {
+                const planObj = Array.isArray(lessonsData) ? lessonsData[parseInt(key)] : lessonsData[key];
+                const pKey = Array.isArray(lessonsData) ? (planObj.Period || key) : key;
+                
+                let displayName = pKey;
+                if (planObj.Topic && planObj.Topic !== 'nan') displayName += ` — ${planObj.Topic}`;
+
+                const opt  = document.createElement('option');
+                opt.value  = key; 
+                opt.textContent = displayName;
+                lessSel.appendChild(opt);
+            });
+            lessSel.disabled = false;
+        }
+
+        function populateSelect(sel, items, placeholder) {
+            sel.innerHTML = `<option value="">${placeholder}</option>`;
+            items.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item; opt.textContent = item;
+                sel.appendChild(opt);
+            });
+            sel.disabled = false;
+        }
+
+        function resetSelect(sel) { sel.innerHTML = '<option value="">—</option>'; sel.disabled = true; }
+
+        // --- PROFILE MODALS ---
+        function openProfileModal() {
+            document.getElementById('modalSchoolName').value  = document.getElementById('schoolName').value;
+            document.getElementById('modalTeacherName').value = document.getElementById('teacherName').value;
+            document.getElementById('modalNumPeriods').value  = totalPeriods;
+            document.getElementById('profile-modal').classList.add('is-open');
+        }
+        function closeProfileModal() { document.getElementById('profile-modal').classList.remove('is-open'); }
+        function saveUpdatedProfile() {
+            const newSchool  = document.getElementById('modalSchoolName').value.trim();
+            const newTeacher = document.getElementById('modalTeacherName').value.trim();
+            const newPeriods = parseInt(document.getElementById('modalNumPeriods').value);
+
+            if (!newSchool || !newTeacher) return showToast('Name and school are required.');
+            document.getElementById('schoolName').value  = newSchool;
+            document.getElementById('teacherName').value = newTeacher;
+
+            if (!isNaN(newPeriods) && newPeriods >= 1 && newPeriods !== totalPeriods) {
+                totalPeriods = newPeriods;
+                document.getElementById('numPeriods').value = totalPeriods;
+                const saved = (() => { try { return JSON.parse(localStorage.getItem('lessonPlannerSave')); } catch(e) { return {}; }})() || {};
+                buildTabsAndForms(saved.periods);
+            }
+            updateUIHeader(); savePlanToStorage(); closeProfileModal();
+        }
+
+        // --- WEEKLY MODAL LOGIC ---
+        function openWeeklyModal() {
+            const pd = document.getElementById('planDate').value;
+            document.getElementById('weeklyStartDate').value = pd || new Date().toISOString().split('T')[0];
+            document.getElementById('holiday-list').innerHTML = '';
+            document.getElementById('weekly-modal').classList.add('is-open');
+        }
+        function closeWeeklyModal() { document.getElementById('weekly-modal').classList.remove('is-open'); }
+        function addHolidayField() {
+            const hl = document.getElementById('holiday-list');
+            const wrap = document.createElement('div');
+            wrap.style.display = 'flex'; wrap.style.gap = '8px';
+            wrap.innerHTML = `
+                <input type="date" class="field-input holiday-input">
+                <button class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:2px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            `;
+            hl.appendChild(wrap);
+        }
+
+        // --- FORMATTERS ---
+        function esc(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+        function formatCompAndLO(text) {
+            if (!text || text === 'nan') return '';
+            let cleaned = esc(text);
+            const codeMatch = cleaned.match(/\[\s*Codes?:/i);
+            if (codeMatch) cleaned = cleaned.substring(0, codeMatch.index);
+            cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '').trim();
+            return `<div class="pdf-text">${cleaned}</div>`;
+        }
+        function formatPrint(text) {
+            if (!text || text === 'nan') return '';
+            let cleaned = esc(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
+            return `<div class="pdf-text">${cleaned}</div>`;
+        }
+        function formatPanchapadi(text) {
+            if (!text || text === 'nan') return '';
+            let teacherPart = esc(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
+            teacherPart = teacherPart.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
+            let cleaned = teacherPart.replace(/\|/g, '<br>').trim();
+            if (cleaned.endsWith('<br>')) cleaned = cleaned.slice(0, -4).trim();
+            return `<div class="pdf-text">${cleaned}</div>`;
+        }
+
+        function getTableColgroup() {
+            return `<colgroup><col style="width:4%"><col style="width:7%"><col style="width:10%"><col style="width:9%"><col style="width:9%"><col style="width:9%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:8%"></colgroup>`;
+        }
+        function getTableHeader() {
+            return `<thead><tr><th>Prd</th><th>Class / Subject</th><th>Chapter & Period</th><th>Competency</th><th>Learning Outcome</th><th>ଅଧୀତି (Adhiti)</th><th>ବୋଧ (Bodha)</th><th>ଅଭ୍ୟାସ (Abhyasa)</th><th>ପ୍ରୟୋଗ (Prayoga)</th><th>ପ୍ରସାର (Prasara)</th><th>TLM</th></tr></thead>`;
+        }
+
+        function buildTableRowsHTML(periodsMap) {
+            let html = '';
+            for (let pNum in periodsMap) {
+                const assignments = periodsMap[pNum];
+                const rowspan     = assignments.length;
+
+                assignments.forEach((rData, idx) => {
+                    const classData = (db[rData.cls] || {});
+                    const subjData  = (classData[rData.subj] || {});
+                    const chapData  = (subjData[rData.chap] || {});
+                    
+                    const isArray = Array.isArray(chapData);
+                    const actualKey = isArray ? parseInt(rData.lessKey) : rData.lessKey;
+                    const plan      = chapData[actualKey] || {};
+                    const p         = plan.Panchapadi || {};
+
+                    let topicText = '';
+                    if (plan.Topic && plan.Topic !== 'nan') {
+                        topicText = `<div style="margin-top:4px;">${esc(plan.Topic)}</div>`;
+                    }
+
+                    html += `<tr>`;
+                    if (idx === 0) html += `<td class="col-period" rowspan="${rowspan}">${esc(String(pNum))}</td>`;
+                    
+                    html += `
+                        <td><b>${esc(rData.cls.replace(/_/g, ' '))}</b><br>${esc(rData.subj)}</td>
+                        <td>
+                            <b>${esc(rData.chap)}</b>
+                            <div style="color:#1D4ED8; font-weight:800; margin-top:6px;">${esc(plan.Period || rData.lessKey)}</div>
+                            ${topicText}
+                        </td>
+                        <td>${formatCompAndLO(plan.Competency)}</td>
+                        <td>${formatCompAndLO(plan.LearningOutcomes)}</td>
+                        <td>${formatPanchapadi(p.Aditi || p.Adhiti)}</td>
+                        <td>${formatPanchapadi(p.Bodha)}</td>
+                        <td>${formatPanchapadi(p.Abhyasa)}</td>
+                        <td>${formatPanchapadi(p.Prayoga)}</td>
+                        <td>${formatPanchapadi(p.Prasara)}</td>
+                        <td>${formatPrint(plan.TLM)}</td>
+                    </tr>`;
+                });
+            }
+            return html;
+        }
+
+        function buildDailyPlanHTML(periodsMap, formattedDate, schoolName, teacherName) {
+            return `
+                <div class="daily-plan-block">
+                    <div class="pdf-header" contenteditable="true" spellcheck="false">
+                        <div class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</div>
+                        <div class="pdf-header__school">School: ${esc(schoolName)}</div>
+                        <div class="pdf-header__meta">
+                            <span>Teacher: ${esc(teacherName)}</span>
+                            <span style="color:#DC2626; font-weight:800;">Date: ${esc(formattedDate)}</span>
+                        </div>
+                    </div>
+                    <table class="pdf-table" contenteditable="true" spellcheck="false">
+                        ${getTableColgroup()}
+                        ${getTableHeader()}
+                        <tbody>${buildTableRowsHTML(periodsMap)}</tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function collectPeriodsMap() {
+            const periodsMap     = {};
+            let totalAssignments = 0;
+
+            for (let i = 1; i <= totalPeriods; i++) {
+                const pane = document.getElementById(`pane-${i}`);
+                if (!pane) continue;
+                const assignments = [];
+                pane.querySelectorAll('.assignment-card').forEach(card => {
+                    const cls     = card.querySelector('.sel-class').value;
+                    const subj    = card.querySelector('.sel-subj').value;
+                    const chap    = card.querySelector('.sel-chap').value;
+                    const lessKey = card.querySelector('.sel-less').value;
+                    if (cls && subj && chap && lessKey !== '') {
+                        assignments.push({ cls, subj, chap, lessKey });
+                        totalAssignments++;
+                    }
+                });
+                if (assignments.length > 0) periodsMap[i] = assignments;
+            }
+            return { periodsMap, totalAssignments };
+        }
+
+        // --- SINGLE PLAN ---
+        function generatePlanPreview() {
+            const { periodsMap, totalAssignments } = collectPeriodsMap();
+            if (totalAssignments === 0) return showToast('Add at least one complete class assignment before generating.');
+
+            const schoolName  = document.getElementById('schoolName').value  || '_______________________';
+            const teacherName = document.getElementById('teacherName').value || '_______________________';
+            
+            const raw = document.getElementById('planDate').value;
+            let formattedDate = '____/____/20___';
+            if (raw) { const [y, m, d] = raw.split('-'); formattedDate = `${d}/${m}/${y}`; }
+
+            document.getElementById('pdf-preview-content').innerHTML = buildDailyPlanHTML(periodsMap, formattedDate, schoolName, teacherName);
+
+            document.getElementById('main-container').classList.add('hidden');
+            document.getElementById('builder-footer').classList.add('hidden');
+            document.getElementById('preview-area').classList.remove('hidden');
+            document.getElementById('preview-footer').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- AUTO-WEEKLY PLAN INTELLIGENCE ENGINE ---
+        function getValidDates(startDateStr, numDays, excludeSundays, excludeDatesArray) {
+            let validDates = [];
+            const [y, m, d] = startDateStr.split('-');
+            let currentDate = new Date(y, m - 1, d); 
+
+            while (validDates.length < numDays) {
+                let isSunday = currentDate.getDay() === 0;
+                
+                let cy = currentDate.getFullYear();
+                let cm = String(currentDate.getMonth() + 1).padStart(2, '0');
+                let cd = String(currentDate.getDate()).padStart(2, '0');
+                let checkStr = `${cy}-${cm}-${cd}`;
+
+                let isExcluded = excludeDatesArray.includes(checkStr);
+
+                if (!((isSunday && excludeSundays) || isExcluded)) {
+                    validDates.push(`${cd}/${cm}/${cy}`);
+                }
+                currentDate.setDate(currentDate.getDate() + 1); 
+            }
+            return validDates;
+        }
+
+        function getNextLesson(cls, subj, currentChap, currentLessKey) {
+            const subjectData = db[cls]?.[subj];
+            if (!subjectData) return { chap: currentChap, lessKey: currentLessKey };
+
+            const chapters = Object.keys(subjectData).sort(smartSort);
+            if (chapters.length === 0) return { chap: currentChap, lessKey: currentLessKey };
+
+            let flatLessons = [];
+            chapters.forEach(chap => {
+                const lessonsData = subjectData[chap];
+                if (!lessonsData) return;
+                
+                const isArray = Array.isArray(lessonsData);
+                let lessKeys = [];
+                
+                if (isArray) {
+                    lessKeys = lessonsData.map((_, i) => String(i));
+                } else {
+                    lessKeys = Object.keys(lessonsData).sort((keyA, keyB) => {
+                        return smartSort(lessonsData[keyA]?.Period || keyA, lessonsData[keyB]?.Period || keyB);
+                    });
+                }
+
+                lessKeys.forEach(lk => {
+                    flatLessons.push({ chap: chap, lessKey: String(lk) });
+                });
+            });
+
+            if (flatLessons.length === 0) return { chap: currentChap, lessKey: currentLessKey };
+
+            let currentIndex = flatLessons.findIndex(l => l.chap === currentChap && l.lessKey === String(currentLessKey));
+            if (currentIndex === -1) currentIndex = 0;
+
+            let nextIndex = (currentIndex + 1) % flatLessons.length;
+            return flatLessons[nextIndex];
+        }
+
+        function generateWeeklyPlan() {
+            const { periodsMap, totalAssignments } = collectPeriodsMap();
+            if (totalAssignments === 0) return showToast('Add at least one class assignment before generating.');
+
+            const schoolName  = document.getElementById('schoolName').value  || '_______________________';
+            const teacherName = document.getElementById('teacherName').value || '_______________________';
+            
+            const startDateRaw = document.getElementById('weeklyStartDate').value;
+            if (!startDateRaw) return showToast('Please select a start date.');
+
+            const numDays = parseInt(document.getElementById('weeklyNumDays').value) || 7;
+            const excludeSundays = document.getElementById('excludeSundays').checked;
+            
+            const excludeDatesArray = [];
+            document.querySelectorAll('.holiday-input').forEach(input => {
+                if (input.value) excludeDatesArray.push(input.value);
+            });
+
+            const validDates = getValidDates(startDateRaw, numDays, excludeSundays, excludeDatesArray);
+            let currentPeriodsMap = JSON.parse(JSON.stringify(periodsMap)); 
+            let megaHtml = '';
+
+            validDates.forEach(dateStr => {
+                megaHtml += buildDailyPlanHTML(currentPeriodsMap, dateStr, schoolName, teacherName);
+                
+                for (let pNum in currentPeriodsMap) {
+                    currentPeriodsMap[pNum].forEach(assignment => {
+                        const next = getNextLesson(assignment.cls, assignment.subj, assignment.chap, assignment.lessKey);
+                        assignment.chap = next.chap;
+                        assignment.lessKey = next.lessKey;
+                    });
+                }
+            });
+
+            document.getElementById('pdf-preview-content').innerHTML = megaHtml;
+
+            document.getElementById('main-container').classList.add('hidden');
+            document.getElementById('builder-footer').classList.add('hidden');
+            document.getElementById('weekly-modal').classList.remove('is-open');
+            
+            document.getElementById('preview-area').classList.remove('hidden');
+            document.getElementById('preview-footer').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function backToEdit() {
+            document.getElementById('preview-area').classList.add('hidden');
+            document.getElementById('preview-footer').classList.add('hidden');
+            document.getElementById('main-container').classList.remove('hidden');
+            document.getElementById('builder-footer').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function sharePlanViaApp() {
+            const overlay   = document.getElementById('pdf-overlay');
+            const elementToCapture = document.getElementById('pdf-preview-content');
+            overlay.classList.add('is-active');
+
+            try {
+                await new Promise(r => setTimeout(r, 100)); 
+                const teacherName = document.getElementById('teacherName').value || 'Teacher';
+
+                const dataUrl = await htmlToImage.toPng(elementToCapture, {
+                    pixelRatio: 2.0,
+                    backgroundColor: '#ffffff'
+                });
+
+                const tempImg = new Image();
+                tempImg.src = dataUrl;
+                await new Promise(resolve => tempImg.onload = resolve);
+
+                const mmWidth = 297; 
+                const mmHeight = (tempImg.height * mmWidth) / tempImg.width;
+
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({ orientation: mmWidth > mmHeight ? 'l' : 'p', unit: 'mm', format: [mmWidth, mmHeight] });
+                pdf.addImage(dataUrl, 'PNG', 0, 0, mmWidth, mmHeight);
+
+                const pdfBlob = pdf.output('blob');
+                const safeName = teacherName.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, '');
+                
+                const raw = document.getElementById('planDate').value;
+                const safeDate = raw ? raw.replace(/\//g, '-') : 'Weekly_Plan';
+                const fileName = `${safeName}_LessonPlan_${safeDate}.pdf`;
+
+                const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
+
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({ title: 'Daily Lesson Plan', files: [file] });
+                } else {
+                    const url = URL.createObjectURL(pdfBlob);
+                    const a   = document.createElement('a');
+                    a.href     = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    showToast('PDF downloaded successfully.');
+                }
+            } catch (err) {
+                console.error('PDF generation error:', err);
+                showToast('Could not generate PDF. Try the Print option instead.');
+            } finally {
+                overlay.classList.remove('is-active');
+            }
+        }
+    </script>
+</body>
+</html>
