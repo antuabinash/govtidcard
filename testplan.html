@@ -97,9 +97,9 @@
 
         // SMART CACHE FOR PROGRESSIVE LOADING
         let cache = {
-            subjects: {}, // Stores Subject Lists
-            chapters: {}, // Stores Chapter Lists
-            data: {}      // Stores Full Period Data
+            subjects: {}, 
+            chapters: {}, 
+            data: {}      
         };
 
         const chevronRight = `<div class="chevron"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></div>`;
@@ -194,10 +194,27 @@
             
             showLoader("Loading Subjects...");
             try {
-                // shallow=true means it ONLY downloads the folder names, saving massive data!
+                // shallow=true means it ONLY downloads the folder names
                 const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}.json?shallow=true`);
                 const data = await res.json();
-                cache.subjects[className] = data ? Object.keys(data) : [];
+                
+                // Filter out the raw '_hidden' tag immediately
+                let rawSubjects = data ? Object.keys(data).filter(k => k !== '_hidden') : [];
+                
+                // SMART FILTER: Do a micro-check to see if the subject is actively hidden by the Admin
+                const visibilityChecks = await Promise.all(rawSubjects.map(async subName => {
+                    try {
+                        const hRes = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/_hidden.json`);
+                        const isHidden = await hRes.json();
+                        return { subName, hidden: isHidden === true };
+                    } catch(e) { 
+                        return { subName, hidden: false }; 
+                    }
+                }));
+                
+                // Only save subjects that are NOT hidden
+                cache.subjects[className] = visibilityChecks.filter(c => !c.hidden).map(c => c.subName);
+                
                 hideLoader();
                 renderSubjects(className);
             } catch(e) { 
@@ -209,8 +226,13 @@
         function renderSubjects(className) {
             currentPath = [className]; updateHeader(className.replace(/_/g, ' ')); clearView();
             const container = document.getElementById('app-content');
-            const subjects = cache.subjects[className];
+            const subjects = cache.subjects[className] || [];
             
+            if(subjects.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No visible subjects available.</div>`;
+                return;
+            }
+
             subjects.sort(smartSort).forEach(subName => {
                 const safeSub = subName.replace(/'/g, "\\'");
                 container.innerHTML += `
@@ -238,7 +260,24 @@
             try {
                 const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}.json?shallow=true`);
                 const data = await res.json();
-                cache.chapters[pathKey] = data ? Object.keys(data) : [];
+                
+                // Filter out the raw '_hidden' tag immediately
+                let rawChapters = data ? Object.keys(data).filter(k => k !== '_hidden') : [];
+                
+                // SMART FILTER: Do a micro-check to see if the CHAPTER is actively hidden by the Admin
+                const visibilityChecks = await Promise.all(rawChapters.map(async chapName => {
+                    try {
+                        const hRes = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/${encodeURIComponent(chapName)}/_hidden.json`);
+                        const isHidden = await hRes.json();
+                        return { chapName, hidden: isHidden === true };
+                    } catch(e) { 
+                        return { chapName, hidden: false }; 
+                    }
+                }));
+                
+                // Only save chapters that are NOT hidden
+                cache.chapters[pathKey] = visibilityChecks.filter(c => !c.hidden).map(c => c.chapName);
+                
                 hideLoader();
                 renderChapters(className, subName);
             } catch(e) { 
@@ -251,8 +290,13 @@
             currentPath = [className, subName]; updateHeader(subName); clearView();
             const container = document.getElementById('app-content');
             const pathKey = `${className}/${subName}`;
-            const chapters = cache.chapters[pathKey];
+            const chapters = cache.chapters[pathKey] || [];
             
+            if(chapters.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No visible chapters available.</div>`;
+                return;
+            }
+
             chapters.sort(smartSort).forEach(chapName => {
                 const safeSub = subName.replace(/'/g, "\\'");
                 const safeChap = chapName.replace(/'/g, "\\'");
@@ -279,7 +323,6 @@
             
             showLoader("Loading Lesson Plans...");
             try {
-                // Here we finally download the actual heavy data, but ONLY for this single chapter
                 const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/${encodeURIComponent(chapName)}.json`);
                 const data = await res.json();
                 cache.data[pathKey] = data || {};
@@ -303,7 +346,7 @@
             if (isArray) {
                 keysToRender = periodData.map((_, i) => i);
             } else {
-                keysToRender = Object.keys(periodData).sort((keyA, keyB) => {
+                keysToRender = Object.keys(periodData).filter(k => k !== '_hidden').sort((keyA, keyB) => {
                     const planA = periodData[keyA] || {};
                     const planB = periodData[keyB] || {};
                     const nameA = planA.Period || keyA;
