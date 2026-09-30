@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Lesson Plan Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .lo-card { transition: transform 0.2s; }
+        .lo-card:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body class="p-6">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">Lesson Plan Dashboard</h1>
+                <p class="text-gray-500 mt-1">Curriculum Goals, Competencies, and Learning Outcomes (Classes 3 to 8)</p>
+            </div>
+            <div class="mt-4 md:mt-0 text-center bg-blue-600 text-white py-2 px-6 rounded-full shadow-md">
+                <span class="text-sm uppercase tracking-wide opacity-80">Total LO Counter</span>
+                <div id="lo-counter" class="text-3xl font-bold">0</div>
+            </div>
+        </header>
+
+        <!-- Fallback UI for Local File Loading -->
+        <div id="fallback-ui" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-5 mb-6 rounded shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-yellow-800 font-bold text-lg">Local Security Restriction Detected</h3>
+                    <p class="text-yellow-700 text-sm mt-1">Web browsers block reading local JSON files directly. Please click the button to manually select your <b>lesson_plan.json</b> and <b>middle_stage_lesson_plan_2.json</b> files.</p>
+                </div>
+                <div>
+                    <input type="file" id="file-input" multiple accept=".json" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-100 file:text-yellow-700 hover:file:bg-yellow-200 cursor-pointer">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 mb-6">
+            <select id="class-filter" class="p-3 rounded border border-gray-300 shadow-sm flex-1 focus:ring-2 focus:ring-blue-500 outline-none text-gray-700 font-medium">
+                <option value="All">All Classes</option>
+            </select>
+
+            <select id="subject-filter" class="p-3 rounded border border-gray-300 shadow-sm flex-1 focus:ring-2 focus:ring-blue-500 outline-none text-gray-700 font-medium">
+                <option value="All">All Subjects</option>
+            </select>
+        </div>
+
+        <div id="lo-container" class="grid grid-cols-1 gap-6">
+            <div class="text-center text-gray-500 py-10" id="loading-msg">Attempting to load data...</div>
+        </div>
+    </div>
+
+    <script>
+        let lessonData = [];
+
+        // Main function to process and display the data
+        function processData(rawData) {
+            lessonData = rawData;
+            
+            // Auto-Correction for Subjects based on LO prefixes (Fixes Middle Stage mapping)
+            lessonData.forEach(item => {
+                if (item.Subject === "Uncategorized" && item.Learning_Outcome.startsWith("OD")) {
+                    item.Subject = "Odia Language";
+                }
+                if (item.Subject === "English") {
+                    if (item.Learning_Outcome.startsWith("H")) item.Subject = "Hindi Language";
+                    // Only map to Sanskrit if it starts with S but NOT 'SC' (Science)
+                    if (item.Learning_Outcome.startsWith("S") && !item.Learning_Outcome.startsWith("SC")) item.Subject = "Sanskrit Language";
+                }
+            });
+
+            // Dynamically Populate Class Dropdown
+            const classes = [...new Set(lessonData.map(item => item.Class).filter(Boolean))].sort();
+            const classSelect = document.getElementById('class-filter');
+            classSelect.innerHTML = '<option value="All">All Classes</option>';
+            classes.forEach(c => {
+                const option = document.createElement('option');
+                option.value = c;
+                option.textContent = c;
+                classSelect.appendChild(option);
+            });
+
+            // Dynamically Populate Subject Dropdown
+            const subjects = [...new Set(lessonData.map(item => item.Subject).filter(s => s !== "Uncategorized"))].sort();
+            const subjectSelect = document.getElementById('subject-filter');
+            subjectSelect.innerHTML = '<option value="All">All Subjects</option>';
+            subjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject;
+                option.textContent = subject;
+                subjectSelect.appendChild(option);
+            });
+
+            renderData();
+        }
+
+        function renderData() {
+            const classFilter = document.getElementById('class-filter').value;
+            const subjectFilter = document.getElementById('subject-filter').value;
+            const container = document.getElementById('lo-container');
+            const counter = document.getElementById('lo-counter');
+            
+            container.innerHTML = "";
+            
+            // Filter logic
+            const filteredData = lessonData.filter(item => {
+                const classMatch = (classFilter === "All" || item.Class === classFilter);
+                const subjectMatch = (subjectFilter === "All" || item.Subject === subjectFilter);
+                return classMatch && subjectMatch;
+            });
+
+            // Update Counter
+            counter.textContent = filteredData.length;
+
+            if (filteredData.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 py-10">No Learning Outcomes found for this selection.</div>`;
+                return;
+            }
+
+            // Render Cards
+            filteredData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "lo-card bg-white p-6 rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-blue-500";
+                
+                const cgText = item.Curriculum_Goal && item.Curriculum_Goal.trim() !== "" 
+                                ? item.Curriculum_Goal 
+                                : "Goal not explicitly specified in document";
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4 border-b pb-4">
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-semibold uppercase">${item.Subject}</span>
+                        <span class="inline-block bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full font-semibold uppercase">${item.Class || "Class N/A"}</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 class="text-xs font-bold text-gray-400 uppercase mb-1">Curriculum Goal (CG)</h3>
+                        <p class="text-sm text-gray-800 bg-gray-50 p-3 rounded italic">${cgText}</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 class="text-xs font-bold text-gray-400 uppercase mb-1">Competency (C)</h3>
+                        <p class="text-sm text-gray-800 bg-gray-50 p-3 rounded">${item.Competency || "N/A"}</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xs font-bold text-gray-400 uppercase mb-1">Learning Outcome (LO)</h3>
+                        <p class="text-base font-medium text-gray-900">${item.Learning_Outcome}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Attempt to fetch files automatically (Works if hosted on a local server)
+        Promise.all([
+            fetch('lesson_plan.json').then(r => r.ok ? r.json() : Promise.reject('File 1 failed')),
+            fetch('middle_stage_lesson_plan_2.json').then(r => r.ok ? r.json() : Promise.reject('File 2 failed'))
+        ])
+        .then(([data1, data2]) => {
+            const combined = data1.concat(data2);
+            if (combined.length === 0) throw new Error("No data fetched");
+            processData(combined);
+        })
+        .catch(err => {
+            // If fetch fails (CORS on local file://), show manual upload UI
+            document.getElementById('loading-msg').style.display = 'none';
+            document.getElementById('fallback-ui').classList.remove('hidden');
+        });
+
+        // Handle manual file upload (Works seamlessly for local double-clicking)
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            const files = e.target.files;
+            let promises = Array.from(files).map(file => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = e => resolve(JSON.parse(e.target.result));
+                    reader.onerror = e => reject(e);
+                    reader.readAsText(file);
+                });
+            });
+
+            Promise.all(promises).then(results => {
+                let combined = [];
+                results.forEach(arr => combined = combined.concat(arr));
+                processData(combined);
+                document.getElementById('fallback-ui').classList.add('hidden');
+            }).catch(err => {
+                alert("Error reading JSON files. Please make sure they are valid JSON.");
+            });
+        });
+
+        // Attach event listeners to dropdowns
+        document.getElementById('class-filter').addEventListener('change', renderData);
+        document.getElementById('subject-filter').addEventListener('change', renderData);
+        
+    </script>
+</body>
+</html>
