@@ -157,7 +157,7 @@
         // Attempt to fetch files automatically (Works if hosted on a local server)
         Promise.all([
             fetch('lesson_plan.json').then(r => r.ok ? r.json() : Promise.reject('File 1 failed')),
-            fetch('middle_stage_lesson_plan_2.json').then(r => r.ok ? r.json() : Promise.reject('File 2 failed'))
+            fetch('middle_stage_lesson_plan.json').then(r => r.ok ? r.json() : Promise.reject('File 2 failed'))
         ])
         .then(([data1, data2]) => {
             const combined = data1.concat(data2);
