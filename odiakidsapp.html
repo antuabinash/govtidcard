@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="or">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Odia KidsApp – ଖେଳିକୁଦି ଶିଖନ୍ତୁ ଓଡ଼ିଆ ଓ ଇଂରାଜୀ | Free on Google Play</title>
-<meta name="description" content="A safe, fun app for kids to learn Odia and English. Alphabets, numbers, animals, drawing, games, quizzes and a friendly offline learning buddy. No ads. No permissions. Download free on Google Play.">
+<meta name="description" content="ପିଲାମାନଙ୍କୁ ଓଡ଼ିଆ ଏବଂ ଇଂରାଜୀ ଶିଖିବା ପାଇଁ ଏକ ସୁରକ୍ଷିତ, ମଜାଦାର ଆପ୍। ବର୍ଣ୍ଣମାଳା, ସଂଖ୍ୟା, ପଶୁପକ୍ଷୀ, ଚିତ୍ର, ଖେଳ ଏବଂ କୁଇଜ୍। ବିନା ବିଜ୍ଞାପନରେ ମାଗଣାରେ ଡାଉନଲୋଡ୍ କରନ୍ତୁ।">
 <meta name="theme-color" content="#FFD60A">
 <link rel="icon" href="https://play-lh.googleusercontent.com/7-Ky35Kg2CtuAdhmxot7_pdKyoApdRc557cUg864E7LY9GjQW7vvab3dAOHEaJyQNE2YKauJbCEeooeou3PWPA=w96-h96">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&family=Noto+Sans+Oriya:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&family=Noto+Sans+Oriya:wght@500;700;800&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -20,21 +20,20 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:'Nunito','Noto Sans Oriya',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-  h1,h2,h3,.display{font-family:'Baloo Bhaina 2','Noto Sans Oriya','Nunito',sans-serif;line-height:1.1;letter-spacing:-.01em}
+  body{font-family:'Noto Sans Oriya','Nunito',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.display{font-family:'Baloo Bhaina 2','Noto Sans Oriya',sans-serif;line-height:1.1;letter-spacing:-.01em}
   img{max-width:100%;display:block}
   a{color:inherit}
   .wrap{width:min(1120px,100% - 40px);margin-inline:auto}
-  .or{font-family:'Noto Sans Oriya','Baloo Bhaina 2',sans-serif}
 
   /* ---------- Buttons ---------- */
   .btn{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-weight:800;border-radius:999px;transition:transform .15s ease, box-shadow .15s ease}
   .btn:active{transform:scale(.97)}
-  .btn-play{background:#111;color:#fff;padding:14px 28px 14px 22px;box-shadow:0 14px 28px -10px rgba(0,0,0,.55); margin-top: 10px;}
+  .btn-play{background:#111;color:#fff;padding:14px 28px 14px 22px;box-shadow:0 14px 28px -10px rgba(0,0,0,.55); margin-top: 15px;}
   .btn-play:hover{transform:translateY(-3px);box-shadow:0 20px 34px -10px rgba(0,0,0,.6)}
   .btn-play svg{width:38px;height:38px;flex:none}
   .btn-play small{display:block;font-size:.8rem;font-weight:700;letter-spacing:.05em;opacity:.9;line-height:1.2;font-family:'Noto Sans Oriya', sans-serif;}
-  .btn-play span{display:block;font-size:1.4rem;line-height:1.1;font-family:'Baloo Bhaina 2',sans-serif}
+  .btn-play span{display:block;font-size:1.4rem;line-height:1.1;font-family:'Nunito',sans-serif}
   .btn-pulse{animation:pulse 2.4s infinite}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(244,63,110,.55),0 14px 28px -10px rgba(0,0,0,.55)}70%{box-shadow:0 0 0 18px rgba(244,63,110,0),0 14px 28px -10px rgba(0,0,0,.55)}100%{box-shadow:0 0 0 0 rgba(244,63,110,0),0 14px 28px -10px rgba(0,0,0,.55)}}
 
@@ -46,41 +45,25 @@
   .top-cta{background:var(--pink-deep);color:#fff;padding:10px 22px;font-size:1rem;border-radius:999px;text-decoration:none;font-weight:800;}
   .top-cta:hover{background:#a8053f; transform: scale(1.05); transition: 0.2s;}
 
-  /* ---------- Simple Centered Hero ---------- */
-  .hero{position:relative;background:linear-gradient(180deg,var(--yellow) 0%,#FFE766 60%,var(--bg) 100%);padding:60px 0; min-height: 95vh; display: flex; flex-direction: column; justify-content: center; text-align: center; overflow: hidden;}
-  .hero .wrap{display:flex; flex-direction:column; align-items:center; gap: 15px; max-width: 650px;}
+  /* ---------- Hero ---------- */
+  .hero{position:relative;background:linear-gradient(180deg,var(--yellow) 0%,#FFE766 60%,var(--bg) 100%);padding:70px 0 90px; text-align: center; overflow: hidden;}
+  .hero .wrap{display:flex; flex-direction:column; align-items:center; gap: 15px; max-width: 750px;}
   .main-app-logo { width: 140px; height: 140px; border-radius: 30px; border: 4px solid #fff; box-shadow: 0 14px 30px rgba(0,0,0,0.15); margin-bottom: 10px; }
-  .hero h1{font-size:clamp(2.2rem,5vw,3.2rem);font-weight:800; margin-bottom: 5px; line-height: 1.1;}
+  .hero h1{font-size:clamp(2.4rem,5vw,3.6rem);font-weight:800; margin-bottom: 5px; line-height: 1.2;}
   .hero h1 .hl{color:var(--pink-deep);}
-  .hero .eng-line{font-size:1.15rem;font-weight:700;color:var(--ink); font-family: 'Nunito', sans-serif; margin-bottom: 15px;}
+  .hero .sub-line{font-size:1.2rem;font-weight:700;color:var(--ink); margin-bottom: 10px;}
   
-  /* See More Button */
-  .see-more-btn { 
-    display: inline-block; 
-    margin-top: 35px; 
-    font-size: 1.15rem; 
-    font-weight: 800; 
-    color: var(--pink-deep); 
-    background: none; 
-    border: none; 
-    cursor: pointer; 
-    font-family: 'Noto Sans Oriya', sans-serif; 
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    animation: bounce 2s ease-in-out infinite; 
-  }
-  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-  /* ---------- Hidden State Logic ---------- */
-  .hidden-initial { display: none !important; }
+  /* Trust Badge in Hero for Conversions */
+  .hero-trust { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.7); padding: 8px 18px; border-radius: 999px; font-weight: 800; font-size: 0.95rem; margin-bottom: 5px; }
+  .hero-trust span { color: var(--pink-deep); font-size: 1.1rem; }
 
   /* floating emoji */
   .float{position:absolute;font-size:2.2rem;opacity:.9;animation:bob 5s ease-in-out infinite;pointer-events:none;user-select:none}
-  .f1{top:8%;left:3%}.f2{top:62%;left:46%;animation-delay:-1.5s}.f3{top:12%;right:4%;animation-delay:-3s}.f4{bottom:12%;left:6%;animation-delay:-2s}
+  .f1{top:8%;left:8%}.f2{top:62%;left:15%;animation-delay:-1.5s}.f3{top:12%;right:8%;animation-delay:-3s}.f4{bottom:20%;right:12%;animation-delay:-2s}
   @keyframes bob{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-16px) rotate(6deg)}}
 
   /* ---------- Trust strip ---------- */
-  .strip{position:relative;z-index:3; margin-bottom: 40px;}
+  .strip{position:relative;z-index:3; margin-top: -45px; margin-bottom: 40px;}
   .strip-grid{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:3px solid var(--ink);border-radius:var(--radius);box-shadow:8px 8px 0 var(--ink);overflow:hidden}
   .stat{padding:20px 14px;text-align:center;border-right:2px dashed #e5dcef}
   .stat:last-child{border-right:0}
@@ -89,19 +72,18 @@
 
   /* ---------- Sections ---------- */
   section{padding:84px 0}
-  .eyebrow{display:inline-block;background:var(--yellow);border:2px solid var(--ink);border-radius:999px;padding:4px 14px;font-weight:800;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+  .eyebrow{display:inline-block;background:var(--yellow);border:2px solid var(--ink);border-radius:999px;padding:4px 14px;font-weight:800;font-size:.9rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
   .sec-head{text-align:center;max-width:680px;margin:0 auto 44px}
   .sec-head h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:800}
-  .sec-head p{margin-top:12px;color:var(--muted);font-size:1.08rem;font-weight:600}
+  .sec-head p{margin-top:12px;color:var(--muted);font-size:1.1rem;font-weight:600}
 
   /* features */
   .features{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
   .feat{border-radius:var(--radius);padding:26px 24px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s}
   .feat:hover{transform:translateY(-6px) rotate(-.6deg)}
   .feat .ico{font-size:2.8rem;margin-bottom:8px;display:block}
-  .feat h3{font-size:1.6rem;font-weight:800}
-  .feat .or-name{font-family:'Noto Sans Oriya',sans-serif;font-weight:700;opacity:.95;margin-bottom:8px;font-size:1.02rem}
-  .feat p{font-weight:600;font-size:.98rem;opacity:.97}
+  .feat h3{font-size:1.6rem;font-weight:800;font-family:'Baloo Bhaina 2',sans-serif;}
+  .feat p{font-weight:600;font-size:1rem;opacity:.97}
   .c1{background:linear-gradient(150deg,#D1074F,#FB4F76)}
   .c2{background:linear-gradient(135deg,#0EA5C6,#22C99A)}
   .c3{background:linear-gradient(150deg,#7C5CD0,#B09AE0)}
@@ -126,15 +108,12 @@
   .ticks li{display:flex;gap:14px;align-items:flex-start;background:#fff;border:2px solid var(--ink);border-radius:18px;padding:14px 16px;font-weight:700;box-shadow:4px 4px 0 var(--ink)}
   .ticks .ck{flex:none;width:28px;height:28px;border-radius:50%;background:var(--green);border:2px solid var(--ink);display:grid;place-items:center;font-weight:900}
   .ticks small{display:block;font-weight:600;color:var(--muted)}
-  .parents h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800}
-  .parents .sub{color:var(--muted);font-weight:600;font-size:1.08rem;margin-top:10px}
 
   /* Mo Sathi */
   .friend{background:linear-gradient(135deg,#D1074F,#FB4F76);color:#fff;border-radius:44px;padding:56px 44px;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center;border:3px solid var(--ink);box-shadow:10px 10px 0 var(--ink)}
   .robot{width:170px;height:170px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:5.5rem;animation:bob 4s ease-in-out infinite;box-shadow:inset 0 -10px 0 rgba(0,0,0,.08)}
   .friend h2{font-size:clamp(1.8rem,3.6vw,2.7rem);font-weight:800}
-  .friend .or{font-size:1.4rem;font-weight:700;opacity:.95;margin:4px 0 10px}
-  .friend p{font-weight:600;font-size:1.05rem;max-width:36em}
+  .friend p{font-weight:600;font-size:1.1rem;max-width:36em; margin-top: 10px;}
   .friend .tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
   .friend .tags span{background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.7);border-radius:999px;padding:5px 14px;font-weight:800;font-size:.86rem}
 
@@ -156,7 +135,7 @@
   .reviews{background:var(--yellow-soft)}
   .rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
   .rev{background:#fff;border:3px solid var(--ink);border-radius:var(--radius);padding:24px;box-shadow:6px 6px 0 var(--ink)}
-  .rev .stars{font-size:1.1rem}
+  .rev .stars{font-size:1.1rem; color: #FFB703;}
   .rev p{font-weight:700;margin:10px 0 14px}
   .rev .who{font-weight:800;color:var(--muted);font-size:.9rem}
   .rev-top{text-align:center;margin-bottom:34px}
@@ -165,7 +144,7 @@
   /* faq */
   .faq{max-width:780px;margin:0 auto;display:grid;gap:14px}
   details{background:#fff;border:3px solid var(--ink);border-radius:20px;padding:4px 20px;box-shadow:4px 4px 0 var(--ink)}
-  summary{cursor:pointer;font-weight:800;font-size:1.08rem;padding:14px 0;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  summary{cursor:pointer;font-weight:800;font-size:1.1rem;padding:14px 0;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
   summary::-webkit-details-marker{display:none}
   summary::after{content:"+";font-size:1.6rem;font-weight:900;color:var(--pink-deep);transition:transform .2s}
   details[open] summary::after{transform:rotate(45deg)}
@@ -184,7 +163,7 @@
   footer .links{display:flex;gap:20px;flex-wrap:wrap}
 
   /* sticky mobile CTA */
-  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:3px solid var(--ink);display:none;align-items:center;gap:12px;transform:translateY(110%);transition:transform .3s}
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:3px solid var(--ink);display:flex;align-items:center;gap:12px;transform:translateY(110%);transition:transform .3s}
   .sticky.show{transform:none}
   .sticky img{width:46px;height:46px;border-radius:13px}
   .sticky .t{flex:1;line-height:1.15;font-weight:800}
@@ -206,7 +185,6 @@
     .strip-grid{grid-template-columns:1fr 1fr}
     .stat:nth-child(2){border-right:0}
     .stat:nth-child(-n+2){border-bottom:2px dashed #e5dcef}
-    .sticky{display:flex}
   }
   @media (max-width:600px){
     section{padding:64px 0}
@@ -222,20 +200,19 @@
 </head>
 <body>
 
-<!-- Hidden initially -->
-<header class="topbar hidden-initial" id="main-topbar">
+<header class="topbar" id="main-topbar">
   <div class="wrap">
     <a class="brand" href="#top">
       <img src="https://play-lh.googleusercontent.com/7-Ky35Kg2CtuAdhmxot7_pdKyoApdRc557cUg864E7LY9GjQW7vvab3dAOHEaJyQNE2YKauJbCEeooeou3PWPA=w96-h96" alt="Odia KidsApp icon">
       Odia KidsApp
     </a>
-    <a class="top-cta play-link" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp">Download Free</a>
+    <a class="top-cta play-link" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp">ଡାଉନଲୋଡ୍</a>
   </div>
 </header>
 
 <main id="top">
 
-<!-- ================= SIMPLE HERO (Always Visible) ================= -->
+<!-- ================= HIGH-CONVERTING HERO ================= -->
 <div class="hero">
   <span class="float f1" aria-hidden="true">⭐</span>
   <span class="float f2" aria-hidden="true">🎈</span>
@@ -243,240 +220,213 @@
   <span class="float f4" aria-hidden="true">✏️</span>
 
   <div class="wrap">
-    <!-- Centered App Logo -->
     <img src="https://play-lh.googleusercontent.com/7-Ky35Kg2CtuAdhmxot7_pdKyoApdRc557cUg864E7LY9GjQW7vvab3dAOHEaJyQNE2YKauJbCEeooeou3PWPA=w240-h240" alt="Odia KidsApp Logo" class="main-app-logo">
+    
+    <div class="hero-trust"><span>★★★★★</span> 4.6 ରେଟିଂ</div>
 
     <h1><span class="hl">ଖେଳିକୁଦି ଶିଖନ୍ତୁ</span> ଓଡ଼ିଆ ଓ ଇଂରାଜୀ 🎉</h1>
-    <p class="eng-line">A safe, ad-free app for kids to learn Odia and English. Alphabets, numbers, drawing & fun games!</p>
+    <p class="sub-line">ପିଲାମାନଙ୍କ ପାଇଁ ଏକ ସୁରକ୍ଷିତ, ବିଜ୍ଞାପନ-ମୁକ୍ତ ଆପ୍ ଯେଉଁଥିରେ ଅକ୍ଷର, ସଂଖ୍ୟା, ଚିତ୍ର ଏବଂ ମଜାଦାର ଖେଳ ରହିଛି!</p>
     
-    <!-- Download Button -->
     <a class="btn btn-play btn-pulse play-link" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp">
       <svg viewBox="0 0 512 512" aria-hidden="true"><path fill="#00D7FE" d="M48 59.5v393c0 7 3.5 13 8.5 16.5L289 256 56.500 43C51.500 46.500 48 52.500 48 59.500z"/><path fill="#00F076" d="M289 256 56.500 469c4 2.500 9 3.500 14.500 1.500L352 312z"/><path fill="#FFD500" d="M352 200 289 256l63 56 98-55.500c11-6.500 11-17.500 0-24z"/><path fill="#FF3A44" d="M71 42c-5.500-2-10.500-1-14.500 1.500L289 256l63-56z"/></svg>
       <div><small>ମାଗଣାରେ ଡାଉନଲୋଡ୍ କରନ୍ତୁ</small><span>Google Play</span></div>
     </a>
-    
-    <!-- Reveal Full Page Button -->
-    <button class="see-more-btn" id="seeMoreBtn" onclick="loadFullPage()">See more details ⬇</button>
   </div>
 </div>
 
-<!-- ================= FULL PAGE CONTENT (Revealed by See More) ================= -->
-<div id="full-page-content" class="hidden-initial">
+<!-- ================= STATS ================= -->
+<div class="strip">
+  <div class="wrap">
+    <div class="strip-grid rv">
+      <div class="stat"><b>4.6 ★</b><span>ପିତାମାତାଙ୍କ ରେଟିଂ</span></div>
+      <div class="stat"><b>10K+</b><span>ଡାଉନଲୋଡ୍</span></div>
+      <div class="stat"><b>3+</b><span>ବୟସ ରେଟିଂ</span></div>
+      <div class="stat"><b>0</b><span>ବିଜ୍ଞାପନ ନାହିଁ</span></div>
+    </div>
+  </div>
+</div>
 
-  <!-- ================= STATS ================= -->
-  <div class="strip">
-    <div class="wrap">
-      <div class="strip-grid rv">
-        <div class="stat"><b>4.6 ★</b><span>Parent rating</span></div>
-        <div class="stat"><b>10K+</b><span>Downloads</span></div>
-        <div class="stat"><b>3+</b><span>Age rating</span></div>
-        <div class="stat"><b>0</b><span>Ads shown</span></div>
+<!-- ================= FEATURES ================= -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">ଗୋଟିଏ ଆପରେ ସବୁକିଛି</span>
+      <h2>ଶିଖିବା ହେବ ଆହୁରି ମଜାଦାର</h2>
+      <p>ଅକ୍ଷରରୁ ଆରମ୍ଭ କରି ଗଣିବା, ରଙ୍ଗ ଦେବା ଏବଂ କୁଇଜ୍ - ପ୍ରତିଟି ଟ୍ୟାପ୍ ରେ ନୂଆ କିଛି ଶିଖିବାକୁ ମିଳିବ ଓଡ଼ିଆ ଓ ଇଂରାଜୀରେ।</p>
+    </div>
+
+    <div class="features">
+      <article class="feat c1 rv"><span class="ico">📖</span><h3>ଶିଖନ୍ତୁ</h3><p>ପଶୁପକ୍ଷୀ, ସଂଖ୍ୟା, ଦିନ, ମାସ ଏବଂ ଦିଗ - ଅତି ସହଜରେ ଦୁଇଟି ଭାଷାରେ ବୁଝାଯାଇଛି।</p></article>
+      <article class="feat c2 rv"><span class="ico">🎨</span><h3>ଚିତ୍ର ଓ ରଙ୍ଗ</h3><p>ଚିତ୍ର ଆଙ୍କିବା, ଲେଖିବା ଏବଂ ରଙ୍ଗ ଦେବା ଯାହା ପିଲାମାନଙ୍କର ସୃଜନଶୀଳତା ବୃଦ୍ଧି କରେ।</p></article>
+      <article class="feat c3 rv"><span class="ico">🥁</span><h3>ବାଦ୍ୟ</h3><p>ମଜାଦାର ବାଦ୍ୟଯନ୍ତ୍ର ସହିତ ଖେଳନ୍ତୁ ଏବଂ ସଙ୍ଗୀତ ପ୍ରତି ଆଗ୍ରହ ବଢ଼ାନ୍ତୁ।</p></article>
+      <article class="feat c4 rv"><span class="ico">❓</span><h3>କୁଇଜ୍</h3><p>ମଜାଦାର କୁଇଜ୍ ଯାହା ପାଠ ପଢ଼ାକୁ ଏକ ଖେଳରେ ପରିଣତ କରେ ଏବଂ ଆତ୍ମବିଶ୍ୱାସ ବଢ଼ାଏ।</p></article>
+      <article class="feat c5 rv"><span class="ico">🧩</span><h3>ଖେଳ</h3><p>ଏମିତି ମଜାଦାର ଖେଳ ଯାହାଦ୍ୱାରା ପିଲାମାନେ ଖୁସିରେ ଶିଖିପାରିବେ।</p></article>
+      <article class="feat c6 rv"><span class="ico">🧮</span><h3>ଗଣିତ</h3><p>ସୁନ୍ଦର ଭିଜୁଆଲ୍ ସହିତ ଗଣିବା ଏବଂ ସଂଖ୍ୟା ଜ୍ଞାନ ଯାହା ଗଣିତକୁ ଏକ ଖୁସିର ଅଭ୍ୟାସ କରେ।</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHAT THEY LEARN ================= -->
+<section class="learn">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">ଶିକ୍ଷଣ ବିଷୟବସ୍ତୁ</span>
+      <h2>ପିଲାମାନଙ୍କ ପାଇଁ ଦରକାରୀ ସବୁକିଛି</h2>
+    </div>
+    <div class="chips rv">
+      <span class="chip">🔤 ବର୍ଣ୍ଣମାଳା</span>
+      <span class="chip">🔢 ସଂଖ୍ୟା ଓ ଗଣତି</span>
+      <span class="chip">🐘 ପଶୁଙ୍କ ନାମ</span>
+      <span class="chip">🦜 ପକ୍ଷୀଙ୍କ ନାମ</span>
+      <span class="chip">📅 ବାରର ନାମ</span>
+      <span class="chip">🗓️ ମାସର ନାମ</span>
+      <span class="chip">🌦️ ଋତୁ</span>
+      <span class="chip">⏰ ସମୟ ଜ୍ଞାନ</span>
+      <span class="chip">🧭 ଦିଗ</span>
+      <span class="chip">✍️ ଲେଖା ଅଭ୍ୟାସ</span>
+      <span class="chip">🖍️ ରଙ୍ଗ ଦେବା</span>
+      <span class="chip">📝 ଡିଜିଟାଲ୍ ଆକ୍ଟିଭିଟି</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MO SATHI ================= -->
+<section>
+  <div class="wrap">
+    <div class="friend rv">
+      <div class="robot" aria-hidden="true">🤖</div>
+      <div>
+        <h2>ଭେଟନ୍ତୁ "ମୋ ସାଥୀ" – ଆପଣଙ୍କ ପିଲାର ଶିକ୍ଷା ସାଥୀ</h2>
+        <p>ଏକ ସୁନ୍ଦର ଅଫଲାଇନ୍ ସାଥୀ ଯିଏ ପିଲାମାନଙ୍କୁ ଭାଷା ଅଭ୍ୟାସ କରିବାରେ ସାହାଯ୍ୟ କରେ। ଏହା ସମ୍ପୂର୍ଣ୍ଣ ଅଫଲାଇନରେ କାମ କରେ - କୌଣସି ଲାଇଭ୍ ଚାଟ୍ ନାହିଁ କିମ୍ବା ଇଣ୍ଟରନେଟ୍ ଦରକାର ନାହିଁ।</p>
+        <div class="tags"><span>📴 ଅଫଲାଇନ୍ କାମ କରେ</span><span>💬 କୌଣସି ଲାଇଭ୍ ଚାଟ୍ ନାହିଁ</span><span>🛡️ ୧୦୦% ସୁରକ୍ଷିତ</span></div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- ================= FEATURES ================= -->
-  <section id="features">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Everything in one app</span>
-        <h2>Six playful worlds. One happy learner.</h2>
-        <p>From their first letters to counting, colours and quizzes – every tap teaches something new in Odia and English.</p>
-      </div>
-
-      <div class="features">
-        <article class="feat c1 rv"><span class="ico">📖</span><h3>Learn</h3><div class="or-name">ଶିଖନ୍ତୁ</div><p>Animals, birds, numbers, days, months, seasons, time and directions – explained simply in two languages.</p></article>
-        <article class="feat c2 rv"><span class="ico">🎨</span><h3>Draw &amp; Colour</h3><div class="or-name">ଚିତ୍ର</div><p>Drawing, writing and colouring that build creativity and a steady little hand.</p></article>
-        <article class="feat c3 rv"><span class="ico">🥁</span><h3>Music</h3><div class="or-name">ବାଦ୍ୟ</div><p>Tap along with fun instruments and develop a sense of rhythm and sound.</p></article>
-        <article class="feat c4 rv"><span class="ico">❓</span><h3>Quiz</h3><div class="or-name">କୁଇଜ୍</div><p>Friendly quizzes that turn revision into a game and boost confidence.</p></article>
-        <article class="feat c5 rv"><span class="ico">🧩</span><h3>Games</h3><div class="or-name">ଖେଳ</div><p>Interactive games that make learning feel like play – kids ask for “one more!”</p></article>
-        <article class="feat c6 rv"><span class="ico">🧮</span><h3>Maths</h3><div class="or-name">ଗଣିତ</div><p>Counting and number skills with bright visuals that make maths a happy habit.</p></article>
-      </div>
+<!-- ================= PARENTS ================= -->
+<section class="parents" style="background:#fff;border-block:3px solid var(--ink)">
+  <div class="wrap grid">
+    <div class="rv">
+      <span class="eyebrow">ପିତାମାତାଙ୍କ ପାଇଁ</span>
+      <h2>ସୁରକ୍ଷିତ ସ୍କ୍ରିନ୍ ଟାଇମ୍ ଯାହା ଉପରେ ଆପଣ ଭରସା କରିପାରିବେ</h2>
+      <p class="sub">ପିଲାମାନଙ୍କର ବିକାଶକୁ ଦୃଷ୍ଟିରେ ରଖି ତିଆରି କରାଯାଇଛି ଏବଂ Google Play ର ନୀତି ସହ ଅନୁବନ୍ଧିତ।</p>
+      <ul class="ticks">
+        <li><span class="ck">✓</span><div>କୌଣସି ବିଜ୍ଞାପନ ନାହିଁ<small>ପପ୍-ଅପ୍ ନାହିଁ, ଭୁଲ୍ କ୍ଲିକ୍ ହେବାର ଭୟ ନାହିଁ।</small></div></li>
+        <li><span class="ck">✓</span><div>କୌଣସି ଅନୁମତି ଦରକାର ନାହିଁ<small>ଆପଣଙ୍କ ଫୋନ୍ ର କଣ୍ଟାକ୍ଟ କିମ୍ବା ଲୋକେସନ୍ ର ଅନୁମତି ମାଗେ ନାହିଁ।</small></div></li>
+        <li><span class="ck">✓</span><div>ଡାଟା ସୁରକ୍ଷିତ<small>Google Play ରେ ଡେଭେଲପରଙ୍କ ଦ୍ୱାରା ଘୋଷିତ ଯେ କୌଣସି ଡାଟା ସେୟାର ହୁଏ ନାହିଁ।</small></div></li>
+        <li><span class="ck">✓</span><div>ପିଲାଙ୍କ ପାଇଁ ସହଜ ଡିଜାଇନ୍<small>ବଡ଼ ଏବଂ ରଙ୍ଗୀନ ବଟନ୍ ଯାହାକୁ ଛୋଟ ପିଲାମାନେ ସହଜରେ ବ୍ୟବହାର କରିପାରିବେ।</small></div></li>
+      </ul>
     </div>
-  </section>
-
-  <!-- ================= WHAT THEY LEARN ================= -->
-  <section class="learn">
-    <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Learning topics</span>
-        <h2>A little bit of everything they need</h2>
-        <p class="or" style="font-weight:700">ବର୍ଣ୍ଣବୋଧ · ଗଣତି · ପଶୁପକ୍ଷୀ · ଦିନ · ମାସ · ଋତୁ</p>
-      </div>
-      <div class="chips rv">
-        <span class="chip">🔤 Alphabets</span>
-        <span class="chip">🔢 Counting numbers</span>
-        <span class="chip">🐘 Animal names</span>
-        <span class="chip">🦜 Bird names</span>
-        <span class="chip">📅 Days of the week</span>
-        <span class="chip">🗓️ Months of the year</span>
-        <span class="chip">🌦️ Seasons</span>
-        <span class="chip">⏰ Learning time</span>
-        <span class="chip">🧭 Directions</span>
-        <span class="chip">✍️ Writing practice</span>
-        <span class="chip">🖍️ Colouring</span>
-        <span class="chip">📝 Digital activity sheets</span>
-      </div>
+    <div class="shield rv">
+      <div class="big">🛡️</div>
+      <h3>୧୦୦% ଶିଶୁ-ସୁରକ୍ଷିତ</h3>
+      <p>ଓଡ଼ିଆ ପରିବାର ପାଇଁ ଓଡ଼ିଶାରେ ନିର୍ମିତ, ଯାହାଦ୍ୱାରା ପିଲାମାନେ ନିଜ ମାତୃଭାଷା ସହିତ ଯୋଡି ହୋଇ ରହିବେ ଏବଂ ଇଂରାଜୀ ମଧ୍ୟ ଶିଖିବେ।</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ================= MO SATHI ================= -->
-  <section>
-    <div class="wrap">
-      <div class="friend rv">
-        <div class="robot" aria-hidden="true">🤖</div>
-        <div>
-          <h2>Meet “Mo Sathi” – your child’s learning buddy</h2>
-          <div class="or">ମୋ ସାଥୀ · My Friend</div>
-          <p>A friendly, fully simulated learning companion that helps kids practise language basics. It works completely offline – no live chat, no internet and no contact with strangers.</p>
-          <div class="tags"><span>📴 Works offline</span><span>💬 No live chat</span><span>🛡️ 100% safe</span></div>
-        </div>
-      </div>
+<!-- ================= SCREENSHOTS ================= -->
+<section style="padding-bottom:30px">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:10px">
+      <span class="eyebrow">ଏକ ଝଲକ</span>
+      <h2>ଆପ୍ ର କିଛି ସୁନ୍ଦର ଚିତ୍ର</h2>
     </div>
-  </section>
+  </div>
+  <div class="gallery" id="gallery">
+    <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 1" src="https://play-lh.googleusercontent.com/IHWkbkxnWZyLm3H0LUhL7zAt-8Vy7y37F_A1ABmmFnCcSVQlnPZep5qIeguT5iRdj5IxPlm4rRxJT8nWsn1i5g=w526-h296"></div>
+    <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 2" src="https://play-lh.googleusercontent.com/ZRsHUWR8z8i3A8q8hkj3FSHVKIcf39pwVGCZdTH5QEykmqlaxDIZbSN7_s5Xdb32fD6f0c63H0Rdyvwu6q3IeQ=w526-h296"></div>
+    <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 3" src="https://play-lh.googleusercontent.com/aBDgzKOkCs45Up-Fh72_PFfCK8I4l8copx4jIZ68sznAkw4XIu7btG66AxewXgYSfi_58rpSCBByr7_85SWA=w526-h296"></div>
+    <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 4" src="https://play-lh.googleusercontent.com/iTbbq3oNl2dFVyH6scVqFWn_MW_dUeJ7wnUcHfon__8QhSqgAkZ_8WblkbIesmgv2fGSBMDVTpK0voekesmloqA=w526-h296"></div>
+    <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 5" src="https://play-lh.googleusercontent.com/imjF2BiU2QDf_Wf8dSJ0gRc06ZZzamsEaxpanMEYJIVeUgRc4h5EfjUJ8uqjUsw2o7hge7h9_TYQbgIosbGJrw=w526-h296"></div>
+    <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 6" src="https://play-lh.googleusercontent.com/t2ulcv_0EaNIf8EIc3yeJ5tOQHWfpKEt2Dss-tJRKYVhUxdNXf2aFGZ9QxwGWGh297ft7A3ZFOF4pRcv8cfq2FE=w526-h296"></div>
+    <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 7" src="https://play-lh.googleusercontent.com/y1UW_UA1nrqonDgngxuu331VGtTbORmcnM8WHMS4RaB2gkuOE-0sNgBM1ZFsKfkNqkYsya5b7sJwpqtjf4Pv1_w=w526-h296"></div>
+    <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 8" src="https://play-lh.googleusercontent.com/r5P9fKPUq__dSVgQs_Rb2ao2cCw8BhdOLzE8b90HZgOdjCvH3vb5XcE92IV5JQpZNe8yCxRPVURSjAuapz7-Xss=w526-h296"></div>
+  </div>
+</section>
 
-  <!-- ================= PARENTS ================= -->
-  <section class="parents" style="background:#fff;border-block:3px solid var(--ink)">
-    <div class="wrap grid">
-      <div class="rv">
-        <span class="eyebrow">For parents</span>
-        <h2>Safe screen time you can feel good about</h2>
-        <p class="sub">Built with children’s development in mind – and committed to the Google Play Families Policy.</p>
-        <ul class="ticks">
-          <li><span class="ck">✓</span><div>No ads at all<small>No pop-ups, no distractions, no accidental clicks.</small></div></li>
-          <li><span class="ck">✓</span><div>No permissions required<small>The app doesn’t ask to access your contacts, camera or location.</small></div></li>
-          <li><span class="ck">✓</span><div>No data collected or shared<small>As declared by the developer in Google Play’s Data safety section.</small></div></li>
-          <li><span class="ck">✓</span><div>Simple, kid-friendly design<small>Big colourful buttons – little fingers find their way easily.</small></div></li>
-        </ul>
-      </div>
-      <div class="shield rv">
-        <div class="big">🛡️</div>
-        <h3>100% child-safe</h3>
-        <p>Made in Odisha for Odia families, so kids can stay close to their mother tongue and still learn English.</p>
-      </div>
+<!-- ================= STEPS ================= -->
+<section>
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">ଆରମ୍ଭ କରନ୍ତୁ</span>
+      <h2>୩ ଟି ସହଜ ଉପାୟରେ ଶିଖିବା ଆରମ୍ଭ କରନ୍ତୁ</h2>
     </div>
-  </section>
-
-  <!-- ================= SCREENSHOTS ================= -->
-  <section style="padding-bottom:30px">
-    <div class="wrap">
-      <div class="sec-head rv" style="margin-bottom:10px">
-        <span class="eyebrow">Peek inside</span>
-        <h2>See the app in action</h2>
-      </div>
+    <div class="steps">
+      <div class="step rv"><div class="e">📲</div><h3>ଇନଷ୍ଟଲ୍ (Install)</h3><p>Google Play ବଟନ୍ ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ ଏବଂ ମାଗଣାରେ ଆପ୍ ଡାଉନଲୋଡ୍ କରନ୍ତୁ।</p></div>
+      <div class="step rv"><div class="e">🌐</div><h3>ଭାଷା ବାଛନ୍ତୁ</h3><p>ହୋମ୍ ସ୍କ୍ରିନ୍ ରୁ ଓଡ଼ିଆ କିମ୍ବା ଇଂରାଜୀ ବାଛନ୍ତୁ।</p></div>
+      <div class="step rv"><div class="e">🎉</div><h3>ଖେଳନ୍ତୁ ଓ ଶିଖନ୍ତୁ</h3><p>ଗୋଟିଏ ରଙ୍ଗୀନ ଟାଇଲ୍ ଉପରେ ଟ୍ୟାପ୍ କରନ୍ତୁ ଏବଂ ପିଲାଙ୍କୁ ଶିଖିବାକୁ ଦିଅନ୍ତୁ।</p></div>
     </div>
-    <div class="gallery" id="gallery">
-      <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 1" src="https://play-lh.googleusercontent.com/IHWkbkxnWZyLm3H0LUhL7zAt-8Vy7y37F_A1ABmmFnCcSVQlnPZep5qIeguT5iRdj5IxPlm4rRxJT8nWsn1i5g=w526-h296"></div>
-      <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 2" src="https://play-lh.googleusercontent.com/ZRsHUWR8z8i3A8q8hkj3FSHVKIcf39pwVGCZdTH5QEykmqlaxDIZbSN7_s5Xdb32fD6f0c63H0Rdyvwu6q3IeQ=w526-h296"></div>
-      <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 3" src="https://play-lh.googleusercontent.com/aBDgzKOkCs45Up-Fh72_PFfCK8I4l8copx4jIZ68sznAkw4XIu7btG66AxewXgYSfi_58rpSCBByr7_85SWA=w526-h296"></div>
-      <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 4" src="https://play-lh.googleusercontent.com/iTbbq3oNl2dFVyH6scVqFWn_MW_dUeJ7wnUcHfon__8QhSqgAkZ_8WblkbIesmgv2fGSBMDVTpK0voekesmloqA=w526-h296"></div>
-      <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 5" src="https://play-lh.googleusercontent.com/imjF2BiU2QDf_Wf8dSJ0gRc06ZZzamsEaxpanMEYJIVeUgRc4h5EfjUJ8uqjUsw2o7hge7h9_TYQbgIosbGJrw=w526-h296"></div>
-      <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 6" src="https://play-lh.googleusercontent.com/t2ulcv_0EaNIf8EIc3yeJ5tOQHWfpKEt2Dss-tJRKYVhUxdNXf2aFGZ9QxwGWGh297ft7A3ZFOF4pRcv8cfq2FE=w526-h296"></div>
-      <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 7" src="https://play-lh.googleusercontent.com/y1UW_UA1nrqonDgngxuu331VGtTbORmcnM8WHMS4RaB2gkuOE-0sNgBM1ZFsKfkNqkYsya5b7sJwpqtjf4Pv1_w=w526-h296"></div>
-      <div class="shot"><img loading="lazy" alt="Odia KidsApp screenshot 8" src="https://play-lh.googleusercontent.com/r5P9fKPUq__dSVgQs_Rb2ao2cCw8BhdOLzE8b90HZgOdjCvH3vb5XcE92IV5JQpZNe8yCxRPVURSjAuapz7-Xss=w526-h296"></div>
+  </div>
+</section>
+
+<!-- ================= REVIEWS ================= -->
+<section class="reviews">
+  <div class="wrap">
+    <div class="rev-top rv">
+      <div class="score">4.6</div>
+      <div class="stars" style="font-size:1.6rem; color: #FFB703;">★★★★★</div>
+      <p style="font-weight:700;color:var(--muted)">Google Play ରେ ପିତାମାତାଙ୍କ ଦ୍ୱାରା ରେଟିଂ · 10K+ ଡାଉନଲୋଡ୍</p>
     </div>
-  </section>
-
-  <!-- ================= STEPS ================= -->
-  <section>
-    <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Getting started</span>
-        <h2>Start learning in 3 easy steps</h2>
-      </div>
-      <div class="steps">
-        <div class="step rv"><div class="e">📲</div><h3>Install</h3><p>Tap the Google Play button and install Odia KidsApp for free.</p></div>
-        <div class="step rv"><div class="e">🌐</div><h3>Pick a language</h3><p>Choose Odia or English from the dropdown on the home screen.</p></div>
-        <div class="step rv"><div class="e">🎉</div><h3>Play &amp; learn</h3><p>Tap a colourful tile and let your child explore at their own pace.</p></div>
-      </div>
+    <div class="rev-grid">
+      <div class="rev rv"><div class="stars">★★★★★</div><p>"Very important and useful app for kids – helps them gain knowledge through the mobile."</p><div class="who">— ପ୍ରଦୀପ ନାୟକ, Google Play ରିଭ୍ୟୁ</div></div>
+      <div class="rev rv"><div class="stars">★★★★★</div><p>"ବହୁତ ବଢ଼ିଆ – very, very nice!"</p><div class="who">— ବିଧୁଭୂଷଣ ପଣ୍ଡା, Google Play ରିଭ୍ୟୁ</div></div>
+      <div class="rev rv"><div class="stars">★★★★★</div><p>"Nice app."</p><div class="who">— ଆକାଶ ବିଶ୍ୱାଳ, Google Play ରିଭ୍ୟୁ</div></div>
     </div>
-  </section>
+    <p class="rv" style="text-align:center;margin-top:26px"><a class="play-link" style="font-weight:800;color:var(--pink-deep)" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp&showAllReviews=true">Google Play ରେ ସବୁ ରିଭ୍ୟୁ ପଢ଼ନ୍ତୁ →</a></p>
+  </div>
+</section>
 
-  <!-- ================= REVIEWS ================= -->
-  <section class="reviews">
-    <div class="wrap">
-      <div class="rev-top rv">
-        <div class="score">4.6</div>
-        <div class="stars" style="font-size:1.6rem">★★★★★</div>
-        <p style="font-weight:700;color:var(--muted)">Rated by parents on Google Play · 10K+ downloads</p>
-      </div>
-      <div class="rev-grid">
-        <div class="rev rv"><div class="stars">★★★★★</div><p>“Very important and useful app for kids – helps them gain knowledge through the mobile.”</p><div class="who">— Pradeep Naik, Google Play review</div></div>
-        <div class="rev rv"><div class="stars">★★★★★</div><p>“Bahuta badhiya – very, very nice!”</p><div class="who">— Bidhubhusan Panda, Google Play review</div></div>
-        <div class="rev rv"><div class="stars">★★★★★</div><p>“Nice app.”</p><div class="who">— Akash Biswal, Google Play review</div></div>
-      </div>
-      <p class="rv" style="text-align:center;margin-top:26px"><a class="play-link" style="font-weight:800;color:var(--pink-deep)" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp&showAllReviews=true" data-pos="reviews">Read all reviews on Google Play →</a></p>
+<!-- ================= FAQ ================= -->
+<section>
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">ପ୍ରଶ୍ନୋତ୍ତର</span>
+      <h2>ପିତାମାତାଙ୍କ ସାଧାରଣ ପ୍ରଶ୍ନ</h2>
     </div>
-  </section>
-
-  <!-- ================= FAQ ================= -->
-  <section>
-    <div class="wrap">
-      <div class="sec-head rv">
-        <span class="eyebrow">Questions</span>
-        <h2>Parents often ask</h2>
-      </div>
-      <div class="faq rv">
-        <details><summary>Is Odia KidsApp free?</summary><p>You can download it free from Google Play. The listing notes that in-app purchases are available.</p></details>
-        <details><summary>What age is it for?</summary><p>It is rated 3+ on Google Play and designed for young learners who are starting to explore language, numbers and creativity.</p></details>
-        <details><summary>Are there ads or strangers my child can talk to?</summary><p>No. There are no external ads, and the “Mo Sathi” buddy is a simulated, offline companion – there is no live chat or contact with real-world users.</p></details>
-        <details><summary>What permissions does it need?</summary><p>None. The app doesn’t require any permissions, and the developer has declared that no data is collected or shared with third parties.</p></details>
-        <details><summary>Which languages does it teach?</summary><p>Odia and English, with a language selector on the home screen.</p></details>
-        <details><summary>Who makes the app?</summary><p>Odia KidsApp is developed by Abinash Mahapatra from Ganjam, Odisha. Questions? Write to <a href="mailto:odiakidsapp@gmail.com" style="color:var(--pink-deep);font-weight:800">odiakidsapp@gmail.com</a>.</p></details>
-      </div>
+    <div class="faq rv">
+      <details><summary>Odia KidsApp କଣ ମାଗଣା ଅଟେ?</summary><p>ହଁ, ଆପଣ ଏହାକୁ Google Play ରୁ ସମ୍ପୂର୍ଣ୍ଣ ମାଗଣାରେ ଡାଉନଲୋଡ୍ କରିପାରିବେ।</p></details>
+      <details><summary>ଏହା କେଉଁ ବୟସର ପିଲାଙ୍କ ପାଇଁ ଉପଯୁକ୍ତ?</summary><p>ଏହା ଛୋଟ ପିଲାଙ୍କ ପାଇଁ (3+ ବୟସ) ତିଆରି କରାଯାଇଛି, ଯେଉଁମାନେ ନୂଆକରି ଭାଷା ଏବଂ ସଂଖ୍ୟା ଶିଖିବା ଆରମ୍ଭ କରୁଛନ୍ତି।</p></details>
+      <details><summary>ଏଥିରେ କୌଣସି ବିଜ୍ଞାପନ ଅଛି କି?</summary><p>ନା, ଏଥିରେ କୌଣସି ପ୍ରକାରର ବାହ୍ୟ ବିଜ୍ଞାପନ ନାହିଁ। ଏହା ପିଲାମାନଙ୍କ ପାଇଁ ସମ୍ପୂର୍ଣ୍ଣ ସୁରକ୍ଷିତ।</p></details>
+      <details><summary>ଏହା କେଉଁ କେଉଁ ଭାଷା ଶିଖାଏ?</summary><p>ଆପଣ ହୋମ୍ ସ୍କ୍ରିନ୍ ରୁ ଓଡ଼ିଆ କିମ୍ବା ଇଂରାଜୀ ଭାଷା ବାଛିପାରିବେ।</p></details>
+      <details><summary>ଆପ୍ କିଏ ତିଆରି କରିଛନ୍ତି?</summary><p>ଏହାକୁ ଓଡ଼ିଶାର ଗଞ୍ଜାମର ଅବିନାଶ ମହାପାତ୍ର ତିଆରି କରିଛନ୍ତି। କୌଣସି ପ୍ରଶ୍ନ ଥିଲେ <a href="mailto:odiakidsapp@gmail.com" style="color:var(--pink-deep);font-weight:800">odiakidsapp@gmail.com</a> କୁ ଇମେଲ୍ କରନ୍ତୁ।</p></details>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ================= FINAL CTA ================= -->
-  <section class="final">
-    <div class="wrap">
-      <img class="appicon" src="https://play-lh.googleusercontent.com/7-Ky35Kg2CtuAdhmxot7_pdKyoApdRc557cUg864E7LY9GjQW7vvab3dAOHEaJyQNE2YKauJbCEeooeou3PWPA=w240-h240" alt="Odia KidsApp" width="110" height="110">
-      <h2>Give your child a joyful head start in Odia &amp; English</h2>
-      <p>Join thousands of families already learning with Odia KidsApp. Safe, colourful and completely ad-free.</p>
-      <a class="btn btn-play btn-pulse play-link" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp" data-pos="final">
-        <svg viewBox="0 0 512 512" aria-hidden="true"><path fill="#00D7FE" d="M48 59.5v393c0 7 3.5 13 8.5 16.5L289 256 56.500 43C51.500 46.500 48 52.500 48 59.500z"/><path fill="#00F076" d="M289 256 56.500 469c4 2.500 9 3.500 14.500 1.500L352 312z"/><path fill="#FFD500" d="M352 200 289 256l63 56 98-55.500c11-6.500 11-17.500 0-24z"/><path fill="#FF3A44" d="M71 42c-5.500-2-10.500-1-14.500 1.500L289 256l63-56z"/></svg>
-        <div><small>Get it on</small><span>Google Play</span></div>
-      </a>
+<!-- ================= FINAL CTA ================= -->
+<section class="final">
+  <div class="wrap">
+    <img class="appicon" src="https://play-lh.googleusercontent.com/7-Ky35Kg2CtuAdhmxot7_pdKyoApdRc557cUg864E7LY9GjQW7vvab3dAOHEaJyQNE2YKauJbCEeooeou3PWPA=w240-h240" alt="Odia KidsApp" width="110" height="110">
+    <h2>ଆପଣଙ୍କ ପିଲାଙ୍କୁ ଓଡ଼ିଆ ଏବଂ ଇଂରାଜୀ ଶିଖିବାର ଏକ ସୁନ୍ଦର ଆରମ୍ଭ ଦିଅନ୍ତୁ</h2>
+    <p>ହଜାର ହଜାର ପରିବାର ସହ ଯୋଡି ହୁଅନ୍ତୁ। ସୁରକ୍ଷିତ, ରଙ୍ଗୀନ ଏବଂ ବିନା ବିଜ୍ଞାପନରେ।</p>
+    <a class="btn btn-play btn-pulse play-link" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><path fill="#00D7FE" d="M48 59.5v393c0 7 3.5 13 8.5 16.5L289 256 56.500 43C51.500 46.500 48 52.500 48 59.500z"/><path fill="#00F076" d="M289 256 56.500 469c4 2.500 9 3.500 14.500 1.500L352 312z"/><path fill="#FFD500" d="M352 200 289 256l63 56 98-55.500c11-6.500 11-17.500 0-24z"/><path fill="#FF3A44" d="M71 42c-5.500-2-10.500-1-14.500 1.500L289 256l63-56z"/></svg>
+      <div><small>Get it on</small><span>Google Play</span></div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© <span id="yr">2026</span> Odia KidsApp · ଓଡ଼ିଶାରେ ସ୍ନେହର ସହ ପ୍ରସ୍ତୁତ (Made with ❤️ in Odisha)</div>
+    <div class="links">
+      <a href="https://odiakidsapp.github.io/privacypolicy/" rel="noopener">Privacy Policy</a>
+      <a href="mailto:odiakidsapp@gmail.com">Contact</a>
+      <a class="play-link" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp">Google Play</a>
     </div>
-  </section>
+  </div>
+</footer>
 
-  <footer>
-    <div class="wrap">
-      <div>© <span id="yr">2026</span> Odia KidsApp · Made with ❤️ in Odisha</div>
-      <div class="links">
-        <a href="https://odiakidsapp.github.io/privacypolicy/" rel="noopener">Privacy Policy</a>
-        <a href="mailto:odiakidsapp@gmail.com">Contact</a>
-        <a class="play-link" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp" data-pos="footer">Google Play</a>
-      </div>
-    </div>
-  </footer>
-
-</div>
-
-<!-- Sticky mobile download bar (Hidden initially) -->
-<div class="sticky hidden-initial" id="sticky">
+<!-- Sticky mobile download bar -->
+<div class="sticky" id="sticky">
   <img src="https://play-lh.googleusercontent.com/7-Ky35Kg2CtuAdhmxot7_pdKyoApdRc557cUg864E7LY9GjQW7vvab3dAOHEaJyQNE2YKauJbCEeooeou3PWPA=w96-h96" alt="">
   <div class="t">Odia KidsApp<small>★ 4.6 · Free · No ads</small></div>
-  <a class="play-link" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp">Install</a>
+  <a class="play-link" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp">ଇନଷ୍ଟଲ୍</a>
 </div>
 
 <script>
-  // Reveal Full Page function
-  function loadFullPage() {
-    // Remove the hidden class from topbar, sticky bar, and full page content
-    document.querySelectorAll('.hidden-initial').forEach(function(el) {
-      el.classList.remove('hidden-initial');
-    });
-    // Hide the "See more" button
-    document.getElementById('seeMoreBtn').style.display = 'none';
-    
-    // Smooth scroll down to transition into the new content
-    window.scrollBy({ top: 150, behavior: 'smooth' });
-
-    // Trigger intersection observers
-    window.dispatchEvent(new Event('scroll'));
-  }
-
   // Scroll Reveal logic for animations
   (function(){
     var els = document.querySelectorAll('.rv');
