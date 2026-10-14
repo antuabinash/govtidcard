@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>OCF Learning Outcomes - ଶିକ୍ଷକ ସାଥୀ</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#F4F6F9">
+
+    <style>
+        /* === App Variables & Reset (Matching Index UI) === */
+        :root {
+            --app-bg: #F4F6F9;
+            --card-bg: #FFFFFF;
+            --text-main: #1D1D1F;
+            --text-muted: #86868B;
+            --primary: #007AFF;
+            --primary-hover: #0056b3;
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --safe-area-pt: env(safe-area-inset-top, 16px);
+            --safe-area-pb: env(safe-area-inset-bottom, 20px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: calc(40px + var(--safe-area-pb)); overflow-x: hidden; }
+
+        /* === Header === */
+        header { 
+            padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; 
+            background: rgba(244, 246, 249, 0.85); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            border-bottom: 1px solid rgba(0,0,0,0.03); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        
+        .app-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
+        .greeting { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: -2px; }
+        
+        .icon-btn { 
+            background: #FFFFFF; border: none; width: 40px; height: 40px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; color: var(--text-main); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; 
+            text-decoration: none;
+        }
+        .icon-btn:active { transform: scale(0.9); }
+
+        /* === Container & Titles === */
+        .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
+        .section-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
+
+        /* === App Grid & Cards (Matching Index Grid) === */
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+        @media (min-width: 768px) { .app-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; } }
+        
+        .app-card { 
+            background: var(--card-bg); border-radius: var(--radius-xl); padding: 20px 16px; 
+            text-decoration: none; display: flex; flex-direction: column; position: relative; 
+            box-shadow: var(--shadow-soft); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease; 
+            border: 1px solid rgba(255,255,255,0.8); height: 100%; cursor: pointer;
+        }
+        .app-card:active { transform: scale(0.94); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        
+        .icon-box { 
+            width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; 
+            justify-content: center; font-size: 26px; margin-bottom: 16px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); 
+        }
+        .grad-orange { background: linear-gradient(135deg, #FF9A44 0%, #FC6076 100%); }
+        .grad-blue { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
+        .grad-purple { background: linear-gradient(135deg, #B1B0FC 0%, #E0C3FC 100%); }
+
+        .app-card h3 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
+        .app-card p { font-size: 13px; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 16px; flex-grow: 1; }
+
+        .open-btn {
+            background: #F2F2F7; color: var(--primary); padding: 10px 16px; 
+            border-radius: var(--radius-md); font-size: 13px; font-weight: 700; border: none; 
+            display: flex; justify-content: center; align-items: center; gap: 6px; 
+            width: 100%; transition: background 0.2s; pointer-events: none;
+        }
+        .app-card:hover .open-btn { background: #e5e5ea; }
+
+        /* === Progress Modal === */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 10005; 
+            display: none; align-items: center; justify-content: center; padding: 24px; 
+            opacity: 0; transition: opacity 0.3s; 
+        }
+        .modal-overlay.show { opacity: 1; display: flex; }
+        .modal-content { 
+            background: #fff; width: 100%; max-width: 320px; border-radius: 24px; 
+            padding: 32px 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
+            transform: translateY(20px); transition: transform 0.3s; 
+        }
+        .modal-overlay.show .modal-content { transform: translateY(0); }
+        
+        .modal-icon { font-size: 40px; margin-bottom: 16px; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        
+        .modal-content h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--text-main); }
+        .modal-content p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+
+        /* Progress Bar UI */
+        .progress-container { width: 100%; height: 12px; background: #E5E5EA; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.1s linear; border-radius: 10px; }
+        .progress-text { font-size: 16px; font-weight: 800; color: var(--primary); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <a href="index.html" class="icon-btn" aria-label="Back">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div>
+                <div class="greeting">Study Resources</div>
+                <h1 class="app-title">Learning Outcomes</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2 class="section-title">OCF Learning Outcomes</h2>
+        
+        <div class="app-grid">
+            
+            <!-- Tile 1: Maulika Stara -->
+            <div class="app-card" onclick="fetchAndSharePDF('maulika.pdf', 'Maulika_Stara.pdf')">
+                <div class="icon-box grad-orange"><span>👶</span></div>
+                <h3>Maulika Stara</h3>
+                <p>Class Shishuvatika to Class 2 framework and outcomes.</p>
+                <div class="open-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Open PDF
+                </div>
+            </div>
+
+            <!-- Tile 2: Prastuti Stara -->
+            <div class="app-card" onclick="fetchAndSharePDF('prastuti.pdf', 'Prastuti_Stara.pdf')">
+                <div class="icon-box grad-blue"><span>🎒</span></div>
+                <h3>Prastuti Stara</h3>
+                <p>Class 3 to Class 5 framework and learning objectives.</p>
+                <div class="open-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Open PDF
+                </div>
+            </div>
+
+            <!-- Tile 3: Madhya Stara -->
+            <div class="app-card" onclick="fetchAndSharePDF('madhya.pdf', 'Madhya_Stara.pdf')">
+                <div class="icon-box grad-purple"><span>🏫</span></div>
+                <h3>Madhya Stara</h3>
+                <p>Class 6 to Class 8 educational framework and targets.</p>
+                <div class="open-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Open PDF
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Download Progress Modal -->
+    <div id="progressModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-icon">📄</div>
+            <h3>Preparing PDF...</h3>
+            <p>Please wait while we fetch the document.</p>
+            
+            <div class="progress-container">
+                <div id="progressBar" class="progress-fill"></div>
+            </div>
+            <div id="progressText" class="progress-text">0%</div>
+        </div>
+    </div>
+
+    <script>
+        const progressModal = document.getElementById('progressModal');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+
+        /**
+         * Fetches a file, updates progress bar, then triggers native device "Share/Open With" sheet.
+         */
+        async function fetchAndSharePDF(fileUrl, downloadName) {
+            try {
+                // Show modal & reset progress
+                progressModal.classList.add('show');
+                progressBar.style.width = '0%';
+                progressText.innerText = '0%';
+
+                // Start Fetch
+                const response = await fetch(fileUrl);
+                if (!response.ok) throw new Error("File not found or network error.");
+
+                const contentLength = response.headers.get('content-length');
+                const total = contentLength ? parseInt(contentLength, 10) : 0;
+                
+                let loaded = 0;
+                const reader = response.body.getReader();
+                const chunks = [];
+
+                // Read Stream
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    chunks.push(value);
+                    loaded += value.length;
+
+                    // Update UI if total size is known
+                    if (total) {
+                        let percent = Math.round((loaded / total) * 100);
+                        progressBar.style.width = percent + '%';
+                        progressText.innerText = percent + '%';
+                    } else {
+                        // Fallback if content-length is missing
+                        progressBar.style.width = '100%';
+                        progressText.innerText = 'Downloading...';
+                    }
+                }
+
+                // Ensure it shows 100% at the end
+                progressBar.style.width = '100%';
+                progressText.innerText = '100%';
+
+                // Create Blob
+                const blob = new Blob(chunks, { type: 'application/pdf' });
+                
+                // Add a tiny delay so user sees 100% before modal closes
+                setTimeout(() => {
+                    progressModal.classList.remove('show');
+                    triggerOpenApp(blob, downloadName);
+                }, 400);
+
+            } catch (error) {
+                console.error("Download failed:", error);
+                alert("Failed to download the PDF. Please check your connection and try again.");
+                progressModal.classList.remove('show');
+            }
+        }
+
+        /**
+         * Triggers the native Share sheet so the OS prompts "Open with..."
+         * Falls back to standard browser download if unsupported.
+         */
+        function triggerOpenApp(blob, filename) {
+            const file = new File([blob], filename, { type: 'application/pdf' });
+
+            // Check if Web Share API supports files (Available on modern mobile browsers)
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                navigator.share({
+                    title: filename,
+                    files: [file]
+                }).catch(err => {
+                    console.log("User cancelled share or share failed:", err);
+                });
+            } else {
+                // Fallback: Standard standard anchor download if native intent is not supported (Desktop/Older OS)
+                const objectUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = objectUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Cleanup
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(objectUrl);
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
