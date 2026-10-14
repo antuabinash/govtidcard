@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#F4F6F9">
 
     <style>
-        /* === App Variables & Reset (Matching Index UI) === */
+        /* === App Variables & Reset === */
         :root {
             --app-bg: #F4F6F9;
             --card-bg: #FFFFFF;
@@ -59,7 +59,7 @@
         .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
         .section-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
 
-        /* === App Grid & Cards (Matching Index Grid) === */
+        /* === App Grid & Cards === */
         .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
         @media (min-width: 768px) { .app-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; } }
         
@@ -143,35 +143,47 @@
         <div class="app-grid">
             
             <!-- Tile 1: Maulika Stara -->
-            <div class="app-card" onclick="fetchAndSharePDF('maulika.pdf', 'Maulika_Stara.pdf')">
+            <div class="app-card" onclick="fetchAndDownloadPDF('https://github.com/antuabinash/govtidcard/releases/download/v1.0.0/maulika.pdf', 'Maulika_Stara.pdf')">
                 <div class="icon-box grad-orange"><span>👶</span></div>
                 <h3>Maulika Stara</h3>
                 <p>Class Shishuvatika to Class 2 framework and outcomes.</p>
                 <div class="open-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Open PDF
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download PDF
                 </div>
             </div>
 
             <!-- Tile 2: Prastuti Stara -->
-            <div class="app-card" onclick="fetchAndSharePDF('prastuti.pdf', 'Prastuti_Stara.pdf')">
+            <div class="app-card" onclick="fetchAndDownloadPDF('https://github.com/antuabinash/govtidcard/releases/download/v1.0.0/prastuti.pdf', 'Prastuti_Stara.pdf')">
                 <div class="icon-box grad-blue"><span>🎒</span></div>
                 <h3>Prastuti Stara</h3>
                 <p>Class 3 to Class 5 framework and learning objectives.</p>
                 <div class="open-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Open PDF
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download PDF
                 </div>
             </div>
 
             <!-- Tile 3: Madhya Stara -->
-            <div class="app-card" onclick="fetchAndSharePDF('madhya.pdf', 'Madhya_Stara.pdf')">
+            <div class="app-card" onclick="fetchAndDownloadPDF('https://github.com/antuabinash/govtidcard/releases/download/v1.0.0/madhya.pdf', 'Madhya_Stara.pdf')">
                 <div class="icon-box grad-purple"><span>🏫</span></div>
                 <h3>Madhya Stara</h3>
                 <p>Class 6 to Class 8 educational framework and targets.</p>
                 <div class="open-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                    Open PDF
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download PDF
                 </div>
             </div>
 
@@ -198,9 +210,9 @@
         const progressText = document.getElementById('progressText');
 
         /**
-         * Fetches a file, updates progress bar, then triggers opening in a new window/app.
+         * Fetches a file, updates progress bar, then forces a direct file download.
          */
-        async function fetchAndSharePDF(fileUrl, downloadName) {
+        async function fetchAndDownloadPDF(fileUrl, downloadName) {
             try {
                 // Show modal & reset progress
                 progressModal.classList.add('show');
@@ -248,7 +260,7 @@
                 // Add a tiny delay so user sees 100% before modal closes
                 setTimeout(() => {
                     progressModal.classList.remove('show');
-                    triggerOpenApp(blob, downloadName);
+                    triggerDirectDownload(blob, downloadName);
                 }, 400);
 
             } catch (error) {
@@ -259,32 +271,24 @@
         }
 
         /**
-         * Opens the PDF in a new window for Desktop/iOS, 
-         * or triggers the device native PDF viewer via download prompt for Android.
+         * Forces the browser to save the Blob directly to the device's Downloads folder.
          */
-        function triggerOpenApp(blob, filename) {
+        function triggerDirectDownload(blob, filename) {
             const objectUrl = URL.createObjectURL(blob);
             
-            // Try opening in a new tab/window. 
-            // Desktop and iOS Safari will open it directly.
-            // Android browsers will usually process this to native PDF apps.
-            const newWindow = window.open(objectUrl, '_blank');
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = objectUrl;
+            a.download = filename;
             
-            // Fallback: If a strict popup blocker prevents window.open, force a download
-            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = objectUrl;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            }
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
             
-            // Cleanup the Object URL after a delay to ensure the new window has time to read it
+            // Cleanup the Object URL after a delay
             setTimeout(() => {
                 URL.revokeObjectURL(objectUrl);
-            }, 10000); 
+            }, 5000); 
         }
     </script>
 </body>
