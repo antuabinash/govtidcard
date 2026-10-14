@@ -104,9 +104,6 @@
         }
         .modal-overlay.show .modal-content { transform: translateY(0); }
         
-        .modal-icon { font-size: 40px; margin-bottom: 16px; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        
         .modal-content h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--text-main); }
         .modal-content p { font-size: 13px; color: var(--text-muted); margin-bottom: 0; line-height: 1.5; }
 
@@ -199,27 +196,29 @@
 
     <script>
         /**
-         * Shows a "Starting Download" modal, then triggers the native 
-         * browser download manager securely without using fetch.
+         * Shows a "Starting Download" modal and uses an invisible iframe
+         * to trigger the download without opening a black screen or new tab.
          */
         function startDownload(fileUrl) {
             const progressModal = document.getElementById('progressModal');
-            
-            // Show the loading modal
             progressModal.classList.add('show');
 
-            // Force the browser to start downloading via an invisible link
-            const a = document.createElement('a');
-            a.href = fileUrl;
-            a.target = '_blank'; // Required to safely trigger download
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            // Find or create an invisible iframe
+            let iframe = document.getElementById('hiddenDownloader');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.id = 'hiddenDownloader';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
+            
+            // Setting the src triggers the file download securely in the background
+            iframe.src = fileUrl;
 
-            // Hide the modal automatically after 3 seconds
+            // Hide the modal automatically after 3.5 seconds
             setTimeout(() => {
                 progressModal.classList.remove('show');
-            }, 3000);
+            }, 3500);
         }
     </script>
 </body>
