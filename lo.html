@@ -198,7 +198,7 @@
         const progressText = document.getElementById('progressText');
 
         /**
-         * Fetches a file, updates progress bar, then triggers native device "Share/Open With" sheet.
+         * Fetches a file, updates progress bar, then triggers opening in a new window/app.
          */
         async function fetchAndSharePDF(fileUrl, downloadName) {
             try {
@@ -259,37 +259,32 @@
         }
 
         /**
-         * Triggers the native Share sheet so the OS prompts "Open with..."
-         * Falls back to standard browser download if unsupported.
+         * Opens the PDF in a new window for Desktop/iOS, 
+         * or triggers the device native PDF viewer via download prompt for Android.
          */
         function triggerOpenApp(blob, filename) {
-            const file = new File([blob], filename, { type: 'application/pdf' });
-
-            // Check if Web Share API supports files (Available on modern mobile browsers)
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                navigator.share({
-                    title: filename,
-                    files: [file]
-                }).catch(err => {
-                    console.log("User cancelled share or share failed:", err);
-                });
-            } else {
-                // Fallback: Standard standard anchor download if native intent is not supported (Desktop/Older OS)
-                const objectUrl = URL.createObjectURL(blob);
+            const objectUrl = URL.createObjectURL(blob);
+            
+            // Try opening in a new tab/window. 
+            // Desktop and iOS Safari will open it directly.
+            // Android browsers will usually process this to native PDF apps.
+            const newWindow = window.open(objectUrl, '_blank');
+            
+            // Fallback: If a strict popup blocker prevents window.open, force a download
+            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
                 const a = document.createElement('a');
                 a.style.display = 'none';
                 a.href = objectUrl;
-                a.target = '_blank'; // Added target="_blank" to open in a new window/tab on desktop
                 a.download = filename;
                 document.body.appendChild(a);
                 a.click();
-                
-                // Cleanup
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(objectUrl);
-                }, 1000);
+                document.body.removeChild(a);
             }
+            
+            // Cleanup the Object URL after a delay to ensure the new window has time to read it
+            setTimeout(() => {
+                URL.revokeObjectURL(objectUrl);
+            }, 10000); 
         }
     </script>
 </body>
