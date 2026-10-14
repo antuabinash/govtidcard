@@ -16,7 +16,6 @@
             --text-main: #1D1D1F;
             --text-muted: #86868B;
             --primary: #007AFF;
-            --primary-hover: #0056b3;
             --radius-xl: 24px;
             --radius-lg: 18px;
             --radius-md: 12px;
@@ -109,12 +108,11 @@
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         
         .modal-content h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; color: var(--text-main); }
-        .modal-content p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+        .modal-content p { font-size: 13px; color: var(--text-muted); margin-bottom: 0; line-height: 1.5; }
 
-        /* Progress Bar UI */
-        .progress-container { width: 100%; height: 12px; background: #E5E5EA; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
-        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.1s linear; border-radius: 10px; }
-        .progress-text { font-size: 16px; font-weight: 800; color: var(--primary); }
+        /* Loading Spinner */
+        .spinner { width: 30px; height: 30px; border: 3px solid rgba(0, 122, 255, 0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
     </style>
 </head>
@@ -143,7 +141,7 @@
         <div class="app-grid">
             
             <!-- Tile 1: Maulika Stara -->
-            <div class="app-card" onclick="fetchAndDownloadPDF('https://github.com/antuabinash/govtidcard/releases/download/v1.0.0/maulika.pdf', 'Maulika_Stara.pdf')">
+            <div class="app-card" onclick="startDownload('https://github.com/antuabinash/govtidcard/releases/download/v1.0.0/maulika.pdf')">
                 <div class="icon-box grad-orange"><span>👶</span></div>
                 <h3>Maulika Stara</h3>
                 <p>Class Shishuvatika to Class 2 framework and outcomes.</p>
@@ -158,7 +156,7 @@
             </div>
 
             <!-- Tile 2: Prastuti Stara -->
-            <div class="app-card" onclick="fetchAndDownloadPDF('https://github.com/antuabinash/govtidcard/releases/download/v1.0.0/prastuti.pdf', 'Prastuti_Stara.pdf')">
+            <div class="app-card" onclick="startDownload('https://github.com/antuabinash/govtidcard/releases/download/v1.0.0/prastuti.pdf')">
                 <div class="icon-box grad-blue"><span>🎒</span></div>
                 <h3>Prastuti Stara</h3>
                 <p>Class 3 to Class 5 framework and learning objectives.</p>
@@ -173,7 +171,7 @@
             </div>
 
             <!-- Tile 3: Madhya Stara -->
-            <div class="app-card" onclick="fetchAndDownloadPDF('https://github.com/antuabinash/govtidcard/releases/download/v1.0.0/madhya.pdf', 'Madhya_Stara.pdf')">
+            <div class="app-card" onclick="startDownload('https://github.com/antuabinash/govtidcard/releases/download/v1.0.0/madhya.pdf')">
                 <div class="icon-box grad-purple"><span>🏫</span></div>
                 <h3>Madhya Stara</h3>
                 <p>Class 6 to Class 8 educational framework and targets.</p>
@@ -193,102 +191,35 @@
     <!-- Download Progress Modal -->
     <div id="progressModal" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-icon">📄</div>
-            <h3>Preparing PDF...</h3>
-            <p>Please wait while we fetch the document.</p>
-            
-            <div class="progress-container">
-                <div id="progressBar" class="progress-fill"></div>
-            </div>
-            <div id="progressText" class="progress-text">0%</div>
+            <div class="spinner"></div>
+            <h3>Starting Download...</h3>
+            <p>Please check your device's notification bar or Downloads folder.</p>
         </div>
     </div>
 
     <script>
-        const progressModal = document.getElementById('progressModal');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-
         /**
-         * Fetches a file, updates progress bar, then forces a direct file download.
+         * Shows a "Starting Download" modal, then triggers the native 
+         * browser download manager securely without using fetch.
          */
-        async function fetchAndDownloadPDF(fileUrl, downloadName) {
-            try {
-                // Show modal & reset progress
-                progressModal.classList.add('show');
-                progressBar.style.width = '0%';
-                progressText.innerText = '0%';
-
-                // Start Fetch
-                const response = await fetch(fileUrl);
-                if (!response.ok) throw new Error("File not found or network error.");
-
-                const contentLength = response.headers.get('content-length');
-                const total = contentLength ? parseInt(contentLength, 10) : 0;
-                
-                let loaded = 0;
-                const reader = response.body.getReader();
-                const chunks = [];
-
-                // Read Stream
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) break;
-                    
-                    chunks.push(value);
-                    loaded += value.length;
-
-                    // Update UI if total size is known
-                    if (total) {
-                        let percent = Math.round((loaded / total) * 100);
-                        progressBar.style.width = percent + '%';
-                        progressText.innerText = percent + '%';
-                    } else {
-                        // Fallback if content-length is missing
-                        progressBar.style.width = '100%';
-                        progressText.innerText = 'Downloading...';
-                    }
-                }
-
-                // Ensure it shows 100% at the end
-                progressBar.style.width = '100%';
-                progressText.innerText = '100%';
-
-                // Create Blob
-                const blob = new Blob(chunks, { type: 'application/pdf' });
-                
-                // Add a tiny delay so user sees 100% before modal closes
-                setTimeout(() => {
-                    progressModal.classList.remove('show');
-                    triggerDirectDownload(blob, downloadName);
-                }, 400);
-
-            } catch (error) {
-                console.error("Download failed:", error);
-                alert("Failed to download the PDF. Please check your connection and try again.");
-                progressModal.classList.remove('show');
-            }
-        }
-
-        /**
-         * Forces the browser to save the Blob directly to the device's Downloads folder.
-         */
-        function triggerDirectDownload(blob, filename) {
-            const objectUrl = URL.createObjectURL(blob);
+        function startDownload(fileUrl) {
+            const progressModal = document.getElementById('progressModal');
             
+            // Show the loading modal
+            progressModal.classList.add('show');
+
+            // Force the browser to start downloading via an invisible link
             const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = objectUrl;
-            a.download = filename;
-            
+            a.href = fileUrl;
+            a.target = '_blank'; // Required to safely trigger download
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            
-            // Cleanup the Object URL after a delay
+
+            // Hide the modal automatically after 3 seconds
             setTimeout(() => {
-                URL.revokeObjectURL(objectUrl);
-            }, 5000); 
+                progressModal.classList.remove('show');
+            }, 3000);
         }
     </script>
 </body>
