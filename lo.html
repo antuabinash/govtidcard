@@ -138,7 +138,7 @@
 
     <!-- Main Content -->
     <div class="container">
-        <h2 class="section-title">OCF Learning Outcomes</h2>
+        <h2 class="section-title">New OCF Learning Outcomes</h2>
         
         <div class="app-grid">
             
@@ -279,6 +279,7 @@
                 const a = document.createElement('a');
                 a.style.display = 'none';
                 a.href = objectUrl;
+                a.target = '_blank'; // Added target="_blank" to open in a new window/tab on desktop
                 a.download = filename;
                 document.body.appendChild(a);
                 a.click();
