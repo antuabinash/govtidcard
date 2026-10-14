@@ -3,86 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Cloud Viewer - ଶିକ୍ଷକ ସାଥୀ</title>
+    <title>Lesson Plans - ଶିକ୍ଷକ ସାଥୀ</title>
     
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#F4F6F9">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* === App Variables & Reset (Matching Index UI) === */
         :root {
-            --app-bg: #F4F6F9; --card-bg: #FFFFFF; --text-main: #1D1D1F; --text-muted: #86868B;
-            --primary: #007AFF; --success: #34C759; --radius-xl: 24px; --radius-lg: 18px; --radius-md: 12px;
+            --app-bg: #F4F6F9;
+            --card-bg: #FFFFFF;
+            --text-main: #1D1D1F;
+            --text-muted: #86868B;
+            --primary: #007AFF;
+            --primary-hover: #0056b3;
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+            --radius-md: 12px;
             --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
-            --safe-area-pt: env(safe-area-inset-top, 16px); --safe-area-pb: env(safe-area-inset-bottom, 20px);
+            --safe-area-pt: env(safe-area-inset-top, 16px);
+            --safe-area-pb: env(safe-area-inset-bottom, 20px);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Noto Sans Oriya", sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans Oriya", sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: calc(40px + var(--safe-area-pb)); overflow-x: hidden; }
 
-        header { padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; background: rgba(224, 242, 254, 0.95); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--primary); display: flex; align-items: center; justify-content: space-between; }
-        .header-left { display: flex; align-items: center; gap: 14px; }
-        .icon-btn { background: #FFFFFF; border: none; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; flex-shrink: 0; }
+        /* === Header === */
+        header { 
+            padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; 
+            background: rgba(244, 246, 249, 0.85); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            border-bottom: 1px solid rgba(0,0,0,0.03); 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+        }
+        
+        .icon-btn { 
+            background: #FFFFFF; border: none; width: 40px; height: 40px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; color: var(--text-main); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; 
+            flex-shrink: 0; text-decoration: none;
+        }
         .icon-btn:active { transform: scale(0.9); }
-        .app-title { font-size: 20px; font-weight: 800; color: var(--primary); }
-        .viewer-badge { background: #8E8E93; color: white; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 100px; vertical-align: middle; margin-left: 8px;}
-
-        .container { max-width: 800px; margin: 0 auto; padding: 16px 24px; }
-        #status-section { display: flex; flex-direction: column; align-items: center; background: var(--card-bg); padding: 40px 24px; border-radius: var(--radius-xl); text-align: center; margin-top: 24px; box-shadow: var(--shadow-soft); }
-        #chunk-loader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(244, 246, 249, 0.85); backdrop-filter: blur(8px); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .spinner { border: 4px solid #f3f4f6; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+        
+        .header-text { display: flex; flex-direction: column; }
+        .greeting { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: -2px; }
+        .app-title { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); display: flex; align-items: center; gap: 8px;}
+        
+        /* === Container & Status === */
+        .container { max-width: 800px; margin: 0 auto; padding: 24px; }
+        #status-section { 
+            display: flex; flex-direction: column; align-items: center; background: var(--card-bg); 
+            padding: 40px 24px; border-radius: var(--radius-xl); text-align: center; 
+            margin-top: 24px; box-shadow: var(--shadow-soft); border: 1px solid rgba(0,0,0,0.02);
+        }
+        
+        /* === Loaders === */
+        #chunk-loader { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: rgba(244, 246, 249, 0.85); backdrop-filter: blur(8px); 
+            z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+        }
+        .spinner { border: 4px solid #E5E5EA; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        #app-content { display: flex; flex-direction: column; gap: 12px; }
-        .tile { background: var(--card-bg); border-radius: var(--radius-lg); padding: 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; box-shadow: var(--shadow-soft); transition: transform 0.2s; }
-        .tile:active { transform: scale(0.96); }
+        /* === App List / Tiles === */
+        #app-content { display: flex; flex-direction: column; gap: 16px; }
+        
+        .tile { 
+            background: var(--card-bg); border-radius: var(--radius-xl); padding: 16px 20px; 
+            cursor: pointer; display: flex; align-items: center; justify-content: space-between; 
+            box-shadow: var(--shadow-soft); transition: transform 0.2s, box-shadow 0.2s; 
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        .tile:active { transform: scale(0.96); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .tile-left { display: flex; align-items: center; gap: 16px; width: 100%; overflow: hidden;}
-        .icon-box { width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); flex-shrink: 0; }
+        
+        .icon-box { 
+            width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; 
+            justify-content: center; font-size: 26px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); flex-shrink: 0; 
+        }
         .grad-purple { background: linear-gradient(135deg, #B1B0FC 0%, #E0C3FC 100%); }
         .grad-blue { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
         .grad-teal { background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%); }
-        .grad-orange { background: linear-gradient(135deg, #F6D365 0%, #FDA085 100%); }
+        .grad-orange { background: linear-gradient(135deg, #FF9A44 0%, #FC6076 100%); }
+        
         .tile-info { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
         .tile-title { font-size: 16px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .tile-subtitle { font-size: 13px; color: var(--text-muted); font-weight: 500; }
-        .chevron svg { width: 22px; height: 22px; fill: #C7C7CC; }
+        .chevron svg { width: 22px; height: 22px; stroke: var(--text-muted); }
 
+        /* === Lesson Plan Viewer === */
         .lesson-plan { background: transparent; padding: 0; }
-        .plan-header { background: linear-gradient(135deg, #007AFF 0%, #0056B3 100%); padding: 24px; border-radius: var(--radius-xl); margin-bottom: 20px; color: white; box-shadow: 0 12px 24px rgba(0, 122, 255, 0.25); }
+        
+        .plan-header { 
+            background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); 
+            padding: 24px; border-radius: var(--radius-xl); margin-bottom: 20px; 
+            color: white; box-shadow: 0 12px 24px rgba(0, 122, 255, 0.2); 
+        }
         .plan-topic { font-size: 22px; font-weight: 800; margin-bottom: 6px; line-height: 1.3;}
         .plan-meta { font-size: 14px; font-weight: 600; opacity: 0.9; }
-        .section-box { background: var(--card-bg); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-soft); border-left: 4px solid var(--primary); }
+        
+        .section-box { 
+            background: var(--card-bg); border-radius: var(--radius-lg); padding: 20px; 
+            margin-bottom: 16px; box-shadow: var(--shadow-soft); 
+            border: 1px solid rgba(0,0,0,0.02); border-left: 4px solid var(--primary); 
+        }
         .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
         
-        .read-area { width: 100%; padding: 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-family: 'Noto Sans Oriya', sans-serif; font-size: 15px; background: #F8FAFC; white-space: pre-wrap; word-wrap: break-word; color: #333; }
+        .read-area { 
+            width: 100%; font-size: 15px; color: var(--text-main); 
+            line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; 
+        }
         
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; border: none; width: 100%; margin-bottom: 12px; transition: transform 0.2s, opacity 0.2s;}
-        .btn:active { transform: scale(0.96); }
-        .btn-ghost { background: #E2E8F0; color: var(--text-main); }
+        .btn { 
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
+            padding: 14px 20px; border-radius: var(--radius-md); font-size: 15px; font-weight: 700; 
+            cursor: pointer; border: none; width: 100%; margin-bottom: 12px; transition: background 0.2s;
+        }
+        .btn-ghost { background: #F2F2F7; color: var(--text-main); }
+        .btn-ghost:active { background: #E5E5EA; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-left">
-            <button id="backBtn" class="icon-btn hidden" onclick="navigateBack()">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            </button>
-            <h1 id="headerTitle" class="app-title">Cloud Viewer <span class="viewer-badge">READ-ONLY</span></h1>
+        <button id="backBtn" class="icon-btn hidden" onclick="navigateBack()" aria-label="Back">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </button>
+        <div class="header-text">
+            <div id="headerSubtitle" class="greeting">Lesson Plan Database</div>
+            <h1 id="headerTitle" class="app-title">Select Class</h1>
         </div>
     </header>
 
     <div class="container">
+        <!-- Connection Status -->
         <div id="status-section">
             <div id="loading-spinner" class="spinner"></div>
-            <h2 id="status-title" style="margin-bottom: 8px; font-size: 20px; font-weight: 800;">Connecting to Database...</h2>
-            <p id="status-msg" style="color: var(--text-muted); font-size: 14px;">Loading curriculum data.</p>
+            <h2 id="status-title" style="margin-bottom: 8px; font-size: 18px; font-weight: 800;">Connecting to Database...</h2>
+            <p id="status-msg" style="color: var(--text-muted); font-size: 14px;">Loading curriculum data securely.</p>
         </div>
 
+        <!-- Dynamic Content Lists -->
         <div id="app-content"></div>
+        
+        <!-- Inside Lesson Plan View -->
         <div id="lesson-plan-viewer" class="lesson-plan hidden"></div>
     </div>
     
+    <!-- Global Loading Overlay -->
     <div id="chunk-loader" class="hidden">
         <div class="spinner"></div>
         <h3 id="loader-title" style="color: var(--text-main); font-weight: 800; margin-bottom: 4px;">Loading Data</h3>
@@ -102,9 +184,51 @@
             data: {}      
         };
 
-        const chevronRight = `<div class="chevron"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></div>`;
+        const chevronRight = `<div class="chevron"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>`;
 
-        function getRawText(text) { return (!text || text === 'nan') ? 'No data available.' : String(text); }
+        // ================= DATA CLEANING LOGIC =================
+
+        function getRawText(text) { 
+            return (!text || text === 'nan') ? 'No data available.' : String(text); 
+        }
+
+        /**
+         * Cleans text by removing all content inside square brackets [ ].
+         */
+        function cleanBracketData(text) {
+            if (!text || text === 'nan') return 'No data available.';
+            let cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
+            return cleaned || 'No data available.';
+        }
+
+        /**
+         * Cleans TLM of brackets, splits it, shuffles it randomly, and joins it back.
+         */
+        function randomizeTLM(text) {
+            if (!text || text === 'nan') return 'No data available.';
+            
+            // Remove brackets and clean spaces
+            let cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
+            if (!cleaned) return 'No data available.';
+            
+            // Detect separator (comma is standard, but fallback to newline)
+            let separator = cleaned.includes('\n') ? '\n' : ',';
+            
+            // Split and filter empty items
+            let items = cleaned.split(separator)
+                               .map(item => item.trim())
+                               .filter(item => item.length > 0);
+                               
+            // Fisher-Yates Shuffle Algorithm
+            for (let i = items.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [items[i], items[j]] = [items[j], items[i]];
+            }
+            
+            return items.length > 0 ? items.join(', ') : 'No data available.';
+        }
+
+        // ================= SORTING LOGIC =================
 
         function extractNumber(str) {
             const match = String(str).match(/\d+/);
@@ -120,20 +244,28 @@
             return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: 'base' });
         }
 
+        // ================= INITIALIZATION =================
+
         document.addEventListener("DOMContentLoaded", () => {
             fetch(`${DB_BASE_URL}/.json?shallow=true`)
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) throw new Error("Network response was not ok");
+                    return res.json();
+                })
                 .then(data => {
                     dbIndex = data || {};
                     document.getElementById('status-section').classList.add('hidden');
                     renderClasses();
                 })
                 .catch(err => {
+                    console.error("Firebase Connection Error:", err);
                     document.getElementById('loading-spinner').classList.add('hidden');
                     document.getElementById('status-title').innerText = "Connection Failed";
-                    document.getElementById('status-msg').innerHTML = "Could not reach database. Check internet connection.";
+                    document.getElementById('status-msg').innerHTML = "Could not reach the database. Please check your internet connection.";
                 });
         });
+
+        // ================= UI HELPERS =================
 
         function showLoader(text) {
             document.getElementById('loader-title').innerText = text;
@@ -145,8 +277,16 @@
         }
 
         function updateHeader(title) {
-            document.getElementById('headerTitle').innerHTML = `${title} <span class="viewer-badge">READ-ONLY</span>`;
+            document.getElementById('headerTitle').innerHTML = title;
             document.getElementById('backBtn').classList.toggle('hidden', currentPath.length === 0 && !isViewingLesson);
+            
+            if (currentPath.length === 0 && !isViewingLesson) {
+                document.getElementById('headerSubtitle').innerText = "Lesson Plan Database";
+            } else if (isViewingLesson) {
+                document.getElementById('headerSubtitle').innerText = "Viewing Lesson";
+            } else {
+                document.getElementById('headerSubtitle').innerText = "Curriculum Navigation";
+            }
         }
 
         function navigateBack() {
@@ -169,24 +309,38 @@
             window.scrollTo(0, 0); 
         }
 
-        // ================= PROGRESSIVE LOADING LOGIC =================
+        // ================= RENDERING FLOW =================
 
         function renderClasses() {
-            currentPath = []; updateHeader('Curriculum Viewer'); clearView();
+            currentPath = []; updateHeader('Select Class'); clearView();
             const container = document.getElementById('app-content');
             
-            Object.keys(dbIndex).sort(smartSort).forEach(className => {
+            const classKeys = Object.keys(dbIndex).sort(smartSort);
+            
+            if (classKeys.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No classes available.</div>`;
+                return;
+            }
+
+            classKeys.forEach(className => {
                 const cleanName = className.replace(/_/g, ' ');
+                // 100% safe onclick using encodeURIComponent
                 container.innerHTML += `
-                    <div class="tile" onclick="fetchSubjects('${className}')">
-                        <div class="tile-left"><div class="icon-box grad-purple">📚</div>
-                        <div class="tile-info"><div class="tile-title">${cleanName}</div><div class="tile-subtitle">View Subjects</div></div></div>
+                    <div class="tile" onclick="fetchSubjects('${encodeURIComponent(className)}')">
+                        <div class="tile-left">
+                            <div class="icon-box grad-purple">📚</div>
+                            <div class="tile-info">
+                                <div class="tile-title">${cleanName}</div>
+                                <div class="tile-subtitle">View Subjects</div>
+                            </div>
+                        </div>
                         ${chevronRight}
                     </div>`;
             });
         }
 
-        async function fetchSubjects(className) {
+        async function fetchSubjects(encClassName) {
+            const className = decodeURIComponent(encClassName);
             if (cache.subjects[className]) { 
                 renderSubjects(className); 
                 return; 
@@ -194,14 +348,11 @@
             
             showLoader("Loading Subjects...");
             try {
-                // shallow=true means it ONLY downloads the folder names
                 const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}.json?shallow=true`);
                 const data = await res.json();
                 
-                // Filter out the raw '_hidden' tag immediately
                 let rawSubjects = data ? Object.keys(data).filter(k => k !== '_hidden') : [];
                 
-                // SMART FILTER: Do a micro-check to see if the subject is actively hidden by the Admin
                 const visibilityChecks = await Promise.all(rawSubjects.map(async subName => {
                     try {
                         const hRes = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/_hidden.json`);
@@ -212,14 +363,14 @@
                     }
                 }));
                 
-                // Only save subjects that are NOT hidden
                 cache.subjects[className] = visibilityChecks.filter(c => !c.hidden).map(c => c.subName);
                 
                 hideLoader();
                 renderSubjects(className);
             } catch(e) { 
+                console.error(e);
                 hideLoader(); 
-                alert("Error loading subjects."); 
+                alert("Error loading subjects. Please try again."); 
             }
         }
 
@@ -229,14 +380,13 @@
             const subjects = cache.subjects[className] || [];
             
             if(subjects.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No visible subjects available.</div>`;
+                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No subjects available.</div>`;
                 return;
             }
 
             subjects.sort(smartSort).forEach(subName => {
-                const safeSub = subName.replace(/'/g, "\\'");
                 container.innerHTML += `
-                    <div class="tile" onclick="fetchChapters('${className}', '${safeSub}')">
+                    <div class="tile" onclick="fetchChapters('${encodeURIComponent(className)}', '${encodeURIComponent(subName)}')">
                         <div class="tile-left">
                             <div class="icon-box grad-blue">📘</div>
                             <div class="tile-info">
@@ -249,8 +399,11 @@
             });
         }
 
-        async function fetchChapters(className, subName) {
+        async function fetchChapters(encClassName, encSubName) {
+            const className = decodeURIComponent(encClassName);
+            const subName = decodeURIComponent(encSubName);
             const pathKey = `${className}/${subName}`;
+            
             if (cache.chapters[pathKey]) { 
                 renderChapters(className, subName); 
                 return; 
@@ -261,10 +414,8 @@
                 const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}.json?shallow=true`);
                 const data = await res.json();
                 
-                // Filter out the raw '_hidden' tag immediately
                 let rawChapters = data ? Object.keys(data).filter(k => k !== '_hidden') : [];
                 
-                // SMART FILTER: Do a micro-check to see if the CHAPTER is actively hidden by the Admin
                 const visibilityChecks = await Promise.all(rawChapters.map(async chapName => {
                     try {
                         const hRes = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/${encodeURIComponent(chapName)}/_hidden.json`);
@@ -275,14 +426,14 @@
                     }
                 }));
                 
-                // Only save chapters that are NOT hidden
                 cache.chapters[pathKey] = visibilityChecks.filter(c => !c.hidden).map(c => c.chapName);
                 
                 hideLoader();
                 renderChapters(className, subName);
             } catch(e) { 
+                console.error(e);
                 hideLoader(); 
-                alert("Error loading chapters."); 
+                alert("Error loading chapters. Please try again."); 
             }
         }
 
@@ -293,15 +444,13 @@
             const chapters = cache.chapters[pathKey] || [];
             
             if(chapters.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No visible chapters available.</div>`;
+                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No chapters available.</div>`;
                 return;
             }
 
             chapters.sort(smartSort).forEach(chapName => {
-                const safeSub = subName.replace(/'/g, "\\'");
-                const safeChap = chapName.replace(/'/g, "\\'");
                 container.innerHTML += `
-                    <div class="tile" onclick="fetchPeriods('${className}', '${safeSub}', '${safeChap}')">
+                    <div class="tile" onclick="fetchPeriods('${encodeURIComponent(className)}', '${encodeURIComponent(subName)}', '${encodeURIComponent(chapName)}')">
                         <div class="tile-left">
                             <div class="icon-box grad-teal">🔖</div>
                             <div class="tile-info">
@@ -314,8 +463,12 @@
             });
         }
 
-        async function fetchPeriods(className, subName, chapName) {
+        async function fetchPeriods(encClassName, encSubName, encChapName) {
+            const className = decodeURIComponent(encClassName);
+            const subName = decodeURIComponent(encSubName);
+            const chapName = decodeURIComponent(encChapName);
             const pathKey = `${className}/${subName}/${chapName}`;
+            
             if (cache.data[pathKey]) { 
                 renderPeriods(className, subName, chapName); 
                 return; 
@@ -329,8 +482,9 @@
                 hideLoader();
                 renderPeriods(className, subName, chapName);
             } catch(e) { 
+                console.error(e);
                 hideLoader(); 
-                alert("Error loading periods."); 
+                alert("Error loading lesson plans. Please try again."); 
             }
         }
 
@@ -360,24 +514,33 @@
                 if (!plan) return; 
                 
                 const periodName = plan.Period || key;
-                const indexKey = key;
-                const topicDesc = (plan.Topic && plan.Topic !== 'nan') ? plan.Topic : 'View Details';
 
+                // Hidden topic description per request. Replaced with generic subtitle.
                 container.innerHTML += `
-                    <div class="tile" onclick="renderLessonPlan('${className}', '${subName.replace(/'/g, "\\'")}', '${chapName.replace(/'/g, "\\'")}', '${String(indexKey).replace(/'/g, "\\'")}')">
-                        <div class="tile-left"><div class="icon-box grad-orange">📄</div>
-                        <div class="tile-info"><div class="tile-title">${periodName}</div><div class="tile-subtitle">${topicDesc}</div></div></div>
+                    <div class="tile" onclick="renderLessonPlan('${encodeURIComponent(className)}', '${encodeURIComponent(subName)}', '${encodeURIComponent(chapName)}', '${encodeURIComponent(String(key))}')">
+                        <div class="tile-left">
+                            <div class="icon-box grad-orange">📄</div>
+                            <div class="tile-info">
+                                <div class="tile-title">${periodName}</div>
+                                <div class="tile-subtitle">Open Lesson Plan</div>
+                            </div>
+                        </div>
                         ${chevronRight}
                     </div>`;
             });
         }
 
-        function renderLessonPlan(className, subName, chapName, periodKey) {
+        function renderLessonPlan(encClass, encSub, encChap, encPeriodKey) {
+            const className = decodeURIComponent(encClass);
+            const subName = decodeURIComponent(encSub);
+            const chapName = decodeURIComponent(encChap);
+            const periodKey = decodeURIComponent(encPeriodKey);
+            
             const pathKey = `${className}/${subName}/${chapName}`;
             const periodData = cache.data[pathKey];
             
             const isArray = Array.isArray(periodData);
-            const actualKey = isArray ? parseInt(periodKey) : periodKey;
+            const actualKey = isArray ? parseInt(periodKey, 10) : periodKey;
             const plan = periodData[actualKey];
             const p = plan.Panchapadi || {};
 
@@ -386,6 +549,9 @@
             const viewer = document.getElementById('lesson-plan-viewer');
             viewer.classList.remove('hidden'); window.scrollTo(0, 0);
 
+            // Execute Cleaning & Randomizing
+            const cleanLO = cleanBracketData(plan.LearningOutcomes);
+            const randomTLM = randomizeTLM(plan.TLM); 
             const bulkPanchapadi = `[Adhiti]\n${getRawText(p.Aditi || p.Adhiti)}\n\n[Bodha]\n${getRawText(p.Bodha)}\n\n[Abhyasa]\n${getRawText(p.Abhyasa)}\n\n[Prayoga]\n${getRawText(p.Prayoga)}\n\n[Prasara]\n${getRawText(p.Prasara)}`;
 
             viewer.innerHTML = `
@@ -394,17 +560,24 @@
                     <div class="plan-meta">${className.replace(/_/g, ' ')} • ${subName}</div>
                 </div>
 
-                <div class="section-box"><div class="section-title">Topic Description</div><div class="read-area">${getRawText(plan.Topic)}</div></div>
+                <!-- Topic Description Hidden Entirely -->
                 <div class="section-box"><div class="section-title">Curricular Goal</div><div class="read-area">${getRawText(plan.CG)}</div></div>
                 <div class="section-box"><div class="section-title">Competency</div><div class="read-area">${getRawText(plan.Competency)}</div></div>
-                <div class="section-box"><div class="section-title">Learning Outcomes</div><div class="read-area">${getRawText(plan.LearningOutcomes)}</div></div>
                 
-                <div class="section-box" style="border-left-color: #7C3AED;">
-                    <div class="section-title" style="color: #7C3AED;">Panchapadi (5 Steps)</div>
+                <!-- Cleaned Learning Outcomes -->
+                <div class="section-box"><div class="section-title">Learning Outcomes</div><div class="read-area">${cleanLO}</div></div>
+                
+                <!-- Panchapadi Flow First -->
+                <div class="section-box" style="border-left-color: #764BA2;">
+                    <div class="section-title" style="color: #764BA2;">Panchapadi (5 Steps)</div>
                     <div class="read-area" style="min-height: 360px;">${bulkPanchapadi}</div>
                 </div>
 
-                <div class="section-box"><div class="section-title">TLM Required</div><div class="read-area">${getRawText(plan.TLM)}</div></div>
+                <!-- TLM Last, Cleaned and Randomized -->
+                <div class="section-box" style="border-left-color: #34C759;">
+                    <div class="section-title" style="color: #34C759;">TLM Required</div>
+                    <div class="read-area">${randomTLM}</div>
+                </div>
 
                 <button class="btn btn-ghost" onclick="navigateBack()">Close Viewer</button>
             `;
