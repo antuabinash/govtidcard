@@ -7,9 +7,11 @@
     
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#F4F6F9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
 
     <style>
-        /* === App Variables & Reset (From Index UI) === */
+        /* === App Variables & Reset (Matching Index UI) === */
         :root {
             --app-bg: #F4F6F9;
             --card-bg: #FFFFFF;
@@ -26,7 +28,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: calc(60px + var(--safe-area-pb)); overflow-x: hidden; }
+        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: calc(40px + var(--safe-area-pb)); overflow-x: hidden; }
 
         /* === Header === */
         header { 
@@ -39,37 +41,40 @@
             z-index: 100; 
             border-bottom: 1px solid rgba(0,0,0,0.03); 
             display: flex; 
+            justify-content: space-between; 
             align-items: center; 
         }
-        .header-left { display: flex; align-items: center; gap: 16px; }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        
         .app-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
+        .greeting { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: -2px; }
         
         .icon-btn { 
             background: #FFFFFF; border: none; width: 40px; height: 40px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; color: var(--primary); 
+            display: flex; align-items: center; justify-content: center; color: var(--text-main); 
             box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; 
             text-decoration: none;
         }
         .icon-btn:active { transform: scale(0.9); }
 
         /* === Container & Titles === */
-        .container { max-width: 1000px; margin: 0 auto; padding: 24px 20px; }
-        .section-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
+        .section-title { font-size: 20px; font-weight: 800; margin-bottom: 16px; transition: opacity 0.2s ease; }
 
         /* === Accordion Class Sections === */
         .class-section { 
             background: var(--card-bg); 
-            border-radius: var(--radius-lg); 
+            border-radius: var(--radius-xl); 
             margin-bottom: 16px; 
             box-shadow: var(--shadow-soft); 
             border: 1px solid rgba(255,255,255,0.8); 
             transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease; 
             overflow: hidden;
         }
-        .class-section:active { transform: scale(0.98); }
+        .class-section:active { transform: scale(0.98); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         
         .class-header { 
-            padding: 16px 20px; 
+            padding: 20px 16px; 
             display: flex; 
             align-items: center; 
             gap: 16px; 
@@ -77,17 +82,17 @@
             background: transparent; 
             user-select: none;
         }
-        .class-header h3 { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 2px;}
+        .class-header h3 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;}
         .class-header p { font-size: 13px; color: var(--text-muted); }
         
         .chevron { margin-left: auto; width: 24px; height: 24px; color: var(--text-muted); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .class-section.active .chevron { transform: rotate(180deg); color: var(--primary); }
 
-        /* === Gradients from Index UI === */
+        /* === Gradients & Icons (Matching Index UI) === */
         .icon-box { 
             width: 52px; height: 52px; border-radius: 16px; 
             display: flex; align-items: center; justify-content: center; 
-            font-size: 24px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); 
+            font-size: 26px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); 
         }
         .grad-blue { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
         .grad-purple { background: linear-gradient(135deg, #B1B0FC 0%, #E0C3FC 100%); }
@@ -103,14 +108,14 @@
         /* === Subject Grid === */
         .subject-grid { 
             display: none; 
-            padding: 0 20px 20px 20px; 
+            padding: 0 16px 20px 16px; 
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
             gap: 16px; 
             border-top: 1px solid rgba(0,0,0,0.03); 
-            margin-top: 4px; 
+            margin-top: 0; 
             padding-top: 20px; 
         }
-        @media (min-width: 600px) { .subject-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
+        @media (min-width: 600px) { .subject-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; } }
         .class-section.active .subject-grid { display: grid; animation: fadeIn 0.4s ease forwards; }
         
         @keyframes fadeIn { 
@@ -118,13 +123,13 @@
             to { opacity: 1; transform: translateY(0); } 
         }
 
-        /* === Subject Cards === */
+        /* === Subject Cards (Redesigned for the new UI) === */
         .subject-card { 
             background: var(--app-bg); 
-            border-radius: var(--radius-md); 
+            border-radius: var(--radius-lg); 
             padding: 16px; 
             text-decoration: none; 
-            border: 1px solid rgba(0,0,0,0.03); 
+            border: 1px solid rgba(0,0,0,0.02); 
             display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
             transition: all 0.2s ease; cursor: pointer; height: 100%; text-align: center;
         }
@@ -144,7 +149,7 @@
         
         .read-btn { 
             background: var(--primary); color: white; padding: 10px 16px; 
-            border-radius: 20px; font-size: 12px; font-weight: 700; border: none; 
+            border-radius: var(--radius-md); font-size: 13px; font-weight: 700; border: none; 
             display: flex; justify-content: center; align-items: center; gap: 6px; 
             width: 100%; transition: background 0.2s; 
         }
@@ -153,16 +158,20 @@
     </style>
 </head>
 <body>
+    
+    <!-- Header matching the Index UI -->
     <header>
         <div class="header-left">
-            <!-- Back button taking user to Index UI -->
             <a href="index.html" class="icon-btn" aria-label="Back">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
             </a>
-            <h1 class="app-title">Digital Library</h1>
+            <div>
+                <div class="greeting">Study Resources</div>
+                <h1 class="app-title">Digital Library</h1>
+            </div>
         </div>
     </header>
 
