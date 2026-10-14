@@ -895,19 +895,32 @@
 
         // --- FORMATTERS ---
         function esc(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-        function formatCompAndLO(text) {
+        
+        // Competency logic - KEEPS bracketed texts, handles line breaks, strips emojis
+        function formatCompetency(text) {
             if (!text || text === 'nan') return '';
             let cleaned = esc(text);
-            const codeMatch = cleaned.match(/\[\s*Codes?:/i);
-            if (codeMatch) cleaned = cleaned.substring(0, codeMatch.index);
             cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '').trim();
             return `<div class="pdf-text">${cleaned}</div>`;
         }
-        function formatPrint(text) {
+
+        // Learning Outcome logic - STRIPS bracketed texts, handles line breaks, strips emojis
+        function formatLearningOutcome(text) {
             if (!text || text === 'nan') return '';
-            let cleaned = esc(text).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
+            let cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
+            cleaned = esc(cleaned);
+            cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '').trim();
             return `<div class="pdf-text">${cleaned}</div>`;
         }
+
+        // TLM formatting logic - STRIPS bracketed texts, handles line breaks
+        function formatPrint(text) {
+            if (!text || text === 'nan') return '';
+            let cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
+            cleaned = esc(cleaned).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
+            return `<div class="pdf-text">${cleaned}</div>`;
+        }
+
         function formatPanchapadi(text) {
             if (!text || text === 'nan') return '';
             let teacherPart = esc(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
@@ -940,10 +953,7 @@
                     const plan      = chapData[actualKey] || {};
                     const p         = plan.Panchapadi || {};
 
-                    let topicText = '';
-                    if (plan.Topic && plan.Topic !== 'nan') {
-                        topicText = `<div style="margin-top:4px;">${esc(plan.Topic)}</div>`;
-                    }
+                    // Note: Topic generation logic has been removed to hide it below period desc.
 
                     html += `<tr>`;
                     if (idx === 0) html += `<td class="col-period" rowspan="${rowspan}">${esc(String(pNum))}</td>`;
@@ -953,10 +963,9 @@
                         <td>
                             <b>${esc(rData.chap)}</b>
                             <div style="color:#1D4ED8; font-weight:800; margin-top:6px;">${esc(plan.Period || rData.lessKey)}</div>
-                            ${topicText}
                         </td>
-                        <td>${formatCompAndLO(plan.Competency)}</td>
-                        <td>${formatCompAndLO(plan.LearningOutcomes)}</td>
+                        <td>${formatCompetency(plan.Competency)}</td>
+                        <td>${formatLearningOutcome(plan.LearningOutcomes)}</td>
                         <td>${formatPanchapadi(p.Aditi || p.Adhiti)}</td>
                         <td>${formatPanchapadi(p.Bodha)}</td>
                         <td>${formatPanchapadi(p.Abhyasa)}</td>
