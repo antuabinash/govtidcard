@@ -19,6 +19,8 @@
             --text-muted: #86868B;
             --primary: #007AFF;
             --primary-hover: #0056b3;
+            --success: #10B981;
+            --warning: #F59E0B;
             --radius-xl: 24px;
             --radius-lg: 18px;
             --radius-md: 12px;
@@ -123,7 +125,7 @@
             to { opacity: 1; transform: translateY(0); } 
         }
 
-        /* === Subject Cards (Redesigned for the new UI) === */
+        /* === Subject Cards === */
         .subject-card { 
             background: var(--app-bg); 
             border-radius: var(--radius-lg); 
@@ -132,6 +134,7 @@
             border: 1px solid rgba(0,0,0,0.02); 
             display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
             transition: all 0.2s ease; cursor: pointer; height: 100%; text-align: center;
+            position: relative;
         }
         .subject-card:hover, .subject-card:active { 
             transform: translateY(-3px); 
@@ -147,14 +150,88 @@
         }
         .book-icon { font-size: 28px; margin-bottom: 4px; display: inline-block;}
         
+        /* === Industry-Standard Stateful Download Button === */
         .read-btn { 
-            background: var(--primary); color: white; padding: 10px 16px; 
+            background: var(--primary); color: white; padding: 10px 12px; 
             border-radius: var(--radius-md); font-size: 13px; font-weight: 700; border: none; 
-            display: flex; justify-content: center; align-items: center; gap: 6px; 
-            width: 100%; transition: background 0.2s; 
+            display: flex; justify-content: center; align-items: center; gap: 8px; 
+            width: 100%; transition: all 0.25s ease; 
         }
         .subject-card:hover .read-btn { background: var(--primary-hover); }
 
+        /* State 1: Preparing / Downloading */
+        .subject-card.is-downloading { pointer-events: none; }
+        .subject-card.is-downloading .read-btn {
+            background: var(--warning);
+            color: #FFFFFF;
+            transform: scale(0.97);
+        }
+
+        /* State 2: Handed off to Browser Download Manager */
+        .subject-card.is-complete .read-btn {
+            background: var(--success);
+            color: #FFFFFF;
+        }
+
+        /* Animated Spinner inside Button */
+        .btn-spinner {
+            width: 14px;
+            height: 14px;
+            border: 2.5px solid rgba(255, 255, 255, 0.35);
+            border-top-color: #FFFFFF;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            flex-shrink: 0;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* === Floating Toast Notification === */
+        .download-toast {
+            position: fixed;
+            bottom: calc(20px + var(--safe-area-pb));
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: rgba(29, 29, 31, 0.94);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #FFFFFF;
+            padding: 12px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+            width: max-content;
+            max-width: 90vw;
+            pointer-events: none;
+        }
+        .download-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .toast-icon {
+            background: var(--success);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        .toast-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 <body>
@@ -596,7 +673,7 @@
                         <div class="subject-card-title"><span class="book-icon">📘</span> English Grammar</div>
                         <div class="read-btn">Download PDF</div>
                     </a>
-                    <a href="https://drive.usercontent.google.com/download?id=1B4PzMuPsH7Qsjqqw0QtsPNtQ8sTr1eUz&export=download&confirm=t" download class="subject-card">
+                    <a href="https://drive.google.com/uc?export=download&id=1B4PzMuPsH7Qsjqqw0QtsPNtQ8sTr1eUz" download class="subject-card">
                         <div class="subject-card-title"><span class="book-icon">📘</span> Hindi</div>
                         <div class="read-btn">Download PDF</div>
                     </a>
@@ -642,8 +719,14 @@
         </div>
     </div>
 
+    <!-- Floating Download Toast Notification -->
+    <div id="downloadToast" class="download-toast" role="status" aria-live="polite">
+        <span class="toast-icon">⬇</span>
+        <span id="toastMessage" class="toast-text">Downloading book...</span>
+    </div>
+
     <script>
-        // Modern Accordion Logic
+        // 1. Modern Accordion Logic
         document.querySelectorAll('.class-header').forEach(header => {
             header.addEventListener('click', () => {
                 const parentSection = header.parentElement;
@@ -660,7 +743,21 @@
             });
         });
 
-        // Auto-convert any standard Google Drive links added in the future
+        // 2. Toast Notification Helper
+        const toast = document.getElementById('downloadToast');
+        const toastMessage = document.getElementById('toastMessage');
+        let toastTimeout;
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4500);
+        }
+
+        // 3. Auto-Convert Links & Add Industry-Standard Button State Feedback
         document.querySelectorAll('.subject-card').forEach(card => {
             try {
                 const url = new URL(card.href);
@@ -671,8 +768,42 @@
                     card.removeAttribute('target');
                 }
             } catch (e) {
-                // Ignore invalid or relative URLs
+                // Ignore invalid URLs
             }
+
+            // Click feedback handler
+            card.addEventListener('click', function () {
+                const btn = this.querySelector('.read-btn');
+                const titleEl = this.querySelector('.subject-card-title');
+                // Extract clean book title without the emoji
+                const bookTitle = titleEl ? titleEl.textContent.replace('📘', '').trim() : 'Book';
+
+                // Prevent double-clicking while already starting
+                if (this.classList.contains('is-downloading')) return;
+
+                const originalText = btn.getAttribute('data-original') || btn.innerHTML;
+                btn.setAttribute('data-original', originalText);
+
+                // Stage 1: Immediate Spinner & "Starting..."
+                this.classList.remove('is-complete');
+                this.classList.add('is-downloading');
+                btn.innerHTML = `<span class="btn-spinner"></span> Starting...`;
+                showToast(`Preparing ${bookTitle}.pdf...`);
+
+                // Stage 2: Browser Download Manager Handoff (~2.5s)
+                setTimeout(() => {
+                    this.classList.remove('is-downloading');
+                    this.classList.add('is-complete');
+                    btn.innerHTML = `✓ Downloading`;
+                    showToast(`Downloading ${bookTitle} — check notification bar`);
+
+                    // Stage 3: Reset button back to normal (~4s later)
+                    setTimeout(() => {
+                        this.classList.remove('is-complete');
+                        btn.innerHTML = originalText;
+                    }, 4000);
+                }, 2500);
+            });
         });
     </script>
 </body>
