@@ -76,7 +76,7 @@
         .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
         @media (min-width: 768px) { .app-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; } }
         
-        .app-card { background: var(--card-bg); border-radius: var(--radius-xl); padding: 20px 16px; text-decoration: none; display: flex; flex-direction: column; position: relative; box-shadow: var(--shadow-soft); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease; border: 1px solid rgba(255,255,255,0.8); height: 100%; }
+        .app-card { background: var(--card-bg); border-radius: var(--radius-xl); padding: 20px 16px; text-decoration: none; display: flex; flex-direction: column; position: relative; box-shadow: var(--shadow-soft); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease; border: 1px solid rgba(255,255,255,0.8); height: 100%; cursor: pointer; }
         .app-card.hide { display: none !important; }
         .app-card.fade-in { animation: fadeIn 0.4s ease forwards; }
         .app-card:active { transform: scale(0.94); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
@@ -110,7 +110,7 @@
         .nav-item svg { width: 24px; height: 24px; stroke-width: 2; }
         .nav-item span { font-size: 11px; font-weight: 600; }
 
-        /* === Modals === */
+        /* === Modals & Website List === */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 10005; display: none; align-items: center; justify-content: center; padding: 24px; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.show { opacity: 1; display: flex; }
         .modal-content { background: #fff; width: 100%; max-width: 400px; border-radius: 24px; padding: 32px 24px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: translateY(20px); transition: transform 0.3s; max-height: 85vh; overflow-y: auto; }
@@ -119,6 +119,12 @@
         .modal-content h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; color: var(--text-main); }
         .modal-content p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; text-align: justify; }
         
+        .web-links-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; text-align: left; }
+        .web-link-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: #F4F6F9; border-radius: 14px; text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 15px; transition: background 0.2s, transform 0.1s; }
+        .web-link-item:active { transform: scale(0.98); background: #E5E5EA; }
+        .web-link-left { display: flex; align-items: center; gap: 12px; }
+        .web-link-sub { font-size: 11px; color: var(--text-muted); font-weight: 400; display: block; }
+
         .btn-primary { width: 100%; padding: 14px; border-radius: 12px; background: var(--primary); color: white; font-weight: 700; border: none; font-size: 16px; margin-bottom: 12px; cursor: pointer; }
         .btn-secondary { width: 100%; padding: 14px; border-radius: 12px; background: #F2F2F7; color: var(--text-main); font-weight: 600; border: none; font-size: 15px; cursor: pointer; }
     </style>
@@ -130,7 +136,7 @@
         <div class="header-left">
             <div class="profile-pic">🧑‍🏫</div>
             <div>
-                <div class="greeting">Welcome back,</div>
+                <div class="greeting" id="dynamicGreeting">Welcome back,</div>
                 <h1 class="app-title">ଶିକ୍ଷକ ସାଥୀ</h1>
             </div>
         </div>
@@ -163,10 +169,10 @@
             <button class="close-drawer" onclick="toggleDrawer()">✕</button>
         </div>
         <div class="drawer-content">
-            <a href="#" class="drawer-menu-item" onclick="openModal('aboutModal')">
+            <a href="#" class="drawer-menu-item" onclick="openDrawerModal('aboutModal')">
                 <span class="drawer-icon">ℹ️</span> About the Site
             </a>
-            <a href="#" class="drawer-menu-item" onclick="openModal('privacyModal')">
+            <a href="#" class="drawer-menu-item" onclick="openDrawerModal('privacyModal')">
                 <span class="drawer-icon">🛡️</span> Privacy Policy
             </a>
             <a href="#" class="drawer-menu-item" onclick="shareApp()">
@@ -174,99 +180,127 @@
             </a>
         </div>
         <div class="drawer-footer">
-            Made with ❤️ for Teachers of Odisha<br>v1.0.0
+            Made with ❤️ for Teachers of Odisha<br>v1.1.0
         </div>
     </div>
 
     <!-- Search Bar -->
     <div class="search-container">
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search tools, links, books..." onkeyup="filterSearch()">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search tools, HRMS, UDISE, books..." onkeyup="filterSearch()">
     </div>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN CONTENT (Arranged in Requested Order) -->
     <div class="container">
         <h2 class="section-title" id="dynamicSectionTitle">All Applications</h2>
         <div class="app-grid" id="tile-grid">
 
-            <!-- Lesson Plan -->
-            <a href="lessonpla.html" class="app-card" data-tab="tools">
+            <!-- 1. Lesson Plan -->
+            <a href="lessonplan.html" class="app-card" data-tab="tools">
                 <div class="badge badge-daily">Daily</div>
                 <div class="icon-box grad-indigo"><span>📝</span></div>
-                <h3>Lesson Plan</h3><p>Daily lesson plan generator and templates.</p>
-            </a>
-
-            <!-- 1. Odia KidsApp -->
-            <a href="odiakidsapp.html" class="app-card" data-tab="resources">
-                <div class="badge badge-new">New</div>
-                <div class="icon-box grad-orange"><span>👶</span></div>
-                <h3>Odia KidsApp</h3><p>Safe, fun app for kids to learn Odia & English.</p>
+                <h3>Lesson Plan</h3>
+                <p>Daily lesson plan generator and templates.</p>
             </a>
 
             <!-- 2. Textbooks -->
             <a href="textbook.html" class="app-card" data-tab="resources">
                 <div class="icon-box grad-blue"><span>📚</span></div>
-                <h3>Textbooks</h3><p>Digital textbooks and study materials.</p>
+                <h3>Textbooks</h3>
+                <p>Digital textbooks and study materials.</p>
             </a>
 
-            <!-- 3. New OCF Learning Outcome -->
+            <!-- 3. New Learning Outcomes -->
             <a href="lo.html" class="app-card" data-tab="resources">
                 <div class="badge badge-new">New</div>
                 <div class="icon-box grad-teal"><span>🎯</span></div>
-                <h3>New OCF Learning Outcome</h3><p>Track and manage student learning outcomes.</p>
+                <h3>New Learning Outcomes</h3>
+                <p>Track OCF learning outcomes by class.</p>
             </a>
 
             <!-- 4. Academic Calendar -->
             <a href="academic.html" class="app-card" data-tab="resources">
                 <div class="icon-box grad-purple"><span>📅</span></div>
-                <h3>Academic Calendar</h3><p>Official school academic calendar and events.</p>
+                <h3>Academic Calendar</h3>
+                <p>Official school academic calendar & events.</p>
             </a>
 
-            <!-- Remaining Tiles -->
+            <!-- 5. Holidays -->
+            <a href="holiday.html" class="app-card" data-tab="tools">
+                <div class="icon-box grad-green"><span>🗓️</span></div>
+                <h3>Holidays</h3>
+                <p>Complete 2026 school holiday schedule.</p>
+            </a>
+
+            <!-- 6. Leave Writer -->
+            <a href="leave.html" class="app-card" data-tab="tools">
+                <div class="icon-box grad-purple"><span>✍️</span></div>
+                <h3>Leave Writer</h3>
+                <p>Auto-generate casual leave applications.</p>
+            </a>
+
+            <!-- 7. Age Calculator -->
+            <a href="calculator.html" class="app-card" data-tab="tools">
+                <div class="icon-box grad-pink"><span>🧮</span></div>
+                <h3>Age Calculator</h3>
+                <p>Check NEP 2020 admission eligibility.</p>
+            </a>
+
+            <!-- 8. Prayer News -->
             <a href="news.html" class="app-card" data-tab="today">
                 <div class="icon-box grad-indigo"><span>📰</span></div>
-                <h3>Prayer News</h3><p>Latest headlines and current affairs.</p>
+                <h3>Prayer News</h3>
+                <p>Morning assembly headlines & GK.</p>
             </a>
+
+            <!-- 9. Sikhya Suchana -->
             <a href="suchana.html" class="app-card" data-tab="today">
                 <div class="badge badge-alert">Alert</div>
                 <div class="icon-box grad-pink"><span>🔔</span></div>
-                <h3>Sikhya Suchana</h3><p>Educational notices and circulars.</p>
+                <h3>Sikhya Suchana</h3>
+                <p>Educational notices and circulars.</p>
             </a>
+
+            <!-- 10. Full Forms -->
             <a href="fullform.html" class="app-card" data-tab="resources">
                 <div class="icon-box grad-orange"><span>📖</span></div>
-                <h3>Full Forms</h3><p>Dictionary of 200+ essential acronyms.</p>
+                <h3>Full Forms</h3>
+                <p>Dictionary of 200+ essential acronyms.</p>
             </a>
+
+            <!-- 11. OTET Schedule -->
             <a href="otet.html" class="app-card" data-tab="resources">
                 <div class="icon-box grad-brown"><span>🎓</span></div>
-                <h3>OTET Schedule</h3><p>Historical dates and upcoming exams.</p>
+                <h3>OTET Schedule</h3>
+                <p>Syllabus, dates, and upcoming exams.</p>
             </a>
-            <a href="https://apps.hrmsodisha.gov.in/index.htm" class="app-card" data-tab="services">
+
+            <!-- 12. Useful Apps -->
+            <a href="usefullapp.html" class="app-card" data-tab="tools">
+                <div class="icon-box grad-slate"><span>📱</span></div>
+                <h3>Useful Apps</h3>
+                <p>Essential educational Android apps.</p>
+            </a>
+
+            <!-- 13. Useful Websites (Includes HRMS, OSEPA, UDISE+) -->
+            <div onclick="openDirectModal('websitesModal')" class="app-card" data-tab="services">
                 <div class="icon-box grad-slate"><span>🌐</span></div>
-                <h3>HRMS</h3><p>Direct access to Odisha HRMS portals.</p>
+                <h3>Useful Websites</h3>
+                <p>Direct links to HRMS, OSEPA, UDISE+ & more.</p>
+            </div>
+
+            <!-- Extra Existing Items Retained at Bottom -->
+            <a href="odiakidsapp.html" class="app-card" data-tab="resources">
+                <div class="badge badge-new">New</div>
+                <div class="icon-box grad-orange"><span>👶</span></div>
+                <h3>Odia KidsApp</h3>
+                <p>Safe, fun app for kids to learn Odia & English.</p>
             </a>
-            <a href="https://osepa.odisha.gov.in/" class="app-card" data-tab="services">
-                <div class="icon-box grad-slate"><span>🌐</span></div>
-                <h3>OSEPA</h3><p>Access official OSEPA teacher portals.</p>
-            </a>
+
             <a href="id.html" class="app-card" data-tab="services">
                 <div class="badge badge-new">New</div>
                 <div class="icon-box grad-gold"><span>🪪</span></div>
-                <h3>Student ID</h3><p>Order high-quality student ID cards.</p>
-            </a>
-            <a href="calculator.html" class="app-card" data-tab="tools">
-                <div class="icon-box grad-pink"><span>🧮</span></div>
-                <h3>Age Calculator</h3><p>Check NEP 2020 admission eligibility.</p>
-            </a>
-            <a href="usefullapp.html" class="app-card" data-tab="tools">
-                <div class="icon-box grad-slate"><span>📱</span></div>
-                <h3>Useful Apps</h3><p>Essential educational Android apps.</p>
-            </a>
-            <a href="leave.html" class="app-card" data-tab="tools">
-                <div class="icon-box grad-purple"><span>✍️</span></div>
-                <h3>Leave Writer</h3><p>Auto-generate casual leave applications.</p>
-            </a>
-            <a href="holiday.html" class="app-card" data-tab="tools">
-                <div class="icon-box grad-green"><span>🗓️</span></div>
-                <h3>Holiday List</h3><p>Complete 2026 calendar year schedule.</p>
+                <h3>Student ID</h3>
+                <p>Order high-quality student ID cards.</p>
             </a>
 
         </div>
@@ -280,6 +314,52 @@
         <a class="nav-item" data-target="services"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg><span>Services</span></a>
         <a class="nav-item" data-target="tools"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg><span>Tools</span></a>
     </nav>
+
+    <!-- Useful Websites Modal (HRMS, OSEPA, UDISE+) -->
+    <div id="websitesModal" class="modal-overlay" onclick="if(event.target === this) closeModal('websitesModal')">
+        <div class="modal-content">
+            <div class="modal-icon">🌐</div>
+            <h3>Useful Websites</h3>
+            <div class="web-links-list">
+                <a href="https://apps.hrmsodisha.gov.in/" target="_blank" rel="noopener" class="web-link-item">
+                    <div class="web-link-left">
+                        <span>🏢</span>
+                        <div>HRMS Odisha<span class="web-link-sub">Leave, Payslip & Service Book</span></div>
+                    </div>
+                    <span>↗️</span>
+                </a>
+                <a href="https://osepa.odisha.gov.in/" target="_blank" rel="noopener" class="web-link-item">
+                    <div class="web-link-left">
+                        <span>🏫</span>
+                        <div>OSEPA Portal<span class="web-link-sub">Official Notifications & Data</span></div>
+                    </div>
+                    <span>↗️</span>
+                </a>
+                <a href="https://udiseplus.gov.in/" target="_blank" rel="noopener" class="web-link-item">
+                    <div class="web-link-left">
+                        <span>📊</span>
+                        <div>UDISE+ Portal<span class="web-link-sub">Student, Teacher & School Profile</span></div>
+                    </div>
+                    <span>↗️</span>
+                </a>
+                <a href="https://eshishu.odisha.gov.in/" target="_blank" rel="noopener" class="web-link-item">
+                    <div class="web-link-left">
+                        <span>🧒</span>
+                        <div>e-Shishu Odisha<span class="web-link-sub">Child Tracking System</span></div>
+                    </div>
+                    <span>↗️</span>
+                </a>
+                <a href="https://diksha.gov.in/" target="_blank" rel="noopener" class="web-link-item">
+                    <div class="web-link-left">
+                        <span>🎓</span>
+                        <div>DIKSHA Portal<span class="web-link-sub">Teacher Training & Courses</span></div>
+                    </div>
+                    <span>↗️</span>
+                </a>
+            </div>
+            <button onclick="closeModal('websitesModal')" class="btn-secondary">Close</button>
+        </div>
+    </div>
 
     <!-- App Install Modal -->
     <div id="installModal" class="modal-overlay">
@@ -297,7 +377,7 @@
         <div class="modal-content">
             <div class="modal-icon">ℹ️</div>
             <h3>About This Portal</h3>
-            <p><strong>ଶିକ୍ଷକ ସାଥୀ (Sikhya Sathi)</strong> is a comprehensive, all-in-one digital companion designed exclusively for the dedicated educators of Odisha. <br><br>Our mission is to dramatically reduce your daily administrative workload by providing a lightning-fast Lesson Plan Generator, structured study resources, rapid access to HRMS/OSEPA portals, and essential utility tools. <br><br>Built with offline-first capabilities, this platform works wherever you are, ensuring that you can focus more on what truly matters: teaching your students.</p>
+            <p><strong>ଶିକ୍ଷକ ସାଥୀ (Sikhya Sathi)</strong> is a comprehensive, all-in-one digital companion designed exclusively for the dedicated educators of Odisha. <br><br>Our mission is to dramatically reduce your daily administrative workload by providing a lightning-fast Lesson Plan Generator, structured study resources, rapid access to HRMS/OSEPA/UDISE+ portals, and essential utility tools. <br><br>Built with offline-first capabilities, this platform works wherever you are, ensuring that you can focus more on what truly matters: teaching your students.</p>
             <button onclick="closeModal('aboutModal')" class="btn-secondary">Close</button>
         </div>
     </div>
@@ -314,6 +394,13 @@
 
     <!-- UI & PWA Script -->
     <script>
+        /* === Dynamic Time Greeting === */
+        const hour = new Date().getHours();
+        const greetingEl = document.getElementById('dynamicGreeting');
+        if (hour < 12) greetingEl.textContent = "ଶୁଭ ସକାଳ (Good Morning),";
+        else if (hour < 17) greetingEl.textContent = "ଶୁଭ ଅପରାହ୍ନ (Good Afternoon),";
+        else greetingEl.textContent = "ଶୁଭ ସନ୍ଧ୍ୟା (Good Evening),";
+
         /* === UI Navigation Logic === */
         const navItems = document.querySelectorAll('.nav-item');
         const appCards = document.querySelectorAll('.app-card');
@@ -373,11 +460,15 @@
         }
 
         /* === Modals Logic === */
-        function openModal(modalId) {
+        function openDrawerModal(modalId) {
             toggleDrawer();
             setTimeout(() => {
                 document.getElementById(modalId).classList.add('show');
             }, 300);
+        }
+
+        function openDirectModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
         }
 
         function closeModal(modalId) {
@@ -389,7 +480,7 @@
             if (navigator.share) {
                 navigator.share({
                     title: 'ଶିକ୍ଷକ ସାଥୀ Portal',
-                    text: 'Check out this All-in-One portal for Odisha Teachers! Includes Daily Lesson Plan Generator, Solutions, Textbooks, HRMS, and more.',
+                    text: 'Check out this All-in-One portal for Odisha Teachers! Includes Daily Lesson Plan Generator, Textbooks, HRMS, UDISE+, and more.',
                     url: window.location.href
                 }).catch((error) => console.log('Error sharing', error));
             } else {
