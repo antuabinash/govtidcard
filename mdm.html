@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F2F4F8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>PM POSHAN Calculator</title>
+<style>
+:root{
+  --bg:#F2F4F8;--surface:#FFFFFF;--surface2:#F6F7FA;--ink:#14171F;--muted:#6B7280;--line:#E8EAF0;
+  --brand:#0A6CFF;--brand2:#3D9BFF;--brand-soft:#E8F1FF;--ok:#12A150;--ok-soft:#E3F6EA;--warn:#C77700;--warn-soft:#FFF3DC;
+  --shadow:0 1px 2px rgba(16,24,40,.04),0 6px 20px rgba(16,24,40,.06);
+  --r:20px;
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#0B0D12;--surface:#161A22;--surface2:#1D222C;--ink:#F2F4F8;--muted:#9AA3B2;--line:#262C38;
+    --brand:#4D9BFF;--brand2:#2E7CF6;--brand-soft:#16294A;--ok:#38D07A;--ok-soft:#13301F;--warn:#F2B04A;--warn-soft:#3A2B10;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25)}
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.4;font-variant-numeric:tabular-nums;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
+.app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+
+/* App bar */
+.appbar{position:sticky;top:0;z-index:30;padding:calc(env(safe-area-inset-top,0px) + 12px) 18px 12px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(180%) blur(18px);-webkit-backdrop-filter:saturate(180%) blur(18px);display:flex;align-items:center;gap:12px;border-bottom:1px solid transparent;transition:border-color .2s}
+.appbar.scrolled{border-bottom-color:var(--line)}
+.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--brand2),var(--brand));display:grid;place-items:center;font-size:22px;box-shadow:0 6px 14px rgba(10,108,255,.28)}
+.appbar h1{font-size:18px;font-weight:800;letter-spacing:-.3px;line-height:1.15}
+.appbar p{font-size:12px;color:var(--muted)}
+.appbar .grow{flex:1;min-width:0}
+.iconbtn{width:40px;height:40px;border-radius:12px;background:var(--surface);box-shadow:var(--shadow);display:grid;place-items:center;position:relative}
+.iconbtn svg{width:20px;height:20px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.iconbtn input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+
+section{padding:0 16px}
+.sec-title{display:flex;align-items:baseline;justify-content:space-between;margin:22px 4px 10px}
+.sec-title h2{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--muted)}
+.sec-title span{font-size:12px;color:var(--muted)}
+
+/* Week strip */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:6px}
+.day{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 8px;border-radius:16px;background:var(--surface);box-shadow:var(--shadow);transition:transform .12s,background .15s}
+.day small{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.day b{font-size:17px;font-weight:800}
+.day i{width:5px;height:5px;border-radius:50%;background:transparent;display:block}
+.day.today i{background:var(--brand)}
+.day.sel{background:linear-gradient(160deg,var(--brand2),var(--brand));color:#fff}
+.day.sel small{color:rgba(255,255,255,.8)}
+.day.sel.today i{background:#fff}
+.day:active{transform:scale(.95)}
+
+/* Menu card */
+.menu{margin-top:12px;border-radius:var(--r);padding:16px;background:var(--surface);box-shadow:var(--shadow);display:flex;gap:14px;align-items:center}
+.menu .ico{width:52px;height:52px;border-radius:16px;background:var(--brand-soft);display:grid;place-items:center;font-size:26px;flex:none}
+.menu .lbl{font-size:11px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.6px}
+.menu .name{font-size:16px;font-weight:800;letter-spacing:-.2px;margin:2px 0 7px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:11px;font-weight:700;padding:4px 9px;border-radius:20px;background:var(--surface2);color:var(--muted)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+
+/* Attendance list */
+.card{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:13px 14px}
+.row+.row{border-top:1px solid var(--line)}
+.row .badge{width:38px;height:38px;border-radius:12px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.row .txt{flex:1;min-width:0}
+.row .txt b{display:block;font-size:14px;font-weight:700;letter-spacing:-.1px}
+.row .txt span{font-size:12px;color:var(--muted)}
+.stepper{display:flex;align-items:center;background:var(--surface2);border-radius:14px;padding:3px;flex:none}
+.stepper button{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:20px;font-weight:700;color:var(--brand);transition:background .12s,transform .12s}
+.stepper button:active{background:var(--brand-soft);transform:scale(.92)}
+.stepper input{width:48px;text-align:center;border:0;background:transparent;font:800 18px/1 inherit;font-family:inherit;color:var(--ink);outline:none;-moz-appearance:textfield;padding:0}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.quick{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line);background:var(--surface2)}
+.quick button{flex:1;font-size:12px;font-weight:700;padding:9px;border-radius:12px;background:var(--surface);color:var(--muted);box-shadow:0 1px 2px rgba(16,24,40,.06)}
+.quick button:active{color:var(--brand)}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hero{grid-column:1/-1;border-radius:24px;padding:20px;color:#fff;background:linear-gradient(135deg,#0A6CFF 0%,#3D9BFF 100%);box-shadow:0 12px 28px rgba(10,108,255,.28);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-40px;top:-50px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero small{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;opacity:.85}
+.hero strong{display:block;font-size:36px;font-weight:800;letter-spacing:-1px;margin:4px 0 2px}
+.hero span{font-size:13px;opacity:.9}
+.stat{background:var(--surface);border-radius:18px;padding:14px;box-shadow:var(--shadow);min-width:0}
+.stat small{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.stat strong{display:block;font-size:20px;font-weight:800;margin-top:4px;letter-spacing:-.4px;overflow-wrap:anywhere}
+
+/* Segmented */
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--surface2);padding:3px;border-radius:14px;margin:22px 0 12px;position:relative;box-shadow:inset 0 0 0 1px var(--line)}
+.seg button{padding:10px;font-size:13px;font-weight:700;color:var(--muted);border-radius:11px;position:relative;z-index:1;transition:color .2s}
+.seg button.on{color:var(--ink)}
+.seg .thumb{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);background:var(--surface);border-radius:11px;box-shadow:0 2px 6px rgba(16,24,40,.12);transition:transform .25s cubic-bezier(.3,.9,.3,1)}
+.seg.right .thumb{transform:translateX(100%)}
+
+/* Ingredient rows */
+.ing{display:flex;align-items:center;gap:12px;padding:13px 14px}
+.ing+.ing{border-top:1px solid var(--line)}
+.ing .e{width:38px;height:38px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;font-size:19px;flex:none}
+.ing .n{flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.25}
+.ing .n span{display:block;font-size:11px;font-weight:500;color:var(--muted)}
+.ing .v{text-align:right}
+.ing .v b{display:block;font-size:14px;font-weight:800}
+.ing .v span{font-size:12px;color:var(--muted)}
+.ing.total{background:var(--brand-soft)}
+.ing.total .n,.ing.total .v b{color:var(--brand)}
+
+/* Class cards */
+.cls{margin-bottom:12px}
+.cls-h{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--line)}
+.cls-h .badge{width:38px;height:38px;border-radius:12px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-weight:800;font-size:13px}
+.cls-h .t{flex:1;min-width:0}.cls-h .t b{display:block;font-size:14px;font-weight:800}.cls-h .t span{font-size:12px;color:var(--muted)}
+.cls-h .c{font-size:15px;font-weight:800;color:var(--brand)}
+
+.note{margin-top:10px;padding:12px 14px;border-radius:14px;background:var(--warn-soft);color:var(--warn);font-size:13px;font-weight:600}
+
+/* Bottom bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;padding:0 12px calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.bar-in{pointer-events:auto;width:100%;max-width:496px;display:flex;align-items:center;gap:12px;padding:10px 10px 10px 18px;border-radius:24px;background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);box-shadow:0 10px 34px rgba(16,24,40,.18),0 0 0 1px var(--line)}
+.bar-in .t{flex:1;min-width:0}
+.bar-in small{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.bar-in strong{display:block;font-size:22px;font-weight:800;letter-spacing:-.5px;line-height:1.15}
+.cta{height:48px;padding:0 20px;border-radius:16px;background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;gap:8px;box-shadow:0 6px 14px rgba(10,108,255,.3);transition:transform .12s}
+.cta:active{transform:scale(.96)}
+.cta svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#14171F;color:#fff;padding:10px 16px;border-radius:14px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:all .25s;z-index:60}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.pane{display:none}.pane.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(min-width:560px){body{padding-top:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar" id="appbar">
+    <div class="logo">🍲</div>
+    <div class="grow"><h1>PM POSHAN</h1><p>Odisha · MDM daily calculator</p></div>
+    <label class="iconbtn" aria-label="Pick a date">
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+      <input type="date" id="mealDate">
+    </label>
+  </header>
+
+  <section>
+    <div class="sec-title"><h2>Meal day</h2><span id="dateLong"></span></div>
+    <div class="week" id="week"></div>
+    <div class="menu">
+      <div class="ico" id="menuIco">🍛</div>
+      <div>
+        <div class="lbl">Today's menu</div>
+        <div class="name" id="menuName">—</div>
+        <div class="chips" id="menuChips"></div>
+      </div>
+    </div>
+    <div id="menuNote"></div>
+  </section>
+
+  <section>
+    <div class="sec-title"><h2>Students present</h2><span id="totalLine">—</span></div>
+    <div class="card" id="attendance"></div>
+  </section>
+
+  <section>
+    <div class="sec-title"><h2>Today at a glance</h2></div>
+    <div class="stats">
+      <div class="hero"><small>Total material cost</small><strong id="totalCost">₹—</strong><span id="heroSub">—</span></div>
+      <div class="stat"><small>Total present</small><strong id="totalStudents">—</strong></div>
+      <div class="stat"><small>Average / student</small><strong id="average">₹—</strong></div>
+      <div class="stat"><small>Total rice</small><strong id="riceTotal">—</strong></div>
+      <div class="stat"><small>Ladoo count</small><strong id="ladooCount">—</strong></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="seg" id="seg">
+      <div class="thumb"></div>
+      <button class="on" data-tab="sum">Ingredients</button>
+      <button data-tab="cls">By class</button>
+    </div>
+    <div class="pane on" id="pane-sum"><div class="card" id="summary"></div></div>
+    <div class="pane" id="pane-cls"><div id="categoryResults"></div></div>
+  </section>
+</div>
+
+<div class="bar">
+  <div class="bar-in">
+    <div class="t"><small id="barSub">Total cost</small><strong id="barCost">₹—</strong></div>
+    <button class="cta" id="share"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></svg>Share</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>'₹'+Number(n).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---- Rules (unchanged) ---- */
+function menuFor(day){
+  if([1,3,5].includes(day))return{name:'Bhata (rice) + Egg Curry',key:'egg',ladoo:false,emoji:'🥚'};
+  if([2,6].includes(day))return{name:'Bhata + Soya Badi Curry + Nutrition-rich Ladoo',key:'soya',ladoo:true,emoji:'🍛'};
+  if(day===4)return{name:'Bhata + Dalma + Nutrition-rich Ladoo',key:'dal',ladoo:true,emoji:'🥘'};
+  return{name:'Sunday — no menu listed',key:'none',ladoo:false,emoji:'🛑'};
+}
+const CATS=[
+  {id:'balvatika',name:'Shishu Vatika / Balvatika',short:'SV',group:'p',rice:100,dal:25,soya:12,veg:60,oil:5,egg:1,fuel:1,def:10},
+  {id:'primary',name:'Primary (I–V)',short:'P',group:'p',rice:100,dal:25,soya:12,veg:60,oil:5,egg:1,fuel:1,def:11},
+  {id:'upper',name:'Upper Primary (VI–VIII)',short:'UP',group:'u',rice:150,dal:30,soya:25,veg:100,oil:7.5,egg:1,fuel:1.7,def:12},
+  {id:'high',name:'High School (IX–X)',short:'HS',group:'u',rice:200,dal:30,soya:25,veg:100,oil:7.5,egg:1,fuel:1.7,def:13}
+];
+const EMOJI={rice:'🍚',dal:'🫘',soya:'🌱',egg:'🥚',oil:'🛢️',veg:'🥬',ladoo:'🟠',fuel:'🔥'};
+
+/* ---- State ---- */
+const saved=(()=>{try{return JSON.parse(store.get('mdm_counts')||'{}')}catch(e){return{}}})();
+const counts={};CATS.forEach(c=>counts[c.id]=Number.isFinite(saved[c.id])?saved[c.id]:c.def);
+let tab='sum',lastText='';
+
+/* ---- Build attendance rows ---- */
+$('attendance').innerHTML=CATS.map(c=>`
+  <div class="row">
+    <div class="badge">${c.short}</div>
+    <div class="txt"><b>${c.name}</b><span>${c.group==='p'?'Primary group':'Upper group'} · ${c.rice} g rice</span></div>
+    <div class="stepper">
+      <button data-id="${c.id}" data-d="-1" aria-label="Decrease">−</button>
+      <input id="${c.id}" type="number" inputmode="numeric" min="0" value="${counts[c.id]}" aria-label="${c.name} present">
+      <button data-id="${c.id}" data-d="1" aria-label="Increase">+</button>
+    </div>
+  </div>`).join('')+`<div class="quick"><button id="clearAll">Reset to 0</button><button id="plus5">+5 each</button></div>`;
+
+const count=id=>Math.max(0,Math.floor(Number($(id).value)||0));
+
+function renderWeek(sel){
+  const d=new Date(sel+'T12:00:00'),dow=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-dow);
+  const today=iso(new Date());
+  $('week').innerHTML=Array.from({length:7},(_,i)=>{
+    const x=new Date(mon);x.setDate(mon.getDate()+i);const s=iso(x);
+    return `<button class="day${s===sel?' sel':''}${s===today?' today':''}" data-date="${s}"><small>${x.toLocaleDateString('en-IN',{weekday:'short'})}</small><b>${x.getDate()}</b><i></i></button>`}).join('');
+}
+
+function calc(){
+  CATS.forEach(c=>counts[c.id]=count(c.id));
+  store.set('mdm_counts',JSON.stringify(counts));
+  const sel=$('mealDate').value||iso(new Date());
+  const date=new Date(sel+'T12:00:00'),day=date.getDay(),menu=menuFor(day);
+  renderWeek(sel);
+  $('dateLong').textContent=date.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  $('menuName').textContent=menu.name;$('menuIco').textContent=menu.emoji;
+  $('menuChips').innerHTML=date.toLocaleDateString('en-IN',{weekday:'long'}).replace(/^/,'<span class="chip">')+'</span>'
+    +(menu.ladoo?'<span class="chip ok">Ladoo day</span>':'')+(menu.key==='egg'?'<span class="chip warn">Egg day</span>':'');
+  $('menuNote').innerHTML=menu.key==='none'?'<div class="note">No menu is listed for Sunday. Only rice, oil, vegetables and fuel are counted.</div>':'';
+
+  const cats=CATS.map(c=>({...c,n:counts[c.id]}));
+  const items=c=>{const p=c.group==='p';return[
+    {key:'rice',name:'Rice',qty:c.n*c.rice,unit:'g',cost:0},
+    {key:'dal',name:'Dal',qty:menu.key==='dal'?c.n*c.dal:0,unit:'g',cost:menu.key==='dal'?c.n*(p?2.87:3.45):0},
+    {key:'soya',name:'Soya Badi',qty:menu.key==='soya'?c.n*c.soya:0,unit:'g',cost:menu.key==='soya'?c.n*(p?1.91:4):0},
+    {key:'egg',name:'Egg',qty:menu.key==='egg'?c.n:0,unit:'no.',cost:menu.key==='egg'?c.n*7:0},
+    {key:'oil',name:'Oil',qty:c.n*c.oil,unit:'g',cost:c.n*(p?.70:1.05)},
+    {key:'veg',name:'Vegetables + condiments & salt',qty:c.n*c.veg,unit:'g',cost:c.n*(p?3.32:5.53)},
+    {key:'ladoo',name:'Nutrition-rich Ladoo',qty:menu.ladoo?c.n:0,unit:'no.',cost:menu.ladoo?c.n*3.5:0},
+    {key:'fuel',name:'Fuel',qty:c.n*c.fuel,unit:'unit',cost:c.n*(p?.76:1)}
+  ]};
+  const detail=cats.map(c=>({cat:c,items:items(c)}));
+  const total=cats.reduce((s,c)=>s+c.n,0),rice=cats.reduce((s,c)=>s+c.n*c.rice,0);
+  const activeKeys=['rice',menu.key,'oil','veg','ladoo','fuel'].filter((k,i,a)=>a.indexOf(k)===i);
+  const all=activeKeys.map(k=>{const a=detail.flatMap(d=>d.items).filter(x=>x.key===k);return a.length?{...a[0],qty:a.reduce((s,x)=>s+x.qty,0),cost:a.reduce((s,x)=>s+x.cost,0)}:null})
+    .filter(x=>x&&(x.key!=='ladoo'||menu.ladoo));
+  const grand=all.reduce((s,x)=>s+x.cost,0);
+
+  $('totalStudents').textContent=total;$('totalLine').textContent=total+' present';
+  $('totalCost').textContent=money(grand);$('barCost').textContent=money(grand);
+  $('barSub').textContent='Total cost · '+total+' students';
+  $('heroSub').textContent=total?('for '+total+' students · '+money(grand/total)+' each'):'Add attendance to begin';
+  $('riceTotal').textContent=(rice/1000).toFixed(2)+' kg';
+  $('average').textContent=money(total?grand/total:0);
+  $('ladooCount').textContent=(menu.ladoo?total:0)+' no.';
+
+  const q=x=>x.unit==='g'?(x.qty/1000).toFixed(2)+' kg':x.unit==='no.'?x.qty+' no.':x.qty.toLocaleString('en-IN',{maximumFractionDigits:1})+' units';
+  $('summary').innerHTML=all.map(x=>`<div class="ing"><div class="e">${EMOJI[x.key]}</div><div class="n">${x.name}</div><div class="v"><b>${q(x)}</b><span>${money(x.cost)}</span></div></div>`).join('')
+    +`<div class="ing total"><div class="e">∑</div><div class="n">Total</div><div class="v"><b>${money(grand)}</b></div></div>`;
+
+  $('categoryResults').innerHTML=detail.map(({cat,items})=>{
+    const active=items.filter(x=>['rice','oil','veg','fuel',menu.key].includes(x.key)||(x.key==='ladoo'&&menu.ladoo));
+    const sum=active.reduce((s,x)=>s+x.cost,0);
+    const per=x=>x.unit==='g'?(+(x.qty/(cat.n||1)).toFixed(2))+' g':x.unit==='no.'?'1 no.':(+(x.qty/(cat.n||1)).toFixed(2))+' unit';
+    return `<div class="card cls"><div class="cls-h"><div class="badge">${cat.short}</div><div class="t"><b>${cat.name}</b><span>${cat.n} students</span></div><div class="c">${money(sum)}</div></div>`
+      +active.map(x=>`<div class="ing"><div class="e">${EMOJI[x.key]}</div><div class="n">${x.name}<span>${per(x)} per student</span></div><div class="v"><b>${q(x)}</b><span>${money(x.cost)}</span></div></div>`).join('')+`</div>`}).join('');
+
+  lastText=['PM POSHAN – '+date.toLocaleDateString('en-IN',{weekday:'long',day:'2-digit',month:'short',year:'numeric'}),menu.name,'',
+    ...cats.map(c=>c.name+': '+c.n),'Total present: '+total,'',
+    ...all.map(x=>x.name+': '+q(x)+(x.cost?' ('+money(x.cost)+')':'')),'',
+    'Total cost: '+money(grand),'Average / student: '+money(total?grand/total:0)].join('\n');
+}
+
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),1800)}
+const tap=()=>{try{navigator.vibrate&&navigator.vibrate(6)}catch(e){}};
+
+document.querySelectorAll('.stepper button').forEach(b=>b.addEventListener('click',()=>{
+  const el=$(b.dataset.id);el.value=Math.max(0,count(b.dataset.id)+Number(b.dataset.d));tap();calc()}));
+CATS.forEach(c=>$(c.id).addEventListener('input',calc));
+$('mealDate').addEventListener('input',calc);
+$('week').addEventListener('click',e=>{const b=e.target.closest('[data-date]');if(b){$('mealDate').value=b.dataset.date;tap();calc()}});
+$('clearAll').addEventListener('click',()=>{CATS.forEach(c=>$(c.id).value=0);tap();calc()});
+$('plus5').addEventListener('click',()=>{CATS.forEach(c=>$(c.id).value=count(c.id)+5);tap();calc()});
+$('seg').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;tap();
+  $('seg').classList.toggle('right',tab==='cls');
+  $('seg').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  $('pane-sum').classList.toggle('on',tab==='sum');$('pane-cls').classList.toggle('on',tab==='cls')});
+$('share').addEventListener('click',async()=>{
+  try{
+    if(navigator.share){await navigator.share({title:'PM POSHAN',text:lastText});return}
+    await navigator.clipboard.writeText(lastText);toast('Summary copied')
+  }catch(e){
+    const ta=document.createElement('textarea');ta.value=lastText;document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');toast('Summary copied')}catch(_){toast('Could not share')}ta.remove()}
+});
+window.addEventListener('scroll',()=>$('appbar').classList.toggle('scrolled',scrollY>6),{passive:true});
+
+$('mealDate').value=iso(new Date());calc();
+</script>
+</body>
+</html>
