@@ -2,10 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Lesson Plans - ଶିକ୍ଷକ ସାଥୀ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
+    <!-- Primary SEO Title & Meta Tags -->
+    <title>Odisha Lesson Plan Generator & Odia Lesson Plan Format (ଶିକ୍ଷାଦାନ ଯୋଜନା) | Sikhyak Sathi</title>
+    <meta name="description" content="Generate and download daily Odisha lesson plans (ଶିକ୍ଷାଦାନ ଯୋଜନା) for primary and high school teachers. Printable Odia lesson plan formats, templates, and teaching notes.">
+    <meta name="keywords" content="odisha lesson plan, odia lesson plan, odisha lession plan, odia lession plan, ଶିକ୍ଷାଦାନ ଯୋଜନା, odisha teacher lesson plan generator, daily lesson plan format odisha, printable lesson plan, sikhyak sathi lesson plan">
+    <meta name="author" content="Sikhyak Sathi">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sikhyaksathi.in/odisha-lesson-plan.html">
+
+    <!-- Open Graph / WhatsApp & Social Sharing Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sikhyaksathi.in/odisha-lesson-plan.html">
+    <meta property="og:title" content="Odisha Lesson Plan & Odia Lesson Plan Generator | Sikhyak Sathi">
+    <meta property="og:description" content="Create daily and weekly Odia lesson plans (ଶିକ୍ଷାଦାନ ଯୋଜନା) with printable templates for Odisha teachers.">
+    <meta property="og:image" content="https://sikhyaksathi.in/icon.png">
+    <meta property="og:site_name" content="Sikhyak Sathi">
+
+    <!-- Google Structured Data (JSON-LD) for Web Application Tool -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Odisha Lesson Plan Generator",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "All",
+      "url": "https://sikhyaksathi.in/odisha-lesson-plan.html",
+      "description": "Daily Odia lesson plan generator and printable template builder for Odisha school teachers.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Sikhyak Sathi",
+        "url": "https://sikhyaksathi.in/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://sikhyaksathi.in/icon.png"
+        }
+      }
+    }
+    </script>
+
+    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#F4F6F9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
 
     <style>
         /* === App Variables & Reset (Synced with index.html) === */
@@ -41,10 +82,12 @@
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
             color: var(--text-main); box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
             cursor: pointer; transition: transform 0.2s; 
+            text-decoration: none;
         }
         .icon-btn:active { transform: scale(0.9); }
 
         .app-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
+        .app-title-sub { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-left: 4px; }
 
         /* === Modern Search Bar === */
         .search-container { padding: 20px 24px 10px; max-width: 1000px; margin: 0 auto; }
@@ -77,7 +120,6 @@
             justify-content: center; font-size: 26px; margin-bottom: 16px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); 
         }
         
-        /* Gradients from index.html */
         .grad-purple { background: linear-gradient(135deg, #B1B0FC 0%, #E0C3FC 100%); }
         .grad-teal { background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%); }
         
@@ -91,60 +133,68 @@
         }
         .badge-new { background: linear-gradient(135deg, #FF416C, #FF4B2B); }
 
+        /* Subtle SEO Description */
+        .seo-note { margin-top: 24px; padding: 16px; background: rgba(255,255,255,0.6); border-radius: var(--radius-lg); font-size: 13px; color: var(--text-muted); line-height: 1.6; }
     </style>
 </head>
 <body>
 
     <!-- Header -->
     <header>
-        <button class="icon-btn" onclick="window.history.back();" aria-label="Go Back">
+        <a href="index.html" class="icon-btn" aria-label="Back to Home">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
-        </button>
-        <h1 class="app-title">Lesson Plans</h1>
+        </a>
+        <h1 class="app-title">Lesson Plans <span class="app-title-sub">(ଶିକ୍ଷାଦାନ ଯୋଜନା)</span></h1>
     </header>
 
     <!-- Smart Search Bar -->
     <div class="search-container">
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search lesson plans..." onkeyup="filterTiles()">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search lesson plans, daily formats, templates..." aria-label="Search lesson plans" onkeyup="filterTiles()">
     </div>
 
-    <div class="container">
+    <main class="container">
         <!-- MAIN DASHBOARD VIEW -->
+        <h2 class="section-title">Odisha Lesson Plan Generator</h2>
         <div class="app-grid" id="tile-grid">
 
             <!-- 1. Lesson Plan (Old Tool) -->
-            <a href="testplan.html" class="app-card">
+            <a href="testplan.html" class="app-card" data-keywords="odisha lesson plan odia lession plan generator templates ଶିକ୍ଷାଦାନ ଯୋଜନା">
                 <div class="icon-box grad-purple"><span>📝</span></div>
-                <h3>Lesson Plan</h3>
-                <p>Access and create your standard lesson plans easily.</p>
+                <h3>Standard Lesson Plan</h3>
+                <p>Access and create your standard Odia lesson plans easily.</p>
             </a>
 
             <!-- 2. Daily Lesson Plan (New Printable Tool) -->
-            <a href="printtest.html" class="app-card">
+            <a href="printtest.html" class="app-card" data-keywords="daily lesson plan odisha printable format pdf download ଶିକ୍ଷାଦାନ ଯୋଜନା">
                 <div class="badge badge-new">New</div>
                 <div class="icon-box grad-teal"><span>🖨️</span></div>
-                <h3>Daily Lesson Plan</h3>
-                <p>Generate, format, and download daily printable lesson plans.</p>
+                <h3>Daily Printable Lesson Plan</h3>
+                <p>Generate, format, and download daily printable Odia lesson plans.</p>
             </a>
 
         </div>
-    </div>
+
+        <article class="seo-note">
+            <strong>About Odisha Lesson Plans (ଶିକ୍ଷାଦାନ ଯୋଜନା):</strong>
+            Generate compliant daily and weekly teaching notes aligned with Odisha SCERT curriculum guidelines. Easily format, print, or export lesson plans for primary and upper primary classes across Odisha schools.
+        </article>
+    </main>
 
     <script>
         // Instant Search functionality
         function filterTiles() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
+            let input = document.getElementById('searchInput').value.toLowerCase().trim();
             let cards = document.querySelectorAll('.app-card');
             
             cards.forEach(card => {
                 let title = card.querySelector('h3').innerText.toLowerCase();
                 let desc = card.querySelector('p').innerText.toLowerCase();
+                let keywords = card.getAttribute('data-keywords') ? card.getAttribute('data-keywords').toLowerCase() : '';
                 
-                // Show if input matches title or description
-                if (title.includes(input) || desc.includes(input)) {
+                if (title.includes(input) || desc.includes(input) || keywords.includes(input)) {
                     card.classList.remove('hide');
                 } else {
                     card.classList.add('hide');
