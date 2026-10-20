@@ -2,9 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Elementary Academic Calendar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- Primary SEO Title & Meta Tags -->
+    <title>Odisha Academic Calendar 2026-2027 | BSE Odisha & SCERT School Schedule</title>
+    <meta name="description" content="View and download the official Odisha Academic Calendar 2026-2027 for primary and high schools. Track BSE Odisha exam dates, school holidays, and monthly SCERT activities.">
+    <meta name="keywords" content="odisha academic calendar 2026, odisha school academic calendar 2026-27, bse odisha calendar, scert odisha school calendar pdf, odisha school holiday list 2026, academic calander odisha, sikhyak sathi">
+    <meta name="author" content="Sikhyak Sathi">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sikhyaksathi.in/odisha-academic-calendar.html">
+
+    <!-- Open Graph / WhatsApp & Social Sharing Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sikhyaksathi.in/odisha-academic-calendar.html">
+    <meta property="og:title" content="Odisha School Academic Calendar 2026-2027 | Sikhyak Sathi">
+    <meta property="og:description" content="Official monthly school activity schedule, holidays, and exam dates for Odisha teachers and students.">
+    <meta property="og:image" content="https://sikhyaksathi.in/icon.png">
+    <meta property="og:site_name" content="Sikhyak Sathi">
+
+    <!-- Google Structured Data (JSON-LD) for Educational Schedule -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Odisha Academic Calendar 2026-2027",
+      "url": "https://sikhyaksathi.in/odisha-academic-calendar.html",
+      "description": "Interactive monthly schedule of the official Odisha school academic calendar including holidays, exams, and activities.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Sikhyak Sathi",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://sikhyaksathi.in/icon.png"
+        }
+      }
+    }
+    </script>
+
     <meta name="theme-color" content="#F4F6F9">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
 
     <style>
         /* === App Variables & Reset === */
@@ -77,6 +115,8 @@
         .event-title { font-weight: 700; font-size: 15px; color: var(--text-main); line-height: 1.4; margin-bottom: 4px; }
         .event-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; color: var(--primary); }
 
+        /* Subtle SEO Description */
+        .seo-note { margin-top: 32px; padding: 16px; background: rgba(255,255,255,0.6); border-radius: var(--radius-lg); font-size: 13px; color: var(--text-muted); line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -84,7 +124,7 @@
     <!-- Header -->
     <header>
         <div class="header-left">
-            <a href="index.html" class="icon-btn" aria-label="Go Back">
+            <a href="index.html" class="icon-btn" aria-label="Go Back to Home">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
@@ -93,7 +133,7 @@
         </div>
         
         <!-- Download PDF Link -->
-        <a href="academicpdf.pdf" download class="download-btn">
+        <a href="academicpdf.pdf" download class="download-btn" aria-label="Download Calendar PDF">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
@@ -103,13 +143,16 @@
         </a>
     </header>
 
-    <div class="container">
+    <main class="container">
+        <!-- SEO hidden H1, visible H2 -->
+        <h1 style="display:none;">Odisha Academic Calendar 2026-2027</h1>
+        
         <!-- Grid View for Months -->
-        <div id="grid-view" class="app-grid"></div>
+        <div id="grid-view" class="app-grid" role="list"></div>
 
         <!-- Detail View for Selected Month -->
-        <div id="details-view">
-            <button class="btn-secondary" onclick="showGrid()">
+        <div id="details-view" role="region" aria-live="polite">
+            <button class="btn-secondary" onclick="showGrid()" aria-label="Back to month selection">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
@@ -119,7 +162,12 @@
             <h2 id="month-title" class="section-title"></h2>
             <div id="event-list"></div>
         </div>
-    </div>
+
+        <article class="seo-note">
+            <strong>About the Odisha School Academic Calendar (2026-2027):</strong>
+            Track the official monthly schedule published by the Odisha Department of School and Mass Education. This interactive calendar includes BSE Odisha and SCERT guidelines, primary and high school exam dates, parent-teacher meetings, summer and winter vacation schedules, and all observed school holidays across Odisha.
+        </article>
+    </main>
 
 <script>
 const data = [
@@ -160,6 +208,7 @@ const listEl = document.getElementById('event-list');
 data.forEach((monthData, index) => {
     let card = document.createElement('div');
     card.className = 'app-card';
+    card.setAttribute('role', 'listitem');
     card.onclick = () => showDetails(index);
     
     card.innerHTML = `
