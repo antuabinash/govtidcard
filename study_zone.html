@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Study Zone</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@400;600;700&display=swap');
+
         :root {
             --app-bg: #F4F6F9;
             --card-bg: #FFFFFF;
@@ -13,12 +15,20 @@
             --primary: #007AFF;
             --radius-xl: 24px;
             --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+            
+            /* Notebook Variables */
+            --paper-color: #ffffff;
+            --line-color: #e2e8f0;
+            --margin-color: #ff8787;
+            --heading-color: #1a202c;
+            --line-height: 40px;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Oriya', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: 80px; }
         
         /* Header & Navigation */
-        header { 
+        .app-header { 
             padding: 20px 24px; 
             background: rgba(244, 246, 249, 0.85); 
             backdrop-filter: blur(12px); 
@@ -31,15 +41,18 @@
             gap: 15px;
         }
         .back-btn {
-            background: none;
+            background: #e2e8f0;
             border: none;
-            color: var(--primary);
-            font-size: 16px;
+            color: var(--text-main);
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            display: none; /* Hidden by default on home screen */
-            padding: 5px 10px 5px 0;
+            display: none; /* Hidden by default */
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: background 0.2s;
         }
+        .back-btn:hover { background: #cbd5e1; }
         .app-title { font-size: 22px; font-weight: 800; color: var(--text-main); flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
         /* Main Grid */
@@ -58,14 +71,8 @@
         }
         .app-card:active { transform: scale(0.96); }
         .icon-box { 
-            width: 60px; 
-            height: 60px; 
-            border-radius: 18px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 30px; 
-            margin: 0 auto 16px auto; 
+            width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; 
+            font-size: 30px; margin: 0 auto 16px auto; 
         }
         .app-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--text-main); }
         .app-card p { font-size: 13px; color: var(--text-muted); }
@@ -78,68 +85,154 @@
         .bg-mukhya { background: linear-gradient(135deg, #FF9A44 0%, #FC6076 100%); }
         .bg-prasna { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); }
 
-        /* Modal Styles */
-        .modal-overlay { 
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-            background: rgba(0,0,0,0.5); 
-            z-index: 1000; 
-            display: none; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 20px; 
-            backdrop-filter: blur(4px);
-        }
-        .modal-overlay.show { display: flex; }
-        .modal-content { 
-            background: #fff; 
-            width: 100%; 
-            max-width: 650px; 
-            border-radius: 24px; 
-            padding: 30px; 
-            max-height: 85vh; 
-            overflow-y: auto; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .modal-header h3 { font-size: 22px; color: var(--text-main); }
-        .close-btn { background: #F2F2F7; border: none; width: 36px; height: 36px; border-radius: 18px; font-size: 18px; font-weight: bold; cursor: pointer; color: var(--text-muted); }
-        
-        /* Content Formatting inside Modal */
-        .content-body p { font-size: 16px; margin-bottom: 12px; text-align: justify; line-height: 1.6; }
-        .content-body ul { padding-left: 24px; margin-bottom: 16px; }
-        .content-body li { font-size: 16px; margin-bottom: 12px; line-height: 1.6; }
-        
-        /* Q&A specific formatting */
-        .qna-box { background: var(--app-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
-        .q-cat { font-size: 12px; font-weight: 800; color: #FF416C; text-transform: uppercase; margin-bottom: 6px; }
-        .q-text { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #111; }
-        .a-text { font-size: 15px; color: #444; line-height: 1.6; }
-        
-        /* Loading & Error States */
+        /* Loading State */
         #loader { text-align: center; padding: 40px; color: var(--text-muted); font-size: 16px; }
+
+        /* =========================================
+           NOTEBOOK VIEW STYLES
+           ========================================= */
+        .notebook-wrapper {
+            display: none; /* Hidden by default */
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .notebook-wrapper.active { display: flex; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .print-btn {
+            position: fixed;
+            top: 80px;
+            right: 40px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            display: none; /* Controlled by JS */
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .print-btn:hover { background-color: #45a049; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4); }
+
+        .notebook-page {
+            background-color: var(--paper-color);
+            width: 100%;
+            max-width: 850px;
+            min-height: 1100px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            background-image: repeating-linear-gradient(
+                var(--paper-color) 0px,
+                var(--paper-color) calc(var(--line-height) - 1px),
+                var(--line-color) calc(var(--line-height) - 1px),
+                var(--line-color) var(--line-height)
+            );
+            background-position: 0 120px;
+        }
+
+        .notebook-page::before { content: ''; position: absolute; top: 0; bottom: 0; left: 80px; width: 2px; background-color: var(--margin-color); z-index: 1; }
+        .notebook-page::after { content: ''; position: absolute; top: 0; bottom: 0; left: 85px; width: 1px; background-color: var(--margin-color); opacity: 0.5; z-index: 1; }
+
+        .page-header {
+            padding: 40px 40px 30px 110px;
+            background-color: var(--paper-color);
+            border-bottom: 2px solid var(--line-color);
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .chapter-title { font-size: 28px; font-weight: 700; color: var(--heading-color); line-height: 1.2; }
+        .meta-info { font-size: 14px; color: #718096; text-align: right; font-weight: 600; }
+
+        .page-content {
+            padding: 0 40px 40px 110px;
+            position: relative;
+            z-index: 2;
+            margin-top: calc(var(--line-height) - 26px);
+        }
+
+        /* Typography aligned to notebook lines */
+        .page-content p { font-size: 18px; line-height: var(--line-height); margin-bottom: var(--line-height); text-align: justify; color: #1e293b; }
+        .page-content p::first-letter { margin-left: 30px; }
+        
+        .page-content ul { padding-left: 30px; margin-bottom: var(--line-height); }
+        .page-content li { font-size: 18px; line-height: var(--line-height); color: #1e293b; margin-bottom: 0; list-style-type: disc;}
+        
+        .notebook-qna { margin-bottom: var(--line-height); }
+        .notebook-cat { font-size: 16px; font-weight: bold; color: #718096; line-height: var(--line-height); text-decoration: underline; }
+        .notebook-q { font-weight: 700; color: #d90429; font-size: 18px; line-height: var(--line-height); }
+        .notebook-a { font-weight: 400; color: #1e293b; font-size: 18px; line-height: var(--line-height); padding-left: 20px; text-align: justify;}
+
+        /* Print Media Query */
+        @media print {
+            body { background-color: white; padding: 0; }
+            .no-print { display: none !important; }
+            .app-header { display: none !important; }
+            .container { padding: 0; max-width: 100%; }
+            .notebook-page { box-shadow: none; border: none; max-width: 100%; min-height: auto; }
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .notebook-page::before { left: 40px; }
+            .notebook-page::after { left: 45px; }
+            .page-header { padding: 30px 20px 20px 60px; flex-direction: column; align-items: flex-start; gap: 10px; }
+            .page-content { padding: 0 20px 40px 60px; }
+            .print-btn { top: auto; bottom: 20px; right: 20px; }
+            .chapter-title { font-size: 22px; }
+        }
     </style>
 </head>
 <body>
-    <header>
+    <header class="app-header no-print">
         <button id="backBtn" class="back-btn" onclick="goBack()">‹ Back</button>
         <h1 id="headerTitle" class="app-title">Study Zone 📖</h1>
     </header>
     
     <main class="container">
         <div id="loader">Loading databases...</div>
+        
+        <!-- Grid View -->
         <div class="app-grid" id="grid"></div>
-    </main>
 
-    <!-- Content Modal -->
-    <div id="contentModal" class="modal-overlay" onclick="if(event.target === this) closeModal()">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">Title</h3>
-                <button class="close-btn" onclick="closeModal()">×</button>
+        <!-- Notebook View -->
+        <button id="printBtn" class="print-btn no-print" onclick="window.print()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Print Notes
+        </button>
+
+        <div class="notebook-wrapper" id="notebookWrapper">
+            <div class="notebook-page">
+                <div class="page-header">
+                    <h1 class="chapter-title" id="noteTitle">Chapter Title</h1>
+                    <div class="meta-info">
+                        Date: ____ /____ / 20__<br>
+                        Page No: 01
+                    </div>
+                </div>
+                <div class="page-content" id="noteContent">
+                    <!-- Dynamic content injected here -->
+                </div>
             </div>
-            <div id="modalBody" class="content-body"></div>
         </div>
-    </div>
+
+    </main>
 
     <script>
         // Store the fetched databases
@@ -150,7 +243,7 @@
         };
 
         // Track current navigation state
-        let currentLevel = 'classes'; // classes -> subjects -> chapters -> options
+        let currentLevel = 'classes'; // classes -> subjects -> chapters -> options -> notebook
         let selectedClass = null;
         let selectedSubject = null;
         let selectedChapter = null;
@@ -159,6 +252,8 @@
         const loader = document.getElementById('loader');
         const backBtn = document.getElementById('backBtn');
         const headerTitle = document.getElementById('headerTitle');
+        const notebookWrapper = document.getElementById('notebookWrapper');
+        const printBtn = document.getElementById('printBtn');
 
         // Initialize: Fetch all three JSON files at once
         async function init() {
@@ -194,6 +289,9 @@
 
         function renderClasses() {
             currentLevel = 'classes';
+            notebookWrapper.classList.remove('active');
+            printBtn.style.display = 'none';
+            grid.style.display = 'grid';
             updateHeader('Study Zone 📖', false);
             grid.innerHTML = '';
             
@@ -213,6 +311,9 @@
         function renderSubjects(className) {
             currentLevel = 'subjects';
             selectedClass = className;
+            notebookWrapper.classList.remove('active');
+            printBtn.style.display = 'none';
+            grid.style.display = 'grid';
             updateHeader(className, true);
             grid.innerHTML = '';
 
@@ -235,12 +336,14 @@
         function renderChapters(className, subjectName) {
             currentLevel = 'chapters';
             selectedSubject = subjectName;
+            notebookWrapper.classList.remove('active');
+            printBtn.style.display = 'none';
+            grid.style.display = 'grid';
             updateHeader(subjectName, true);
             grid.innerHTML = '';
 
             const clsData = databases.summary.classes.find(c => c.class_name === className);
             const subData = clsData.subjects.find(s => s.subject_name === subjectName);
-            
             if(!subData) return;
 
             subData.chapters.forEach(chap => {
@@ -259,13 +362,16 @@
         function renderOptions(className, subjectName, chapterName) {
             currentLevel = 'options';
             selectedChapter = chapterName;
+            notebookWrapper.classList.remove('active');
+            printBtn.style.display = 'none';
+            grid.style.display = 'grid';
             updateHeader(chapterName, true);
             grid.innerHTML = '';
 
             const options = [
-                { id: 'summary', title: 'Saransa', subtitle: 'Chapter Summary', icon: '📑', bg: 'bg-saransa' },
-                { id: 'keypoints', title: 'Mukhya Bindu', subtitle: 'Key Points', icon: '📌', bg: 'bg-mukhya' },
-                { id: 'qna', title: 'Prasnattara', subtitle: 'Q & A', icon: '💬', bg: 'bg-prasna' }
+                { id: 'summary', title: 'ସାରାଂଶ', subtitle: 'Chapter Summary', icon: '📑', bg: 'bg-saransa' },
+                { id: 'keypoints', title: 'ମୁଖ୍ୟ ବିନ୍ଦୁ', subtitle: 'Key Points', icon: '📌', bg: 'bg-mukhya' },
+                { id: 'qna', title: 'ପ୍ରଶ୍ନୋତ୍ତର', subtitle: 'Q & A', icon: '💬', bg: 'bg-prasna' }
             ];
 
             options.forEach(opt => {
@@ -276,13 +382,15 @@
                     <h3>${opt.title}</h3>
                     <p>${opt.subtitle}</p>
                 `;
-                card.onclick = () => openContentModal(opt.id);
+                card.onclick = () => openNotebook(opt.id, opt.title);
                 grid.appendChild(card);
             });
         }
 
         function goBack() {
-            if (currentLevel === 'options') {
+            if (currentLevel === 'notebook') {
+                renderOptions(selectedClass, selectedSubject, selectedChapter);
+            } else if (currentLevel === 'options') {
                 renderChapters(selectedClass, selectedSubject);
             } else if (currentLevel === 'chapters') {
                 renderSubjects(selectedClass);
@@ -300,17 +408,24 @@
             return sub.chapters.find(c => c.chapter_name === chapterName);
         }
 
-        function openContentModal(type) {
-            const titleEl = document.getElementById('modalTitle');
-            const bodyEl = document.getElementById('modalBody');
-            bodyEl.innerHTML = ''; // clear previous content
+        function openNotebook(type, typeTitle) {
+            currentLevel = 'notebook';
+            grid.style.display = 'none'; // Hide grid
+            notebookWrapper.classList.add('active'); // Show notebook
+            printBtn.style.display = 'flex'; // Show print button
+            updateHeader('Study Zone 📖', true); // Keep back button visible
+            window.scrollTo(0, 0); // Scroll to top for reading
+
+            const titleEl = document.getElementById('noteTitle');
+            const bodyEl = document.getElementById('noteContent');
+            bodyEl.innerHTML = ''; 
+            
+            titleEl.innerHTML = `${selectedChapter} <br><span style="font-size: 18px; font-weight: 400; color: #4a5568;">(${typeTitle})</span>`;
 
             let chapData = null;
 
             if (type === 'summary') {
                 chapData = findChapterData(databases.summary, selectedClass, selectedSubject, selectedChapter);
-                titleEl.innerText = `${selectedChapter} - Saransa`;
-                
                 if (chapData && chapData.content_data && chapData.content_data.summary) {
                     bodyEl.innerHTML = chapData.content_data.summary.map(p => `<p>${p}</p>`).join('');
                 } else {
@@ -319,8 +434,6 @@
             } 
             else if (type === 'keypoints') {
                 chapData = findChapterData(databases.keypoints, selectedClass, selectedSubject, selectedChapter);
-                titleEl.innerText = `${selectedChapter} - Mukhya Bindu`;
-                
                 if (chapData && chapData.content_data && chapData.content_data.key_points) {
                     const listItems = chapData.content_data.key_points.map(pt => `<li>${pt}</li>`).join('');
                     bodyEl.innerHTML = `<ul>${listItems}</ul>`;
@@ -330,28 +443,18 @@
             } 
             else if (type === 'qna') {
                 chapData = findChapterData(databases.qna, selectedClass, selectedSubject, selectedChapter);
-                titleEl.innerText = `${selectedChapter} - Prasnattara`;
-                
                 if (chapData && chapData.content_data && chapData.content_data.q_and_a) {
                     bodyEl.innerHTML = chapData.content_data.q_and_a.map(item => `
-                        <div class="qna-box">
-                            ${item.category ? `<div class="q-cat">${item.category}</div>` : ''}
-                            <div class="q-text">Q: ${item.question}</div>
-                            <div class="a-text">A: ${item.answer}</div>
+                        <div class="notebook-qna">
+                            ${item.category ? `<div class="notebook-cat">[ ${item.category} ]</div>` : ''}
+                            <div class="notebook-q">ପ୍ର: ${item.question}</div>
+                            <div class="notebook-a">ଉ: ${item.answer}</div>
                         </div>
                     `).join('');
                 } else {
                     bodyEl.innerHTML = '<p>Q&A data not found for this chapter.</p>';
                 }
             }
-
-            document.getElementById('contentModal').classList.add('show');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        }
-
-        function closeModal() {
-            document.getElementById('contentModal').classList.remove('show');
-            document.body.style.overflow = ''; // Restore background scrolling
         }
 
         // Start the app
