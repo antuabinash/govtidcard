@@ -144,17 +144,18 @@
         .notebook-page::after { content: ''; position: absolute; top: 0; bottom: 0; left: 85px; width: 1px; background-color: var(--margin-color); opacity: 0.5; z-index: 1; }
 
         .page-header {
-            padding: 40px 20px 30px 100px;
+            padding: 40px 20px 30px 20px; /* Adjusted padding for perfect center */
             background-color: var(--paper-color);
             border-bottom: 2px solid var(--line-color);
             position: relative;
             z-index: 2;
             display: flex;
-            justify-content: center; /* Centered Header */
+            justify-content: center; /* Centers the content */
+            align-items: center;
             text-align: center;
         }
 
-        .chapter-title { font-size: 28px; font-weight: 700; color: var(--heading-color); line-height: 1.2; }
+        .chapter-title { font-size: 28px; font-weight: 700; color: var(--heading-color); line-height: 1.2; margin-left: 80px; /* Offset to center relative to the full page including margin */ }
 
         .page-content {
             padding: 0 40px 0px 110px;
@@ -179,9 +180,9 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            padding: 20px 20px 20px 100px;
-            font-size: 13px;
-            color: #a0aec0;
+            padding: 20px 20px 20px 80px;
+            font-size: 12px;
+            color: #a0aec0; /* Small gray font */
             font-family: sans-serif;
         }
 
@@ -192,17 +193,18 @@
             .app-header { display: none !important; }
             .container { padding: 0; max-width: 100%; }
             .notebook-page { box-shadow: none; border: none; max-width: 100%; min-height: auto; }
+            .page-footer { display: none; }
         }
         
         /* Mobile Responsiveness */
         @media (max-width: 600px) {
             .notebook-page::before { left: 40px; }
             .notebook-page::after { left: 45px; }
-            .page-header { padding: 30px 20px 20px 60px; }
+            .page-header { padding: 30px 20px 20px 20px; }
+            .chapter-title { margin-left: 40px; font-size: 22px; }
             .page-content { padding: 0 20px 0px 60px; }
-            .page-footer { padding: 20px 20px 20px 60px; }
+            .page-footer { padding: 20px 20px 20px 40px; }
             .print-btn { top: auto; bottom: 20px; right: 20px; }
-            .chapter-title { font-size: 22px; }
         }
     </style>
 </head>
@@ -241,16 +243,12 @@
                 </div>
             </div>
         </div>
-
     </main>
 
     <script>
-        let databases = {
-            summary: null,
-            keypoints: null,
-            qna: null
-        };
+        let databases = { summary: null, keypoints: null, qna: null };
 
+        // State trackers
         let currentLevel = 'classes'; 
         let selectedClass = null;
         let selectedSubject = null;
@@ -262,6 +260,37 @@
         const headerTitle = document.getElementById('headerTitle');
         const notebookWrapper = document.getElementById('notebookWrapper');
         const printBtn = document.getElementById('printBtn');
+
+        // Listen for hardware back button or browser back button
+        window.addEventListener('popstate', (event) => {
+            if (event.state) {
+                const s = event.state;
+                if (s.level === 'classes') renderClasses(true);
+                else if (s.level === 'subjects') {
+                    selectedClass = s.selectedClass;
+                    renderSubjects(s.selectedClass, true);
+                }
+                else if (s.level === 'chapters') {
+                    selectedClass = s.selectedClass;
+                    selectedSubject = s.selectedSubject;
+                    renderChapters(s.selectedClass, s.selectedSubject, true);
+                }
+                else if (s.level === 'options') {
+                    selectedClass = s.selectedClass;
+                    selectedSubject = s.selectedSubject;
+                    selectedChapter = s.selectedChapter;
+                    renderOptions(s.selectedClass, s.selectedSubject, s.selectedChapter, true);
+                }
+                else if (s.level === 'notebook') {
+                    selectedClass = s.selectedClass;
+                    selectedSubject = s.selectedSubject;
+                    selectedChapter = s.selectedChapter;
+                    openNotebook(s.type, s.typeTitle, true);
+                }
+            } else {
+                renderClasses(true);
+            }
+        });
 
         async function init() {
             try {
@@ -278,7 +307,8 @@
                 loader.style.display = 'none';
                 
                 if (databases.summary && databases.summary.classes) {
-                    renderClasses();
+                    renderClasses(true); // Don't push state yet
+                    history.replaceState({ level: 'classes' }, '', ''); // Set the initial base state
                 } else {
                     grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Error: Could not load class structure. Please check your JSON files.</p>';
                 }
@@ -293,7 +323,8 @@
             backBtn.style.display = showBack ? 'block' : 'none';
         }
 
-        function renderClasses() {
+        // Added `fromHistory` parameter to prevent infinite pushing loops
+        function renderClasses(fromHistory = false) {
             currentLevel = 'classes';
             notebookWrapper.classList.remove('active');
             printBtn.style.display = 'none';
@@ -312,9 +343,11 @@
                 card.onclick = () => renderSubjects(cls.class_name);
                 grid.appendChild(card);
             });
+
+            if (!fromHistory) history.pushState({ level: 'classes' }, '', '');
         }
 
-        function renderSubjects(className) {
+        function renderSubjects(className, fromHistory = false) {
             currentLevel = 'subjects';
             selectedClass = className;
             notebookWrapper.classList.remove('active');
@@ -337,9 +370,11 @@
                 card.onclick = () => renderChapters(className, sub.subject_name);
                 grid.appendChild(card);
             });
+
+            if (!fromHistory) history.pushState({ level: 'subjects', selectedClass: className }, '', '');
         }
 
-        function renderChapters(className, subjectName) {
+        function renderChapters(className, subjectName, fromHistory = false) {
             currentLevel = 'chapters';
             selectedSubject = subjectName;
             notebookWrapper.classList.remove('active');
@@ -363,9 +398,11 @@
                 card.onclick = () => renderOptions(className, subjectName, chap.chapter_name);
                 grid.appendChild(card);
             });
+
+            if (!fromHistory) history.pushState({ level: 'chapters', selectedClass: className, selectedSubject: subjectName }, '', '');
         }
 
-        function renderOptions(className, subjectName, chapterName) {
+        function renderOptions(className, subjectName, chapterName, fromHistory = false) {
             currentLevel = 'options';
             selectedChapter = chapterName;
             notebookWrapper.classList.remove('active');
@@ -391,18 +428,13 @@
                 card.onclick = () => openNotebook(opt.id, opt.title);
                 grid.appendChild(card);
             });
+
+            if (!fromHistory) history.pushState({ level: 'options', selectedClass: className, selectedSubject: subjectName, selectedChapter: chapterName }, '', '');
         }
 
+        // Now, UI back button just triggers the History API
         function goBack() {
-            if (currentLevel === 'notebook') {
-                renderOptions(selectedClass, selectedSubject, selectedChapter);
-            } else if (currentLevel === 'options') {
-                renderChapters(selectedClass, selectedSubject);
-            } else if (currentLevel === 'chapters') {
-                renderSubjects(selectedClass);
-            } else if (currentLevel === 'subjects') {
-                renderClasses();
-            }
+            history.back(); 
         }
 
         function findChapterData(db, className, subjectName, chapterName) {
@@ -414,7 +446,7 @@
             return sub.chapters.find(c => c.chapter_name === chapterName);
         }
 
-        function openNotebook(type, typeTitle) {
+        function openNotebook(type, typeTitle, fromHistory = false) {
             currentLevel = 'notebook';
             grid.style.display = 'none'; 
             notebookWrapper.classList.add('active'); 
@@ -452,15 +484,22 @@
                 if (chapData && chapData.content_data && chapData.content_data.q_and_a) {
                     bodyEl.innerHTML = chapData.content_data.q_and_a.map(item => {
                         let markText = item.category ? item.category.replace(' QUESTIONS', '') : '';
+                        let qText = markText ? `ପ୍ର: ${item.question} (${markText})` : `ପ୍ର: ${item.question}`;
                         return `
                         <div class="notebook-qna">
-                            <div class="notebook-q">ପ୍ର: ${item.question} <span style="font-weight: normal; color: #718096; font-size: 14px;">(${markText})</span></div>
+                            <div class="notebook-q">${qText}</div>
                             <div class="notebook-a">ଉ: ${item.answer}</div>
                         </div>
                     `}).join('');
                 } else {
                     bodyEl.innerHTML = '<p>Q&A data not found for this chapter.</p>';
                 }
+            }
+
+            if (!fromHistory) {
+                history.pushState({ 
+                    level: 'notebook', selectedClass: selectedClass, selectedSubject: selectedSubject, selectedChapter: selectedChapter, type: type, typeTitle: typeTitle 
+                }, '', '');
             }
         }
 
