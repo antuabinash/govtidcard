@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Study Zone</title>
+    <style>
+        :root {
+            --app-bg: #F4F6F9;
+            --card-bg: #FFFFFF;
+            --text-main: #1D1D1F;
+            --text-muted: #86868B;
+            --primary: #007AFF;
+            --radius-xl: 24px;
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: 80px; }
+        
+        /* Header & Navigation */
+        header { 
+            padding: 20px 24px; 
+            background: rgba(244, 246, 249, 0.85); 
+            backdrop-filter: blur(12px); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            display: flex; 
+            align-items: center; 
+            border-bottom: 1px solid rgba(0,0,0,0.03); 
+            gap: 15px;
+        }
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: none; /* Hidden by default on home screen */
+            padding: 5px 10px 5px 0;
+        }
+        .app-title { font-size: 22px; font-weight: 800; color: var(--text-main); flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* Main Grid */
+        .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
+        
+        /* Cards */
+        .app-card { 
+            background: var(--card-bg); 
+            border-radius: var(--radius-xl); 
+            padding: 24px 16px; 
+            box-shadow: var(--shadow-soft); 
+            cursor: pointer; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            text-align: center;
+        }
+        .app-card:active { transform: scale(0.96); }
+        .icon-box { 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 18px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 30px; 
+            margin: 0 auto 16px auto; 
+        }
+        .app-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--text-main); }
+        .app-card p { font-size: 13px; color: var(--text-muted); }
+
+        /* Specific Icon Colors */
+        .bg-class { background: linear-gradient(135deg, #A18CD1 0%, #FBC2EB 100%); }
+        .bg-subject { background: linear-gradient(135deg, #84FAB0 0%, #8FD3F4 100%); }
+        .bg-chapter { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%); }
+        .bg-saransa { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
+        .bg-mukhya { background: linear-gradient(135deg, #FF9A44 0%, #FC6076 100%); }
+        .bg-prasna { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); }
+
+        /* Modal Styles */
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background: rgba(0,0,0,0.5); 
+            z-index: 1000; 
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-content { 
+            background: #fff; 
+            width: 100%; 
+            max-width: 650px; 
+            border-radius: 24px; 
+            padding: 30px; 
+            max-height: 85vh; 
+            overflow-y: auto; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .modal-header h3 { font-size: 22px; color: var(--text-main); }
+        .close-btn { background: #F2F2F7; border: none; width: 36px; height: 36px; border-radius: 18px; font-size: 18px; font-weight: bold; cursor: pointer; color: var(--text-muted); }
+        
+        /* Content Formatting inside Modal */
+        .content-body p { font-size: 16px; margin-bottom: 12px; text-align: justify; line-height: 1.6; }
+        .content-body ul { padding-left: 24px; margin-bottom: 16px; }
+        .content-body li { font-size: 16px; margin-bottom: 12px; line-height: 1.6; }
+        
+        /* Q&A specific formatting */
+        .qna-box { background: var(--app-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+        .q-cat { font-size: 12px; font-weight: 800; color: #FF416C; text-transform: uppercase; margin-bottom: 6px; }
+        .q-text { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #111; }
+        .a-text { font-size: 15px; color: #444; line-height: 1.6; }
+        
+        /* Loading & Error States */
+        #loader { text-align: center; padding: 40px; color: var(--text-muted); font-size: 16px; }
+    </style>
+</head>
+<body>
+    <header>
+        <button id="backBtn" class="back-btn" onclick="goBack()">‹ Back</button>
+        <h1 id="headerTitle" class="app-title">Study Zone 📖</h1>
+    </header>
+    
+    <main class="container">
+        <div id="loader">Loading databases...</div>
+        <div class="app-grid" id="grid"></div>
+    </main>
+
+    <!-- Content Modal -->
+    <div id="contentModal" class="modal-overlay" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Title</h3>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div id="modalBody" class="content-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // Store the fetched databases
+        let databases = {
+            summary: null,
+            keypoints: null,
+            qna: null
+        };
+
+        // Track current navigation state
+        let currentLevel = 'classes'; // classes -> subjects -> chapters -> options
+        let selectedClass = null;
+        let selectedSubject = null;
+        let selectedChapter = null;
+
+        const grid = document.getElementById('grid');
+        const loader = document.getElementById('loader');
+        const backBtn = document.getElementById('backBtn');
+        const headerTitle = document.getElementById('headerTitle');
+
+        // Initialize: Fetch all three JSON files at once
+        async function init() {
+            try {
+                const [sumRes, kpRes, qnaRes] = await Promise.all([
+                    fetch('panchapadi_summary_database.json').then(r => r.json()).catch(() => null),
+                    fetch('panchapadi_key_points_database.json').then(r => r.json()).catch(() => null),
+                    fetch('panchapadi_qna_database.json').then(r => r.json()).catch(() => null)
+                ]);
+
+                databases.summary = sumRes;
+                databases.keypoints = kpRes;
+                databases.qna = qnaRes;
+
+                loader.style.display = 'none';
+                
+                // We use the summary DB as the master structure for classes/subjects/chapters
+                if (databases.summary && databases.summary.classes) {
+                    renderClasses();
+                } else {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Error: Could not load class structure. Please check your JSON files.</p>';
+                }
+            } catch (error) {
+                loader.innerText = 'Failed to load data.';
+                console.error(error);
+            }
+        }
+
+        function updateHeader(title, showBack) {
+            headerTitle.innerText = title;
+            backBtn.style.display = showBack ? 'block' : 'none';
+        }
+
+        function renderClasses() {
+            currentLevel = 'classes';
+            updateHeader('Study Zone 📖', false);
+            grid.innerHTML = '';
+            
+            databases.summary.classes.forEach(cls => {
+                const card = document.createElement('div');
+                card.className = 'app-card';
+                card.innerHTML = `
+                    <div class="icon-box bg-class">🏫</div>
+                    <h3>${cls.class_name}</h3>
+                    <p>${cls.subjects.length} Subjects</p>
+                `;
+                card.onclick = () => renderSubjects(cls.class_name);
+                grid.appendChild(card);
+            });
+        }
+
+        function renderSubjects(className) {
+            currentLevel = 'subjects';
+            selectedClass = className;
+            updateHeader(className, true);
+            grid.innerHTML = '';
+
+            const clsData = databases.summary.classes.find(c => c.class_name === className);
+            if(!clsData) return;
+
+            clsData.subjects.forEach(sub => {
+                const card = document.createElement('div');
+                card.className = 'app-card';
+                card.innerHTML = `
+                    <div class="icon-box bg-subject">📚</div>
+                    <h3>${sub.subject_name}</h3>
+                    <p>${sub.chapters.length} Chapters</p>
+                `;
+                card.onclick = () => renderChapters(className, sub.subject_name);
+                grid.appendChild(card);
+            });
+        }
+
+        function renderChapters(className, subjectName) {
+            currentLevel = 'chapters';
+            selectedSubject = subjectName;
+            updateHeader(subjectName, true);
+            grid.innerHTML = '';
+
+            const clsData = databases.summary.classes.find(c => c.class_name === className);
+            const subData = clsData.subjects.find(s => s.subject_name === subjectName);
+            
+            if(!subData) return;
+
+            subData.chapters.forEach(chap => {
+                const card = document.createElement('div');
+                card.className = 'app-card';
+                card.innerHTML = `
+                    <div class="icon-box bg-chapter">📄</div>
+                    <h3>${chap.chapter_name}</h3>
+                    <p>Tap for details</p>
+                `;
+                card.onclick = () => renderOptions(className, subjectName, chap.chapter_name);
+                grid.appendChild(card);
+            });
+        }
+
+        function renderOptions(className, subjectName, chapterName) {
+            currentLevel = 'options';
+            selectedChapter = chapterName;
+            updateHeader(chapterName, true);
+            grid.innerHTML = '';
+
+            const options = [
+                { id: 'summary', title: 'Saransa', subtitle: 'Chapter Summary', icon: '📑', bg: 'bg-saransa' },
+                { id: 'keypoints', title: 'Mukhya Bindu', subtitle: 'Key Points', icon: '📌', bg: 'bg-mukhya' },
+                { id: 'qna', title: 'Prasnattara', subtitle: 'Q & A', icon: '💬', bg: 'bg-prasna' }
+            ];
+
+            options.forEach(opt => {
+                const card = document.createElement('div');
+                card.className = 'app-card';
+                card.innerHTML = `
+                    <div class="icon-box ${opt.bg}">${opt.icon}</div>
+                    <h3>${opt.title}</h3>
+                    <p>${opt.subtitle}</p>
+                `;
+                card.onclick = () => openContentModal(opt.id);
+                grid.appendChild(card);
+            });
+        }
+
+        function goBack() {
+            if (currentLevel === 'options') {
+                renderChapters(selectedClass, selectedSubject);
+            } else if (currentLevel === 'chapters') {
+                renderSubjects(selectedClass);
+            } else if (currentLevel === 'subjects') {
+                renderClasses();
+            }
+        }
+
+        function findChapterData(db, className, subjectName, chapterName) {
+            if(!db || !db.classes) return null;
+            const cls = db.classes.find(c => c.class_name === className);
+            if(!cls) return null;
+            const sub = cls.subjects.find(s => s.subject_name === subjectName);
+            if(!sub) return null;
+            return sub.chapters.find(c => c.chapter_name === chapterName);
+        }
+
+        function openContentModal(type) {
+            const titleEl = document.getElementById('modalTitle');
+            const bodyEl = document.getElementById('modalBody');
+            bodyEl.innerHTML = ''; // clear previous content
+
+            let chapData = null;
+
+            if (type === 'summary') {
+                chapData = findChapterData(databases.summary, selectedClass, selectedSubject, selectedChapter);
+                titleEl.innerText = `${selectedChapter} - Saransa`;
+                
+                if (chapData && chapData.content_data && chapData.content_data.summary) {
+                    bodyEl.innerHTML = chapData.content_data.summary.map(p => `<p>${p}</p>`).join('');
+                } else {
+                    bodyEl.innerHTML = '<p>Summary data not found for this chapter.</p>';
+                }
+            } 
+            else if (type === 'keypoints') {
+                chapData = findChapterData(databases.keypoints, selectedClass, selectedSubject, selectedChapter);
+                titleEl.innerText = `${selectedChapter} - Mukhya Bindu`;
+                
+                if (chapData && chapData.content_data && chapData.content_data.key_points) {
+                    const listItems = chapData.content_data.key_points.map(pt => `<li>${pt}</li>`).join('');
+                    bodyEl.innerHTML = `<ul>${listItems}</ul>`;
+                } else {
+                    bodyEl.innerHTML = '<p>Key points data not found for this chapter.</p>';
+                }
+            } 
+            else if (type === 'qna') {
+                chapData = findChapterData(databases.qna, selectedClass, selectedSubject, selectedChapter);
+                titleEl.innerText = `${selectedChapter} - Prasnattara`;
+                
+                if (chapData && chapData.content_data && chapData.content_data.q_and_a) {
+                    bodyEl.innerHTML = chapData.content_data.q_and_a.map(item => `
+                        <div class="qna-box">
+                            ${item.category ? `<div class="q-cat">${item.category}</div>` : ''}
+                            <div class="q-text">Q: ${item.question}</div>
+                            <div class="a-text">A: ${item.answer}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    bodyEl.innerHTML = '<p>Q&A data not found for this chapter.</p>';
+                }
+            }
+
+            document.getElementById('contentModal').classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            document.getElementById('contentModal').classList.remove('show');
+            document.body.style.overflow = ''; // Restore background scrolling
+        }
+
+        // Start the app
+        window.onload = init;
+    </script>
+</body>
+</html>
