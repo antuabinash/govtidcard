@@ -47,7 +47,7 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            display: none; /* Hidden by default */
+            display: none; 
             padding: 8px 16px;
             border-radius: 20px;
             transition: background 0.2s;
@@ -85,14 +85,13 @@
         .bg-mukhya { background: linear-gradient(135deg, #FF9A44 0%, #FC6076 100%); }
         .bg-prasna { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); }
 
-        /* Loading State */
         #loader { text-align: center; padding: 40px; color: var(--text-muted); font-size: 16px; }
 
         /* =========================================
            NOTEBOOK VIEW STYLES
            ========================================= */
         .notebook-wrapper {
-            display: none; /* Hidden by default */
+            display: none; 
             justify-content: center;
             animation: fadeIn 0.3s ease-in-out;
         }
@@ -113,7 +112,7 @@
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-            display: none; /* Controlled by JS */
+            display: none; 
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
@@ -137,30 +136,32 @@
                 var(--line-color) var(--line-height)
             );
             background-position: 0 120px;
+            display: flex;
+            flex-direction: column;
         }
 
         .notebook-page::before { content: ''; position: absolute; top: 0; bottom: 0; left: 80px; width: 2px; background-color: var(--margin-color); z-index: 1; }
         .notebook-page::after { content: ''; position: absolute; top: 0; bottom: 0; left: 85px; width: 1px; background-color: var(--margin-color); opacity: 0.5; z-index: 1; }
 
         .page-header {
-            padding: 40px 40px 30px 110px;
+            padding: 40px 20px 30px 100px;
             background-color: var(--paper-color);
             border-bottom: 2px solid var(--line-color);
             position: relative;
             z-index: 2;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            justify-content: center; /* Centered Header */
+            text-align: center;
         }
 
         .chapter-title { font-size: 28px; font-weight: 700; color: var(--heading-color); line-height: 1.2; }
-        .meta-info { font-size: 14px; color: #718096; text-align: right; font-weight: 600; }
 
         .page-content {
-            padding: 0 40px 40px 110px;
+            padding: 0 40px 0px 110px;
             position: relative;
             z-index: 2;
             margin-top: calc(var(--line-height) - 26px);
+            flex-grow: 1;
         }
 
         /* Typography aligned to notebook lines */
@@ -171,9 +172,18 @@
         .page-content li { font-size: 18px; line-height: var(--line-height); color: #1e293b; margin-bottom: 0; list-style-type: disc;}
         
         .notebook-qna { margin-bottom: var(--line-height); }
-        .notebook-cat { font-size: 16px; font-weight: bold; color: #718096; line-height: var(--line-height); text-decoration: underline; }
         .notebook-q { font-weight: 700; color: #d90429; font-size: 18px; line-height: var(--line-height); }
         .notebook-a { font-weight: 400; color: #1e293b; font-size: 18px; line-height: var(--line-height); padding-left: 20px; text-align: justify;}
+
+        .page-footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px 20px 20px 100px;
+            font-size: 13px;
+            color: #a0aec0;
+            font-family: sans-serif;
+        }
 
         /* Print Media Query */
         @media print {
@@ -188,8 +198,9 @@
         @media (max-width: 600px) {
             .notebook-page::before { left: 40px; }
             .notebook-page::after { left: 45px; }
-            .page-header { padding: 30px 20px 20px 60px; flex-direction: column; align-items: flex-start; gap: 10px; }
-            .page-content { padding: 0 20px 40px 60px; }
+            .page-header { padding: 30px 20px 20px 60px; }
+            .page-content { padding: 0 20px 0px 60px; }
+            .page-footer { padding: 20px 20px 20px 60px; }
             .print-btn { top: auto; bottom: 20px; right: 20px; }
             .chapter-title { font-size: 22px; }
         }
@@ -221,13 +232,12 @@
             <div class="notebook-page">
                 <div class="page-header">
                     <h1 class="chapter-title" id="noteTitle">Chapter Title</h1>
-                    <div class="meta-info">
-                        Date: ____ /____ / 20__<br>
-                        Page No: 01
-                    </div>
                 </div>
                 <div class="page-content" id="noteContent">
                     <!-- Dynamic content injected here -->
+                </div>
+                <div class="page-footer">
+                    download it from sikhyaksathi.in
                 </div>
             </div>
         </div>
@@ -235,15 +245,13 @@
     </main>
 
     <script>
-        // Store the fetched databases
         let databases = {
             summary: null,
             keypoints: null,
             qna: null
         };
 
-        // Track current navigation state
-        let currentLevel = 'classes'; // classes -> subjects -> chapters -> options -> notebook
+        let currentLevel = 'classes'; 
         let selectedClass = null;
         let selectedSubject = null;
         let selectedChapter = null;
@@ -255,7 +263,6 @@
         const notebookWrapper = document.getElementById('notebookWrapper');
         const printBtn = document.getElementById('printBtn');
 
-        // Initialize: Fetch all three JSON files at once
         async function init() {
             try {
                 const [sumRes, kpRes, qnaRes] = await Promise.all([
@@ -270,7 +277,6 @@
 
                 loader.style.display = 'none';
                 
-                // We use the summary DB as the master structure for classes/subjects/chapters
                 if (databases.summary && databases.summary.classes) {
                     renderClasses();
                 } else {
@@ -410,11 +416,11 @@
 
         function openNotebook(type, typeTitle) {
             currentLevel = 'notebook';
-            grid.style.display = 'none'; // Hide grid
-            notebookWrapper.classList.add('active'); // Show notebook
-            printBtn.style.display = 'flex'; // Show print button
-            updateHeader('Study Zone 📖', true); // Keep back button visible
-            window.scrollTo(0, 0); // Scroll to top for reading
+            grid.style.display = 'none'; 
+            notebookWrapper.classList.add('active'); 
+            printBtn.style.display = 'flex'; 
+            updateHeader('Study Zone 📖', true); 
+            window.scrollTo(0, 0); 
 
             const titleEl = document.getElementById('noteTitle');
             const bodyEl = document.getElementById('noteContent');
@@ -444,20 +450,20 @@
             else if (type === 'qna') {
                 chapData = findChapterData(databases.qna, selectedClass, selectedSubject, selectedChapter);
                 if (chapData && chapData.content_data && chapData.content_data.q_and_a) {
-                    bodyEl.innerHTML = chapData.content_data.q_and_a.map(item => `
+                    bodyEl.innerHTML = chapData.content_data.q_and_a.map(item => {
+                        let markText = item.category ? item.category.replace(' QUESTIONS', '') : '';
+                        return `
                         <div class="notebook-qna">
-                            ${item.category ? `<div class="notebook-cat">[ ${item.category} ]</div>` : ''}
-                            <div class="notebook-q">ପ୍ର: ${item.question}</div>
+                            <div class="notebook-q">ପ୍ର: ${item.question} <span style="font-weight: normal; color: #718096; font-size: 14px;">(${markText})</span></div>
                             <div class="notebook-a">ଉ: ${item.answer}</div>
                         </div>
-                    `).join('');
+                    `}).join('');
                 } else {
                     bodyEl.innerHTML = '<p>Q&A data not found for this chapter.</p>';
                 }
             }
         }
 
-        // Start the app
         window.onload = init;
     </script>
 </body>
