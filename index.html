@@ -333,8 +333,8 @@
         .install-bar .txt strong { display: block; color: var(--text); font-size: 14.5px; }
         .install-bar .btn { min-height: 40px; padding: 0 16px; font-size: 14px; border-radius: 12px; }
         .install-bar .x { width: 34px; height: 34px; border: none; background: none; color: var(--muted); cursor: pointer; border-radius: 50%; display: grid; place-items: center; }
-        .toast { position: fixed; left: 50%; bottom: calc(20px + var(--safe-b)); transform: translate(-50%, 160%); z-index: 12000; background: #1D2338; color: #fff; padding: 12px 16px; border-radius: 14px; font-size: 14px; font-weight: 600; box-shadow: 0 14px 34px rgba(0,0,0,0.35); display: flex; align-items: center; gap: 14px; max-width: calc(100vw - 32px); transition: transform 0.3s cubic-bezier(.2,.8,.2,1); }
-        .toast.show { transform: translate(-50%, 0); }
+        .toast { position: fixed; left: 50%; bottom: calc(20px + var(--safe-b)); transform: translate(-50%, 160%); opacity: 0; pointer-events: none; z-index: 12000; background: #1D2338; color: #fff; padding: 12px 16px; border-radius: 14px; font-size: 14px; font-weight: 600; box-shadow: 0 14px 34px rgba(0,0,0,0.35); display: flex; align-items: center; gap: 14px; max-width: calc(100vw - 32px); transition: transform 0.3s cubic-bezier(.2,.8,.2,1), opacity 0.2s; }
+        .toast.show { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
         .toast button { background: none; border: none; color: #9DB4FF; font: inherit; font-weight: 800; cursor: pointer; padding: 2px 4px; }
 
         .card.fade-in { animation: fadeUp 0.35s ease both; }
