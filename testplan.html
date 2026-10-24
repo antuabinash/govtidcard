@@ -2,229 +2,274 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Lesson Plans - ଶିକ୍ଷକ ସାଥୀ</title>
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#F4F6F9">
+    <meta name="description" content="Browse Odisha lesson plans by class, subject and chapter. Panchapadi steps, competencies, learning outcomes and TLM for every period.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sikhyaksathi.in/testplan.html">
+
+    <meta name="theme-color" content="#F3F5FA" id="themeColorMeta">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('ss_theme');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+
     <style>
-        /* === App Variables & Reset (Matching Index UI) === */
         :root {
-            --app-bg: #F4F6F9;
-            --card-bg: #FFFFFF;
-            --text-main: #1D1D1F;
-            --text-muted: #86868B;
-            --primary: #007AFF;
-            --primary-hover: #0056b3;
-            --radius-xl: 24px;
-            --radius-lg: 18px;
-            --radius-md: 12px;
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
-            --safe-area-pt: env(safe-area-inset-top, 16px);
-            --safe-area-pb: env(safe-area-inset-bottom, 20px);
+            --bg: #F3F5FA; --surface: #FFFFFF; --surface-2: #F7F8FC;
+            --text: #12172B; --muted: #586178; --line: #E4E8F1;
+            --primary: #2F5BEA; --primary-soft: rgba(47, 91, 234, 0.1);
+            --danger: #DC2626;
+            --shadow: 0 1px 2px rgba(18, 23, 43, 0.04), 0 8px 24px rgba(18, 23, 43, 0.05);
+            --shadow-hover: 0 2px 4px rgba(18, 23, 43, 0.05), 0 14px 32px rgba(18, 23, 43, 0.09);
+            --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+            color-scheme: light;
+        }
+        :root[data-theme="dark"] {
+            --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+            --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+            --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+            --danger: #F87171;
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+            --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.35), 0 14px 32px rgba(0, 0, 0, 0.4);
+            color-scheme: dark;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+                --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+                --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+                --danger: #F87171;
+                --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+                --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.35), 0 14px 32px rgba(0, 0, 0, 0.4);
+                color-scheme: dark;
+            }
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans Oriya", sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: calc(40px + var(--safe-area-pb)); overflow-x: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        [hidden] { display: none !important; }
+        html { -webkit-text-size-adjust: 100%; }
+        body { font-family: "Noto Sans Oriya", "Noto Sans", "Nirmala UI", Kalinga, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; font-size: 16px; overflow-x: hidden; padding-bottom: calc(40px + var(--safe-b)); }
+        :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 8px; }
+        .wrap { max-width: 860px; margin: 0 auto; padding: 0 18px; }
+        .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+        .skip-link { position: absolute; left: 12px; top: -60px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 10px; z-index: 20000; font-weight: 700; text-decoration: none; transition: top 0.2s; }
+        .skip-link:focus { top: calc(var(--safe-t) + 10px); }
+        svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
-        /* === Header === */
-        header { 
-            padding: calc(var(--safe-area-pt) + 12px) 24px 12px 24px; 
-            background: rgba(244, 246, 249, 0.85); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-            border-bottom: 1px solid rgba(0,0,0,0.03); 
-            display: flex; 
-            align-items: center; 
-            gap: 12px;
-        }
-        
-        .icon-btn { 
-            background: #FFFFFF; border: none; width: 40px; height: 40px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; color: var(--text-main); 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; 
-            flex-shrink: 0; text-decoration: none;
-        }
-        .icon-btn:active { transform: scale(0.9); }
-        
-        .header-text { display: flex; flex-direction: column; }
-        .greeting { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: -2px; }
-        .app-title { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); display: flex; align-items: center; gap: 8px;}
-        
-        /* === Container & Status === */
-        .container { max-width: 800px; margin: 0 auto; padding: 24px; }
-        #status-section { 
-            display: flex; flex-direction: column; align-items: center; background: var(--card-bg); 
-            padding: 40px 24px; border-radius: var(--radius-xl); text-align: center; 
-            margin-top: 24px; box-shadow: var(--shadow-soft); border: 1px solid rgba(0,0,0,0.02);
-        }
-        
-        /* === Loaders === */
-        #chunk-loader { 
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-            background: rgba(244, 246, 249, 0.85); backdrop-filter: blur(8px); 
-            z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-        }
-        .spinner { border: 4px solid #E5E5EA; border-top: 4px solid var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Header */
+        .site-header { position: sticky; top: 0; z-index: 100; padding-top: var(--safe-t); background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+        .header-row { display: flex; align-items: center; gap: 12px; height: 64px; }
+        .icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; text-decoration: none; flex: none; transition: transform 0.15s; }
+        .icon-btn:active { transform: scale(0.92); }
+        .head-text { flex: 1; min-width: 0; }
+        .head-text .eyebrow { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.2; }
+        .head-text h1 { font-size: 18px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* === App List / Tiles === */
-        #app-content { display: flex; flex-direction: column; gap: 16px; }
-        
-        .tile { 
-            background: var(--card-bg); border-radius: var(--radius-xl); padding: 16px 20px; 
-            cursor: pointer; display: flex; align-items: center; justify-content: space-between; 
-            box-shadow: var(--shadow-soft); transition: transform 0.2s, box-shadow 0.2s; 
-            border: 1px solid rgba(255,255,255,0.8);
-        }
-        .tile:active { transform: scale(0.96); box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .tile-left { display: flex; align-items: center; gap: 16px; width: 100%; overflow: hidden;}
-        
-        .icon-box { 
-            width: 52px; height: 52px; border-radius: 16px; display: flex; align-items: center; 
-            justify-content: center; font-size: 26px; box-shadow: 0 8px 16px rgba(0,0,0,0.08); flex-shrink: 0; 
-        }
-        .grad-purple { background: linear-gradient(135deg, #B1B0FC 0%, #E0C3FC 100%); }
-        .grad-blue { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
-        .grad-teal { background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%); }
-        .grad-orange { background: linear-gradient(135deg, #FF9A44 0%, #FC6076 100%); }
-        
-        .tile-info { display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
-        .tile-title { font-size: 16px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .tile-subtitle { font-size: 13px; color: var(--text-muted); font-weight: 500; }
-        .chevron svg { width: 22px; height: 22px; stroke: var(--text-muted); }
+        /* Breadcrumbs */
+        .crumbs { display: flex; gap: 6px; overflow-x: auto; padding: 14px 0 2px; scrollbar-width: none; }
+        .crumbs::-webkit-scrollbar { display: none; }
+        .crumb { flex: none; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .crumb[aria-current="page"] { background: var(--primary-soft); color: var(--primary); border-color: transparent; cursor: default; }
+        .crumb-sep { flex: none; color: var(--muted); align-self: center; opacity: 0.6; font-size: 13px; }
 
-        /* === Lesson Plan Viewer === */
-        .lesson-plan { background: transparent; padding: 0; }
-        
-        .plan-header { 
-            background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); 
-            padding: 24px; border-radius: var(--radius-xl); margin-bottom: 20px; 
-            color: white; box-shadow: 0 12px 24px rgba(0, 122, 255, 0.2); 
-        }
-        .plan-topic { font-size: 22px; font-weight: 800; margin-bottom: 6px; line-height: 1.3;}
-        .plan-meta { font-size: 14px; font-weight: 600; opacity: 0.9; }
-        
-        .section-box { 
-            background: var(--card-bg); border-radius: var(--radius-lg); padding: 20px; 
-            margin-bottom: 16px; box-shadow: var(--shadow-soft); 
-            border: 1px solid rgba(0,0,0,0.02); border-left: 4px solid var(--primary); 
-        }
-        .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
-        
-        .read-area { 
-            width: 100%; font-size: 15px; color: var(--text-main); 
-            line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; 
-        }
-        
-        .btn { 
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
-            padding: 14px 20px; border-radius: var(--radius-md); font-size: 15px; font-weight: 700; 
-            cursor: pointer; border: none; width: 100%; margin-bottom: 12px; transition: background 0.2s;
-        }
-        .btn-ghost { background: #F2F2F7; color: var(--text-main); }
-        .btn-ghost:active { background: #E5E5EA; }
-        .hidden { display: none !important; }
+        main { padding-top: 6px; }
+
+        /* Status / error */
+        .status { display: flex; flex-direction: column; align-items: center; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 40px 24px; margin-top: 20px; box-shadow: var(--shadow); }
+        .status h2 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+        .status p { color: var(--muted); font-size: 14.5px; }
+        .spinner { border: 4px solid var(--line); border-top-color: var(--primary); border-radius: 50%; width: 40px; height: 40px; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .overlay { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .overlay h3 { font-weight: 800; font-size: 16px; }
+
+        /* List filter */
+        .list-search { position: relative; margin: 14px 0 4px; }
+        .list-search input { width: 100%; height: 48px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); color: var(--text); padding: 0 16px 0 46px; font: inherit; font-size: 16px; -webkit-appearance: none; appearance: none; }
+        .list-search input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-soft); }
+        .list-search input::placeholder { color: var(--muted); }
+        .list-search svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; width: 20px; height: 20px; }
+
+        /* Tiles */
+        .view-title { font-size: 13px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin: 18px 2px 12px; }
+        .grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+        @media (min-width: 680px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+        .tile { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; font: inherit; color: inherit; padding: 14px; min-height: 80px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.2s cubic-bezier(.2,.8,.2,1), box-shadow 0.2s, border-color 0.2s; }
+        @media (hover: hover) { .tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: color-mix(in srgb, var(--ink) 35%, var(--line)); } }
+        .tile:active { transform: scale(0.985); }
+        .ico { flex: none; width: 50px; height: 50px; border-radius: 15px; display: grid; place-items: center; background: var(--tint); color: var(--ink); }
+        .tile-info { flex: 1; min-width: 0; }
+        .tile-title { font-size: 16px; font-weight: 700; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .tile-sub { font-size: 13px; color: var(--muted); margin-top: 1px; }
+        .tile .chev { color: var(--muted); width: 18px; height: 18px; opacity: 0.7; }
+        .t-indigo { --ink: #4F5BE8; --tint: rgba(79, 91, 232, 0.13); }
+        .t-blue { --ink: #1D86E8; --tint: rgba(29, 134, 232, 0.13); }
+        .t-teal { --ink: #0E9F87; --tint: rgba(14, 159, 135, 0.14); }
+        .t-orange { --ink: #E8742A; --tint: rgba(232, 116, 42, 0.14); }
+        .none { text-align: center; padding: 28px 16px; color: var(--muted); }
+
+        /* Lesson viewer */
+        .plan-header { margin-top: 16px; padding: 22px; border-radius: 26px; color: #fff; background: linear-gradient(135deg, #1B3A93 0%, #3558E0 55%, #6A58D6 100%); box-shadow: 0 16px 34px rgba(53, 88, 224, 0.26); }
+        :root[data-theme="dark"] .plan-header { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .plan-header { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); } }
+        .plan-topic { font-size: 21px; font-weight: 800; line-height: 1.3; letter-spacing: -0.2px; }
+        .plan-meta { font-size: 14px; font-weight: 600; opacity: 0.9; margin-top: 4px; }
+        .section-box { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--c, var(--primary)); border-radius: 18px; padding: 18px; margin-top: 12px; box-shadow: var(--shadow); }
+        .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.7px; font-weight: 800; color: var(--c, var(--primary)); margin-bottom: 8px; }
+        .read-area { font-size: 15.5px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+        .steps-title { font-size: 13px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin: 22px 2px 0; }
+        .step { display: flex; gap: 12px; }
+        .step .n { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 800; background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); }
+        .step .body { flex: 1; min-width: 0; }
+        .actions { display: grid; gap: 10px; margin-top: 18px; }
+        @media (min-width: 560px) { .actions { grid-template-columns: repeat(3, 1fr); } }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 18px; border-radius: 14px; font: inherit; font-size: 15px; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: transform 0.15s; }
+        .btn:active { transform: scale(0.97); }
+        .btn-primary { background: var(--primary); color: #fff; }
+        :root[data-theme="dark"] .btn-primary { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn-primary { color: #0E1220; } }
+        .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--line); }
+
+        .toast { position: fixed; left: 50%; bottom: calc(20px + var(--safe-b)); transform: translate(-50%, 160%); opacity: 0; pointer-events: none; z-index: 12000; background: #1D2338; color: #fff; padding: 12px 18px; border-radius: 14px; font-size: 14px; font-weight: 600; box-shadow: 0 14px 34px rgba(0,0,0,0.35); max-width: calc(100vw - 32px); transition: transform 0.3s cubic-bezier(.2,.8,.2,1), opacity 0.2s; }
+        .toast.show { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to content</a>
 
-    <header>
-        <button id="backBtn" class="icon-btn hidden" onclick="navigateBack()" aria-label="Back">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-        </button>
-        <div class="header-text">
-            <div id="headerSubtitle" class="greeting">Lesson Plan Database</div>
-            <h1 id="headerTitle" class="app-title">Select Class</h1>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+            <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+            <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+            <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+            <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+            <symbol id="i-class" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></symbol>
+            <symbol id="i-subject" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+            <symbol id="i-chapter" viewBox="0 0 24 24"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></symbol>
+            <symbol id="i-period" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></symbol>
+            <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+            <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+        </defs>
+    </svg>
+
+    <header class="site-header">
+        <div class="wrap header-row">
+            <button class="icon-btn" id="backBtn" type="button" aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button>
+            <div class="head-text">
+                <div class="eyebrow" id="headerSubtitle">Lesson Plan Database</div>
+                <h1 id="headerTitle">Select Class</h1>
+            </div>
+            <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="i"><use href="#i-moon"/></svg></button>
         </div>
     </header>
 
-    <div class="container">
-        <!-- Connection Status -->
-        <div id="status-section">
-            <div id="loading-spinner" class="spinner"></div>
-            <h2 id="status-title" style="margin-bottom: 8px; font-size: 18px; font-weight: 800;">Connecting to Database...</h2>
-            <p id="status-msg" style="color: var(--text-muted); font-size: 14px;">Loading curriculum data securely.</p>
+    <main id="main" class="wrap">
+        <nav class="crumbs" id="crumbs" aria-label="Breadcrumb" hidden></nav>
+
+        <div class="status" id="status-section" role="status">
+            <div class="spinner" id="loading-spinner"></div>
+            <h2 id="status-title">Connecting to database…</h2>
+            <p id="status-msg">Loading curriculum data securely.</p>
+            <button class="btn btn-primary" id="retryBtn" type="button" style="margin-top:16px" hidden>Try again</button>
         </div>
 
-        <!-- Dynamic Content Lists -->
+        <div id="list-tools"></div>
         <div id="app-content"></div>
-        
-        <!-- Inside Lesson Plan View -->
-        <div id="lesson-plan-viewer" class="lesson-plan hidden"></div>
-    </div>
-    
-    <!-- Global Loading Overlay -->
-    <div id="chunk-loader" class="hidden">
+        <div id="lesson-plan-viewer" hidden></div>
+    </main>
+
+    <div class="overlay" id="chunk-loader" role="status" hidden>
         <div class="spinner"></div>
-        <h3 id="loader-title" style="color: var(--text-main); font-weight: 800; margin-bottom: 4px;">Loading Data</h3>
+        <h3 id="loader-title">Loading data</h3>
     </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <script>
         const DB_BASE_URL = 'https://livequizapp-5e433-default-rtdb.firebaseio.com';
-        
-        let dbIndex = {};        
+
+        let dbIndex = {};
         let currentPath = [];
         let isViewingLesson = false;
+        let currentLessonKey = null;
+        let depth = 0;          // in-app history depth (phone back button support)
+        let popping = false;    // true while restoring a history entry
 
-        // SMART CACHE FOR PROGRESSIVE LOADING
-        let cache = {
-            subjects: {}, 
-            chapters: {}, 
-            data: {}      
-        };
+        // Smart cache for progressive loading
+        const cache = { subjects: {}, chapters: {}, data: {} };
 
-        const chevronRight = `<div class="chevron"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>`;
+        const $ = id => document.getElementById(id);
+        const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        const pretty = s => String(s).replace(/_/g, ' ');
+        const icon = id => `<svg class="i"><use href="#${id}"/></svg>`;
+
+        // ================= THEME =================
+        (function () {
+            const btn = $('themeBtn'), meta = $('themeColorMeta');
+            const dark = () => {
+                const t = document.documentElement.getAttribute('data-theme');
+                if (t) return t === 'dark';
+                return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            };
+            const sync = () => {
+                meta.setAttribute('content', dark() ? '#0E1220' : '#F3F5FA');
+                btn.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode');
+            };
+            btn.addEventListener('click', () => {
+                const n = dark() ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', n);
+                try { localStorage.setItem('ss_theme', n); } catch (e) {}
+                sync();
+            });
+            sync();
+        })();
+
+        let toastTimer;
+        function showToast(msg) {
+            const t = $('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
 
         // ================= DATA CLEANING LOGIC =================
 
-        function getRawText(text) { 
-            return (!text || text === 'nan') ? 'No data available.' : String(text); 
+        function getRawText(text) {
+            return (!text || text === 'nan') ? 'No data available.' : String(text);
         }
 
-        /**
-         * Cleans text by removing all content inside square brackets [ ].
-         */
+        // Removes all content inside square brackets [ ].
         function cleanBracketData(text) {
             if (!text || text === 'nan') return 'No data available.';
-            let cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
+            const cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
             return cleaned || 'No data available.';
         }
 
-        /**
-         * Cleans TLM of brackets, splits it, shuffles it randomly, and joins it back.
-         */
+        // Cleans TLM of brackets, splits it, shuffles it randomly, and joins it back.
         function randomizeTLM(text) {
             if (!text || text === 'nan') return 'No data available.';
-            
-            // Remove brackets and clean spaces
-            let cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
+            const cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
             if (!cleaned) return 'No data available.';
-            
-            // Detect separator (comma is standard, but fallback to newline)
-            let separator = cleaned.includes('\n') ? '\n' : ',';
-            
-            // Split and filter empty items
-            let items = cleaned.split(separator)
-                               .map(item => item.trim())
-                               .filter(item => item.length > 0);
-                               
-            // Fisher-Yates Shuffle Algorithm
+            const separator = cleaned.includes('\n') ? '\n' : ',';
+            const items = cleaned.split(separator).map(i => i.trim()).filter(i => i.length > 0);
             for (let i = items.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [items[i], items[j]] = [items[j], items[i]];
             }
-            
             return items.length > 0 ? items.join(', ') : 'No data available.';
         }
 
@@ -234,353 +279,363 @@
             const match = String(str).match(/\d+/);
             return match ? parseInt(match[0], 10) : null;
         }
-
         function smartSort(a, b) {
-            const numA = extractNumber(a);
-            const numB = extractNumber(b);
-            if (numA !== null && numB !== null && numA !== numB) {
-                return numA - numB;
-            }
+            const numA = extractNumber(a), numB = extractNumber(b);
+            if (numA !== null && numB !== null && numA !== numB) return numA - numB;
             return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: 'base' });
+        }
+
+        // ================= HISTORY (phone back button) =================
+
+        function commit() {
+            if (popping) return;
+            depth++;
+            history.pushState({ depth, path: currentPath.slice(), lesson: isViewingLesson ? currentLessonKey : null }, '');
+        }
+        function silent(fn) { popping = true; try { fn(); } finally { popping = false; } }
+
+        function restore(s) {
+            const p = (s && s.path) || [];
+            depth = (s && s.depth) || 0;
+            isViewingLesson = false;
+            silent(() => {
+                if (p.length === 0) return renderClasses();
+                if (p.length === 1 && cache.subjects[p[0]]) return renderSubjects(p[0]);
+                if (p.length === 2 && cache.chapters[p.join('/')]) return renderChapters(p[0], p[1]);
+                if (p.length === 3 && cache.data[p.join('/')]) {
+                    renderPeriods(p[0], p[1], p[2]);
+                    if (s.lesson !== null && s.lesson !== undefined) renderLessonPlan(p[0], p[1], p[2], s.lesson);
+                    return;
+                }
+                renderClasses();
+            });
+        }
+        window.addEventListener('popstate', e => restore(e.state));
+
+        function navigateBack() {
+            if (depth > 0) history.back();
+            else location.href = 'odisha-lesson-plan.html';
         }
 
         // ================= INITIALIZATION =================
 
-        document.addEventListener("DOMContentLoaded", () => {
+        function init() {
+            $('retryBtn').hidden = true;
+            $('loading-spinner').hidden = false;
+            $('status-title').textContent = 'Connecting to database…';
+            $('status-msg').textContent = 'Loading curriculum data securely.';
+            $('status-section').hidden = false;
+
             fetch(`${DB_BASE_URL}/.json?shallow=true`)
-                .then(res => {
-                    if (!res.ok) throw new Error("Network response was not ok");
-                    return res.json();
-                })
+                .then(res => { if (!res.ok) throw new Error('Network response was not ok'); return res.json(); })
                 .then(data => {
                     dbIndex = data || {};
-                    document.getElementById('status-section').classList.add('hidden');
-                    renderClasses();
+                    $('status-section').hidden = true;
+                    history.replaceState({ depth: 0, path: [], lesson: null }, '');
+                    silent(renderClasses);
                 })
                 .catch(err => {
-                    console.error("Firebase Connection Error:", err);
-                    document.getElementById('loading-spinner').classList.add('hidden');
-                    document.getElementById('status-title').innerText = "Connection Failed";
-                    document.getElementById('status-msg').innerHTML = "Could not reach the database. Please check your internet connection.";
+                    console.error('Firebase Connection Error:', err);
+                    $('loading-spinner').hidden = true;
+                    $('status-title').textContent = 'Connection failed';
+                    $('status-msg').textContent = 'Could not reach the database. Please check your internet connection.';
+                    $('retryBtn').hidden = false;
                 });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            $('backBtn').addEventListener('click', navigateBack);
+            $('retryBtn').addEventListener('click', init);
+            $('app-content').addEventListener('click', onTileClick);
+            $('crumbs').addEventListener('click', onCrumbClick);
+            init();
         });
 
         // ================= UI HELPERS =================
 
-        function showLoader(text) {
-            document.getElementById('loader-title').innerText = text;
-            document.getElementById('chunk-loader').classList.remove('hidden');
-        }
-
-        function hideLoader() {
-            document.getElementById('chunk-loader').classList.add('hidden');
-        }
+        function showLoader(text) { $('loader-title').textContent = text; $('chunk-loader').hidden = false; }
+        function hideLoader() { $('chunk-loader').hidden = true; }
 
         function updateHeader(title) {
-            document.getElementById('headerTitle').innerHTML = title;
-            document.getElementById('backBtn').classList.toggle('hidden', currentPath.length === 0 && !isViewingLesson);
-            
-            if (currentPath.length === 0 && !isViewingLesson) {
-                document.getElementById('headerSubtitle').innerText = "Lesson Plan Database";
-            } else if (isViewingLesson) {
-                document.getElementById('headerSubtitle').innerText = "Viewing Lesson";
-            } else {
-                document.getElementById('headerSubtitle').innerText = "Curriculum Navigation";
-            }
+            $('headerTitle').textContent = title;
+            $('headerSubtitle').textContent = isViewingLesson ? 'Viewing lesson' : (currentPath.length === 0 ? 'Lesson Plan Database' : 'Curriculum navigation');
+            renderCrumbs();
         }
 
-        function navigateBack() {
-            if (isViewingLesson) {
-                isViewingLesson = false;
-                renderPeriods(currentPath[0], currentPath[1], currentPath[2]);
-            } else if (currentPath.length === 3) {
-                renderChapters(currentPath[0], currentPath[1]);
-            } else if (currentPath.length === 2) {
-                renderSubjects(currentPath[0]);
-            } else if (currentPath.length === 1) {
-                renderClasses();
-            }
+        function renderCrumbs() {
+            const el = $('crumbs');
+            if (currentPath.length === 0) { el.hidden = true; el.innerHTML = ''; return; }
+            const items = [{ label: 'Classes', level: 0 }].concat(currentPath.map((p, i) => ({ label: i === 0 ? pretty(p) : p, level: i + 1 })));
+            if (isViewingLesson) items.push({ label: 'Lesson', level: null });
+            el.innerHTML = items.map((it, i) => {
+                const last = i === items.length - 1;
+                const sep = i > 0 ? '<span class="crumb-sep" aria-hidden="true">›</span>' : '';
+                return sep + `<button type="button" class="crumb" ${last ? 'aria-current="page"' : `data-level="${it.level}"`} title="${esc(it.label)}">${esc(it.label)}</button>`;
+            }).join('');
+            el.hidden = false;
+        }
+
+        function onCrumbClick(e) {
+            const b = e.target.closest('.crumb[data-level]');
+            if (!b) return;
+            const lvl = parseInt(b.dataset.level, 10);
+            isViewingLesson = false;
+            if (lvl === 0) renderClasses();
+            else if (lvl === 1) renderSubjects(currentPath[0]);
+            else if (lvl === 2) renderChapters(currentPath[0], currentPath[1]);
+            else if (lvl === 3) renderPeriods(currentPath[0], currentPath[1], currentPath[2]);
         }
 
         function clearView() {
-            document.getElementById('app-content').innerHTML = '';
-            document.getElementById('app-content').classList.remove('hidden');
-            document.getElementById('lesson-plan-viewer').classList.add('hidden');
-            window.scrollTo(0, 0); 
+            $('app-content').innerHTML = '';
+            $('app-content').hidden = false;
+            $('list-tools').innerHTML = '';
+            $('lesson-plan-viewer').hidden = true;
+            window.scrollTo(0, 0);
+        }
+
+        // Renders a list of tiles (one DOM write) with an optional filter box for long lists.
+        function renderTiles(title, rows) {
+            const box = $('app-content');
+            if (rows.length === 0) { box.innerHTML = `<div class="none">Nothing available here yet.</div>`; return; }
+            box.innerHTML = `<h2 class="view-title">${esc(title)}</h2><div class="grid">` + rows.map(r => `
+                <button type="button" class="tile ${r.tone}" data-action="${r.action}" data-args="${esc(JSON.stringify(r.args))}" data-text="${esc((r.title + ' ' + r.sub).toLowerCase())}">
+                    <span class="ico">${icon(r.icon)}</span>
+                    <span class="tile-info"><span class="tile-title">${esc(r.title)}</span><span class="tile-sub">${esc(r.sub)}</span></span>
+                    <svg class="i chev"><use href="#i-chev"/></svg>
+                </button>`).join('') + `</div>`;
+
+            if (rows.length > 6) {
+                $('list-tools').innerHTML = `
+                    <div class="list-search">
+                        <label for="listFilter" class="sr-only">Filter list</label>
+                        ${icon('i-search')}
+                        <input type="search" id="listFilter" placeholder="Filter…" autocomplete="off" spellcheck="false">
+                    </div>`;
+                $('listFilter').addEventListener('input', ev => {
+                    const q = ev.target.value.trim().toLowerCase();
+                    box.querySelectorAll('.tile').forEach(t => { t.hidden = q && t.dataset.text.indexOf(q) === -1; });
+                });
+            }
+        }
+
+        const ACTIONS = {
+            subjects: (c) => fetchSubjects(c),
+            chapters: (c, s) => fetchChapters(c, s),
+            periods: (c, s, ch) => fetchPeriods(c, s, ch),
+            lesson: (c, s, ch, k) => renderLessonPlan(c, s, ch, k)
+        };
+        function onTileClick(e) {
+            const t = e.target.closest('.tile');
+            if (!t) return;
+            let args = [];
+            try { args = JSON.parse(t.dataset.args); } catch (err) { return; }
+            const fn = ACTIONS[t.dataset.action];
+            if (fn) fn.apply(null, args);
         }
 
         // ================= RENDERING FLOW =================
 
         function renderClasses() {
-            currentPath = []; updateHeader('Select Class'); clearView();
-            const container = document.getElementById('app-content');
-            
-            const classKeys = Object.keys(dbIndex).sort(smartSort);
-            
-            if (classKeys.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No classes available.</div>`;
-                return;
-            }
-
-            classKeys.forEach(className => {
-                const cleanName = className.replace(/_/g, ' ');
-                // 100% safe onclick using encodeURIComponent
-                container.innerHTML += `
-                    <div class="tile" onclick="fetchSubjects('${encodeURIComponent(className)}')">
-                        <div class="tile-left">
-                            <div class="icon-box grad-purple">📚</div>
-                            <div class="tile-info">
-                                <div class="tile-title">${cleanName}</div>
-                                <div class="tile-subtitle">View Subjects</div>
-                            </div>
-                        </div>
-                        ${chevronRight}
-                    </div>`;
-            });
+            currentPath = []; isViewingLesson = false; updateHeader('Select Class'); clearView();
+            const rows = Object.keys(dbIndex).sort(smartSort).map(name => ({
+                tone: 't-indigo', icon: 'i-class', title: pretty(name), sub: 'View subjects', action: 'subjects', args: [name]
+            }));
+            if (rows.length === 0) { $('app-content').innerHTML = `<div class="none">No classes available.</div>`; }
+            else renderTiles('Classes', rows);
+            commit();
         }
 
-        async function fetchSubjects(encClassName) {
-            const className = decodeURIComponent(encClassName);
-            if (cache.subjects[className]) { 
-                renderSubjects(className); 
-                return; 
-            }
-            
-            showLoader("Loading Subjects...");
+        async function fetchSubjects(className) {
+            if (cache.subjects[className]) { renderSubjects(className); return; }
+            showLoader('Loading subjects…');
             try {
                 const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}.json?shallow=true`);
+                if (!res.ok) throw new Error('bad response');
                 const data = await res.json();
-                
-                let rawSubjects = data ? Object.keys(data).filter(k => k !== '_hidden') : [];
-                
-                const visibilityChecks = await Promise.all(rawSubjects.map(async subName => {
+                const raw = data ? Object.keys(data).filter(k => k !== '_hidden') : [];
+
+                const checks = await Promise.all(raw.map(async subName => {
                     try {
-                        const hRes = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/_hidden.json`);
-                        const isHidden = await hRes.json();
-                        return { subName, hidden: isHidden === true };
-                    } catch(e) { 
-                        return { subName, hidden: false }; 
-                    }
+                        const h = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/_hidden.json`);
+                        return { subName, hidden: (await h.json()) === true };
+                    } catch (e) { return { subName, hidden: false }; }
                 }));
-                
-                cache.subjects[className] = visibilityChecks.filter(c => !c.hidden).map(c => c.subName);
-                
+                cache.subjects[className] = checks.filter(c => !c.hidden).map(c => c.subName);
                 hideLoader();
                 renderSubjects(className);
-            } catch(e) { 
-                console.error(e);
-                hideLoader(); 
-                alert("Error loading subjects. Please try again."); 
+            } catch (e) {
+                console.error(e); hideLoader();
+                showToast('Could not load subjects. Please try again.');
             }
         }
 
         function renderSubjects(className) {
-            currentPath = [className]; updateHeader(className.replace(/_/g, ' ')); clearView();
-            const container = document.getElementById('app-content');
-            const subjects = cache.subjects[className] || [];
-            
-            if(subjects.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No subjects available.</div>`;
-                return;
-            }
-
-            subjects.sort(smartSort).forEach(subName => {
-                container.innerHTML += `
-                    <div class="tile" onclick="fetchChapters('${encodeURIComponent(className)}', '${encodeURIComponent(subName)}')">
-                        <div class="tile-left">
-                            <div class="icon-box grad-blue">📘</div>
-                            <div class="tile-info">
-                                <div class="tile-title">${subName}</div>
-                                <div class="tile-subtitle">View Chapters</div>
-                            </div>
-                        </div>
-                        ${chevronRight}
-                    </div>`;
-            });
+            currentPath = [className]; isViewingLesson = false; updateHeader(pretty(className)); clearView();
+            const rows = (cache.subjects[className] || []).slice().sort(smartSort).map(sub => ({
+                tone: 't-blue', icon: 'i-subject', title: sub, sub: 'View chapters', action: 'chapters', args: [className, sub]
+            }));
+            if (rows.length === 0) $('app-content').innerHTML = `<div class="none">No subjects available.</div>`;
+            else renderTiles('Subjects', rows);
+            commit();
         }
 
-        async function fetchChapters(encClassName, encSubName) {
-            const className = decodeURIComponent(encClassName);
-            const subName = decodeURIComponent(encSubName);
+        async function fetchChapters(className, subName) {
             const pathKey = `${className}/${subName}`;
-            
-            if (cache.chapters[pathKey]) { 
-                renderChapters(className, subName); 
-                return; 
-            }
-            
-            showLoader("Loading Chapters...");
+            if (cache.chapters[pathKey]) { renderChapters(className, subName); return; }
+            showLoader('Loading chapters…');
             try {
                 const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}.json?shallow=true`);
+                if (!res.ok) throw new Error('bad response');
                 const data = await res.json();
-                
-                let rawChapters = data ? Object.keys(data).filter(k => k !== '_hidden') : [];
-                
-                const visibilityChecks = await Promise.all(rawChapters.map(async chapName => {
+                const raw = data ? Object.keys(data).filter(k => k !== '_hidden') : [];
+
+                const checks = await Promise.all(raw.map(async chapName => {
                     try {
-                        const hRes = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/${encodeURIComponent(chapName)}/_hidden.json`);
-                        const isHidden = await hRes.json();
-                        return { chapName, hidden: isHidden === true };
-                    } catch(e) { 
-                        return { chapName, hidden: false }; 
-                    }
+                        const h = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/${encodeURIComponent(chapName)}/_hidden.json`);
+                        return { chapName, hidden: (await h.json()) === true };
+                    } catch (e) { return { chapName, hidden: false }; }
                 }));
-                
-                cache.chapters[pathKey] = visibilityChecks.filter(c => !c.hidden).map(c => c.chapName);
-                
+                cache.chapters[pathKey] = checks.filter(c => !c.hidden).map(c => c.chapName);
                 hideLoader();
                 renderChapters(className, subName);
-            } catch(e) { 
-                console.error(e);
-                hideLoader(); 
-                alert("Error loading chapters. Please try again."); 
+            } catch (e) {
+                console.error(e); hideLoader();
+                showToast('Could not load chapters. Please try again.');
             }
         }
 
         function renderChapters(className, subName) {
-            currentPath = [className, subName]; updateHeader(subName); clearView();
-            const container = document.getElementById('app-content');
-            const pathKey = `${className}/${subName}`;
-            const chapters = cache.chapters[pathKey] || [];
-            
-            if(chapters.length === 0) {
-                container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No chapters available.</div>`;
-                return;
-            }
-
-            chapters.sort(smartSort).forEach(chapName => {
-                container.innerHTML += `
-                    <div class="tile" onclick="fetchPeriods('${encodeURIComponent(className)}', '${encodeURIComponent(subName)}', '${encodeURIComponent(chapName)}')">
-                        <div class="tile-left">
-                            <div class="icon-box grad-teal">🔖</div>
-                            <div class="tile-info">
-                                <div class="tile-title">${chapName}</div>
-                                <div class="tile-subtitle">View Periods</div>
-                            </div>
-                        </div>
-                        ${chevronRight}
-                    </div>`;
-            });
+            currentPath = [className, subName]; isViewingLesson = false; updateHeader(subName); clearView();
+            const rows = (cache.chapters[`${className}/${subName}`] || []).slice().sort(smartSort).map(ch => ({
+                tone: 't-teal', icon: 'i-chapter', title: ch, sub: 'View periods', action: 'periods', args: [className, subName, ch]
+            }));
+            if (rows.length === 0) $('app-content').innerHTML = `<div class="none">No chapters available.</div>`;
+            else renderTiles('Chapters', rows);
+            commit();
         }
 
-        async function fetchPeriods(encClassName, encSubName, encChapName) {
-            const className = decodeURIComponent(encClassName);
-            const subName = decodeURIComponent(encSubName);
-            const chapName = decodeURIComponent(encChapName);
+        async function fetchPeriods(className, subName, chapName) {
             const pathKey = `${className}/${subName}/${chapName}`;
-            
-            if (cache.data[pathKey]) { 
-                renderPeriods(className, subName, chapName); 
-                return; 
-            }
-            
-            showLoader("Loading Lesson Plans...");
+            if (cache.data[pathKey]) { renderPeriods(className, subName, chapName); return; }
+            showLoader('Loading lesson plans…');
             try {
                 const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}/${encodeURIComponent(subName)}/${encodeURIComponent(chapName)}.json`);
+                if (!res.ok) throw new Error('bad response');
                 const data = await res.json();
                 cache.data[pathKey] = data || {};
                 hideLoader();
                 renderPeriods(className, subName, chapName);
-            } catch(e) { 
-                console.error(e);
-                hideLoader(); 
-                alert("Error loading lesson plans. Please try again."); 
+            } catch (e) {
+                console.error(e); hideLoader();
+                showToast('Could not load lesson plans. Please try again.');
             }
         }
 
         function renderPeriods(className, subName, chapName) {
-            currentPath = [className, subName, chapName]; updateHeader(chapName); clearView();
-            const container = document.getElementById('app-content');
-            const pathKey = `${className}/${subName}/${chapName}`;
-            const periodData = cache.data[pathKey];
-            
-            const isArray = Array.isArray(periodData);
-            let keysToRender = [];
-            
-            if (isArray) {
-                keysToRender = periodData.map((_, i) => i);
+            currentPath = [className, subName, chapName]; isViewingLesson = false; updateHeader(chapName); clearView();
+            const periodData = cache.data[`${className}/${subName}/${chapName}`] || {};
+
+            let keys;
+            if (Array.isArray(periodData)) {
+                keys = periodData.map((_, i) => i);
             } else {
-                keysToRender = Object.keys(periodData).filter(k => k !== '_hidden').sort((keyA, keyB) => {
-                    const planA = periodData[keyA] || {};
-                    const planB = periodData[keyB] || {};
-                    const nameA = planA.Period || keyA;
-                    const nameB = planB.Period || keyB;
-                    return smartSort(nameA, nameB);
+                keys = Object.keys(periodData).filter(k => k !== '_hidden').sort((a, b) => {
+                    const pa = periodData[a] || {}, pb = periodData[b] || {};
+                    return smartSort(pa.Period || a, pb.Period || b);
                 });
             }
-            
-            keysToRender.forEach(key => {
-                const plan = periodData[key];
-                if (!plan) return; 
-                
-                const periodName = plan.Period || key;
 
-                // Hidden topic description per request. Replaced with generic subtitle.
-                container.innerHTML += `
-                    <div class="tile" onclick="renderLessonPlan('${encodeURIComponent(className)}', '${encodeURIComponent(subName)}', '${encodeURIComponent(chapName)}', '${encodeURIComponent(String(key))}')">
-                        <div class="tile-left">
-                            <div class="icon-box grad-orange">📄</div>
-                            <div class="tile-info">
-                                <div class="tile-title">${periodName}</div>
-                                <div class="tile-subtitle">Open Lesson Plan</div>
-                            </div>
-                        </div>
-                        ${chevronRight}
-                    </div>`;
+            const rows = [];
+            keys.forEach(key => {
+                const plan = periodData[key];
+                if (!plan) return;
+                rows.push({
+                    tone: 't-orange', icon: 'i-period', title: String(plan.Period || key), sub: 'Open lesson plan',
+                    action: 'lesson', args: [className, subName, chapName, String(key)]
+                });
             });
+            if (rows.length === 0) $('app-content').innerHTML = `<div class="none">No lesson plans available.</div>`;
+            else renderTiles('Periods', rows);
+            commit();
         }
 
-        function renderLessonPlan(encClass, encSub, encChap, encPeriodKey) {
-            const className = decodeURIComponent(encClass);
-            const subName = decodeURIComponent(encSub);
-            const chapName = decodeURIComponent(encChap);
-            const periodKey = decodeURIComponent(encPeriodKey);
-            
-            const pathKey = `${className}/${subName}/${chapName}`;
-            const periodData = cache.data[pathKey];
-            
-            const isArray = Array.isArray(periodData);
-            const actualKey = isArray ? parseInt(periodKey, 10) : periodKey;
-            const plan = periodData[actualKey];
+        // Builds the lesson fields once (TLM is shuffled once per view, as before)
+        function buildLesson(plan, periodKey) {
             const p = plan.Panchapadi || {};
+            return {
+                period: getRawText(plan.Period || periodKey),
+                cg: getRawText(plan.CG),
+                competency: getRawText(plan.Competency),
+                lo: cleanBracketData(plan.LearningOutcomes),
+                steps: [
+                    ['Adhiti', getRawText(p.Aditi || p.Adhiti)],
+                    ['Bodha', getRawText(p.Bodha)],
+                    ['Abhyasa', getRawText(p.Abhyasa)],
+                    ['Prayoga', getRawText(p.Prayoga)],
+                    ['Prasara', getRawText(p.Prasara)]
+                ],
+                tlm: randomizeTLM(plan.TLM)
+            };
+        }
 
-            isViewingLesson = true; updateHeader("Lesson Details");
-            document.getElementById('app-content').classList.add('hidden');
-            const viewer = document.getElementById('lesson-plan-viewer');
-            viewer.classList.remove('hidden'); window.scrollTo(0, 0);
+        function renderLessonPlan(className, subName, chapName, periodKey) {
+            const periodData = cache.data[`${className}/${subName}/${chapName}`];
+            if (!periodData) return;
+            const actualKey = Array.isArray(periodData) ? parseInt(periodKey, 10) : periodKey;
+            const plan = periodData[actualKey];
+            if (!plan) return;
 
-            // Execute Cleaning & Randomizing
-            const cleanLO = cleanBracketData(plan.LearningOutcomes);
-            const randomTLM = randomizeTLM(plan.TLM); 
-            const bulkPanchapadi = `[Adhiti]\n${getRawText(p.Aditi || p.Adhiti)}\n\n[Bodha]\n${getRawText(p.Bodha)}\n\n[Abhyasa]\n${getRawText(p.Abhyasa)}\n\n[Prayoga]\n${getRawText(p.Prayoga)}\n\n[Prasara]\n${getRawText(p.Prasara)}`;
+            currentPath = [className, subName, chapName];
+            isViewingLesson = true; currentLessonKey = String(periodKey);
+            updateHeader('Lesson details');
+            $('app-content').hidden = true;
+            $('list-tools').innerHTML = '';
+            const viewer = $('lesson-plan-viewer');
+            viewer.hidden = false;
+            window.scrollTo(0, 0);
+
+            const L = buildLesson(plan, periodKey);
+            const colors = ['#4F5BE8', '#1D86E8', '#0E9F87', '#E8742A', '#E0457B'];
 
             viewer.innerHTML = `
                 <div class="plan-header">
-                    <div class="plan-topic">${getRawText(plan.Period || periodKey)}</div>
-                    <div class="plan-meta">${className.replace(/_/g, ' ')} • ${subName}</div>
+                    <div class="plan-topic">${esc(L.period)}</div>
+                    <div class="plan-meta">${esc(pretty(className))} • ${esc(subName)}</div>
                 </div>
+                <div class="section-box"><div class="section-title">Curricular Goal</div><div class="read-area">${esc(L.cg)}</div></div>
+                <div class="section-box"><div class="section-title">Competency</div><div class="read-area">${esc(L.competency)}</div></div>
+                <div class="section-box"><div class="section-title">Learning Outcomes</div><div class="read-area">${esc(L.lo)}</div></div>
 
-                <!-- Topic Description Hidden Entirely -->
-                <div class="section-box"><div class="section-title">Curricular Goal</div><div class="read-area">${getRawText(plan.CG)}</div></div>
-                <div class="section-box"><div class="section-title">Competency</div><div class="read-area">${getRawText(plan.Competency)}</div></div>
-                
-                <!-- Cleaned Learning Outcomes -->
-                <div class="section-box"><div class="section-title">Learning Outcomes</div><div class="read-area">${cleanLO}</div></div>
-                
-                <!-- Panchapadi Flow First -->
-                <div class="section-box" style="border-left-color: #764BA2;">
-                    <div class="section-title" style="color: #764BA2;">Panchapadi (5 Steps)</div>
-                    <div class="read-area" style="min-height: 360px;">${bulkPanchapadi}</div>
-                </div>
+                <h2 class="steps-title">Panchapadi · 5 steps</h2>
+                ${L.steps.map((s, i) => `
+                    <div class="section-box step" style="--c:${colors[i]}">
+                        <span class="n">${i + 1}</span>
+                        <div class="body"><div class="section-title">${esc(s[0])}</div><div class="read-area">${esc(s[1])}</div></div>
+                    </div>`).join('')}
 
-                <!-- TLM Last, Cleaned and Randomized -->
-                <div class="section-box" style="border-left-color: #34C759;">
-                    <div class="section-title" style="color: #34C759;">TLM Required</div>
-                    <div class="read-area">${randomTLM}</div>
-                </div>
+                <div class="section-box" style="--c:#16A34A"><div class="section-title">TLM required</div><div class="read-area">${esc(L.tlm)}</div></div>
 
-                <button class="btn btn-ghost" onclick="navigateBack()">Close Viewer</button>
-            `;
+                <div class="actions">
+                    <button class="btn btn-primary" type="button" id="copyBtn">${icon('i-copy')} Copy plan</button>
+                    <a class="btn btn-ghost" href="printtest.html">${icon('i-print')} Daily planner</a>
+                    <button class="btn btn-ghost" type="button" id="closeBtn">Close viewer</button>
+                </div>`;
+
+            $('closeBtn').addEventListener('click', navigateBack);
+            $('copyBtn').addEventListener('click', () => {
+                const text = [
+                    `${L.period} (${pretty(className)} • ${subName})`,
+                    `\nCurricular Goal:\n${L.cg}`,
+                    `\nCompetency:\n${L.competency}`,
+                    `\nLearning Outcomes:\n${L.lo}`,
+                    ...L.steps.map(s => `\n${s[0]}:\n${s[1]}`),
+                    `\nTLM Required:\n${L.tlm}`
+                ].join('\n');
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => showToast('Lesson plan copied'), () => showToast('Copy not allowed on this browser'));
+                } else showToast('Copy not supported on this browser');
+            });
+            commit();
         }
     </script>
 </body>
