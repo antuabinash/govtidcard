@@ -4,110 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Daily Lesson Planner — ଶିକ୍ଷକ ସାଥୀ</title>
+    <meta name="description" content="Build a printable daily or weekly Odia lesson plan for all your periods and share it as a PDF.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sikhyaksathi.in/printtest.html">
+
+    <meta name="theme-color" content="#F3F5FA" id="themeColorMeta">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Oriya:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Stable CDN version of html-to-image (UMD build) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Stable CDN versions (loaded after the page; only needed when sharing a PDF) -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('ss_theme');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
 
     <style>
         /* =========================================================
-           DESIGN TOKENS
+           DESIGN TOKENS (same as the home page)
         ========================================================= */
         :root {
-            --clr-bg:          #F0F4F8;
-            --clr-surface:     #FFFFFF;
-            --clr-surface-2:   #F7F9FC;
-            --clr-border:      #E2E8F0;
-            --clr-border-2:    #CBD5E1;
-            --clr-brand:       #1D4ED8;
-            --clr-brand-mid:   #2563EB;
-            --clr-brand-light: #DBEAFE;
-            --clr-brand-dark:  #1E3A8A;
-            --clr-accent:      #059669;
-            --clr-accent-light:#D1FAE5;
-            --clr-danger:      #DC2626;
-            --clr-danger-light:#FEE2E2;
-            --clr-text:        #0F172A;
-            --clr-text-mid:    #334155;
-            --clr-text-muted:  #64748B;
-            --clr-text-inv:    #FFFFFF;
-
-            --r-sm:  8px;
-            --r-md:  12px;
-            --r-lg:  18px;
-            --r-xl:  24px;
-            --r-pill:100px;
-
-            --sh-card: 0 1px 3px rgba(15,23,42,.06), 0 4px 12px rgba(15,23,42,.06);
-            --sh-raised: 0 4px 16px rgba(29,78,216,.18);
-            --sh-modal: 0 20px 60px rgba(15,23,42,.22);
-
-            --sat: env(safe-area-inset-top, 0px);
-            --sab: env(safe-area-inset-bottom, 0px);
+            --bg: #F3F5FA; --surface: #FFFFFF; --surface-2: #F7F8FC;
+            --text: #12172B; --muted: #586178; --line: #E4E8F1; --line-2: #CBD5E1;
+            --primary: #2F5BEA; --primary-soft: rgba(47, 91, 234, 0.1);
+            --green: #16A34A; --green-soft: rgba(22, 163, 74, 0.12);
+            --danger: #DC2626; --danger-soft: rgba(220, 38, 38, 0.12);
+            --glass: rgba(255, 255, 255, 0.92);
+            --shadow: 0 1px 2px rgba(18, 23, 43, 0.04), 0 8px 24px rgba(18, 23, 43, 0.05);
+            --shadow-modal: 0 24px 64px rgba(18, 23, 43, 0.28);
+            --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+            color-scheme: light;
+        }
+        :root[data-theme="dark"] {
+            --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+            --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45; --line-2: #3A4466;
+            --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+            --green: #4ADE80; --green-soft: rgba(74, 222, 128, 0.14);
+            --danger: #F87171; --danger-soft: rgba(248, 113, 113, 0.16);
+            --glass: rgba(23, 28, 46, 0.92);
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+            --shadow-modal: 0 24px 64px rgba(0, 0, 0, 0.55);
+            color-scheme: dark;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+                --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45; --line-2: #3A4466;
+                --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+                --green: #4ADE80; --green-soft: rgba(74, 222, 128, 0.14);
+                --danger: #F87171; --danger-soft: rgba(248, 113, 113, 0.16);
+                --glass: rgba(23, 28, 46, 0.92);
+                --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+                --shadow-modal: 0 24px 64px rgba(0, 0, 0, 0.55);
+                color-scheme: dark;
+            }
         }
 
         /* =========================================================
            RESET & BASE
         ========================================================= */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        [hidden] { display: none !important; }
+        html { -webkit-text-size-adjust: 100%; }
         body {
-            background: var(--clr-bg); color: var(--clr-text);
-            font-family: 'Inter', 'Noto Sans Oriya', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6; min-height: 100dvh;
-            padding-bottom: calc(72px + var(--sab) + 8px);
-            overflow-x: hidden; -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+            background: var(--bg); color: var(--text);
+            font-family: 'Noto Sans Oriya', 'Inter', 'Noto Sans', 'Nirmala UI', Kalinga, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.55; font-size: 16px; min-height: 100dvh;
+            padding-bottom: calc(84px + var(--safe-b));
+            overflow-x: hidden; -webkit-font-smoothing: antialiased;
         }
+        :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 8px; }
+        .skip-link { position: absolute; left: 12px; top: -60px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 10px; z-index: 20000; font-weight: 700; text-decoration: none; transition: top 0.2s; }
+        .skip-link:focus { top: calc(var(--safe-t) + 10px); }
+        svg.i { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
         /* =========================================================
            HEADER
         ========================================================= */
-        .app-header {
-            position: sticky; top: 0; z-index: 100;
-            background: linear-gradient(160deg, var(--clr-brand-dark) 0%, var(--clr-brand) 100%);
-            padding: calc(var(--sat) + 14px) 20px 14px; box-shadow: 0 2px 12px rgba(29,78,216,.3);
-        }
-        .app-header__inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 14px; }
-        .app-header__title { font-size: 1.15rem; font-weight: 700; color: var(--clr-text-inv); letter-spacing: -0.02em; }
-        .app-header__subtitle { font-size: 0.7rem; color: rgba(255,255,255,0.65); font-weight: 500; letter-spacing: 0.04em; }
-
-        .btn-icon {
-            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); color: white;
-            width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: background 0.15s; flex-shrink: 0;
-        }
-        .btn-icon:hover { background: rgba(255,255,255,0.22); }
-        .btn-icon:active { background: rgba(255,255,255,0.32); transform: scale(0.93); }
+        .site-header { position: sticky; top: 0; z-index: 100; padding-top: var(--safe-t); background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+        .header-row { max-width: 960px; margin: 0 auto; padding: 0 18px; display: flex; align-items: center; gap: 12px; height: 64px; }
+        .icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; text-decoration: none; flex: none; transition: transform 0.15s; }
+        .icon-btn:active { transform: scale(0.92); }
+        .head-text { flex: 1; min-width: 0; }
+        .head-text .eyebrow { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.2; }
+        .head-text h1 { font-size: 18px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         /* =========================================================
            LAYOUT & CARDS
         ========================================================= */
-        .container { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
-        .card { background: var(--clr-surface); border-radius: var(--r-lg); border: 1px solid var(--clr-border); box-shadow: var(--sh-card); padding: 22px; margin-bottom: 16px; }
-        .card__title { font-size: 1rem; font-weight: 700; color: var(--clr-brand); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+        .container { max-width: 960px; margin: 0 auto; padding: 18px 18px; }
+        .card { background: var(--surface); border-radius: 22px; border: 1px solid var(--line); box-shadow: var(--shadow); padding: 22px; margin-bottom: 16px; }
+        .card__title { font-size: 1rem; font-weight: 800; color: var(--primary); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
 
         /* =========================================================
            FORM ELEMENTS
         ========================================================= */
-        .field { display: flex; flex-direction: column; gap: 5px; }
-        .field > label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--clr-text-muted); }
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        .field > label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
         .field-input {
-            width: 100%; padding: 10px 12px; border-radius: var(--r-md); border: 1.5px solid var(--clr-border);
-            font-size: 0.95rem; font-weight: 500; font-family: inherit; background: var(--clr-surface-2);
-            color: var(--clr-text); outline: none; transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+            width: 100%; min-height: 48px; padding: 10px 14px; border-radius: 14px; border: 1.5px solid var(--line);
+            font-size: 16px; font-weight: 500; font-family: inherit; background: var(--surface-2);
+            color: var(--text); outline: none; transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
             appearance: none; -webkit-appearance: none;
         }
+        .field-input::placeholder { color: var(--muted); opacity: 0.8; }
         select.field-input {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; text-overflow: ellipsis;
         }
-        .field-input:focus { background: var(--clr-surface); border-color: var(--clr-brand); box-shadow: 0 0 0 3px rgba(29,78,216,0.12); }
-        .field-input:disabled { opacity: 0.55; cursor: not-allowed; }
+        .field-input:focus { background: var(--surface); border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-soft); }
+        .field-input:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .form-grid--1 { grid-template-columns: 1fr; }
@@ -116,93 +133,76 @@
            BUTTONS
         ========================================================= */
         .btn {
-            display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 11px 18px;
-            border-radius: var(--r-md); font-family: inherit; font-size: 0.9rem; font-weight: 700;
-            cursor: pointer; border: none; transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
-            white-space: nowrap; letter-spacing: -0.01em;
+            display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 46px; padding: 0 18px;
+            border-radius: 14px; font-family: inherit; font-size: 0.92rem; font-weight: 700;
+            cursor: pointer; border: none; transition: transform 0.12s, opacity 0.12s;
+            white-space: nowrap;
         }
-        .btn:active { transform: scale(0.95); }
-        .btn--primary { background: var(--clr-brand); color: white; box-shadow: var(--sh-raised); }
-        .btn--primary:hover { background: var(--clr-brand-mid); }
-        .btn--success { background: var(--clr-accent); color: white; box-shadow: 0 4px 14px rgba(5,150,105,.25); }
-        .btn--success:hover { background: #047857; }
-        .btn--ghost { background: var(--clr-border); color: var(--clr-text-mid); }
-        .btn--ghost:hover { background: var(--clr-border-2); }
+        .btn:active { transform: scale(0.96); }
+        .btn--primary { background: var(--primary); color: #fff; }
+        .btn--success { background: var(--green); color: #fff; }
+        :root[data-theme="dark"] .btn--primary, :root[data-theme="dark"] .btn--success { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn--primary, :root:not([data-theme="light"]) .btn--success { color: #0E1220; } }
+        .btn--ghost { background: var(--surface-2); color: var(--text); border: 1px solid var(--line); }
         .btn--full { width: 100%; }
         .btn--dashed {
-            width: 100%; background: transparent; border: 2px dashed var(--clr-border-2); color: var(--clr-text-muted);
-            border-radius: var(--r-md); padding: 12px; font-family: inherit; font-size: 0.88rem; font-weight: 600;
-            cursor: pointer; transition: background 0.15s, border-color 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px;
+            width: 100%; min-height: 46px; background: transparent; border: 2px dashed var(--line-2); color: var(--muted);
+            border-radius: 14px; font-family: inherit; font-size: 0.9rem; font-weight: 700;
+            cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px;
         }
-        .btn--dashed:hover { background: var(--clr-surface-2); border-color: var(--clr-brand-mid); color: var(--clr-brand); }
+        .btn--dashed:hover { background: var(--surface-2); border-color: var(--primary); color: var(--primary); }
         .btn--dashed:active { transform: scale(0.98); }
 
         /* =========================================================
            WORKSPACE HEADER
         ========================================================= */
-        .workspace-bar {
-            background: var(--clr-surface); border: 1px solid var(--clr-border); border-radius: var(--r-xl);
-            box-shadow: var(--sh-card); padding: 18px 20px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 14px;
-        }
+        .workspace-bar { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); padding: 18px 20px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 14px; }
         .workspace-bar__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-        .workspace-bar__name { font-size: 1.05rem; font-weight: 800; color: var(--clr-brand); letter-spacing: -0.02em; }
-        .workspace-bar__teacher { font-size: 0.85rem; color: var(--clr-text-muted); font-weight: 500; margin-top: 2px; }
-        .workspace-bar__divider { border: none; border-top: 1px dashed var(--clr-border); margin: 0; }
+        .workspace-bar__name { font-size: 1.05rem; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; }
+        .workspace-bar__teacher { font-size: 0.88rem; color: var(--muted); font-weight: 500; margin-top: 2px; }
+        .workspace-bar__divider { border: none; border-top: 1px dashed var(--line); margin: 0; }
 
         /* =========================================================
            PERIOD TABS
         ========================================================= */
         .tabs-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 14px; }
         .tab {
-            padding: 8px 16px; background: var(--clr-surface); border: 1.5px solid var(--clr-border);
-            border-radius: var(--r-pill); font-family: inherit; font-size: 0.85rem; font-weight: 700;
-            color: var(--clr-text-muted); cursor: pointer; white-space: nowrap; transition: background 0.15s, color 0.15s, border-color 0.15s;
+            min-height: 40px; padding: 0 16px; background: var(--surface); border: 1.5px solid var(--line);
+            border-radius: 999px; font-family: inherit; font-size: 0.88rem; font-weight: 700;
+            color: var(--muted); cursor: pointer; white-space: nowrap; transition: background 0.15s, color 0.15s, border-color 0.15s;
         }
-        .tab.is-active { background: var(--clr-brand); color: white; border-color: var(--clr-brand); box-shadow: 0 3px 10px rgba(29,78,216,.25); }
+        .tab.is-active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        :root[data-theme="dark"] .tab.is-active { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tab.is-active { color: #0E1220; } }
 
         .period-pane { display: none; }
         .period-pane.is-active { display: block; animation: paneFadeIn 0.25s ease; }
         @keyframes paneFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .period-pane__title { font-size: 0.95rem; font-weight: 800; color: var(--clr-text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .period-badge {
-            display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px;
-            background: var(--clr-brand-light); color: var(--clr-brand); border-radius: 50%; font-size: 0.72rem; font-weight: 800;
-        }
+
+        .period-pane__title { font-size: 0.98rem; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .period-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--primary-soft); color: var(--primary); border-radius: 50%; font-size: 0.78rem; font-weight: 800; }
 
         /* =========================================================
            ASSIGNMENT CARDS
         ========================================================= */
-        .assignment-card {
-            background: var(--clr-surface); border: 1.5px solid var(--clr-border); border-radius: var(--r-md);
-            padding: 16px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(15,23,42,.04); transition: border-color 0.15s, box-shadow 0.15s;
-        }
-        .assignment-card:focus-within { border-color: var(--clr-brand); box-shadow: 0 0 0 3px rgba(29,78,216,.08); }
-        .assignment-card__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--clr-border); }
-        .assignment-card__badge {
-            background: var(--clr-brand-light); color: var(--clr-brand); font-size: 0.7rem; font-weight: 800;
-            padding: 4px 10px; border-radius: var(--r-pill); letter-spacing: 0.04em; text-transform: uppercase;
-        }
-        .assignment-card__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .assignment-card { background: var(--surface); border: 1.5px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 12px; transition: border-color 0.15s, box-shadow 0.15s; }
+        .assignment-card:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-soft); }
+        .assignment-card__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+        .assignment-card__badge { background: var(--primary-soft); color: var(--primary); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px; letter-spacing: 0.04em; text-transform: uppercase; }
+        .assignment-card__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        .btn-remove {
-            background: var(--clr-danger-light); color: var(--clr-danger); border: none; width: 30px; height: 30px;
-            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: background 0.15s, transform 0.12s; flex-shrink: 0;
-        }
-        .btn-remove:hover  { background: #fca5a5; }
+        .btn-remove { background: var(--danger-soft); color: var(--danger); border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; transition: transform 0.12s; flex-shrink: 0; }
         .btn-remove:active { transform: scale(0.88); }
 
         /* =========================================================
-           FIXED ACTION BAR
+           FIXED ACTION BAR (tools for the current step, not navigation)
         ========================================================= */
         .action-bar {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-top: 1px solid rgba(0,0,0,0.07);
-            padding: 10px 16px calc(10px + var(--sab)); z-index: 200; display: flex; align-items: center; gap: 8px;
-            box-shadow: 0 -4px 20px rgba(15,23,42,.06);
+            position: fixed; bottom: 0; left: 0; width: 100%; background: var(--glass);
+            backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-top: 1px solid var(--line);
+            padding: 10px 16px calc(10px + var(--safe-b)); z-index: 200; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .action-bar__main { flex: 1; height: 44px; }
+        .action-bar .btn { flex: 1; max-width: 300px; }
 
         /* =========================================================
            MODALS & OVERLAYS
@@ -211,53 +211,34 @@
             position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
             padding: 16px; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.25s, visibility 0.25s;
         }
-        .modal-backdrop { background: rgba(15,23,42,0.5); backdrop-filter: blur(5px); }
-        .chunk-overlay { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); z-index: 99999; flex-direction: column; text-align: center;}
+        .modal-backdrop { background: rgba(8, 12, 24, 0.55); backdrop-filter: blur(5px); }
+        .chunk-overlay { background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 99999; flex-direction: column; text-align: center; }
         .modal-backdrop.is-open, .chunk-overlay.is-active { opacity: 1; pointer-events: all; visibility: visible; }
 
-        .modal {
-            background: var(--clr-surface); border-radius: var(--r-xl); width: 100%; max-width: 420px;
-            padding: 22px; box-shadow: var(--sh-modal); transform: translateY(24px); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
-            max-height: 90vh; overflow-y: auto;
-        }
+        .modal { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; width: 100%; max-width: 440px; padding: 22px; box-shadow: var(--shadow-modal); transform: translateY(24px); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); max-height: 90vh; overflow-y: auto; }
         .modal-backdrop.is-open .modal { transform: translateY(0); }
         .modal__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .modal__title { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
-        .modal__close {
-            background: var(--clr-surface-2); border: 1px solid var(--clr-border); width: 32px; height: 32px;
-            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            color: var(--clr-text-muted); transition: background 0.15s;
-        }
-        .modal__close:hover { background: var(--clr-border); }
+        .modal__title { font-size: 1.08rem; font-weight: 800; letter-spacing: -0.02em; }
+        .modal__close { background: var(--surface-2); border: 1px solid var(--line); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; color: var(--muted); }
 
-        .pdf-overlay__spinner {
-            width: 44px; height: 44px; border: 4px solid var(--clr-border); border-top-color: var(--clr-brand);
-            border-radius: 50%; animation: spin 0.75s linear infinite; margin-bottom: 20px;
-        }
+        .pdf-overlay__spinner { width: 44px; height: 44px; border: 4px solid var(--line); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.75s linear infinite; margin-bottom: 20px; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .pdf-overlay__title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--clr-text); }
-        .pdf-overlay__sub { font-size: 0.85rem; color: var(--clr-text-muted); }
+        .pdf-overlay__title { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+        .pdf-overlay__sub { font-size: 0.88rem; color: var(--muted); }
 
         /* =========================================================
-           PREVIEW AREA & PDF STYLES
+           PREVIEW AREA & PDF STYLES  (always white paper, in any theme)
         ========================================================= */
-        .preview-wrapper {
-            background: white; border-radius: var(--r-lg); border: 1px solid var(--clr-border);
-            box-shadow: var(--sh-card); overflow-x: auto; margin-bottom: 16px;
-        }
-        
-        #pdf-preview-content { 
+        .preview-wrapper { background: #fff; color-scheme: light; border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow); overflow-x: auto; margin-bottom: 16px; }
+
+        #pdf-preview-content {
             width: 1123px; /* A4 Landscape width to guarantee flawless HD scaling */
-            background: white; color: black; font-family: 'Inter', 'Noto Sans Oriya', sans-serif; 
+            background: #fff; color: #000; font-family: 'Inter', 'Noto Sans Oriya', sans-serif;
             padding: 24px; box-sizing: border-box;
         }
-
         [contenteditable="true"]:focus { outline: 2px dashed rgba(29, 78, 216, 0.4); outline-offset: 4px; border-radius: 4px; }
 
-        .daily-plan-block {
-            background: white; padding: 0 0 40px 0; margin-bottom: 40px; 
-            border-bottom: 2px dashed var(--clr-border);
-        }
+        .daily-plan-block { background: #fff; padding: 0 0 40px 0; margin-bottom: 40px; border-bottom: 2px dashed #CBD5E1; }
         .daily-plan-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
         .pdf-header { text-align: center; margin-bottom: 14px; border-bottom: 2px solid #0F172A; padding-bottom: 8px; }
@@ -267,56 +248,59 @@
 
         .pdf-table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; color: #0F172A; }
         .pdf-table thead { display: table-header-group; }
-        
         /* Auto-split periods correctly to eliminate massive bottom blank spaces */
         .pdf-table tbody tr { page-break-inside: auto; break-inside: auto; }
         .pdf-table td, .pdf-table th { page-break-inside: auto; break-inside: auto; border: 1px solid #334155; padding: 5px 6px; vertical-align: top; line-height: 1.35; word-wrap: break-word; overflow-wrap: break-word; }
-        
         .pdf-table th { background: #EFF6FF !important; font-weight: 700; font-size: 8.5px; text-align: center; color: #1E3A8A; vertical-align: middle; }
         .pdf-table td.col-period { text-align: center; font-weight: 800; font-size: 13px; color: #1D4ED8; vertical-align: middle; background: #F0F9FF; }
         .pdf-table tbody tr:nth-child(even) td:not(.col-period) { background: #FAFCFF; }
-
         .pdf-text { font-size: 9px; line-height: 1.4; }
         .pdf-text b { font-size: 9px; font-weight: 700; }
 
-        .hidden { display: none !important; }
+        .preview-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 10px; flex-wrap: wrap; }
+        .preview-head h2 { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; }
+        .preview-head small { font-size: 0.82rem; color: var(--primary); font-weight: 600; margin-left: 6px; }
+
         #toast {
-            position: fixed; bottom: calc(80px + var(--sab)); left: 50%; transform: translateX(-50%) translateY(20px);
-            background: #0F172A; color: white; font-size: 0.85rem; font-weight: 600; padding: 10px 18px;
-            border-radius: var(--r-pill); white-space: nowrap; z-index: 99000; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none;
+            position: fixed; bottom: calc(92px + var(--safe-b)); left: 50%; transform: translateX(-50%) translateY(20px);
+            background: #1D2338; color: #fff; font-size: 0.88rem; font-weight: 600; padding: 12px 18px;
+            border-radius: 14px; max-width: calc(100vw - 32px); z-index: 99000; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; text-align: center;
         }
         #toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         @media print {
-            .no-print, #main-container, .action-bar, .modal-backdrop, .chunk-overlay { display: none !important; }
+            .no-print, #main-container, .action-bar, .modal-backdrop, .chunk-overlay, .site-header, #toast { display: none !important; }
             .preview-wrapper { padding: 0; box-shadow: none; border: none; overflow: visible !important; width: 100% !important; }
             #pdf-preview-content { min-width: 100% !important; width: 100% !important; padding: 0 !important; }
-            
             /* Physical Paper: Force a clean page break before a new day starts */
             .daily-plan-block { page-break-after: always; break-after: page; border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-            
-            body { background: white; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            html, body { background: #fff !important; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             @page { size: A4 landscape; margin: 6mm; }
         }
         @media (max-width: 640px) {
-            .form-grid--3 { grid-template-columns: 1fr 1fr; }
             .assignment-card__grid { grid-template-columns: 1fr; }
-            .card { padding: 16px; }
+            .card { padding: 18px; }
+            .action-bar .btn { padding: 0 10px; font-size: 0.85rem; }
         }
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
     </style>
 </head>
 <body>
+    <a href="#main-container" class="skip-link no-print">Skip to content</a>
 
     <!-- HEADER -->
-    <header class="app-header no-print" role="banner">
-        <div class="app-header__inner">
-            <button class="btn-icon" aria-label="Go back" onclick="window.history.back()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            </button>
-            <div>
-                <div class="app-header__title">Daily Lesson Planner</div>
-                <div class="app-header__subtitle">ଶିକ୍ଷକ ସାଥୀ — Teacher Companion</div>
+    <header class="site-header no-print" role="banner">
+        <div class="header-row">
+            <a href="odisha-lesson-plan.html" class="icon-btn" aria-label="Back to lesson plans">
+                <svg class="i" width="20" height="20" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </a>
+            <div class="head-text">
+                <div class="eyebrow">ଶିକ୍ଷକ ସାଥୀ — Teacher Companion</div>
+                <h1>Daily Lesson Planner</h1>
             </div>
+            <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark mode">
+                <svg class="i" width="20" height="20" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+            </button>
         </div>
     </header>
 
@@ -324,7 +308,7 @@
     <main class="container no-print" id="main-container" role="main">
         <div class="card" id="setup-card">
             <div class="card__title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                <svg class="i" width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                 Setup Profile
             </div>
             <div class="form-grid form-grid--1" style="gap:14px; margin-bottom:16px;">
@@ -339,7 +323,7 @@
                     </div>
                     <div class="field">
                         <label for="numPeriods">Periods per Day</label>
-                        <input type="number" id="numPeriods" class="field-input" min="1" max="12" value="7">
+                        <input type="number" id="numPeriods" class="field-input" min="1" max="12" value="7" inputmode="numeric">
                     </div>
                 </div>
             </div>
@@ -349,38 +333,36 @@
         </div>
 
         <!-- WORKSPACE (BUILDER) -->
-        <div id="builder-area" class="hidden">
+        <div id="builder-area" class="hidden" hidden>
             <div class="workspace-bar">
                 <div class="workspace-bar__top">
-                    <div>
+                    <div style="min-width:0">
                         <div class="workspace-bar__name" id="display-school">School Name</div>
                         <div class="workspace-bar__teacher" id="display-teacher">Teacher Name</div>
                     </div>
-                    <button class="btn btn--ghost" style="font-size:0.8rem;padding:8px 12px;" onclick="openProfileModal()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit
+                    <button class="btn btn--ghost" style="min-height:40px;font-size:0.82rem;padding:0 14px;" onclick="openProfileModal()">
+                        <svg class="i" width="14" height="14" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit
                     </button>
                 </div>
                 <hr class="workspace-bar__divider">
                 <div class="field">
                     <label for="planDate">Start Date</label>
-                    <input type="date" id="planDate" class="field-input" onchange="savePlanToStorage()" style="max-width:220px;">
+                    <input type="date" id="planDate" class="field-input" onchange="savePlanToStorage()" style="max-width:240px;">
                 </div>
             </div>
 
-            <div class="tabs-wrap" id="periodTabs" role="tablist"></div>
+            <div class="tabs-wrap" id="periodTabs" role="tablist" aria-label="Periods"></div>
 
-            <div class="card" style="background: var(--clr-surface-2);">
+            <div class="card" style="background: var(--surface-2);">
                 <div id="periods-container"></div>
             </div>
         </div>
     </main>
 
     <!-- PREVIEW AREA -->
-    <div class="container hidden" id="preview-area">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;" class="no-print">
-            <h2 style="font-size:1.1rem;font-weight:800;letter-spacing:-0.02em;">
-                <span>📄</span> Print Preview <span style="font-size: 0.8rem; color: var(--clr-brand); margin-left: 8px; font-weight: 600;">(Tap text to edit)</span>
-            </h2>
+    <div class="container hidden" id="preview-area" hidden>
+        <div class="preview-head no-print">
+            <h2>📄 Print Preview <small>(Tap text to edit)</small></h2>
         </div>
         <div class="preview-wrapper">
             <div id="pdf-preview-content" role="document"></div>
@@ -388,75 +370,75 @@
     </div>
 
     <!-- ACTION BARS -->
-    <div class="action-bar no-print hidden" id="builder-footer" role="toolbar">
-        <button class="btn btn--success" style="flex:1;" onclick="openWeeklyModal()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <div class="action-bar no-print hidden" id="builder-footer" role="toolbar" aria-label="Plan actions" hidden>
+        <button class="btn btn--success" onclick="openWeeklyModal()">
+            <svg class="i" width="15" height="15" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             Auto-Weekly Plan
         </button>
-        <button class="btn btn--primary" style="flex:1;" onclick="generatePlanPreview()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <button class="btn btn--primary" onclick="generatePlanPreview()">
+            <svg class="i" width="15" height="15" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             Single Day Plan
         </button>
     </div>
 
-    <div class="action-bar no-print hidden" id="preview-footer" role="toolbar">
-        <button class="btn btn--ghost" style="flex:1;" onclick="backToEdit()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5"/><line x1="19" y1="12" x2="6" y2="12"/></svg> Edit
+    <div class="action-bar no-print hidden" id="preview-footer" role="toolbar" aria-label="Preview actions" hidden>
+        <button class="btn btn--ghost" onclick="backToEdit()">
+            <svg class="i" width="14" height="14" viewBox="0 0 24 24"><path d="M11 17l-5-5 5-5"/><line x1="19" y1="12" x2="6" y2="12"/></svg> Edit
         </button>
-        <button class="btn btn--success" style="flex:1;" onclick="window.print()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print
+        <button class="btn btn--success" onclick="window.print()">
+            <svg class="i" width="14" height="14" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print
         </button>
-        <button class="btn btn--primary" style="flex:1;" onclick="sharePlanViaApp()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> Share PDF
+        <button class="btn btn--primary" onclick="sharePlanViaApp()">
+            <svg class="i" width="14" height="14" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> Share PDF
         </button>
     </div>
 
     <!-- PROFILE MODAL -->
-    <div id="profile-modal" class="modal-backdrop no-print" role="dialog">
+    <div id="profile-modal" class="modal-backdrop no-print" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
         <div class="modal">
             <div class="modal__header">
-                <span class="modal__title">Profile Settings</span>
-                <button class="modal__close" onclick="closeProfileModal()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <span class="modal__title" id="profileTitle">Profile Settings</span>
+                <button class="modal__close" onclick="closeProfileModal()" aria-label="Close">
+                    <svg class="i" width="16" height="16" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
             <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
-                <div class="field"><label>School Name</label><input type="text" id="modalSchoolName" class="field-input"></div>
-                <div class="field"><label>Teacher Name</label><input type="text" id="modalTeacherName" class="field-input"></div>
-                <div class="field"><label>Periods per Day</label><input type="number" id="modalNumPeriods" class="field-input" min="1" max="12"></div>
+                <div class="field"><label for="modalSchoolName">School Name</label><input type="text" id="modalSchoolName" class="field-input"></div>
+                <div class="field"><label for="modalTeacherName">Teacher Name</label><input type="text" id="modalTeacherName" class="field-input"></div>
+                <div class="field"><label for="modalNumPeriods">Periods per Day</label><input type="number" id="modalNumPeriods" class="field-input" min="1" max="12" inputmode="numeric"></div>
             </div>
             <button class="btn btn--primary btn--full" onclick="saveUpdatedProfile()">Save Settings</button>
         </div>
     </div>
 
     <!-- WEEKLY PLAN SETUP MODAL -->
-    <div id="weekly-modal" class="modal-backdrop no-print" role="dialog">
+    <div id="weekly-modal" class="modal-backdrop no-print" role="dialog" aria-modal="true" aria-labelledby="weeklyTitle">
         <div class="modal">
             <div class="modal__header">
-                <span class="modal__title">Generate Auto-Weekly Plan</span>
-                <button class="modal__close" onclick="closeWeeklyModal()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <span class="modal__title" id="weeklyTitle">Generate Auto-Weekly Plan</span>
+                <button class="modal__close" onclick="closeWeeklyModal()" aria-label="Close">
+                    <svg class="i" width="16" height="16" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
             <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
                 <div class="field">
-                    <label>Start Date</label>
+                    <label for="weeklyStartDate">Start Date</label>
                     <input type="date" id="weeklyStartDate" class="field-input">
                 </div>
                 <div class="field">
-                    <label>Days to Generate</label>
-                    <input type="number" id="weeklyNumDays" class="field-input" min="1" max="30" value="7">
+                    <label for="weeklyNumDays">Days to Generate</label>
+                    <input type="number" id="weeklyNumDays" class="field-input" min="1" max="30" value="7" inputmode="numeric">
                 </div>
-                <div class="field" style="flex-direction: row; align-items: center; gap: 8px;">
-                    <input type="checkbox" id="excludeSundays" checked style="width:18px;height:18px;accent-color:var(--clr-brand);">
-                    <label for="excludeSundays" style="font-size: 0.9rem; text-transform:none; color:var(--clr-text); font-weight:600;">Exclude Sundays Automatically</label>
+                <div class="field" style="flex-direction: row; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="excludeSundays" checked style="width:20px;height:20px;accent-color:var(--primary);">
+                    <label for="excludeSundays" style="font-size: 0.95rem; text-transform:none; letter-spacing:0; color:var(--text); font-weight:600;">Exclude Sundays automatically</label>
                 </div>
                 <div class="field">
                     <label>Exclude Specific Dates (Holidays)</label>
                     <div id="holiday-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom: 8px;">
                         <!-- dynamic holiday inputs go here -->
                     </div>
-                    <button class="btn btn--dashed" style="padding: 8px;" onclick="addHolidayField()">+ Add Holiday Date</button>
+                    <button class="btn--dashed" onclick="addHolidayField()">+ Add Holiday Date</button>
                 </div>
             </div>
             <button class="btn btn--success btn--full" onclick="generateWeeklyPlan()">🚀 Generate Weekly Plan</button>
@@ -464,13 +446,13 @@
     </div>
 
     <!-- DB CHUNK LOADING OVERLAY -->
-    <div id="chunk-overlay" class="chunk-overlay no-print">
+    <div id="chunk-overlay" class="chunk-overlay no-print" role="status">
         <div class="pdf-overlay__spinner"></div>
-        <div class="pdf-overlay__title">Loading Syllabus...</div>
+        <div class="pdf-overlay__title">Loading Syllabus…</div>
         <div class="pdf-overlay__sub">Fetching class data instantly from the cloud</div>
     </div>
 
-    <div id="pdf-overlay" class="chunk-overlay no-print">
+    <div id="pdf-overlay" class="chunk-overlay no-print" role="status">
         <div class="pdf-overlay__spinner"></div>
         <div class="pdf-overlay__title">Generating PDF…</div>
         <div class="pdf-overlay__sub">Please keep the app open and visible</div>
@@ -480,18 +462,45 @@
 
     <script>
         const DB_BASE_URL = 'https://livequizapp-5e433-default-rtdb.firebaseio.com';
-        
-        let db = {};       
-        let indexDb = {};  
+
+        let db = {};
+        let indexDb = {};
         let classList = [];
         let currentPeriodIndex = 1;
         let totalPeriods = 7;
 
+        // The original markup used a "hidden" class; support it together with the hidden attribute.
+        const show = id => { const e = document.getElementById(id); e.classList.remove('hidden'); e.hidden = false; };
+        const hide = id => { const e = document.getElementById(id); e.classList.add('hidden'); e.hidden = true; };
+
+        /* ---------- Theme ---------- */
+        (function () {
+            const btn = document.getElementById('themeBtn'), meta = document.getElementById('themeColorMeta');
+            const dark = () => {
+                const t = document.documentElement.getAttribute('data-theme');
+                if (t) return t === 'dark';
+                return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            };
+            const sync = () => {
+                meta.setAttribute('content', dark() ? '#0E1220' : '#F3F5FA');
+                btn.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode');
+            };
+            btn.addEventListener('click', () => {
+                const n = dark() ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', n);
+                try { localStorage.setItem('ss_theme', n); } catch (e) {}
+                sync();
+            });
+            sync();
+        })();
+
+        let toastTimer;
         function showToast(msg, duration = 3200) {
             const el = document.getElementById('toast');
             el.textContent = msg;
             el.classList.add('is-visible');
-            setTimeout(() => el.classList.remove('is-visible'), duration);
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove('is-visible'), duration);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -500,28 +509,32 @@
                 .then(data => {
                     indexDb = data || {};
                     classList = Object.keys(indexDb).sort(smartSort);
-                    
+
                     document.getElementById('planDate').valueAsDate = new Date();
                     if (loadPlanFromStorage()) {
                         document.getElementById('setup-card').classList.add('hidden');
+                        document.getElementById('setup-card').hidden = true;
                     }
                 })
                 .catch(err => {
                     console.error('Index Load Error:', err);
-                    showToast('Failed to connect to Firebase database.');
+                    showToast('Failed to connect to the database. Check your internet and reload.');
                 });
 
-            document.getElementById('profile-modal').addEventListener('click', function(e) {
+            document.getElementById('profile-modal').addEventListener('click', function (e) {
                 if (e.target === this) closeProfileModal();
             });
-            document.getElementById('weekly-modal').addEventListener('click', function(e) {
+            document.getElementById('weekly-modal').addEventListener('click', function (e) {
                 if (e.target === this) closeWeeklyModal();
+            });
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') { closeProfileModal(); closeWeeklyModal(); }
             });
         });
 
         // ================= PROGRESSIVE FIREBASE LOADING =================
         async function loadClassChunk(className) {
-            if (db[className]) return; 
+            if (db[className]) return;
             const loader = document.getElementById('chunk-overlay');
             loader.classList.add('is-active');
 
@@ -529,7 +542,7 @@
                 // Fetches data directly from Firebase based on the exact Class name
                 const res = await fetch(`${DB_BASE_URL}/${encodeURIComponent(className)}.json`);
                 if (!res.ok) throw new Error("Cloud data missing");
-                
+
                 const data = await res.json();
                 db[className] = data || {};
             } catch (err) {
@@ -565,8 +578,9 @@
 
             totalPeriods = nPeriods;
             document.getElementById('setup-card').classList.add('hidden');
-            document.getElementById('builder-area').classList.remove('hidden');
-            document.getElementById('builder-footer').classList.remove('hidden');
+            document.getElementById('setup-card').hidden = true;
+            show('builder-area');
+            show('builder-footer');
 
             updateUIHeader();
             buildTabsAndForms();
@@ -610,8 +624,8 @@
                 document.getElementById('numPeriods').value = totalPeriods;
 
                 updateUIHeader();
-                document.getElementById('builder-area').classList.remove('hidden');
-                document.getElementById('builder-footer').classList.remove('hidden');
+                show('builder-area');
+                show('builder-footer');
                 buildTabsAndForms(data.periods);
                 return true;
             } catch (e) { return false; }
@@ -632,6 +646,7 @@
                 const tab = document.createElement('button');
                 tab.className = `tab${i === 1 ? ' is-active' : ''}`;
                 tab.id = `tab-${i}`;
+                tab.setAttribute('role', 'tab');
                 tab.textContent = `Period ${i}`;
                 tab.onclick = () => switchPeriod(i);
                 tabsEl.appendChild(tab);
@@ -646,7 +661,7 @@
                     </div>
                     <div id="rows-container-${i}"></div>
                     <button class="btn--dashed" style="margin-top:4px;" onclick="addLessonRow(${i}); savePlanToStorage();">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        <svg class="i" width="14" height="14" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         Add class to Period ${i}
                     </button>
                 `;
@@ -673,13 +688,13 @@
             card.id = rowId;
 
             const classOptions = `<option value="">Select class…</option>` +
-                classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
+                classList.map(c => `<option value="${esc(c)}">${esc(c.replace(/_/g, ' '))}</option>`).join('');
 
             card.innerHTML = `
                 <div class="assignment-card__header">
                     <span class="assignment-card__badge">Assignment ${displayIndex}</span>
-                    <button class="btn-remove" onclick="removeLessonRow(this); savePlanToStorage();">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <button class="btn-remove" aria-label="Remove assignment" onclick="removeLessonRow(this); savePlanToStorage();">
+                        <svg class="i" width="14" height="14" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                     </button>
                 </div>
                 <div class="assignment-card__grid">
@@ -732,17 +747,17 @@
 
         async function hydrateAllDropdowns() {
             const classOptions = `<option value="">Select class…</option>` +
-                classList.map(c => `<option value="${c}">${c.replace(/_/g, ' ')}</option>`).join('');
+                classList.map(c => `<option value="${esc(c)}">${esc(c.replace(/_/g, ' '))}</option>`).join('');
 
             for (const card of document.querySelectorAll('.assignment-card')) {
                 const clsSel = card.querySelector('.sel-class');
-                if (!clsSel) continue; 
+                if (!clsSel) continue;
                 if (clsSel.options.length <= 1) clsSel.innerHTML = classOptions;
 
                 if (card.dataset.presetCls) {
                     clsSel.value = card.dataset.presetCls;
                     await loadClassChunk(card.dataset.presetCls);
-                    
+
                     updateSubjectsSync(card.id);
                     const subjSel = card.querySelector('.sel-subj');
                     if (card.dataset.presetSubj) {
@@ -766,13 +781,13 @@
             const cls = card.querySelector('.sel-class').value;
             resetSelect(card.querySelector('.sel-chap'));
             resetSelect(card.querySelector('.sel-less'));
-            
-            if (!cls) { 
-                resetSelect(card.querySelector('.sel-subj')); 
-                savePlanToStorage(); 
-                return; 
+
+            if (!cls) {
+                resetSelect(card.querySelector('.sel-subj'));
+                savePlanToStorage();
+                return;
             }
-            
+
             await loadClassChunk(cls);
             updateSubjectsSync(rowId);
             savePlanToStorage();
@@ -804,10 +819,10 @@
             if (!chap) return resetSelect(lessSel);
 
             const lessonsData = ((db[cls] || {})[subj] || {})[chap] || {};
-            
+
             const isArray = Array.isArray(lessonsData);
             let lessons = [];
-            
+
             if (isArray) {
                 lessons = lessonsData.map((_, i) => String(i));
             } else {
@@ -821,13 +836,14 @@
             lessSel.innerHTML = '<option value="">Select period…</option>';
             lessons.forEach(key => {
                 const planObj = Array.isArray(lessonsData) ? lessonsData[parseInt(key)] : lessonsData[key];
+                if (!planObj) return;
                 const pKey = Array.isArray(lessonsData) ? (planObj.Period || key) : key;
-                
+
                 let displayName = pKey;
                 if (planObj.Topic && planObj.Topic !== 'nan') displayName += ` — ${planObj.Topic}`;
 
                 const opt  = document.createElement('option');
-                opt.value  = key; 
+                opt.value  = key;
                 opt.textContent = displayName;
                 lessSel.appendChild(opt);
             });
@@ -866,7 +882,7 @@
             if (!isNaN(newPeriods) && newPeriods >= 1 && newPeriods !== totalPeriods) {
                 totalPeriods = newPeriods;
                 document.getElementById('numPeriods').value = totalPeriods;
-                const saved = (() => { try { return JSON.parse(localStorage.getItem('lessonPlannerSave')); } catch(e) { return {}; }})() || {};
+                const saved = (() => { try { return JSON.parse(localStorage.getItem('lessonPlannerSave')); } catch (e) { return {}; } })() || {};
                 buildTabsAndForms(saved.periods);
             }
             updateUIHeader(); savePlanToStorage(); closeProfileModal();
@@ -883,11 +899,11 @@
         function addHolidayField() {
             const hl = document.getElementById('holiday-list');
             const wrap = document.createElement('div');
-            wrap.style.display = 'flex'; wrap.style.gap = '8px';
+            wrap.style.display = 'flex'; wrap.style.gap = '8px'; wrap.style.alignItems = 'center';
             wrap.innerHTML = `
-                <input type="date" class="field-input holiday-input">
-                <button class="btn-remove" onclick="this.parentElement.remove()" style="margin-top:2px;">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <input type="date" class="field-input holiday-input" aria-label="Holiday date">
+                <button class="btn-remove" aria-label="Remove date" onclick="this.parentElement.remove()">
+                    <svg class="i" width="14" height="14" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             `;
             hl.appendChild(wrap);
@@ -895,7 +911,7 @@
 
         // --- FORMATTERS ---
         function esc(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-        
+
         // Competency logic - KEEPS bracketed texts, handles line breaks, strips emojis
         function formatCompetency(text) {
             if (!text || text === 'nan') return '';
@@ -947,17 +963,15 @@
                     const classData = (db[rData.cls] || {});
                     const subjData  = (classData[rData.subj] || {});
                     const chapData  = (subjData[rData.chap] || {});
-                    
+
                     const isArray = Array.isArray(chapData);
                     const actualKey = isArray ? parseInt(rData.lessKey) : rData.lessKey;
                     const plan      = chapData[actualKey] || {};
                     const p         = plan.Panchapadi || {};
 
-                    // Note: Topic generation logic has been removed to hide it below period desc.
-
                     html += `<tr>`;
                     if (idx === 0) html += `<td class="col-period" rowspan="${rowspan}">${esc(String(pNum))}</td>`;
-                    
+
                     html += `
                         <td><b>${esc(rData.cls.replace(/_/g, ' '))}</b><br>${esc(rData.subj)}</td>
                         <td>
@@ -1021,6 +1035,14 @@
             return { periodsMap, totalAssignments };
         }
 
+        function showPreview() {
+            hide('main-container');
+            hide('builder-footer');
+            show('preview-area');
+            show('preview-footer');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // --- SINGLE PLAN ---
         function generatePlanPreview() {
             const { periodsMap, totalAssignments } = collectPeriodsMap();
@@ -1028,29 +1050,24 @@
 
             const schoolName  = document.getElementById('schoolName').value  || '_______________________';
             const teacherName = document.getElementById('teacherName').value || '_______________________';
-            
+
             const raw = document.getElementById('planDate').value;
             let formattedDate = '____/____/20___';
             if (raw) { const [y, m, d] = raw.split('-'); formattedDate = `${d}/${m}/${y}`; }
 
             document.getElementById('pdf-preview-content').innerHTML = buildDailyPlanHTML(periodsMap, formattedDate, schoolName, teacherName);
-
-            document.getElementById('main-container').classList.add('hidden');
-            document.getElementById('builder-footer').classList.add('hidden');
-            document.getElementById('preview-area').classList.remove('hidden');
-            document.getElementById('preview-footer').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showPreview();
         }
 
         // --- AUTO-WEEKLY PLAN INTELLIGENCE ENGINE ---
         function getValidDates(startDateStr, numDays, excludeSundays, excludeDatesArray) {
             let validDates = [];
             const [y, m, d] = startDateStr.split('-');
-            let currentDate = new Date(y, m - 1, d); 
+            let currentDate = new Date(y, m - 1, d);
 
             while (validDates.length < numDays) {
                 let isSunday = currentDate.getDay() === 0;
-                
+
                 let cy = currentDate.getFullYear();
                 let cm = String(currentDate.getMonth() + 1).padStart(2, '0');
                 let cd = String(currentDate.getDate()).padStart(2, '0');
@@ -1061,7 +1078,7 @@
                 if (!((isSunday && excludeSundays) || isExcluded)) {
                     validDates.push(`${cd}/${cm}/${cy}`);
                 }
-                currentDate.setDate(currentDate.getDate() + 1); 
+                currentDate.setDate(currentDate.getDate() + 1);
             }
             return validDates;
         }
@@ -1077,10 +1094,10 @@
             chapters.forEach(chap => {
                 const lessonsData = subjectData[chap];
                 if (!lessonsData) return;
-                
+
                 const isArray = Array.isArray(lessonsData);
                 let lessKeys = [];
-                
+
                 if (isArray) {
                     lessKeys = lessonsData.map((_, i) => String(i));
                 } else {
@@ -1109,25 +1126,25 @@
 
             const schoolName  = document.getElementById('schoolName').value  || '_______________________';
             const teacherName = document.getElementById('teacherName').value || '_______________________';
-            
+
             const startDateRaw = document.getElementById('weeklyStartDate').value;
             if (!startDateRaw) return showToast('Please select a start date.');
 
             const numDays = parseInt(document.getElementById('weeklyNumDays').value) || 7;
             const excludeSundays = document.getElementById('excludeSundays').checked;
-            
+
             const excludeDatesArray = [];
             document.querySelectorAll('.holiday-input').forEach(input => {
                 if (input.value) excludeDatesArray.push(input.value);
             });
 
             const validDates = getValidDates(startDateRaw, numDays, excludeSundays, excludeDatesArray);
-            let currentPeriodsMap = JSON.parse(JSON.stringify(periodsMap)); 
+            let currentPeriodsMap = JSON.parse(JSON.stringify(periodsMap));
             let megaHtml = '';
 
             validDates.forEach(dateStr => {
                 megaHtml += buildDailyPlanHTML(currentPeriodsMap, dateStr, schoolName, teacherName);
-                
+
                 for (let pNum in currentPeriodsMap) {
                     currentPeriodsMap[pNum].forEach(assignment => {
                         const next = getNextLesson(assignment.cls, assignment.subj, assignment.chap, assignment.lessKey);
@@ -1138,31 +1155,29 @@
             });
 
             document.getElementById('pdf-preview-content').innerHTML = megaHtml;
-
-            document.getElementById('main-container').classList.add('hidden');
-            document.getElementById('builder-footer').classList.add('hidden');
             document.getElementById('weekly-modal').classList.remove('is-open');
-            
-            document.getElementById('preview-area').classList.remove('hidden');
-            document.getElementById('preview-footer').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showPreview();
         }
 
         function backToEdit() {
-            document.getElementById('preview-area').classList.add('hidden');
-            document.getElementById('preview-footer').classList.add('hidden');
-            document.getElementById('main-container').classList.remove('hidden');
-            document.getElementById('builder-footer').classList.remove('hidden');
+            hide('preview-area');
+            hide('preview-footer');
+            show('main-container');
+            show('builder-footer');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function sharePlanViaApp() {
             const overlay   = document.getElementById('pdf-overlay');
             const elementToCapture = document.getElementById('pdf-preview-content');
+
+            if (!window.htmlToImage || !window.jspdf) {
+                return showToast('PDF tools are still loading or offline. Use Print instead.');
+            }
             overlay.classList.add('is-active');
 
             try {
-                await new Promise(r => setTimeout(r, 100)); 
+                await new Promise(r => setTimeout(r, 100));
                 const teacherName = document.getElementById('teacherName').value || 'Teacher';
 
                 const dataUrl = await htmlToImage.toPng(elementToCapture, {
@@ -1174,7 +1189,7 @@
                 tempImg.src = dataUrl;
                 await new Promise(resolve => tempImg.onload = resolve);
 
-                const mmWidth = 297; 
+                const mmWidth = 297;
                 const mmHeight = (tempImg.height * mmWidth) / tempImg.width;
 
                 const { jsPDF } = window.jspdf;
@@ -1183,7 +1198,7 @@
 
                 const pdfBlob = pdf.output('blob');
                 const safeName = teacherName.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, '');
-                
+
                 const raw = document.getElementById('planDate').value;
                 const safeDate = raw ? raw.replace(/\//g, '-') : 'Weekly_Plan';
                 const fileName = `${safeName}_LessonPlan_${safeDate}.pdf`;
