@@ -1,510 +1,892 @@
 <!DOCTYPE html>
-<html lang="or">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Study Zone</title>
+
+    <title>Study Zone: Odisha Chapter Summary, Key Points &amp; Q&amp;A Notes | Sikhyak Sathi</title>
+    <meta name="description" content="Free chapter notes for Odisha students: Odia summaries (ସାରାଂଶ), key points (ମୁଖ୍ୟ ବିନ୍ଦୁ) and questions with answers (ପ୍ରଶ୍ନୋତ୍ତର), class by class and subject by subject. Read on your phone or print.">
+    <meta name="author" content="Sikhyak Sathi">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://sikhyaksathi.in/odisha-study-notes.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sikhyaksathi.in/odisha-study-notes.html">
+    <meta property="og:title" content="Study Zone: Odisha Chapter Notes | Sikhyak Sathi">
+    <meta property="og:description" content="Chapter summaries, key points and Q&amp;A in Odia for Odisha school classes. Free to read and print.">
+    <meta property="og:image" content="https://sikhyaksathi.in/icon.png">
+    <meta property="og:site_name" content="Sikhyak Sathi">
+    <meta property="og:locale" content="en_IN">
+    <meta name="twitter:card" content="summary">
+
+    <meta name="theme-color" content="#F3F5FA" id="themeColorMeta">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
+
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('ss_theme');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Study Zone: Odisha Chapter Notes",
+      "url": "https://sikhyaksathi.in/odisha-study-notes.html",
+      "inLanguage": ["or", "en"],
+      "description": "Chapter summaries, key points and question-answer notes in Odia for Odisha school students.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Sikhyak Sathi",
+        "url": "https://sikhyaksathi.in/",
+        "logo": { "@type": "ImageObject", "url": "https://sikhyaksathi.in/icon.png" }
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sikhyaksathi.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Study Zone", "item": "https://sikhyaksathi.in/odisha-study-notes.html" }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is in the Study Zone?", "acceptedAnswer": { "@type": "Answer", "text": "For each chapter you get three kinds of notes in Odia: a chapter summary (ସାରାଂଶ), key points (ମୁଖ୍ୟ ବିନ୍ଦୁ) and questions with answers (ପ୍ରଶ୍ନୋତ୍ତର)." } },
+        { "@type": "Question", "name": "Can I print the notes?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Open any chapter, choose the notes you want and tap Print. The notes print on clean ruled paper, and you can also save them as a PDF from your print dialog." } },
+        { "@type": "Question", "name": "Can I change the text size?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Use the A+ and A- buttons above the notes. Your choice is remembered on your device." } }
+      ]
+    }
+    </script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Oriya:wght@400;600;700&display=swap');
-
         :root {
-            --app-bg: #F4F6F9;
-            --card-bg: #FFFFFF;
-            --text-main: #1D1D1F;
-            --text-muted: #86868B;
-            --primary: #007AFF;
-            --radius-xl: 24px;
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
-            
-            /* Notebook Variables */
-            --paper-color: #ffffff;
-            --line-color: #e2e8f0;
-            --heading-color: #1a202c;
-            --line-height: 40px;
+            --bg: #F3F5FA; --surface: #FFFFFF; --surface-2: #F7F8FC;
+            --text: #12172B; --muted: #586178; --line: #E4E8F1;
+            --primary: #2F5BEA; --primary-soft: rgba(47, 91, 234, 0.1);
+            --green: #16A34A;
+            --shadow: 0 1px 2px rgba(18, 23, 43, 0.04), 0 8px 24px rgba(18, 23, 43, 0.05);
+            --shadow-hover: 0 2px 4px rgba(18, 23, 43, 0.05), 0 16px 34px rgba(18, 23, 43, 0.1);
+            --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+            --paper: #FFFFFF; --ink: #1E293B; --rule: #E2E8F0; --qink: #D90429; --paper-head: #FBFCFE;
+            color-scheme: light;
+        }
+        :root[data-theme="dark"] {
+            --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+            --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+            --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+            --green: #4ADE80;
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+            --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.35), 0 16px 34px rgba(0, 0, 0, 0.45);
+            --paper: #1A2038; --ink: #E4E8F6; --rule: rgba(255, 255, 255, 0.07); --qink: #FF8FA3; --paper-head: #1E2542;
+            color-scheme: dark;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+                --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+                --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+                --green: #4ADE80;
+                --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+                --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.35), 0 16px 34px rgba(0, 0, 0, 0.45);
+                --paper: #1A2038; --ink: #E4E8F6; --rule: rgba(255, 255, 255, 0.07); --qink: #FF8FA3; --paper-head: #1E2542;
+                color-scheme: dark;
+            }
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans Oriya', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--app-bg); color: var(--text-main); line-height: 1.5; padding-bottom: 80px; }
-        
-        /* Header & Navigation */
-        .app-header { 
-            padding: 20px 24px; 
-            background: rgba(244, 246, 249, 0.85); 
-            backdrop-filter: blur(12px); 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-            display: flex; 
-            align-items: center; 
-            border-bottom: 1px solid rgba(0,0,0,0.03); 
-            gap: 15px;
-        }
-        .back-btn {
-            background: #e2e8f0;
-            border: none;
-            color: var(--text-main);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: none; 
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: background 0.2s;
-        }
-        .back-btn:hover { background: #cbd5e1; }
-        .app-title { font-size: 22px; font-weight: 800; color: var(--text-main); flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        /* Main Grid */
-        .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
-        .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
-        
-        /* Cards */
-        .app-card { 
-            background: var(--card-bg); 
-            border-radius: var(--radius-xl); 
-            padding: 24px 16px; 
-            box-shadow: var(--shadow-soft); 
-            cursor: pointer; 
-            transition: transform 0.2s, box-shadow 0.2s; 
-            text-align: center;
-        }
-        .app-card:active { transform: scale(0.96); }
-        .icon-box { 
-            width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; 
-            font-size: 30px; margin: 0 auto 16px auto; 
-        }
-        .app-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: var(--text-main); }
-        .app-card p { font-size: 13px; color: var(--text-muted); }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        [hidden] { display: none !important; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body { font-family: "Noto Sans Oriya", "Noto Sans", "Nirmala UI", Kalinga, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; font-size: 16px; overflow-x: hidden; }
+        a { color: inherit; }
+        button { font: inherit; color: inherit; }
+        :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 8px; }
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 0 18px; }
+        .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+        .skip-link { position: absolute; left: 12px; top: -60px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 10px; z-index: 20000; font-weight: 700; text-decoration: none; transition: top 0.2s; }
+        .skip-link:focus { top: calc(var(--safe-t) + 10px); }
+        svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
-        /* Specific Icon Colors */
-        .bg-class { background: linear-gradient(135deg, #A18CD1 0%, #FBC2EB 100%); }
-        .bg-subject { background: linear-gradient(135deg, #84FAB0 0%, #8FD3F4 100%); }
-        .bg-chapter { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%); }
-        .bg-saransa { background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%); }
-        .bg-mukhya { background: linear-gradient(135deg, #FF9A44 0%, #FC6076 100%); }
-        .bg-prasna { background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); }
+        /* ---------- Header ---------- */
+        .site-header { position: sticky; top: 0; z-index: 100; padding-top: var(--safe-t); background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+        .header-row { display: flex; align-items: center; gap: 12px; height: 64px; }
+        .icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--text); display: grid; place-items: center; cursor: pointer; text-decoration: none; flex: none; transition: transform 0.15s; }
+        .icon-btn:active { transform: scale(0.92); }
+        .head-text { flex: 1; min-width: 0; }
+        .head-text .eyebrow { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .head-text .title { font-size: 18px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        #loader { text-align: center; padding: 40px; color: var(--text-muted); font-size: 16px; }
+        /* ---------- Hero ---------- */
+        .hero { margin-top: 18px; position: relative; overflow: hidden; border-radius: 28px; padding: 24px 22px 22px; color: #fff; background: linear-gradient(135deg, #1B3A93 0%, #3558E0 52%, #6A58D6 100%); box-shadow: 0 18px 40px rgba(53, 88, 224, 0.28); }
+        :root[data-theme="dark"] .hero { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.35); } }
+        .hero::before { content: ""; position: absolute; width: 280px; height: 280px; right: -90px; top: -100px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 70%); pointer-events: none; }
+        .hero > * { position: relative; }
+        .hero .tag { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 0.6px; background: rgba(255,255,255,0.18); padding: 4px 10px; border-radius: 999px; }
+        .hero h1 { font-size: 25px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.25; margin-top: 12px; }
+        .hero p { margin-top: 8px; font-size: 14.5px; opacity: 0.92; max-width: 560px; }
+        .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+        .stat { background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.22); border-radius: 14px; padding: 8px 14px; font-size: 12.5px; font-weight: 600; line-height: 1.25; }
+        .stat b { display: block; font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
 
-        /* =========================================
-           NOTEBOOK VIEW STYLES
-           ========================================= */
-        .notebook-wrapper {
-            display: none; 
-            justify-content: center;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        .notebook-wrapper.active { display: flex; }
+        /* ---------- Search ---------- */
+        .search { position: relative; margin-top: 18px; }
+        .search input { width: 100%; height: 54px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); color: var(--text); padding: 0 48px 0 50px; font: inherit; font-size: 16px; box-shadow: var(--shadow); -webkit-appearance: none; appearance: none; transition: border-color 0.2s, box-shadow 0.2s; }
+        .search input::placeholder { color: var(--muted); }
+        .search input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-soft); }
+        .search .s-icon { position: absolute; left: 17px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+        .search .s-clear { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border: none; border-radius: 50%; background: var(--surface-2); color: var(--muted); display: grid; place-items: center; cursor: pointer; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* ---------- Page head + breadcrumb ---------- */
+        .crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 4px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+        .crumbs button { border: none; background: none; cursor: pointer; color: var(--primary); font-weight: 700; padding: 6px 4px; border-radius: 8px; }
+        .crumbs .cur { font-weight: 700; color: var(--text); padding: 6px 4px; }
+        .crumbs svg.i { width: 14px; height: 14px; }
+        .pagehead { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+        .pagehead .tile { width: 56px; height: 56px; border-radius: 18px; font-size: 24px; }
+        .pagehead h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.25; }
+        .pagehead p { font-size: 14px; color: var(--muted); }
+        .section-label { margin-top: 22px; font-size: 13px; font-weight: 800; letter-spacing: 0.4px; text-transform: uppercase; color: var(--muted); }
+        .result-note { margin-top: 14px; font-size: 14px; color: var(--muted); }
+        .result-note b { color: var(--text); }
 
-        .print-btn {
-            position: fixed;
-            top: 80px;
-            right: 40px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-            display: none; 
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-        .print-btn:hover { background-color: #45a049; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4); }
+        /* ---------- Tiles, grid cards, rows ---------- */
+        .tile { position: relative; flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; color: #fff; font-size: 20px; font-weight: 800; line-height: 1; background: linear-gradient(150deg, var(--a), var(--b)); box-shadow: 0 6px 14px color-mix(in srgb, var(--b) 30%, transparent); }
+        .tile svg.i { width: 24px; height: 24px; }
+        .grid { margin-top: 14px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (min-width: 640px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 900px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+        .gcard { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; padding: 16px; min-height: 132px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s; }
+        .gcard:active { transform: scale(0.97); }
+        @media (hover: hover) { .gcard:hover { box-shadow: var(--shadow-hover); border-color: color-mix(in srgb, var(--a) 40%, var(--line)); transform: translateY(-2px); } }
+        .gcard h3 { font-size: 16px; font-weight: 800; line-height: 1.3; letter-spacing: -0.1px; overflow-wrap: anywhere; }
+        .gcard p { font-size: 13px; color: var(--muted); margin-top: 2px; }
 
-        .notebook-page {
-            background-color: var(--paper-color);
-            width: 100%;
-            max-width: 850px;
-            min-height: 1100px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0,0,0,0.05);
-            position: relative;
-            overflow: hidden;
-            background-image: repeating-linear-gradient(
-                var(--paper-color) 0px,
-                var(--paper-color) calc(var(--line-height) - 1px),
-                var(--line-color) calc(var(--line-height) - 1px),
-                var(--line-color) var(--line-height)
-            );
-            background-position: 0 120px;
-            display: flex;
-            flex-direction: column;
-        }
+        .rows { margin-top: 14px; display: grid; gap: 10px; }
+        @media (min-width: 860px) { .rows { grid-template-columns: 1fr 1fr; gap: 12px; } }
+        .row { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); cursor: pointer; transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s; }
+        .row:active { transform: scale(0.985); }
+        @media (hover: hover) { .row:hover { box-shadow: var(--shadow-hover); border-color: color-mix(in srgb, var(--a) 40%, var(--line)); } }
+        .row .tile { width: 44px; height: 44px; font-size: 17px; border-radius: 14px; }
+        .row .info { flex: 1; min-width: 0; }
+        .row h3 { font-size: 15.5px; font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; }
+        .row .sub { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+        .row .go { color: var(--muted); }
+        .row .go svg.i { width: 20px; height: 20px; }
+        .has { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+        .has span { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--primary-soft); color: var(--primary); line-height: 1.5; }
+        .has span.off { background: var(--surface-2); color: var(--muted); font-weight: 600; text-decoration: line-through; opacity: 0.7; }
 
-        .page-header {
-            padding: 40px 30px 30px 30px;
-            background-color: var(--paper-color);
-            border-bottom: 2px solid var(--line-color);
-            position: relative;
-            z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
+        .resume { margin-top: 16px; display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 14px 16px; background: var(--primary-soft); border: 1px solid color-mix(in srgb, var(--primary) 28%, transparent); border-radius: 20px; cursor: pointer; }
+        .resume .tile { width: 42px; height: 42px; border-radius: 14px; }
+        .resume .info { flex: 1; min-width: 0; }
+        .resume .k { font-size: 12px; font-weight: 800; letter-spacing: 0.4px; color: var(--primary); text-transform: uppercase; }
+        .resume h3 { font-size: 15px; font-weight: 700; line-height: 1.35; overflow-wrap: anywhere; }
+        .resume p { font-size: 12.5px; color: var(--muted); }
 
-        .chapter-title { 
-            font-size: 28px; 
-            font-weight: 700; 
-            color: var(--heading-color); 
-            line-height: 1.2; 
-        }
+        .empty { text-align: center; padding: 40px 20px; margin-top: 20px; background: var(--surface); border: 1px dashed var(--line); border-radius: 22px; }
+        .empty h2 { font-size: 18px; }
+        .empty p { color: var(--muted); font-size: 14px; margin: 6px 0 16px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 20px; border-radius: 14px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; background: var(--primary); color: #fff; }
+        :root[data-theme="dark"] .btn { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn { color: #0E1220; } }
 
-        .page-content {
-            padding: 0 40px 0px 40px;
-            position: relative;
-            z-index: 2;
-            margin-top: calc(var(--line-height) - 26px);
-            flex-grow: 1;
-        }
+        .skel { height: 72px; margin-top: 12px; border-radius: 20px; background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.3s linear infinite; border: 1px solid var(--line); }
+        @keyframes shimmer { to { background-position: -200% 0; } }
 
-        /* Typography aligned to notebook lines */
-        .page-content p { font-size: 18px; line-height: var(--line-height); margin-bottom: var(--line-height); text-align: justify; color: #1e293b; }
-        .page-content p::first-letter { margin-left: 30px; }
-        
-        .page-content ul { padding-left: 30px; margin-bottom: var(--line-height); }
-        .page-content li { font-size: 18px; line-height: var(--line-height); color: #1e293b; margin-bottom: 0; list-style-type: disc;}
-        
-        .notebook-qna { margin-bottom: var(--line-height); }
-        .notebook-q { font-weight: 700; color: #d90429; font-size: 18px; line-height: var(--line-height); }
-        .notebook-a { font-weight: 400; color: #1e293b; font-size: 18px; line-height: var(--line-height); text-align: justify;}
+        /* ---------- Reader ---------- */
+        .rhead { margin-top: 18px; }
+        .rhead .eyebrow { font-size: 13px; font-weight: 700; color: var(--primary); }
+        .rhead h1 { font-size: 23px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.35; margin-top: 2px; overflow-wrap: anywhere; }
+        .tabs { position: sticky; top: calc(var(--safe-t) + 65px); z-index: 50; margin: 14px -18px 0; padding: 10px 18px; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .tablist { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+        .tab { border: none; background: none; cursor: pointer; padding: 8px 4px; border-radius: 14px; text-align: center; color: var(--muted); line-height: 1.25; transition: background 0.2s, color 0.2s; min-width: 0; }
+        .tab b { display: block; font-size: 14.5px; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .tab small { display: block; font-size: 11.5px; font-weight: 600; opacity: 0.85; }
+        .tab[aria-selected="true"] { background: var(--primary); color: #fff; }
+        :root[data-theme="dark"] .tab[aria-selected="true"] { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tab[aria-selected="true"] { color: #0E1220; } }
 
-        .page-footer {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #a0aec0; /* Small gray font */
-            font-family: sans-serif;
-            background-color: transparent;
+        .tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+        .tool { min-height: 40px; min-width: 40px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); color: var(--text); font-size: 14px; font-weight: 700; cursor: pointer; transition: transform 0.12s, background 0.15s; }
+        .tool:active { transform: scale(0.95); }
+        .tool:disabled { opacity: 0.4; cursor: default; }
+        .tool svg.i { width: 18px; height: 18px; }
+        .tool .lbl { display: none; }
+        @media (min-width: 520px) { .tool .lbl { display: inline; } }
+        .sizer { display: inline-flex; gap: 4px; padding-right: 8px; margin-right: 2px; border-right: 1px solid var(--line); }
+        .tools .grow { flex: 1; }
+
+        .qchips { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 2px; scrollbar-width: none; }
+        .qchips::-webkit-scrollbar { display: none; }
+        .qchip { flex: none; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); font-size: 13.5px; font-weight: 700; cursor: pointer; }
+        .qchip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
+        :root[data-theme="dark"] .qchip[aria-pressed="true"] { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .qchip[aria-pressed="true"] { color: #0E1220; } }
+
+        .paper { --fs: 18px; --lh: 40px; margin-top: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-hover); overflow: hidden; color: var(--ink); }
+        .paper-head { padding: 22px 22px 16px; text-align: center; background: var(--paper-head); border-bottom: 2px solid var(--rule); }
+        .paper-head h2 { font-size: 21px; font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; }
+        .paper-head .kind { display: block; margin-top: 2px; font-size: 15px; font-weight: 500; opacity: 0.7; }
+        .paper-body { padding: 0 22px; min-height: 52vh; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+            background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--lh) - 1px), var(--rule) calc(var(--lh) - 1px), var(--rule) var(--lh));
+            padding-top: calc(var(--lh) * 0.5); }
+        .paper-body p { font-size: var(--fs); line-height: var(--lh); margin-bottom: var(--lh); overflow-wrap: anywhere; }
+        .paper-body p.first { text-indent: 1.6em; }
+        .paper-body ul { padding-left: 1.4em; margin-bottom: var(--lh); }
+        .paper-body li { font-size: var(--fs); line-height: var(--lh); overflow-wrap: anywhere; }
+        .paper-body li::marker { color: var(--primary); }
+        .qa { margin-bottom: var(--lh); }
+        .qa .q { font-size: var(--fs); line-height: var(--lh); font-weight: 700; color: var(--qink); overflow-wrap: anywhere; }
+        .qa .a { font-size: var(--fs); line-height: var(--lh); overflow-wrap: anywhere; }
+        .qa .cat { font-size: 0.72em; font-weight: 700; letter-spacing: 0.3px; padding: 1px 8px; border-radius: 999px; border: 1px solid currentColor; opacity: 0.75; margin-left: 4px; white-space: nowrap; }
+        .paper-note { padding: calc(var(--lh) * 0.5) 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
+        .paper-note .btn { margin-top: 12px; }
+        .paper-foot { padding: 14px; text-align: center; font-size: 12px; color: var(--muted); background: var(--paper); border-top: 2px solid var(--rule); font-family: sans-serif; }
+        @media (min-width: 700px) {
+            .paper-head { padding: 30px 40px 20px; }
+            .paper-head h2 { font-size: 26px; }
+            .paper-body { padding-left: 44px; padding-right: 44px; }
         }
 
-        /* Print Media Query */
+        .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+        .pager button { display: flex; flex-direction: column; gap: 2px; text-align: left; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); cursor: pointer; min-height: 64px; }
+        .pager button.next { text-align: right; grid-column: 2; }
+        .pager small { font-size: 12px; font-weight: 700; color: var(--primary); }
+        .pager span { font-size: 14px; font-weight: 700; line-height: 1.35; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+        /* ---------- About / footer ---------- */
+        .about { margin-top: 34px; display: grid; gap: 24px; }
+        @media (min-width: 860px) { .about { grid-template-columns: 1fr 1fr; gap: 36px; } }
+        .about h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.3; }
+        .about p { color: var(--muted); font-size: 14.5px; margin-top: 10px; }
+        .about p strong { color: var(--text); }
+        .faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; margin-top: 10px; overflow: hidden; }
+        .faq details:first-child { margin-top: 0; }
+        .faq summary { list-style: none; cursor: pointer; padding: 14px 16px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .faq summary::-webkit-details-marker { display: none; }
+        .faq summary::after { content: "+"; font-size: 22px; font-weight: 500; color: var(--muted); line-height: 1; transition: transform 0.2s; }
+        .faq details[open] summary::after { transform: rotate(45deg); }
+        .faq details p { padding: 0 16px 16px; margin: 0; font-size: 14px; color: var(--muted); }
+
+        .site-footer { margin-top: 44px; border-top: 1px solid var(--line); background: var(--surface); padding: 26px 0 calc(26px + var(--safe-b)); font-size: 13px; color: var(--muted); }
+        .site-footer .links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-bottom: 10px; }
+        .site-footer .links a, .site-footer .links button { padding: 6px 0; color: var(--text); text-decoration: none; font-size: 14px; background: none; border: none; cursor: pointer; }
+        .site-footer .links a:hover, .site-footer .links button:hover { color: var(--primary); text-decoration: underline; }
+
+        .toast { position: fixed; left: 50%; bottom: calc(20px + var(--safe-b)); transform: translate(-50%, 160%); opacity: 0; pointer-events: none; z-index: 12000; background: #1D2338; color: #fff; padding: 12px 18px; border-radius: 14px; font-size: 14px; font-weight: 600; box-shadow: 0 14px 34px rgba(0,0,0,0.35); max-width: calc(100vw - 32px); text-align: center; transition: transform 0.3s cubic-bezier(.2,.8,.2,1), opacity 0.2s; }
+        .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+        .fade { animation: fadeIn 0.28s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+        /* ---------- Print: clean ruled paper only ---------- */
         @media print {
-            body { background-color: white; padding: 0; }
-            .no-print { display: none !important; }
-            .app-header { display: none !important; }
-            .container { padding: 0; max-width: 100%; }
-            .notebook-page { box-shadow: none; border: none; max-width: 100%; min-height: auto; }
-            .page-footer { display: none; }
-        }
-        
-        /* Mobile Responsiveness */
-        @media (max-width: 600px) {
-            .container { padding: 12px; }
-            .page-header { padding: 30px 20px 20px 20px; }
-            .chapter-title { font-size: 22px; }
-            .page-content { padding: 0 20px 0px 20px; }
-            .page-content p::first-letter { margin-left: 15px; }
-            .page-content ul { padding-left: 15px; }
-            .page-footer { padding: 20px; font-size: 11px; }
-            .print-btn { top: auto; bottom: 20px; right: 20px; padding: 10px 20px; font-size: 14px; }
+            @page { margin: 12mm; }
+            html, body { background: #fff !important; }
+            .no-print, .site-header, .site-footer, .skip-link, .toast { display: none !important; }
+            .wrap { max-width: none; padding: 0; }
+            .paper { --paper: #fff !important; --ink: #111 !important; --rule: #d6dce6 !important; --qink: #b0102a !important; --paper-head: #fff !important; --muted: #555 !important; --primary: #111 !important;
+                margin: 0; border: none; box-shadow: none; border-radius: 0; }
+            .paper-body { min-height: 0; }
+            .paper-foot { display: none; }
+            .qa { break-inside: avoid; }
         }
     </style>
 </head>
 <body>
-    <header class="app-header no-print">
-        <button id="backBtn" class="back-btn" onclick="goBack()">‹ Back</button>
-        <h1 id="headerTitle" class="app-title">Study Zone 📖</h1>
-    </header>
-    
-    <main class="container">
-        <div id="loader">Loading databases...</div>
-        
-        <!-- Grid View -->
-        <div class="app-grid" id="grid"></div>
+    <a href="#view" class="skip-link">Skip to notes</a>
 
-        <!-- Notebook View -->
-        <button id="printBtn" class="print-btn no-print" onclick="window.print()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 6 2 18 2 18 9"></polyline>
-                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-                <rect x="6" y="14" width="12" height="8"></rect>
-            </svg>
-            Print Notes
-        </button>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+            <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+            <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+            <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+            <symbol id="i-chevr" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+            <symbol id="i-chevl" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+            <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></symbol>
+            <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+            <symbol id="i-pin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></symbol>
+            <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+            <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+            <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+            <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+            <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.9-3.4L23 10M1 14l4.6 4.4A9 9 0 0 0 20.5 15"/></symbol>
+            <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></symbol>
+        </defs>
+    </svg>
 
-        <div class="notebook-wrapper" id="notebookWrapper">
-            <div class="notebook-page">
-                <div class="page-header">
-                    <h1 class="chapter-title" id="noteTitle">Chapter Title</h1>
-                </div>
-                <div class="page-content" id="noteContent">
-                    <!-- Dynamic content injected here -->
-                </div>
-                <div class="page-footer no-print">
-                    download it from sikhyaksathi.in
-                </div>
+    <header class="site-header">
+        <div class="wrap header-row">
+            <a href="./" class="icon-btn" id="backBtn" aria-label="Back to home"><svg class="i"><use href="#i-back"/></svg></a>
+            <div class="head-text">
+                <div class="eyebrow" id="hEyebrow">Study Resources</div>
+                <div class="title" id="hTitle">Study Zone</div>
             </div>
+            <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="i"><use href="#i-moon"/></svg></button>
         </div>
+    </header>
+
+    <main class="wrap" id="view" aria-live="polite" tabindex="-1">
+        <noscript><p style="margin-top:24px">Please turn on JavaScript to read the Study Zone notes.</p></noscript>
     </main>
 
+    <div class="wrap no-print" id="aboutHost" hidden>
+        <section class="about" aria-label="About the Study Zone">
+            <div>
+                <h2>Chapter notes in Odia, ready to read or print</h2>
+                <p>The <strong>Study Zone</strong> turns each chapter into three quick study aids: a <strong>summary (ସାରାଂଶ)</strong>, the <strong>key points (ମୁଖ୍ୟ ବିନ୍ଦୁ)</strong> and <strong>questions with answers (ପ୍ରଶ୍ନୋତ୍ତର)</strong>, arranged class by class and subject by subject.</p>
+                <p>Read on your phone, make the text larger, copy it into a message, or print it on ruled paper for revision.</p>
+            </div>
+            <div class="faq" aria-label="Frequently asked questions">
+                <details><summary>What do I get for each chapter?</summary><p>A chapter summary, a list of key points and practice questions with answers, all in Odia.</p></details>
+                <details><summary>Can I print the notes?</summary><p>Yes. Open a chapter, pick the notes you want and tap Print. Only the notes page is printed. You can also choose Save as PDF in your print dialog.</p></details>
+                <details><summary>Can I change the text size?</summary><p>Yes. Use A+ and A- above the notes. Your choice is remembered on this device.</p></details>
+            </div>
+        </section>
+    </div>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <div class="links">
+                <a href="./">Home</a>
+                <a href="odisha-lesson-plan.html">Lesson Plan</a>
+                <a href="odisha-text-books.html">Text Books</a>
+                <a href="odisha-academic-calendar.html">Academic Calendar</a>
+                <button type="button" id="shareBtn">Share this page</button>
+            </div>
+            <p>Independent portal, not affiliated with the Government of Odisha, SCERT or OSEPA. These notes are study aids. Please check them against your current text book.</p>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
     <script>
-        let databases = { summary: null, keypoints: null, qna: null };
+    (function () {
+        'use strict';
+        var $ = function (s, r) { return (r || document).querySelector(s); };
+        var store = {
+            get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+            set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+        };
 
-        // State trackers
-        let currentLevel = 'classes'; 
-        let selectedClass = null;
-        let selectedSubject = null;
-        let selectedChapter = null;
+        /* ---------- Theme ---------- */
+        var themeBtn = $('#themeBtn'), themeMeta = $('#themeColorMeta');
+        function isDark() {
+            var t = document.documentElement.getAttribute('data-theme');
+            if (t) return t === 'dark';
+            return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        }
+        function syncTheme() {
+            themeMeta.setAttribute('content', isDark() ? '#0E1220' : '#F3F5FA');
+            themeBtn.setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+        themeBtn.addEventListener('click', function () {
+            var n = isDark() ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', n);
+            store.set('ss_theme', n);
+            syncTheme();
+        });
+        syncTheme();
 
-        const grid = document.getElementById('grid');
-        const loader = document.getElementById('loader');
-        const backBtn = document.getElementById('backBtn');
-        const headerTitle = document.getElementById('headerTitle');
-        const notebookWrapper = document.getElementById('notebookWrapper');
-        const printBtn = document.getElementById('printBtn');
+        /* ---------- Toast ---------- */
+        var toast = $('#toast'), toastTimer;
+        function showToast(msg) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3200);
+        }
 
-        // History API Listener
-        window.addEventListener('popstate', (event) => {
-            if (event.state) {
-                const s = event.state;
-                if (s.level === 'classes') renderClasses(true);
-                else if (s.level === 'subjects') {
-                    selectedClass = s.selectedClass;
-                    renderSubjects(s.selectedClass, true);
-                }
-                else if (s.level === 'chapters') {
-                    selectedClass = s.selectedClass;
-                    selectedSubject = s.selectedSubject;
-                    renderChapters(s.selectedClass, s.selectedSubject, true);
-                }
-                else if (s.level === 'options') {
-                    selectedClass = s.selectedClass;
-                    selectedSubject = s.selectedSubject;
-                    selectedChapter = s.selectedChapter;
-                    renderOptions(s.selectedClass, s.selectedSubject, s.selectedChapter, true);
-                }
-                else if (s.level === 'notebook') {
-                    selectedClass = s.selectedClass;
-                    selectedSubject = s.selectedSubject;
-                    selectedChapter = s.selectedChapter;
-                    openNotebook(s.type, s.typeTitle, true);
-                }
-            } else {
-                renderClasses(true);
-            }
+        /* ---------- Tiny DOM helpers (all data goes through textContent) ---------- */
+        var NS = 'http://www.w3.org/2000/svg';
+        function ico(id) {
+            var s = document.createElementNS(NS, 'svg'); s.setAttribute('class', 'i'); s.setAttribute('aria-hidden', 'true');
+            var u = document.createElementNS(NS, 'use'); u.setAttribute('href', '#' + id); s.appendChild(u); return s;
+        }
+        function h(tag, cls, text) {
+            var e = document.createElement(tag);
+            if (cls) e.className = cls;
+            if (text != null) e.textContent = String(text);
+            return e;
+        }
+        function add(p) {
+            for (var i = 1; i < arguments.length; i++) { var c = arguments[i]; if (c) p.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); }
+            return p;
+        }
+        function btn(cls, label) { var b = h('button', cls); b.type = 'button'; if (label) b.setAttribute('aria-label', label); return b; }
+        function plural(n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); }
+
+        /* ---------- Data ---------- */
+        var FILES = { summary: 'panchapadi_summary_database.json', keypoints: 'panchapadi_key_points_database.json', qna: 'panchapadi_qna_database.json' };
+        var TYPES = [
+            { id: 'summary',   or: 'ସାରାଂଶ',      en: 'Summary',    field: 'summary',    icon: 'i-doc' },
+            { id: 'keypoints', or: 'ମୁଖ୍ୟ ବିନ୍ଦୁ',  en: 'Key Points', field: 'key_points', icon: 'i-pin' },
+            { id: 'qna',       or: 'ପ୍ରଶ୍ନୋତ୍ତର',  en: 'Q & A',      field: 'q_and_a',    icon: 'i-chat' }
+        ];
+        var PALETTE = [['#3B82F6', '#1D4ED8'], ['#8B5CF6', '#5B21B6'], ['#F97316', '#C2410C'], ['#10B981', '#047857'], ['#EC4899', '#9D174D'],
+                       ['#6366F1', '#3730A3'], ['#F59E0B', '#B45309'], ['#14B8A6', '#0F766E'], ['#06B6D4', '#0E7490'], ['#EF4444', '#991B1B']];
+        var DB = { summary: null, keypoints: null, qna: null };
+        var IDX = { summary: new Map(), keypoints: new Map(), qna: new Map() };
+        var STRUCT = [], FLAT = [];
+        var loaded = false, loading = false;
+
+        function key(c, s, ch) { return c + '\u0001' + s + '\u0001' + ch; }
+        function valid(db) { return !!(db && Array.isArray(db.classes)); }
+        function nm(x, f) { return x && x[f] != null ? String(x[f]) : ''; }
+
+        function buildData() {
+            STRUCT = []; FLAT = [];
+            var cMap = {};
+            TYPES.forEach(function (t) {
+                IDX[t.id] = new Map();
+                var db = DB[t.id];
+                if (!valid(db)) return;
+                db.classes.forEach(function (c) {
+                    var cn = nm(c, 'class_name'); if (!cn) return;
+                    var C = cMap[cn]; if (!C) { C = cMap[cn] = { name: cn, subjects: [], sMap: {} }; STRUCT.push(C); }
+                    (Array.isArray(c.subjects) ? c.subjects : []).forEach(function (s) {
+                        var sn = nm(s, 'subject_name'); if (!sn) return;
+                        var S = C.sMap[sn]; if (!S) { S = C.sMap[sn] = { name: sn, chapters: [], cSeen: {} }; C.subjects.push(S); }
+                        (Array.isArray(s.chapters) ? s.chapters : []).forEach(function (ch) {
+                            var chn = nm(ch, 'chapter_name'); if (!chn) return;
+                            if (!S.cSeen[chn]) { S.cSeen[chn] = 1; S.chapters.push(chn); }
+                            IDX[t.id].set(key(cn, sn, chn), ch.content_data || null);
+                        });
+                    });
+                });
+            });
+            STRUCT.forEach(function (C) {
+                C.subjects.forEach(function (S) {
+                    S.chapters.forEach(function (chn) { FLAT.push({ c: C.name, s: S.name, ch: chn, hay: (C.name + ' ' + S.name + ' ' + chn).toLowerCase() }); });
+                });
+            });
+        }
+        function content(type, c, s, ch) {
+            var t = TYPES.filter(function (x) { return x.id === type; })[0];
+            var cd = IDX[type].get(key(c, s, ch));
+            var arr = cd && Array.isArray(cd[t.field]) ? cd[t.field] : null;
+            return arr && arr.length ? arr : null;
+        }
+        function load() {
+            if (loading) return Promise.resolve();
+            loading = true;
+            renderSkeleton();
+            return Promise.all(TYPES.map(function (t) {
+                return fetch(FILES[t.id]).then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); }).catch(function () { return null; });
+            })).then(function (res) {
+                TYPES.forEach(function (t, i) { DB[t.id] = valid(res[i]) ? res[i] : null; });
+                buildData();
+                loading = false;
+                loaded = STRUCT.length > 0;
+                if (loaded && TYPES.some(function (t) { return !DB[t.id]; })) showToast('Some notes could not be loaded. Check your connection.');
+                start();
+            });
+        }
+
+        /* ---------- Navigation state ---------- */
+        var nav = { c: null, s: null, ch: null, t: 'summary' };
+        var depth = 0, q = '', qcat = '', fillList = null;
+        var view = $('#view');
+
+        function findBy(arr, name) { for (var i = 0; i < arr.length; i++) if (arr[i].name === name) return arr[i]; return null; }
+        function resolve(n) {
+            var t = TYPES.some(function (x) { return x.id === n.t; }) ? n.t : 'summary';
+            var C = n.c ? findBy(STRUCT, n.c) : null; if (!C) return { c: null, s: null, ch: null, t: t };
+            var S = n.s ? findBy(C.subjects, n.s) : null; if (!S) return { c: C.name, s: null, ch: null, t: t };
+            if (!n.ch || S.chapters.indexOf(n.ch) < 0) return { c: C.name, s: S.name, ch: null, t: t };
+            return { c: C.name, s: S.name, ch: n.ch, t: t };
+        }
+        function urlFor(n) {
+            var p = new URLSearchParams();
+            if (n.c) p.set('class', n.c);
+            if (n.s) p.set('subject', n.s);
+            if (n.ch) { p.set('chapter', n.ch); if (n.t && n.t !== 'summary') p.set('type', n.t); }
+            var s = p.toString();
+            return location.pathname + (s ? '?' + s : '');
+        }
+        function navFromUrl() {
+            var p = new URLSearchParams(location.search);
+            return resolve({ c: p.get('class'), s: p.get('subject'), ch: p.get('chapter'), t: p.get('type') || 'summary' });
+        }
+        function go(n, mode, keepScroll) {
+            nav = resolve(n); q = ''; qcat = '';
+            if (mode === 'push') { depth++; try { history.pushState({ d: depth }, '', urlFor(nav)); } catch (e) {} }
+            else if (mode === 'replace') { try { history.replaceState({ d: depth }, '', urlFor(nav)); } catch (e) {} }
+            render();
+            if (!keepScroll) window.scrollTo(0, 0);
+        }
+        function parent() { return nav.ch ? { c: nav.c, s: nav.s, t: nav.t } : nav.s ? { c: nav.c, t: nav.t } : { t: nav.t }; }
+        function up() { if (depth > 0) history.back(); else go(parent(), 'replace'); }
+        window.addEventListener('popstate', function (e) {
+            depth = (e.state && e.state.d) || 0;
+            if (!loaded) return;
+            nav = navFromUrl(); q = ''; qcat = '';
+            render(); window.scrollTo(0, 0);
+        });
+        $('#backBtn').addEventListener('click', function (e) {
+            if (loaded && nav.c) { e.preventDefault(); up(); }
         });
 
-        async function init() {
-            try {
-                const [sumRes, kpRes, qnaRes] = await Promise.all([
-                    fetch('panchapadi_summary_database.json').then(r => r.json()).catch(() => null),
-                    fetch('panchapadi_key_points_database.json').then(r => r.json()).catch(() => null),
-                    fetch('panchapadi_qna_database.json').then(r => r.json()).catch(() => null)
-                ]);
-
-                databases.summary = sumRes;
-                databases.keypoints = kpRes;
-                databases.qna = qnaRes;
-
-                loader.style.display = 'none';
-                
-                if (databases.summary && databases.summary.classes) {
-                    renderClasses(true); 
-                    history.replaceState({ level: 'classes' }, '', ''); 
-                } else {
-                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Error: Could not load class structure. Please check your JSON files.</p>';
-                }
-            } catch (error) {
-                loader.innerText = 'Failed to load data.';
-                console.error(error);
-            }
+        /* ---------- Shared render parts ---------- */
+        function colorOf(i) { var p = PALETTE[i % PALETTE.length]; return '--a:' + p[0] + ';--b:' + p[1]; }
+        function tileText(name, i) { var m = /\d+/.exec(name); return m ? m[0] : (Array.from(name)[0] || String(i + 1)); }
+        function setHeader(lvl) {
+            var eb, ti;
+            if (lvl === 0) { eb = 'Study Resources'; ti = 'Study Zone'; }
+            else if (lvl === 1) { eb = 'Study Zone'; ti = nav.c; }
+            else if (lvl === 2) { eb = nav.c; ti = nav.s; }
+            else { eb = nav.c + ' · ' + nav.s; ti = nav.ch; }
+            $('#hEyebrow').textContent = eb; $('#hTitle').textContent = ti;
+            var back = $('#backBtn');
+            back.setAttribute('aria-label', lvl === 0 ? 'Back to home' : 'Go back');
+            document.title = lvl === 0 ? 'Study Zone: Odisha Chapter Summary, Key Points & Q&A Notes | Sikhyak Sathi'
+                : lvl === 3 ? nav.ch + ' (' + typeOf(nav.t).en + ') | Study Zone'
+                : ti + ' | Study Zone';
+        }
+        function typeOf(id) { return TYPES.filter(function (t) { return t.id === id; })[0] || TYPES[0]; }
+        function mkSearch(placeholder) {
+            var box = h('div', 'search'); box.setAttribute('role', 'search');
+            var lab = h('label', 'sr-only', placeholder); lab.setAttribute('for', 'qInput');
+            var s = ico('i-search'); s.setAttribute('class', 'i s-icon');
+            var inp = document.createElement('input');
+            inp.type = 'search'; inp.id = 'qInput'; inp.placeholder = placeholder; inp.autocomplete = 'off'; inp.spellcheck = false; inp.setAttribute('enterkeyhint', 'search'); inp.value = q;
+            var clr = btn('s-clear', 'Clear search'); clr.hidden = !q; clr.appendChild(ico('i-x')); clr.firstChild.style.cssText = 'width:18px;height:18px';
+            inp.addEventListener('input', function () { q = inp.value; clr.hidden = !q; if (fillList) fillList(); });
+            clr.addEventListener('click', function () { inp.value = ''; q = ''; clr.hidden = true; if (fillList) fillList(); inp.focus(); });
+            add(box, lab, s, inp, clr);
+            return box;
+        }
+        function crumbs() {
+            var nav_ = h('nav', 'crumbs'); nav_.setAttribute('aria-label', 'Breadcrumb');
+            function link(text, n) { var b = btn(null); b.textContent = text; b.addEventListener('click', function () { go(n, 'push'); }); return b; }
+            function sep() { var s = ico('i-chevr'); return s; }
+            add(nav_, link('Study Zone', { t: nav.t }));
+            if (nav.c) { add(nav_, sep()); if (nav.s) add(nav_, link(nav.c, { c: nav.c, t: nav.t })); else add(nav_, h('span', 'cur', nav.c)); }
+            if (nav.s) { add(nav_, sep()); if (nav.ch) add(nav_, link(nav.s, { c: nav.c, s: nav.s, t: nav.t })); else add(nav_, h('span', 'cur', nav.s)); }
+            return nav_;
+        }
+        function emptyBox(title, msg, withReset) {
+            var e = h('div', 'empty'); add(e, h('h2', null, title), h('p', null, msg));
+            if (withReset) { var b = btn('btn'); b.textContent = 'Clear search'; b.addEventListener('click', function () { q = ''; render(); }); e.appendChild(b); }
+            return e;
+        }
+        function matches(hay) { var tk = q.trim().toLowerCase().split(/\s+/).filter(Boolean); return tk.every(function (t) { return hay.indexOf(t) > -1; }); }
+        function availability(c, s, ch) {
+            var w = h('div', 'has');
+            TYPES.forEach(function (t) { var on = !!content(t.id, c, s, ch); var sp = h('span', on ? '' : 'off', t.or); sp.lang = 'or'; sp.title = t.en + (on ? '' : ' (not available yet)'); w.appendChild(sp); });
+            return w;
         }
 
-        function updateHeader(title, showBack) {
-            headerTitle.innerText = title;
-            backBtn.style.display = showBack ? 'block' : 'none';
+        /* ---------- Views ---------- */
+        function renderSkeleton() {
+            view.textContent = '';
+            for (var i = 0; i < 5; i++) view.appendChild(h('div', 'skel'));
+            view.setAttribute('aria-busy', 'true');
+        }
+        function renderError() {
+            view.textContent = ''; view.removeAttribute('aria-busy');
+            var e = emptyBox('Could not load the notes', 'Please check your internet connection and try again.', false);
+            var b = btn('btn'); add(b, ico('i-refresh'), 'Try again'); b.addEventListener('click', function () { load(); });
+            e.appendChild(b); view.appendChild(e); $('#aboutHost').hidden = true;
         }
 
-        function renderClasses(fromHistory = false) {
-            currentLevel = 'classes';
-            notebookWrapper.classList.remove('active');
-            printBtn.style.display = 'none';
-            grid.style.display = 'grid';
-            updateHeader('Study Zone 📖', false);
-            grid.innerHTML = '';
-            
-            databases.summary.classes.forEach(cls => {
-                const card = document.createElement('div');
-                card.className = 'app-card';
-                card.innerHTML = `
-                    <div class="icon-box bg-class">🏫</div>
-                    <h3>${cls.class_name}</h3>
-                    <p>${cls.subjects.length} Subjects</p>
-                `;
-                card.onclick = () => renderSubjects(cls.class_name);
-                grid.appendChild(card);
-            });
+        function viewHome() {
+            var subjects = 0, chapters = FLAT.length;
+            STRUCT.forEach(function (C) { subjects += C.subjects.length; });
+            var hero = h('section', 'hero fade');
+            var tag = h('span', 'tag', 'ଅଧ୍ୟୟନ କକ୍ଷ'); tag.lang = 'or';
+            var st = h('div', 'stats');
+            [[STRUCT.length, 'classes'], [subjects, 'subjects'], [chapters, 'chapters']].forEach(function (x) { var d = h('div', 'stat'); add(d, h('b', null, x[0]), x[1]); st.appendChild(d); });
+            add(hero, tag, h('h1', null, 'Study Zone: chapter notes in Odia'), h('p', null, 'A summary, key points and questions with answers for every chapter. Pick a class to begin, or search for any chapter.'), st);
+            view.appendChild(hero);
 
-            if (!fromHistory) history.pushState({ level: 'classes' }, '', '');
-        }
-
-        function renderSubjects(className, fromHistory = false) {
-            currentLevel = 'subjects';
-            selectedClass = className;
-            notebookWrapper.classList.remove('active');
-            printBtn.style.display = 'none';
-            grid.style.display = 'grid';
-            updateHeader(className, true);
-            grid.innerHTML = '';
-
-            const clsData = databases.summary.classes.find(c => c.class_name === className);
-            if(!clsData) return;
-
-            clsData.subjects.forEach(sub => {
-                const card = document.createElement('div');
-                card.className = 'app-card';
-                card.innerHTML = `
-                    <div class="icon-box bg-subject">📚</div>
-                    <h3>${sub.subject_name}</h3>
-                    <p>${sub.chapters.length} Chapters</p>
-                `;
-                card.onclick = () => renderChapters(className, sub.subject_name);
-                grid.appendChild(card);
-            });
-
-            if (!fromHistory) history.pushState({ level: 'subjects', selectedClass: className }, '', '');
-        }
-
-        function renderChapters(className, subjectName, fromHistory = false) {
-            currentLevel = 'chapters';
-            selectedSubject = subjectName;
-            notebookWrapper.classList.remove('active');
-            printBtn.style.display = 'none';
-            grid.style.display = 'grid';
-            updateHeader(subjectName, true);
-            grid.innerHTML = '';
-
-            const clsData = databases.summary.classes.find(c => c.class_name === className);
-            const subData = clsData.subjects.find(s => s.subject_name === subjectName);
-            if(!subData) return;
-
-            subData.chapters.forEach(chap => {
-                const card = document.createElement('div');
-                card.className = 'app-card';
-                card.innerHTML = `
-                    <div class="icon-box bg-chapter">📄</div>
-                    <h3>${chap.chapter_name}</h3>
-                    <p>Tap for details</p>
-                `;
-                card.onclick = () => renderOptions(className, subjectName, chap.chapter_name);
-                grid.appendChild(card);
-            });
-
-            if (!fromHistory) history.pushState({ level: 'chapters', selectedClass: className, selectedSubject: subjectName }, '', '');
-        }
-
-        function renderOptions(className, subjectName, chapterName, fromHistory = false) {
-            currentLevel = 'options';
-            selectedChapter = chapterName;
-            notebookWrapper.classList.remove('active');
-            printBtn.style.display = 'none';
-            grid.style.display = 'grid';
-            updateHeader(chapterName, true);
-            grid.innerHTML = '';
-
-            const options = [
-                { id: 'summary', title: 'ସାରାଂଶ', subtitle: 'Chapter Summary', icon: '📑', bg: 'bg-saransa' },
-                { id: 'keypoints', title: 'ମୁଖ୍ୟ ବିନ୍ଦୁ', subtitle: 'Key Points', icon: '📌', bg: 'bg-mukhya' },
-                { id: 'qna', title: 'ପ୍ରଶ୍ନୋତ୍ତର', subtitle: 'Q & A', icon: '💬', bg: 'bg-prasna' }
-            ];
-
-            options.forEach(opt => {
-                const card = document.createElement('div');
-                card.className = 'app-card';
-                card.innerHTML = `
-                    <div class="icon-box ${opt.bg}">${opt.icon}</div>
-                    <h3>${opt.title}</h3>
-                    <p>${opt.subtitle}</p>
-                `;
-                card.onclick = () => openNotebook(opt.id, opt.title);
-                grid.appendChild(card);
-            });
-
-            if (!fromHistory) history.pushState({ level: 'options', selectedClass: className, selectedSubject: subjectName, selectedChapter: chapterName }, '', '');
-        }
-
-        function goBack() {
-            history.back(); 
-        }
-
-        function findChapterData(db, className, subjectName, chapterName) {
-            if(!db || !db.classes) return null;
-            const cls = db.classes.find(c => c.class_name === className);
-            if(!cls) return null;
-            const sub = cls.subjects.find(s => s.subject_name === subjectName);
-            if(!sub) return null;
-            return sub.chapters.find(c => c.chapter_name === chapterName);
-        }
-
-        function openNotebook(type, typeTitle, fromHistory = false) {
-            currentLevel = 'notebook';
-            grid.style.display = 'none'; 
-            notebookWrapper.classList.add('active'); 
-            printBtn.style.display = 'flex'; 
-            updateHeader('Study Zone 📖', true); 
-            window.scrollTo(0, 0); 
-
-            const titleEl = document.getElementById('noteTitle');
-            const bodyEl = document.getElementById('noteContent');
-            bodyEl.innerHTML = ''; 
-            
-            titleEl.innerHTML = `${selectedChapter} <br><span style="font-size: 18px; font-weight: 400; color: #4a5568;">(${typeTitle})</span>`;
-
-            let chapData = null;
-
-            if (type === 'summary') {
-                chapData = findChapterData(databases.summary, selectedClass, selectedSubject, selectedChapter);
-                if (chapData && chapData.content_data && chapData.content_data.summary) {
-                    bodyEl.innerHTML = chapData.content_data.summary.map(p => `<p>${p}</p>`).join('');
-                } else {
-                    bodyEl.innerHTML = '<p>Summary data not found for this chapter.</p>';
-                }
-            } 
-            else if (type === 'keypoints') {
-                chapData = findChapterData(databases.keypoints, selectedClass, selectedSubject, selectedChapter);
-                if (chapData && chapData.content_data && chapData.content_data.key_points) {
-                    const listItems = chapData.content_data.key_points.map(pt => `<li>${pt}</li>`).join('');
-                    bodyEl.innerHTML = `<ul>${listItems}</ul>`;
-                } else {
-                    bodyEl.innerHTML = '<p>Key points data not found for this chapter.</p>';
-                }
-            } 
-            else if (type === 'qna') {
-                chapData = findChapterData(databases.qna, selectedClass, selectedSubject, selectedChapter);
-                if (chapData && chapData.content_data && chapData.content_data.q_and_a) {
-                    bodyEl.innerHTML = chapData.content_data.q_and_a.map(item => {
-                        let markText = item.category ? item.category.replace(' QUESTIONS', '') : '';
-                        let qText = markText ? `ପ୍ର: ${item.question} (${markText})` : `ପ୍ର: ${item.question}`;
-                        return `
-                        <div class="notebook-qna">
-                            <div class="notebook-q">${qText}</div>
-                            <div class="notebook-a">ଉ: ${item.answer}</div>
-                        </div>
-                    `}).join('');
-                } else {
-                    bodyEl.innerHTML = '<p>Q&A data not found for this chapter.</p>';
-                }
+            var lastRaw = store.get('ss_study_last'), last = null;
+            try { last = lastRaw ? resolve(JSON.parse(lastRaw)) : null; } catch (e) { last = null; }
+            if (last && last.ch) {
+                var r = btn('resume'); r.type = 'button';
+                var ci = STRUCT.indexOf(findBy(STRUCT, last.c));
+                var t = h('span', 'tile'); t.setAttribute('style', colorOf(ci)); t.appendChild(ico('i-play'));
+                var info = h('div', 'info'); add(info, h('div', 'k', 'Continue reading'), h('h3', null, last.ch), h('p', null, last.c + ' · ' + last.s + ' · ' + typeOf(last.t).en));
+                add(r, t, info, ico('i-chevr'));
+                r.addEventListener('click', function () { go(last, 'push'); });
+                view.appendChild(r);
             }
 
-            if (!fromHistory) {
-                history.pushState({ 
-                    level: 'notebook', selectedClass: selectedClass, selectedSubject: selectedSubject, selectedChapter: selectedChapter, type: type, typeTitle: typeTitle 
-                }, '', '');
-            }
+            view.appendChild(mkSearch('Search any chapter, subject or class…'));
+            var host = h('div'); view.appendChild(host);
+            fillList = function () {
+                host.textContent = '';
+                if (!q.trim()) {
+                    var g = h('div', 'grid');
+                    STRUCT.forEach(function (C, i) {
+                        var c = btn('gcard'); c.setAttribute('style', colorOf(i));
+                        var tl = h('span', 'tile', tileText(C.name, i)); tl.setAttribute('aria-hidden', 'true');
+                        var d = h('div'); add(d, h('h3', null, C.name), h('p', null, plural(C.subjects.length, 'subject')));
+                        add(c, tl, d);
+                        c.addEventListener('click', function () { go({ c: C.name, t: nav.t }, 'push'); });
+                        g.appendChild(c);
+                    });
+                    host.appendChild(g); return;
+                }
+                var res = FLAT.filter(function (f) { return matches(f.hay); });
+                var shown = res.slice(0, 60);
+                if (!res.length) { host.appendChild(emptyBox('No chapters found', 'Try a simpler word, such as a subject name or a class number.', true)); return; }
+                var note = h('p', 'result-note'); add(note, h('b', null, plural(res.length, 'chapter')), ' found' + (res.length > shown.length ? ' (showing the first ' + shown.length + ')' : ''));
+                var rows = h('div', 'rows');
+                shown.forEach(function (f) { rows.appendChild(chapterRow(f.c, f.s, f.ch, null, f.c + ' › ' + f.s, false)); });
+                add(host, note, rows);
+            };
+            fillList();
+            $('#aboutHost').hidden = false;
         }
 
-        window.onload = init;
+        function pageHead(i, name, sub) {
+            var t = h('span', 'tile', tileText(name, i)); t.setAttribute('aria-hidden', 'true');
+            var d = h('div'); add(d, h('h1', null, name), h('p', null, sub));
+            var w = h('div', 'pagehead fade'); w.setAttribute('style', colorOf(i)); add(w, t, d);
+            return w;
+        }
+
+        function viewSubjects() {
+            var C = findBy(STRUCT, nav.c), ci = STRUCT.indexOf(C);
+            add(view, crumbs(), pageHead(ci, C.name, plural(C.subjects.length, 'subject')));
+            if (C.subjects.length > 6) view.appendChild(mkSearch('Filter subjects…'));
+            var host = h('div'); view.appendChild(host);
+            fillList = function () {
+                host.textContent = '';
+                var list = C.subjects.filter(function (S) { return !q.trim() || matches(S.name.toLowerCase()); });
+                if (!list.length) { host.appendChild(emptyBox('No subjects found', 'Try a different word.', true)); return; }
+                var g = h('div', 'grid');
+                list.forEach(function (S) {
+                    var si = C.subjects.indexOf(S);
+                    var c = btn('gcard'); c.setAttribute('style', colorOf(si + ci));
+                    var tl = h('span', 'tile', Array.from(S.name)[0] || '·'); tl.setAttribute('aria-hidden', 'true');
+                    var d = h('div'); add(d, h('h3', null, S.name), h('p', null, plural(S.chapters.length, 'chapter')));
+                    add(c, tl, d);
+                    c.addEventListener('click', function () { go({ c: C.name, s: S.name, t: nav.t }, 'push'); });
+                    g.appendChild(c);
+                });
+                host.appendChild(g);
+            };
+            fillList();
+        }
+
+        function chapterRow(c, s, ch, idx, subText, showHas) {
+            var ci = STRUCT.indexOf(findBy(STRUCT, c));
+            var b = btn('row'); b.setAttribute('style', colorOf(ci + (idx || 0)));
+            var t = h('span', 'tile', idx != null ? idx + 1 : (Array.from(s)[0] || '·')); t.setAttribute('aria-hidden', 'true');
+            var info = h('div', 'info'); add(info, h('h3', null, ch));
+            if (subText) info.appendChild(h('p', 'sub', subText));
+            if (showHas) info.appendChild(availability(c, s, ch));
+            var go_ = h('span', 'go'); go_.appendChild(ico('i-chevr'));
+            add(b, t, info, go_);
+            b.addEventListener('click', function () { go({ c: c, s: s, ch: ch, t: nav.t }, 'push'); });
+            return b;
+        }
+
+        function viewChapters() {
+            var C = findBy(STRUCT, nav.c), S = findBy(C.subjects, nav.s), ci = STRUCT.indexOf(C), si = C.subjects.indexOf(S);
+            add(view, crumbs(), pageHead(ci + si, S.name, C.name + ' · ' + plural(S.chapters.length, 'chapter')));
+            if (S.chapters.length > 6) view.appendChild(mkSearch('Filter chapters…'));
+            var host = h('div'); view.appendChild(host);
+            fillList = function () {
+                host.textContent = '';
+                var list = [];
+                S.chapters.forEach(function (ch, i) { if (!q.trim() || matches(ch.toLowerCase())) list.push([ch, i]); });
+                if (!list.length) { host.appendChild(emptyBox('No chapters found', 'Try a different word.', true)); return; }
+                var rows = h('div', 'rows');
+                list.forEach(function (x) { rows.appendChild(chapterRow(C.name, S.name, x[0], x[1], null, true)); });
+                host.appendChild(rows);
+            };
+            fillList();
+        }
+
+        /* ---------- Reader ---------- */
+        var SIZES = [16, 18, 20, 22, 26];
+        var fsI = parseInt(store.get('ss_study_fs'), 10); if (!(fsI >= 0 && fsI < SIZES.length)) fsI = 1;
+
+        function plainText() {
+            var T = typeOf(nav.t), arr = content(nav.t, nav.c, nav.s, nav.ch);
+            var out = [nav.ch + ' (' + T.or + ')', nav.c + ' · ' + nav.s, ''];
+            if (!arr) return out.join('\n');
+            if (nav.t === 'summary') arr.forEach(function (p) { out.push(String(p), ''); });
+            else if (nav.t === 'keypoints') arr.forEach(function (p) { out.push('• ' + String(p)); });
+            else arr.forEach(function (it) { out.push('ପ୍ର: ' + String(it && it.question != null ? it.question : ''), 'ଉ: ' + String(it && it.answer != null ? it.answer : ''), ''); });
+            out.push('', 'sikhyaksathi.in');
+            return out.join('\n');
+        }
+        function copyText(text, okMsg) {
+            function fallback() {
+                var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;left:-9999px;top:0';
+                document.body.appendChild(ta); ta.select();
+                var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+                ta.remove(); showToast(ok ? okMsg : 'Could not copy. Please select the text and copy it.');
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { showToast(okMsg); }, fallback);
+            else fallback();
+        }
+
+        function viewReader() {
+            var C = findBy(STRUCT, nav.c), S = findBy(C.subjects, nav.s), ci = STRUCT.indexOf(C);
+            var idx = S.chapters.indexOf(nav.ch);
+            store.set('ss_study_last', JSON.stringify({ c: nav.c, s: nav.s, ch: nav.ch, t: nav.t }));
+
+            var top = h('div', 'no-print'); top.appendChild(crumbs());
+            var rh = h('div', 'rhead fade'); add(rh, h('div', 'eyebrow', 'Chapter ' + (idx + 1) + ' of ' + S.chapters.length), h('h1', null, nav.ch));
+            top.appendChild(rh);
+
+            // Tabs
+            var tabsWrap = h('div', 'tabs no-print'), tl = h('div', 'tablist'); tl.setAttribute('role', 'tablist'); tl.setAttribute('aria-label', 'Choose notes');
+            var tabEls = [];
+            TYPES.forEach(function (T) {
+                var b = btn('tab'); b.setAttribute('role', 'tab'); b.id = 'tab-' + T.id;
+                b.setAttribute('aria-selected', String(T.id === nav.t)); b.tabIndex = T.id === nav.t ? 0 : -1;
+                var l1 = h('b', null, T.or); l1.lang = 'or'; add(b, l1, h('small', null, T.en));
+                b.addEventListener('click', function () { if (T.id !== nav.t) { go({ c: nav.c, s: nav.s, ch: nav.ch, t: T.id }, 'replace', true); } });
+                b.addEventListener('keydown', function (e) {
+                    var i = TYPES.indexOf(T), n = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : -1;
+                    if (n < 0 || n >= TYPES.length) return;
+                    e.preventDefault(); go({ c: nav.c, s: nav.s, ch: nav.ch, t: TYPES[n].id }, 'replace', true); var nb = $('#tab-' + TYPES[n].id); if (nb) nb.focus();
+                });
+                tl.appendChild(b); tabEls.push(b);
+            });
+            tabsWrap.appendChild(tl);
+
+            // Tools
+            var tools = h('div', 'tools no-print');
+            var sizer = h('div', 'sizer');
+            var dec = btn('tool', 'Smaller text'); dec.textContent = 'A−'; dec.disabled = fsI === 0;
+            var inc = btn('tool', 'Larger text'); inc.textContent = 'A+'; inc.disabled = fsI === SIZES.length - 1;
+            add(sizer, dec, inc);
+            function label(b, icon, text, aria) { add(b, ico(icon), h('span', 'lbl', text)); b.setAttribute('aria-label', aria); return b; }
+            var cp = label(btn('tool'), 'i-copy', 'Copy', 'Copy these notes');
+            var pr = label(btn('tool'), 'i-print', 'Print', 'Print these notes');
+            var sh = label(btn('tool'), 'i-share', 'Share', 'Share link to these notes');
+            add(tools, sizer, cp, pr, sh);
+
+            // Paper
+            var T = typeOf(nav.t);
+            var paper = h('article', 'paper fade'); paper.setAttribute('aria-labelledby', 'noteTitle');
+            var ph = h('div', 'paper-head'), h2 = h('h2'); h2.id = 'noteTitle';
+            add(h2, nav.ch); var kind = h('span', 'kind'); kind.lang = 'or'; kind.textContent = '(' + T.or + ')'; h2.appendChild(kind);
+            ph.appendChild(h2);
+            var body = h('div', 'paper-body'); body.setAttribute('role', 'tabpanel'); body.setAttribute('aria-labelledby', 'tab-' + nav.t);
+            var foot = h('div', 'paper-foot', 'Notes from sikhyaksathi.in');
+            add(paper, ph, body, foot);
+            function applySize() { var px = SIZES[fsI]; paper.style.setProperty('--fs', px + 'px'); paper.style.setProperty('--lh', Math.round(px * 2.2) + 'px'); dec.disabled = fsI === 0; inc.disabled = fsI === SIZES.length - 1; }
+            applySize();
+            dec.addEventListener('click', function () { if (fsI > 0) { fsI--; store.set('ss_study_fs', fsI); applySize(); } });
+            inc.addEventListener('click', function () { if (fsI < SIZES.length - 1) { fsI++; store.set('ss_study_fs', fsI); applySize(); } });
+            cp.addEventListener('click', function () { copyText(plainText(), 'Notes copied'); });
+            pr.addEventListener('click', function () { window.print(); });
+            sh.addEventListener('click', function () {
+                var data = { title: nav.ch + ' | Study Zone', text: nav.ch + ' (' + T.en + ') on Sikhyak Sathi', url: location.href };
+                if (navigator.share) navigator.share(data).catch(function () {});
+                else copyText(location.href, 'Link copied');
+            });
+
+            var arr = content(nav.t, nav.c, nav.s, nav.ch);
+            var chipsHost = h('div', 'no-print');
+            function fillBody() {
+                body.textContent = '';
+                if (!DB[nav.t]) {
+                    var n = h('div', 'paper-note'); add(n, h('p', null, 'These notes could not be loaded. Please check your internet connection and try again.'));
+                    var rb = btn('btn'); add(rb, ico('i-refresh'), 'Try again'); rb.addEventListener('click', function () { load(); });
+                    n.appendChild(rb); body.appendChild(n); return;
+                }
+                if (!arr) { body.appendChild(add(h('div', 'paper-note'), h('p', null, T.en + ' notes are not available for this chapter yet. Try another tab.'))); return; }
+                if (nav.t === 'summary') {
+                    arr.forEach(function (p, i) { var el = h('p', i === 0 ? 'first' : '', p); body.appendChild(el); });
+                } else if (nav.t === 'keypoints') {
+                    var ul = h('ul'); arr.forEach(function (p) { ul.appendChild(h('li', null, p)); }); body.appendChild(ul);
+                } else {
+                    arr.forEach(function (it) {
+                        if (!it) return;
+                        var cat = it.category ? String(it.category).replace(/ QUESTIONS/i, '').trim() : '';
+                        if (qcat && cat !== qcat) return;
+                        var box = h('div', 'qa'), qe = h('div', 'q', 'ପ୍ର: ' + (it.question != null ? it.question : ''));
+                        if (cat) { var cs = h('span', 'cat', cat); qe.appendChild(document.createTextNode(' ')); qe.appendChild(cs); }
+                        add(box, qe, h('div', 'a', 'ଉ: ' + (it.answer != null ? it.answer : '')));
+                        body.appendChild(box);
+                    });
+                }
+            }
+            if (nav.t === 'qna' && arr) {
+                var cats = [];
+                arr.forEach(function (it) { var c = it && it.category ? String(it.category).replace(/ QUESTIONS/i, '').trim() : ''; if (c && cats.indexOf(c) < 0) cats.push(c); });
+                if (cats.length > 1) {
+                    var qc = h('div', 'qchips'); qc.setAttribute('role', 'group'); qc.setAttribute('aria-label', 'Filter by question type');
+                    ['All'].concat(cats).forEach(function (c) {
+                        var b = btn('qchip'); b.textContent = c; b.setAttribute('aria-pressed', String((c === 'All' && !qcat) || c === qcat));
+                        b.addEventListener('click', function () {
+                            qcat = c === 'All' ? '' : c;
+                            Array.prototype.forEach.call(qc.children, function (x) { x.setAttribute('aria-pressed', String((x.textContent === 'All' && !qcat) || x.textContent === qcat)); });
+                            fillBody();
+                        });
+                        qc.appendChild(b);
+                    });
+                    chipsHost.appendChild(qc);
+                }
+            }
+            fillBody();
+
+            // Pager
+            var pager = h('div', 'pager no-print');
+            function pg(cls, k, i) {
+                var b = btn(cls); add(b, h('small', null, k), h('span', null, S.chapters[i]));
+                b.addEventListener('click', function () { go({ c: nav.c, s: nav.s, ch: S.chapters[i], t: nav.t }, 'replace'); });
+                return b;
+            }
+            if (idx > 0) pager.appendChild(pg('prev', '‹ Previous chapter', idx - 1));
+            if (idx < S.chapters.length - 1) pager.appendChild(pg('next', 'Next chapter ›', idx + 1));
+
+            add(view, top, tabsWrap, tools, chipsHost, paper, pager);
+            $('#aboutHost').hidden = true;
+        }
+
+        function render() {
+            if (!loaded) return;
+            view.removeAttribute('aria-busy');
+            view.textContent = '';
+            var lvl = nav.ch ? 3 : nav.s ? 2 : nav.c ? 1 : 0;
+            setHeader(lvl);
+            fillList = null;
+            if (lvl === 0) viewHome();
+            else { $('#aboutHost').hidden = true; if (lvl === 1) viewSubjects(); else if (lvl === 2) viewChapters(); else viewReader(); }
+        }
+
+        function start() {
+            if (!loaded) { renderError(); return; }
+            depth = (history.state && history.state.d) || 0;
+            nav = navFromUrl();
+            try { history.replaceState({ d: depth }, '', urlFor(nav)); } catch (e) {}
+            render();
+        }
+
+        /* ---------- Share page ---------- */
+        $('#shareBtn').addEventListener('click', function () {
+            var data = { title: 'Study Zone: Odisha Chapter Notes', text: 'Chapter summaries, key points and Q&A in Odia on Sikhyak Sathi.', url: 'https://sikhyaksathi.in/odisha-study-notes.html' };
+            if (navigator.share) navigator.share(data).catch(function () {});
+            else copyText(data.url, 'Link copied');
+        });
+
+        load();
+    })();
     </script>
 </body>
 </html>
