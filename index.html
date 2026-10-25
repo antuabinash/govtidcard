@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    <title>Sikhyak Sathi (ଶିକ୍ଷକ ସାଥୀ) | Odisha Lesson Plan, Odia Text Books, Academic Calendar & Holidays</title>
-    <meta name="description" content="Sikhyak Sathi (ଶିକ୍ଷକ ସାଥୀ) is the all-in-one portal for Odisha teachers. Generate daily Odia lesson plans, download Odisha SCERT/OSEPA text books PDF, check the 2026 Odisha academic calendar, school holiday list, and MDM calculator.">
+    <title>Sikhyak Sathi (ଶିକ୍ଷକ ସାଥୀ) | Odisha Lesson Plan, Odia Text Books, Study Notes, Calendar & Holidays</title>
+    <meta name="description" content="Sikhyak Sathi (ଶିକ୍ଷକ ସାଥୀ) is the all-in-one portal for Odisha teachers. Generate daily Odia lesson plans, download Odisha SCERT/OSEPA text books PDF, read chapter-wise study notes, check the 2026 Odisha academic calendar, school holiday list, and MDM calculator.">
     <meta name="author" content="Sikhyak Sathi">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://sikhyaksathi.in/">
@@ -54,7 +54,7 @@
       "hasPart": [
         { "@type": "WebPage", "name": "Odisha & Odia Lesson Plan Generator", "url": "https://sikhyaksathi.in/odisha-lesson-plan.html" },
         { "@type": "WebPage", "name": "Odisha Textbooks & Odia Books PDF", "url": "https://sikhyaksathi.in/odisha-text-books.html" },
-        { "@type": "WebPage", "name": "Odisha Study Zone Notes", "url": "https://sikhyaksathi.in/odisha-study-notes.html" },
+        { "@type": "WebPage", "name": "Odisha Study Notes (Chapter Summary, Key Points, Q&A)", "url": "https://sikhyaksathi.in/odisha-study-notes.html" },
         { "@type": "WebPage", "name": "OCF New Learning Outcomes Odisha", "url": "https://sikhyaksathi.in/learning-outcomes.html" },
         { "@type": "WebPage", "name": "Odisha Academic Calendar 2026", "url": "https://sikhyaksathi.in/odisha-academic-calendar.html" },
         { "@type": "WebPage", "name": "Odisha School Holidays List 2026", "url": "https://sikhyaksathi.in/odisha-school-holidays.html" },
@@ -78,7 +78,7 @@
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "What is Sikhyak Sathi?", "acceptedAnswer": { "@type": "Answer", "text": "Sikhyak Sathi (ଶିକ୍ଷକ ସାଥୀ) is a free-to-browse set of tools and resources for Odisha teachers: lesson plan generator, text books, study notes, learning outcomes, academic calendar, school holiday list, leave application writer, age calculator and MDM calculator." } },
+        { "@type": "Question", "name": "What is Sikhyak Sathi?", "acceptedAnswer": { "@type": "Answer", "text": "Sikhyak Sathi (ଶିକ୍ଷକ ସାଥୀ) is a free-to-browse set of tools and resources for Odisha teachers: lesson plan generator, text books, study notes (chapter summaries, key points and Q&A), learning outcomes, academic calendar, school holiday list, leave application writer, age calculator and MDM calculator." } },
         { "@type": "Question", "name": "Does Sikhyak Sathi work with a weak internet connection?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It is a Progressive Web App (PWA). Install it to your home screen and it is designed to keep working when your connection is slow or unavailable." } },
         { "@type": "Question", "name": "Where is my lesson plan and school data stored?", "acceptedAnswer": { "@type": "Answer", "text": "Data you create, such as saved lesson plans and school details, is stored only in your own device's local storage. It is not uploaded to a server." } },
         { "@type": "Question", "name": "Is Sikhyak Sathi an official government website?", "acceptedAnswer": { "@type": "Answer", "text": "No. It is an independent teacher-support portal and is not affiliated with the Government of Odisha, SCERT or OSEPA. Always confirm dates and rules with official circulars." } },
@@ -206,7 +206,7 @@
         .today-next { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255,255,255,0.3); font-size: 13px; opacity: 0.92; }
         .today-next strong { font-weight: 700; }
 
-        .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
         .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 20px; border-radius: 14px; font: inherit; font-size: 15px; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: transform 0.15s; }
         .btn:active { transform: scale(0.97); }
         .btn-light { background: #fff; color: #1B3A93; flex: 1 1 200px; }
@@ -268,6 +268,17 @@
         .t-pink   { --ink: #E0457B; --tint: rgba(224, 69, 123, 0.13); }
         .t-orange { --ink: #E8742A; --tint: rgba(232, 116, 42, 0.14); }
         .t-gold   { --ink: #C98A06; --tint: rgba(245, 158, 11, 0.16); }
+
+        /* Core group: the three tools teachers use most */
+        .group-core { margin-top: 22px; }
+        .group-core .group-head h2 { color: var(--text); font-size: 15px; }
+        .grid-core { grid-template-columns: 1fr; }
+        @media (min-width: 760px) { .grid-core { grid-template-columns: repeat(3, 1fr); } }
+        .card-lg { padding: 16px; min-height: 100px; background: linear-gradient(135deg, var(--tint), transparent 75%), var(--surface); border-color: color-mix(in srgb, var(--ink) 28%, var(--line)); }
+        .card-lg .ico { width: 60px; height: 60px; border-radius: 18px; background: var(--ink); color: #fff; box-shadow: 0 8px 18px color-mix(in srgb, var(--ink) 32%, transparent); }
+        .card-lg .ico svg.i { width: 29px; height: 29px; }
+        .card-lg h3 { font-size: 17.5px; }
+        .card-lg .badge { background: var(--ink); color: #fff; }
 
         .empty { text-align: center; padding: 44px 20px; margin-top: 24px; background: var(--surface); border: 1px dashed var(--line); border-radius: 20px; }
         .empty .big { font-size: 34px; }
@@ -413,11 +424,8 @@
             </div>
 
             <div class="hero-actions">
-                <a class="btn btn-light" href="odisha-lesson-plan.html" data-track="odisha-lesson-plan.html">
-                    <svg class="i"><use href="#i-lesson"/></svg> Make today's lesson plan
-                </a>
                 <a class="btn btn-glass" href="odisha-school-holidays.html">
-                    <svg class="i"><use href="#i-sun"/></svg> Holidays
+                    <svg class="i"><use href="#i-sun"/></svg> See full holiday list
                 </a>
             </div>
         </section>
@@ -426,7 +434,7 @@
         <div class="search" role="search">
             <label for="searchInput" class="sr-only">Search Odisha teacher tools</label>
             <svg class="i s-icon"><use href="#i-search"/></svg>
-            <input type="search" id="searchInput" placeholder="Search lesson plan, books, holidays…" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+            <input type="search" id="searchInput" placeholder="Search tools, books, notes…" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
             <kbd aria-hidden="true">/</kbd>
             <button class="s-clear" id="searchClear" type="button" aria-label="Clear search" hidden>
                 <svg class="i" style="width:18px;height:18px"><use href="#i-x"/></svg>
@@ -440,19 +448,44 @@
             <div class="recent-row" id="recentRow"></div>
         </section>
 
-        <!-- ===== Daily work ===== -->
-        <section class="group" aria-labelledby="g1">
-            <div class="group-head"><h2 id="g1">Daily Work</h2><p>Use these every school day</p></div>
-            <div class="grid">
-                <a href="odisha-lesson-plan.html" class="card t-indigo" data-title="Lesson Plan" data-keywords="odisha lesson plan odia lession plan lesson planner generator ଶିକ୍ଷାଦାନ ଯୋଜନା">
+        <!-- ===== Teaching tools (core) ===== -->
+        <section class="group group-core" aria-labelledby="g1">
+            <div class="group-head"><h2 id="g1">Teaching Tools</h2><p>Plan, teach and revise</p></div>
+            <div class="grid grid-core">
+                <a href="odisha-lesson-plan.html" class="card card-lg t-indigo" data-title="Lesson Plan" data-keywords="odisha lesson plan odia lession plan lesson planner generator daily ଶିକ୍ଷାଦାନ ଯୋଜନା">
                     <span class="ico"><svg class="i"><use href="#i-lesson"/></svg></span>
                     <span class="card-body">
                         <h3>Lesson Plan <span class="badge">Daily</span></h3>
                         <span class="or" lang="or">ଶିକ୍ଷାଦାନ ଯୋଜନା</span>
-                        <p>Odisha &amp; Odia daily lesson plan generator and templates.</p>
+                        <p>Make a daily Odia lesson plan in a few taps. Print or share it.</p>
                     </span>
                     <svg class="i chev"><use href="#i-chev"/></svg>
                 </a>
+                <a href="odisha-text-books.html" class="card card-lg t-blue" data-title="Text Books" data-keywords="odisha text books textbooks odia text book pdf bahi scert osepa class 1 to 10 download ପାଠ୍ୟ ପୁସ୍ତକ">
+                    <span class="ico"><svg class="i"><use href="#i-books"/></svg></span>
+                    <span class="card-body">
+                        <h3>Text Books</h3>
+                        <span class="or" lang="or">ପାଠ୍ୟ ପୁସ୍ତକ</span>
+                        <p>Download Odia medium books for Class 1 to 10 as PDF.</p>
+                    </span>
+                    <svg class="i chev"><use href="#i-chev"/></svg>
+                </a>
+                <a href="odisha-study-notes.html" class="card card-lg t-teal" data-title="Study Notes" data-keywords="study notes study zone notes summary key points qna questions answers panchapadi chapter ପାଠ ସାରାଂଶ">
+                    <span class="ico"><svg class="i"><use href="#i-study"/></svg></span>
+                    <span class="card-body">
+                        <h3>Study Notes <span class="badge">New</span></h3>
+                        <span class="or" lang="or">ପାଠ ସାରାଂଶ</span>
+                        <p>Chapter summaries, key points and Q&amp;A for every class.</p>
+                    </span>
+                    <svg class="i chev"><use href="#i-chev"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- ===== Calendar & outcomes ===== -->
+        <section class="group" aria-labelledby="g2">
+            <div class="group-head"><h2 id="g2">Calendar &amp; Outcomes</h2><p>Dates and what to teach</p></div>
+            <div class="grid">
                 <a href="odisha-school-holidays.html" class="card t-green" data-title="Holidays" data-keywords="odisha holidays school holiday list 2026 chhuti vacation puja summer winter ଛୁଟି ତାଲିକା">
                     <span class="ico"><svg class="i"><use href="#i-sun"/></svg></span>
                     <span class="card-body">
@@ -470,39 +503,7 @@
                     </span>
                     <svg class="i chev"><use href="#i-chev"/></svg>
                 </a>
-                <a href="teacher-leave-application.html" class="card t-pink" data-title="Leave Writer" data-keywords="casual leave cl application generator odia english letter">
-                    <span class="ico"><svg class="i"><use href="#i-pen"/></svg></span>
-                    <span class="card-body">
-                        <h3>Leave Writer</h3>
-                        <p>Auto-generate Odisha teacher casual leave applications.</p>
-                    </span>
-                    <svg class="i chev"><use href="#i-chev"/></svg>
-                </a>
-            </div>
-        </section>
-
-        <!-- ===== Study resources ===== -->
-        <section class="group" aria-labelledby="g2">
-            <div class="group-head"><h2 id="g2">Study Resources</h2><p>Books, notes &amp; outcomes</p></div>
-            <div class="grid">
-                <a href="odisha-text-books.html" class="card t-blue" data-title="Text Books" data-keywords="odisha text books odia text book pdf bahi scert osepa ପାଠ୍ୟ ପୁସ୍ତକ">
-                    <span class="ico"><svg class="i"><use href="#i-books"/></svg></span>
-                    <span class="card-body">
-                        <h3>Text Books</h3>
-                        <span class="or" lang="or">ପାଠ୍ୟ ପୁସ୍ତକ</span>
-                        <p>Odisha SCERT &amp; Odia medium digital text books PDF.</p>
-                    </span>
-                    <svg class="i chev"><use href="#i-chev"/></svg>
-                </a>
-                <a href="odisha-study-notes.html" class="card t-teal" data-title="Study Zone" data-keywords="study zone notes summary key points qna questions answers panchapadi ପାଠ ସାରାଂଶ">
-                    <span class="ico"><svg class="i"><use href="#i-study"/></svg></span>
-                    <span class="card-body">
-                        <h3>Study Zone <span class="badge">New</span></h3>
-                        <p>Chapter-wise summaries, key points, and Q&amp;A notes.</p>
-                    </span>
-                    <svg class="i chev"><use href="#i-chev"/></svg>
-                </a>
-                <a href="learning-outcomes.html" class="card t-teal" data-title="Learning Outcomes" data-keywords="ocf learning outcomes odisha scert fln nipun">
+                <a href="learning-outcomes.html" class="card t-gold" data-title="Learning Outcomes" data-keywords="ocf learning outcomes odisha scert fln nipun">
                     <span class="ico"><svg class="i"><use href="#i-target"/></svg></span>
                     <span class="card-body">
                         <h3>New Learning Outcomes <span class="badge">New</span></h3>
@@ -513,10 +514,18 @@
             </div>
         </section>
 
-        <!-- ===== Calculators ===== -->
+        <!-- ===== School tools ===== -->
         <section class="group" aria-labelledby="g3">
-            <div class="group-head"><h2 id="g3">Calculators</h2><p>Quick, accurate, offline-ready</p></div>
+            <div class="group-head"><h2 id="g3">School Tools</h2><p>Letters, calculators &amp; cards</p></div>
             <div class="grid">
+                <a href="teacher-leave-application.html" class="card t-pink" data-title="Leave Writer" data-keywords="casual leave cl application generator odia english letter">
+                    <span class="ico"><svg class="i"><use href="#i-pen"/></svg></span>
+                    <span class="card-body">
+                        <h3>Leave Writer</h3>
+                        <p>Auto-generate Odisha teacher casual leave applications.</p>
+                    </span>
+                    <svg class="i chev"><use href="#i-chev"/></svg>
+                </a>
                 <a href="odisha-mdm-calculator.html" class="card t-orange" data-title="MDM Calculator" data-keywords="mdm calculator odisha pm poshan mid day meal rice cost ration">
                     <span class="ico"><svg class="i"><use href="#i-bowl"/></svg></span>
                     <span class="card-body">
@@ -525,7 +534,7 @@
                     </span>
                     <svg class="i chev"><use href="#i-chev"/></svg>
                 </a>
-                <a href="nep-age-calculator.html" class="card t-pink" data-title="Age Calculator" data-keywords="nep 2020 age calculator class 1 admission odisha eligibility">
+                <a href="nep-age-calculator.html" class="card t-blue" data-title="Age Calculator" data-keywords="nep 2020 age calculator class 1 admission odisha eligibility">
                     <span class="ico"><svg class="i"><use href="#i-calc"/></svg></span>
                     <span class="card-body">
                         <h3>Age Calculator</h3>
@@ -533,13 +542,6 @@
                     </span>
                     <svg class="i chev"><use href="#i-chev"/></svg>
                 </a>
-            </div>
-        </section>
-
-        <!-- ===== Services ===== -->
-        <section class="group" aria-labelledby="g4">
-            <div class="group-head"><h2 id="g4">Services</h2><p>For your school</p></div>
-            <div class="grid">
                 <a href="student-id-card.html" class="card t-gold" data-title="Student ID" data-keywords="student id card pvc print school identity">
                     <span class="ico"><svg class="i"><use href="#i-id"/></svg></span>
                     <span class="card-body">
@@ -555,7 +557,7 @@
         <div class="empty" id="emptyState" hidden>
             <div class="big" aria-hidden="true">🔍</div>
             <h2>Nothing found</h2>
-            <p>Try a simpler word like “lesson”, “holiday” or “books”.</p>
+            <p>Try a simpler word like “lesson”, “notes”, “holiday” or “books”.</p>
             <button class="btn btn-primary" type="button" id="emptyReset">Show all tools</button>
         </div>
 
@@ -566,7 +568,7 @@
                 <p>
                     <strong>Sikhyak Sathi (ଶିକ୍ଷକ ସାଥୀ)</strong> is a digital toolkit for Odisha government and private school teachers. Create daily
                     <strong>Odisha lesson plans (Odia lesson plan / ଶିକ୍ଷାଦାନ ଯୋଜନା)</strong>, browse Class 1 to 10
-                    <strong>Odisha text books and Odia text books PDF</strong>, check the <strong>Odisha academic calendar</strong> and
+                    <strong>Odisha text books and Odia text books PDF</strong>, revise with chapter-wise <strong>study notes</strong>, check the <strong>Odisha academic calendar</strong> and
                     <strong>2026 school holidays list (ଛୁଟି ତାଲିକା)</strong>, follow <strong>OCF learning outcomes</strong>, and calculate
                     <strong>PM POSHAN mid-day meal rations</strong>.
                 </p>
@@ -608,24 +610,24 @@
                     </a>
                     <p>Made with ❤️ for the teachers of Odisha. Spend less time on paperwork, more time with your students.</p>
                 </div>
-                <nav class="foot-col" aria-label="Tools">
-                    <h2>Tools</h2>
+                <nav class="foot-col" aria-label="Teaching tools">
+                    <h2>Teaching</h2>
                     <ul>
                         <li><a href="odisha-lesson-plan.html">Lesson Plan</a></li>
+                        <li><a href="odisha-text-books.html">Text Books</a></li>
+                        <li><a href="odisha-study-notes.html">Study Notes</a></li>
+                        <li><a href="learning-outcomes.html">Learning Outcomes</a></li>
+                    </ul>
+                </nav>
+                <nav class="foot-col" aria-label="School tools">
+                    <h2>School</h2>
+                    <ul>
+                        <li><a href="odisha-school-holidays.html">School Holidays</a></li>
+                        <li><a href="odisha-academic-calendar.html">Academic Calendar</a></li>
                         <li><a href="teacher-leave-application.html">Leave Writer</a></li>
                         <li><a href="odisha-mdm-calculator.html">MDM Calculator</a></li>
                         <li><a href="nep-age-calculator.html">Age Calculator</a></li>
                         <li><a href="student-id-card.html">Student ID</a></li>
-                    </ul>
-                </nav>
-                <nav class="foot-col" aria-label="Resources">
-                    <h2>Resources</h2>
-                    <ul>
-                        <li><a href="odisha-text-books.html">Text Books</a></li>
-                        <li><a href="odisha-study-notes.html">Study Zone</a></li>
-                        <li><a href="learning-outcomes.html">Learning Outcomes</a></li>
-                        <li><a href="odisha-academic-calendar.html">Academic Calendar</a></li>
-                        <li><a href="odisha-school-holidays.html">School Holidays</a></li>
                     </ul>
                 </nav>
                 <nav class="foot-col" aria-label="About">
@@ -639,7 +641,7 @@
             </div>
             <div class="disclaimer">
                 <span>Sikhyak Sathi is an independent portal and is not affiliated with the Government of Odisha, SCERT or OSEPA. Please verify important dates and rules with official circulars.</span>
-                <span>© <span id="year">2026</span> Sikhyak Sathi · v1.2.0</span>
+                <span>© <span id="year">2026</span> Sikhyak Sathi · v1.3.0</span>
             </div>
         </div>
     </footer>
@@ -657,7 +659,7 @@
             <button class="drawer-item" type="button" id="drawerShare"><svg class="i"><use href="#i-share"/></svg> Share this app</button>
             <button class="drawer-item" type="button" id="themeToggle"><svg class="i"><use href="#i-moon"/></svg> <span id="themeLabel">Dark mode</span></button>
         </div>
-        <div class="drawer-foot">Made with ❤️ for Teachers of Odisha · v1.2.0</div>
+        <div class="drawer-foot">Made with ❤️ for Teachers of Odisha · v1.3.0</div>
     </aside>
 
     <!-- ================= DIALOGS ================= -->
@@ -899,6 +901,11 @@
             statusEl.textContent = n > 0 ? n + (n === 1 ? " result" : " results") : "";
         }
         input.addEventListener("input", filter);
+        input.addEventListener("keydown", function (e) {
+            if (e.key !== "Enter") return;
+            var first = cards.filter(function (c) { return !c.hidden; })[0];
+            if (first && input.value.trim()) { e.preventDefault(); track(first.getAttribute("href")); location.href = first.getAttribute("href"); }
+        });
         clearBtn.addEventListener("click", function () { input.value = ""; filter(); input.focus(); });
         $("#emptyReset").addEventListener("click", function () { input.value = ""; filter(); window.scrollTo({ top: 0 }); });
         document.addEventListener("keydown", function (e) {
@@ -996,7 +1003,7 @@
         function shareApp() {
             var data = {
                 title: "ଶିକ୍ଷକ ସାଥୀ (Sikhyak Sathi)",
-                text: "Sikhyak Sathi: lesson plans, Odia textbooks, academic calendar, holidays and calculators for Odisha teachers.",
+                text: "Sikhyak Sathi: lesson plans, Odia textbooks, study notes, academic calendar, holidays and calculators for Odisha teachers.",
                 url: "https://sikhyaksathi.in/"
             };
             if (navigator.share) {
