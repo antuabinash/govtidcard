@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>Free Text &amp; Image Tools for Teachers | Photo Resizer, Images to PDF, Word Counter | Sikhyak Sathi</title>
+    <meta name="description" content="Free online tools for teachers: resize and compress photos to 20 KB or 50 KB for forms, combine images into one PDF, count words in Odia and English, change text case, and convert numbers to words. Works on your phone, nothing is uploaded.">
+    <meta name="author" content="Sikhyak Sathi">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://sikhyaksathi.in/text-image-tools.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sikhyaksathi.in/text-image-tools.html">
+    <meta property="og:title" content="Free Text and Image Tools for Teachers | Sikhyak Sathi">
+    <meta property="og:description" content="Photo resizer, images to PDF, word counter, text case changer and number to words. Free, private and made for phones.">
+    <meta property="og:image" content="https://sikhyaksathi.in/icon.png">
+    <meta property="og:site_name" content="Sikhyak Sathi">
+    <meta property="og:locale" content="en_IN">
+    <meta name="twitter:card" content="summary">
+
+    <meta name="theme-color" content="#F3F5FA" id="themeColorMeta">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
+
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('ss_theme');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Free Text and Image Tools for Teachers",
+      "url": "https://sikhyaksathi.in/text-image-tools.html",
+      "inLanguage": "en",
+      "description": "Free tools that run in the browser: photo resizer and compressor, images to PDF, word counter, text case changer and number to words.",
+      "publisher": { "@type": "Organization", "name": "Sikhyak Sathi", "url": "https://sikhyaksathi.in/", "logo": { "@type": "ImageObject", "url": "https://sikhyaksathi.in/icon.png" } },
+      "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": 5,
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Photo Resizer and Compressor" },
+          { "@type": "ListItem", "position": 2, "name": "Images to PDF" },
+          { "@type": "ListItem", "position": 3, "name": "Word Counter" },
+          { "@type": "ListItem", "position": 4, "name": "Text Case Changer and Cleaner" },
+          { "@type": "ListItem", "position": 5, "name": "Number to Words" }
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sikhyaksathi.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Text and Image Tools", "item": "https://sikhyaksathi.in/text-image-tools.html" }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Are these tools free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. All tools are free, need no sign-up and have no limits." } },
+        { "@type": "Question", "name": "Are my photos uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. Photos and text are processed on your own phone or computer and never leave it." } },
+        { "@type": "Question", "name": "How do I make a photo under 50 KB?", "acceptedAnswer": { "@type": "Answer", "text": "Open Photo Resizer, choose your photo, pick the 50 KB size button, and tap Resize. Then save the result." } },
+        { "@type": "Question", "name": "Does the word counter work for Odia?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. It counts Odia and English words, characters, sentences and lines." } }
+      ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #F3F5FA; --surface: #FFFFFF; --surface-2: #F7F8FC;
+            --text: #12172B; --muted: #586178; --line: #E4E8F1;
+            --primary: #2F5BEA; --primary-soft: rgba(47, 91, 234, 0.1);
+            --green: #16A34A; --danger: #DC2626;
+            --shadow: 0 1px 2px rgba(18, 23, 43, 0.04), 0 8px 24px rgba(18, 23, 43, 0.05);
+            --shadow-hover: 0 2px 4px rgba(18, 23, 43, 0.05), 0 16px 34px rgba(18, 23, 43, 0.1);
+            --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+            color-scheme: light;
+        }
+        :root[data-theme="dark"] {
+            --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+            --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+            --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+            --green: #4ADE80; --danger: #F87171;
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+            --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.35), 0 16px 34px rgba(0, 0, 0, 0.45);
+            color-scheme: dark;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+                --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+                --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+                --green: #4ADE80; --danger: #F87171;
+                --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+                --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.35), 0 16px 34px rgba(0, 0, 0, 0.45);
+                color-scheme: dark;
+            }
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        [hidden] { display: none !important; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body { font-family: "Noto Sans Oriya", "Noto Sans", "Nirmala UI", Kalinga, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; font-size: 16px; overflow-x: hidden; }
+        a { color: inherit; }
+        button, input, select, textarea { font: inherit; color: inherit; }
+        :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 8px; }
+        .wrap { max-width: 900px; margin: 0 auto; padding: 0 18px; }
+        .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+        .skip-link { position: absolute; left: 12px; top: -60px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 10px; z-index: 20000; font-weight: 700; text-decoration: none; transition: top 0.2s; }
+        .skip-link:focus { top: calc(var(--safe-t) + 10px); }
+        svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+        .site-header { position: sticky; top: 0; z-index: 100; padding-top: var(--safe-t); background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+        .header-row { display: flex; align-items: center; gap: 12px; height: 64px; }
+        .icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; cursor: pointer; text-decoration: none; flex: none; transition: transform 0.15s; }
+        .icon-btn:active { transform: scale(0.92); }
+        .head-text { flex: 1; min-width: 0; }
+        .head-text .eyebrow { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.2; }
+        .head-text .title { font-size: 18px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .hero { margin-top: 16px; position: relative; overflow: hidden; border-radius: 26px; padding: 20px 20px 18px; color: #fff; background: linear-gradient(135deg, #1B3A93 0%, #3558E0 52%, #6A58D6 100%); box-shadow: 0 18px 40px rgba(53, 88, 224, 0.26); }
+        :root[data-theme="dark"] .hero { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.35); } }
+        .hero::before { content: ""; position: absolute; width: 260px; height: 260px; right: -90px; top: -100px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 70%); pointer-events: none; }
+        .hero > * { position: relative; z-index: 1; }
+        .hero h1 { font-size: 23px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.25; }
+        .hero p { margin-top: 6px; font-size: 14px; opacity: 0.92; max-width: 560px; }
+        .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+        .pill { background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.22); border-radius: 999px; padding: 4px 12px; font-size: 12.5px; font-weight: 700; }
+
+        .group-title { margin: 24px 0 12px; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; color: var(--muted); }
+        .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (min-width: 640px) { .tiles { grid-template-columns: repeat(3, 1fr); } }
+        .tile { --a: #F97316; --b: #C2410C; display: flex; flex-direction: column; gap: 12px; padding: 16px; min-height: 150px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+        .tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+        .tile:active { transform: scale(0.97); }
+        .t-pink { --a: #EC4899; --b: #BE185D; }
+        .t-teal { --a: #14B8A6; --b: #0F766E; }
+        .t-blue { --a: #3B82F6; --b: #1D4ED8; }
+        .t-violet { --a: #8B5CF6; --b: #5B21B6; }
+        .ico { width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center; color: #fff; background: linear-gradient(150deg, var(--a), var(--b)); box-shadow: 0 8px 16px color-mix(in srgb, var(--b) 30%, transparent); }
+        .tile h3 { font-size: 16px; font-weight: 800; line-height: 1.25; letter-spacing: -0.1px; }
+        .tile p { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+        .tool { margin-top: 16px; }
+        .tool h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.3; }
+        .tool .lead { color: var(--muted); font-size: 14.5px; margin-top: 4px; }
+        .card { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 18px; box-shadow: var(--shadow); margin-top: 14px; }
+        .field { margin-top: 14px; }
+        .field:first-child { margin-top: 0; }
+        label, .lbl { display: block; font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+        input[type="text"], input[type="number"], select, textarea { width: 100%; min-height: 48px; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--surface-2); font-size: 16px; transition: border-color 0.15s, box-shadow 0.15s; }
+        textarea { resize: vertical; min-height: 200px; line-height: 1.5; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-soft); }
+        .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .hint { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface-2); font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+        .chip:active { transform: scale(0.96); }
+        .chip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
+        :root[data-theme="dark"] .chip[aria-pressed="true"] { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chip[aria-pressed="true"] { color: #0E1220; } }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 52px; padding: 0 20px; border-radius: 16px; border: 1.5px solid transparent; background: var(--primary); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; text-decoration: none; transition: transform 0.15s, opacity 0.2s; }
+        .btn:active { transform: scale(0.97); }
+        .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+        .btn.block { width: 100%; }
+        .btn.ghost { background: var(--surface); border-color: var(--line); color: var(--text); min-height: 46px; font-size: 14.5px; padding: 0 14px; }
+        :root[data-theme="dark"] .btn:not(.ghost) { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn:not(.ghost) { color: #0E1220; } }
+        .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .btn-row .btn { flex: 1 1 auto; }
+
+        .drop { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 150px; padding: 18px; border: 2px dashed var(--line); border-radius: 20px; background: var(--surface-2); text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+        .drop:hover, .drop.over, .drop:focus-within { border-color: var(--primary); background: var(--primary-soft); }
+        .drop b { font-size: 16px; }
+        .drop span { font-size: 13px; color: var(--muted); }
+        .drop .ico { width: 52px; height: 52px; }
+        .preview { margin-top: 14px; display: flex; gap: 14px; align-items: center; }
+        .preview img { width: 92px; height: 92px; object-fit: contain; border-radius: 12px; background: repeating-conic-gradient(#e8e9ed 0 25%, #fff 0 50%) 0 0/16px 16px; border: 1px solid var(--line); flex: none; }
+        .preview .meta { font-size: 14px; min-width: 0; }
+        .preview .meta b { display: block; word-break: break-all; }
+        .preview .meta span { color: var(--muted); }
+        .result { margin-top: 14px; padding: 16px; border-radius: 20px; background: color-mix(in srgb, var(--green) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--green) 35%, var(--line)); }
+        .result .big { font-size: 20px; font-weight: 800; }
+        .result .big small { font-size: 14px; font-weight: 600; color: var(--muted); }
+        .result img { display: block; max-width: 100%; max-height: 300px; margin: 12px auto 0; border-radius: 12px; background: repeating-conic-gradient(#e8e9ed 0 25%, #fff 0 50%) 0 0/16px 16px; }
+        .note { margin-top: 10px; font-size: 13px; color: var(--muted); }
+        .note.warn { color: var(--danger); }
+
+        .plist { list-style: none; margin-top: 14px; display: grid; gap: 10px; }
+        .plist li { display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface-2); }
+        .plist img { width: 52px; height: 52px; object-fit: cover; border-radius: 10px; flex: none; }
+        .plist .nm { flex: 1; min-width: 0; font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .plist .nm small { display: block; font-weight: 500; color: var(--muted); font-size: 12px; }
+        .mini { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; display: grid; place-items: center; flex: none; }
+        .mini:disabled { opacity: 0.35; cursor: default; }
+        .mini svg.i { width: 18px; height: 18px; }
+
+        .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 14px; }
+        @media (min-width: 560px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+        .stat { padding: 12px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+        .stat b { display: block; font-size: 22px; font-weight: 800; letter-spacing: -0.3px; }
+        .stat span { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+        .out { margin-top: 12px; padding: 14px 16px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--line); }
+        .out .k { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+        .out .v { font-size: 18px; font-weight: 700; line-height: 1.45; word-wrap: break-word; margin-top: 2px; }
+
+        .about { margin-top: 30px; display: grid; gap: 22px; }
+        @media (min-width: 760px) { .about { grid-template-columns: 1fr 1fr; gap: 34px; } }
+        .about h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.3; }
+        .about p { color: var(--muted); font-size: 14.5px; margin-top: 8px; }
+        .faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; margin-top: 10px; overflow: hidden; }
+        .faq details:first-child { margin-top: 0; }
+        .faq summary { list-style: none; cursor: pointer; padding: 14px 16px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .faq summary::-webkit-details-marker { display: none; }
+        .faq summary::after { content: "+"; font-size: 22px; font-weight: 500; color: var(--muted); line-height: 1; transition: transform 0.2s; }
+        .faq details[open] summary::after { transform: rotate(45deg); }
+        .faq details p { padding: 0 16px 16px; margin: 0; font-size: 14px; color: var(--muted); }
+
+        .site-footer { margin-top: 40px; border-top: 1px solid var(--line); background: var(--surface); padding: 26px 0 calc(26px + var(--safe-b)); font-size: 13px; color: var(--muted); }
+        .site-footer .links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-bottom: 10px; }
+        .site-footer .links a { padding: 6px 0; color: var(--text); text-decoration: none; font-size: 14px; }
+        .site-footer .links a:hover { color: var(--primary); text-decoration: underline; }
+
+        .toast { position: fixed; left: 50%; bottom: calc(20px + var(--safe-b)); transform: translate(-50%, 260%); opacity: 0; pointer-events: none; z-index: 12000; background: #1D2338; color: #fff; padding: 12px 18px; border-radius: 14px; font-size: 14px; font-weight: 600; box-shadow: 0 14px 34px rgba(0,0,0,0.35); max-width: calc(100vw - 32px); text-align: center; transition: transform 0.3s cubic-bezier(.2,.8,.2,1), opacity 0.2s; }
+        .toast.show { transform: translate(-50%, 0); opacity: 1; }
+        .spin { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    </style>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+            <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+            <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.7"/><path d="M21 16l-5-5-9 9"/></symbol>
+            <symbol id="i-pdf" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 14h6M9 18h4"/></symbol>
+            <symbol id="i-count" viewBox="0 0 24 24"><path d="M4 7V5h16v2M12 5v14M9 19h6"/></symbol>
+            <symbol id="i-case" viewBox="0 0 24 24"><path d="M3 18l5-12 5 12M5 14h6M15 18h6M17 11a2.5 2.5 0 0 1 4 2v5"/></symbol>
+            <symbol id="i-num" viewBox="0 0 24 24"><path d="M5 9h14M5 15h14M10 3L8 21M16 3l-2 18"/></symbol>
+            <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></symbol>
+            <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></symbol>
+            <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+            <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+            <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></symbol>
+            <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+            <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+        </defs>
+    </svg>
+
+    <header class="site-header">
+        <div class="wrap header-row">
+            <a href="./" class="icon-btn" id="backBtn" aria-label="Back to home"><svg class="i"><use href="#i-back"/></svg></a>
+            <div class="head-text">
+                <div class="eyebrow" id="hEyebrow">Free tools</div>
+                <div class="title" id="hTitle">Text &amp; Image Tools</div>
+            </div>
+            <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="i"><use href="#i-moon"/></svg></button>
+        </div>
+    </header>
+
+    <main class="wrap" id="main">
+
+        <!-- HUB -->
+        <div id="hub">
+            <section class="hero" aria-labelledby="pageTitle">
+                <h1 id="pageTitle">Free Text and Image Tools for Teachers</h1>
+                <p>Small tools you need again and again. Resize photos for forms, make PDFs, count words and more.</p>
+                <div class="pills"><span class="pill">Free</span><span class="pill">No sign-up</span><span class="pill">Photos stay on your phone</span></div>
+            </section>
+
+            <h2 class="group-title">Image tools</h2>
+            <div class="tiles">
+                <a class="tile" href="#photo"><span class="ico" aria-hidden="true"><svg class="i"><use href="#i-photo"/></svg></span><h3>Photo Resizer</h3><p>Make a photo 20 KB, 50 KB or exact size for forms.</p></a>
+                <a class="tile t-pink" href="#pdf"><span class="ico" aria-hidden="true"><svg class="i"><use href="#i-pdf"/></svg></span><h3>Images to PDF</h3><p>Join photos or scans into one PDF.</p></a>
+            </div>
+
+            <h2 class="group-title">Text tools</h2>
+            <div class="tiles">
+                <a class="tile t-teal" href="#count"><span class="ico" aria-hidden="true"><svg class="i"><use href="#i-count"/></svg></span><h3>Word Counter</h3><p>Words, letters and sentences. Odia and English.</p></a>
+                <a class="tile t-blue" href="#case"><span class="ico" aria-hidden="true"><svg class="i"><use href="#i-case"/></svg></span><h3>Case &amp; Cleaner</h3><p>Change case and tidy up pasted text.</p></a>
+                <a class="tile t-violet" href="#words"><span class="ico" aria-hidden="true"><svg class="i"><use href="#i-num"/></svg></span><h3>Number to Words</h3><p>Rupees in words, with Odia digits.</p></a>
+            </div>
+
+            <section class="about" aria-label="About these tools">
+                <div>
+                    <h2>Made for everyday school work</h2>
+                    <p>Resize a photo for an online form, join scanned pages into one PDF, check the length of a speech or paragraph, tidy text copied from a document, or write an amount in words for a bill or cheque.</p>
+                    <p>Everything runs on your own phone or computer. Your photos and text are never uploaded.</p>
+                </div>
+                <div class="faq" aria-label="Frequently asked questions">
+                    <details><summary>Are these tools free?</summary><p>Yes. No sign-up and no limits.</p></details>
+                    <details><summary>Are my photos uploaded?</summary><p>No. They are processed on your device and never leave it.</p></details>
+                    <details><summary>How do I make a photo under 50 KB?</summary><p>Open Photo Resizer, choose the photo, tap the 50 KB button, then tap Resize and Save.</p></details>
+                    <details><summary>Does it work for Odia text?</summary><p>Yes. The word counter and text tools work with Odia and English.</p></details>
+                </div>
+            </section>
+        </div>
+
+        <!-- PHOTO RESIZER -->
+        <section class="tool" id="t-photo" hidden aria-labelledby="h-photo">
+            <h1 id="h-photo">Photo Resizer</h1>
+            <p class="lead">Make a photo the right size and weight for a form or portal.</p>
+            <div class="card">
+                <label class="drop" id="photoDrop">
+                    <span class="ico" aria-hidden="true"><svg class="i"><use href="#i-upload"/></svg></span>
+                    <b id="photoDropTitle">Choose a photo</b>
+                    <span>Take a photo or pick one from your gallery</span>
+                    <input type="file" id="photoFile" accept="image/*" class="sr-only">
+                </label>
+                <div class="preview" id="photoPrev" hidden><img id="photoThumb" alt="Your photo"><div class="meta"><b id="photoName"></b><span id="photoInfo"></span></div></div>
+
+                <div id="photoOpts" hidden>
+                    <div class="field" style="margin-top:18px">
+                        <div class="lbl">Size preset</div>
+                        <div class="chips" id="presetChips" role="group" aria-label="Size preset"></div>
+                    </div>
+                    <div class="row2 field">
+                        <div><label for="pw">Width (px)</label><input type="number" id="pw" inputmode="numeric" min="16" max="8000" placeholder="Auto"></div>
+                        <div><label for="ph">Height (px)</label><input type="number" id="ph" inputmode="numeric" min="16" max="8000" placeholder="Auto"></div>
+                    </div>
+                    <div class="field">
+                        <div class="lbl">When width and height are both set</div>
+                        <div class="chips" id="fitChips" role="group" aria-label="Fit mode">
+                            <button type="button" class="chip" data-m="fit" aria-pressed="false">Keep full photo</button>
+                            <button type="button" class="chip" data-m="fill" aria-pressed="true">Exact size (crop edges)</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="lbl">Maximum file size</div>
+                        <div class="chips" id="kbChips" role="group" aria-label="Maximum file size">
+                            <button type="button" class="chip" data-k="0" aria-pressed="true">Any</button>
+                            <button type="button" class="chip" data-k="20" aria-pressed="false">20 KB</button>
+                            <button type="button" class="chip" data-k="50" aria-pressed="false">50 KB</button>
+                            <button type="button" class="chip" data-k="100" aria-pressed="false">100 KB</button>
+                            <button type="button" class="chip" data-k="200" aria-pressed="false">200 KB</button>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="pfmt">Save as</label>
+                        <select id="pfmt"><option value="image/jpeg">JPG (smallest)</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select>
+                    </div>
+                    <button type="button" class="btn block" id="photoGo" style="margin-top:18px">Resize photo</button>
+                </div>
+
+                <div class="result" id="photoRes" hidden>
+                    <div class="big" id="photoSize"></div>
+                    <img id="photoOut" alt="Resized photo">
+                    <div class="note" id="photoNote"></div>
+                    <div class="btn-row">
+                        <a class="btn" id="photoDl" href="#" download="photo.jpg"><svg class="i"><use href="#i-download"/></svg> Save photo</a>
+                        <button type="button" class="btn ghost" id="photoShare"><svg class="i"><use href="#i-share"/></svg> Share</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IMAGES TO PDF -->
+        <section class="tool" id="t-pdf" hidden aria-labelledby="h-pdf">
+            <h1 id="h-pdf">Images to PDF</h1>
+            <p class="lead">Join photos or scanned pages into one PDF. Move them up or down to set the order.</p>
+            <div class="card">
+                <label class="drop" id="pdfDrop">
+                    <span class="ico" aria-hidden="true" style="--a:#EC4899;--b:#BE185D"><svg class="i"><use href="#i-upload"/></svg></span>
+                    <b>Add photos</b>
+                    <span>You can pick many at once</span>
+                    <input type="file" id="pdfFile" accept="image/*" multiple class="sr-only">
+                </label>
+                <ul class="plist" id="plist"></ul>
+                <div id="pdfOpts" hidden>
+                    <div class="row2 field" style="margin-top:18px">
+                        <div><label for="pgSize">Page</label><select id="pgSize"><option value="a4">A4 page</option><option value="img">Same as photo</option></select></div>
+                        <div><label for="pgMargin">Margin</label><select id="pgMargin"><option value="0">None</option><option value="18" selected>Small</option><option value="36">Normal</option></select></div>
+                    </div>
+                    <div class="field">
+                        <label for="pgQ">Quality</label>
+                        <select id="pgQ"><option value="0.6">Small file</option><option value="0.8" selected>Balanced</option><option value="0.92">Best quality</option></select>
+                    </div>
+                    <button type="button" class="btn block" id="pdfGo" style="margin-top:18px">Make PDF</button>
+                </div>
+                <div class="result" id="pdfRes" hidden>
+                    <div class="big" id="pdfSize"></div>
+                    <div class="btn-row">
+                        <a class="btn" id="pdfDl" href="#" download="images.pdf"><svg class="i"><use href="#i-download"/></svg> Save PDF</a>
+                        <button type="button" class="btn ghost" id="pdfShare"><svg class="i"><use href="#i-share"/></svg> Share</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WORD COUNTER -->
+        <section class="tool" id="t-count" hidden aria-labelledby="h-count">
+            <h1 id="h-count">Word Counter</h1>
+            <p class="lead">Paste or type your text in Odia or English.</p>
+            <div class="card">
+                <label for="ctext" class="sr-only">Your text</label>
+                <textarea id="ctext" placeholder="Type or paste here…"></textarea>
+                <div class="btn-row">
+                    <button type="button" class="btn ghost" id="cPaste">Paste</button>
+                    <button type="button" class="btn ghost" data-copy="#ctext">Copy</button>
+                    <button type="button" class="btn ghost" id="cClear">Clear</button>
+                </div>
+            </div>
+            <div class="stats" aria-live="polite">
+                <div class="stat"><b id="sWords">0</b><span>Words</span></div>
+                <div class="stat"><b id="sChars">0</b><span>Characters</span></div>
+                <div class="stat"><b id="sNoSp">0</b><span>Without spaces</span></div>
+                <div class="stat"><b id="sSent">0</b><span>Sentences</span></div>
+                <div class="stat"><b id="sPara">0</b><span>Paragraphs</span></div>
+                <div class="stat"><b id="sLines">0</b><span>Lines</span></div>
+                <div class="stat"><b id="sRead">0 sec</b><span>Reading time</span></div>
+                <div class="stat"><b id="sSpeak">0 sec</b><span>Speaking time</span></div>
+            </div>
+        </section>
+
+        <!-- CASE & CLEANER -->
+        <section class="tool" id="t-case" hidden aria-labelledby="h-case">
+            <h1 id="h-case">Case Changer and Text Cleaner</h1>
+            <p class="lead">Paste text, tap a button, copy the result.</p>
+            <div class="card">
+                <label for="xtext" class="sr-only">Your text</label>
+                <textarea id="xtext" placeholder="Type or paste here…"></textarea>
+                <div class="lbl" style="margin-top:14px">Change case</div>
+                <div class="chips" id="caseChips">
+                    <button type="button" class="chip" data-a="upper">UPPERCASE</button>
+                    <button type="button" class="chip" data-a="lower">lowercase</button>
+                    <button type="button" class="chip" data-a="title">Title Case</button>
+                    <button type="button" class="chip" data-a="sentence">Sentence case</button>
+                </div>
+                <div class="lbl" style="margin-top:14px">Clean up</div>
+                <div class="chips" id="cleanChips">
+                    <button type="button" class="chip" data-a="spaces">Remove extra spaces</button>
+                    <button type="button" class="chip" data-a="breaks">Join into one line</button>
+                    <button type="button" class="chip" data-a="empty">Remove empty lines</button>
+                    <button type="button" class="chip" data-a="numbers">Number the lines</button>
+                </div>
+                <div class="btn-row">
+                    <button type="button" class="btn" data-copy="#xtext"><svg class="i"><use href="#i-copy"/></svg> Copy</button>
+                    <button type="button" class="btn ghost" id="xUndo" disabled>Undo</button>
+                    <button type="button" class="btn ghost" id="xClear">Clear</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- NUMBER TO WORDS -->
+        <section class="tool" id="t-words" hidden aria-labelledby="h-words">
+            <h1 id="h-words">Number to Words</h1>
+            <p class="lead">Write an amount in words for a bill, cheque or register.</p>
+            <div class="card">
+                <div class="field"><label for="nin">Number</label><input type="text" id="nin" inputmode="decimal" autocomplete="off" placeholder="e.g. 125350.50" maxlength="20"></div>
+                <div class="row2 field">
+                    <div><label for="nsys">System</label><select id="nsys"><option value="in">Indian (lakh)</option><option value="intl">International</option></select></div>
+                    <div><label for="nmode">Style</label><select id="nmode"><option value="rs">Rupees</option><option value="plain">Plain number</option></select></div>
+                </div>
+                <div id="nerr" class="note warn" hidden></div>
+                <div id="nout" hidden>
+                    <div class="out"><div class="k">In words</div><div class="v" id="nWords"></div></div>
+                    <div class="out"><div class="k">Number with commas</div><div class="v" id="nComma"></div></div>
+                    <div class="out"><div class="k">In Odia digits</div><div class="v" id="nOdia"></div></div>
+                    <div class="btn-row">
+                        <button type="button" class="btn" data-copyid="nWords">Copy words</button>
+                        <button type="button" class="btn ghost" data-copyid="nOdia">Copy Odia digits</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <div class="links">
+                <a href="./">Home</a>
+                <a href="odisha-lesson-plan.html">Lesson Plan</a>
+                <a href="odisha-text-books.html">Text Books</a>
+                <a href="odisha-study-notes.html">Study Notes</a>
+                <a href="teacher-leave-application.html">Leave Writer</a>
+                <a href="odisha-academic-calendar.html">Academic Calendar</a>
+            </div>
+            <p>Independent portal, not affiliated with the Government of Odisha. Your photos and text stay on your device.</p>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+    (function () {
+        'use strict';
+        var $ = function (s, r) { return (r || document).querySelector(s); };
+        var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+        var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+
+        /* ---------- theme + toast ---------- */
+        var themeBtn = $('#themeBtn'), themeMeta = $('#themeColorMeta');
+        function isDark() { var t = document.documentElement.getAttribute('data-theme'); if (t) return t === 'dark'; return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches); }
+        function syncTheme() { themeMeta.setAttribute('content', isDark() ? '#0E1220' : '#F3F5FA'); themeBtn.setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode'); }
+        themeBtn.addEventListener('click', function () { var n = isDark() ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); store.set('ss_theme', n); syncTheme(); });
+        syncTheme();
+        var toast = $('#toast'), toastTimer;
+        function showToast(msg) { toast.textContent = msg; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3200); }
+        function fmtKB(b) { return b < 1024 * 1024 ? (b / 1024).toFixed(b < 10240 ? 1 : 0) + ' KB' : (b / 1048576).toFixed(2) + ' MB'; }
+        function copyText(t) {
+            if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(t).then(function () { showToast('Copied'); }, function () { showToast('Could not copy'); });
+            var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast('Copied'); } catch (e) { showToast('Could not copy'); } document.body.removeChild(ta);
+        }
+        function shareFile(blob, name, type) {
+            var f = new File([blob], name, { type: type });
+            if (navigator.canShare && navigator.canShare({ files: [f] })) navigator.share({ files: [f], title: name }).catch(function () {});
+            else showToast('Sharing is not supported here. Use Save instead.');
+        }
+        function loadImage(file) { return new Promise(function (res, rej) { var u = URL.createObjectURL(file), i = new Image(); i.onload = function () { res({ img: i, url: u }); }; i.onerror = function () { URL.revokeObjectURL(u); rej(new Error('bad image')); }; i.src = u; }); }
+        function toBlob(cv, type, q) { return new Promise(function (res) { cv.toBlob(function (b) { res(b); }, type, q); }); }
+
+        /* ---------- routing ---------- */
+        var TOOLS = { photo: 'Photo Resizer', pdf: 'Images to PDF', count: 'Word Counter', 'case': 'Case & Cleaner', words: 'Number to Words' };
+        var hub = $('#hub'), backBtn = $('#backBtn');
+        function route() {
+            var id = (location.hash || '').replace('#', ''), has = TOOLS.hasOwnProperty(id);
+            hub.hidden = has; $$('.tool').forEach(function (t) { t.hidden = t.id !== 't-' + id; });
+            $('#hEyebrow').textContent = has ? 'Text & Image Tools' : 'Free tools';
+            $('#hTitle').textContent = has ? TOOLS[id] : 'Text & Image Tools';
+            backBtn.setAttribute('href', has ? '#' : './');
+            document.title = has ? TOOLS[id] + ' | Free Tool | Sikhyak Sathi' : document.title;
+            if (has) window.scrollTo(0, 0);
+        }
+        window.addEventListener('hashchange', route);
+        backBtn.addEventListener('click', function (e) { if (location.hash && TOOLS.hasOwnProperty(location.hash.slice(1))) { e.preventDefault(); location.hash = ''; history.replaceState(null, '', location.pathname + location.search); route(); } });
+        var baseTitle = document.title;
+        function routeTitle() { if (!location.hash || !TOOLS.hasOwnProperty(location.hash.slice(1))) document.title = baseTitle; }
+        window.addEventListener('hashchange', routeTitle);
+        route();
+
+        /* ---------- generic: copy buttons ---------- */
+        document.addEventListener('click', function (e) {
+            var b = e.target.closest && e.target.closest('[data-copy],[data-copyid]'); if (!b) return;
+            if (b.dataset.copy) copyText($(b.dataset.copy).value); else copyText($('#' + b.dataset.copyid).textContent);
+        });
+        function dropZone(el, onFiles) {
+            ['dragenter', 'dragover'].forEach(function (ev) { el.addEventListener(ev, function (e) { e.preventDefault(); el.classList.add('over'); }); });
+            ['dragleave', 'drop'].forEach(function (ev) { el.addEventListener(ev, function (e) { e.preventDefault(); el.classList.remove('over'); }); });
+            el.addEventListener('drop', function (e) { if (e.dataTransfer && e.dataTransfer.files.length) onFiles(e.dataTransfer.files); });
+        }
+
+        /* =========================================================
+           PHOTO RESIZER
+           ========================================================= */
+        var PRESETS = [
+            { n: 'Original size', w: 0, h: 0 },
+            { n: 'Passport 3.5×4.5 cm', w: 413, h: 531 },
+            { n: 'Small photo 200×230', w: 200, h: 230 },
+            { n: 'Signature 140×60', w: 140, h: 60 },
+            { n: 'Square 500×500', w: 500, h: 500 }
+        ];
+        var P = { img: null, url: '', name: 'photo', mode: 'fill', kb: 0, blobUrl: '', blob: null };
+        var presetChips = $('#presetChips');
+        PRESETS.forEach(function (p, i) { var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = p.n; b.dataset.i = i; b.setAttribute('aria-pressed', String(i === 0)); presetChips.appendChild(b); });
+        presetChips.addEventListener('click', function (e) {
+            var b = e.target.closest('.chip'); if (!b) return; var p = PRESETS[+b.dataset.i];
+            $$('.chip', presetChips).forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); });
+            $('#pw').value = p.w || ''; $('#ph').value = p.h || '';
+        });
+        ['pw', 'ph'].forEach(function (id) { $('#' + id).addEventListener('input', function () { $$('.chip', presetChips).forEach(function (c) { c.setAttribute('aria-pressed', 'false'); }); }); });
+        $('#fitChips').addEventListener('click', function (e) { var b = e.target.closest('.chip'); if (!b) return; P.mode = b.dataset.m; $$('#fitChips .chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); }); });
+        $('#kbChips').addEventListener('click', function (e) { var b = e.target.closest('.chip'); if (!b) return; P.kb = +b.dataset.k; $$('#kbChips .chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); }); if (P.kb) $('#pfmt').value = 'image/jpeg'; });
+
+        function pickPhoto(files) {
+            var f = files && files[0]; if (!f) return;
+            if (!/^image\//.test(f.type)) { showToast('Please choose an image file'); return; }
+            loadImage(f).then(function (r) {
+                if (P.url) URL.revokeObjectURL(P.url);
+                P.img = r.img; P.url = r.url; P.name = f.name.replace(/\.[^.]+$/, '') || 'photo';
+                $('#photoThumb').src = r.url; $('#photoName').textContent = f.name;
+                $('#photoInfo').textContent = r.img.naturalWidth + '×' + r.img.naturalHeight + ' px · ' + fmtKB(f.size);
+                $('#photoPrev').hidden = false; $('#photoOpts').hidden = false; $('#photoRes').hidden = true; $('#photoDropTitle').textContent = 'Choose a different photo';
+            }).catch(function () { showToast('Could not open that image'); });
+        }
+        $('#photoFile').addEventListener('change', function (e) { pickPhoto(e.target.files); e.target.value = ''; });
+        dropZone($('#photoDrop'), pickPhoto);
+
+        $('#photoGo').addEventListener('click', function () {
+            if (!P.img) return;
+            var btn = this, w0 = P.img.naturalWidth, h0 = P.img.naturalHeight;
+            var tw = Math.round(+$('#pw').value) || 0, th = Math.round(+$('#ph').value) || 0;
+            if (!tw && !th) { tw = w0; th = h0; }
+            else if (tw && !th) th = Math.round(tw * h0 / w0);
+            else if (!tw && th) tw = Math.round(th * w0 / h0);
+            else if (P.mode === 'fit') { var sc = Math.min(tw / w0, th / h0); tw = Math.round(w0 * sc); th = Math.round(h0 * sc); }
+            tw = Math.max(16, Math.min(8000, tw)); th = Math.max(16, Math.min(8000, th));
+            var fmt = P.kb ? 'image/jpeg' : $('#pfmt').value, ext = fmt === 'image/png' ? 'png' : fmt === 'image/webp' ? 'webp' : 'jpg';
+            btn.disabled = true; btn.textContent = 'Working…';
+            function draw(cw, ch) {
+                var cv = document.createElement('canvas'); cv.width = cw; cv.height = ch; var x = cv.getContext('2d');
+                x.fillStyle = '#fff'; x.fillRect(0, 0, cw, ch); x.imageSmoothingQuality = 'high';
+                if (P.mode === 'fill' && $('#pw').value && $('#ph').value) { var s = Math.max(cw / w0, ch / h0), dw = w0 * s, dh = h0 * s; x.drawImage(P.img, (cw - dw) / 2, (ch - dh) / 2, dw, dh); }
+                else x.drawImage(P.img, 0, 0, cw, ch);
+                return cv;
+            }
+            var work;
+            if (!P.kb) work = toBlob(draw(tw, th), fmt, 0.92).then(function (b) { return { blob: b, w: tw, h: th, shrunk: false }; });
+            else {
+                var limit = P.kb * 1024;
+                work = (function attempt(scale) {
+                    var cw = Math.max(16, Math.round(tw * scale)), ch = Math.max(16, Math.round(th * scale)), cv = draw(cw, ch), lo = 0.2, hi = 0.95, best = null, n = 0;
+                    function step() { if (n++ >= 8) return Promise.resolve(best); var q = (lo + hi) / 2; return toBlob(cv, fmt, q).then(function (b) { if (b.size <= limit) { best = b; lo = q; } else hi = q; return step(); }); }
+                    return toBlob(cv, fmt, 0.2).then(function (floor) {
+                        if (floor.size > limit) { return scale > 0.15 ? attempt(scale * 0.85) : { blob: floor, w: cw, h: ch, shrunk: scale < 1, over: true }; }
+                        return step().then(function (b) { return { blob: b || floor, w: cw, h: ch, shrunk: scale < 1 }; });
+                    });
+                })(1);
+            }
+            work.then(function (r) {
+                if (P.blobUrl) URL.revokeObjectURL(P.blobUrl);
+                P.blob = r.blob; P.blobUrl = URL.createObjectURL(r.blob);
+                $('#photoOut').src = P.blobUrl;
+                var sz = $('#photoSize'); sz.textContent = ''; sz.appendChild(document.createTextNode(fmtKB(r.blob.size) + ' '));
+                var sm = document.createElement('small'); sm.textContent = '· ' + r.w + '×' + r.h + ' px · ' + ext.toUpperCase(); sz.appendChild(sm);
+                var note = $('#photoNote'); note.className = 'note';
+                note.textContent = r.over ? 'Could not reach ' + P.kb + ' KB. Try a smaller width and height.' : (r.shrunk ? 'To fit ' + P.kb + ' KB the photo was made a little smaller.' : (P.kb ? 'Fits under ' + P.kb + ' KB.' : ''));
+                if (r.over) note.classList.add('warn');
+                var dl = $('#photoDl'); dl.href = P.blobUrl; dl.download = P.name + '_resized.' + ext; dl.dataset.type = fmt; dl.dataset.name = P.name + '_resized.' + ext;
+                $('#photoRes').hidden = false; $('#photoRes').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }).catch(function () { showToast('Something went wrong. Try another photo.'); }).then(function () { btn.disabled = false; btn.textContent = 'Resize photo'; });
+        });
+        $('#photoShare').addEventListener('click', function () { if (P.blob) shareFile(P.blob, $('#photoDl').dataset.name, $('#photoDl').dataset.type); });
+
+        /* =========================================================
+           IMAGES TO PDF
+           ========================================================= */
+        var items = [], plist = $('#plist'), uid = 0, pdfBlob = null, pdfUrl = '';
+        function renderList() {
+            plist.innerHTML = '';
+            items.forEach(function (it, i) {
+                var li = document.createElement('li');
+                var im = document.createElement('img'); im.src = it.url; im.alt = '';
+                var nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = (i + 1) + '. ' + it.name; var sm = document.createElement('small'); sm.textContent = fmtKB(it.size); nm.appendChild(sm);
+                function mb(label, icon, dis, fn) { var b = document.createElement('button'); b.type = 'button'; b.className = 'mini'; b.setAttribute('aria-label', label); b.disabled = dis; b.innerHTML = '<svg class="i"><use href="#' + icon + '"/></svg>'; b.addEventListener('click', fn); return b; }
+                li.appendChild(im); li.appendChild(nm);
+                li.appendChild(mb('Move up', 'i-up', i === 0, function () { items.splice(i - 1, 0, items.splice(i, 1)[0]); renderList(); }));
+                li.appendChild(mb('Move down', 'i-down', i === items.length - 1, function () { items.splice(i + 1, 0, items.splice(i, 1)[0]); renderList(); }));
+                li.appendChild(mb('Remove', 'i-x', false, function () { URL.revokeObjectURL(it.url); items.splice(i, 1); renderList(); }));
+                plist.appendChild(li);
+            });
+            $('#pdfOpts').hidden = !items.length; $('#pdfRes').hidden = true;
+            $('#pdfGo').textContent = items.length ? 'Make PDF (' + items.length + (items.length === 1 ? ' page)' : ' pages)') : 'Make PDF';
+        }
+        function addPdfFiles(files) {
+            var list = Array.prototype.slice.call(files).filter(function (f) { return /^image\//.test(f.type); });
+            if (!list.length) { showToast('Please choose image files'); return; }
+            list.forEach(function (f) { items.push({ id: ++uid, file: f, name: f.name, size: f.size, url: URL.createObjectURL(f) }); });
+            renderList();
+        }
+        $('#pdfFile').addEventListener('change', function (e) { addPdfFiles(e.target.files); e.target.value = ''; });
+        dropZone($('#pdfDrop'), addPdfFiles);
+
+        function bytesOf(blob) { return blob.arrayBuffer ? blob.arrayBuffer() : new Promise(function (res) { var r = new FileReader(); r.onload = function () { res(r.result); }; r.readAsArrayBuffer(blob); }); }
+        function buildPdf(pages) {
+            var enc = new TextEncoder(), parts = [], off = 0, offs = [];
+            function push(x) { var b = typeof x === 'string' ? enc.encode(x) : x; parts.push(b); off += b.length; }
+            function num(v) { return (Math.round(v * 100) / 100).toString(); }
+            push('%PDF-1.4\n%âãÏÓ\n');
+            var kids = pages.map(function (_, i) { return (3 + i * 3) + ' 0 R'; }).join(' ');
+            offs[1] = off; push('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+            offs[2] = off; push('2 0 obj\n<< /Type /Pages /Kids [' + kids + '] /Count ' + pages.length + ' >>\nendobj\n');
+            pages.forEach(function (p, i) {
+                var po = 3 + i * 3, co = po + 1, io = po + 2, name = 'Im' + i;
+                var content = 'q ' + num(p.dw) + ' 0 0 ' + num(p.dh) + ' ' + num(p.x) + ' ' + num(p.y) + ' cm /' + name + ' Do Q';
+                offs[po] = off; push(po + ' 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + num(p.w) + ' ' + num(p.h) + '] /Resources << /XObject << /' + name + ' ' + io + ' 0 R >> >> /Contents ' + co + ' 0 R >>\nendobj\n');
+                offs[co] = off; push(co + ' 0 obj\n<< /Length ' + content.length + ' >>\nstream\n' + content + '\nendstream\nendobj\n');
+                offs[io] = off; push(io + ' 0 obj\n<< /Type /XObject /Subtype /Image /Width ' + p.iw + ' /Height ' + p.ih + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + p.jpeg.length + ' >>\nstream\n'); push(p.jpeg); push('\nendstream\nendobj\n');
+            });
+            var total = 3 + pages.length * 3, xref = off;
+            push('xref\n0 ' + total + '\n0000000000 65535 f \n');
+            for (var n = 1; n < total; n++) push(('0000000000' + offs[n]).slice(-10) + ' 00000 n \n');
+            push('trailer\n<< /Size ' + total + ' /Root 1 0 R >>\nstartxref\n' + xref + '\n%%EOF');
+            return new Blob(parts, { type: 'application/pdf' });
+        }
+        $('#pdfGo').addEventListener('click', function () {
+            if (!items.length) return;
+            var btn = this, A4 = [595.28, 841.89], size = $('#pgSize').value, margin = +$('#pgMargin').value, q = +$('#pgQ').value;
+            btn.disabled = true; btn.textContent = 'Making PDF…';
+            var pages = [];
+            items.reduce(function (chain, it) {
+                return chain.then(function () { return loadImage(it.file); }).then(function (r) {
+                    var w = r.img.naturalWidth, h = r.img.naturalHeight, sc = Math.min(1, 2000 / Math.max(w, h)), cw = Math.round(w * sc), ch = Math.round(h * sc);
+                    var cv = document.createElement('canvas'); cv.width = cw; cv.height = ch; var x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cw, ch); x.drawImage(r.img, 0, 0, cw, ch); URL.revokeObjectURL(r.url);
+                    return toBlob(cv, 'image/jpeg', q).then(bytesOf).then(function (buf) {
+                        var pw, ph, m = margin;
+                        if (size === 'img') { pw = cw * 0.75; ph = ch * 0.75; m = 0; }
+                        else { var land = cw > ch; pw = land ? A4[1] : A4[0]; ph = land ? A4[0] : A4[1]; }
+                        var aw = pw - 2 * m, ah = ph - 2 * m, s = Math.min(aw / cw, ah / ch), dw = cw * s, dh = ch * s;
+                        pages.push({ w: pw, h: ph, iw: cw, ih: ch, jpeg: new Uint8Array(buf), x: (pw - dw) / 2, y: (ph - dh) / 2, dw: dw, dh: dh });
+                    });
+                });
+            }, Promise.resolve()).then(function () {
+                pdfBlob = buildPdf(pages); if (pdfUrl) URL.revokeObjectURL(pdfUrl); pdfUrl = URL.createObjectURL(pdfBlob);
+                $('#pdfDl').href = pdfUrl; $('#pdfSize').textContent = fmtKB(pdfBlob.size) + ' · ' + pages.length + (pages.length === 1 ? ' page' : ' pages');
+                $('#pdfRes').hidden = false; $('#pdfRes').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }).catch(function () { showToast('Could not make the PDF. Try fewer or smaller photos.'); }).then(function () { btn.disabled = false; renderPdfBtn(); });
+            function renderPdfBtn() { btn.textContent = 'Make PDF (' + items.length + (items.length === 1 ? ' page)' : ' pages)'); }
+        });
+        $('#pdfShare').addEventListener('click', function () { if (pdfBlob) shareFile(pdfBlob, 'images.pdf', 'application/pdf'); });
+
+        /* =========================================================
+           WORD COUNTER
+           ========================================================= */
+        var ct = $('#ctext');
+        function dur(sec) { if (sec < 60) return Math.round(sec) + ' sec'; var m = Math.floor(sec / 60), s = Math.round(sec % 60); return m + ' min' + (s ? ' ' + s + ' s' : ''); }
+        function countNow() {
+            var t = ct.value, words = (t.trim().match(/\S+/g) || []).length;
+            var chars = Array.from(t).length, nosp = Array.from(t.replace(/\s/g, '')).length;
+            var sent = t.split(/[.!?।]+(?:\s|$)/).filter(function (x) { return x.trim(); }).length;
+            var para = t.split(/\n\s*\n/).filter(function (x) { return x.trim(); }).length;
+            var lines = t ? t.split('\n').length : 0;
+            $('#sWords').textContent = words; $('#sChars').textContent = chars; $('#sNoSp').textContent = nosp; $('#sSent').textContent = sent; $('#sPara').textContent = para; $('#sLines').textContent = lines;
+            $('#sRead').textContent = dur(words / 200 * 60); $('#sSpeak').textContent = dur(words / 130 * 60);
+        }
+        ct.addEventListener('input', countNow);
+        $('#cClear').addEventListener('click', function () { ct.value = ''; countNow(); ct.focus(); });
+        $('#cPaste').addEventListener('click', function () { if (navigator.clipboard && navigator.clipboard.readText) navigator.clipboard.readText().then(function (t) { ct.value = t; countNow(); }, function () { showToast('Allow paste, or long-press in the box and tap Paste'); }); else showToast('Long-press in the box and tap Paste'); });
+        countNow();
+
+        /* =========================================================
+           CASE & CLEANER
+           ========================================================= */
+        var xt = $('#xtext'), undoStack = [];
+        var ACTIONS = {
+            upper: function (t) { return t.toUpperCase(); },
+            lower: function (t) { return t.toLowerCase(); },
+            title: function (t) { return t.toLowerCase().replace(/(^|[\s\-(\[“"'])(\p{L})/gu, function (m, a, b) { return a + b.toUpperCase(); }); },
+            sentence: function (t) { return t.toLowerCase().replace(/(^\s*|[.!?।]\s+|\n\s*)(\p{L})/gu, function (m, a, b) { return a + b.toUpperCase(); }).replace(/\bi\b/g, 'I'); },
+            spaces: function (t) { return t.split('\n').map(function (l) { return l.replace(/[ \t ]+/g, ' ').trim(); }).join('\n'); },
+            breaks: function (t) { return t.replace(/\s*\n+\s*/g, ' ').replace(/[ \t]+/g, ' ').trim(); },
+            empty: function (t) { return t.split('\n').filter(function (l) { return l.trim(); }).join('\n'); },
+            numbers: function (t) { return t.split('\n').map(function (l, i) { return (i + 1) + '. ' + l; }).join('\n'); }
+        };
+        function xAction(a) { if (!xt.value.trim()) { showToast('Add some text first'); xt.focus(); return; } undoStack.push(xt.value); if (undoStack.length > 20) undoStack.shift(); xt.value = ACTIONS[a](xt.value); $('#xUndo').disabled = false; }
+        $('#t-case').addEventListener('click', function (e) { var b = e.target.closest('.chip'); if (b && b.dataset.a) xAction(b.dataset.a); });
+        $('#xUndo').addEventListener('click', function () { if (undoStack.length) xt.value = undoStack.pop(); $('#xUndo').disabled = !undoStack.length; });
+        $('#xClear').addEventListener('click', function () { if (xt.value) { undoStack.push(xt.value); $('#xUndo').disabled = false; } xt.value = ''; xt.focus(); });
+
+        /* =========================================================
+           NUMBER TO WORDS
+           ========================================================= */
+        var ONES = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+        var TENS = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+        function b100(n) { return n < 20 ? ONES[n] : TENS[Math.floor(n / 10)] + (n % 10 ? ' ' + ONES[n % 10] : ''); }
+        function b1000(n) { var h = Math.floor(n / 100), r = n % 100; return (h ? ONES[h] + ' Hundred' + (r ? ' ' : '') : '') + (r ? b100(r) : ''); }
+        function inWords(n) {
+            if (n === 0) return 'Zero';
+            var out = [], cr = Math.floor(n / 1e7); n %= 1e7;
+            var lk = Math.floor(n / 1e5); n %= 1e5; var th = Math.floor(n / 1e3); n %= 1e3;
+            if (cr) out.push((cr >= 1e5 ? inWords(cr) : cr >= 1e3 || cr >= 100 ? inWords(cr) : b100(cr)) + ' Crore');
+            if (lk) out.push(b100(lk) + ' Lakh'); if (th) out.push(b100(th) + ' Thousand'); if (n) out.push(b1000(n));
+            return out.join(' ');
+        }
+        function intlWords(n) {
+            if (n === 0) return 'Zero';
+            var scales = ['', 'Thousand', 'Million', 'Billion', 'Trillion'], out = [], i = 0;
+            while (n > 0) { var g = n % 1000; if (g) out.unshift(b1000(g) + (scales[i] ? ' ' + scales[i] : '')); n = Math.floor(n / 1000); i++; }
+            return out.join(' ');
+        }
+        function commaIN(s) { return s.length <= 3 ? s : s.slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + s.slice(-3); }
+        function commaIntl(s) { return s.replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+        var ODIA = ['୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯'];
+        function odia(s) { return s.replace(/\d/g, function (d) { return ODIA[+d]; }); }
+        function numNow() {
+            var raw = $('#nin').value.replace(/[,\s₹]/g, '').replace(/[୦-୯]/g, function (c) { return String(c.charCodeAt(0) - 0x0B66); }), err = $('#nerr'), out = $('#nout');
+            err.hidden = true; out.hidden = true; if (!raw) return;
+            var m = raw.match(/^(\d{1,13})(?:\.(\d{1,2})\d*)?$/);
+            if (!m) { err.textContent = /^\d{14,}/.test(raw) ? 'Please use a number up to 13 digits.' : 'Please type digits only, like 125350.50'; err.hidden = false; return; }
+            var ip = m[1].replace(/^0+(?=\d)/, ''), frac = m[2] ? (m[2] + '0').slice(0, 2) : '', n = +ip, f = $('#nsys').value === 'in' ? inWords : intlWords, rs = $('#nmode').value === 'rs', words;
+            if (rs) { words = (n === 0 && frac && +frac ? '' : f(n) + ' Rupees'); if (frac && +frac) words += (words ? ' and ' : '') + f(+frac) + ' Paise'; words += ' Only'; }
+            else { words = f(n); if (frac && +frac) words += ' Point ' + frac.split('').map(function (d) { return d === '0' ? 'Zero' : ONES[+d]; }).join(' '); }
+            var comma = ($('#nsys').value === 'in' ? commaIN(ip) : commaIntl(ip)) + (frac ? '.' + frac : '');
+            $('#nWords').textContent = words; $('#nComma').textContent = comma; $('#nOdia').textContent = odia(comma); out.hidden = false;
+        }
+        ['nin', 'nsys', 'nmode'].forEach(function (id) { $('#' + id).addEventListener('input', numNow); $('#' + id).addEventListener('change', numNow); });
+    })();
+    </script>
+</body>
+</html>
