@@ -60,7 +60,8 @@
         { "@type": "WebPage", "name": "Odisha School Holidays List 2026", "url": "https://sikhyaksathi.in/odisha-school-holidays.html" },
         { "@type": "WebPage", "name": "Teacher Leave Application Writer", "url": "https://sikhyaksathi.in/teacher-leave-application.html" },
         { "@type": "WebPage", "name": "NEP 2020 Student Age Calculator", "url": "https://sikhyaksathi.in/nep-age-calculator.html" },
-        { "@type": "WebPage", "name": "Odisha MDM Ration & Cost Calculator", "url": "https://sikhyaksathi.in/odisha-mdm-calculator.html" }
+        { "@type": "WebPage", "name": "Odisha MDM Ration & Cost Calculator", "url": "https://sikhyaksathi.in/odisha-mdm-calculator.html" },
+        { "@type": "WebPage", "name": "Free Text & Image Tools for Teachers (Photo Resizer, Images to PDF, Word Counter)", "url": "https://sikhyaksathi.in/text-image-tools.html" }
       ]
     }
     </script>
@@ -280,6 +281,19 @@
         .card-lg h3 { font-size: 17.5px; }
         .card-lg .badge { background: var(--ink); color: #fff; }
 
+        .promo { position: relative; margin-top: 30px; padding: 18px 16px 16px; border-radius: 24px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.16), rgba(224, 69, 123, 0.12)); border: 1px solid rgba(245, 158, 11, 0.35); box-shadow: var(--shadow); display: flex; gap: 14px; align-items: center; }
+        .promo-ico { flex: none; width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; color: #fff; background: linear-gradient(150deg, #F59E0B, #E0457B); box-shadow: 0 8px 18px rgba(224, 69, 123, 0.28); }
+        .promo-ico svg.i { width: 30px; height: 30px; }
+        .promo-body { flex: 1; min-width: 0; padding-right: 22px; }
+        .promo-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; color: var(--muted); }
+        .promo h2 { font-size: 16.5px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.3; margin-top: 1px; }
+        .promo p { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+        .promo-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; min-height: 44px; padding: 0 16px; border-radius: 14px; background: var(--text); color: var(--bg); font-weight: 800; font-size: 14.5px; text-decoration: none; }
+        .promo-btn:active { transform: scale(0.97); }
+        .promo-btn svg.i { width: 17px; height: 17px; fill: currentColor; stroke: none; }
+        .promo-x { position: absolute; top: 6px; right: 6px; width: 40px; height: 40px; border: 0; background: transparent; border-radius: 50%; display: grid; place-items: center; cursor: pointer; color: var(--muted); }
+        .promo-x svg.i { width: 18px; height: 18px; }
+        @media (max-width: 350px) { .promo { flex-direction: column; align-items: flex-start; } .promo-body { padding-right: 0; } .promo-x { top: 8px; } }
         .empty { text-align: center; padding: 44px 20px; margin-top: 24px; background: var(--surface); border: 1px dashed var(--line); border-radius: 20px; }
         .empty .big { font-size: 34px; }
         .empty h2 { font-size: 18px; margin-top: 8px; }
@@ -381,6 +395,9 @@
             <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
             <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
             <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+            <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.7"/><path d="M21 16l-5-5-9 9"/></symbol>
+            <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol>
+            <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 3.5v17a1 1 0 0 0 1.5.86l14-8.5a1 1 0 0 0 0-1.72l-14-8.5A1 1 0 0 0 6 3.5z"/></symbol>
             <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
         </defs>
     </svg>
@@ -550,8 +567,28 @@
                     </span>
                     <svg class="i chev"><use href="#i-chev"/></svg>
                 </a>
+                <a href="text-image-tools.html" class="card t-purple" data-title="Text &amp; Image Tools" data-keywords="text image tools photo resizer compress 20kb 50kb 100kb passport photo signature size images to pdf jpg png word counter odia case converter number to words rupees amount in words odia digits text cleaner free tools">
+                    <span class="ico"><svg class="i"><use href="#i-photo"/></svg></span>
+                    <span class="card-body">
+                        <h3>Text &amp; Image Tools <span class="badge">New</span></h3>
+                        <p>Resize photos to 50 KB, make PDFs, count words and more.</p>
+                    </span>
+                    <svg class="i chev"><use href="#i-chev"/></svg>
+                </a>
             </div>
         </section>
+
+        <!-- Own app promo (hidden while searching, dismissible) -->
+        <aside class="promo" id="promo" aria-labelledby="promoTitle">
+            <span class="promo-ico" aria-hidden="true"><svg class="i"><use href="#i-smile"/></svg></span>
+            <div class="promo-body">
+                <span class="promo-tag">App for kids</span>
+                <h2 id="promoTitle">Odia KidsApp</h2>
+                <p>A learning app in Odia for children. Share it with your students' families.</p>
+                <a class="promo-btn" id="promoLink" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp&amp;referrer=utm_source%3Dsikhyaksathi%26utm_medium%3Dhome" target="_blank" rel="noopener"><svg class="i"><use href="#i-play"/></svg> Get it on Google Play</a>
+            </div>
+            <button class="promo-x" id="promoClose" type="button" aria-label="Hide this for now"><svg class="i"><use href="#i-x"/></svg></button>
+        </aside>
 
         <!-- Empty search state -->
         <div class="empty" id="emptyState" hidden>
@@ -628,6 +665,7 @@
                         <li><a href="odisha-mdm-calculator.html">MDM Calculator</a></li>
                         <li><a href="nep-age-calculator.html">Age Calculator</a></li>
                         <li><a href="student-id-card.html">Student ID</a></li>
+                        <li><a href="text-image-tools.html">Text &amp; Image Tools</a></li>
                     </ul>
                 </nav>
                 <nav class="foot-col" aria-label="About">
@@ -641,7 +679,7 @@
             </div>
             <div class="disclaimer">
                 <span>Sikhyak Sathi is an independent portal and is not affiliated with the Government of Odisha, SCERT or OSEPA. Please verify important dates and rules with official circulars.</span>
-                <span>© <span id="year">2026</span> Sikhyak Sathi · v1.3.0</span>
+                <span>© <span id="year">2026</span> Sikhyak Sathi · v1.4.0</span>
             </div>
         </div>
     </footer>
@@ -659,7 +697,7 @@
             <button class="drawer-item" type="button" id="drawerShare"><svg class="i"><use href="#i-share"/></svg> Share this app</button>
             <button class="drawer-item" type="button" id="themeToggle"><svg class="i"><use href="#i-moon"/></svg> <span id="themeLabel">Dark mode</span></button>
         </div>
-        <div class="drawer-foot">Made with ❤️ for Teachers of Odisha · v1.3.0</div>
+        <div class="drawer-foot">Made with ❤️ for Teachers of Odisha · v1.4.0</div>
     </aside>
 
     <!-- ================= DIALOGS ================= -->
@@ -872,6 +910,11 @@
         var recentSec = $("#recent");
         var emptyState = $("#emptyState");
         var statusEl = $("#searchStatus");
+        var promo = $("#promo"), PROMO_KEY = "ss_promo_kids", promoOff = false;
+        try { var pt = +localStorage.getItem(PROMO_KEY) || 0; promoOff = pt && (Date.now() - pt) < 14 * 864e5; } catch (e) {}
+        function syncPromo(searching) { promo.hidden = promoOff || searching; }
+        $("#promoClose").addEventListener("click", function () { promoOff = true; syncPromo(false); try { localStorage.setItem(PROMO_KEY, String(Date.now())); } catch (e) {} });
+        syncPromo(false);
 
         cards.forEach(function (c) {
             c.dataset.text = (c.querySelector("h3").textContent + " " + c.querySelector("p").textContent + " " + (c.dataset.keywords || "")).toLowerCase();
@@ -880,6 +923,7 @@
         function filter() {
             var q = input.value.trim().toLowerCase();
             clearBtn.hidden = !q;
+            syncPromo(!!q);
             if (!q) {
                 cards.forEach(function (c) { c.hidden = false; });
                 groups.forEach(function (g) { g.hidden = false; });
