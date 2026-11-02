@@ -2,14 +2,14 @@
 <html lang="en-IN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ID Cards with Lanyard – Bulk Order from ₹15 | AN ID Cards India</title>
 <meta name="description" content="Buy ID card holders, PVC cards and printed lanyards in bulk from ₹15. Custom digital print lanyards (16mm & 20mm), minimum 30 pcs, bulk discounts, delivery in 5–7 days across India. Order on WhatsApp.">
 <meta name="keywords" content="ID card holder, lanyard printing, custom lanyard, PVC ID card, bulk ID cards, school ID card, office ID card, event lanyard, digital print lanyard India">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <!-- TODO: replace with your real domain everywhere you see https://www.anidcards.in -->
 <link rel="canonical" href="https://www.anidcards.in/">
-<meta name="theme-color" content="#0b5ea8">
+<meta name="theme-color" content="#F3F5FA" id="themeColorMeta">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ID Cards, Holders & Printed Lanyards – Bulk Orders from ₹15">
 <meta property="og:description" content="Custom lanyards, ID card holders & PVC cards. Minimum 30 pcs. Bulk discounts. Delivery in 5–7 days.">
@@ -18,124 +18,250 @@
 <meta property="og:locale" content="en_IN">
 <meta name="twitter:card" content="summary_large_image">
 
+<script>
+    (function () {
+        try {
+            var t = localStorage.getItem('an_theme');
+            if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    })();
+</script>
+
 <style>
-:root{--b:#0b5ea8;--bd:#083e70;--bl:#e8f3fc;--g:#25d366;--gd:#1aa851;--a:#f59e0b;--t:#1f2937;--m:#64748b;--l:#e5e7eb;--bg:#f8fafc}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--t);background:var(--bg);line-height:1.55}
-img{max-width:100%;display:block}
-a{color:var(--b)}
-.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font-weight:700;border-radius:10px;padding:12px 20px;font-size:1rem;text-decoration:none;transition:transform .15s,background .15s}
-.btn:hover{transform:translateY(-1px)}
-.btn-wa{background:var(--g);color:#fff}.btn-wa:hover{background:var(--gd)}
-.btn-p{background:var(--b);color:#fff}.btn-p:hover{background:var(--bd)}
-.btn-o{background:#fff;color:var(--b);border:2px solid var(--b)}
+:root {
+    --bg: #F3F5FA; --surface: #FFFFFF; --surface-2: #F7F8FC;
+    --text: #12172B; --muted: #586178; --line: #E4E8F1;
+    --primary: #2F5BEA; --primary-soft: rgba(47, 91, 234, 0.1);
+    --green: #16A34A; --wa: #1FA855; --amber: #F59E0B; --danger: #DC2626;
+    --shadow: 0 1px 2px rgba(18, 23, 43, 0.04), 0 8px 24px rgba(18, 23, 43, 0.05);
+    --shadow-hover: 0 2px 4px rgba(18, 23, 43, 0.05), 0 16px 34px rgba(18, 23, 43, 0.1);
+    --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+    color-scheme: light;
+}
+:root[data-theme="dark"] {
+    --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+    --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+    --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+    --green: #4ADE80; --wa: #2BC56B; --danger: #F87171;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+    --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.35), 0 16px 34px rgba(0, 0, 0, 0.45);
+    color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+        --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+        --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+        --green: #4ADE80; --wa: #2BC56B; --danger: #F87171;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+        --shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.35), 0 16px 34px rgba(0, 0, 0, 0.45);
+        color-scheme: dark;
+    }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; font-size: 16px; overflow-x: hidden; }
+body:has(dialog[open]) { overflow: hidden; }
+img { max-width: 100%; display: block; }
+a { color: var(--primary); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 8px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 18px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip-link { position: absolute; left: 12px; top: -60px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 10px; z-index: 20000; font-weight: 700; text-decoration: none; transition: top 0.2s; }
+.skip-link:focus { top: calc(var(--safe-t) + 10px); }
+svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
 /* header */
-.top{background:var(--bd);color:#fff;font-size:.82rem;padding:6px 0}
-.top .wrap{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.top a{color:#fff;text-decoration:none}
-header.site{background:#fff;position:sticky;top:0;z-index:30;box-shadow:0 1px 6px rgba(0,0,0,.08)}
-header.site .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
-.logo{font-weight:800;font-size:1.3rem;color:var(--bd);text-decoration:none;letter-spacing:-.3px}
-.logo span{color:var(--a)}
-nav a{margin-left:20px;text-decoration:none;color:var(--t);font-weight:600;font-size:.95rem}
-nav a:hover{color:var(--b)}
-@media(max-width:720px){nav{display:none}}
+.site-header { position: sticky; top: 0; z-index: 100; padding-top: var(--safe-t); background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+.header-row { display: flex; align-items: center; gap: 12px; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); flex: 1; min-width: 0; }
+.brand .mark { width: 40px; height: 40px; border-radius: 13px; display: grid; place-items: center; color: #fff; background: linear-gradient(150deg, #3B82F6, #1D4ED8); box-shadow: 0 6px 14px rgba(29, 78, 216, 0.3); }
+.brand b { font-size: 17px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.1; display: block; }
+.brand small { font-size: 12px; color: var(--muted); font-weight: 600; }
+.nav { display: none; gap: 4px; }
+.nav a { padding: 8px 12px; border-radius: 10px; text-decoration: none; color: var(--text); font-weight: 700; font-size: 14.5px; }
+.nav a:hover { background: var(--primary-soft); color: var(--primary); }
+@media (min-width: 860px) { .nav { display: flex; } .brand { flex: none; } .head-gap { flex: 1; } }
+.icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; cursor: pointer; text-decoration: none; flex: none; transition: transform 0.15s; }
+.icon-btn:active { transform: scale(0.92); }
+.icon-btn svg.i { width: 22px; height: 22px; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 52px; padding: 0 20px; border-radius: 16px; border: 1.5px solid transparent; background: var(--primary); color: #fff; font-size: 16px; font-weight: 800; cursor: pointer; text-decoration: none; transition: transform 0.15s, opacity 0.2s, background 0.2s; }
+.btn:active { transform: scale(0.97); }
+:root[data-theme="dark"] .btn { color: #0E1220; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn { color: #0E1220; } }
+.btn.wa { background: var(--wa); color: #fff; }
+:root[data-theme="dark"] .btn.wa { color: #04200F; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.wa { color: #04200F; } }
+.btn.ghost { background: var(--surface); border-color: var(--line); color: var(--text); }
+:root[data-theme="dark"] .btn.ghost { color: var(--text); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.ghost { color: var(--text); } }
+.btn.sm { min-height: 44px; padding: 0 16px; font-size: 14.5px; border-radius: 14px; }
+.btn.block { width: 100%; }
+.btn.on-hero { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.3); color: #fff; }
+:root[data-theme="dark"] .btn.on-hero { color: #fff; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.on-hero { color: #fff; } }
+
 /* hero */
-.hero{background:linear-gradient(135deg,var(--bl),#fff);padding:40px 0 32px}
-.hero .wrap{display:grid;gap:28px;grid-template-columns:1.1fr .9fr;align-items:center}
-@media(max-width:820px){.hero .wrap{grid-template-columns:1fr}}
-.hero h1{font-size:clamp(1.8rem,5vw,2.8rem);line-height:1.15;color:#0f172a;margin-bottom:12px}
-.hero h1 em{color:var(--b);font-style:normal}
-.hero p.lead{font-size:1.1rem;color:var(--m);margin-bottom:18px;max-width:520px}
-.ticks{list-style:none;display:grid;gap:6px;margin-bottom:22px;font-weight:600}
-.ticks li::before{content:"✔";color:var(--gd);margin-right:8px}
-.cta{display:flex;gap:12px;flex-wrap:wrap}
-.hero img{border-radius:20px;box-shadow:0 20px 40px rgba(8,62,112,.2);aspect-ratio:4/3;object-fit:cover;width:100%;background:#dbe7f3}
-/* trust strip */
-.strip{background:var(--bd);color:#fff}
-.strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 16px;text-align:center;font-size:.9rem;font-weight:600}
-@media(max-width:700px){.strip .wrap{grid-template-columns:repeat(2,1fr)}}
-section{padding:48px 0}
-h2{font-size:clamp(1.5rem,4vw,2rem);text-align:center;color:#0f172a;margin-bottom:8px}
-.sub{text-align:center;color:var(--m);max-width:640px;margin:0 auto 28px}
-/* tiers */
-.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:820px;margin:0 auto}
-@media(max-width:640px){.tiers{grid-template-columns:repeat(2,1fr)}}
-.tier{background:#fff;border:2px solid var(--l);border-radius:14px;padding:16px 8px;text-align:center}
-.tier b{display:block;font-size:1.5rem;color:var(--b)}
-.tier small{color:var(--m)}
-.tier.best{border-color:var(--a);background:#fffbeb}
-.group{margin:26px auto 0;max-width:820px;background:#fff;border-left:5px solid var(--a);border-radius:10px;padding:16px 18px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.hero { margin-top: 16px; position: relative; overflow: hidden; border-radius: 28px; color: #fff; background: linear-gradient(135deg, #1B3A93 0%, #3558E0 52%, #6A58D6 100%); box-shadow: 0 18px 40px rgba(53, 88, 224, 0.26); }
+:root[data-theme="dark"] .hero { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.35); } }
+.hero::before { content: ""; position: absolute; width: 300px; height: 300px; right: -100px; top: -120px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 70%); pointer-events: none; }
+.hero-in { position: relative; z-index: 1; display: grid; gap: 22px; padding: 24px 20px 22px; }
+@media (min-width: 820px) { .hero-in { grid-template-columns: 1.1fr 0.9fr; align-items: center; padding: 34px 34px; gap: 30px; } }
+.hero h1 { font-size: clamp(25px, 6vw, 38px); font-weight: 800; letter-spacing: -0.5px; line-height: 1.18; }
+.hero h1 em { font-style: normal; color: #FFD27A; }
+.hero .lead { margin-top: 10px; font-size: 15px; opacity: 0.93; max-width: 520px; }
+.ticks { list-style: none; display: grid; gap: 6px; margin: 16px 0 20px; font-weight: 700; font-size: 14.5px; }
+.ticks li { display: flex; gap: 9px; align-items: flex-start; }
+.ticks svg.i { width: 18px; height: 18px; stroke-width: 3; color: #7CF0A6; margin-top: 3px; }
+.cta { display: flex; gap: 10px; flex-wrap: wrap; }
+.cta .btn { flex: 1 1 auto; }
+.hero-img { border-radius: 22px; overflow: hidden; aspect-ratio: 4 / 3; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); display: grid; place-items: center; position: relative; }
+.hero-img img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+.hero-img svg.i { width: 56px; height: 56px; opacity: 0.55; }
+
+.strip { margin-top: 14px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 700px) { .strip { grid-template-columns: repeat(4, 1fr); } }
+.strip div { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); font-size: 13.5px; font-weight: 700; line-height: 1.3; }
+.strip svg.i { color: var(--primary); }
+
+/* sections */
+section.sec { margin-top: 38px; }
+.sec h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.3; }
+.sec .sub { color: var(--muted); font-size: 14.5px; margin-top: 3px; max-width: 640px; }
+
+/* filters */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.chip { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+.chip:active { transform: scale(0.96); }
+.chip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
+:root[data-theme="dark"] .chip[aria-pressed="true"] { color: #0E1220; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chip[aria-pressed="true"] { color: #0E1220; } }
+.chip .n { margin-left: 6px; font-weight: 600; opacity: 0.7; }
+
 /* products */
-.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
-.card{background:#fff;border:1px solid var(--l);border-radius:16px;padding:14px;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
-.card:hover{box-shadow:0 10px 24px rgba(0,0,0,.1);transform:translateY(-3px)}
-.card .ph{aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:#e2e8f0;margin-bottom:12px}
-.card img{width:100%;height:100%;object-fit:cover}
-.card h3{font-size:.92rem;line-height:1.3;flex:1;margin-bottom:10px}
-.price{font-size:1.4rem;font-weight:800;color:var(--b)}
-.price small{font-size:.8rem;color:var(--m);font-weight:500}
-.card .btn{width:100%;margin-top:10px;padding:10px}
-/* steps */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-@media(max-width:760px){.steps{grid-template-columns:repeat(2,1fr)}}
-.step{background:#fff;border-radius:14px;padding:18px;text-align:center;border:1px solid var(--l)}
-.step i{display:inline-flex;width:40px;height:40px;border-radius:50%;background:var(--b);color:#fff;font-style:normal;font-weight:800;align-items:center;justify-content:center;margin-bottom:8px}
-.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.why div{background:#fff;border:1px solid var(--l);border-radius:14px;padding:18px}
-.why h3{font-size:1.05rem;margin-bottom:6px;color:var(--bd)}
-/* faq */
-details{background:#fff;border:1px solid var(--l);border-radius:12px;margin-bottom:10px;padding:14px 18px;max-width:820px;margin-left:auto;margin-right:auto}
-summary{font-weight:700;cursor:pointer}
-details p{margin-top:8px;color:var(--m)}
-/* seo text */
-.seo{background:#fff}
-.seo .wrap{max-width:820px}
-.seo h2{text-align:left}
-.seo p{margin-bottom:12px;color:#374151}
-/* footer */
-footer{background:#0f172a;color:#cbd5e1;padding:36px 0 90px}
-footer .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
-footer h3{color:#fff;margin-bottom:8px}
-footer a{color:#93c5fd}
-.copy{text-align:center;margin-top:24px;font-size:.85rem;color:#94a3b8;padding:0 16px}
-/* floating wa */
-.fab{position:fixed;right:16px;bottom:16px;z-index:40;box-shadow:0 8px 20px rgba(0,0,0,.25);border-radius:999px}
-/* dialog */
-dialog{border:0;border-radius:18px;max-width:880px;width:calc(100% - 24px);padding:0;box-shadow:0 30px 80px rgba(0,0,0,.4);margin:auto}
-dialog::backdrop{background:rgba(15,23,42,.7)}
-.dh{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--l);position:sticky;top:0;background:#fff;z-index:2}
-.dh button{background:none;border:0;font-size:1.8rem;cursor:pointer;line-height:1;color:var(--m)}
-.db{display:grid;grid-template-columns:.8fr 1.2fr;gap:22px;padding:20px}
-@media(max-width:720px){.db{grid-template-columns:1fr}}
-.db .ph{aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:#e2e8f0}
-.db .ph img{width:100%;height:100%;object-fit:contain}
-.db h2{text-align:left;font-size:1.25rem;margin-bottom:6px}
-.feat{list-style:none;display:grid;gap:4px;margin:10px 0 14px;font-size:.92rem}
-.feat li::before{content:"✔";color:var(--gd);margin-right:8px}
-label{font-weight:700;font-size:.88rem;display:block;margin-bottom:4px}
-input[type=text],input[type=tel]{width:100%;padding:11px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:1rem;margin-bottom:10px}
-.qty{display:flex;align-items:center;gap:0;margin-bottom:6px}
-.qty button{width:46px;height:46px;border:1.5px solid #cbd5e1;background:#fff;font-size:1.4rem;cursor:pointer}
-.qty button:first-child{border-radius:10px 0 0 10px}.qty button:last-child{border-radius:0 10px 10px 0}
-.qty input{width:90px;height:46px;text-align:center;border:1.5px solid #cbd5e1;border-left:0;border-right:0;font-size:1.1rem;font-weight:700}
-.quick{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
-.quick button{border:1.5px solid var(--b);background:#fff;color:var(--b);border-radius:999px;padding:5px 12px;font-weight:700;cursor:pointer;font-size:.85rem}
-.quick button:hover{background:var(--bl)}
-.tip{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 12px;font-size:.88rem;margin-bottom:10px;display:none}
-.tip.on{display:block}
-.err{color:#b91c1c;font-size:.85rem;font-weight:600;display:none;margin-bottom:6px}
-.err.on{display:block}
-.sum{background:#f1f5f9;border-radius:12px;padding:12px 14px;margin:10px 0 14px}
-.sum div{display:flex;justify-content:space-between;padding:2px 0}
-.sum .save{color:var(--gd);font-weight:700}
-.sum .tot{border-top:1px dashed #94a3b8;margin-top:6px;padding-top:8px;font-size:1.3rem;font-weight:800;color:var(--b)}
-.note{font-size:.8rem;color:var(--m);text-align:center;margin-top:8px}
+.grid { margin-top: 14px; display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 700px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+@media (min-width: 1000px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 10px; display: flex; flex-direction: column; box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s; }
+.card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.ph { position: relative; display: block; width: 100%; aspect-ratio: 3 / 4; border-radius: 16px; overflow: hidden; border: 0; padding: 0; cursor: pointer; background: linear-gradient(150deg, var(--surface-2), var(--line)); }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ph .fallback { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); opacity: 0.55; }
+.ph .fallback svg.i { width: 44px; height: 44px; }
+.card h3 { font-size: 14px; font-weight: 700; line-height: 1.35; margin: 10px 4px 6px; flex: 1; }
+.price { font-size: 22px; font-weight: 800; letter-spacing: -0.3px; color: var(--primary); margin: 0 4px; line-height: 1.2; }
+.price small { font-size: 12.5px; color: var(--muted); font-weight: 600; letter-spacing: 0; }
+.card .btn { margin-top: 10px; min-height: 46px; font-size: 15px; border-radius: 14px; }
+
+/* tiers */
+.tiers { margin-top: 14px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 700px) { .tiers { grid-template-columns: repeat(4, 1fr); } }
+.tier { background: var(--surface); border: 1.5px solid var(--line); border-radius: 20px; padding: 16px 10px; text-align: center; box-shadow: var(--shadow); }
+.tier small { display: block; font-size: 12.5px; color: var(--muted); font-weight: 700; }
+.tier b { display: block; font-size: 24px; font-weight: 800; letter-spacing: -0.3px; color: var(--primary); margin: 2px 0; }
+.tier.best { border-color: var(--amber); background: color-mix(in srgb, var(--amber) 9%, var(--surface)); }
+.tier.best b { color: color-mix(in srgb, var(--amber) 75%, var(--text)); }
+.group { margin-top: 14px; display: flex; gap: 12px; padding: 14px 16px; background: var(--primary-soft); border-radius: 18px; font-size: 14px; }
+.group svg.i { color: var(--primary); margin-top: 2px; }
+.group a { font-weight: 700; }
+
+/* steps & why */
+.steps { margin-top: 14px; display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 760px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); }
+.step i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--primary); color: #fff; font-style: normal; font-weight: 800; margin-bottom: 10px; }
+:root[data-theme="dark"] .step i { color: #0E1220; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .step i { color: #0E1220; } }
+.step h3 { font-size: 15.5px; font-weight: 800; }
+.step p { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+.why { margin-top: 14px; display: grid; gap: 10px; }
+@media (min-width: 700px) { .why { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .why { grid-template-columns: repeat(4, 1fr); } }
+.why div { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); }
+.why h3 { font-size: 15.5px; font-weight: 800; margin-bottom: 4px; }
+.why p { font-size: 13.5px; color: var(--muted); }
+
+/* faq & seo */
+.faq { margin-top: 14px; max-width: 760px; }
+.faq details { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; margin-top: 10px; overflow: hidden; }
+.faq details:first-child { margin-top: 0; }
+.faq summary { list-style: none; cursor: pointer; padding: 14px 16px; font-weight: 700; font-size: 15px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-size: 22px; font-weight: 500; color: var(--muted); line-height: 1; transition: transform 0.2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { padding: 0 16px 16px; margin: 0; font-size: 14px; color: var(--muted); }
+.seo { max-width: 760px; }
+.seo p { color: var(--muted); font-size: 14.5px; margin-top: 10px; }
+
+.site-footer { margin-top: 44px; border-top: 1px solid var(--line); background: var(--surface); padding: 28px 0 calc(100px + var(--safe-b)); font-size: 13.5px; color: var(--muted); }
+.foot-grid { display: grid; gap: 22px; }
+@media (min-width: 760px) { .foot-grid { grid-template-columns: 1.2fr 1fr 1fr; } }
+.site-footer h3 { color: var(--text); font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+.site-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+.site-footer a:hover { text-decoration: underline; }
+.site-footer .links { display: grid; gap: 2px; }
+.site-footer .links a, .site-footer .contact a { padding: 5px 0; display: inline-block; }
+.copy { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12.5px; }
+
+/* floating whatsapp */
+.fab { position: fixed; right: 16px; bottom: calc(16px + var(--safe-b)); z-index: 90; min-height: 54px; padding: 0 20px 0 16px; border-radius: 999px; box-shadow: 0 12px 28px rgba(18, 140, 70, 0.4); }
+
+/* order sheet */
+dialog.sheet { border: 0; padding: 0; background: var(--surface); color: var(--text); width: 100%; max-width: 900px; max-height: 94vh; max-height: 94dvh; margin: auto auto 0; border-radius: 28px 28px 0 0; overflow: hidden; box-shadow: 0 -10px 60px rgba(0,0,0,0.35); }
+dialog.sheet[open] { display: flex; flex-direction: column; animation: sheetUp 0.3s cubic-bezier(.2,.8,.2,1); }
+dialog.sheet::backdrop { background: rgba(14, 18, 32, 0.6); backdrop-filter: blur(3px); }
+@keyframes sheetUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (min-width: 760px) { dialog.sheet { margin: auto; border-radius: 28px; max-height: 90vh; box-shadow: 0 30px 80px rgba(0,0,0,0.4); } }
+.sh-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px 12px 20px; border-bottom: 1px solid var(--line); flex: none; }
+.sh-head strong { font-size: 17px; font-weight: 800; }
+.sh-scroll { overflow-y: auto; -webkit-overflow-scrolling: touch; flex: 1; padding: 16px 20px 8px; }
+.sh-body { display: grid; gap: 16px; }
+@media (min-width: 760px) { .sh-body { grid-template-columns: 270px 1fr; gap: 26px; } .sh-prod { position: sticky; top: 0; align-self: start; } }
+.sh-prod { display: flex; gap: 14px; align-items: flex-start; }
+@media (min-width: 760px) { .sh-prod { flex-direction: column; } }
+.sh-prod .ph { width: 96px; flex: none; cursor: default; }
+@media (min-width: 760px) { .sh-prod .ph { width: 100%; } .sh-prod .ph img { object-fit: contain; } }
+.sh-prod h2 { font-size: 17px; font-weight: 800; line-height: 1.3; letter-spacing: -0.2px; }
+.sh-prod .price { margin: 4px 0 0; font-size: 22px; }
+.feat { list-style: none; display: grid; gap: 4px; font-size: 14px; margin-bottom: 14px; }
+.feat li { display: flex; gap: 8px; align-items: flex-start; }
+.feat svg.i { width: 16px; height: 16px; stroke-width: 3; color: var(--green); margin-top: 4px; }
+label, .lbl { display: block; font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+input[type="text"], input[type="number"], textarea { width: 100%; min-height: 48px; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--surface-2); font-size: 16px; transition: border-color 0.15s, box-shadow 0.15s; }
+textarea { min-height: 76px; resize: vertical; line-height: 1.45; }
+input:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-soft); }
+.qty { display: flex; align-items: stretch; }
+.qty button { width: 54px; min-height: 52px; border: 1.5px solid var(--line); background: var(--surface-2); font-size: 24px; font-weight: 700; cursor: pointer; }
+.qty button:first-child { border-radius: 14px 0 0 14px; }
+.qty button:last-child { border-radius: 0 14px 14px 0; }
+.qty button:active { background: var(--primary-soft); }
+.qty input { width: 100%; min-height: 52px; border-radius: 0; text-align: center; font-size: 20px; font-weight: 800; border-left: 0; border-right: 0; -moz-appearance: textfield; }
+.qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.quick { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
+.quick .chip { min-height: 38px; font-size: 13.5px; }
+.err { color: var(--danger); font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.tip { background: color-mix(in srgb, var(--amber) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--amber) 40%, var(--line)); border-radius: 16px; padding: 10px 14px; font-size: 13.5px; margin-bottom: 12px; line-height: 1.5; }
+.sum { background: var(--surface-2); border: 1px solid var(--line); border-radius: 18px; padding: 12px 16px; margin: 12px 0 16px; font-size: 14.5px; }
+.sum div { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
+.sum .save { color: var(--green); font-weight: 800; }
+.sum .tot { border-top: 1px dashed var(--line); margin-top: 6px; padding-top: 9px; font-size: 20px; font-weight: 800; color: var(--primary); }
+.field { margin-top: 12px; }
+.sh-foot { flex: none; padding: 12px 20px calc(12px + var(--safe-b)); border-top: 1px solid var(--line); background: var(--surface); }
+.sh-foot .btn { min-height: 56px; font-size: 17px; }
+.note { margin-top: 8px; font-size: 12.5px; color: var(--muted); text-align: center; }
+
+.toast { position: fixed; left: 50%; bottom: calc(86px + var(--safe-b)); transform: translate(-50%, 260%); opacity: 0; pointer-events: none; z-index: 14000; background: #1D2338; color: #fff; padding: 12px 18px; border-radius: 14px; font-size: 14px; font-weight: 600; box-shadow: 0 14px 34px rgba(0,0,0,0.35); max-width: calc(100vw - 32px); text-align: center; transition: transform 0.3s cubic-bezier(.2,.8,.2,1), opacity 0.2s; }
+.toast.show { transform: translate(-50%, 0); opacity: 1; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+@media print { .site-header, .fab, dialog, .toast { display: none !important; } body { background: #fff; } }
 </style>
 
-<!-- Structured data: business -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"LocalBusiness","name":"AN ID Cards","url":"https://www.anidcards.in/","image":"https://www.anidcards.in/idcard_cover.webp","telephone":"+91-7855800205","email":"andigital1996@gmail.com","priceRange":"₹15–₹80","areaServed":"IN","description":"Bulk ID card holders, PVC ID cards and custom digital print lanyards for schools, offices and events."}
 </script>
@@ -167,248 +293,467 @@ input[type=text],input[type=tel]{width:100%;padding:11px;border:1.5px solid #cbd
 </head>
 
 <body>
-<div class="top"><div class="wrap">
-  <span>📞 <a href="tel:+917855800205">+91-78558 00205</a> &nbsp;|&nbsp; ✉ <a href="mailto:andigital1996@gmail.com">andigital1996@gmail.com</a></span>
-  <span>Minimum order 30 pcs • Delivery in 5–7 days</span>
-</div></div>
+<a href="#products" class="skip-link">Skip to products</a>
 
-<header class="site"><div class="wrap">
-  <a class="logo" href="#" aria-label="AN ID Cards home">AN <span>ID CARDS</span></a>
-  <nav aria-label="Main">
-    <a href="#products">Products</a><a href="#pricing">Bulk Discounts</a><a href="#how">How to Order</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
-  </nav>
-  <a class="btn btn-wa" href="https://wa.me/917855800205?text=Hello%20AN%20ID%20Cards%2C%20I%20need%20a%20quote" target="_blank" rel="noopener">WhatsApp</a>
-</div></header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+        <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="11" r="2.2"/><path d="M6 16.5c.6-1.5 1.8-2.2 3-2.2s2.4.7 3 2.2M15 9.5h3M15 13h3"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+        <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.245 3.483 5.236 3.483 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.308 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.347-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></symbol>
+        <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.3"/></symbol>
+        <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.5L12 12l8.7-4.5M12 22V12"/></symbol>
+        <symbol id="i-truck" viewBox="0 0 24 24"><path d="M1 4h13v12H1zM14 8h5l3 3v5h-8z"/><circle cx="5.5" cy="18" r="2"/><circle cx="17.5" cy="18" r="2"/></symbol>
+        <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+        <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+    </defs>
+</svg>
 
-<main>
-<section class="hero"><div class="wrap">
-  <div>
-    <h1>ID Cards, Holders &amp; <em>Printed Lanyards</em> in Bulk – From ₹15</h1>
-    <p class="lead">Custom ID card holders, PVC cards and digital print lanyards for schools, offices, events and colleges. Order more, pay less per piece.</p>
-    <ul class="ticks">
-      <li>Min. order only 30 pieces</li>
-      <li>Bulk discount up to 8% on bigger orders</li>
-      <li>Your logo &amp; design printed free of design fees*</li>
-      <li>Delivery across India in 5–7 days</li>
-    </ul>
-    <div class="cta">
-      <a class="btn btn-p" href="#products">Browse &amp; Order</a>
-      <a class="btn btn-wa" href="https://wa.me/917855800205?text=Hello%20AN%20ID%20Cards%2C%20I%20need%20a%20quote" target="_blank" rel="noopener">Get a Quote on WhatsApp</a>
+<header class="site-header">
+    <div class="wrap header-row">
+        <a class="brand" href="#top" aria-label="AN ID Cards home">
+            <span class="mark" aria-hidden="true"><svg class="i"><use href="#i-card"/></svg></span>
+            <span><b>AN ID Cards</b><small>Holders &amp; lanyards</small></span>
+        </a>
+        <nav class="nav" aria-label="Main">
+            <a href="#products">Products</a><a href="#pricing">Bulk discounts</a><a href="#how">How to order</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
+        </nav>
+        <span class="head-gap"></span>
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="i"><use href="#i-moon"/></svg></button>
     </div>
-  </div>
-  <img src="idcard_cover.webp" width="800" height="600" alt="Custom printed ID card holders and lanyards by AN ID Cards" fetchpriority="high">
-</div></section>
+</header>
 
-<div class="strip"><div class="wrap">
-  <span>🏷 Prices from ₹15</span><span>📦 MOQ 30 pcs</span><span>🚚 5–7 day delivery</span><span>💬 WhatsApp support</span>
-</div></div>
+<main class="wrap" id="top">
+    <section class="hero" aria-labelledby="pageTitle">
+        <div class="hero-in">
+            <div>
+                <h1 id="pageTitle">ID Cards, Holders &amp; <em>Printed Lanyards</em> in Bulk – From ₹15</h1>
+                <p class="lead">Custom ID card holders, PVC cards and digital print lanyards for schools, offices, events and colleges. Order more, pay less per piece.</p>
+                <ul class="ticks">
+                    <li><svg class="i"><use href="#i-check"/></svg>Min. order only 30 pieces</li>
+                    <li><svg class="i"><use href="#i-check"/></svg>Bulk discount up to 8% on bigger orders</li>
+                    <li><svg class="i"><use href="#i-check"/></svg>Your logo &amp; design printed free of design fees*</li>
+                    <li><svg class="i"><use href="#i-check"/></svg>Delivery across India in 5–7 days</li>
+                </ul>
+                <div class="cta">
+                    <a class="btn on-hero" href="#products">Browse &amp; order</a>
+                    <a class="btn wa" href="https://wa.me/917855800205?text=Hello%20AN%20ID%20Cards%2C%20I%20need%20a%20quote" target="_blank" rel="noopener"><svg class="i"><use href="#i-wa"/></svg> Get a quote</a>
+                </div>
+            </div>
+            <div class="hero-img"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg><img src="idcard_cover.webp" width="800" height="600" alt="Custom printed ID card holders and lanyards by AN ID Cards" fetchpriority="high"></div>
+        </div>
+    </section>
 
-<section id="products"><div class="wrap">
-  <h2>ID Card Holders &amp; Lanyards Catalogue</h2>
-  <p class="sub">Tap any product to see features, pick quantity and see your exact price instantly.</p>
-  <div class="grid">
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_1.webp" alt="Single side sticky ID card holder with dori"></div><h3>Single Side Sticky (Stiki) Holder with Dori</h3><div class="price">₹15 <small>/ piece</small></div><button class="btn btn-p" data-id="1">Order Now</button></article>
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_2.webp" alt="Dual side sticky ID card holder with dori"></div><h3>Dual Side Sticky (Stiki) Holder with Dori</h3><div class="price">₹20 <small>/ piece</small></div><button class="btn btn-p" data-id="2">Order Now</button></article>
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_3.webp" alt="Single side sticky holder with 16mm digital print lanyard"></div><h3>Single Side Sticky Holder with 16mm Digital Print Lanyard</h3><div class="price">₹25 <small>/ piece</small></div><button class="btn btn-p" data-id="3">Order Now</button></article>
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_4.webp" alt="Dual side sticky holder with 16mm digital print lanyard"></div><h3>Dual Side Sticky Holder with 16mm Digital Print Lanyard</h3><div class="price">₹30 <small>/ piece</small></div><button class="btn btn-p" data-id="4">Order Now</button></article>
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_5.webp" alt="Exe card holder with 16mm digital lanyard print"></div><h3>Exe Card Holder with 16mm Digital Lanyard Print</h3><div class="price">₹35 <small>/ piece</small></div><button class="btn btn-p" data-id="5">Order Now</button></article>
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_6.webp" alt="Heavy plastic ID holder with PVC card and 16mm lanyard"></div><h3>Heavy Plastic Holder with PVC Card &amp; 16mm Digital Lanyard</h3><div class="price">₹40 <small>/ piece</small></div><button class="btn btn-p" data-id="6">Order Now</button></article>
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_7.webp" alt="Acrylic ID card holder with PVC card and 16mm lanyard"></div><h3>Acrylic Holder with PVC Card &amp; 16mm Digital Lanyard</h3><div class="price">₹45 <small>/ piece</small></div><button class="btn btn-p" data-id="7">Order Now</button></article>
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_8.webp" alt="Metallic ID card holder with PVC card and 16mm lanyard"></div><h3>Metallic Holder with PVC Card &amp; 16mm Digital Lanyard</h3><div class="price">₹80 <small>/ piece</small></div><button class="btn btn-p" data-id="8">Order Now</button></article>
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_9.webp" alt="16mm digital print lanyard with metal hook"></div><h3>16mm Digital Print Lanyard with Hook</h3><div class="price">₹25 <small>/ piece</small></div><button class="btn btn-p" data-id="9">Order Now</button></article>
-    <article class="card"><div class="ph"><img loading="lazy" width="300" height="400" src="idcard_10.webp" alt="20mm digital print lanyard with metal hook"></div><h3>20mm Digital Print Lanyard with Hook</h3><div class="price">₹30 <small>/ piece</small></div><button class="btn btn-p" data-id="10">Order Now</button></article>
-  </div>
-</div></section>
+    <div class="strip" aria-label="Highlights">
+        <div><svg class="i"><use href="#i-tag"/></svg>Prices from ₹15</div>
+        <div><svg class="i"><use href="#i-box"/></svg>MOQ 30 pcs</div>
+        <div><svg class="i"><use href="#i-truck"/></svg>5–7 day delivery</div>
+        <div><svg class="i"><use href="#i-chat"/></svg>WhatsApp support</div>
+    </div>
 
-<section id="pricing" style="background:#fff"><div class="wrap">
-  <h2>Order More, Pay Less</h2>
-  <p class="sub">Bulk discount is applied automatically on your item total. Pool your school, office or event order together to unlock a bigger discount.</p>
-  <div class="tiers">
-    <div class="tier"><small>30–59 pcs</small><b>Base price</b><small>Standard rate</small></div>
-    <div class="tier"><small>60–99 pcs</small><b>3% off</b><small>Save more</small></div>
-    <div class="tier"><small>100–249 pcs</small><b>5% off</b><small>Popular</small></div>
-    <div class="tier best"><small>250+ pcs</small><b>8% off</b><small>Best value</small></div>
-  </div>
-  <div class="group"><strong>Need fewer than 30, or want to share a batch?</strong> Message us on WhatsApp. If other customers are ordering the same lanyard design batch, we will tell you whether you can join it.
-  <br><a href="https://wa.me/917855800205?text=Hello%2C%20I%20need%20less%20than%2030%20pieces.%20Can%20I%20join%20a%20group%20batch%3F" target="_blank" rel="noopener">Ask about group batches →</a></div>
-</div></section>
+    <section class="sec" id="products" aria-labelledby="h-products">
+        <h2 id="h-products">ID Card Holders &amp; Lanyards Catalogue</h2>
+        <p class="sub">Tap any product to see features, pick the quantity and see your exact price instantly.</p>
+        <div class="filters" id="filters" role="group" aria-label="Filter products">
+            <button type="button" class="chip" data-f="all" aria-pressed="true">All<span class="n">10</span></button>
+            <button type="button" class="chip" data-f="holder" aria-pressed="false">Holders<span class="n">2</span></button>
+            <button type="button" class="chip" data-f="set" aria-pressed="false">Holder + lanyard<span class="n">6</span></button>
+            <button type="button" class="chip" data-f="lanyard" aria-pressed="false">Lanyards only<span class="n">2</span></button>
+        </div>
+        <div class="grid" id="grid">
+            <article class="card" data-cat="holder">
+                <button class="ph" type="button" data-open="1" aria-label="View and order: Single Side Sticky (Stiki) Holder with Dori"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_1.webp" alt="Single side sticky ID card holder with dori"></button>
+                <h3>Single Side Sticky (Stiki) Holder with Dori</h3>
+                <div class="price">₹15 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="1">Order now</button>
+            </article>
+            <article class="card" data-cat="holder">
+                <button class="ph" type="button" data-open="2" aria-label="View and order: Dual Side Sticky (Stiki) Holder with Dori"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_2.webp" alt="Dual side sticky ID card holder with dori"></button>
+                <h3>Dual Side Sticky (Stiki) Holder with Dori</h3>
+                <div class="price">₹20 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="2">Order now</button>
+            </article>
+            <article class="card" data-cat="set">
+                <button class="ph" type="button" data-open="3" aria-label="View and order: Single Side Sticky Holder with 16mm Digital Print Lanyard"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_3.webp" alt="Single side sticky holder with 16mm digital print lanyard"></button>
+                <h3>Single Side Sticky Holder with 16mm Digital Print Lanyard</h3>
+                <div class="price">₹25 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="3">Order now</button>
+            </article>
+            <article class="card" data-cat="set">
+                <button class="ph" type="button" data-open="4" aria-label="View and order: Dual Side Sticky Holder with 16mm Digital Print Lanyard"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_4.webp" alt="Dual side sticky holder with 16mm digital print lanyard"></button>
+                <h3>Dual Side Sticky Holder with 16mm Digital Print Lanyard</h3>
+                <div class="price">₹30 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="4">Order now</button>
+            </article>
+            <article class="card" data-cat="set">
+                <button class="ph" type="button" data-open="5" aria-label="View and order: Exe Card Holder with 16mm Digital Lanyard Print"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_5.webp" alt="Exe card holder with 16mm digital lanyard print"></button>
+                <h3>Exe Card Holder with 16mm Digital Lanyard Print</h3>
+                <div class="price">₹35 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="5">Order now</button>
+            </article>
+            <article class="card" data-cat="set">
+                <button class="ph" type="button" data-open="6" aria-label="View and order: Heavy Plastic Holder with PVC Card &amp; 16mm Digital Lanyard"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_6.webp" alt="Heavy plastic ID holder with PVC card and 16mm lanyard"></button>
+                <h3>Heavy Plastic Holder with PVC Card &amp; 16mm Digital Lanyard</h3>
+                <div class="price">₹40 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="6">Order now</button>
+            </article>
+            <article class="card" data-cat="set">
+                <button class="ph" type="button" data-open="7" aria-label="View and order: Acrylic Holder with PVC Card &amp; 16mm Digital Lanyard"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_7.webp" alt="Acrylic ID card holder with PVC card and 16mm lanyard"></button>
+                <h3>Acrylic Holder with PVC Card &amp; 16mm Digital Lanyard</h3>
+                <div class="price">₹45 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="7">Order now</button>
+            </article>
+            <article class="card" data-cat="set">
+                <button class="ph" type="button" data-open="8" aria-label="View and order: Metallic Holder with PVC Card &amp; 16mm Digital Lanyard"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_8.webp" alt="Metallic ID card holder with PVC card and 16mm lanyard"></button>
+                <h3>Metallic Holder with PVC Card &amp; 16mm Digital Lanyard</h3>
+                <div class="price">₹80 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="8">Order now</button>
+            </article>
+            <article class="card" data-cat="lanyard">
+                <button class="ph" type="button" data-open="9" aria-label="View and order: 16mm Digital Print Lanyard with Hook"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_9.webp" alt="16mm digital print lanyard with metal hook"></button>
+                <h3>16mm Digital Print Lanyard with Hook</h3>
+                <div class="price">₹25 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="9">Order now</button>
+            </article>
+            <article class="card" data-cat="lanyard">
+                <button class="ph" type="button" data-open="10" aria-label="View and order: 20mm Digital Print Lanyard with Hook"><span class="fallback"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg></span><img loading="lazy" width="300" height="400" src="idcard_10.webp" alt="20mm digital print lanyard with metal hook"></button>
+                <h3>20mm Digital Print Lanyard with Hook</h3>
+                <div class="price">₹30 <small>/ piece</small></div>
+                <button class="btn" type="button" data-open="10">Order now</button>
+            </article>
+        </div>
+    </section>
 
-<section id="how"><div class="wrap">
-  <h2>How to Order – 4 Easy Steps</h2>
-  <p class="sub">No sign-up, no payment on the website.</p>
-  <div class="steps">
-    <div class="step"><i>1</i><h3>Choose</h3><p>Pick a holder or lanyard.</p></div>
-    <div class="step"><i>2</i><h3>Set quantity</h3><p>Min 30. See the price live.</p></div>
-    <div class="step"><i>3</i><h3>Send on WhatsApp</h3><p>Share logo &amp; design details.</p></div>
-    <div class="step"><i>4</i><h3>Receive</h3><p>Delivered in 5–7 days.</p></div>
-  </div>
-</div></section>
+    <section class="sec" id="pricing" aria-labelledby="h-pricing">
+        <h2 id="h-pricing">Order More, Pay Less</h2>
+        <p class="sub">Bulk discount is applied automatically on your item total. Pool your school, office or event order together to unlock a bigger discount.</p>
+        <div class="tiers">
+            <div class="tier"><small>30–59 pcs</small><b>Base price</b><small>Standard rate</small></div>
+            <div class="tier"><small>60–99 pcs</small><b>3% off</b><small>Save more</small></div>
+            <div class="tier"><small>100–249 pcs</small><b>5% off</b><small>Popular</small></div>
+            <div class="tier best"><small>250+ pcs</small><b>8% off</b><small>Best value</small></div>
+        </div>
+        <div class="group"><svg class="i"><use href="#i-users"/></svg><div><strong>Need fewer than 30, or want to share a batch?</strong> Message us on WhatsApp. If other customers are ordering the same lanyard design batch, we will tell you whether you can join it.<br><a href="https://wa.me/917855800205?text=Hello%2C%20I%20need%20less%20than%2030%20pieces.%20Can%20I%20join%20a%20group%20batch%3F" target="_blank" rel="noopener">Ask about group batches →</a></div></div>
+    </section>
 
-<section style="background:#fff"><div class="wrap">
-  <h2>Why Choose AN ID Cards</h2>
-  <p class="sub">Built for schools, companies, hospitals, colleges and events.</p>
-  <div class="why">
-    <div><h3>Sharp digital printing</h3><p>Edge-to-edge sublimation print on 16mm and 20mm lanyards with your logo and colours.</p></div>
-    <div><h3>Holders for every budget</h3><p>From ₹15 sticky holders to premium metallic and acrylic holders with PVC cards.</p></div>
-    <div><h3>Transparent pricing</h3><p>See subtotal, delivery and total before you message us. No hidden charges.</p></div>
-    <div><h3>Direct WhatsApp support</h3><p>Talk to us directly for design preview, changes and order tracking.</p></div>
-  </div>
-</div></section>
+    <section class="sec" id="how" aria-labelledby="h-how">
+        <h2 id="h-how">How to Order – 4 Easy Steps</h2>
+        <p class="sub">No sign-up, no payment on the website.</p>
+        <div class="steps">
+            <div class="step"><i>1</i><h3>Choose</h3><p>Pick a holder or lanyard.</p></div>
+            <div class="step"><i>2</i><h3>Set quantity</h3><p>Min 30. See the price live.</p></div>
+            <div class="step"><i>3</i><h3>Send on WhatsApp</h3><p>Share logo &amp; design details.</p></div>
+            <div class="step"><i>4</i><h3>Receive</h3><p>Delivered in 5–7 days.</p></div>
+        </div>
+    </section>
 
-<section id="faq"><div class="wrap">
-  <h2>Frequently Asked Questions</h2>
-  <p class="sub">Quick answers before you order.</p>
-  <details><summary>What is the minimum order quantity?</summary><p>The minimum order is 30 pieces. Larger orders get automatic bulk discounts.</p></details>
-  <details><summary>How long does delivery take?</summary><p>5–7 days after design confirmation. A flat delivery charge of ₹150 applies per order.</p></details>
-  <details><summary>Why are lanyards charged in batches of 30?</summary><p>Digital print lanyards are sublimation-printed in batches of 30. If your quantity is not a multiple of 30, you still pay for the full batch of lanyards, so ordering in multiples of 30 gives the best value. The order screen shows you exactly how much extra it costs to complete the batch.</p></details>
-  <details><summary>Can I print my own logo and design?</summary><p>Yes. Send your logo, text and colours on WhatsApp and we will share a preview before printing.</p></details>
-  <details><summary>How do I pay?</summary><p>After you send your order on WhatsApp, we confirm the design and share payment details there.</p></details>
-</div></section>
+    <section class="sec" aria-labelledby="h-why">
+        <h2 id="h-why">Why Choose AN ID Cards</h2>
+        <p class="sub">Built for schools, companies, hospitals, colleges and events.</p>
+        <div class="why">
+            <div><h3>Sharp digital printing</h3><p>Edge-to-edge sublimation print on 16mm and 20mm lanyards with your logo and colours.</p></div>
+            <div><h3>Holders for every budget</h3><p>From ₹15 sticky holders to premium metallic and acrylic holders with PVC cards.</p></div>
+            <div><h3>Transparent pricing</h3><p>See subtotal, delivery and total before you message us. No hidden charges.</p></div>
+            <div><h3>Direct WhatsApp support</h3><p>Talk to us directly for design preview, changes and order tracking.</p></div>
+        </div>
+    </section>
 
-<section class="seo"><div class="wrap">
-  <h2>Bulk ID Card Holders &amp; Custom Lanyards in India</h2>
-  <p>AN ID Cards supplies ID card holders, PVC ID cards and custom digital print lanyards in bulk for schools, colleges, offices, hospitals, factories, exhibitions and events. Whether you need simple sticky holders with dori or premium acrylic and metallic holders with PVC cards, you get clear pricing and bulk discounts.</p>
-  <p>Our printed lanyards come in 16mm and 20mm widths with a metal dog hook and edge-to-edge digital print, so your logo, name and brand colours look sharp. Order a minimum of 30 pieces and get delivery in 5–7 days.</p>
-</div></section>
+    <section class="sec" id="faq" aria-labelledby="h-faq">
+        <h2 id="h-faq">Frequently Asked Questions</h2>
+        <p class="sub">Quick answers before you order.</p>
+        <div class="faq">
+            <details><summary>What is the minimum order quantity?</summary><p>The minimum order is 30 pieces. Larger orders get automatic bulk discounts.</p></details>
+            <details><summary>How long does delivery take?</summary><p>5–7 days after design confirmation. A flat delivery charge of ₹150 applies per order.</p></details>
+            <details><summary>Why are lanyards charged in batches of 30?</summary><p>Digital print lanyards are sublimation-printed in batches of 30. If your quantity is not a multiple of 30, you still pay for the full batch of lanyards, so ordering in multiples of 30 gives the best value. The order screen shows you exactly how much extra it costs to complete the batch.</p></details>
+            <details><summary>Can I print my own logo and design?</summary><p>Yes. Send your logo, text and colours on WhatsApp and we will share a preview before printing.</p></details>
+            <details><summary>How do I pay?</summary><p>After you send your order on WhatsApp, we confirm the design and share payment details there.</p></details>
+        </div>
+    </section>
+
+    <section class="sec seo" aria-labelledby="h-seo">
+        <h2 id="h-seo">Bulk ID Card Holders &amp; Custom Lanyards in India</h2>
+        <p>AN ID Cards supplies ID card holders, PVC ID cards and custom digital print lanyards in bulk for schools, colleges, offices, hospitals, factories, exhibitions and events. Whether you need simple sticky holders with dori or premium acrylic and metallic holders with PVC cards, you get clear pricing and bulk discounts.</p>
+        <p>Our printed lanyards come in 16mm and 20mm widths with a metal dog hook and edge-to-edge digital print, so your logo, name and brand colours look sharp. Order a minimum of 30 pieces and get delivery in 5–7 days.</p>
+    </section>
 </main>
 
-<footer id="contact"><div class="wrap">
-  <div><h3>AN ID CARDS</h3><p>Reliable partner for high-volume, professional ID cards, holders and lanyards.</p></div>
-  <div><h3>Contact</h3><p>📞 <a href="tel:+917855800205">+91-78558 00205</a><br>✉ <a href="mailto:andigital1996@gmail.com">andigital1996@gmail.com</a><br>💬 <a href="https://wa.me/917855800205" target="_blank" rel="noopener">WhatsApp us</a></p></div>
-  <div><h3>Quick Links</h3><p><a href="#products">Products</a> · <a href="#pricing">Bulk discounts</a> · <a href="#how">How to order</a> · <a href="#faq">FAQ</a></p></div>
-</div>
-<p class="copy">&copy; 2026 Asstride / AN ID Cards. All rights reserved. *Basic design help included; complex custom artwork may be quoted separately.</p>
+<footer class="site-footer" id="contact">
+    <div class="wrap">
+        <div class="foot-grid">
+            <div><h3>AN ID Cards</h3><p>Reliable partner for high-volume, professional ID cards, holders and lanyards.</p></div>
+            <div class="contact"><h3>Contact</h3>
+                <a href="tel:+917855800205">📞 +91-78558 00205</a><br>
+                <a href="mailto:andigital1996@gmail.com">✉ andigital1996@gmail.com</a><br>
+                <a href="https://wa.me/917855800205" target="_blank" rel="noopener">💬 WhatsApp us</a></div>
+            <div><h3>Quick links</h3><div class="links"><a href="#products">Products</a><a href="#pricing">Bulk discounts</a><a href="#how">How to order</a><a href="#faq">FAQ</a></div></div>
+        </div>
+        <p class="copy">&copy; 2026 Asstride / AN ID Cards. All rights reserved. *Basic design help included; complex custom artwork may be quoted separately.</p>
+    </div>
 </footer>
 
-<a class="btn btn-wa fab" href="https://wa.me/917855800205?text=Hello%20AN%20ID%20Cards%2C%20I%20need%20a%20quote" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬 Chat</a>
+<a class="btn wa fab" id="fab" href="https://wa.me/917855800205?text=Hello%20AN%20ID%20Cards%2C%20I%20need%20a%20quote" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg class="i"><use href="#i-wa"/></svg> Chat</a>
 
-<dialog id="dlg" aria-labelledby="mTitle">
-  <div class="dh"><strong>Order Details</strong><button type="button" id="closeBtn" aria-label="Close">&times;</button></div>
-  <div class="db">
-    <div class="ph"><img id="mImg" src="" alt=""></div>
-    <div>
-      <h2 id="mTitle"></h2>
-      <div class="price" id="mPrice"></div>
-      <ul class="feat" id="mFeat"></ul>
+<dialog id="dlg" class="sheet" aria-labelledby="mTitle">
+    <div class="sh-head"><strong>Order details</strong><button type="button" class="icon-btn" id="closeBtn" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <div class="sh-scroll">
+        <div class="sh-body">
+            <div class="sh-prod">
+                <div class="ph"><span class="fallback"><svg class="i"><use href="#i-card"/></svg></span><img id="mImg" alt="" width="300" height="400"></div>
+                <div><h2 id="mTitle"></h2><div class="price" id="mPrice"></div></div>
+            </div>
+            <div>
+                <ul class="feat" id="mFeat"></ul>
 
-      <label for="mQty">Quantity (minimum 30)</label>
-      <div class="qty">
-        <button type="button" id="minus" aria-label="Decrease">−</button>
-        <input type="number" id="mQty" value="30" min="30" inputmode="numeric">
-        <button type="button" id="plus" aria-label="Increase">+</button>
-      </div>
-      <div class="quick" id="quick"></div>
-      <p class="err" id="qErr">Minimum quantity is 30.</p>
-      <div class="tip" id="tip"></div>
+                <label for="mQty">Quantity (minimum 30)</label>
+                <div class="qty">
+                    <button type="button" id="minus" aria-label="Decrease quantity">−</button>
+                    <input type="number" id="mQty" value="30" min="30" inputmode="numeric" aria-describedby="qErr">
+                    <button type="button" id="plus" aria-label="Increase quantity">+</button>
+                </div>
+                <div class="quick" id="quick" role="group" aria-label="Quick quantities"></div>
+                <p class="err" id="qErr" role="alert" hidden>Minimum quantity is 30.</p>
+                <div class="tip" id="tip" hidden></div>
 
-      <div class="sum">
-        <div><span>Items subtotal</span><span id="sSub">₹0</span></div>
-        <div class="save" id="sSaveRow"><span id="sSaveLbl">Bulk discount</span><span id="sSave"></span></div>
-        <div><span>Delivery</span><span>₹150</span></div>
-        <div class="tot"><span>Total</span><span id="sTot">₹0</span></div>
-      </div>
+                <div class="sum" aria-live="polite">
+                    <div><span>Items subtotal</span><span id="sSub">₹0</span></div>
+                    <div class="save" id="sSaveRow"><span id="sSaveLbl">Bulk discount</span><span id="sSave"></span></div>
+                    <div><span>Delivery</span><span>₹150</span></div>
+                    <div class="tot"><span>Total</span><span id="sTot">₹0</span></div>
+                </div>
 
-      <label for="mName">Your name</label>
-      <input type="text" id="mName" autocomplete="name" placeholder="Name / School / Company">
-      <label for="mCity">City / Pincode</label>
-      <input type="text" id="mCity" autocomplete="postal-code" placeholder="For delivery estimate">
-
-      <button type="button" class="btn btn-wa" id="send" style="width:100%;font-size:1.1rem;padding:14px">💬 Place Order on WhatsApp</button>
-      <p class="note">No payment now. We confirm design &amp; payment on WhatsApp.</p>
+                <div class="field"><label for="mName">Your name</label><input type="text" id="mName" autocomplete="name" placeholder="Name / School / Company"></div>
+                <div class="field"><label for="mCity">City / Pincode</label><input type="text" id="mCity" autocomplete="postal-code" placeholder="For delivery estimate"></div>
+                <div class="field"><label for="mNote">Design notes <span style="font-weight:500">(optional)</span></label><textarea id="mNote" placeholder="Text on lanyard, colours, logo to be sent on WhatsApp…" maxlength="300"></textarea></div>
+            </div>
+        </div>
     </div>
-  </div>
+    <div class="sh-foot">
+        <button type="button" class="btn wa block" id="send"><svg class="i"><use href="#i-wa"/></svg> Place order on WhatsApp</button>
+        <p class="note">No payment now. We confirm design &amp; payment on WhatsApp.</p>
+    </div>
 </dialog>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-(function(){
-  // ====== EDIT HERE ======
-  var MOQ = 30, DELIVERY = 150, PHONE = "917855800205";
-  var TIERS = [ {min:30,off:0}, {min:60,off:3}, {min:100,off:5}, {min:250,off:8} ]; // % off item subtotal
-  // price = full unit price (lanyard included). lan = lanyard cost inside price, charged in batches of 30.
-  var P = {
-    1:{n:"Single Side Sticky (Stiki) Holder with Dori",p:15,lan:0,img:"idcard_1.webp",f:["Standard thread dori included","Single-sided ID visibility","Cost-effective sticky material","Perfect for daily events"]},
-    2:{n:"Dual Side Sticky (Stiki) Holder with Dori",p:20,lan:0,img:"idcard_2.webp",f:["Standard thread dori included","Dual-sided ID visibility","Durable material","Lightweight & comfortable"]},
-    3:{n:"Single Side Sticky Holder with 16mm Digital Print Lanyard",p:25,lan:12,img:"idcard_3.webp",f:["16mm printed lanyard","High-res digital sublimation","Single-sided ID visibility","Washable & fade-resistant"]},
-    4:{n:"Dual Side Sticky Holder with 16mm Digital Print Lanyard",p:30,lan:12,img:"idcard_4.webp",f:["16mm printed lanyard","High-res digital sublimation","Dual-sided ID visibility","Washable & fade-resistant"]},
-    5:{n:"Exe Card Holder with 16mm Digital Lanyard Print",p:35,lan:12,img:"idcard_5.webp",f:["Corporate Exe card holder","16mm custom digital lanyard","Rigid protection for ID","Professional sleek look"]},
-    6:{n:"Heavy Plastic Holder with PVC Card & 16mm Digital Lanyard",p:40,lan:12,img:"idcard_6.webp",f:["Heavy-duty plastic holder","PVC card included","16mm digital printed lanyard","Maximum durability"]},
-    7:{n:"Acrylic Holder with PVC Card & 16mm Digital Lanyard",p:45,lan:12,img:"idcard_7.webp",f:["Premium acrylic finish","PVC card included","16mm digital printed lanyard","Scratch-resistant casing"]},
-    8:{n:"Metallic Holder with PVC Card & 16mm Digital Lanyard",p:80,lan:12,img:"idcard_8.webp",f:["Luxury metallic holder","PVC card included","16mm digital printed lanyard","Executive look"]},
-    9:{n:"16mm Digital Print Lanyard with Hook",p:25,lan:12,img:"idcard_9.webp",f:["16mm custom print","Smooth satin-like finish","Metal dog hook","Edge-to-edge sublimation"]},
-    10:{n:"20mm Digital Print Lanyard with Hook",p:30,lan:14,img:"idcard_10.webp",f:["Extra-wide 20mm print","Ideal for bold text & logos","Metal dog hook","Edge-to-edge sublimation"]}
-  };
-  // =======================
-  var $=function(i){return document.getElementById(i)};
-  var dlg=$("dlg"), cur=null, calc=null;
+(function () {
+    'use strict';
+    // ====== EDIT HERE ======
+    var MOQ = 30, DELIVERY = 150, PHONE = "917855800205";
+    var TIERS = [ {min:30,off:0}, {min:60,off:3}, {min:100,off:5}, {min:250,off:8} ]; // % off item subtotal
+    // p = full unit price (lanyard included). lan = lanyard cost inside p, charged in batches of 30.
+    var P = {
+      "1": {
+        "n": "Single Side Sticky (Stiki) Holder with Dori",
+        "p": 15,
+        "lan": 0,
+        "img": "idcard_1.webp",
+        "f": [
+          "Standard thread dori included",
+          "Single-sided ID visibility",
+          "Cost-effective sticky material",
+          "Perfect for daily events"
+        ]
+      },
+      "2": {
+        "n": "Dual Side Sticky (Stiki) Holder with Dori",
+        "p": 20,
+        "lan": 0,
+        "img": "idcard_2.webp",
+        "f": [
+          "Standard thread dori included",
+          "Dual-sided ID visibility",
+          "Durable material",
+          "Lightweight & comfortable"
+        ]
+      },
+      "3": {
+        "n": "Single Side Sticky Holder with 16mm Digital Print Lanyard",
+        "p": 25,
+        "lan": 12,
+        "img": "idcard_3.webp",
+        "f": [
+          "16mm printed lanyard",
+          "High-res digital sublimation",
+          "Single-sided ID visibility",
+          "Washable & fade-resistant"
+        ]
+      },
+      "4": {
+        "n": "Dual Side Sticky Holder with 16mm Digital Print Lanyard",
+        "p": 30,
+        "lan": 12,
+        "img": "idcard_4.webp",
+        "f": [
+          "16mm printed lanyard",
+          "High-res digital sublimation",
+          "Dual-sided ID visibility",
+          "Washable & fade-resistant"
+        ]
+      },
+      "5": {
+        "n": "Exe Card Holder with 16mm Digital Lanyard Print",
+        "p": 35,
+        "lan": 12,
+        "img": "idcard_5.webp",
+        "f": [
+          "Corporate Exe card holder",
+          "16mm custom digital lanyard",
+          "Rigid protection for ID",
+          "Professional sleek look"
+        ]
+      },
+      "6": {
+        "n": "Heavy Plastic Holder with PVC Card & 16mm Digital Lanyard",
+        "p": 40,
+        "lan": 12,
+        "img": "idcard_6.webp",
+        "f": [
+          "Heavy-duty plastic holder",
+          "PVC card included",
+          "16mm digital printed lanyard",
+          "Maximum durability"
+        ]
+      },
+      "7": {
+        "n": "Acrylic Holder with PVC Card & 16mm Digital Lanyard",
+        "p": 45,
+        "lan": 12,
+        "img": "idcard_7.webp",
+        "f": [
+          "Premium acrylic finish",
+          "PVC card included",
+          "16mm digital printed lanyard",
+          "Scratch-resistant casing"
+        ]
+      },
+      "8": {
+        "n": "Metallic Holder with PVC Card & 16mm Digital Lanyard",
+        "p": 80,
+        "lan": 12,
+        "img": "idcard_8.webp",
+        "f": [
+          "Luxury metallic holder",
+          "PVC card included",
+          "16mm digital printed lanyard",
+          "Executive look"
+        ]
+      },
+      "9": {
+        "n": "16mm Digital Print Lanyard with Hook",
+        "p": 25,
+        "lan": 12,
+        "img": "idcard_9.webp",
+        "f": [
+          "16mm custom print",
+          "Smooth satin-like finish",
+          "Metal dog hook",
+          "Edge-to-edge sublimation"
+        ]
+      },
+      "10": {
+        "n": "20mm Digital Print Lanyard with Hook",
+        "p": 30,
+        "lan": 14,
+        "img": "idcard_10.webp",
+        "f": [
+          "Extra-wide 20mm print",
+          "Ideal for bold text & logos",
+          "Metal dog hook",
+          "Edge-to-edge sublimation"
+        ]
+      }
+    };
+    // =======================
+    var $ = function (i) { return document.getElementById(i); };
+    var dlg = $("dlg"), cur = null, calc = null;
+    var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+    var inr = function (n) { return "₹" + n.toLocaleString("en-IN"); };
 
-  function tierFor(q){var t=TIERS[0];TIERS.forEach(function(x){if(q>=x.min)t=x});return t}
-  function nextTier(q){for(var i=0;i<TIERS.length;i++){if(TIERS[i].min>q)return TIERS[i]}return null}
+    /* theme + toast */
+    var themeBtn = $("themeBtn"), themeMeta = $("themeColorMeta");
+    function isDark() { var t = document.documentElement.getAttribute("data-theme"); if (t) return t === "dark"; return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches); }
+    function syncTheme() { themeMeta.setAttribute("content", isDark() ? "#0E1220" : "#F3F5FA"); themeBtn.setAttribute("aria-label", isDark() ? "Switch to light mode" : "Switch to dark mode"); }
+    themeBtn.addEventListener("click", function () { var n = isDark() ? "light" : "dark"; document.documentElement.setAttribute("data-theme", n); store.set("an_theme", n); syncTheme(); });
+    syncTheme();
+    var toast = $("toast"), tt;
+    function showToast(m) { toast.textContent = m; toast.classList.add("show"); clearTimeout(tt); tt = setTimeout(function () { toast.classList.remove("show"); }, 3200); }
 
-  function compute(item,qty){
-    var base;
-    if(item.lan>0){
-      var batches=Math.ceil(qty/30), paid=batches*30;
-      base=paid*item.lan + qty*(item.p-item.lan);
-    } else base=qty*item.p;
-    var t=tierFor(qty), disc=Math.round(base*t.off/100);
-    return {base:base,disc:disc,off:t.off,sub:base-disc,total:base-disc+DELIVERY,paid:item.lan>0?Math.ceil(qty/30)*30:qty};
-  }
+    /* images that are missing show a neutral icon instead of a broken picture */
+    document.addEventListener("error", function (e) { var t = e.target; if (t && t.tagName === "IMG") t.style.visibility = "hidden"; }, true);
 
-  function update(){
-    if(!cur)return;
-    var q=parseInt($("mQty").value,10);
-    if(isNaN(q)||q<MOQ){$("qErr").classList.add("on");$("sSub").textContent="₹0";$("sTot").textContent="₹0";$("sSaveRow").style.display="none";$("tip").classList.remove("on");calc=null;return}
-    $("qErr").classList.remove("on");
-    var c=compute(cur,q);calc=c;
-    $("sSub").textContent="₹"+c.base.toLocaleString("en-IN");
-    if(c.disc>0){$("sSaveRow").style.display="flex";$("sSaveLbl").textContent="Bulk discount ("+c.off+"% off)";$("sSave").textContent="−₹"+c.disc.toLocaleString("en-IN")}
-    else $("sSaveRow").style.display="none";
-    $("sTot").textContent="₹"+c.total.toLocaleString("en-IN");
+    /* filters */
+    $("filters").addEventListener("click", function (e) {
+        var b = e.target.closest(".chip"); if (!b) return; var f = b.dataset.f;
+        Array.prototype.forEach.call(document.querySelectorAll("#filters .chip"), function (c) { c.setAttribute("aria-pressed", String(c === b)); });
+        Array.prototype.forEach.call(document.querySelectorAll("#grid .card"), function (c) { c.hidden = f !== "all" && c.dataset.cat !== f; });
+    });
 
-    var tips=[];
-    if(cur.lan>0 && q%30!==0){
-      var add=c.paid-q, cost=add*(cur.p-cur.lan);
-      tips.push("💡 <b>Save money:</b> Lanyards print in batches of 30, so you already pay for <b>"+c.paid+"</b> lanyards. Add <b>"+add+"</b> more for only <b>₹"+cost.toLocaleString("en-IN")+"</b> extra.");
+    /* price logic (unchanged rules) */
+    function tierFor(q) { var t = TIERS[0]; TIERS.forEach(function (x) { if (q >= x.min) t = x; }); return t; }
+    function nextTier(q) { for (var i = 0; i < TIERS.length; i++) { if (TIERS[i].min > q) return TIERS[i]; } return null; }
+    function compute(item, qty) {
+        var base;
+        if (item.lan > 0) { var batches = Math.ceil(qty / 30), paid = batches * 30; base = paid * item.lan + qty * (item.p - item.lan); }
+        else base = qty * item.p;
+        var t = tierFor(qty), disc = Math.round(base * t.off / 100);
+        return { base: base, disc: disc, off: t.off, sub: base - disc, total: base - disc + DELIVERY, paid: item.lan > 0 ? Math.ceil(qty / 30) * 30 : qty };
     }
-    var nt=nextTier(q);
-    if(nt){tips.push("🎯 Order <b>"+(nt.min-q)+"</b> more to get <b>"+nt.off+"% off</b> your whole order.")}
-    if(tips.length){$("tip").innerHTML=tips.join("<br>");$("tip").classList.add("on")}else $("tip").classList.remove("on");
-  }
+    function update() {
+        if (!cur) return;
+        var q = parseInt($("mQty").value, 10);
+        if (isNaN(q) || q < MOQ) { $("qErr").hidden = false; $("sSub").textContent = "₹0"; $("sTot").textContent = "₹0"; $("sSaveRow").style.display = "none"; $("tip").hidden = true; calc = null; return; }
+        $("qErr").hidden = true;
+        var c = compute(cur, q); calc = c;
+        $("sSub").textContent = inr(c.base);
+        if (c.disc > 0) { $("sSaveRow").style.display = "flex"; $("sSaveLbl").textContent = "Bulk discount (" + c.off + "% off)"; $("sSave").textContent = "−" + inr(c.disc); }
+        else $("sSaveRow").style.display = "none";
+        $("sTot").textContent = inr(c.total);
+        var tips = [];
+        if (cur.lan > 0 && q % 30 !== 0) { var add = c.paid - q, cost = add * (cur.p - cur.lan); tips.push("💡 <b>Save money:</b> Lanyards print in batches of 30, so you already pay for <b>" + c.paid + "</b> lanyards. Add <b>" + add + "</b> more for only <b>" + inr(cost) + "</b> extra."); }
+        var nt = nextTier(q); if (nt) tips.push("🎯 Order <b>" + (nt.min - q) + "</b> more to get <b>" + nt.off + "% off</b> your whole order.");
+        if (tips.length) { $("tip").innerHTML = tips.join("<br>"); $("tip").hidden = false; } else $("tip").hidden = true;
+    }
 
-  function open(id){
-    cur=P[id];cur.id=id;
-    $("mImg").removeAttribute("src");$("mImg").src=cur.img;$("mImg").alt=cur.n;
-    $("mTitle").textContent=cur.n;
-    $("mPrice").innerHTML="₹"+cur.p+" <small>/ piece (base price)</small>";
-    $("mFeat").innerHTML=cur.f.map(function(x){return "<li>"+x+"</li>"}).join("");
-    $("mQty").value=MOQ;
-    $("quick").innerHTML=[30,60,100,250].map(function(n){return '<button type="button" data-q="'+n+'">'+n+'</button>'}).join("");
-    if(typeof dlg.showModal==="function")dlg.showModal();else dlg.setAttribute("open","");
-    update();
-  }
+    /* sheet */
+    var lastFocus = null;
+    function open(id) {
+        cur = P[id]; cur.id = id; lastFocus = document.activeElement;
+        $("mImg").style.visibility = ""; $("mImg").src = cur.img; $("mImg").alt = cur.n;
+        $("mTitle").textContent = cur.n;
+        $("mPrice").innerHTML = "₹" + cur.p + " <small>/ piece (base price)</small>";
+        $("mFeat").innerHTML = cur.f.map(function (x) { return '<li><svg class="i"><use href="#i-check"/></svg><span>' + x + "</span></li>"; }).join("");
+        $("mQty").value = MOQ;
+        $("quick").innerHTML = [30, 60, 100, 250].map(function (n) { return '<button type="button" class="chip" data-q="' + n + '">' + n + "</button>"; }).join("");
+        $("mName").value = store.get("an_name") || ""; $("mCity").value = store.get("an_city") || ""; $("mNote").value = "";
+        if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
+        document.querySelector(".sh-scroll").scrollTop = 0;
+        update();
+    }
+    function close() { if (dlg.open) dlg.close(); }
+    dlg.addEventListener("close", function () { if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); });
+    document.addEventListener("click", function (e) { var b = e.target.closest("[data-open]"); if (b) open(+b.getAttribute("data-open")); });
+    $("closeBtn").addEventListener("click", close);
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) close(); });
+    $("mQty").addEventListener("input", update);
+    $("plus").addEventListener("click", function () { var v = parseInt($("mQty").value, 10) || MOQ; $("mQty").value = v + 1; update(); });
+    $("minus").addEventListener("click", function () { var v = parseInt($("mQty").value, 10) || MOQ; $("mQty").value = Math.max(MOQ, v - 1); update(); });
+    $("quick").addEventListener("click", function (e) { var b = e.target.closest("[data-q]"); if (b) { $("mQty").value = b.getAttribute("data-q"); update(); } });
 
-  document.querySelectorAll("[data-id]").forEach(function(b){b.addEventListener("click",function(){open(+b.getAttribute("data-id"))})});
-  $("closeBtn").addEventListener("click",function(){dlg.close()});
-  dlg.addEventListener("click",function(e){if(e.target===dlg)dlg.close()});
-  $("mQty").addEventListener("input",update);
-  $("plus").addEventListener("click",function(){var v=parseInt($("mQty").value,10)||MOQ;$("mQty").value=v+1;update()});
-  $("minus").addEventListener("click",function(){var v=parseInt($("mQty").value,10)||MOQ;$("mQty").value=Math.max(MOQ,v-1);update()});
-  $("quick").addEventListener("click",function(e){var q=e.target.getAttribute("data-q");if(q){$("mQty").value=q;update()}});
-
-  $("send").addEventListener("click",function(){
-    var q=parseInt($("mQty").value,10);
-    if(isNaN(q)||q<MOQ||!calc){$("qErr").classList.add("on");$("mQty").focus();return}
-    var name=$("mName").value.trim(), city=$("mCity").value.trim();
-    var m="Hello AN ID Cards! I would like to place an order:\n\n"+
-      "*Product:* "+cur.n+"\n*Quantity:* "+q+
-      (name?"\n*Name:* "+name:"")+(city?"\n*City/Pincode:* "+city:"")+
-      "\n\nPlease share the design/payment next steps.";
-    window.open("https://wa.me/"+PHONE+"?text="+encodeURIComponent(m),"_blank");
-    dlg.close();
-  });
-
-  // image fallback (no external requests)
-  
+    $("send").addEventListener("click", function () {
+        var q = parseInt($("mQty").value, 10);
+        if (isNaN(q) || q < MOQ || !calc) { $("qErr").hidden = false; $("mQty").focus(); return; }
+        var name = $("mName").value.trim(), city = $("mCity").value.trim(), note = $("mNote").value.trim();
+        store.set("an_name", name); store.set("an_city", city);
+        var m = "Hello AN ID Cards! I would like to place an order:\n\n" +
+            "*Product:* " + cur.n + "\n*Quantity:* " + q +
+            "\n*Estimated total:* " + inr(calc.total) + " (incl. " + inr(DELIVERY) + " delivery)" +
+            (name ? "\n*Name:* " + name : "") + (city ? "\n*City/Pincode:* " + city : "") + (note ? "\n*Design notes:* " + note : "") +
+            "\n\nPlease share the design/payment next steps.";
+        window.open("https://wa.me/" + PHONE + "?text=" + encodeURIComponent(m), "_blank");
+        close();
+    });
 })();
 </script>
 </body>
