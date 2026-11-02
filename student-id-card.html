@@ -125,6 +125,22 @@ svg.i { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-widt
 .hero-img img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
 .hero-img svg.i { width: 56px; height: 56px; opacity: 0.55; }
 
+.order-band { margin-top: 14px; display: grid; gap: 16px; padding: 20px; border-radius: 26px; background: linear-gradient(135deg, color-mix(in srgb, var(--wa) 16%, var(--surface)), var(--surface)); border: 1.5px solid color-mix(in srgb, var(--wa) 45%, var(--line)); box-shadow: var(--shadow); }
+@media (min-width: 820px) { .order-band { grid-template-columns: 1.3fr 1fr; align-items: center; padding: 26px 30px; } }
+.order-band h2 { font-size: 21px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.3; }
+.order-band p { margin-top: 6px; font-size: 14.5px; color: var(--muted); }
+.ob-steps { list-style: none; margin-top: 12px; display: grid; gap: 7px; font-size: 14px; font-weight: 600; counter-reset: s; }
+.ob-steps li { display: flex; gap: 10px; align-items: flex-start; counter-increment: s; }
+.ob-steps li::before { content: counter(s); flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--wa); color: #fff; font-size: 13px; font-weight: 800; display: grid; place-items: center; margin-top: 1px; }
+.ob-cta { display: grid; gap: 8px; text-align: center; }
+.ob-cta .btn { min-height: 58px; font-size: 17px; }
+.ob-cta small { color: var(--muted); font-size: 12.5px; }
+.nav a.nav-cta { background: var(--wa); color: #fff; }
+.nav a.nav-cta:hover { background: var(--wa); color: #fff; filter: brightness(1.05); }
+.btn.white { background: #fff; color: #1B3A93; border-color: #fff; }
+:root[data-theme="dark"] .btn.white { color: #1B3A93; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.white { color: #1B3A93; } }
+.cta .btn.full { flex-basis: 100%; min-height: 56px; font-size: 17px; }
 .strip { margin-top: 14px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 @media (min-width: 700px) { .strip { grid-template-columns: repeat(4, 1fr); } }
 .strip div { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); font-size: 13.5px; font-weight: 700; line-height: 1.3; }
@@ -317,7 +333,7 @@ input:focus, textarea:focus { outline: none; border-color: var(--primary); box-s
             <span><b>AN ID Cards</b><small>Holders &amp; lanyards</small></span>
         </a>
         <nav class="nav" aria-label="Main">
-            <a href="#products">Products</a><a href="#pricing">Bulk discounts</a><a href="#how">How to order</a><a href="#faq">FAQ</a><a href="#contact">Contact</a>
+            <a href="#products">Products</a><a href="#pricing">Bulk discounts</a><a href="#how">How to order</a><a href="#faq">FAQ</a><a href="#contact">Contact</a><a class="nav-cta" href="https://abapps.in/" rel="noopener">Order ID cards</a>
         </nav>
         <span class="head-gap"></span>
         <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="i"><use href="#i-moon"/></svg></button>
@@ -337,7 +353,8 @@ input:focus, textarea:focus { outline: none; border-color: var(--primary); box-s
                     <li><svg class="i"><use href="#i-check"/></svg>Delivery across India in 5–7 days</li>
                 </ul>
                 <div class="cta">
-                    <a class="btn on-hero" href="#products">Browse &amp; order</a>
+                    <a class="btn white full" id="orderNowHero" href="https://abapps.in/" rel="noopener"><svg class="i"><use href="#i-card"/></svg> Order ID cards now</a>
+                    <a class="btn on-hero" href="#products">Holders &amp; lanyards</a>
                     <a class="btn wa" href="https://wa.me/917855800205?text=Hello%20AN%20ID%20Cards%2C%20I%20need%20a%20quote" target="_blank" rel="noopener"><svg class="i"><use href="#i-wa"/></svg> Get a quote</a>
                 </div>
             </div>
@@ -351,6 +368,22 @@ input:focus, textarea:focus { outline: none; border-color: var(--primary); box-s
         <div><svg class="i"><use href="#i-truck"/></svg>5–7 day delivery</div>
         <div><svg class="i"><use href="#i-chat"/></svg>WhatsApp support</div>
     </div>
+
+    <section class="order-band" id="order-id" aria-labelledby="h-order">
+        <div>
+            <h2 id="h-order">Need ID cards with student photos &amp; details?</h2>
+            <p>Add your students' details online and we print the ID cards for you. No typing on WhatsApp.</p>
+            <ol class="ob-steps">
+                <li>Register your school with its UDISE code</li>
+                <li>Choose the fields for the card and add students with photos</li>
+                <li>We print and deliver the ID cards</li>
+            </ol>
+        </div>
+        <div class="ob-cta">
+            <a class="btn wa" id="orderNowBand" href="https://abapps.in/" rel="noopener"><svg class="i"><use href="#i-card"/></svg> Order ID cards now</a>
+            <small>Opens abapps.in. Works on your phone, even offline.</small>
+        </div>
+    </section>
 
     <section class="sec" id="products" aria-labelledby="h-products">
         <h2 id="h-products">ID Card Holders &amp; Lanyards Catalogue</h2>
@@ -486,7 +519,7 @@ input:focus, textarea:focus { outline: none; border-color: var(--primary); box-s
                 <a href="tel:+917855800205">📞 +91-78558 00205</a><br>
                 <a href="mailto:andigital1996@gmail.com">✉ andigital1996@gmail.com</a><br>
                 <a href="https://wa.me/917855800205" target="_blank" rel="noopener">💬 WhatsApp us</a></div>
-            <div><h3>Quick links</h3><div class="links"><a href="#products">Products</a><a href="#pricing">Bulk discounts</a><a href="#how">How to order</a><a href="#faq">FAQ</a></div></div>
+            <div><h3>Quick links</h3><div class="links"><a href="https://abapps.in/" rel="noopener">Order ID cards online</a><a href="#products">Products</a><a href="#pricing">Bulk discounts</a><a href="#how">How to order</a><a href="#faq">FAQ</a></div></div>
         </div>
         <p class="copy">&copy; 2026 Asstride / AN ID Cards. All rights reserved. *Basic design help included; complex custom artwork may be quoted separately.</p>
     </div>
