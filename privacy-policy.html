@@ -174,6 +174,22 @@ input:focus, textarea:focus { outline: none; border-color: var(--primary); box-s
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 @media print { .site-header, .site-footer, .toast, .toc, .skip-link { display: none !important; } body { background: #fff; } .hero { background: none; color: #000; box-shadow: none; padding: 0; } .card { box-shadow: none; } }
 </style>
+<!-- Google Analytics 4: Measurement ID is set below. -->
+<script>
+(function () {
+  var GA_ID = "G-8JSQ2TWTM6";
+  if (!/^G-[A-Z0-9]{8,}$/.test(GA_ID) || GA_ID === "G-XXXXXXXXXX") return;
+  if (navigator.doNotTrack === "1") return;
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag("js", new Date());
+  gtag("config", GA_ID, { anonymize_ip: true, allow_google_signals: false, allow_ad_personalization_signals: false });
+  var s = document.createElement("script"); s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+  document.head.appendChild(s);
+})();
+</script>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
@@ -242,6 +258,7 @@ input:focus, textarea:focus { outline: none; border-color: var(--primary); box-s
 <li><strong>GitHub</strong> for some PDF downloads, such as learning outcomes. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a></li>
 <li><strong>Cloudflare cdnjs</strong> for a script that turns your letter into an image. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare Privacy Policy</a></li>
 <li><strong>Google Firebase</strong> for data used by the Test Plan and Print Test tools.</li>
+<li><strong>Google Analytics</strong> (Google Tag Manager script) for anonymous visit statistics. <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">How Google uses data</a></li>
 <li><strong>Google Play</strong> when you open a link to our Odia KidsApp. The app's Play Store page has its own information.</li>
 </ul>
 </section>
@@ -249,7 +266,8 @@ input:focus, textarea:focus { outline: none; border-color: var(--primary); box-s
 <section class="card" id="p5" aria-labelledby="h5">
 <h2 id="h5">5. Cookies and tracking</h2>
 <p>We do not use advertising cookies or sell your data. The site uses your browser's local storage and an offline cache (described above), which are not used to track you across other websites.</p>
-<p>The services listed in section 4 may set their own cookies. If we add analytics or advertising in future, we will update this page first.</p>
+<p><strong>Analytics:</strong> we use Google Analytics to see, in aggregate, which pages are visited and how many people use the site, so we can improve it. It may set cookies and collects information such as pages viewed, approximate location (city level), device and browser type. IP addresses are anonymised, and we do not use advertising features or Google signals. We never send what you type into our tools, such as names or letter text, to analytics. You can opt out with the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics opt-out add-on</a> or by turning on Do Not Track in your browser, which this site respects.</p>
+<p>The other services listed in section 4 may also set their own cookies. If we add advertising in future, we will update this page first.</p>
 </section>
 
 <section class="card" id="p6" aria-labelledby="h6">

@@ -173,6 +173,22 @@ input:focus, textarea:focus { outline: none; border-color: var(--primary); box-s
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 @media print { .site-header, .site-footer, .toast, .toc, .skip-link { display: none !important; } body { background: #fff; } .hero { background: none; color: #000; box-shadow: none; padding: 0; } .card { box-shadow: none; } }
 </style>
+<!-- Google Analytics 4: Measurement ID is set below. -->
+<script>
+(function () {
+  var GA_ID = "G-8JSQ2TWTM6";
+  if (!/^G-[A-Z0-9]{8,}$/.test(GA_ID) || GA_ID === "G-XXXXXXXXXX") return;
+  if (navigator.doNotTrack === "1") return;
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag("js", new Date());
+  gtag("config", GA_ID, { anonymize_ip: true, allow_google_signals: false, allow_ad_personalization_signals: false });
+  var s = document.createElement("script"); s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+  document.head.appendChild(s);
+})();
+</script>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>

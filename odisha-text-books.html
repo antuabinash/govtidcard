@@ -275,6 +275,22 @@
 
         @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
     </style>
+<!-- Google Analytics 4: Measurement ID is set below. -->
+<script>
+(function () {
+  var GA_ID = "G-8JSQ2TWTM6";
+  if (!/^G-[A-Z0-9]{8,}$/.test(GA_ID) || GA_ID === "G-XXXXXXXXXX") return;
+  if (navigator.doNotTrack === "1") return;
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag("js", new Date());
+  gtag("config", GA_ID, { anonymize_ip: true, allow_google_signals: false, allow_ad_personalization_signals: false });
+  var s = document.createElement("script"); s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+  document.head.appendChild(s);
+})();
+</script>
 </head>
 <body>
     <a href="#library" class="skip-link">Skip to books</a>
@@ -1500,7 +1516,7 @@
             <div class="links">
                 <a href="./">Home</a>
                 <a href="odisha-lesson-plan.html">Lesson Plan</a>
-                <a href="odisha-study-notes.html">Study Zone</a>
+                <a href="odisha-study-notes.html">Study Notes</a>
                 <a href="odisha-academic-calendar.html">Academic Calendar</a>
                 <button type="button" id="shareBtn">Share this page</button>
             </div>
