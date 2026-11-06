@@ -283,10 +283,14 @@
 
         .promo { position: relative; margin-top: 30px; padding: 18px 16px 16px; border-radius: 24px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.16), rgba(224, 69, 123, 0.12)); border: 1px solid rgba(245, 158, 11, 0.35); box-shadow: var(--shadow); display: flex; gap: 14px; align-items: center; }
         .promo-ico { flex: none; width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; color: #fff; background: linear-gradient(150deg, #F59E0B, #E0457B); box-shadow: 0 8px 18px rgba(224, 69, 123, 0.28); }
+        .promo-ico { position: relative; overflow: hidden; }
         .promo-ico svg.i { width: 30px; height: 30px; }
+        .promo-ico img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+        .promo-ico.has-img { background: none; box-shadow: 0 6px 16px rgba(0,0,0,.18); }
+        .promo-ico.has-img svg.i { visibility: hidden; }
         .promo-body { flex: 1; min-width: 0; padding-right: 22px; }
         .promo-tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; color: var(--muted); }
-        .promo h2 { font-size: 16.5px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.3; margin-top: 1px; }
+        .promo h2 { padding-top: 2px; font-size: 16.5px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.3; margin-top: 1px; }
         .promo p { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
         .promo-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; min-height: 44px; padding: 0 16px; border-radius: 14px; background: var(--text); color: var(--bg); font-weight: 800; font-size: 14.5px; text-decoration: none; }
         .promo-btn:active { transform: scale(0.97); }
@@ -334,7 +338,7 @@
         .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: calc(var(--safe-t) + 18px) 20px 16px; border-bottom: 1px solid var(--line); }
         .drawer-head h2 { font-size: 18px; font-weight: 800; }
         .drawer-list { flex: 1; overflow-y: auto; padding: 8px 10px; }
-        .drawer-item { width: 100%; display: flex; align-items: center; gap: 14px; padding: 14px 12px; border: none; background: none; color: var(--text); font: inherit; font-size: 15px; font-weight: 600; text-align: left; border-radius: 14px; cursor: pointer; }
+        .drawer-item { text-decoration: none; width: 100%; display: flex; align-items: center; gap: 14px; padding: 14px 12px; border: none; background: none; color: var(--text); font: inherit; font-size: 15px; font-weight: 600; text-align: left; border-radius: 14px; cursor: pointer; }
         .drawer-item:hover, .drawer-item:active { background: var(--surface-2); }
         .drawer-item svg.i { color: var(--primary); }
         .drawer-foot { padding: 16px 20px calc(16px + var(--safe-b)); border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); text-align: center; }
@@ -580,9 +584,8 @@
 
         <!-- Own app promo (hidden while searching, dismissible) -->
         <aside class="promo" id="promo" aria-labelledby="promoTitle">
-            <span class="promo-ico" aria-hidden="true"><svg class="i"><use href="#i-smile"/></svg></span>
+            <span class="promo-ico" aria-hidden="true"><svg class="i"><use href="#i-smile"/></svg><img src="odia-kidsapp-icon.png" alt="" width="56" height="56" decoding="async" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()"></span>
             <div class="promo-body">
-                <span class="promo-tag">App for kids</span>
                 <h2 id="promoTitle">Odia KidsApp</h2>
                 <p>A learning app in Odia for children. Share it with your students' families.</p>
                 <a class="promo-btn" id="promoLink" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp&amp;referrer=utm_source%3Dsikhyaksathi%26utm_medium%3Dhome" target="_blank" rel="noopener"><svg class="i"><use href="#i-play"/></svg> Get it on Google Play</a>
@@ -671,8 +674,9 @@
                 <nav class="foot-col" aria-label="About">
                     <h2>About</h2>
                     <ul>
-                        <li><button type="button" data-dialog="aboutDialog">About the site</button></li>
-                        <li><button type="button" data-dialog="privacyDialog">Privacy policy</button></li>
+                        <li><a href="about.html">About the site</a></li>
+                        <li><a href="privacy-policy.html">Privacy policy</a></li>
+                        <li><a href="contact.html">Contact us</a></li>
                         <li><button type="button" id="footShare">Share this app</button></li>
                     </ul>
                 </nav>
@@ -692,8 +696,9 @@
             <button class="icon-btn" id="drawerClose" type="button" aria-label="Close menu"><svg class="i"><use href="#i-x"/></svg></button>
         </div>
         <div class="drawer-list">
-            <button class="drawer-item" type="button" data-dialog="aboutDialog"><svg class="i"><use href="#i-info"/></svg> About the site</button>
-            <button class="drawer-item" type="button" data-dialog="privacyDialog"><svg class="i"><use href="#i-shield"/></svg> Privacy policy</button>
+            <a class="drawer-item" href="about.html"><svg class="i"><use href="#i-info"/></svg> About the site</a>
+            <a class="drawer-item" href="privacy-policy.html"><svg class="i"><use href="#i-shield"/></svg> Privacy policy</a>
+            <a class="drawer-item" href="contact.html"><svg class="i"><use href="#i-info"/></svg> Contact us</a>
             <button class="drawer-item" type="button" id="drawerShare"><svg class="i"><use href="#i-share"/></svg> Share this app</button>
             <button class="drawer-item" type="button" id="themeToggle"><svg class="i"><use href="#i-moon"/></svg> <span id="themeLabel">Dark mode</span></button>
         </div>
@@ -701,28 +706,6 @@
     </aside>
 
     <!-- ================= DIALOGS ================= -->
-    <dialog id="aboutDialog" aria-labelledby="aboutTitle">
-        <div class="dlg">
-            <div class="d-ico"><svg class="i"><use href="#i-info"/></svg></div>
-            <h2 id="aboutTitle">About this portal</h2>
-            <p><strong>ଶିକ୍ଷକ ସାଥୀ (Sikhyak Sathi)</strong> is an all-in-one digital companion designed for the dedicated educators of Odisha.</p>
-            <p>Our mission is to reduce your daily administrative workload with a fast Lesson Plan Generator, structured study resources and essential utility tools.</p>
-            <p>Built with offline-first capabilities, it keeps working wherever you are, so you can focus on what matters most: teaching your students.</p>
-            <button class="btn btn-ghost" type="button" data-close>Close</button>
-        </div>
-    </dialog>
-
-    <dialog id="privacyDialog" aria-labelledby="privacyTitle">
-        <div class="dlg">
-            <div class="d-ico"><svg class="i"><use href="#i-shield"/></svg></div>
-            <h2 id="privacyTitle">Privacy policy</h2>
-            <p>Your privacy and data security are our priority.</p>
-            <p><strong>Zero server storage:</strong> ଶିକ୍ଷକ ସାଥୀ works primarily as a Progressive Web App. Data you create, such as saved lesson plans, school name and profile details, is stored inside your device's own memory (local storage).</p>
-            <p>We do not upload, sell or monitor your personal data. Your workspace stays yours.</p>
-            <button class="btn btn-ghost" type="button" data-close>I understand</button>
-        </div>
-    </dialog>
-
     <!-- Install bar + toast -->
     <div class="install-bar" id="installBar" role="region" aria-label="Install app">
         <img src="icon.png" alt="" width="42" height="42">
