@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odia Word Learning Game for Kids</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            text-align: center;
+            margin: 0;
+            user-select: none;
+        }
+        header {
+  display: flex;
+  position: fixed;
+  top: 0%;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0056b3;
+  color: white;
+  padding: 10px 20px;
+}
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 5%;
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+        }
+        h1 {
+            color: #4a6fa5;
+            margin-bottom: 30px;
+        }
+        .display-area {
+            font-size: 32px;
+            min-height: 70px;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            border: 2px solid #4a6fa5;
+        }
+        .letter-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .letter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            background-color: #ffcf54;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .letter:hover {
+            transform: scale(1.1);
+            background-color: #ffc107;
+        }
+        .letter:active {
+            transform: scale(0.95);
+        }
+        .target-word {
+            font-size: 28px;
+            margin: 20px 0;
+            color: #333;
+        }
+        .correct {
+            color: #2e7d32;
+            font-weight: bold;
+            animation: pulse 0.5s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .buttons {
+            margin: 20px 0;
+        }
+        button {
+            background-color: #4a6fa5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3a5a8f;
+        }
+        .hint {
+            color: #666;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">ଭେଣ୍ଡିର ବାହାଘର</div>
+      </header>
+    <div class="container">
+        <h1>ଆସ ଶବ୍ଦ ଗଢିବା</h1>
+        
+        <div class="target-word" id="target-word">ଶବ୍ଦ: <span id="current-word">ପରିବା</span></div>
+        
+        <div class="display-area" id="display-area"></div>
+        
+        <div class="letter-box" id="letter-box"></div>
+        
+        <div class="hint">ଅକ୍ଷର ଉପରେ କ୍ଲିକ୍ କରି ଶବ୍ଦଟି ଗଠନ କରନ୍ତୁ</div>
+        
+        <div class="buttons">
+            <button id="clear-btn">ସଫା କରନ୍ତୁ</button>
+            <button id="next-btn">ପରବର୍ତ୍ତୀ ଶବ୍ଦ</button>
+        </div>
+    </div>
+
+    <audio id="success-sound" src="correct.mp3" preload="auto"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Odia words
+            const words = ['ପରିବା', 'ବୋହୂ', 'ବରଣମାଳା', 'ନଚିଲେ', 'ଭୋଜି', 'ବର କନିଆଁ', 'ଦୁଲକିନା', 'ଖାଇଲେ', 'ଫେରିଲେ'];
+            let currentWordIndex = 0;
+            let currentWord = words[currentWordIndex];
+            let typedWord = '';
+            
+            const displayArea = document.getElementById('display-area');
+            const letterBox = document.getElementById('letter-box');
+            const targetWordElement = document.getElementById('current-word');
+            const clearBtn = document.getElementById('clear-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const successSound = document.getElementById('success-sound');
+            
+            // Initialize game
+            initGame();
+            
+            // Set up event listeners
+            clearBtn.addEventListener('click', clearDisplay);
+            nextBtn.addEventListener('click', nextWord);
+            
+            function initGame() {
+                // Display target word
+                targetWordElement.textContent = currentWord;
+                
+                // Clear display area
+                displayArea.textContent = '';
+                typedWord = '';
+                
+                // Create shuffled letters
+                createLetters();
+            }
+            
+            function createLetters() {
+                // Clear letter box
+                letterBox.innerHTML = '';
+                
+                // Create array of letters from the current word
+                let letters = [];
+                for (let i = 0; i < currentWord.length; i++) {
+                    if (currentWord[i] !== ' ') {
+                        letters.push(currentWord[i]);
+                    }
+                }
+                
+                // Shuffle letters
+                letters = shuffleArray(letters);
+                
+                // Create letter elements
+                letters.forEach(letter => {
+                    const letterElement = document.createElement('div');
+                    letterElement.classList.add('letter');
+                    letterElement.textContent = letter;
+                    letterElement.addEventListener('click', function() {
+                        addLetter(letter);
+                    });
+                    letterBox.appendChild(letterElement);
+                });
+            }
+            
+            function addLetter(letter) {
+                typedWord += letter;
+                displayArea.textContent = typedWord;
+                
+                // Check if the word is correct
+                checkWord();
+            }
+            
+            function checkWord() {
+                // Remove spaces for comparison (but keep them in the display)
+                const targetWordNoSpaces = currentWord.replace(/\s/g, '');
+                const typedWordNoSpaces = typedWord.replace(/\s/g, '');
+                
+                if (typedWordNoSpaces === targetWordNoSpaces) {
+                    // Word is correct
+                    displayArea.classList.add('correct');
+                    successSound.play();
+                    
+                    // Disable letter clicking
+                    const letters = document.querySelectorAll('.letter');
+                    letters.forEach(letter => {
+                        letter.style.pointerEvents = 'none';
+                    });
+                }
+            }
+            
+            function clearDisplay() {
+                displayArea.textContent = '';
+                displayArea.classList.remove('correct');
+                typedWord = '';
+                
+                // Re-enable letter clicking
+                const letters = document.querySelectorAll('.letter');
+                letters.forEach(letter => {
+                    letter.style.pointerEvents = 'auto';
+                });
+            }
+            
+            function nextWord() {
+                // Move to next word
+                currentWordIndex = (currentWordIndex + 1) % words.length;
+                currentWord = words[currentWordIndex];
+                
+                // Reset display
+                displayArea.classList.remove('correct');
+                
+                // Initialize game with new word
+                initGame();
+            }
+            
+            // Fisher-Yates shuffle algorithm
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+        });
+    </script>
+</body>
+</html>

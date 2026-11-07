@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fruit Slideshow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        /* --- Header --- */
+        header {
+            width: 100%;
+            padding: 10px 0;
+            background: linear-gradient(to right, #ffa593, #ff1149); /* Matches Fruit Theme */
+            color: white;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* --- Main Content Area --- */
+        .content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+
+        #slideshow {
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #slideshow img {
+            max-width: 100%;
+            max-height: 60vh; /* Keeps image from being too tall in landscape */
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+            transition: transform 0.2s ease;
+        }
+
+        #shapeName {
+            margin-top: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* --- Animation Video --- */
+        #webm-container {
+            position: fixed;
+            top: 5px;
+            right: 5px;
+            width: 50px;
+            height: 50px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* --- Navigation Arrows --- */
+        .navArrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            z-index: 100;
+            width: 60px;
+            height: 60px;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .navArrow:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .navArrow:hover {
+            opacity: 1;
+        }
+
+        #prevArrow {
+            left: 20px;
+        }
+
+        #nextArrow {
+            right: 20px;
+        }
+
+        /* --- Landscape Specifics --- */
+        @media (orientation: landscape) {
+            #slideshow img {
+                max-height: 70vh; /* Use more height in landscape */
+            }
+            #shapeName {
+                margin-top: 10px;
+                font-size: 28px;
+            }
+            .navArrow {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 data-or="ଫଳ" data-en="Fruits">ଫଳ</h1>
+        <video id="webm-container" autoplay loop muted playsinline>
+          <source src="fruitanimation.webm" type="video/webm">
+        </video>
+                <button type="button" id="langSwitchBtn" class="language-toggle-btn" onclick="KidsApp.switchLang()" style="position: absolute; top: 8px; right: 8px; z-index: 30; padding: 6px 10px; border: 2px solid #fff; border-radius: 20px; background: #3DDC97; font-weight: 700; cursor: pointer;">English ✓</button>
+    </header>
+
+    <div class="content-wrapper">
+        <img id="prevArrow" class="navArrow" src="left-arrow.png" onclick="showPrevShape()" alt="Previous">
+        <img id="nextArrow" class="navArrow" src="right-arrow.png" onclick="showNextShape()" alt="Next">
+
+        <div id="slideshow">
+            </div>
+        
+        <div id="shapeName"></div>
+    </div>
+
+    <audio id="appleAudio" src="ସେଓ.mp3"></audio>
+    <audio id="bananaAudio" src="କଦଳୀ.mp3"></audio>
+    <audio id="blackberryAudio" src="ଜାମୁକୋଳି.mp3"></audio>
+    <audio id="cherryAudio" src="ଚେରୀ.mp3"></audio>
+    <audio id="coconutAudio" src="ନଡିଆ.mp3"></audio>
+    <audio id="custardappleAudio" src="ଆତ.mp3"></audio>
+    <audio id="grapesAudio" src="ଅଙ୍ଗୁର.mp3"></audio>
+    <audio id="guavaAudio" src="ପିଜୁଳି.mp3"></audio>
+    <audio id="jackfruitAudio" src="ପଣସ.mp3"></audio>
+    <audio id="kiwiAudio" src="କିୱି.mp3"></audio>
+    <audio id="lemonAudio" src="ଲେମ୍ବୁ.mp3"></audio>
+    <audio id="litchiAudio" src="ଲିଚି.mp3"></audio>
+    <audio id="mangoAudio" src="ଆମ୍ବ.mp3"></audio>
+    <audio id="muskmelonAudio" src="ଖରବୁଜ.mp3"></audio>
+    <audio id="orangeAudio" src="କମଳା.mp3"></audio>
+    <audio id="papayaAudio" src="ଅମୃତଭଣ୍ଡା.mp3"></audio>
+    <audio id="pearAudio" src="ନାସ୍ପାତି.mp3"></audio>
+    <audio id="pineappleAudio" src="ସପୁରି.mp3"></audio>
+    <audio id="pomegranateAudio" src="ଡାଳିମ୍ବ.mp3"></audio>
+    <audio id="sapodillaAudio" src="ସପଟା.mp3"></audio>
+    <audio id="sugarcaneAudio" src="ଆଖୁ.mp3"></audio>
+    <audio id="tamarindAudio" src="ତେନ୍ତୁଳୀ.mp3"></audio>
+    <audio id="watermelonAudio" src="ତରଭୁଜ.mp3"></audio>
+
+    <script src="../../kids_app.js"></script>
+    <script>
+        const shapes = [
+            { name: "ସେଓ", nameEn: "Apple", image: "apple.webp", audioId: "appleAudio" },
+            { name: "କଦଳୀ", nameEn: "Banana", image: "banana.webp", audioId: "bananaAudio" },
+            { name: "ଜାମୁକୋଳି", nameEn: "Blackberry", image: "blackberry.webp", audioId: "blackberryAudio" },
+            { name: "ଚେରୀ", nameEn: "Cherry", image: "cherry.webp", audioId: "cherryAudio" },
+            { name: "ନଡ଼ିଆ", nameEn: "Coconut", image: "coconut.webp", audioId: "coconutAudio" },
+            { name: "ଆତ", nameEn: "Custard apple", image: "custardapple.webp", audioId: "custardappleAudio" },
+            { name: "ଅଙ୍ଗୁର", nameEn: "Grapes", image: "grapes.webp", audioId: "grapesAudio" },
+            { name: "ପିଜୁଳି", nameEn: "Guava", image: "guava.webp", audioId: "guavaAudio" },
+            { name: "ପଣସ", nameEn: "Jackfruit", image: "jackfruit.webp", audioId: "jackfruitAudio" },
+            { name: "କିୱି", nameEn: "Kiwi", image: "kiwi.webp", audioId: "kiwiAudio" },
+            { name: "ଲେମ୍ବୁ", nameEn: "Lemon", image: "lemon.webp", audioId: "lemonAudio" },
+            { name: "ଲିଚି", nameEn: "Lychee", image: "litchi.webp", audioId: "litchiAudio" },
+            { name: "ଆମ୍ବ", nameEn: "Mango", image: "mango.webp", audioId: "mangoAudio" },
+            { name: "ଖରଭୁଜ", nameEn: "Muskmelon", image: "muskmelon.webp", audioId: "muskmelonAudio" },
+            { name: "କମଳା", nameEn: "Orange", image: "orange.webp", audioId: "orangeAudio" },
+            { name: "ଅମୃତଭଣ୍ଡା", nameEn: "Papaya", image: "papaya.webp", audioId: "papayaAudio" },
+            { name: "ନାସ୍ପାତି", nameEn: "Pear", image: "pear.webp", audioId: "pearAudio" },
+            { name: "ସପୁରି", nameEn: "Pineapple", image: "pineapple.webp", audioId: "pineappleAudio" },
+            { name: "ଡାଳିମ୍ବ", nameEn: "Pomegranate", image: "pomegranate.webp", audioId: "pomegranateAudio" },
+            { name: "ସପଟା", nameEn: "Sapodilla", image: "sapodilla.webp", audioId: "sapodillaAudio" },
+            { name: "ଆଖୁ", nameEn: "Sugarcane", image: "sugarcane.webp", audioId: "sugarcaneAudio" },
+            { name: "ତେନ୍ତୁଳୀ", nameEn: "Tamarind", image: "tamarind.webp", audioId: "tamarindAudio" },
+            { name: "ତରଭୁଜ", nameEn: "Watermelon", image: "watermelon.webp", audioId: "watermelonAudio" }
+        ];
+
+        let currentIndex = 0;
+        const slideshow = document.getElementById('slideshow');
+        const shapeNameElement = document.getElementById('shapeName');
+
+        function isEnglishSelected() {
+            try { return localStorage.getItem('mosanga-lang') === 'en'; } catch (e) { return false; }
+        }
+
+        function playCurrentFruit(fruit) {
+            if (isEnglishSelected()) {
+                KidsApp.speakText(fruit.nameEn, 'en-IN');
+            } else {
+                const audio = document.getElementById(fruit.audioId);
+                if (audio) audio.play().catch(e => console.log("Autoplay blocked"));
+            }
+        }
+
+        function showShape(index) {
+            // Loop functionality
+            if (index < 0) {
+                index = shapes.length - 1;
+            } else if (index >= shapes.length) {
+                index = 0;
+            }
+
+            const shape = shapes[index];
+            slideshow.innerHTML = `<img src="${shape.image}" alt="${shape.nameEn}">`;
+            shapeNameElement.textContent = isEnglishSelected() ? shape.nameEn : shape.name;
+            currentIndex = index;
+
+            // Stop other audios and play current
+            document.querySelectorAll('audio').forEach(a => { a.pause(); a.currentTime = 0; });
+            playCurrentFruit(shape);
+        }
+
+        KidsApp.applyLang(localStorage.getItem('mosanga-lang') || 'or');
+        document.addEventListener('kidsapp:languagechange', () => showShape(currentIndex));
+        window.onload = () => showShape(currentIndex);
+
+        // Swipe logic
+        let touchStartX = 0;
+        document.body.addEventListener('touchstart', e => {
+            touchStartX = e.touches[0].clientX;
+        });
+        document.body.addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].clientX;
+            handleSwipe(touchEndX);
+        });
+
+        function handleSwipe(touchEndX) {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                showShape(currentIndex + 1);
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                showShape(currentIndex - 1);
+            }
+        }
+
+        function showPrevShape() {
+            showShape(currentIndex - 1);
+        }
+
+        function showNextShape() {
+            showShape(currentIndex + 1);
+        }
+
+        // Play audio on click (ignoring nav buttons)
+        document.body.addEventListener('click', (event) => {
+            if (!event.target.closest('.navArrow, .language-toggle-btn')) {
+                playCurrentFruit(shapes[currentIndex]);
+            }
+        });
+    </script>
+</body>
+</html>

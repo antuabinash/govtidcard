@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ଚିତ୍ର | Draw & Paint</title>
+<link rel="stylesheet" href="../kids_app.css">
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <main class="kids-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 30px;">
+    <a href="paint.html" class="kids-card c-orange" style="min-height: 140px;">
+      <div class="card-icon"><img src="canvas.png" alt="Free Paint Studio"></div>
+      <span class="card-label" data-or="ଫ୍ରି ପେଣ୍ଟିଂ ଷ୍ଟୁଡିଓ" data-en="Free Paint Studio">ଫ୍ରି ପେଣ୍ଟିଂ ଷ୍ଟୁଡିଓ</span>
+    </a>
+
+    <a href="coloring/color.html" class="kids-card c-sun" style="min-height: 140px;">
+      <div class="card-icon"><img src="pencil.png" alt="Coloring Book"></div>
+      <span class="card-label" data-or="କଲରିଂ ବୁକ୍" data-en="Coloring Book">କଲରିଂ ବୁକ୍</span>
+    </a>
+
+    <a href="../alphabet/odiawriting.html" class="kids-card c-ocean" style="min-height: 140px;">
+      <div class="card-icon"><img src="../alphabet_icon.webp" alt="Alphabet Tracing"></div>
+      <span class="card-label" data-or="ଅକ୍ଷର ଲିଖନ" data-en="Write Letters">ଅକ୍ଷର ଲିଖନ</span>
+    </a>
+
+    <a href="../number/odiawriting.html" class="kids-card c-grass" style="min-height: 140px;">
+      <div class="card-icon"><img src="../number_icon.webp" alt="Number Tracing"></div>
+      <span class="card-label" data-or="ସଂଖ୍ୟା ଲିଖନ" data-en="Write Numbers">ସଂଖ୍ୟା ଲିଖନ</span>
+    </a>
+  </main>
+</div>
+
+<script src="../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ଚିତ୍ର', 'Draw & Paint', '../');
+</script>
+</body>
+</html>

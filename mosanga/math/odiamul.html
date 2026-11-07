@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ଗୁଣନ | Multiplication</title>
+<link rel="stylesheet" href="../kids_app.css">
+<style>
+  .math-quiz-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 15px;
+  }
+  .equation-box {
+    background: #FFFFFF;
+    border: 4px solid var(--grass);
+    border-radius: 28px;
+    padding: 20px 30px;
+    box-shadow: 0 8px 0 var(--grass);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .equation-text {
+    font-size: 46px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    width: min(340px, 90vw);
+  }
+  .math-opt-btn {
+    padding: 16px;
+    background: #FFFFFF;
+    border: 3px solid var(--grass);
+    border-radius: 20px;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: 0 5px 0 var(--grass);
+    transition: transform 0.15s ease;
+  }
+  .math-opt-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--grass);
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="math-quiz-stage">
+    <div style="font-size: 20px; font-weight: 800; color: var(--grass); background: #FFF; padding: 6px 18px; border-radius: 999px; border: 2px solid var(--grass);">
+      ⭐ <span data-or="ସ୍କୋର୍:" data-en="Score:">ସ୍କୋର୍:</span> <span id="mathScore">0</span>
+    </div>
+
+    <div class="equation-box">
+      <div class="equation-text" id="equationText">3 × 4 = ?</div>
+    </div>
+
+    <div class="options-grid" id="optionsGrid"></div>
+  </div>
+</div>
+
+<script src="../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ଗୁଣନ', 'Multiplication', '../');
+
+  var score = 0;
+  var numA = 0;
+  var numB = 0;
+  var correctAnswer = 0;
+
+  function newQuestion() {
+    numA = Math.floor(Math.random() * 9) + 1;
+    numB = Math.floor(Math.random() * 5) + 1;
+    correctAnswer = numA * numB;
+
+    document.getElementById('equationText').textContent = numA + ' × ' + numB + ' = ?';
+
+    var options = [correctAnswer];
+    while (options.length < 4) {
+      var rand = Math.floor(Math.random() * 45) + 1;
+      if (options.indexOf(rand) === -1) options.push(rand);
+    }
+    options.sort(function() { return 0.5 - Math.random(); });
+
+    var grid = document.getElementById('optionsGrid');
+    grid.innerHTML = '';
+
+    options.forEach(function(opt) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'math-opt-btn';
+      btn.textContent = opt;
+
+      btn.onclick = function() {
+        if (opt === correctAnswer) {
+          KidsApp.playSound('correct');
+          score += 10;
+          document.getElementById('mathScore').textContent = score;
+          if (score % 30 === 0) KidsApp.triggerConfetti();
+          newQuestion();
+        } else {
+          KidsApp.playSound('wrong');
+          btn.style.borderColor = '#FF3333';
+        }
+      };
+
+      grid.appendChild(btn);
+    });
+  }
+
+  newQuestion();
+</script>
+</body>
+</html>

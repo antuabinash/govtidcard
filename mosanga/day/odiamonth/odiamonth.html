@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ବର୍ଷର ମାସ | Months of the Year</title>
+<link rel="stylesheet" href="../../kids_app.css">
+<style>
+  .months-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .month-card {
+    background: #FFFFFF;
+    border: 3px solid var(--ocean);
+    border-radius: 20px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 5px 0 var(--ocean);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .month-card:hover {
+    transform: translateY(-4px);
+  }
+  .month-card:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--ocean);
+  }
+  .month-odia {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .month-eng {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--coral);
+  }
+  body.lang-or .month-eng,
+  body.lang-en .month-odia {
+    display: none;
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="months-grid" id="monthsGrid"></div>
+</div>
+
+<script src="../../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ବର୍ଷର ମାସ', 'Months of the Year', '../../');
+
+  var months = [
+    { odia: 'ଜାନୁଆରୀ', eng: 'January', audio: 'january.mp3' },
+    { odia: 'ଫେବୃଆରୀ', eng: 'February', audio: 'february.mp3' },
+    { odia: 'ମାର୍ଚ୍ଚ', eng: 'March', audio: 'march.mp3' },
+    { odia: 'ଏପ୍ରିଲ୍', eng: 'April', audio: 'april.mp3' },
+    { odia: 'ମେ', eng: 'May', audio: 'may.mp3' },
+    { odia: 'ଜୁନ୍', eng: 'June', audio: 'june.mp3' },
+    { odia: 'ଜୁଲାଇ', eng: 'July', audio: 'july.mp3' },
+    { odia: 'ଅଗଷ୍ଟ', eng: 'August', audio: 'august.mp3' },
+    { odia: 'ସେପ୍ଟେମ୍ବର', eng: 'September', audio: 'september.mp3' },
+    { odia: 'ଅକ୍ଟୋବର', eng: 'October', audio: 'october.mp3' },
+    { odia: 'ନଭେମ୍ବର', eng: 'November', audio: 'november.mp3' },
+    { odia: 'ଡିସେମ୍ବର', eng: 'December', audio: 'december.mp3' }
+  ];
+
+  var container = document.getElementById('monthsGrid');
+  months.forEach(function(m) {
+    var card = document.createElement('div');
+    card.className = 'month-card';
+
+    var od = document.createElement('span');
+    od.className = 'month-odia';
+    od.textContent = m.odia;
+
+    var en = document.createElement('span');
+    en.className = 'month-eng';
+    en.textContent = m.eng;
+
+    card.appendChild(od);
+    card.appendChild(en);
+
+    card.onclick = function() {
+      KidsApp.playSound('click');
+      KidsApp.speakOrPlay(m, m.audio);
+    };
+
+    container.appendChild(card);
+  });
+</script>
+</body>
+</html>

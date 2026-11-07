@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Flower Slideshow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        /* --- Header --- */
+        header {
+            width: 100%;
+            padding: 10px 0;
+            background-color: #2d9cf7; /* Matches Flower Theme */
+            color: white;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        /* --- Main Content Area --- */
+        .content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+
+        #slideshow {
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #slideshow img {
+            max-width: 100%;
+            max-height: 60vh; /* Keeps image from being too tall in landscape */
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+            transition: transform 0.2s ease;
+        }
+
+        #shapeName {
+            margin-top: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* --- Animation Video --- */
+        #webm-container {
+            position: fixed;
+            top: 5px;
+            right: 5px;
+            width: 50px;
+            height: 50px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* --- Navigation Arrows --- */
+        .navArrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            z-index: 100;
+            width: 60px;
+            height: 60px;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .navArrow:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .navArrow:hover {
+            opacity: 1;
+        }
+
+        #prevArrow {
+            left: 20px;
+        }
+
+        #nextArrow {
+            right: 20px;
+        }
+
+        /* --- Landscape Specifics --- */
+        @media (orientation: landscape) {
+            #slideshow img {
+                max-height: 70vh; /* Use more height in landscape */
+            }
+            #shapeName {
+                margin-top: 10px;
+                font-size: 28px;
+            }
+            .navArrow {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 data-or="ଫୁଲ" data-en="Flowers">ଫୁଲ</h1>
+        <video id="webm-container" autoplay loop muted playsinline>
+          <source src="floweranimation.webm" type="video/webm">
+        </video>
+                <button type="button" id="langSwitchBtn" class="language-toggle-btn" onclick="KidsApp.switchLang()" style="position: absolute; top: 8px; right: 8px; z-index: 30; padding: 6px 10px; border: 2px solid #fff; border-radius: 20px; background: #3DDC97; font-weight: 700; cursor: pointer;">English ✓</button>
+    </header>
+
+    <div class="content-wrapper">
+        <img id="prevArrow" class="navArrow" src="previous.webp" onclick="showPrevShape()" alt="Previous">
+        <img id="nextArrow" class="navArrow" src="next.webp" onclick="showNextShape()" alt="Next">
+
+        <div id="slideshow">
+            </div>
+        
+        <div id="shapeName"></div>
+    </div>
+
+    <audio id="butterflypeaAudio" src="butterflypea.mp3"></audio>
+    <audio id="champakAudio" src="champak.mp3"></audio>
+    <audio id="dahliaAudio" src="dahlia.mp3"></audio>
+    <audio id="daturaAudio" src="datura.mp3"></audio>
+    <audio id="jasmineAudio" src="jasmine.mp3"></audio>
+    <audio id="lillyAudio" src="lilly.mp3"></audio>
+    <audio id="lotusAudio" src="lotus.mp3"></audio>
+    <audio id="marigoldAudio" src="marigold.mp3"></audio>
+    <audio id="moonbeamAudio" src="moonbeam.mp3"></audio>
+    <audio id="roseAudio" src="rose.mp3"></audio>
+    <audio id="sunflowerAudio" src="sunflower.mp3"></audio>
+    <audio id="tuberoseAudio" src="tuberose.mp3"></audio>
+    <audio id="waterlillyAudio" src="waterlilly.mp3"></audio>
+    <audio id="GardendaisyAudio" src="gardendaisy.mp3"></audio>
+    <audio id="goldmohurAudio" src="goldmohur.mp3"></audio>
+
+    <script src="../../kids_app.js"></script>
+    <script>
+        const shapes = [
+            { name: "ଅପରାଜିତା", nameEn: "Butterfly pea", image: "butterflypea.webp", audioId: "butterflypeaAudio" },
+            { name: "ଚମ୍ପା", nameEn: "Champa", image: "champak.webp", audioId: "champakAudio" },
+            { name: "ଡାଲିଆ", nameEn: "Dahlia", image: "dahlia.webp", audioId: "dahliaAudio" },
+            { name: "ଦୁଦୁରା", nameEn: "Datura", image: "datura.webp", audioId: "daturaAudio" },
+            { name: "ମାଳତୀ", nameEn: "Jasmine", image: "jasmine.webp", audioId: "jasmineAudio" },
+            { name: "ଲିଲି", nameEn: "Lily", image: "lilly.webp", audioId: "lillyAudio" },
+            { name: "ପଦ୍ମ", nameEn: "Lotus", image: "lotus.webp", audioId: "lotusAudio" },
+            { name: "ଗେଣ୍ଡୁ", nameEn: "Marigold", image: "marigold.webp", audioId: "marigoldAudio" },
+            { name: "ଟଗର", nameEn: "Moonbeam", image: "moonbeam.webp", audioId: "moonbeamAudio" },
+            { name: "ଗୋଲାପ", nameEn: "Rose", image: "rose.webp", audioId: "roseAudio" },
+            { name: "ସୂର୍ଯ୍ୟମୁଖୀ", nameEn: "Sunflower", image: "sunflower.webp", audioId: "sunflowerAudio" },
+            { name: "ରଜନୀଗନ୍ଧା", nameEn: "Tuberose", image: "tuberose.webp", audioId: "tuberoseAudio" },
+            { name: "କଇଁ", nameEn: "Water lily", image: "waterlilly.webp", audioId: "waterlillyAudio" },
+            { name: "ସେବତୀ", nameEn: "Garden daisy", image: "gardendaisy.webp", audioId: "GardendaisyAudio" },
+            { name: "କୃଷ୍ଣଚୂଡ଼ା", nameEn: "Gulmohar", image: "goldmohur.webp", audioId: "goldmohurAudio" }
+        ];
+
+        let currentIndex = 0;
+        const slideshow = document.getElementById('slideshow');
+        const shapeNameElement = document.getElementById('shapeName');
+
+        function isEnglishSelected() {
+            try { return localStorage.getItem('mosanga-lang') === 'en'; } catch (e) { return false; }
+        }
+
+        function playCurrentFlower(flower) {
+            if (isEnglishSelected()) {
+                KidsApp.speakText(flower.nameEn, 'en-IN');
+            } else {
+                const audio = document.getElementById(flower.audioId);
+                if (audio) audio.play().catch(e => console.log("Autoplay blocked"));
+            }
+        }
+
+        function showShape(index) {
+            // Loop functionality
+            if (index < 0) {
+                index = shapes.length - 1;
+            } else if (index >= shapes.length) {
+                index = 0;
+            }
+
+            const shape = shapes[index];
+            slideshow.innerHTML = `<img src="${shape.image}" alt="${shape.nameEn}">`;
+            shapeNameElement.textContent = isEnglishSelected() ? shape.nameEn : shape.name;
+            currentIndex = index;
+
+            // Stop other audios and play current
+            document.querySelectorAll('audio').forEach(a => { a.pause(); a.currentTime = 0; });
+            playCurrentFlower(shape);
+        }
+
+        KidsApp.applyLang(localStorage.getItem('mosanga-lang') || 'or');
+        document.addEventListener('kidsapp:languagechange', () => showShape(currentIndex));
+        window.onload = () => showShape(currentIndex);
+
+        // Swipe logic
+        let touchStartX = 0;
+        document.body.addEventListener('touchstart', e => {
+            touchStartX = e.touches[0].clientX;
+        });
+        document.body.addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].clientX;
+            handleSwipe(touchEndX);
+        });
+
+        function handleSwipe(touchEndX) {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                showShape(currentIndex + 1);
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                showShape(currentIndex - 1);
+            }
+        }
+
+        function showPrevShape() {
+            showShape(currentIndex - 1);
+        }
+
+        function showNextShape() {
+            showShape(currentIndex + 1);
+        }
+
+        // Play audio on click (ignoring nav buttons)
+        document.body.addEventListener('click', (event) => {
+            if (!event.target.closest('.navArrow, .language-toggle-btn')) {
+                playCurrentFlower(shapes[currentIndex]);
+            }
+        });
+    </script>
+</body>
+</html>

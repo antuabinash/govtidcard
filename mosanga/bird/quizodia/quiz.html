@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ପକ୍ଷୀ କୁଇଜ୍ | Bird Quiz</title>
+<link rel="stylesheet" href="../../kids_app.css">
+<style>
+  .quiz-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 15px;
+  }
+  .quiz-question {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+  }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    width: min(380px, 90vw);
+  }
+  .option-card {
+    background: #FFFFFF;
+    border: 4px solid var(--grape);
+    border-radius: 24px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--grape);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .option-card:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--grape);
+  }
+  .option-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+  .score-badge {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--grape);
+    background: #FFFFFF;
+    padding: 6px 18px;
+    border-radius: 999px;
+    border: 2px solid var(--grape);
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="quiz-stage">
+    <div class="score-badge">
+      ⭐ <span data-or="ସ୍କୋର୍:" data-en="Score:">ସ୍କୋର୍:</span> <span id="quizScore">0</span>
+    </div>
+
+    <div class="quiz-question" id="quizTargetName"></div>
+
+    <div class="quiz-options" id="quizOptions"></div>
+  </div>
+</div>
+
+<script src="../../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ପକ୍ଷୀ କୁଇଜ୍', 'Bird Quiz', '../../');
+
+  var birds = [
+    { nameOr: 'ବାଦୁଡ଼ି', nameEn: 'Bat', img: 'badudi.webp', audio: 'badudi.mp3' },
+    { nameOr: 'ବଗ', nameEn: 'Crane', img: 'baga.webp', audio: 'baga.mp3' },
+    { nameOr: 'ବତକ', nameEn: 'Duck', img: 'bataka.webp', audio: 'bataka.mp3' },
+    { nameOr: 'ବୁଲ୍ ବୁଲ୍', nameEn: 'Bulbul', img: 'bulbul.webp', audio: 'bulbul.mp3' },
+    { nameOr: 'ଛଞ୍ଚାଣ', nameEn: 'Hawk', img: 'chanchana.webp', audio: 'chanchana.mp3' },
+    { nameOr: 'ଚିଲ', nameEn: 'Eagle', img: 'chila.webp', audio: 'chila.mp3' },
+    { nameOr: 'ଗଞ୍ଜା', nameEn: 'Rooster', img: 'ganja.webp', audio: 'ganja.mp3' },
+    { nameOr: 'କୋଇଲି', nameEn: 'Cuckoo', img: 'koili.webp', audio: 'koili.mp3' },
+    { nameOr: 'ମାଛରଙ୍କା', nameEn: 'Kingfisher', img: 'macharanka.webp', audio: 'macharanka.mp3' },
+    { nameOr: 'ମୟୂର', nameEn: 'Peacock', img: 'mayuri.webp', audio: 'mayuri.mp3' },
+    { nameOr: 'ଓଟ ପକ୍ଷୀ', nameEn: 'Ostrich', img: 'otapakhi.webp', audio: 'otapakhi.mp3' },
+    { nameOr: 'ପେଚା', nameEn: 'Owl', img: 'pecha.webp', audio: 'pecha.mp3' },
+    { nameOr: 'ଶାଗୁଣା', nameEn: 'Vulture', img: 'saguna.webp', audio: 'saguna.mp3' }
+  ];
+
+  var score = 0;
+  var currentTarget = null;
+
+  function nextQuestion() {
+    var targetIdx = Math.floor(Math.random() * birds.length);
+    currentTarget = birds[targetIdx];
+
+    updateQuestionText();
+
+    var options = [currentTarget];
+    while (options.length < 4) {
+      var rand = birds[Math.floor(Math.random() * birds.length)];
+      if (options.indexOf(rand) === -1) options.push(rand);
+    }
+    options.sort(function() { return 0.5 - Math.random(); });
+
+    var container = document.getElementById('quizOptions');
+    container.innerHTML = '';
+
+    options.forEach(function(opt) {
+      var card = document.createElement('div');
+      card.className = 'option-card';
+      var img = document.createElement('img');
+      img.src = opt.img;
+      card.appendChild(img);
+
+      card.onclick = function() {
+        if (opt === currentTarget) {
+          KidsApp.playSound('correct');
+          score += 10;
+          document.getElementById('quizScore').textContent = score;
+          if (score % 30 === 0) KidsApp.triggerConfetti();
+          nextQuestion();
+        } else {
+          KidsApp.playSound('wrong');
+          card.style.borderColor = '#FF3333';
+        }
+      };
+
+      container.appendChild(card);
+    });
+  }
+
+  function updateQuestionText() {
+    var questionText = document.documentElement.lang === 'en'
+      ? 'Which bird is ' + currentTarget.nameEn + '?'
+      : '🤔 ' + currentTarget.nameOr + ' କେଉଁଟି?';
+    document.getElementById('quizTargetName').textContent = questionText;
+  }
+
+  document.addEventListener('kidsapp:languagechange', function() {
+    if (currentTarget) updateQuestionText();
+  });
+
+  nextQuestion();
+</script>
+</body>
+</html>

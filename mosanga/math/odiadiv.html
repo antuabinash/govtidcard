@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Addition Problems</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    #headerImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+            z-index: 9999; /* Ensure it's above all other elements */
+        }
+       
+       
+    .container {
+        width: 75%;
+        max-width: 600px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        height: 50vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Center vertically */
+    }
+    .scoreboard {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .score {
+        font-size: 18px;
+    }
+    .question-counter {
+        font-size: 18px;
+        position: relative;
+    }
+    .question-counter::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50px;
+        height: 50px;
+        background-color: #53ddd2;
+        border-radius: 50%;
+    }
+    .question-counter span {
+        position: relative;
+        z-index: 1;
+    }
+    .question {
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: 24px; /* Increase font size of the question */
+    }
+    .options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .option {
+        padding: 10px 20px;
+        background-color: #53ddd2;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px; /* Font size of options */
+        transition: transform 0.3s ease; /* Add transition for smooth animation */
+    }
+    .option:hover {
+        background-color: #ccc;
+    }
+    .wrong-answer {
+        animation: shake 0.5s ease;
+    }
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        50% { transform: translateX(10px); }
+        75% { transform: translateX(-10px); }
+        100% { transform: translateX(0); }
+    }
+    .correct-answer {
+        animation: pop 0.5s ease;
+    }
+    @keyframes pop {
+        0% { transform: scale(1); }
+        25% { transform: scale(1.2); }
+        50% { transform: scale(0.8); }
+        75% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    .status-icon {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+    .message {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .button-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .button-container button {
+        padding: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #53ddd2;
+        transition: background-color 0.3s ease;
+    }
+    .button-container button:hover {
+        background-color: #4bb9b2;
+    }
+    .image-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .image-container img {
+        max-width: 50%;
+        height: auto;
+    }
+    
+
+</style>
+</head>
+<body>
+
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="wrongSound" src="incorrect.mp3"></audio>
+
+<div class="container" id="container">
+    <div class="scoreboard">
+        <div class="score">
+            <img src="correct.png" alt="Correct Icon" class="status-icon">
+            <span id="correctScore">0</span>
+        </div>
+        <div class="question-counter" id="questionCounter">
+            <span>୧/୧୦</span>
+        </div>
+        <div class="score">
+            <img src="wrong.png" alt="Wrong Icon" class="status-icon">
+            <span id="wrongScore">0</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    var questions = [];
+    var correctCount = 0;
+    var wrongCount = 0;
+    var currentQuestionIndex = 0;
+
+    function updateScoreboard() {
+        document.getElementById('correctScore').textContent = convertToOdiaNumber(correctCount);
+        document.getElementById('wrongScore').textContent = convertToOdiaNumber(wrongCount);
+        document.getElementById('questionCounter').textContent = convertToOdiaNumber(currentQuestionIndex + 1) + '/୧୦';
+    }
+
+    function shuffleOptions(options) {
+        for (let i = options.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [options[i], options[j]] = [options[j], options[i]];
+        }
+    }
+
+    function generateQuestions() {
+        for (var i = 0; i < 10; i++) {
+            var num2 = Math.floor(Math.random() * 10) + 1; // Ensure num2 is not zero
+            var answer = Math.floor(Math.random() * 10) + 1; // Generate a random quotient
+            var num1 = num2 * answer; // Ensure num1 is divisible by num2
+            var options = [answer, answer - 1, answer + 1, answer + 2];
+            shuffleOptions(options);
+            questions.push({ question: convertToOdiaNumber(num1) + ' ÷ ' + convertToOdiaNumber(num2) + ' = ?', options: options, answer: answer });
+        }
+    }
+
+    function playAudio(audioId) {
+        var audio = document.getElementById(audioId);
+        audio.play();
+    }
+
+    function showQuestion(questionIndex) {
+        currentQuestionIndex = questionIndex;
+        var container = document.getElementById('container');
+        container.innerHTML = '';
+
+        var question = questions[questionIndex];
+        var questionElement = document.createElement('div');
+        questionElement.classList.add('question');
+        questionElement.innerHTML = '<div class="scoreboard">' +
+            '<div class="score">' +
+            '<img src="correct.png" alt="Correct Icon" class="status-icon">' +
+            '<span id="correctScore">' + convertToOdiaNumber(correctCount) + '</span>' +
+            '</div>' +
+            '<div class="question-counter" id="questionCounter"><span>' + convertToOdiaNumber(questionIndex + 1) + '/୧୦</span></div>' +
+            '<div class="score">' +
+            '<img src="wrong.png" alt="Wrong Icon" class="status-icon">' +
+            '<span id="wrongScore">' + convertToOdiaNumber(wrongCount) + '</span>' +
+            '</div>' +
+            '</div>' +
+            '<p style="text-align: center; font-size: 24px;">' + question.question + '</p><div class="options">' +
+            question.options.map(function(option, index) {
+                return '<div class="option" onclick="checkAnswer(' + questionIndex + ', ' + question.answer + ', ' + (questionIndex + 1) + ', ' + option + ', this)">' + convertToOdiaNumber(option) + '</div>';
+            }).join('') +
+            '</div>';
+        container.appendChild(questionElement);
+    }
+
+    function checkAnswer(questionIndex, correctAnswer, nextQuestionIndex, selectedAnswer, optionElement) {
+        if (selectedAnswer === correctAnswer) {
+            correctCount++;
+            optionElement.classList.add('correct-answer');
+            playAudio('correctSound');
+        } else {
+            wrongCount++;
+            optionElement.classList.add('wrong-answer');
+            setTimeout(() => {
+                optionElement.classList.remove('wrong-answer');
+            }, 500); // Remove shake animation after 0.5s
+            playAudio('wrongSound');
+        }
+        updateScoreboard();
+        if (nextQuestionIndex < 10) {
+            setTimeout(() => {
+                showQuestion(nextQuestionIndex);
+            }, 500); // Delay showing next question by 0.5s
+        } else {
+            var message;
+            if (correctCount >= 5) {
+                message = "ଅଭିନନ୍ଦନ ! ତୁମର ସ୍କୋର: " + convertToOdiaNumber(correctCount);
+            } else if (correctCount === 5) {
+                message = "ବଢିଆ! ତୁମର ସ୍କୋର: " + convertToOdiaNumber(correctCount);
+            } else {
+                message = "ପୁଣିଥରେ ଚେଷ୍ଟା କର। ତୁମର ସ୍କୋର: " + convertToOdiaNumber(correctCount);
+            }
+            var container = document.getElementById('container');
+            container.innerHTML = '<div class="message">' + message + '</div>' +
+                '<div class="image-container">' +
+                '<img src="congratulation.webp" alt="Your Image">' +
+                '</div>' +
+                '<div class="button-container">' +
+                '<button onclick="restartGame()">Restart</button>' +
+                '<button onclick="exitGame()">Exit</button>' +
+                '</div>';
+        }
+    }
+
+    function restartGame() {
+        correctCount = 0;
+        wrongCount = 0;
+        currentQuestionIndex = 0;
+        questions = [];
+        generateQuestions();
+        showQuestion(0);
+    }
+
+    function exitGame() {
+        window.history.back();
+    }
+
+    function convertToOdiaNumber(number) {
+        return number.toString().replace(/\d/g, function(digit) {
+            var odiaNumbers = ['୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯'];
+            return odiaNumbers[digit];
+        });
+    }
+
+    
+    generateQuestions();
+    showQuestion(0);
+</script>
+
+</body>
+</html>

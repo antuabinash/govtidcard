@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Flower Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        /* --- Header --- */
+        header {
+            width: 100%;
+            padding: 10px 0;
+            background-color: #2d9cf7; /* Flower Theme Blue */
+            color: white;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+            z-index: 10;
+            position: relative;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* --- Score Counter (In Header) --- */
+        #scoreCounter {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        #scoreCounter div {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #scoreCounter img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* --- Animation --- */
+        #webm-container {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 50px;
+            height: 50px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* --- Quiz Container --- */
+        .quiz-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #textBelowButton {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* --- Options Grid --- */
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2x2 Grid */
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+            height: 100%;
+            max-height: 70vh;
+        }
+
+        .option {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid transparent;
+        }
+
+        .option:active {
+            transform: scale(0.95);
+        }
+
+        .option img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* --- Animations --- */
+        .option.shake {
+            animation: shake 0.5s;
+            border-color: #ff4444;
+            background-color: #ffe6e6;
+        }
+        .option.correct {
+            animation: popup 0.5s ease forwards;
+            border-color: #00C851;
+            background-color: #e8f5e9;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+        @keyframes popup {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* --- Scoreboard Modal --- */
+        #scoreboard {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 10001;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        #scoreboard button {
+            background-color: #2d9cf7;
+            color: white;
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(45, 156, 247, 0.3);
+        }
+
+        /* --- Landscape Optimization --- */
+        @media (orientation: landscape) {
+            .options {
+                gap: 10px;
+                max-width: 500px;
+            }
+            #textBelowButton {
+                font-size: 18px;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 data-or="ଫୁଲ କୁଇଜ୍" data-en="Flower Quiz">ଫୁଲ କୁଇଜ୍</h1>
+        <video id="webm-container" autoplay loop muted playsinline>
+            <source src="quizanimation.webm" type="video/webm">
+        </video>
+        <div id="scoreCounter">
+            <div><img src="correct.png" alt="Correct"> <span id="correctScore">0</span></div>
+            <div><img src="wrong.png" alt="Wrong"> <span id="wrongScore">0</span></div>
+        </div>
+    </header>
+
+    <div class="quiz-container">
+        <button type="button" id="langSwitchBtn" class="language-toggle-btn" onclick="KidsApp.switchLang()" style="align-self: flex-end; padding: 6px 10px; border: 2px solid #fff; border-radius: 20px; background: #3DDC97; font-weight: 700; cursor: pointer;">English ✓</button>
+        <div id="textBelowButton" data-or="ପ୍ରଶ୍ନ: କିଏ କହୁଛି?" data-en="Which flower is it?">ପ୍ରଶ୍ନ: କିଏ କହୁଛି?</div>
+        <div class="options" id="options">
+            </div>
+    </div>
+
+    <audio id="questionAudio" src="which_animal_is.mp3"></audio>
+    <audio id="correctSound" src="correct.mp3"></audio>
+    <audio id="wrongSound" src="wrong.mp3"></audio>
+    <audio id="animalNameAudio"></audio>
+
+    <div id="scoreboard">
+        <h2 data-or="କୁଇଜ୍ ଶେଷ ହେଲା!" data-en="Quiz complete!">କୁଇଜ୍ ଶେଷ ହେଲା!</h2>
+        <p><span data-or="ସଠିକ ଉତ୍ତର:" data-en="Correct answers:">ସଠିକ ଉତ୍ତର:</span> <span id="finalCorrectScore">0</span></p>
+        <p><span data-or="ଭୁଲ ଉତ୍ତର:" data-en="Incorrect answers:">ଭୁଲ ଉତ୍ତର:</span> <span id="finalWrongScore">0</span></p>
+        <button onclick="restartQuiz()" data-or="ପୁଣିଥରେ" data-en="Play again">ପୁଣିଥରେ</button>
+    </div>
+
+    <script src="../../kids_app.js"></script>
+    <script>
+        KidsApp.applyLang(localStorage.getItem('mosanga-lang') || 'or');
+
+        const questions = [
+            {
+                correctIndex: 0,
+                options: ["butterflypea.webp", "champa.webp", "dahlia.webp", "datura.webp"],
+                animalName: "butterflypea.mp3"
+            },
+            {
+                correctIndex: 1,
+                options: ["champa.webp", "dahlia.webp", "datura.webp", "jasmine.webp"],
+                animalName: "dahlia.mp3"
+            },
+            {
+                correctIndex: 2,
+                options: ["datura.webp", "jasmine.webp", "lilly.webp", "lotus.webp"],
+                animalName: "lilly.mp3"
+            },
+            {
+                correctIndex: 3,
+                options: ["marigold.webp", "moonbeam.webp", "rose.webp", "lotus.webp"],
+                animalName: "lotus.mp3"
+            },
+            {
+                correctIndex: 0,
+                options: ["marigold.webp", "moonbeam.webp", "rose.webp", "sunflower.webp"],
+                animalName: "marigold.mp3"
+            },
+            {
+                correctIndex: 2,
+                options: ["sunflower.webp", "tuberose.webp", "waterlilly.webp", "gardendaisy.webp"],
+                animalName: "waterlilly.mp3"
+            },
+            {
+                correctIndex: 1,
+                options: ["gardendaisy.webp", "goldmohur.webp", "butterflypea.webp", "champa.webp"],
+                animalName: "goldmohur.mp3"
+            },
+            {
+                correctIndex: 3,
+                options: ["butterflypea.webp", "champa.webp", "dahlia.webp", "datura.webp"],
+                animalName: "datura.mp3"
+            },
+            {
+                correctIndex: 0,
+                options: ["butterflypea.webp", "champa.webp", "dahlia.webp", "datura.webp"],
+                animalName: "butterflypea.mp3"
+            },
+            {
+                correctIndex: 2,
+                options: ["jasmine.webp", "lilly.webp", "lotus.webp", "marigold.webp"],
+                animalName: "lotus.mp3"
+            },
+            {
+                correctIndex: 3,
+                options: ["moonbeam.webp", "rose.webp", "sunflower.webp", "tuberose.webp"],
+                animalName: "tuberose.mp3"
+            },
+            {
+                correctIndex: 1,
+                options: ["butterflypea.webp", "rose.webp", "gardendaisy.webp", "goldmohur.webp"],
+                animalName: "rose.mp3"
+            },
+            {
+                correctIndex: 0,
+                options: ["sunflower.webp", "tuberose.webp", "waterlilly.webp", "gardendaisy.webp"],
+                animalName: "sunflower.mp3"
+            },
+            {
+                correctIndex: 2,
+                options: ["moonbeam.webp", "rose.webp", "gardendaisy.webp", "goldmohur.webp"],
+                animalName: "gardendaisy.mp3"
+            },
+            {
+                correctIndex: 1,
+                options: ["marigold.webp", "goldmohur.webp", "butterflypea.webp", "champa.webp"],
+                animalName: "goldmohur.mp3"
+            },
+            {
+                correctIndex: 3,
+                options: ["rose.webp", "sunflower.webp", "tuberose.webp", "waterlilly.webp"],
+                animalName: "waterlilly.mp3"
+            },
+            {
+                correctIndex: 2,
+                options: ["butterflypea.webp", "champa.webp", "dahlia.webp", "datura.webp"],
+                animalName: "dahlia.mp3"
+            },
+            {
+                correctIndex: 0,
+                options: ["datura.webp", "jasmine.webp", "lilly.webp", "lotus.webp"],
+                animalName: "datura.mp3"
+            },
+            {
+                correctIndex: 1,
+                options: ["gardendaisy.webp", "goldmohur.webp", "butterflypea.webp", "champa.webp"],
+                animalName: "goldmohur.mp3"
+            },
+            {
+                correctIndex: 3,
+                options: ["jasmine.webp", "lilly.webp", "lotus.webp", "marigold.webp"],
+                animalName: "marigold.mp3"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let correctScore = 0;
+        let wrongScore = 0;
+        let firstAttempt = true;
+        let repeatInterval;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        shuffle(questions);
+
+        function updateScoreCounter() {
+            document.getElementById('correctScore').textContent = correctScore;
+            document.getElementById('wrongScore').textContent = wrongScore;
+        }
+
+        function playQuestionAudio(questionData) {
+            if (localStorage.getItem('mosanga-lang') === 'en') {
+                const imageName = questionData.options[questionData.correctIndex].replace(/\.[^.]+$/, '');
+                const flowerNames = {
+                    butterflypea: 'butterfly pea',
+                    champa: 'champa',
+                    gardendaisy: 'garden daisy',
+                    goldmohur: 'gulmohar',
+                    lilly: 'lily',
+                    waterlilly: 'water lily'
+                };
+                KidsApp.speakText('Which flower is ' + (flowerNames[imageName] || imageName) + '?', 'en-IN');
+                return;
+            }
+
+            const questionAudio = document.getElementById('questionAudio');
+            const animalNameAudio = document.getElementById('animalNameAudio');
+
+            // Play generic question audio
+            questionAudio.play().catch(e => console.log("Autoplay blocked"));
+            
+            questionAudio.onended = () => {
+                // Play specific flower name audio
+                animalNameAudio.src = questionData.animalName;
+                animalNameAudio.play().catch(e => console.log("Autoplay blocked"));
+            };
+        }
+
+        function loadQuestion() {
+            if (repeatInterval) clearInterval(repeatInterval);
+
+            if (currentQuestionIndex >= questions.length) {
+                displayScoreboard();
+                return;
+            }
+
+            const questionData = questions[currentQuestionIndex];
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            firstAttempt = true;
+
+            playQuestionAudio(questionData);
+            repeatInterval = setInterval(() => {
+                playQuestionAudio(questionData);
+            }, 6000); // 6 seconds loop
+
+            questionData.options.forEach((optionSrc, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                
+                const img = document.createElement('img');
+                img.src = optionSrc;
+                optionElement.appendChild(img);
+                
+                optionElement.addEventListener('click', () => handleOptionClick(index, questionData, optionElement));
+                
+                optionsContainer.appendChild(optionElement);
+            });
+
+            updateScoreCounter();
+        }
+
+        function handleOptionClick(index, questionData, element) {
+            const correctSound = document.getElementById('correctSound');
+            const wrongSound = document.getElementById('wrongSound');
+
+            if (index === questionData.correctIndex) {
+                element.classList.add('correct');
+                if (firstAttempt) correctScore++;
+                correctSound.play();
+                
+                clearInterval(repeatInterval);
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                }, 1000);
+            } else {
+                element.classList.add('shake');
+                if (firstAttempt) wrongScore++;
+                firstAttempt = false;
+                wrongSound.play();
+                
+                setTimeout(() => {
+                    element.classList.remove('shake');
+                }, 500);
+            }
+            updateScoreCounter();
+        }
+
+        function displayScoreboard() {
+            document.querySelector('.quiz-container').style.display = 'none';
+            document.getElementById('scoreboard').style.display = 'block';
+            document.getElementById('finalCorrectScore').textContent = correctScore;
+            document.getElementById('finalWrongScore').textContent = wrongScore;
+            clearInterval(repeatInterval);
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            correctScore = 0;
+            wrongScore = 0;
+            shuffle(questions);
+            
+            document.querySelector('.quiz-container').style.display = 'flex';
+            document.getElementById('scoreboard').style.display = 'none';
+            loadQuestion();
+        }
+
+        document.addEventListener('kidsapp:languagechange', () => {
+            if (currentQuestionIndex < questions.length) playQuestionAudio(questions[currentQuestionIndex]);
+        });
+
+        loadQuestion();
+
+    </script>
+</body>
+</html>

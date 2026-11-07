@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLN Odisha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e6f2ff; /* Slightly faded blue */
+            text-align: center;
+        }
+
+        /* Header */
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background-color: #0056b3;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        /* Hamburger Menu */
+        .menu-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        /* Main Content - Tiles */
+        .tiles-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Always 2 columns */
+            gap: 20px;
+            padding: 20px;
+            width: 90%; /* Slightly decrease width */
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .tile {
+            background-color: #ffcc00;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 170px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+
+        .tile:hover {
+            background-color: #ffa500;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .tile img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+            object-fit: contain;
+        }
+
+        /* Colors for Tiles */
+        .class1 { background-color: #ffcccb; }
+        .class2 { background-color: #57c2e6; }
+        .class3 { background-color: #7ff07f; }
+        .teacher { background-color: #ffd700; }
+
+        /* Mobile Screen Styles */
+        @media screen and (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                background-color: #0056b3;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                z-index: 10;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            .tile {
+                height: 140px;
+            }
+
+            .tiles-container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">ପ୍ରଥମ ଶ୍ରେଣୀ / ଭାଷା କାର୍ଯ୍ୟ ପୁସ୍ତିକା</div>
+
+    <nav class="nav-bar">
+        <div class="menu-container">
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="team.html">Team</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="tiles-container">
+        <div class="tile class1" onclick="location.href='book1/book.html'">
+            <img src="book.png" alt="Class 1 Icon" />
+            ବିଷୟ
+        </div>
+        <div class="tile class2" onclick="location.href='book2/book.html'">
+            <img src="book.png" alt="Class 2 Icon" />
+            ସପ୍ତାହ-୧୩
+        </div>
+        <div class="tile class3" onclick="location.href='book3/book.html'">
+            <img src="book.png" alt="Class 3 Icon" />
+            ସପ୍ତାହ-୧୪
+        </div>
+        <div class="tile teacher" onclick="location.href='book4/book.html'">
+            <img src="book.png" alt="Teacher Icon" />
+            ସପ୍ତାହ-୧୫
+        </div>
+        <div class="tile class1" onclick="location.href='book5/book.html'">
+            <img src="book.png" alt="Class 1 Icon" />
+            ସପ୍ତାହ-୧୬
+        </div>
+        <div class="tile class2" onclick="location.href='book6/book.html'">
+            <img src="book.png" alt="Class 2 Icon" />
+            ସପ୍ତାହ-୧୭
+        </div>
+        <div class="tile class3" onclick="location.href='book7/book.html'">
+            <img src="book.png" alt="Class 3 Icon" />
+            ସପ୍ତାହ-୧୮
+        </div>
+        <div class="tile teacher" onclick="location.href='book8/book.html'">
+            <img src="book.png" alt="Teacher Icon" />
+            ସପ୍ତାହ-୧୯
+        </div>
+        <div class="tile class1" onclick="location.href='book9/book.html'">
+            <img src="book.png" alt="Class 1 Icon" />
+            ସପ୍ତାହ-୨୦
+        </div>
+        <div class="tile class2" onclick="location.href='book10/book.html'">
+            <img src="book.png" alt="Class 2 Icon" />
+            ସପ୍ତାହ-୨୧
+        </div>
+        <div class="tile class1" onclick="location.href='book11/book.html'">
+            <img src="book.png" alt="Class 1 Icon" />
+            ସପ୍ତାହ-୨୨
+        </div>
+        <div class="tile class2" onclick="location.href='book12/book.html'">
+            <img src="book.png" alt="Class 2 Icon" />
+            ସପ୍ତାହ-୨୩
+        </div>
+        <div class="tile class3" onclick="location.href='book13/book.html'">
+            <img src="book.png" alt="Class 3 Icon" />
+            ସପ୍ତାହ-୨୪
+        </div>
+        <div class="tile class1" onclick="location.href='book14/book.html'">
+            <img src="book.png" alt="Class 1 Icon" />
+            ସପ୍ତାହ-୨୫
+        </div>
+        <div class="tile class2" onclick="location.href='book15/book.html'">
+            <img src="book.png" alt="Class 2 Icon" />
+            ସପ୍ତାହ-୨୬
+        </div>
+        <div class="tile class1" onclick="location.href='book16/book.html'">
+            <img src="book.png" alt="Class 1 Icon" />
+            ସପ୍ତାହ-୨୭
+        </div>
+        <div class="tile class2" onclick="location.href='book17/book.html'">
+            <img src="book.png" alt="Class 2 Icon" />
+            ସପ୍ତାହ-୨୮
+        </div>
+        <div class="tile class3" onclick="location.href='book18/book.html'">
+            <img src="book.png" alt="Class 3 Icon" />
+            ଅତିରିକ୍ତ କାର୍ଯ୍ୟ
+        </div>
+       
+    </div>
+
+    <script>
+        // Toggle menu function
+        function toggleMenu() {
+            document.getElementById("nav-links").classList.toggle("show");
+        }
+    </script>
+
+</body>
+</html>

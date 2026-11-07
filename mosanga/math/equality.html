@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ବଡ ସାନ | Compare Numbers</title>
+<link rel="stylesheet" href="../kids_app.css">
+<style>
+  .math-game-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 15px;
+  }
+  .compare-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 15px 0;
+  }
+  .num-card {
+    width: 120px;
+    height: 140px;
+    background: #FFFFFF;
+    border: 4px solid var(--sun);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--ink);
+    box-shadow: 0 8px 0 var(--sun);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .num-card:hover {
+    transform: scale(1.05);
+  }
+  .vs-badge {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--coral);
+  }
+  .question-text {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="math-game-stage">
+    <div style="font-size: 20px; font-weight: 800; color: var(--sun); background: #FFF; padding: 6px 18px; border-radius: 999px; border: 2px solid var(--sun);">
+      ⭐ <span data-or="ସ୍କୋର୍:" data-en="Score:">ସ୍କୋର୍:</span> <span id="gameScore">0</span>
+    </div>
+
+    <div class="question-text" id="questionText">🤔 ବଡ ସଂଖ୍ୟାଟି ବାଛ!</div>
+
+    <div class="compare-box">
+      <div class="num-card" id="cardA" onclick="chooseNum('A')">
+        <span id="numValA">5</span>
+      </div>
+      <div class="vs-badge">VS</div>
+      <div class="num-card" id="cardB" onclick="chooseNum('B')">
+        <span id="numValB">8</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ବଡ ସାନ', 'Big & Small', '../');
+
+  var score = 0;
+  var valA = 0;
+  var valB = 0;
+  var targetBigger = true; // true = pick bigger, false = pick smaller
+
+  function generateQuestion() {
+    valA = Math.floor(Math.random() * 20) + 1;
+    do {
+      valB = Math.floor(Math.random() * 20) + 1;
+    } while (valA === valB);
+
+    targetBigger = Math.random() > 0.4;
+    var qText = document.getElementById('questionText');
+    if (targetBigger) {
+      qText.setAttribute('data-or', '🤔 ବଡ ସଂଖ୍ୟାଟି ବାଛ!');
+      qText.setAttribute('data-en', '🤔 Pick the Bigger Number!');
+    } else {
+      qText.setAttribute('data-or', '🤔 ସାନ ସଂଖ୍ୟାଟି ବାଛ!');
+      qText.setAttribute('data-en', '🤔 Pick the Smaller Number!');
+    }
+
+    var lang = 'or';
+    try { lang = localStorage.getItem('mosanga-lang') || 'or'; } catch (e) {}
+    qText.textContent = qText.getAttribute('data-' + lang);
+
+    document.getElementById('numValA').textContent = valA;
+    document.getElementById('numValB').textContent = valB;
+  }
+
+  function chooseNum(choice) {
+    var chosenVal = choice === 'A' ? valA : valB;
+    var otherVal = choice === 'A' ? valB : valA;
+
+    var isCorrect = targetBigger ? (chosenVal > otherVal) : (chosenVal < otherVal);
+
+    if (isCorrect) {
+      KidsApp.playSound('correct');
+      score += 10;
+      document.getElementById('gameScore').textContent = score;
+      if (score % 30 === 0) KidsApp.triggerConfetti();
+      generateQuestion();
+    } else {
+      KidsApp.playSound('wrong');
+    }
+  }
+
+  generateQuestion();
+</script>
+</body>
+</html>

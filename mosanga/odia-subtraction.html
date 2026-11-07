@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Odia Rabbit Subtraction</title>
+    <style>
+        :root { --ten: #d35400; --one: #2ecc71; --rabbit: #a4b0be; --bg: #fdfefe; --dark: #2c3e50; --red: #e74c3c; }
+        body { font-family: 'Segoe UI', 'Nirmala UI', sans-serif; background: #eef2f7; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; overflow-x: hidden; }
+        
+        .card { background: white; border-radius: 25px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 500px; text-align: center; border: 4px solid white; position: relative; }
+        
+        #story-text { 
+            min-height: 50px; background: #fff3cd; color: #856404; border: 2px solid #ffeeba; 
+            border-radius: 10px; display: flex; align-items: center; justify-content: center; 
+            padding: 5px 10px; font-weight: bold; font-size: 1.1rem; margin-bottom: 10px; 
+        }
+
+        /* --- SPLIT VISUAL AREA --- */
+        .visual-stage { display: flex; flex-direction: column; gap: 5px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 15px; padding: 10px; background: #f9f9f9; }
+        
+        .row-label { font-size: 0.9rem; font-weight: bold; color: #555; margin-bottom: 5px; text-align: left; padding-left: 10px; }
+        
+        .zone { display: flex; gap: 10px; min-height: 60px; align-items: center; }
+        .zone-tens { flex: 1; border-right: 2px dashed #ddd; display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; }
+        .zone-ones { flex: 1; display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; position: relative; }
+
+        /* Objects */
+        .basket { font-size: 2.2rem; transition: 0.3s; cursor: pointer; }
+        .carrot { font-size: 1.6rem; transition: 0.5s; position: relative; z-index: 10; }
+        .rabbit { font-size: 1.8rem; transition: 0.5s; filter: grayscale(100%); opacity: 0.7; }
+        .rabbit.fed { filter: none; opacity: 1; transform: scale(1.1); }
+        
+        /* Math Grid */
+        .math-grid { 
+            display: grid; grid-template-columns: 50px 80px 80px; justify-content: center; 
+            font-size: 3rem; font-weight: bold; margin: 5px 0; position: relative;
+            background: #fff; border-radius: 15px; padding: 5px;
+        }
+        
+        .helper { font-size: 2rem; color: var(--red); position: absolute; top: -15px; opacity: 0; transition: 0.5s; z-index: 20; background: white; padding: 0 5px; }
+        .digit-box { position: relative; width: 100%; height: 60px; display: flex; align-items: center; justify-content: center; }
+        .slash { position: absolute; width: 60%; height: 4px; background: var(--red); top: 50%; left: 20%; transform: rotate(-25deg) scaleX(0); transition: 0.5s; }
+        .slash.active { transform: rotate(-25deg) scaleX(1); }
+        .line { grid-column: 1 / 4; border-top: 4px solid var(--dark); margin-top: 5px; }
+        .ans { color: var(--one); }
+
+        /* Animation Layer */
+        .flyer { position: fixed; z-index: 100; font-size: 2.5rem; transition: all 1s ease-in-out; display: none; }
+        .pop-in { animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+        /* Controls */
+        .btn-main { background: #d35400; color: white; border: none; padding: 12px 30px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 0 #a04000; transition: 0.2s; width: 100%; }
+        .btn-main:active { transform: translateY(3px); box-shadow: 0 2px 0 #a04000; }
+        .btn-main:disabled { background: #ccc; box-shadow: none; cursor: default; }
+
+        .numpad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 10px; }
+        .num-btn { padding: 8px; font-size: 1.3rem; border-radius: 8px; border: 1px solid #ddd; background: white; font-weight:bold; }
+        
+        #setup-panel { display: block; } #solve-panel { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="story-text">ପ୍ରଥମେ: କେତୋଟି ଗାଜର (ଉପରେ)?</div>
+
+    <div class="visual-stage">
+        
+        <div class="row-label">ଉପର: ଗାଜର (ଅଛି)</div>
+        <div class="zone" style="background: #fff5e6; border-radius: 10px;">
+            <div class="zone-tens" id="top-tens"></div>
+            <div class="zone-ones" id="top-ones"></div>
+        </div>
+
+        <div class="row-label">ତଳ: ଠେକୁଆ (ଖାଇବେ)</div>
+        <div class="zone" style="background: #eafaf1; border-radius: 10px;">
+            <div class="zone-tens" id="bot-tens"></div>
+            <div class="zone-ones" id="bot-ones"></div>
+        </div>
+        
+    </div>
+
+    <div class="math-grid">
+        <div></div>
+        <div class="digit-box"><div class="helper" id="h-ten"></div></div>
+        <div class="digit-box"><div class="helper" id="h-one"></div></div>
+
+        <div></div>
+        <div class="digit-box"><span id="t1">-</span><div class="slash" id="s1"></div></div>
+        <div class="digit-box"><span id="o1">-</span><div class="slash" id="s2"></div></div>
+        
+        <div style="font-size:2rem; align-self:center;">-</div>
+        <div class="digit-box" id="t2">୦</div>
+        <div class="digit" id="o2">-</div>
+        
+        <div class="line"></div>
+        
+        <div></div>
+        <div class="digit-box ans" id="t-ans">?</div>
+        <div class="digit-box ans" id="o-ans">?</div>
+    </div>
+
+    <div id="setup-panel"><div class="numpad" id="pad"></div></div>
+    <div id="solve-panel">
+        <button class="btn-main" onclick="nextStep()">ଚାଲ ମିଳାଇବା! 🐰</button>
+        <button style="margin-top:10px; border:none; background:none; text-decoration:underline; color:#999; cursor:pointer; font-weight:bold;" onclick="location.reload()">ନୂଆ ପ୍ରଶ୍ନ</button>
+    </div>
+</div>
+
+<div id="flyer-basket" class="flyer">🧺</div>
+<div id="flyer-digit" class="flyer" style="color:var(--red); font-weight:bold;">୧</div>
+
+<script>
+    const odia = ['୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯', '୧୦', '୧୧', '୧୨', '୧୩', '୧୪', '୧୫', '୧୬', '୧୭', '୧୮', '୧୯'];
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    let step = 0, storyStep = 0;
+    let topT = 0, topO = 0, botO = 0;
+    
+    // Setup Numpad
+    const pad = document.getElementById('pad');
+    for(let i=0; i<=9; i++) {
+        const b = document.createElement('button');
+        b.className = 'num-btn'; b.textContent = odia[i];
+        b.onclick = () => setupInput(i);
+        pad.appendChild(b);
+    }
+
+    function snd(f, type='sine', d=0.1) {
+        if(audioCtx.state === 'suspended') audioCtx.resume();
+        const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+        o.type = type; o.frequency.setValueAtTime(f, audioCtx.currentTime);
+        g.gain.setValueAtTime(0.1, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
+        o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + d);
+    }
+
+    function setupInput(n) {
+        snd(300 + (n*20));
+        if(step === 0) {
+            topT = n; document.getElementById('t1').textContent = odia[n];
+            render(n, 'top-tens', '🧺', 'basket'); 
+            document.getElementById('story-text').textContent = "ଉପରେ: ଏକକ ଘର ସଂଖ୍ୟା (ଗାଜର)";
+            step++;
+        } else if(step === 1) {
+            topO = n; document.getElementById('o1').textContent = odia[n];
+            render(n, 'top-ones', '🥕', 'carrot'); 
+            document.getElementById('story-text').textContent = "ତଳେ: କେତୋଟି ଠେକୁଆ (ବିୟୋଗ ସଂଖ୍ୟା)?";
+            step++;
+        } else if(step === 2) {
+            botO = n; document.getElementById('o2').textContent = odia[n];
+            document.getElementById('t2').textContent = odia[0];
+            render(n, 'bot-ones', '🐰', 'rabbit');
+            
+            document.getElementById('setup-panel').style.display = 'none';
+            document.getElementById('solve-panel').style.display = 'block';
+            document.getElementById('story-text').textContent = `${odia[botO]} ଟି ଠେକୁଆ ପାଇଁ ଗାଜର ଅଛି କି?`;
+        }
+    }
+
+    async function nextStep() {
+        const btn = document.querySelector('.btn-main');
+        btn.disabled = true;
+
+        if (storyStep === 0) {
+            // MATCHING PHASE
+            // Check if borrowing is needed
+            if (topO < botO) {
+                document.getElementById('story-text').textContent = "ଆରେ! ଗାଜର କମ ଅଛି! ଠେକୁଆମାନଙ୍କୁ ଭୋକ ଲାଗୁଛି!";
+                
+                // Highlight the hungry rabbits
+                const rabbits = document.querySelectorAll('.rabbit');
+                for(let i=topO; i<botO; i++) {
+                    if(rabbits[i]) {
+                        rabbits[i].style.filter = "sepia(100%) hue-rotate(-50deg) saturate(600%)"; // Red/Angry
+                        rabbits[i].style.transform = "scale(1.2)";
+                    }
+                }
+                
+                btn.style.background = "#e74c3c";
+                btn.textContent = "ଟୋକେଇ ଆଣିବା 🧺";
+                storyStep = 1;
+                btn.disabled = false;
+            } else {
+                document.getElementById('story-text').textContent = "ବହୁତ ଗାଜର ଅଛି! ଚାଲ ଖାଇବାକୁ ଦେବା।";
+                btn.textContent = "ଠେକୁଆକୁ ଖୁଆଇବା 🥕";
+                storyStep = 2; // Skip to feeding
+                btn.disabled = false;
+            }
+        } 
+        else if (storyStep === 1) {
+            // BORROW ANIMATION
+            const tContainer = document.getElementById('top-tens');
+            const basket = tContainer.lastChild;
+            basket.style.opacity = '0';
+            
+            // Fly Basket
+            const flyer = document.getElementById('flyer-basket');
+            const start = basket.getBoundingClientRect();
+            const end = document.getElementById('top-ones').getBoundingClientRect();
+            
+            flyer.style.display = 'block';
+            flyer.style.left = start.left + 'px'; flyer.style.top = start.top + 'px';
+            snd(400, 'square', 0.5);
+            
+            await delay(50);
+            flyer.style.left = (end.left + 50) + 'px'; flyer.style.top = end.top + 'px';
+            
+            await delay(1200); 
+
+            // EXPLODE
+            flyer.textContent = "💥"; 
+            snd(100, 'sawtooth', 0.5);
+            await delay(300);
+            flyer.style.display = 'none'; 
+            
+            // SPAWN 10 CARROTS
+            const oContainer = document.getElementById('top-ones');
+            for(let i=0; i<10; i++) {
+                const c = document.createElement('div');
+                c.className = 'carrot pop-in'; c.textContent = '🥕';
+                oContainer.appendChild(c);
+                snd(600 + (i*50), 'sine', 0.05);
+                await delay(50);
+            }
+
+            // UPDATE GRID
+            document.getElementById('story-text').textContent = "ବର୍ତ୍ତମାନ ଆମ ପାଖରେ ୧୦ଟି ଅଧିକ ଗାଜର ଅଛି!";
+            document.getElementById('s1').classList.add('active');
+            document.getElementById('s2').classList.add('active');
+            
+            document.getElementById('h-ten').textContent = odia[topT - 1];
+            document.getElementById('h-ten').style.opacity = 1;
+            document.getElementById('h-one').textContent = odia[topO + 10]; 
+            document.getElementById('h-one').style.opacity = 1;
+
+            topT--; topO += 10;
+            
+            // Fix rabbits mood
+            const rabbits = document.querySelectorAll('.rabbit');
+            rabbits.forEach(r => { r.style.filter = "grayscale(100%)"; r.style.transform = "scale(1)"; });
+
+            btn.style.background = "#2ecc71";
+            btn.textContent = "ଠେକୁଆକୁ ଖୁଆଇବା 🥕";
+            storyStep = 2;
+            btn.disabled = false;
+        }
+        else if (storyStep === 2) {
+            // FEEDING ANIMATION
+            document.getElementById('story-text').textContent = "ଠେକୁଆମାନେ ଖାଇବାକୁ ଡେଉଁଛନ୍ତି...";
+            
+            const carrots = document.querySelectorAll('.carrot');
+            const rabbits = document.querySelectorAll('.rabbit');
+            
+            // Match rabbit to carrot
+            for(let i=0; i<botO; i++) {
+                if(rabbits[i]) {
+                    rabbits[i].style.transform = "translateY(-40px)";
+                    rabbits[i].style.opacity = "0"; 
+                }
+                
+                await delay(100);
+                
+                const targetCarrot = carrots[carrots.length - 1 - i];
+                if(targetCarrot) {
+                    targetCarrot.style.transform = "scale(0)";
+                    targetCarrot.style.opacity = "0";
+                    snd(200, 'sine', 0.1);
+                }
+                
+                await delay(300);
+            }
+            
+            await delay(500);
+            document.getElementById('o-ans').textContent = odia[topO - botO];
+            document.getElementById('t-ans').textContent = odia[topT];
+            
+            document.getElementById('story-text').textContent = "ସମସ୍ତେ ଖାଇଲେ! ବଳକା ଗାଜର ଗଣ! ⭐";
+            btn.textContent = "ସରିଲା";
+            storyStep = 3;
+            btn.disabled = false;
+        }
+    }
+
+    function render(n, id, emoji, cls) {
+        const d = document.getElementById(id); d.innerHTML = '';
+        for(let i=0; i<n; i++) {
+            const s = document.createElement('div'); s.className = cls; s.textContent = emoji;
+            d.appendChild(s);
+        }
+    }
+
+    function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Notifications</title>
+    <style>
+        /* Reset margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            margin-top: 20%;
+            width: 100%;
+            max-width: 600px;
+        }
+        .header {
+            padding: 15px;
+            background-color: #ff6b6b;
+            color: #fff;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0;
+        }
+        .notifications-list {
+            list-style: none;
+            background-color: #fff;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+        }
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        .notification-icon {
+            font-size: 1.5em;
+            color: #6200ee;
+            margin-right: 10px;
+        }
+        .notification-content {
+            flex: 1;
+        }
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: #aaa;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Notifications</div>
+        <ul class="notifications-list">
+            <!-- Notification Item -->
+            <li class="notification-item">
+                <div class="notification-icon">🎉</div>
+                <div class="notification-content">
+                    <div class="notification-title">Welcome to Odia KidsApp !</div>
+                </div>
+            </li>
+            <!-- Another Notification Item -->
+            <li class="notification-item">
+                <div class="notification-icon">📢</div>
+                <div class="notification-content">
+                    <div class="notification-title">New Features Added</div>
+                </div>
+            </li>
+            <!-- Placeholder when there are no notifications -->
+            <!-- Uncomment this section if there are no notifications -->
+            <!-- <div class="empty-message">No new notifications</div> -->
+        </ul>
+    </div>
+</body>
+</html>

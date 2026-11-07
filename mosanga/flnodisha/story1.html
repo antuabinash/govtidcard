@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLN Odisha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e6f2ff; /* Slightly faded blue */
+            text-align: center;
+        }
+
+        /* Header */
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background-color: #0056b3;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        /* Hamburger Menu */
+        .menu-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        /* Main Content - Tiles */
+        .tiles-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Always 2 columns */
+            gap: 20px;
+            padding: 20px;
+            width: 90%; /* Slightly decrease width */
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .tile {
+            background-color: #ffcc00;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 170px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+
+        .tile:hover {
+            background-color: #ffa500;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .tile img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+            object-fit: contain;
+        }
+
+        /* Colors for Tiles */
+        .class1 { background-color: #ffcccb; }
+        .class2 { background-color: #57c2e6; }
+        .class3 { background-color: #7ff07f; }
+        .teacher { background-color: #ffd700; }
+
+        /* Mobile Screen Styles */
+        @media screen and (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                background-color: #0056b3;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                z-index: 10;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            .tile {
+                height: 140px;
+            }
+
+            .tiles-container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">ପ୍ରଥମ ଶ୍ରେଣୀ / ଗଳ୍ପ କାର୍ଡ</div>
+
+    <nav class="nav-bar">
+        <div class="menu-container">
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="team.html">Team</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="tiles-container">
+        <div class="tile class1" onclick="location.href='story1/story1/book.html'">
+            <img src="story.png" alt="Class 1 Icon" />
+            ବାଃ ବାଃ ରେ ବୁଢୀ
+        </div>
+        <div class="tile class2" onclick="location.href='story1/story2/book.html'">
+            <img src="story.png" alt="Class 2 Icon" />
+           ବଡ ବେଲୁନ୍
+        </div>
+        <div class="tile class3" onclick="location.href='story1/story3/book.html'">
+            <img src="story.png" alt="Class 3 Icon" />
+            ରାତିର କଣ୍ଢେଇ
+        </div>
+        <div class="tile teacher" onclick="location.href='story1/story4/book.html'">
+            <img src="story.png" alt="Teacher Icon" />
+            ମିନାର ଘର
+        </div>
+        <div class="tile class1" onclick="location.href='story1/story5/book.html'">
+            <img src="story.png" alt="Class 1 Icon" />
+            ଦୁଇଟି ପିମ୍ପୁଡି
+        </div>
+        <div class="tile class2" onclick="location.href='story1/story6/book.html'">
+            <img src="story.png" alt="Class 2 Icon" />
+            ଗୁଡ଼ି ଓ ଛେଳି
+        </div>
+        <div class="tile class3" onclick="location.href='story1/story7/book.html'">
+            <img src="story.png" alt="Class 3 Icon" />
+            ବେଙ୍ଗ ଖାଇଲା ଚୋକୋଲେଟ
+        </div>
+        <div class="tile teacher" onclick="location.href='story1/story8/book.html'">
+            <img src="story.png" alt="Teacher Icon" />
+            ବାଃ ବାଃ କେମିତି ମଜା
+        </div>
+        <div class="tile class1" onclick="location.href='story1/story9/book.html'">
+            <img src="story.png" alt="Class 1 Icon" />
+            ଭାଲୁର ଚତୁର ପଣିଆ
+        </div>
+        <div class="tile class2" onclick="location.href='story1/story10/book.html'">
+            <img src="story.png" alt="Class 2 Icon" />
+            ବଳିଆ
+        </div>
+        <div class="tile class1" onclick="location.href='story1/story11/book.html'">
+            <img src="story.png" alt="Class 1 Icon" />
+            ରାମର ସାଇକେଲ
+        </div>
+        <div class="tile class2" onclick="location.href='story1/story12/book.html'">
+            <img src="story.png" alt="Class 2 Icon" />
+            ମୂଷା ଓ ହାତୀ
+        </div>
+        <div class="tile class3" onclick="location.href='story1/story13/book.html'">
+            <img src="story.png" alt="Class 3 Icon" />
+            ନୂଆ ଘୁଙ୍ଗୁର
+        </div>
+        <div class="tile teacher" onclick="location.href='story1/story14/book.html'">
+            <img src="story.png" alt="Teacher Icon" />
+            ଭାଲୁର ବାଳ କଟା
+        </div>
+        <div class="tile class1" onclick="location.href='story1/story15/book.html'">
+            <img src="story.png" alt="Class 1 Icon" />
+            ଓଟ ପିଠିରେ ସାପ
+        </div>
+       
+    </div>
+
+    <script>
+        // Toggle menu function
+        function toggleMenu() {
+            document.getElementById("nav-links").classList.toggle("show");
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ଓଡ଼ିଆ ମିଶାଣ ଶିକ୍ଷା</title>
+    <style>
+        :root { --ten: #ff9f43; --one: #54a0ff; --dark: #2f3542; --red: #ff4757; --gold: #f1c40f; }
+        body { font-family: 'Segoe UI', 'Nirmala UI', sans-serif; background: #eef2f7; display: flex; flex-direction: column; align-items: center; padding: 10px; margin: 0; overflow-x: hidden; }
+        
+        .card { background: white; border-radius: 30px; padding: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.12); width: 100%; max-width: 550px; text-align: center; border: 4px solid white; position: relative; }
+        
+        .reward-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 5px; font-size: 1.5rem; color: var(--gold); min-height: 35px; }
+
+        /* --- PERFECT MATH GRID --- */
+        .math-grid { 
+            display: grid; 
+            grid-template-columns: 60px 80px 80px; 
+            grid-template-rows: 60px 80px 80px 10px 80px; 
+            justify-content: center; 
+            font-size: 4rem; 
+            font-weight: bold; 
+            margin: 10px 0; 
+            line-height: 1;
+        }
+
+        .carry-cell { grid-column: 2; grid-row: 1; justify-self: center; align-self: end; }
+        .top-ten    { grid-column: 2; grid-row: 2; align-self: center; }
+        .top-one    { grid-column: 3; grid-row: 2; align-self: center; }
+        
+        .op-cell    { grid-column: 1; grid-row: 3; align-self: center; justify-self: end; padding-right: 10px; color: var(--dark); }
+        .bot-ten    { grid-column: 2; grid-row: 3; align-self: center; }
+        .bot-one    { grid-column: 3; grid-row: 3; align-self: center; }
+        
+        .line-cell  { grid-column: 1 / 4; grid-row: 4; align-self: center; } 
+        .actual-line { height: 6px; background: var(--dark); border-radius: 3px; margin: 0 10px; position: relative; top: -5px; }
+
+        .ans-ten    { grid-column: 2; grid-row: 5; align-self: center; color: var(--dark); }
+        .ans-one    { grid-column: 3; grid-row: 5; align-self: center; color: var(--one); }
+
+        /* Styles */
+        .carry-box { height: 50px; width: 45px; border: 3px dashed #ccc; border-radius: 10px; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; color: var(--red); background: #f9f9f9; transition: 0.3s; margin-bottom: 5px; }
+        
+        /* Visual Areas */
+        .visual-area { display: flex; justify-content: center; gap: 15px; margin: 15px 0; min-height: 140px; }
+        .bundle-box { border: 2px solid #ddd; border-radius: 15px; padding: 10px; flex: 1; background: #fafafa; position: relative; display: flex; flex-direction: column; align-items: center; }
+        .label { font-size: 0.9rem; font-weight: bold; color: #888; margin-bottom: 5px; text-transform: uppercase; width: 100%; }
+        
+        #vis-ones { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; width: 100%; }
+        .apple-wrap { position: relative; width: 35px; height: 35px; cursor: pointer; transition: 0.3s; }
+        .apple { font-size: 1.6rem; position: absolute; left: 0; top: 0; transition: transform 0.5s; }
+        .apple-num { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -10%); font-size: 0.8rem; color: white; font-weight: bold; text-shadow: 1px 1px 2px black; pointer-events: none; transition: opacity 0.5s; }
+        
+        .crate { font-size: 2.2rem; display: inline-block; animation: pop 0.5s; }
+        @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+        /* Big Staging Number */
+        #big-total-container { 
+            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); 
+            display: none; background: white; border: 3px solid var(--gold); 
+            border-radius: 15px; padding: 5px 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+            z-index: 50; 
+        }
+        .big-digit { font-size: 2.5rem; font-weight: bold; display: inline-block; margin: 0 2px; }
+        .big-digit.tens { color: var(--red); }
+        .big-digit.ones { color: var(--one); }
+
+        /* Flyers */
+        .flyer { position: fixed; z-index: 100; pointer-events: none; transition: all 2s cubic-bezier(0.45, 0.05, 0.55, 0.95); display: none; align-items: center; justify-content: center; font-weight: bold; }
+        #f-crate { font-size: 2.5rem; }
+        #f-digit-ten { font-size: 2.5rem; color: var(--red); }
+        #f-digit-one { font-size: 2.5rem; color: var(--one); }
+
+        /* Controls */
+        .numpad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+        .btn { padding: 12px 0; border: none; border-radius: 10px; background: var(--one); color: white; font-weight: bold; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 0 #2e86de; transition: 0.1s; }
+        .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #2e86de; }
+        
+        #instruction { height: 40px; font-weight: bold; color: var(--dark); font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+        
+        #temp-crate-spot { position: absolute; top: 40px; left: 10px; display: none; font-size: 2.5rem; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="reward-bar" id="star-bar"></div>
+    <div id="instruction">ପାଦ ୧: ଉପର ଦଶକ ଅଙ୍କ ଦିଅନ୍ତୁ</div>
+
+    <div class="math-grid">
+        <div class="carry-cell"><div id="carry-val" class="carry-box"></div></div>
+        
+        <div class="top-ten" id="t1">-</div>
+        <div class="top-one" id="o1">-</div>
+        
+        <div class="op-cell">+</div>
+        <div class="bot-ten" id="t2">୦</div>
+        <div class="bot-one" id="o2">-</div>
+        
+        <div class="line-cell"><div class="actual-line"></div></div>
+        
+        <div class="ans-ten" id="t-ans">?</div>
+        <div class="ans-one" id="o-ans">?</div>
+    </div>
+
+    <div class="visual-area">
+        <div class="bundle-box">
+            <div class="label">ଦଶକ (TENS)</div>
+            <div id="vis-tens"></div>
+        </div>
+        <div class="bundle-box" id="ones-box">
+            <div class="label">ଏକକ (ONES)</div>
+            <div id="vis-ones"></div>
+            
+            <div id="temp-crate-spot">📦</div>
+            
+            <div id="big-total-container">
+                <span id="bd-ten" class="big-digit tens"></span>
+                <span id="bd-one" class="big-digit ones"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="numpad" id="pad"></div>
+    <button onclick="location.reload()" style="margin-top:15px; border:none; background:#ced6e0; color:#2f3542; padding:8px 25px; border-radius:10px; cursor:pointer; font-weight:bold;">ନୂଆ ପ୍ରଶ୍ନ (New Task)</button>
+</div>
+
+<div id="f-crate" class="flyer">📦</div>
+<div id="f-digit-ten" class="flyer"></div>
+<div id="f-digit-one" class="flyer"></div>
+
+<script>
+    let step = 0;
+    let topT = 0, topO = 0, botO = 0, countProgress = 0;
+    const inst = document.getElementById('instruction');
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    // Odia Numeral Mapping
+    const odiaNums = ['୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯'];
+    
+    function toOdia(n) {
+        return n.toString().split('').map(d => odiaNums[parseInt(d)] || d).join('');
+    }
+
+    function snd(f, type='sine', d=0.2) {
+        if(audioCtx.state === 'suspended') audioCtx.resume();
+        const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+        o.type = type; o.frequency.setValueAtTime(f, audioCtx.currentTime);
+        g.gain.setValueAtTime(0.1, audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
+        o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + d);
+    }
+
+    // Init Numpad
+    const pad = document.getElementById('pad');
+    for(let i=0; i<=9; i++) {
+        const b = document.createElement('button');
+        b.className = 'btn'; b.textContent = toOdia(i);
+        b.onclick = () => processInput(i);
+        pad.appendChild(b);
+    }
+
+    function processInput(n) {
+        snd(300 + (n * 30), 'triangle');
+        if (step === 0) {
+            topT = n; document.getElementById('t1').textContent = toOdia(n);
+            renderTens(n); inst.textContent = "ପାଦ ୨: ଉପର ଏକକ ଅଙ୍କ ଦିଅନ୍ତୁ"; step++;
+        } else if (step === 1) {
+            topO = n; document.getElementById('o1').textContent = toOdia(n);
+            renderOnes(n); inst.textContent = "ପାଦ ୩: ତଳ ସଂଖ୍ୟା ଦିଅନ୍ତୁ"; step++;
+        } else if (step === 2) {
+            botO = n; document.getElementById('o2').textContent = toOdia(n);
+            document.getElementById('t2').textContent = toOdia(0);
+            inst.textContent = "ଗଣିବା ପାଇଁ ପ୍ରତି ସେଓକୁ ଛୁଅଁନ୍ତୁ!"; step++;
+            addMoreApples(n);
+        }
+    }
+
+    function addMoreApples(n) {
+        const oBox = document.getElementById('vis-ones');
+        for(let i=0; i<n; i++) { createApple(oBox); }
+    }
+
+    function createApple(container) {
+        const wrap = document.createElement('div');
+        wrap.className = 'apple-wrap';
+        wrap.innerHTML = `<span class="apple">🍎</span><span class="apple-num"></span>`;
+        wrap.onclick = () => countApple(wrap);
+        container.appendChild(wrap);
+    }
+
+    function countApple(el) {
+        if(el.dataset.counted) return;
+        countProgress++;
+        el.dataset.counted = "true";
+        el.querySelector('.apple-num').textContent = toOdia(countProgress);
+        snd(500 + (countProgress * 40), 'sine', 0.1);
+
+        if(countProgress === 10) {
+            const all = document.querySelectorAll('.apple-wrap');
+            all.forEach((a, i) => { if(i < 10) a.style.filter = "drop-shadow(0 0 5px gold)"; });
+        }
+        if(countProgress === (topO + botO)) startMath();
+    }
+
+    async function startMath() {
+        const onesSum = topO + botO;
+        const tensDigit = Math.floor(onesSum / 10);
+        const onesDigit = onesSum % 10;
+        
+        await delay(500);
+
+        // --- PHASE 1: SHOW BIG NUMBER IN BOX ---
+        const bigCont = document.getElementById('big-total-container');
+        const bdTen = document.getElementById('bd-ten');
+        const bdOne = document.getElementById('bd-one');
+        
+        bdTen.textContent = tensDigit > 0 ? toOdia(tensDigit) : "";
+        bdOne.textContent = toOdia(onesDigit);
+        bigCont.style.display = 'block';
+        bigCont.style.animation = 'pop 0.5s ease';
+        snd(400, 'square', 0.5);
+        inst.textContent = `ମୋଟ ହେଉଛି ${toOdia(onesSum)}!`;
+
+        // Hide ALL apple numbers immediately
+        const nums = document.querySelectorAll('.apple-num');
+        nums.forEach(n => n.style.opacity = '0');
+        
+        await delay(1500);
+
+        if (onesSum >= 10) {
+            inst.textContent = "ଦେଖନ୍ତୁ, ୧୦ଟି ସେଓ ଗୋଟିଏ ଟୋକେଇ ପାଲଟିଗଲା!";
+            
+            // Shrink first 10 Apples
+            const apples = document.querySelectorAll('.apple-wrap');
+            apples.forEach((a, i) => { 
+                if(i < 10) { a.style.transform = "scale(0)"; a.style.opacity = "0"; }
+            });
+            snd(200, 'sawtooth', 0.5);
+
+            // Show Temp Crate
+            const tempCrate = document.getElementById('temp-crate-spot');
+            tempCrate.style.display = 'block';
+            tempCrate.style.animation = 'pop 0.5s ease';
+            await delay(1000);
+
+            // --- PHASE 2: FLIGHT 1 (TENS) ---
+            inst.textContent = "'୧' ଏବଂ ଟୋକେଇ ଦଶକ ଘରକୁ ଉଡିଗଲା!";
+            
+            const rectTen = bdTen.getBoundingClientRect();
+            const rectCrate = tempCrate.getBoundingClientRect();
+            const destCarry = document.getElementById('carry-val').getBoundingClientRect();
+
+            const fCrate = document.getElementById('f-crate');
+            const fTen = document.getElementById('f-digit-ten');
+
+            fTen.textContent = toOdia(tensDigit);
+
+            // Set Initial positions for Tens
+            fCrate.style.display = 'flex'; fCrate.style.left = rectCrate.left+"px"; fCrate.style.top = rectCrate.top+"px";
+            fTen.style.display = 'flex'; fTen.style.left = rectTen.left+"px"; fTen.style.top = rectTen.top+"px";
+            
+            bdTen.style.opacity = "0"; // Hide original ten digit
+            tempCrate.style.opacity = "0"; // Hide original crate
+
+            await delay(100);
+            
+            // Fly Tens!
+            snd(600, 'square', 2.0);
+            fCrate.style.left = destCarry.left+"px"; fCrate.style.top = destCarry.top+"px"; fCrate.style.transform = "scale(0.5)";
+            fTen.style.left = destCarry.left+"px"; fTen.style.top = destCarry.top+"px"; fTen.style.transform = "scale(0.5)";
+            
+            await delay(2000); // Wait for flight
+
+            // Land Tens
+            fCrate.style.display = 'none'; fTen.style.display = 'none';
+            const carryBox = document.getElementById('carry-val');
+            carryBox.textContent = toOdia(1);
+            carryBox.style.borderColor = "var(--red)"; carryBox.style.background = "#ffeaa7";
+            snd(800, 'sine', 0.3);
+            renderTens(topT + 1); // Update Tens Pile
+
+            // --- PHASE 3: FLIGHT 2 (ONES) ---
+            inst.textContent = "ବର୍ତ୍ତମାନ " + toOdia(onesDigit) + " ଉତ୍ତର ଘରକୁ ଉଡିଗଲା!";
+            await delay(500);
+
+            const rectOne = bdOne.getBoundingClientRect();
+            const destAns = document.getElementById('o-ans').getBoundingClientRect();
+            const fOne = document.getElementById('f-digit-one');
+
+            fOne.textContent = toOdia(onesDigit);
+            
+            // Set Initial Position for Ones
+            fOne.style.display = 'flex'; fOne.style.left = rectOne.left+"px"; fOne.style.top = rectOne.top+"px";
+            bdOne.style.opacity = "0"; // Hide original ones digit
+
+            await delay(100);
+
+            // Fly Ones!
+            snd(700, 'sine', 1.5);
+            fOne.style.left = destAns.left+"px"; fOne.style.top = destAns.top+"px";
+
+            await delay(2000); // Wait for flight
+
+            // Land Ones
+            fOne.style.display = 'none';
+            document.getElementById('o-ans').textContent = toOdia(onesDigit);
+            bigCont.style.display = 'none'; // Hide the staging box completely
+
+            inst.textContent = "ଶେଷରେ, ଦଶକ ଘରର ଅଙ୍କ ଯୋଡନ୍ତୁ!";
+            await delay(1000);
+            document.getElementById('t-ans').textContent = toOdia(topT + 1);
+            inst.textContent = "ଚମତ୍କାର! ତୁମେ ହାତରେ ରଖି ମିଶାଇଲ! ⭐";
+
+        } else {
+            // Simple flight for single digit
+            inst.textContent = toOdia(onesDigit) + " ଉତ୍ତର ଘରକୁ ଉଡିଗଲା!";
+            const rectOne = bdOne.getBoundingClientRect();
+            const destAns = document.getElementById('o-ans').getBoundingClientRect();
+            const fOne = document.getElementById('f-digit-one');
+            
+            fOne.textContent = toOdia(onesDigit);
+            fOne.style.display = 'flex'; fOne.style.left = rectOne.left+"px"; fOne.style.top = rectOne.top+"px";
+            bdOne.style.opacity = "0";
+            
+            await delay(50);
+            fOne.style.left = destAns.left+"px"; fOne.style.top = destAns.top+"px";
+            
+            await delay(2000);
+            fOne.style.display = 'none';
+            document.getElementById('o-ans').textContent = toOdia(onesDigit);
+            document.getElementById('t-ans').textContent = toOdia(topT);
+            bigCont.style.display = 'none';
+            inst.textContent = "ସଠିକ୍ ଉତ୍ତର! ⭐";
+        }
+        
+        document.getElementById('star-bar').innerHTML += '⭐';
+    }
+
+    function renderTens(count) {
+        const el = document.getElementById('vis-tens'); el.innerHTML = '';
+        for(let i=0; i<count; i++) el.innerHTML += '<span class="crate">📦</span>';
+    }
+
+    function renderOnes(count) {
+        const el = document.getElementById('vis-ones'); el.innerHTML = '';
+        for(let i=0; i<count; i++) { createApple(el); }
+    }
+
+    function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+</body>
+</html>

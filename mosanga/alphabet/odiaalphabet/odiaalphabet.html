@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ଓଡ଼ିଆ ଅକ୍ଷର | Odia Alphabets</title>
+<link rel="stylesheet" href="../../kids_app.css">
+<style>
+  .letter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .letter-box {
+    aspect-ratio: 1;
+    background: #FFFFFF;
+    border: 3px solid var(--ocean);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--ink);
+    box-shadow: 0 6px 0 var(--ocean);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .letter-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 0 var(--ocean);
+  }
+  .letter-box:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--ocean);
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="letter-grid" id="letterGrid"></div>
+</div>
+
+<!-- Modal Flashcard -->
+<div class="modal-overlay" id="letterModal">
+  <div class="modal-box" style="max-width: 400px; padding: 20px;">
+    <button style="position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer;" onclick="closeModal()">✖</button>
+    <div id="modalLetter" style="font-size: 80px; font-weight: 800; color: var(--coral); margin-bottom: 10px;"></div>
+    <div id="modalImageWrap" style="height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+      <img id="modalImg" src="" alt="" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+    </div>
+    <button type="button" class="nav-btn" style="background: var(--grass); color: var(--ink); font-size: 20px; width: 100%; justify-content: center;" onclick="playCurrentAudio()">
+      🔊 <span data-or="ଶୁଣନ୍ତୁ" data-en="Listen">ଶୁଣନ୍ତୁ</span>
+    </button>
+  </div>
+</div>
+
+<script src="../../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ଓଡ଼ିଆ ଅକ୍ଷର', 'Alphabets', '../../');
+
+  var odiaLetters = [
+    { char: 'ଅ', img: '1.webp', audio: 'ଅ.mp3' },
+    { char: 'ଆ', img: '2.webp', audio: 'ଆ.mp3' },
+    { char: 'ଇ', img: '3.webp', audio: 'ଇ.mp3' },
+    { char: 'ଈ', img: '4.webp', audio: 'ଈ.mp3' },
+    { char: 'ଉ', img: '5.webp', audio: 'ଉ.mp3' },
+    { char: 'ଊ', img: '6.webp', audio: 'ଊ.mp3' },
+    { char: 'ଋ', img: '7.webp', audio: 'ଋ.mp3' },
+    { char: 'ଏ', img: '8.webp', audio: 'ଏ.mp3' },
+    { char: 'ଐ', img: '9.webp', audio: 'ଐ.mp3' },
+    { char: 'ଓ', img: '10.webp', audio: 'ଓ.mp3' },
+    { char: 'ଔ', img: '11.webp', audio: 'ଔ.mp3' },
+    { char: 'କ', img: '12.webp', audio: 'କ.mp3' },
+    { char: 'ଖ', img: '13.webp', audio: 'ଖ.mp3' },
+    { char: 'ଗ', img: '14.webp', audio: 'ଗ.mp3' },
+    { char: 'ଘ', img: '15.webp', audio: 'ଘ.mp3' },
+    { char: 'ଙ', img: '16.webp', audio: 'ଙ.mp3' },
+    { char: 'ଚ', img: '17.webp', audio: 'ଚ.mp3' },
+    { char: 'ଛ', img: '18.webp', audio: 'ଛ.mp3' },
+    { char: 'ଜ', img: '19.webp', audio: 'ଜ.mp3' },
+    { char: 'ଝ', img: '20.webp', audio: 'ଝ.mp3' },
+    { char: 'ଞ', img: '21.webp', audio: 'ଞ.mp3' },
+    { char: 'ଟ', img: '22.webp', audio: 'ଟ.mp3' },
+    { char: 'ଠ', img: '23.webp', audio: 'ଠ.mp3' },
+    { char: 'ଡ', img: '24.webp', audio: 'ଡ.mp3' },
+    { char: 'ଢ', img: '25.webp', audio: 'ଢ.mp3' },
+    { char: 'ଣ', img: '26.webp', audio: 'ଣ.mp3' },
+    { char: 'ତ', img: '27.webp', audio: 'ତ.mp3' },
+    { char: 'ଥ', img: '28.webp', audio: 'ଥ.mp3' },
+    { char: 'ଦ', img: '29.webp', audio: 'ଦ.mp3' },
+    { char: 'ଧ', img: '30.webp', audio: 'ଧ.mp3' },
+    { char: 'ନ', img: '31.webp', audio: 'ନ.mp3' },
+    { char: 'ପ', img: '32.webp', audio: 'ପ.mp3' },
+    { char: 'ଫ', img: '33.webp', audio: 'ଫ.mp3' },
+    { char: 'ବ', img: '34.webp', audio: 'ବ.mp3' },
+    { char: 'ଭ', img: '35.webp', audio: 'ଭ.mp3' },
+    { char: 'ମ', img: '36.webp', audio: 'ମ.mp3' },
+    { char: 'ଯ', img: '37.webp', audio: 'ଯ.mp3' },
+    { char: 'ର', img: '38.webp', audio: 'ର.mp3' },
+    { char: 'ଳ', img: '39.webp', audio: 'ଳ.mp3' },
+    { char: 'ଶ', img: '40.webp', audio: 'ଶ.mp3' },
+    { char: 'ଷ', img: '41.webp', audio: 'ଷ.mp3' },
+    { char: 'ସ', img: '42.webp', audio: 'ସ.mp3' },
+    { char: 'ହ', img: '43.webp', audio: 'ହ.mp3' },
+    { char: 'କ୍ଷ', img: '44.webp', audio: 'କ୍ଷ.mp3' }
+  ];
+
+  var englishLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(function(letter) {
+    return { char: letter };
+  });
+  var grid = document.getElementById('letterGrid');
+  var currentItem = null;
+  var currentLanguage = document.documentElement.lang;
+
+  function renderLetters(lang) {
+    grid.innerHTML = '';
+    document.getElementById('modalImageWrap').style.display = lang === 'en' ? 'none' : 'flex';
+    var items = lang === 'en' ? englishLetters : odiaLetters;
+
+    items.forEach(function(item) {
+      var box = document.createElement('div');
+      box.className = 'letter-box';
+      box.textContent = item.char;
+      box.onclick = function() { openLetter(item); };
+      grid.appendChild(box);
+    });
+  }
+
+  renderLetters(currentLanguage);
+  document.addEventListener('kidsapp:languagechange', function(event) {
+    currentLanguage = event.detail.lang;
+    currentItem = null;
+    document.getElementById('letterModal').classList.remove('active');
+    renderLetters(currentLanguage);
+  });
+
+  function openLetter(item) {
+    KidsApp.playSound('click');
+    currentItem = item;
+    document.getElementById('modalLetter').textContent = item.char;
+    var modalImg = document.getElementById('modalImg');
+    if (item.img) {
+      modalImg.src = item.img;
+    } else {
+      modalImg.removeAttribute('src');
+    }
+    document.getElementById('letterModal').classList.add('active');
+    playCurrentAudio();
+  }
+
+  function playCurrentAudio() {
+    if (currentItem) {
+      if (currentLanguage === 'en') {
+        KidsApp.speakText(currentItem.char, 'en-IN');
+      } else {
+        KidsApp.speakOrPlay(currentItem, currentItem.audio);
+      }
+    } else {
+      KidsApp.playSound('pop');
+    }
+  }
+
+  function closeModal() {
+    KidsApp.playSound('click');
+    document.getElementById('letterModal').classList.remove('active');
+  }
+</script>
+</body>
+</html>

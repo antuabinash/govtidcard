@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Magic Coloring Page</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f8ff;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+        touch-action: none; 
+    }
+
+    /* Left Side: Controls */
+    .controls-sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        background: #fff;
+        height: 100%;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        z-index: 10;
+        gap: 20px;
+        min-width: 90px;
+    }
+
+    /* Right Side: Canvas Area */
+    #canvas-wrapper {
+        position: relative;
+        height: 90vh; 
+        aspect-ratio: 1 / 1; 
+        background-color: white;
+        box-shadow: 0 0 20px rgba(0,0,0,0.15);
+        margin: 20px;
+        border-radius: 8px; /* Slightly less round canvas corners too */
+        overflow: hidden;
+        cursor: crosshair; 
+    }
+
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+    }
+
+    #drawLayer {
+        z-index: 1; 
+    }
+
+    #outlineLayer {
+        z-index: 2; 
+        pointer-events: none; 
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Color Palette */
+    .palette {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        width: 90px;
+    }
+
+    .color-swatch {
+        width: 35px;
+        height: 35px;
+        /* Made swatches slightly less round too to match the theme */
+        border-radius: 8px; 
+        border: 2px solid #ddd;
+        cursor: pointer;
+        transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .color-swatch:hover {
+        transform: scale(1.1);
+    }
+
+    .color-swatch.active {
+        transform: scale(1.1);
+        border-color: #333;
+        box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+
+    /* Tool Buttons */
+    .nav-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .tool-row {
+        display: flex;
+        gap: 12px;
+    }
+
+    .btn-container {
+        position: relative; 
+    }
+
+    .btn-icon {
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        /* UPDATED: Changed from 12px to 6px for a "squarer" look */
+        border-radius: 6px; 
+        padding: 8px;
+        background: #f8f9fa;
+        border: 2px solid transparent;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .btn-icon:active {
+        transform: scale(0.95);
+    }
+
+    /* Magic Star Badge */
+    .magic-star {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        font-size: 22px;
+        pointer-events: none;
+        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        animation: float 2s infinite ease-in-out;
+        z-index: 5;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+    }
+
+    .selected-tool {
+        background: #e3f2fd;
+        border-color: #2196F3;
+        box-shadow: 0 0 5px rgba(33, 150, 243, 0.4);
+    }
+
+    /* Portrait Mode */
+    @media (orientation: portrait) {
+        body { flex-direction: column-reverse; }
+        .controls-sidebar { 
+            flex-direction: row; 
+            width: 100%; 
+            height: auto; 
+            padding: 15px 0;
+            overflow-x: auto;
+            gap: 15px;
+        }
+        .nav-buttons { flex-direction: row; }
+        #canvas-wrapper {
+            width: 90vw;
+            height: 90vw; 
+        }
+        .palette { width: auto; flex-wrap: nowrap; }
+    }
+</style>
+</head>
+<body>
+
+    <div class="controls-sidebar">
+        <div class="palette" id="palette"></div>
+
+        <div class="nav-buttons">
+            <div class="tool-row">
+                <div class="btn-container">
+                    <div class="magic-star">⭐</div>
+                    <img src="magic.png" id="magicBtn" class="btn-icon" alt="Magic" title="Magic Reveal Tool">
+                </div>
+                
+                <img src="clear.png" id="clearBtn" class="btn-icon" alt="Clear" title="Clear Canvas">
+            </div>
+            
+            <div class="tool-row">
+                <img src="pre.png" id="prevBtn" class="btn-icon" alt="Prev">
+                <img src="next.png" id="nextBtn" class="btn-icon" alt="Next">
+            </div>
+        </div>
+    </div>
+
+    <div id="canvas-wrapper">
+        <div id="outlineLayer"></div>
+        <canvas id="drawLayer"></canvas>
+    </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- Configuration ---
+        const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#FF69B4', '#8B4513', '#000000', '#FFFFFF'];
+        
+        const imageSources = [
+            { outline: "outline1.png", color: "colorful1.png" },
+            { outline: "outline2.png", color: "colorful2.png" },
+            { outline: "outline3.png", color: "colorful3.png" },
+            { outline: "outline4.png", color: "colorful4.png" }
+        ];
+        
+        let currentImageIndex = 0;
+        let currentColor = '#FF0000';
+        let isMagicMode = false;
+        
+        // Large Brush Size
+        let brushSize = 50; 
+        
+        let isDrawing = false;
+        let magicPattern = null;
+        let fullColorImageObj = new Image();
+
+        // --- Elements ---
+        const canvas = document.getElementById("drawLayer");
+        const ctx = canvas.getContext("2d");
+        const outlineDiv = document.getElementById("outlineLayer");
+        const wrapper = document.getElementById("canvas-wrapper");
+        const paletteContainer = document.getElementById("palette");
+        const magicBtn = document.getElementById("magicBtn");
+
+        // --- Initialization ---
+        
+        // 1. Create Palette
+        colors.forEach((color, index) => {
+            const swatch = document.createElement("div");
+            swatch.className = "color-swatch";
+            swatch.style.backgroundColor = color;
+            if(index === 0) swatch.classList.add("active");
+            
+            swatch.addEventListener("click", () => {
+                isMagicMode = false; 
+                currentColor = color;
+                updateToolUI();
+                document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("active"));
+                swatch.classList.add("active");
+            });
+            paletteContainer.appendChild(swatch);
+        });
+
+        // 2. Setup Magic Button
+        magicBtn.addEventListener("click", () => {
+            isMagicMode = true;
+            updateToolUI();
+            document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("active"));
+        });
+
+        function updateToolUI() {
+            if(isMagicMode) {
+                magicBtn.classList.add("selected-tool");
+            } else {
+                magicBtn.classList.remove("selected-tool");
+            }
+        }
+
+        // 3. Canvas Sizing
+        function resizeCanvas() {
+            canvas.width = wrapper.clientWidth;
+            canvas.height = wrapper.clientHeight;
+            if(fullColorImageObj.src && fullColorImageObj.complete) {
+                prepareMagicPattern();
+            }
+        }
+        
+        window.addEventListener("resize", resizeCanvas);
+
+        // --- Logic ---
+
+        function loadImage() {
+            outlineDiv.style.backgroundImage = `url('${imageSources[currentImageIndex].outline}')`;
+            
+            fullColorImageObj = new Image();
+            fullColorImageObj.src = imageSources[currentImageIndex].color;
+            
+            fullColorImageObj.onload = function() {
+                prepareMagicPattern();
+            };
+
+            clearCanvas();
+        }
+
+        function prepareMagicPattern() {
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            tempCtx.drawImage(fullColorImageObj, 0, 0, tempCanvas.width, tempCanvas.height);
+            magicPattern = ctx.createPattern(tempCanvas, 'no-repeat');
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function getCoordinates(e) {
+            const rect = canvas.getBoundingClientRect();
+            let clientX, clientY;
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        function startDraw(e) {
+            e.preventDefault();
+            isDrawing = true;
+            const pos = getCoordinates(e);
+            
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            
+            ctx.lineWidth = brushSize;
+            // Round cap is usually better for coloring, even if buttons are square
+            ctx.lineCap = "round"; 
+            ctx.lineJoin = "round";
+
+            if (isMagicMode && magicPattern) {
+                ctx.strokeStyle = magicPattern;
+            } else {
+                ctx.strokeStyle = currentColor;
+            }
+
+            ctx.lineTo(pos.x, pos.y); 
+            ctx.stroke();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            const pos = getCoordinates(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDraw() {
+            isDrawing = false;
+            ctx.beginPath(); 
+        }
+
+        // --- Event Listeners ---
+        canvas.addEventListener("mousedown", startDraw);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", stopDraw);
+        canvas.addEventListener("mouseleave", stopDraw);
+
+        canvas.addEventListener("touchstart", startDraw, { passive: false });
+        canvas.addEventListener("touchmove", draw, { passive: false });
+        canvas.addEventListener("touchend", stopDraw);
+
+        document.getElementById("prevBtn").addEventListener("click", () => {
+            currentImageIndex = (currentImageIndex - 1 + imageSources.length) % imageSources.length;
+            loadImage();
+        });
+
+        document.getElementById("nextBtn").addEventListener("click", () => {
+            currentImageIndex = (currentImageIndex + 1) % imageSources.length;
+            loadImage();
+        });
+
+        document.getElementById("clearBtn").addEventListener("click", clearCanvas);
+
+        resizeCanvas();
+        loadImage();
+    });
+</script>
+
+</body>
+</html>

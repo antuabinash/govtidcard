@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popup</title>
+  <style>
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    max-width: 100%; /* Adjust the maximum width */
+    max-height: 100%; /* Adjust the maximum height */
+    overflow: hidden; /* Add scrollbar if content overflows */
+  }
+  .popup img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+  .arrow-container {
+    display: flex;
+    justify-content: space-between;
+    width: 200px; /* Adjust the width to decrease the distance between arrows */
+    margin: 40px auto 0; /* Adjust the margin to position arrows below the image */
+  }
+  .arrow {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+    text-decoration: none; /* Remove default link underline */
+    -webkit-tap-highlight-color: transparent; /* For iOS Safari */
+    tap-highlight-color: transparent; /* For other browsers */
+  }
+  .arrow:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  .header-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 350px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 1000; /* Ensure it appears above other content */
+  }
+  #webm-container {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    width: 100px; /* Adjust width and height according to your animation */
+    height: 100px;
+    z-index: 1000; /* Ensure it's above other elements */
+  }
+  
+  </style>
+</head>
+<body>
+<img src="header1.png" alt="Header Image" class="header-image">
+<video id="webm-container" autoplay loop muted>
+  <source src="numberanimation.webm" type="video/webm">
+  Your browser does not support the video tag.
+</video>
+<div class="popup" id="popup">
+  <div class="popup-content" ontouchstart="handleTouchStart(event)" ontouchend="handleTouchEnd(event)">
+    <img id="popupImage" src="" alt="Popup Image">
+    <audio id="popupAudio" autoplay style="width:100%;"></audio>
+    <div class="arrow-container">
+      <img class="arrow arrow-left" src="left-arrow.png" onclick="navigatePopup('left')">
+      <img class="arrow arrow-right" src="right-arrow.png" onclick="navigatePopup('right')">
+    </div>
+  </div>
+</div>
+
+<script>
+  var popupData = [
+    { audioSrc: 'number1.mp3', imageSrc: 'one.webp' },
+    { audioSrc: 'number2.mp3', imageSrc: 'two.webp' },
+    { audioSrc: 'number3.mp3', imageSrc: 'three.webp' },
+    { audioSrc: 'number4.mp3', imageSrc: 'four.webp' },
+    { audioSrc: 'number5.mp3', imageSrc: 'five.webp' },
+    { audioSrc: 'number6.mp3', imageSrc: 'six.webp' },
+    { audioSrc: 'number7.mp3', imageSrc: 'seven.webp' },
+    { audioSrc: 'number8.mp3', imageSrc: 'eight.webp' },
+    { audioSrc: 'number9.mp3', imageSrc: 'nine.webp' },
+    { audioSrc: 'number10.mp3', imageSrc: 'ten.webp' },
+    { audioSrc: 'number11.mp3', imageSrc: 'eleven.webp' },
+    { audioSrc: 'number12.mp3', imageSrc: 'twelve.webp' },
+    { audioSrc: 'number13.mp3', imageSrc: 'thirteen.webp' },
+    { audioSrc: 'number14.mp3', imageSrc: 'fourteen.webp' },
+    { audioSrc: 'number15.mp3', imageSrc: 'fifteen.webp' },
+    { audioSrc: 'number16.mp3', imageSrc: 'sixteen.webp' },
+    { audioSrc: 'number17.mp3', imageSrc: 'seventeen.webp' },
+    { audioSrc: 'number18.mp3', imageSrc: 'eighteen.webp' },
+    { audioSrc: 'number19.mp3', imageSrc: 'nineteen.webp' },
+    { audioSrc: 'number20.mp3', imageSrc: 'twenty.webp' },
+    // Add more data objects here for additional grid items
+  ];
+  var currentIndex = 0;
+  var touchstartX = 0;
+  var touchendX = 0;
+
+  // Function to extract index from URL query parameter
+  function getIndexFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return parseInt(urlParams.get('index'));
+  }
+
+  // Function to initialize popup content
+  function initializePopup() {
+    currentIndex = getIndexFromURL();
+    var popupImage = document.getElementById('popupImage');
+    var popupAudio = document.getElementById('popupAudio');
+
+    popupImage.src = popupData[currentIndex].imageSrc;
+    popupAudio.src = popupData[currentIndex].audioSrc;
+  }
+
+  // Function to navigate popup images
+  function navigatePopup(direction) {
+    var popupImage = document.getElementById('popupImage');
+    var popupAudio = document.getElementById('popupAudio');
+
+    switch(direction) {
+      case 'left':
+        currentIndex = (currentIndex - 1 + popupData.length) % popupData.length;
+        break;
+      case 'right':
+        currentIndex = (currentIndex + 1) % popupData.length;
+        break;
+      default:
+        break;
+    }
+
+    popupImage.src = popupData[currentIndex].imageSrc;
+    popupAudio.src = popupData[currentIndex].audioSrc;
+  }
+
+  // Function to handle touch start event
+  function handleTouchStart(event) {
+    touchstartX = event.changedTouches[0].screenX;
+  }
+
+  // Function to handle touch end event and trigger swipe gesture
+  function handleTouchEnd(event) {
+    touchendX = event.changedTouches[0].screenX;
+    handleGesture();
+  }
+
+  // Function to handle swipe gesture
+  function handleGesture() {
+    if (touchendX < touchstartX) {
+      // Swiped left
+      navigatePopup('right');
+    } else if (touchendX > touchstartX) {
+      // Swiped right
+      navigatePopup('left');
+    }
+  }
+
+  // Call initializePopup function when the page loads
+  window.onload = initializePopup;
+</script>
+</body>
+</html>

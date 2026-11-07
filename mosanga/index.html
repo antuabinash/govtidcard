@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ମୋ ସାଙ୍ଗ | Mo Sanga - Modern Kids Learning</title>
+<link rel="stylesheet" href="kids_app.css">
+<style>
+  /* Extra Hub Styles */
+  .quick-games-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 10px 0 20px;
+  }
+  .game-badge-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--sun);
+    color: var(--ink);
+    border: 3px solid #FFFFFF;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 201, 60, 0.4);
+    transition: transform 0.2s ease;
+  }
+  .game-badge-btn:hover {
+    transform: scale(1.06);
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<!-- Floating Background Decorations -->
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+</div>
+
+<!-- Header -->
+<header class="app-header home-header">
+  <div class="header-left">
+    <div style="font-size: 30px; line-height: 1;" aria-hidden="true">🌈</div>
+    <h1 class="header-title" id="appHeaderTitle" data-or="ମୋ ସାଙ୍ଗ" data-en="Mo Sanga">ମୋ ସାଙ୍ଗ</h1>
+  </div>
+  <div class="header-right home-header-right">
+    <button type="button" class="nav-btn sound-toggle-btn" onclick="KidsApp.toggleSound()">🔊</button>
+    <a href="about.html" class="nav-btn" data-or="ବିଷୟରେ" data-en="About Us">ବିଷୟରେ</a>
+    <button type="button" class="nav-btn language-toggle-btn" id="langSwitchBtn" role="switch" aria-checked="false" aria-label="Odia selected. Switch to English." onclick="KidsApp.switchLang()"><span class="language-option" lang="or">ଓଡ଼ିଆ</span><span class="language-option" lang="en">English</span></button>
+  </div>
+</header>
+
+<div class="app-container">
+  <!-- Hero Section -->
+  <div style="text-align: center; padding: 10px 0 20px;">
+    <h1 style="font-size: clamp(28px, 6vw, 44px); margin: 0 0 8px; font-weight: 800; color: var(--ink);">
+      <span data-or="ଆସ" data-en="Let's">ଆସ</span>
+      <span style="background: var(--ocean); color: #fff; padding: 2px 14px; border-radius: 16px; display: inline-block; transform: rotate(-2deg);" data-or="ଶିଖିବା" data-en="Learn">ଶିଖିବା</span>
+      <span data-or="ଓ ଖେଳିବା!" data-en="& Play!">ଓ ଖେଳିବା!</span>
+    </h1>
+    <p style="font-size: 18px; margin: 0; color: var(--ink); opacity: 0.8;" data-or="ଗୋଟିଏ ଖେଳ ବାଛ ଏବଂ ଆରମ୍ଭ କର" data-en="Pick a topic to start learning!">
+      ଗୋଟିଏ ଖେଳ ବାଛ ଏବଂ ଆରମ୍ଭ କର
+    </p>
+
+    <!-- Interactive Mini Games Bar -->
+    <div class="quick-games-bar">
+      <button class="game-badge-btn" onclick="openBalloonGame()">
+        🎈 <span data-or="ବଲୁନ୍ ଖେଳ" data-en="Balloon Pop">ବଲୁନ୍ ଖେଳ</span>
+      </button>
+      <button class="game-badge-btn" style="background: var(--grass);" onclick="openMemoryGame()">
+        🧠 <span data-or="ମେମୋରୀ ଖେଳ" data-en="Memory Game">ମେମୋରୀ ଖେଳ</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Grid Categories -->
+  <main class="kids-grid home-grid">
+    <a href="other.html" class="kids-card c-grape">
+      <div class="card-icon"><img src="puzzle_icon.webp" alt="Learn"></div>
+      <span class="card-label" data-or="ଶିଖିବା" data-en="Learn">ଶିଖିବା</span>
+    </a>
+
+    <a href="bhasa/bhasa.html" class="kids-card c-pink">
+      <div class="card-icon"><img src="bhasa_icon.webp" alt="Language"></div>
+      <span class="card-label" data-or="ଭାଷା" data-en="Language">ଭାଷା</span>
+    </a>
+
+    <a href="math/math.html" class="kids-card c-grass">
+      <div class="card-icon"><img src="math_icon.webp" alt="Number Knowledge"></div>
+      <span class="card-label" data-or="ସଂଖ୍ୟା ଜ୍ଞାନ" data-en="Number Knowledge">ସଂଖ୍ୟା ଜ୍ଞାନ</span>
+    </a>
+
+    <a href="draw/draw.html" class="kids-card c-orange">
+      <div class="card-icon"><img src="paint_icon.webp" alt="Draw, write and paint"></div>
+      <span class="card-label" data-or="ଚିତ୍ର ଲେଖା" data-en="Draw & Write">ଚିତ୍ର ଲେଖା</span>
+    </a>
+
+    <a href="ananya.html" class="kids-card c-ocean">
+      <div class="card-icon"><img src="work2_icon.webp" alt="More apps"></div>
+      <span class="card-label" data-or="ଅନ୍ୟାନ୍ୟ" data-en="More Apps">ଅନ୍ୟାନ୍ୟ</span>
+    </a>
+  </main>
+</div>
+
+<!-- Balloon Pop Game Modal -->
+<div class="modal-overlay" id="balloonModal">
+  <div class="modal-box" style="position: relative; overflow: hidden; height: 420px; display: flex; flex-direction: column;">
+    <button style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; z-index: 10;" onclick="closeModal('balloonModal')">✖</button>
+    <h2 class="modal-title" style="margin-bottom: 5px;" data-or="🎈 ବଲୁନ୍ ଫୋଡିବା ଖେଳ" data-en="🎈 Pop The Balloons">🎈 ବଲୁନ୍ ଫୋଡିବା ଖେଳ</h2>
+    <p style="margin: 0 0 10px; font-size: 15px;"><span data-or="ସ୍କୋର୍:" data-en="Score:">ସ୍କୋର୍:</span> <span id="balloonScore" style="font-weight: 800; color: var(--coral);">0</span></p>
+    <div id="balloonArea" style="flex: 1; position: relative; background: #E0F7FA; border-radius: 20px; overflow: hidden; cursor: crosshair;"></div>
+  </div>
+</div>
+
+<!-- Memory Game Modal -->
+<div class="modal-overlay" id="memoryModal">
+  <div class="modal-box">
+    <button style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer;" onclick="closeModal('memoryModal')">✖</button>
+    <h2 class="modal-title" data-or="🧠 ମେମୋରୀ ଖେଳ" data-en="🧠 Memory Game">🧠 ମେମୋରୀ ଖେଳ</h2>
+    <div id="memoryBoard" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px;"></div>
+  </div>
+</div>
+
+<script src="kids_app.js"></script>
+<script>
+  function openBalloonGame() {
+    KidsApp.playSound('click');
+    document.getElementById('balloonModal').classList.add('active');
+    startBalloonGame();
+  }
+
+  function openMemoryGame() {
+    KidsApp.playSound('click');
+    document.getElementById('memoryModal').classList.add('active');
+    startMemoryGame();
+  }
+
+  function closeModal(id) {
+    KidsApp.playSound('click');
+    document.getElementById(id).classList.remove('active');
+  }
+
+  // Balloon Game Logic
+  var balloonScore = 0;
+  var balloonInterval = null;
+
+  function startBalloonGame() {
+    balloonScore = 0;
+    document.getElementById('balloonScore').textContent = '0';
+    var area = document.getElementById('balloonArea');
+    area.innerHTML = '';
+
+    if (balloonInterval) clearInterval(balloonInterval);
+    balloonInterval = setInterval(spawnBalloon, 800);
+  }
+
+  function spawnBalloon() {
+    var area = document.getElementById('balloonArea');
+    if (!area || !document.getElementById('balloonModal').classList.contains('active')) {
+      if (balloonInterval) clearInterval(balloonInterval);
+      return;
+    }
+
+    var balloon = document.createElement('div');
+    var colors = ['#FF6B6B', '#FFC93C', '#3DDC97', '#2EA8FF', '#8E6BFF', '#FF8AC6'];
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    var size = Math.floor(Math.random() * 20) + 45;
+
+    balloon.style.position = 'absolute';
+    balloon.style.bottom = '-60px';
+    balloon.style.left = Math.random() * (area.clientWidth - size) + 'px';
+    balloon.style.width = size + 'px';
+    balloon.style.height = (size * 1.25) + 'px';
+    balloon.style.background = color;
+    balloon.style.borderRadius = '50% 50% 50% 50% / 40% 40% 60% 60%';
+    balloon.style.boxShadow = 'inset -5px -5px 0 rgba(0,0,0,0.1)';
+    balloon.style.cursor = 'pointer';
+    balloon.style.transition = 'transform 0.1s ease';
+
+    balloon.addEventListener('pointerdown', function() {
+      KidsApp.playSound('pop');
+      balloonScore += 10;
+      document.getElementById('balloonScore').textContent = balloonScore;
+      if (balloonScore % 50 === 0) KidsApp.triggerConfetti();
+      area.removeChild(balloon);
+    });
+
+    area.appendChild(balloon);
+
+    var pos = -60;
+    var speed = Math.random() * 2 + 2;
+    var anim = setInterval(function() {
+      pos += speed;
+      balloon.style.bottom = pos + 'px';
+      if (pos > area.clientHeight + 60) {
+        clearInterval(anim);
+        if (balloon.parentNode) area.removeChild(balloon);
+      }
+    }, 20);
+  }
+
+  // Memory Game Logic
+  function startMemoryGame() {
+    var board = document.getElementById('memoryBoard');
+    board.innerHTML = '';
+    var emojis = ['🐱', '🐶', '🐘', '🦁', '🍎', '🍌', '⭐', '🎈'];
+    var deck = emojis.concat(emojis).sort(function() { return 0.5 - Math.random(); });
+
+    var firstCard = null;
+    var secondCard = null;
+    var lockBoard = false;
+    var matchedCount = 0;
+
+    deck.forEach(function(emoji) {
+      var card = document.createElement('div');
+      card.style.height = '70px';
+      card.style.background = 'var(--ocean)';
+      card.style.borderRadius = '14px';
+      card.style.display = 'grid';
+      card.style.placeItems = 'center';
+      card.style.fontSize = '32px';
+      card.style.color = 'transparent';
+      card.style.cursor = 'pointer';
+      card.style.boxShadow = '0 4px 0 #1D78B8';
+      card.dataset.emoji = emoji;
+
+      card.addEventListener('click', function() {
+        if (lockBoard || card === firstCard || card.classList.contains('matched')) return;
+        KidsApp.playSound('click');
+        card.textContent = emoji;
+        card.style.color = '#fff';
+        card.style.background = '#FFFFFF';
+
+        if (!firstCard) {
+          firstCard = card;
+        } else {
+          secondCard = card;
+          lockBoard = true;
+
+          if (firstCard.dataset.emoji === secondCard.dataset.emoji) {
+            KidsApp.playSound('correct');
+            firstCard.classList.add('matched');
+            secondCard.classList.add('matched');
+            matchedCount += 2;
+            resetTurn();
+            if (matchedCount === deck.length) {
+              setTimeout(function() {
+                KidsApp.playSound('cheer');
+                KidsApp.triggerConfetti();
+              }, 300);
+            }
+          } else {
+            KidsApp.playSound('wrong');
+            setTimeout(function() {
+              firstCard.textContent = '';
+              firstCard.style.color = 'transparent';
+              firstCard.style.background = 'var(--ocean)';
+              secondCard.textContent = '';
+              secondCard.style.color = 'transparent';
+              secondCard.style.background = 'var(--ocean)';
+              resetTurn();
+            }, 800);
+          }
+        }
+      });
+
+      board.appendChild(card);
+    });
+
+    function resetTurn() {
+      firstCard = null;
+      secondCard = null;
+      lockBoard = false;
+    }
+  }
+
+  // Load initial language state
+  var savedLang = 'or';
+  try { savedLang = localStorage.getItem('mosanga-lang') || 'or'; } catch (e) {}
+  KidsApp.applyLang(savedLang);
+</script>
+</body>
+</html>

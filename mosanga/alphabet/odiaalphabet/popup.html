@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Popup</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4; /* Light gray background */
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden; /* Prevent scrolling */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    /* --- Floating Animation (Mascot) --- */
+    #webm-container {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      width: 12vh; /* Responsive size based on screen height */
+      height: 12vh;
+      z-index: 1000;
+      pointer-events: none; /* Let clicks pass through if it overlaps */
+    }
+
+    /* --- Main Card Container --- */
+    .popup-content {
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      
+      /* Size Logic for Landscape */
+      height: 85vh; /* Take up 85% of screen height */
+      aspect-ratio: 3/4; /* Maintain a nice card shape, or adjust to 4/3 */
+      max-width: 90vw; /* Don't overflow width on mobile portrait */
+      
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* Space out image and arrows */
+      align-items: center;
+      padding: 15px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    /* --- Image Area --- */
+    .image-area {
+      flex-grow: 1; /* Take up all available space */
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #popupImage {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain; /* Ensure image doesn't stretch */
+      border-radius: 10px;
+    }
+
+    /* --- Navigation Controls --- */
+    .arrow-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px; /* Space between arrows */
+      width: 100%;
+      height: 60px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .arrow {
+      width: 50px;
+      height: 50px;
+      background-color: #f0f0f0;
+      border-radius: 50%;
+      padding: 10px;
+      cursor: pointer;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+      transition: transform 0.1s, background-color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .arrow:active {
+      transform: scale(0.9);
+      background-color: #e0e0e0;
+    }
+
+    /* --- Back Button (Optional but recommended) --- */
+    .back-btn {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: #ff5478;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        z-index: 1001;
+    }
+
+    /* --- Landscape Specific Tweaks --- */
+    @media (orientation: landscape) {
+        .popup-content {
+            aspect-ratio: auto; /* Let it stretch horizontally if needed */
+            width: auto;
+            min-width: 50vh; 
+        }
+    }
+  </style>
+</head>
+<body>
+
+<video id="webm-container" autoplay loop muted playsinline>
+  <source src="numberanimation.webm" type="video/webm">
+</video>
+
+<a href="odiaalphabet.html" class="back-btn">Back</a>
+
+<div class="popup-content" ontouchstart="handleTouchStart(event)" ontouchend="handleTouchEnd(event)">
+    
+    <div class="image-area">
+        <img id="popupImage" src="" alt="Learning Image">
+    </div>
+
+    <audio id="popupAudio" autoplay hidden></audio>
+
+    <div class="arrow-container">
+      <img class="arrow arrow-left" src="left-arrow.png" onclick="navigatePopup('left')" alt="Previous">
+      <img class="arrow arrow-right" src="right-arrow.png" onclick="navigatePopup('right')" alt="Next">
+    </div>
+
+</div>
+
+<script>
+  // Full Data Array
+  var popupData = [
+    { audioSrc: 'ଅ.mp3', secondAudioSrc: 'arata.mp3', imageSrc: '1.webp' },
+    { audioSrc: 'ଆ.mp3', secondAudioSrc: 'aai.mp3', imageSrc: '2.webp' },
+    { audioSrc: 'ଇ.mp3', secondAudioSrc: 'ita.mp3', imageSrc: '3.webp' },
+    { audioSrc: 'ଈ.mp3', secondAudioSrc: 'isa.mp3', imageSrc: '4.webp' },
+    { audioSrc: 'ଉ.mp3', secondAudioSrc: 'ui.mp3', imageSrc: '5.webp' },
+    { audioSrc: 'ଊ.mp3', secondAudioSrc: 'una.mp3', imageSrc: '6.webp' },
+    { audioSrc: 'ଋ.mp3', secondAudioSrc: 'rusava.mp3', imageSrc: '7.webp' },
+    { audioSrc: 'ଏ.mp3', secondAudioSrc: 'eka.mp3', imageSrc: '8.webp' },
+    { audioSrc: 'ଐ.mp3', secondAudioSrc: 'airabata.mp3', imageSrc: '9.webp' },
+    { audioSrc: 'ଓ.mp3', secondAudioSrc: 'ota.mp3', imageSrc: '10.webp' },
+    { audioSrc: 'ଔ.mp3', secondAudioSrc: 'ousadha.mp3', imageSrc: '11.webp' },
+    { audioSrc: 'କ.mp3', secondAudioSrc: 'kamala.mp3', imageSrc: '12.webp' },
+    { audioSrc: 'ଖ.mp3', secondAudioSrc: 'khata.mp3', imageSrc: '13.webp' },
+    { audioSrc: 'ଗ.mp3', secondAudioSrc: 'gacha.mp3', imageSrc: '14.webp' },
+    { audioSrc: 'ଘ.mp3', secondAudioSrc: 'ghara.mp3', imageSrc: '15.webp' },
+    { audioSrc: 'ଙ.mp3', secondAudioSrc: 'second_audio16.mp3', imageSrc: '16.webp' },
+    { audioSrc: 'ଚ.mp3', secondAudioSrc: 'chaka.mp3', imageSrc: '17.webp' },
+    { audioSrc: 'ଛ.mp3', secondAudioSrc: 'chatu.mp3', imageSrc: '18.webp' },
+    { audioSrc: 'ଜ.mp3', secondAudioSrc: 'jata.mp3', imageSrc: '19.webp' },
+    { audioSrc: 'ଝ.mp3', secondAudioSrc: 'jharana.mp3', imageSrc: '20.webp' },
+    { audioSrc: 'ଞ.mp3', secondAudioSrc: 'second_audio21.mp3', imageSrc: '21.webp' },
+    { audioSrc: 'ଟ.mp3', secondAudioSrc: 'tamata.mp3', imageSrc: '22.webp' },
+    { audioSrc: 'ଠ.mp3', secondAudioSrc: 'thaka.mp3', imageSrc: '23.webp' },
+    { audioSrc: 'ଡ.mp3', secondAudioSrc: 'danga.mp3', imageSrc: '24.webp' },
+    { audioSrc: 'ଢ.mp3', secondAudioSrc: 'dhamana.mp3', imageSrc: '25.webp' },
+    { audioSrc: 'ଣ.mp3', secondAudioSrc: 'second_audio26.mp3', imageSrc: '26.webp' },
+    { audioSrc: 'ତ.mp3', secondAudioSrc: 'tara.mp3', imageSrc: '27.webp' },
+    { audioSrc: 'ଥ.mp3', secondAudioSrc: 'thali.mp3', imageSrc: '28.webp' },
+    { audioSrc: 'ଦ.mp3', secondAudioSrc: 'daraji.mp3', imageSrc: '29.webp' },
+    { audioSrc: 'ଧ.mp3', secondAudioSrc: 'dhanu.mp3', imageSrc: '30.webp' },
+    { audioSrc: 'ନ.mp3', secondAudioSrc: 'nakha.mp3', imageSrc: '31.webp' },
+    { audioSrc: 'ପ.mp3', secondAudioSrc: 'pathara.mp3', imageSrc: '32.webp' },
+    { audioSrc: 'ଫ.mp3', secondAudioSrc: 'phala.mp3', imageSrc: '33.webp' },
+    { audioSrc: 'ବ.mp3', secondAudioSrc: 'baga.mp3', imageSrc: '34.webp' },
+    { audioSrc: 'ଭ.mp3', secondAudioSrc: 'bhubana.mp3', imageSrc: '35.webp' },
+    { audioSrc: 'ମ.mp3', secondAudioSrc: 'maka.mp3', imageSrc: '36.webp' },
+    { audioSrc: 'ଯ.mp3', secondAudioSrc: 'ja.mp3', imageSrc: '37.webp' },
+    { audioSrc: 'ର.mp3', secondAudioSrc: 'ratha.mp3', imageSrc: '38.webp' },
+    { audioSrc: 'ଳ.mp3', secondAudioSrc: 'second_audio39.mp3', imageSrc: '39.webp' },
+    { audioSrc: 'ୱ.mp3', secondAudioSrc: 'second_audio40.mp3', imageSrc: '40.webp' },
+    { audioSrc: 'ଶ.mp3', secondAudioSrc: 'sagada.mp3', imageSrc: '41.webp' },
+    { audioSrc: 'ଷ.mp3', secondAudioSrc: 'sandha.mp3', imageSrc: '42.webp' },
+    { audioSrc: 'ସ.mp3', secondAudioSrc: 'sapuri.mp3', imageSrc: '43.webp' },
+    { audioSrc: 'ହ.mp3', secondAudioSrc: 'hala.mp3', imageSrc: '44.webp' },
+    { audioSrc: 'କ୍ଷ.mp3', secondAudioSrc: 'khyata.mp3', imageSrc: '45.webp' },
+    { audioSrc: 'ୟ.mp3', secondAudioSrc: 'second_audio46.mp3', imageSrc: '46.webp' },
+    { audioSrc: 'ଲ.mp3', secondAudioSrc: 'lata.mp3', imageSrc: '47.webp' },
+  ];
+
+  var currentIndex = 0;
+  var touchstartX = 0;
+  var touchendX = 0;
+
+  // Get index from URL
+  function getIndexFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const idx = parseInt(urlParams.get('index'));
+    return isNaN(idx) ? 0 : idx; // Fallback to 0 if NaN
+  }
+
+  function initializePopup() {
+    currentIndex = getIndexFromURL();
+    loadContent();
+  }
+
+  function loadContent() {
+    var popupImage = document.getElementById('popupImage');
+    var popupAudio = document.getElementById('popupAudio');
+
+    popupImage.src = popupData[currentIndex].imageSrc;
+    popupAudio.src = popupData[currentIndex].audioSrc;
+
+    // Chain audio: Letter Sound -> Word Sound
+    popupAudio.onended = function() {
+        playSecondAudio();
+    };
+
+    // Play with error handling (browsers sometimes block autoplay)
+    var playPromise = popupAudio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log("Auto-play was prevented. Interaction required.");
+      });
+    }
+  }
+
+  function playSecondAudio() {
+    var popupAudio = document.getElementById('popupAudio');
+    
+    // Clear onended to stop loop
+    popupAudio.onended = null;
+
+    popupAudio.src = popupData[currentIndex].secondAudioSrc;
+    popupAudio.play();
+  }
+
+  function navigatePopup(direction) {
+    if(direction === 'left') {
+        currentIndex = (currentIndex - 1 + popupData.length) % popupData.length;
+    } else {
+        currentIndex = (currentIndex + 1) % popupData.length;
+    }
+    loadContent();
+  }
+
+  // --- Touch Logic ---
+  function handleTouchStart(event) {
+    touchstartX = event.changedTouches[0].screenX;
+  }
+
+  function handleTouchEnd(event) {
+    touchendX = event.changedTouches[0].screenX;
+    handleGesture();
+  }
+
+  function handleGesture() {
+    // Threshold to prevent accidental swipes
+    if (Math.abs(touchendX - touchstartX) > 50) { 
+        if (touchendX < touchstartX) {
+          navigatePopup('right'); // Swipe Left -> Next
+        } else {
+          navigatePopup('left');  // Swipe Right -> Prev
+        }
+    }
+  }
+
+  window.onload = initializePopup;
+</script>
+</body>
+</html>

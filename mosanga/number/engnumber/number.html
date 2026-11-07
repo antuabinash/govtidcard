@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gradient Tiles</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    overflow-x: hidden;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 320px; /* Adjust this value for larger devices */
+    width: 100%;
+    margin: auto;
+  }
+  .grid-item {
+    width:100%;
+    padding-top: 100%; /* Maintain aspect ratio for square tiles */
+    background-size: cover;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  .grid-item span {
+    position: absolute;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+.header-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 350px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 999; /* Ensure it appears above other content */
+  }
+</style>
+</head>
+<body>
+<img src="header1.png" alt="Header Image" class="header-image">
+<div class="grid-container">
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, red, yellow);" onclick="showPopup(0)"><span>1</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, blue, green);" onclick="showPopup(1)"><span>2</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, purple, pink);"onclick="showPopup(2)"><span>3</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, orange, brown);"onclick="showPopup(3)"><span>4</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, cyan, magenta);"onclick="showPopup(4)"><span>5</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, teal, navy);"onclick="showPopup(5)"><span>6</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, lime, indigo);"onclick="showPopup(6)"><span>7</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, gold, silver);"onclick="showPopup(7)"><span>8</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, maroon, olive);"onclick="showPopup(8)"><span>9</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, crimson, chartreuse);"onclick="showPopup(9)"><span>10</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, indigo, violet);"onclick="showPopup(10)"><span>11</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, tomato, salmon);"onclick="showPopup(11)"><span>12</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, indigo, violet);"onclick="showPopup(12)"><span>13</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, forestgreen, skyblue);"onclick="showPopup(13)"><span>14</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, hotpink, sandybrown);"onclick="showPopup(14)"><span>15</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, darkorange, darkorchid);"onclick="showPopup(15)"><span>16</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, slategray, olive);"onclick="showPopup(16)"><span>17</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, royalblue, darkslateblue);"onclick="showPopup(17)"><span>18</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, mediumseagreen, mediumvioletred);"onclick="showPopup(18)"><span>19</span></div>
+  <div class="grid-item" style="background-image: linear-gradient(to bottom right, darkturquoise, darkgoldenrod);"onclick="showPopup(19)"><span>20</span></div>
+  <!-- Add more grid items here -->
+</div>
+
+<script>
+  function showPopup(index) {
+    // Redirect to popup.html with query parameter
+    window.location.href = `popup.html?index=${index}`;
+  }
+</script>
+</body>
+</html>

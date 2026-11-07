@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ସଂଖ୍ୟା ୧-୨୦ | Numbers 1-20</title>
+<link rel="stylesheet" href="../../kids_app.css">
+<style>
+  .num-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .num-box {
+    aspect-ratio: 1;
+    background: #FFFFFF;
+    border: 3px solid var(--grass);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 0 var(--grass);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .num-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 0 var(--grass);
+  }
+  .num-box:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--grass);
+  }
+  .num-odia {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .num-eng {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ocean);
+  }
+  .num-eng.english-primary {
+    font-size: 34px;
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="num-grid" id="numGrid"></div>
+</div>
+
+<!-- Modal Number Flashcard -->
+<div class="modal-overlay" id="numModal">
+  <div class="modal-box" style="max-width: 420px; padding: 24px;">
+    <button style="position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer;" onclick="closeModal()">✖</button>
+    <div style="display: flex; align-items: baseline; justify-content: center; gap: 12px; margin-bottom: 10px;">
+      <span id="modalNumOdia" style="font-size: 80px; font-weight: 800; color: var(--coral);"></span>
+      <span id="modalNumEng" style="font-size: 36px; font-weight: 800; color: var(--ocean);"></span>
+    </div>
+    <div id="modalVisualCount" style="font-size: 28px; line-height: 1.4; letter-spacing: 4px; min-height: 100px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; margin-bottom: 20px; background: #FFF9E6; border-radius: 16px; padding: 12px;"></div>
+    <button type="button" class="nav-btn" style="background: var(--grass); color: var(--ink); font-size: 20px; width: 100%; justify-content: center;" onclick="playAudio()">
+      🔊 <span data-or="ଶୁଣନ୍ତୁ" data-en="Listen">ଶୁଣନ୍ତୁ</span>
+    </button>
+  </div>
+</div>
+
+<script src="../../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ସଂଖ୍ୟା ୧-୨୦', 'Numbers 1-20', '../../');
+
+  var odiaDigits = ['୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯', '୧୦', '୧୧', '୧୨', '୧୩', '୧୪', '୧୫', '୧୬', '୧୭', '୧୮', '୧୯', '୨୦'];
+  var currentVal = 1;
+  var currentLanguage = document.documentElement.lang;
+
+  var grid = document.getElementById('numGrid');
+  function renderNumbers(lang) {
+    grid.innerHTML = '';
+    for (var i = 1; i <= 20; i++) {
+      (function(num) {
+      var box = document.createElement('div');
+      box.className = 'num-box';
+
+      var digit = document.createElement('span');
+      if (lang === 'en') {
+        digit.className = 'num-eng english-primary';
+        digit.textContent = String(num);
+      } else {
+        digit.className = 'num-odia';
+        digit.textContent = odiaDigits[num - 1];
+      }
+
+      box.appendChild(digit);
+      box.onclick = function() { openNum(num); };
+      grid.appendChild(box);
+      })(i);
+    }
+  }
+
+  renderNumbers(currentLanguage);
+  document.addEventListener('kidsapp:languagechange', function(event) {
+    currentLanguage = event.detail.lang;
+    document.getElementById('numModal').classList.remove('active');
+    renderNumbers(currentLanguage);
+  });
+
+  function openNum(num) {
+    KidsApp.playSound('click');
+    currentVal = num;
+    var modalNumOdia = document.getElementById('modalNumOdia');
+    var modalNumEng = document.getElementById('modalNumEng');
+    modalNumOdia.style.display = currentLanguage === 'en' ? 'none' : '';
+    modalNumEng.style.display = currentLanguage === 'en' ? '' : 'none';
+    modalNumEng.style.fontSize = currentLanguage === 'en' ? '80px' : '36px';
+    modalNumOdia.textContent = odiaDigits[num - 1];
+    modalNumEng.textContent = currentLanguage === 'en' ? String(num) : '';
+
+    var apples = '';
+    for (var i = 0; i < num; i++) {
+      apples += '🍎 ';
+    }
+    document.getElementById('modalVisualCount').textContent = apples;
+    document.getElementById('numModal').classList.add('active');
+    playAudio();
+  }
+
+  function playAudio() {
+    if (currentLanguage === 'en') {
+      KidsApp.speakText('Number ' + currentVal, 'en-IN');
+    } else {
+      var audio = new Audio('number' + currentVal + '.mp3');
+      audio.play().catch(function() { KidsApp.speakText(currentVal.toString(), 'en-IN'); });
+    }
+  }
+
+  function closeModal() {
+    KidsApp.playSound('click');
+    document.getElementById('numModal').classList.remove('active');
+  }
+</script>
+</body>
+</html>

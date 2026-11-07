@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ଅକ୍ଷର ଲିଖନ | Alphabet Tracing</title>
+<link rel="stylesheet" href="../kids_app.css">
+<style>
+  .tracing-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  .canvas-stage {
+    position: relative;
+    width: min(340px, 85vw);
+    height: min(340px, 85vw);
+    background: #FFFFFF;
+    border: 5px solid var(--ocean);
+    border-radius: 28px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    overflow: hidden;
+  }
+  #tracingGuide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(140px, 35vw, 200px);
+    font-weight: 800;
+    color: rgba(43, 45, 91, 0.12);
+    pointer-events: none;
+    user-select: none;
+  }
+  #paintCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: crosshair;
+  }
+  .tools-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .color-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid #FFF;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .color-dot.active {
+    transform: scale(1.25);
+    border-color: var(--ink);
+  }
+  .letter-selector {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    max-width: 90vw;
+    padding: 6px 4px;
+  }
+  .letter-chip {
+    padding: 6px 14px;
+    background: #FFFFFF;
+    border: 2px solid var(--ocean);
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 3px 0 var(--ocean);
+  }
+  .letter-chip.active {
+    background: var(--ocean);
+    color: #FFF;
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="tracing-wrap">
+    <!-- Letter selector -->
+    <div class="letter-selector" id="letterSelector"></div>
+
+    <!-- Canvas Stage -->
+    <div class="canvas-stage">
+      <div id="tracingGuide">ଅ</div>
+      <canvas id="paintCanvas"></canvas>
+    </div>
+
+    <!-- Color Palette & Tools -->
+    <div class="tools-row">
+      <div class="color-dot active" style="background: #FF6B6B;" onclick="setColor('#FF6B6B', this)"></div>
+      <div class="color-dot" style="background: #2EA8FF;" onclick="setColor('#2EA8FF', this)"></div>
+      <div class="color-dot" style="background: #3DDC97;" onclick="setColor('#3DDC97', this)"></div>
+      <div class="color-dot" style="background: #8E6BFF;" onclick="setColor('#8E6BFF', this)"></div>
+      <div class="color-dot" style="background: #FFC93C;" onclick="setColor('#FFC93C', this)"></div>
+
+      <button type="button" class="nav-btn" style="background: var(--coral); color: #FFF;" onclick="clearCanvas()">
+        🗑️ <span data-or="ସଫା କରନ୍ତୁ" data-en="Clear">ସଫା କରନ୍ତୁ</span>
+      </button>
+      <button type="button" class="nav-btn" style="background: var(--grass); color: var(--ink);" onclick="finishDrawing()">
+        ⭐ <span data-or="ସମ୍ପୂର୍ଣ୍ଣ" data-en="Done">ସମ୍ପୂର୍ଣ୍ଣ</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ଅକ୍ଷର ଲିଖନ', 'Alphabet Tracing', '../');
+
+  var odiaLetterList = ['ଅ', 'ଆ', 'ଇ', 'ଈ', 'ଉ', 'ଊ', 'କ', 'ଖ', 'ଗ', 'ଘ'];
+  var englishLetterList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  var currentLanguage = document.documentElement.lang;
+  var currentLetter = currentLanguage === 'en' ? 'A' : 'ଅ';
+  var currentColor = '#FF6B6B';
+
+  var selector = document.getElementById('letterSelector');
+  function renderLetterSelector(lang) {
+    selector.innerHTML = '';
+    var letterList = lang === 'en' ? englishLetterList : odiaLetterList;
+    currentLetter = letterList[0];
+    document.getElementById('tracingGuide').textContent = currentLetter;
+
+    letterList.forEach(function(l, i) {
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'letter-chip' + (i === 0 ? ' active' : '');
+      chip.textContent = l;
+      chip.onclick = function() {
+        document.querySelectorAll('.letter-chip').forEach(function(c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+        setLetter(l);
+      };
+      selector.appendChild(chip);
+    });
+  }
+
+  renderLetterSelector(currentLanguage);
+  document.addEventListener('kidsapp:languagechange', function(event) {
+    currentLanguage = event.detail.lang;
+    renderLetterSelector(currentLanguage);
+  });
+
+  function setLetter(l) {
+    KidsApp.playSound('click');
+    currentLetter = l;
+    document.getElementById('tracingGuide').textContent = l;
+    clearCanvas();
+    if (currentLanguage === 'en') {
+      KidsApp.speakText('Letter ' + l, 'en-IN');
+    } else {
+      var audio = new Audio('odiaalphabet/' + l + '.mp3');
+      audio.play().catch(function() {});
+    }
+  }
+
+  // Setup Canvas
+  var canvas = document.getElementById('paintCanvas');
+  var ctx = canvas.getContext('2d');
+  var isDrawing = false;
+
+  function resizeCanvas() {
+    var rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  setTimeout(resizeCanvas, 100);
+
+  function getPos(e) {
+    var rect = canvas.getBoundingClientRect();
+    var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: clientX - rect.left,
+      y: clientY - rect.top
+    };
+  }
+
+  function startDraw(e) {
+    isDrawing = true;
+    var pos = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = currentColor;
+    ctx.lineWidth = 14;
+    KidsApp.playSound('click');
+  }
+
+  function moveDraw(e) {
+    if (!isDrawing) return;
+    var pos = getPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  }
+
+  function stopDraw() {
+    if (isDrawing) {
+      isDrawing = false;
+      ctx.closePath();
+    }
+  }
+
+  canvas.addEventListener('mousedown', startDraw);
+  canvas.addEventListener('mousemove', moveDraw);
+  canvas.addEventListener('mouseup', stopDraw);
+  canvas.addEventListener('mouseleave', stopDraw);
+
+  canvas.addEventListener('touchstart', function(e) { e.preventDefault(); startDraw(e); }, { passive: false });
+  canvas.addEventListener('touchmove', function(e) { e.preventDefault(); moveDraw(e); }, { passive: false });
+  canvas.addEventListener('touchend', stopDraw);
+
+  function setColor(color, el) {
+    KidsApp.playSound('click');
+    currentColor = color;
+    document.querySelectorAll('.color-dot').forEach(function(d) { d.classList.remove('active'); });
+    el.classList.add('active');
+  }
+
+  function clearCanvas() {
+    KidsApp.playSound('click');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function finishDrawing() {
+    KidsApp.playSound('cheer');
+    KidsApp.triggerConfetti();
+  }
+</script>
+</body>
+</html>

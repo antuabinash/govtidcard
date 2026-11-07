@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen YouTube Video</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .header {
+  background-color: #87CEEB; /* Sky blue color */
+  padding: 16px;
+  text-align: right;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  right: 0;
+  z-index: 999; /* Higher z-index to stay above other content */
+}
+        #video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        ହାତୀ ଓ ଚଢେଇ
+      </div>
+    <div id="video-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('video-container', {
+                videoId: 'NCtRfx3LUJA',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'showinfo': 0,
+                    'rel': 0,
+                    'loop': 1,
+                    'playlist': 'NCtRfx3LUJA',
+                    'mute': 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+            // Attempt to unmute (may not work due to browser policies)
+            player.unMute();
+            player.setVolume(100);
+        }
+
+        $(document).ready(function() {
+            // This will catch any click on the document and attempt to unmute and play the video
+            $(document).on('click', function() {
+                if (player && typeof player.unMute === 'function') {
+                    player.unMute();
+                    player.playVideo();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

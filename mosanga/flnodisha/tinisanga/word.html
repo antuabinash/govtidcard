@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Tiles</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Set up the main page style */
+        body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      background: #f8e8e8;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  z-index: 999;
+  flex-wrap: wrap; /* Allow elements to wrap on small screens */
+}
+     /* Container for grid layout */
+        .container {
+            margin-top: 100px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            width: 95%;
+            max-width: 800px;
+            padding: 10px;
+        }
+
+        /* Style each tile */
+        .tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 90px;
+            border-radius: 15px;
+            color: rgb(0, 0, 0);
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        /* Add hover effect for desktops */
+        .tile:hover {
+            transform: scale(1.05);
+        }
+
+        /* Gradients for each tile */
+        .tile:nth-child(1) { background-color: #ffa07a; }
+        .tile:nth-child(2) { background-color: #add8e6; }
+        .tile:nth-child(3) { background-color: #90ee90; }
+        .tile:nth-child(4) { background-color: #ffd700; }
+        .tile:nth-child(5) { background-color: #ffb6c1; }
+        .tile:nth-child(6) { background-color: #ffa07a; }
+        .tile:nth-child(7) { background-color: #add8e6; }
+        .tile:nth-child(8) { background-color: #90ee90; }
+        .tile:nth-child(9) { background-color: #ffd700; }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">ତିନି ସାଙ୍ଗ</div>
+      </header>
+
+    <div class="container">
+        <div class="tile" onclick="playAudio('audio1')">ଗୁଣ୍ଡୁଚିମୂଷା</div>
+        <div class="tile" onclick="playAudio('audio2')">ମାଙ୍କଡ଼</div>
+        <div class="tile" onclick="playAudio('audio3')">ଚଢ଼େଇ</div>
+        <div class="tile" onclick="playAudio('audio4')">ଗଛ</div>
+        <div class="tile" onclick="playAudio('audio5')">ସାଙ୍ଗ</div>
+        <div class="tile" onclick="playAudio('audio6')">ଫୁଲ</div>
+        <div class="tile" onclick="playAudio('audio7')">ପାଚିଲା</div>
+        <div class="tile" onclick="playAudio('audio8')">ଆମ୍ବ</div>
+        <div class="tile" onclick="playAudio('audio9')">ଖାଇଲେ</div>
+    </div>
+
+    <!-- Audio elements -->
+    <audio id="audio1" src="audio1.mp3"></audio>
+    <audio id="audio2" src="audio2.mp3"></audio>
+    <audio id="audio3" src="audio3.mp3"></audio>
+    <audio id="audio4" src="audio4.mp3"></audio>
+    <audio id="audio5" src="audio5.mp3"></audio>
+    <audio id="audio6" src="audio6.mp3"></audio>
+    <audio id="audio7" src="audio7.mp3"></audio>
+    <audio id="audio8" src="audio8.mp3"></audio>
+    <audio id="audio9" src="audio9.mp3"></audio>
+
+    <script>
+        function playAudio(audioId) {
+            const audio = document.getElementById(audioId);
+            audio.currentTime = 0; // Reset audio to start
+            audio.play();
+        }
+    </script>
+</body>
+</html>

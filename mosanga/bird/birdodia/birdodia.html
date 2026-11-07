@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ପକ୍ଷୀ ଶିକ୍ଷା | Bird Learning</title>
+<link rel="stylesheet" href="../../kids_app.css">
+<style>
+  .flashcard-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+  }
+  .flashcard-box {
+    width: min(340px, 85vw);
+    height: min(340px, 85vw);
+    background: #FFFFFF;
+    border: 5px solid var(--grape);
+    border-radius: 32px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .flashcard-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .bird-name {
+    margin-top: 15px;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+  }
+  .slideshow-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .arrow-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 3px solid var(--grape);
+    font-size: 28px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--grape);
+  }
+  .arrow-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 var(--grape);
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="flashcard-stage">
+    <div class="flashcard-box">
+      <img id="birdImg" src="baga.webp" alt="Bird">
+    </div>
+
+    <div class="bird-name" id="birdName" data-or="ବଗ" data-en="Heron">ବଗ</div>
+
+    <div class="slideshow-nav">
+      <button type="button" class="arrow-btn" onclick="prevBird()">⬅️</button>
+      <button type="button" class="nav-btn" style="background: var(--grape); color: #FFF; font-size: 18px;" onclick="playAudio()">
+        🔊 <span data-or="ଶୁଣନ୍ତୁ" data-en="Listen">ଶୁଣନ୍ତୁ</span>
+      </button>
+      <button type="button" class="arrow-btn" onclick="nextBird()">➡️</button>
+    </div>
+  </div>
+</div>
+
+<script src="../../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ପକ୍ଷୀ ଶିକ୍ଷା', 'Bird Learning', '../../');
+
+  var birds = [
+    { nameOr: 'ବାଦୁଡ଼ି', nameEn: 'Bat', img: 'badudi.webp', audio: 'badudi.mp3' },
+    { nameOr: 'ବଗ', nameEn: 'Crane', img: 'baga.webp', audio: 'baga.mp3' },
+    { nameOr: 'ବତକ', nameEn: 'Duck', img: 'bataka.webp', audio: 'bataka.mp3' },
+    { nameOr: 'ବୁଲ୍ ବୁଲ୍', nameEn: 'Bulbul', img: 'bulbul.webp', audio: 'bulbul.mp3' },
+    { nameOr: 'ଛଞ୍ଚାଣ', nameEn: 'Hawk', img: 'chanchana.webp', audio: 'chanchana.mp3' },
+    { nameOr: 'ଚିଲ', nameEn: 'Eagle', img: 'chila.webp', audio: 'chila.mp3' },
+    { nameOr: 'ଗଞ୍ଜା', nameEn: 'Rooster', img: 'ganja.webp', audio: 'ganja.mp3' },
+    { nameOr: 'କୋଇଲି', nameEn: 'Cuckoo', img: 'koili.webp', audio: 'koili.mp3' },
+    { nameOr: 'ମାଛରଙ୍କା', nameEn: 'Kingfisher', img: 'macharanka.webp', audio: 'macharanka.mp3' },
+    { nameOr: 'ମୟୂର', nameEn: 'Peacock', img: 'mayuri.webp', audio: 'mayuri.mp3' },
+    { nameOr: 'ଓଟ ପକ୍ଷୀ', nameEn: 'Ostrich', img: 'otapakhi.webp', audio: 'otapakhi.mp3' },
+    { nameOr: 'ପେଚା', nameEn: 'Owl', img: 'pecha.webp', audio: 'pecha.mp3' },
+    { nameOr: 'ଶାଗୁଣା', nameEn: 'Vulture', img: 'saguna.webp', audio: 'saguna.mp3' }
+  ];
+
+  var currentIndex = 0;
+
+  function updateCard() {
+    var item = birds[currentIndex];
+    document.getElementById('birdImg').src = item.img;
+    var el = document.getElementById('birdName');
+    el.setAttribute('data-or', item.nameOr);
+    el.setAttribute('data-en', item.nameEn);
+
+    var lang = 'or';
+    try { lang = localStorage.getItem('mosanga-lang') || 'or'; } catch (e) {}
+    el.textContent = lang === 'or' ? item.nameOr : item.nameEn;
+  }
+
+  function prevBird() {
+    KidsApp.playSound('click');
+    currentIndex = (currentIndex - 1 + birds.length) % birds.length;
+    updateCard();
+    playAudio();
+  }
+
+  function nextBird() {
+    KidsApp.playSound('click');
+    currentIndex = (currentIndex + 1) % birds.length;
+    updateCard();
+    playAudio();
+  }
+
+  function playAudio() {
+    var item = birds[currentIndex];
+    KidsApp.speakOrPlay(item, item.audio);
+  }
+
+  updateCard();
+</script>
+</body>
+</html>

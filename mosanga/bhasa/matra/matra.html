@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ମାତ୍ରା - Odia Word Quiz</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+        overflow: hidden;
+    }
+
+    /* --- Header --- */
+    header {
+        width: 100%;
+        padding: 15px 0;
+        background-color: #0396c2;
+        color: white;
+        text-align: center;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        flex-shrink: 0;
+        z-index: 10;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 28px;
+    }
+
+    /* --- Main Game Area --- */
+    main {
+        flex-grow: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow-y: auto;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+        padding: 20px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        display: none; 
+    }
+    
+    .container.active { 
+        display: block; 
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question { 
+        font-size: 1.4em; 
+        margin-bottom: 15px; 
+        color: #333;
+        font-weight: bold;
+    }
+
+    .word-image { 
+        width: 100%; 
+        max-width: 200px; 
+        height: auto; 
+        margin-bottom: 20px; 
+        border-radius: 10px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* --- Letter Styling --- */
+    .letters { 
+        display: flex; 
+        justify-content: center; 
+        gap: 10px; 
+        margin-bottom: 20px; 
+        flex-wrap: wrap; 
+    }
+
+    .letter, .letter-placeholder, .merged-placeholder {
+        width: 50px; 
+        height: 50px;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        background-color: #cee6f1; 
+        border-radius: 10px;
+        box-shadow: 0 3px 5px rgba(0,0,0,0.15);
+        font-size: 1.5em; 
+        font-weight: bold; 
+        color: #026a8b;
+        cursor: pointer;
+        transition: transform 0.1s;
+        user-select: none;
+    }
+
+    .letter:active {
+        transform: scale(0.95);
+    }
+
+    /* Placeholder styling */
+    .letter-placeholder { 
+        cursor: default; 
+        background-color: #fff;
+        border: 2px dashed #0396c2; 
+        color: #026a8b; 
+    }
+    
+    .letter-placeholder.correct { 
+        background-color: #e8f5e9;
+        color: #4CAF50; 
+        border: 2px solid #4CAF50;
+    }
+
+    .merged-placeholder {
+        width: auto; 
+        padding: 0 30px; 
+        cursor: default;
+        display: none; 
+        border: 2px solid #4CAF50; 
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        margin: 0 auto 20px auto; 
+        text-align: center;
+        line-height: 50px; 
+        height: 50px;
+    }
+
+    /* --- Button Styling --- */
+    .next-button {
+        width: 100%; 
+        max-width: 150px; 
+        height: 45px;
+        background-color: #FF9800; 
+        border: none; 
+        border-radius: 25px;
+        color: #FFF; 
+        font-size: 1.1em;
+        font-weight: bold;
+        opacity: 0.5; 
+        cursor: not-allowed;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .next-button.enabled { 
+        opacity: 1; 
+        cursor: pointer; 
+        background-color: #f57c00;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(245, 124, 0, 0.3);
+    }
+
+    /* --- Animations --- */
+    @keyframes shake {
+        0% { transform: translate(1px, 1px) rotate(0deg); }
+        10% { transform: translate(-1px, -2px) rotate(-1deg); }
+        20% { transform: translate(-3px, 0px) rotate(1deg); }
+        30% { transform: translate(3px, 2px) rotate(0deg); }
+        40% { transform: translate(1px, -1px) rotate(1deg); }
+        50% { transform: translate(-1px, 2px) rotate(-1deg); }
+        60% { transform: translate(-3px, 1px) rotate(0deg); }
+        70% { transform: translate(3px, 1px) rotate(-1deg); }
+        80% { transform: translate(-1px, -1px) rotate(1deg); }
+        90% { transform: translate(1px, 2px) rotate(0deg); }
+        100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+    .shake { animation: shake 0.5s; animation-iteration-count: 1; }
+
+    /* --- Landscape Optimization --- */
+    @media (orientation: landscape) and (max-height: 600px) {
+        header { padding: 5px 0; }
+        header h1 { font-size: 20px; }
+        .word-image { max-width: 120px; margin-bottom: 10px; }
+        .letter, .letter-placeholder, .merged-placeholder { width: 40px; height: 40px; font-size: 1.2em; }
+        .container { padding: 10px; }
+        .question { margin-bottom: 5px; font-size: 1.1em; }
+        .next-button { height: 35px; font-size: 1em; }
+    }
+
+</style>
+</head>
+<body>
+
+<header>
+    <h1>ମାତ୍ରା</h1>
+</header>
+
+<main id="quiz">
+    </main>
+
+<audio id="wrongSound" src="wrong.mp3"></audio>
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="completionSound" src="completed.mp3"></audio>
+
+<script>
+const words = [
+    ["କାଉ", ["କା", "ଉ"]],
+    ["କାଠ", ["କା", "ଠ"]],
+    ["ଚିଲ", ["ଚି", "ଲ"]],
+    ["ଜିଆ", ["ଜି", "ଆ"]],
+    ["ଦୀପ", ["ଦୀ", "ପ"]],
+    ["ବୀର", ["ବୀ", "ର"]],
+    ["କୁକୁର", ["କୁ", "କୁ", "ର"]],
+    ["ଫୁଲ", ["ଫୁ", "ଲ"]],
+    ["କୂପ", ["କୂ", "ପ"]],
+    ["ଧୂପ", ["ଧୂ", "ପ"]],
+    ["ବୃକ୍ଷ", ["ବୃ", "କ୍ଷ"]],
+    ["ଗୃହ", ["ଗୃ", "ହ"]],
+    ["ପେଟ", ["ପେ", "ଟ"]],
+    ["ନେଉଳ", ["ନେ", "ଉ", "ଳ"]],
+    ["ବୈଦ୍ୟ", ["ବୈ", "ଦ୍ୟ"]],
+    ["ସୈନିକ", ["ସୈ", "ନି", "କ"]],
+    ["ଢୋଲ", ["ଢୋ", "ଲ"]],
+    ["ପୋଟଳ", ["ପୋ", "ଟ", "ଳ"]],
+    ["ଦୌଡ", ["ଦୌ", "ଡ"]],
+    ["ଚୌକି", ["ଚୌ", "କି"]]
+];
+
+const odiaLetters = [
+    "କ","ଖ","ଗ","ଘ","ଙ","ଚ","ଛ","ଜ","ଝ","ଞ","ଟ","ଠ","ଡ","ଢ","ଣ","ତ","ଥ","ଦ","ଧ","ନ","ପ","ଫ","ବ","ଭ","ମ","ଯ","ର","ଲ","ଳ","ଶ","ଷ","ସ","ହ","ଳ",
+    "କା","ଖା","ଗା","ଘା","ଚା","ଛା","ଜା","ଝା","କି","କୀ","କୁ","କୂ","କେ","କୈ","କୋ","କୌ","ବୃ","ଗୃ","ଦୌ","ଚୌ","ସୈ","ବୈ","ଧୂ","ନେ","ଉଳ","ଟଳ","ଦ୍ୟ","କ୍ଷ"
+];
+
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+}
+
+let quizHTML = "";
+words.forEach((w, idx) => {
+    const wordStr = w[0];
+    const chunks = w[1];
+
+    // Wrong letters logic
+    const wrongCount = Math.max(0, 4 - chunks.length);
+    const wrongs = [];
+    while (wrongs.length < wrongCount) {
+        const rand = odiaLetters[Math.floor(Math.random() * odiaLetters.length)];
+        if (!chunks.includes(rand) && !wrongs.includes(rand)) wrongs.push(rand);
+    }
+
+    const allOptions = [...chunks, ...wrongs];
+    shuffleArray(allOptions);
+
+    // UPDATED: Now looks for matra_1.webp, matra_2.webp, etc.
+    const imageNumber = idx + 1;
+    const imageName = `matra_${imageNumber}.webp`;
+
+    quizHTML += `<div id="page${idx}" class="container ${idx === 0 ? "active" : ""}">
+        <div class="question">ଏହା କଣ ?</div>
+        <img src="${imageName}" alt="${wordStr}" class="word-image" onerror="console.log('Image not found:', '${imageName}');">
+        
+        <div class="letters" id="placeholders${idx}">`;
+    chunks.forEach((_, i) => {
+        quizHTML += `<div class="letter-placeholder" data-index="${i}"></div>`;
+    });
+    quizHTML += `</div>
+        
+        <div class="merged-placeholder" id="merged${idx}"></div>
+        
+        <div class="letters" id="letters${idx}">`;
+    allOptions.forEach(l => {
+        quizHTML += `<div class="letter" onclick="selectLetter('${l}','${idx}',this)">${l}</div>`;
+    });
+    quizHTML += `</div>
+        
+        <button class="next-button" id="nextButton${idx}" onclick="${idx === words.length - 1 ? "goBack()" : `nextPage(${idx+1})`}" disabled>
+            ${idx === words.length - 1 ? "Finish" : "Next"}
+        </button>
+    </div>`;
+});
+
+document.getElementById("quiz").innerHTML = quizHTML;
+
+const correctWords = {};
+const currentIndexMap = {};
+words.forEach((w, idx) => {
+    correctWords[idx] = w[1];
+    currentIndexMap[idx] = 0;
+});
+
+function selectLetter(letter, idx, element) {
+    const placeholders = document.querySelectorAll(`#placeholders${idx} .letter-placeholder`);
+    let currentIndex = currentIndexMap[idx];
+    
+    if (currentIndex >= correctWords[idx].length) return;
+
+    if (letter === correctWords[idx][currentIndex]) {
+        placeholders[currentIndex].textContent = letter;
+        placeholders[currentIndex].classList.add('correct');
+        document.getElementById('correctSound').play();
+        currentIndexMap[idx]++;
+        
+        // Disable the clicked letter
+        element.style.opacity = "0.5";
+        element.style.pointerEvents = "none";
+
+        if (currentIndex + 1 === correctWords[idx].length) {
+            setTimeout(() => {
+                mergePlaceholders(idx);
+                document.getElementById('completionSound').play();
+                document.getElementById(`nextButton${idx}`).disabled = false;
+                document.getElementById(`nextButton${idx}`).classList.add('enabled');
+            }, 300);
+        }
+    } else {
+        wrongLetter(element);
+    }
+}
+
+function wrongLetter(element) {
+    element.classList.add('shake');
+    document.getElementById('wrongSound').play();
+    setTimeout(() => {
+        element.classList.remove('shake');
+    }, 500);
+}
+
+function mergePlaceholders(idx) {
+    const placeholders = document.querySelectorAll(`#placeholders${idx} .letter-placeholder`);
+    const merged = document.getElementById(`merged${idx}`);
+    merged.textContent = correctWords[idx].join('');
+    merged.style.display = 'block';
+    
+    document.getElementById(`placeholders${idx}`).style.display = 'none';
+    
+    const nextButton = document.getElementById(`nextButton${idx}`);
+    nextButton.classList.add('enabled');
+    nextButton.disabled = false;
+}
+
+function nextPage(nextId) {
+    document.querySelector('.container.active').classList.remove('active');
+    document.getElementById(`page${nextId}`).classList.add('active');
+}
+
+function goBack() {
+    window.location.href = '../bhasa.html'; 
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNG PDF Viewer with Drawing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        .slide.active {
+            display: flex;
+        }
+        .slide-content {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: 90vh;
+            max-width: 90%;
+        }
+        .slide img {
+            max-height: 90vh;
+            max-width: 100%;
+            object-fit: contain;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .prev-button {
+            left: 20px;
+        }
+        .next-button {
+            right: 20px;
+        }
+        .page-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .drawing-tools {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 15;
+        }
+        .tool-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+        .tool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .pen-button {
+            background-color: #4285f4;
+            color: white;
+        }
+        .pen-button.active {
+            background-color: #2a56c6;
+        }
+        .eraser-button {
+            background-color: #fbbc05;
+            color: white;
+        }
+        .pen-icon, .eraser-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        @media (max-width: 768px) {
+            .nav-button {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .tool-button {
+                width: 40px;
+                height: 40px;
+            }
+            .pen-icon, .eraser-icon {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide active">
+        <div class="slide-content">
+            <img src="page%20(1).webp" alt="Page 1">
+            <div class="canvas-container">
+                <canvas id="canvas-1"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide">
+        <div class="slide-content">
+            <img src="page%20(2).webp" alt="Page 2">
+            <div class="canvas-container">
+                <canvas id="canvas-2"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide">
+        <div class="slide-content">
+            <img src="page%20(3).webp" alt="Page 3">
+            <div class="canvas-container">
+                <canvas id="canvas-3"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide">
+        <div class="slide-content">
+            <img src="page%20(4).webp" alt="Page 4">
+            <div class="canvas-container">
+                <canvas id="canvas-4"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide">
+        <div class="slide-content">
+            <img src="page%20(5).webp" alt="Page 5">
+            <div class="canvas-container">
+                <canvas id="canvas-5"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide">
+        <div class="slide-content">
+            <img src="page%20(6).webp" alt="Page 6">
+            <div class="canvas-container">
+                <canvas id="canvas-6"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide">
+        <div class="slide-content">
+            <img src="page%20(7).webp" alt="Page 7">
+            <div class="canvas-container">
+                <canvas id="canvas-7"></canvas>
+            </div>
+        </div>
+    </div>
+        <!-- Add more slides as needed -->
+        
+        <button class="nav-button prev-button">&#10094;</button>
+        <button class="nav-button next-button">&#10095;</button>
+        <div class="page-indicator">Page <span id="current-page">1</span> of <span id="total-pages">3</span></div>
+        
+        <div class="drawing-tools">
+            <button class="tool-button pen-button" id="pen-button" title="Pen Tool">
+                <svg class="pen-icon" viewBox="0 0 24 24">
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+            </button>
+            <button class="tool-button eraser-button" id="eraser-button" title="Clear All">
+                <svg class="eraser-icon" viewBox="0 0 24 24">
+                    <path d="M15.14 3c-.51 0-1.02.2-1.41.59L2.59 14.73c-.78.77-.78 2.04 0 2.83L5.03 20h7.66l8.72-8.72c.78-.78.78-2.05 0-2.83l-4.84-4.84c-.4-.39-.91-.59-1.43-.59M17.57 14.27L13.6 18.24l-1.41-1.41 3.97-3.97 1.41 1.41z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const prevButton = document.querySelector('.prev-button');
+            const nextButton = document.querySelector('.next-button');
+            const currentPageIndicator = document.getElementById('current-page');
+            const totalPagesIndicator = document.getElementById('total-pages');
+            const penButton = document.getElementById('pen-button');
+            const eraserButton = document.getElementById('eraser-button');
+            
+            let currentSlide = 0;
+            totalPagesIndicator.textContent = slides.length;
+            
+            // Drawing variables
+            let isDrawing = false;
+            let isPenActive = false;
+            let canvasContexts = [];
+            let canvasElements = [];
+            let drawingData = Array(slides.length).fill().map(() => []); // Store drawing data for each slide
+            
+            // Initialize canvases
+            slides.forEach((slide, index) => {
+                const canvas = slide.querySelector('canvas');
+                canvasElements.push(canvas);
+                const context = canvas.getContext('2d');
+                canvasContexts[index] = context;
+                
+                // Set canvas size to match image dimensions
+                function resizeCanvas() {
+                    const slideContent = slide.querySelector('.slide-content');
+                    const img = slide.querySelector('img');
+                    
+                    // Get the displayed size of the image
+                    const imgRect = img.getBoundingClientRect();
+                    canvas.width = imgRect.width;
+                    canvas.height = imgRect.height;
+                    
+                    // Update canvas container to match image position
+                    const canvasContainer = slide.querySelector('.canvas-container');
+                    canvasContainer.style.width = `${imgRect.width}px`;
+                    canvasContainer.style.height = `${imgRect.height}px`;
+                    
+                    // Redraw saved content
+                    redrawCanvas(index);
+                }
+                
+                // Initial sizing and resize handling
+                window.addEventListener('resize', function() {
+                    // Delay to ensure image sizes have updated
+                    setTimeout(function() {
+                        slides.forEach((slide, i) => {
+                            if (slide.classList.contains('active')) {
+                                resizeCanvas(i);
+                            }
+                        });
+                    }, 100);
+                });
+                
+                // Set initial size when image loads
+                const img = slide.querySelector('img');
+                img.onload = function() {
+                    if (slide.classList.contains('active')) {
+                        resizeCanvas();
+                    }
+                };
+                
+                // If image is already loaded
+                if (img.complete) {
+                    setTimeout(function() {
+                        if (slide.classList.contains('active')) {
+                            resizeCanvas();
+                        }
+                    }, 100);
+                }
+            });
+            
+            function showSlide(index) {
+                // Hide all slides
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                
+                // Show the selected slide
+                slides[index].classList.add('active');
+                
+                // Update the page indicator
+                currentPageIndicator.textContent = index + 1;
+                
+                // Resize the canvas for the current slide
+                setTimeout(function() {
+                    const canvas = slides[index].querySelector('canvas');
+                    const img = slides[index].querySelector('img');
+                    
+                    // Get the displayed size of the image
+                    const imgRect = img.getBoundingClientRect();
+                    canvas.width = imgRect.width;
+                    canvas.height = imgRect.height;
+                    
+                    // Update canvas container to match image position
+                    const canvasContainer = slides[index].querySelector('.canvas-container');
+                    canvasContainer.style.width = `${imgRect.width}px`;
+                    canvasContainer.style.height = `${imgRect.height}px`;
+                    
+                    // Redraw saved content
+                    redrawCanvas(index);
+                }, 50);
+            }
+            
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+            
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+            
+            // Tool selection
+            penButton.addEventListener('click', function() {
+                isPenActive = !isPenActive;
+                penButton.classList.toggle('active', isPenActive);
+                updateCanvasPointerEvents();
+            });
+            
+            // Eraser button now clears all pen lines
+            eraserButton.addEventListener('click', function() {
+                clearCanvas(currentSlide);
+            });
+            
+            function updateCanvasPointerEvents() {
+                const canvases = document.querySelectorAll('canvas');
+                canvases.forEach(canvas => {
+                    canvas.style.pointerEvents = isPenActive ? 'auto' : 'none';
+                });
+            }
+            
+            // Clear the current canvas
+            function clearCanvas(index) {
+                const canvas = canvasElements[index];
+                const ctx = canvasContexts[index];
+                
+                // Clear the canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Clear the drawing data
+                drawingData[index] = [];
+            }
+            
+            // Drawing functions
+            function startDrawing(e) {
+                if (!isPenActive) return;
+                
+                isDrawing = true;
+                const canvas = e.target;
+                const rect = canvas.getBoundingClientRect();
+                
+                // Get position relative to canvas
+                const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+                const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+                
+                // Find which slide this canvas belongs to
+                const slideIndex = canvasElements.indexOf(canvas);
+                
+                // Start a new stroke
+                drawingData[slideIndex].push({
+                    points: [{x, y}]
+                });
+                
+                // Draw the first point
+                const ctx = canvasContexts[slideIndex];
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            }
+            
+            function draw(e) {
+                if (!isDrawing || !isPenActive) return;
+                
+                const canvas = e.target;
+                const rect = canvas.getBoundingClientRect();
+                
+                // Get position relative to canvas
+                const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+                const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+                
+                // Find which slide this canvas belongs to
+                const slideIndex = canvasElements.indexOf(canvas);
+                
+                // Add point to the current stroke
+                drawingData[slideIndex][drawingData[slideIndex].length - 1].points.push({x, y});
+                
+                // Redraw the canvas
+                redrawCanvas(slideIndex);
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+            }
+            
+            function redrawCanvas(index) {
+                const ctx = canvasContexts[index];
+                const canvas = canvasElements[index];
+                
+                // Clear the canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Redraw all strokes
+                drawingData[index].forEach(stroke => {
+                    const points = stroke.points;
+                    if (points.length < 2) return;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(points[0].x, points[0].y);
+                    
+                    // Set stroke style
+                    ctx.strokeStyle = '#ff0000'; // Red pen
+                    ctx.lineWidth = 3;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    
+                    // Draw the line through all points
+                    for (let i = 1; i < points.length; i++) {
+                        ctx.lineTo(points[i].x, points[i].y);
+                    }
+                    
+                    ctx.stroke();
+                });
+            }
+            
+            // Add event listeners for drawing
+            slides.forEach((slide, index) => {
+                const canvas = slide.querySelector('canvas');
+                
+                canvas.addEventListener('mousedown', startDrawing);
+                canvas.addEventListener('mousemove', draw);
+                canvas.addEventListener('mouseup', stopDrawing);
+                canvas.addEventListener('mouseout', stopDrawing);
+                
+                // Touch events for mobile
+                canvas.addEventListener('touchstart', function(e) {
+                    const touch = e.touches[0];
+                    const mouseEvent = new MouseEvent('mousedown', {
+                        clientX: touch.clientX,
+                        clientY: touch.clientY
+                    });
+                    canvas.dispatchEvent(mouseEvent);
+                    e.preventDefault();
+                }, { passive: false });
+                
+                canvas.addEventListener('touchmove', function(e) {
+                    if (isDrawing) {
+                        const touch = e.touches[0];
+                        const mouseEvent = new MouseEvent('mousemove', {
+                            clientX: touch.clientX,
+                            clientY: touch.clientY
+                        });
+                        canvas.dispatchEvent(mouseEvent);
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                canvas.addEventListener('touchend', function(e) {
+                    const mouseEvent = new MouseEvent('mouseup', {});
+                    canvas.dispatchEvent(mouseEvent);
+                    e.preventDefault();
+                }, { passive: false });
+            });
+            
+            // Event listeners for navigation buttons
+            prevButton.addEventListener('click', prevSlide);
+            nextButton.addEventListener('click', nextSlide);
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                }
+            });
+            
+            // Touch swipe navigation
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let isSwiping = false;
+            
+            document.addEventListener('touchstart', function(e) {
+                // Only start swipe if not drawing
+                if (!isPenActive) {
+                    touchStartX = e.changedTouches[0].screenX;
+                    isSwiping = true;
+                }
+            });
+            
+            document.addEventListener('touchend', function(e) {
+                if (isSwiping) {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                    isSwiping = false;
+                }
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Swipe left, go to next
+                    nextSlide();
+                } else if (touchEndX > touchStartX + swipeThreshold) {
+                    // Swipe right, go to previous
+                    prevSlide();
+                }
+            }
+            
+            // Initialize the first slide
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>

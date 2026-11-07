@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ସପ୍ତାହର ଦିନ | Days of the Week</title>
+<link rel="stylesheet" href="../../kids_app.css">
+<style>
+  .days-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 500px;
+    margin: 20px auto 0;
+  }
+  .day-card {
+    background: #FFFFFF;
+    border: 3px solid var(--coral);
+    border-radius: 20px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 5px 0 var(--coral);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .day-card:hover {
+    transform: translateX(6px);
+  }
+  .day-card:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--coral);
+  }
+  .day-odia {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .day-eng {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ocean);
+  }
+  body.lang-or .day-eng,
+  body.lang-en .day-odia {
+    display: none;
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="days-list" id="daysList"></div>
+</div>
+
+<script src="../../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ସପ୍ତାହର ଦିନ', 'Days of the Week', '../../');
+
+  var days = [
+    { odia: 'ରବିବାର', eng: 'Sunday', audio: 'sunday.mp3' },
+    { odia: 'ସୋମବାର', eng: 'Monday', audio: 'monday.mp3' },
+    { odia: 'ମଙ୍ଗଳବାର', eng: 'Tuesday', audio: 'tuesday.mp3' },
+    { odia: 'ବୁଧବାର', eng: 'Wednesday', audio: 'wednesday.mp3' },
+    { odia: 'ଗୁରୁବାର', eng: 'Thursday', audio: 'thursday.mp3' },
+    { odia: 'ଶୁକ୍ରବାର', eng: 'Friday', audio: 'friday.mp3' },
+    { odia: 'ଶନିବାର', eng: 'Saturday', audio: 'saturday.mp3' }
+  ];
+
+  var container = document.getElementById('daysList');
+  days.forEach(function(d) {
+    var card = document.createElement('div');
+    card.className = 'day-card';
+
+    var od = document.createElement('span');
+    od.className = 'day-odia';
+    od.textContent = d.odia;
+
+    var en = document.createElement('span');
+    en.className = 'day-eng';
+    en.textContent = d.eng;
+
+    card.appendChild(od);
+    card.appendChild(en);
+
+    card.onclick = function() {
+      KidsApp.playSound('click');
+      KidsApp.speakOrPlay(d, d.audio);
+    };
+
+    container.appendChild(card);
+  });
+</script>
+</body>
+</html>

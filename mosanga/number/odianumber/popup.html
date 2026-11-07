@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Number Popup</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden; /* Prevent scrolling */
+    }
+
+    /* --- Header --- */
+    header {
+        width: 100%;
+        padding: 10px 0;
+        background: linear-gradient(to right, #00c6ff, #0072ff); /* Number Theme Blue */
+        color: white;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        flex-shrink: 0;
+        z-index: 10;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 24px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    /* --- Main Content Area --- */
+    .content-wrapper {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 100%;
+    }
+
+    #imageContainer {
+        width: 90%;
+        max-width: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #imageContainer img {
+        max-width: 100%;
+        max-height: 60vh; /* Keeps image from being too tall in landscape */
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+        transition: transform 0.2s ease;
+    }
+
+    /* --- Animation Video --- */
+    #webm-container {
+        position: fixed;
+        top: 5px;
+        right: 5px;
+        width: 50px;
+        height: 50px;
+        z-index: 20;
+        pointer-events: none;
+    }
+
+    /* --- Navigation Arrows --- */
+    .navArrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        z-index: 100;
+        width: 60px;
+        height: 60px;
+        opacity: 0.7;
+        transition: opacity 0.2s, transform 0.1s;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .navArrow:active {
+        transform: translateY(-50%) scale(0.9);
+    }
+
+    .navArrow:hover {
+        opacity: 1;
+    }
+
+    #prevArrow {
+        left: 20px;
+    }
+
+    #nextArrow {
+        right: 20px;
+    }
+
+    /* --- Landscape Specifics --- */
+    @media (orientation: landscape) {
+        #imageContainer img {
+            max-height: 75vh;
+        }
+        .navArrow {
+            width: 50px;
+            height: 50px;
+        }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+    <h1>ସଂଖ୍ୟା</h1>
+    <video id="webm-container" autoplay loop muted playsinline>
+      <source src="numberanimation.webm" type="video/webm">
+    </video>
+</header>
+
+<div class="content-wrapper">
+    <img id="prevArrow" class="navArrow" src="left-arrow.png" onclick="navigatePopup('left')" alt="Previous">
+    <img id="nextArrow" class="navArrow" src="right-arrow.png" onclick="navigatePopup('right')" alt="Next">
+
+    <div id="imageContainer">
+        <img id="popupImage" src="" alt="Number Image">
+    </div>
+
+    <audio id="popupAudio" autoplay></audio>
+</div>
+
+<script>
+    var popupData = [
+      { audioSrc: 'number1.mp3', imageSrc: 'one.webp' },
+      { audioSrc: 'number2.mp3', imageSrc: 'two.webp' },
+      { audioSrc: 'number3.mp3', imageSrc: 'three.webp' },
+      { audioSrc: 'number4.mp3', imageSrc: 'four.webp' },
+      { audioSrc: 'number5.mp3', imageSrc: 'five.webp' },
+      { audioSrc: 'number6.mp3', imageSrc: 'six.webp' },
+      { audioSrc: 'number7.mp3', imageSrc: 'seven.webp' },
+      { audioSrc: 'number8.mp3', imageSrc: 'eight.webp' },
+      { audioSrc: 'number9.mp3', imageSrc: 'nine.webp' },
+      { audioSrc: 'number10.mp3', imageSrc: 'ten.webp' },
+      { audioSrc: 'number11.mp3', imageSrc: 'eleven.webp' },
+      { audioSrc: 'number12.mp3', imageSrc: 'twelve.webp' },
+      { audioSrc: 'number13.mp3', imageSrc: 'thirteen.webp' },
+      { audioSrc: 'number14.mp3', imageSrc: 'fourteen.webp' },
+      { audioSrc: 'number15.mp3', imageSrc: 'fifteen.webp' },
+      { audioSrc: 'number16.mp3', imageSrc: 'sixteen.webp' },
+      { audioSrc: 'number17.mp3', imageSrc: 'seventeen.webp' },
+      { audioSrc: 'number18.mp3', imageSrc: 'eighteen.webp' },
+      { audioSrc: 'number19.mp3', imageSrc: 'nineteen.webp' },
+      { audioSrc: 'number20.mp3', imageSrc: 'twenty.webp' }
+    ];
+
+    var currentIndex = 0;
+    var touchstartX = 0;
+    var touchendX = 0;
+
+    // Function to extract index from URL query parameter
+    function getIndexFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const index = parseInt(urlParams.get('index'));
+      return isNaN(index) ? 0 : index;
+    }
+
+    // Function to initialize popup content
+    function initializePopup() {
+      currentIndex = getIndexFromURL();
+      updateContent();
+    }
+
+    function updateContent() {
+      var popupImage = document.getElementById('popupImage');
+      var popupAudio = document.getElementById('popupAudio');
+
+      popupImage.src = popupData[currentIndex].imageSrc;
+      
+      // Reset audio to ensure it plays even if source is same
+      popupAudio.pause();
+      popupAudio.src = popupData[currentIndex].audioSrc;
+      popupAudio.load();
+      popupAudio.play().catch(e => console.log("Autoplay blocked:", e));
+    }
+
+    // Function to navigate popup images
+    function navigatePopup(direction) {
+      if (direction === 'left') {
+          currentIndex = (currentIndex - 1 + popupData.length) % popupData.length;
+      } else if (direction === 'right') {
+          currentIndex = (currentIndex + 1) % popupData.length;
+      }
+      updateContent();
+    }
+
+    // Swipe Logic
+    document.body.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+    });
+
+    document.body.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        handleGesture();
+    });
+
+    function handleGesture() {
+        const threshold = 50;
+        if (touchendX < touchstartX - threshold) {
+            navigatePopup('right');
+        } else if (touchendX > touchstartX + threshold) {
+            navigatePopup('left');
+        }
+    }
+
+    // Initialize on load
+    window.onload = initializePopup;
+</script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - FLN Odisha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e6f2ff;
+            text-align: center;
+        }
+
+        /* Header */
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background-color: #0056b3;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .menu-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        /* About Content */
+        .about-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-container h2 {
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+
+        .about-container p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Mobile Styles */
+        @media screen and (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                background-color: #0056b3;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                z-index: 10;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                text-align: center;
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">FLN ଓଡ଼ିଶା</div>
+
+    <nav class="nav-bar">
+        <div class="menu-container">
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="team.html">Team</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        <h2>About FLN Odisha</h2>
+        <p>
+            FLN ଓଡ଼ିଶା ଛାତ୍ରଛାତ୍ରୀ, ଅଭିଭାବକ ଓ ଶିକ୍ଷକମାନେ ପାଇଁ ଏକ ଗୁଣାତ୍ମକ ଶିକ୍ଷା ଉପକରଣ । ଏହି ପ୍ଲାଟଫର୍ମ ଲିପିଜ୍ଞାନ ଓ ଗଣିତ ରେ ଦୃଢ଼ ଭିତିଭୂମି ସୃଷ୍ଟି କରିବା ସହିତ ଶିକ୍ଷାକୁ ସମସ୍ତଙ୍କ ପାଇଁ ସୁଲଭ ଓ ଆକର୍ଷଣୀୟ କରେ।
+        </p>
+        <p>
+            ଆମର ଲକ୍ଷ୍ୟ ହେଉଛି କୁନି କୁନି ଶିକ୍ଷାର୍ଥୀମାନଙ୍କୁ ଆବଶ୍ୟକୀୟ ଦକ୍ଷତା ସହିତ ସଶକ୍ତ କରିବା, ଅଭିଭାବକମାନେଙ୍କୁ ସେମାନଙ୍କର ଶିଶୁମାନଙ୍କର ଶିକ୍ଷା ନିର୍ଦ୍ଦେଶନାରେ ସାହାଯ୍ୟ କରିବା ଏବଂ ଶିକ୍ଷକମାନେଙ୍କୁ ପ୍ରଭାବଶାଳୀ ପାଠଦାନ ଉପକରଣ ସହିତ ସଜିତ କରିବା।
+        </p>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("nav-links").classList.toggle("show");
+        }
+    </script>
+
+</body>
+</html>

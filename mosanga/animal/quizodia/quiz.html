@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ପଶୁ କୁଇଜ୍ | Animal Quiz</title>
+<link rel="stylesheet" href="../../kids_app.css">
+<style>
+  .quiz-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 15px;
+  }
+  .quiz-question {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+  }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    width: min(380px, 90vw);
+  }
+  .option-card {
+    background: #FFFFFF;
+    border: 4px solid var(--coral);
+    border-radius: 24px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 0 var(--coral);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .option-card:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--coral);
+  }
+  .option-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+  .score-badge {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--coral);
+    background: #FFFFFF;
+    padding: 6px 18px;
+    border-radius: 999px;
+    border: 2px solid var(--coral);
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+  <div class="cloud c1"></div>
+</div>
+
+<div id="kidsHeader"></div>
+
+<div class="app-container">
+  <div class="quiz-stage">
+    <div class="score-badge">
+      ⭐ <span data-or="ସ୍କୋର୍:" data-en="Score:">ସ୍କୋର୍:</span> <span id="quizScore">0</span>
+    </div>
+
+    <button type="button" class="nav-btn" onclick="playQuestionAudio()" data-or="🔊 ପ୍ରଶ୍ନ ଶୁଣନ୍ତୁ" data-en="🔊 Hear question">🔊 ପ୍ରଶ୍ନ ଶୁଣନ୍ତୁ</button>
+    <div class="quiz-question" id="quizTargetName"></div>
+
+    <div class="quiz-options" id="quizOptions"></div>
+  </div>
+</div>
+
+<audio id="questionAudio" src="which_animal_is.mp3" preload="auto"></audio>
+<audio id="animalNameAudio" preload="auto"></audio>
+
+<script src="../../kids_app.js"></script>
+<script>
+  KidsApp.injectHeader('ପଶୁ କୁଇଜ୍', 'Animal Quiz', '../../');
+
+  var animals = [
+    { nameOr: 'ବିଲେଇ', nameEn: 'Cat', img: 'animal_cat.webp', audio: 'cat.mp3' },
+    { nameOr: 'କୁକୁର', nameEn: 'Dog', img: 'animal_dog.webp', audio: 'dog.mp3' },
+    { nameOr: 'ବିଲୁଆ', nameEn: 'Fox', img: 'animal_fox.webp', audio: 'fox.mp3' },
+    { nameOr: 'ଜିରାଫ୍', nameEn: 'Giraffe', img: 'animal_giraffe.webp', audio: 'giraffe.mp3' },
+    { nameOr: 'ଛେଳି', nameEn: 'Goat', img: 'animal_goat.webp', audio: 'goat.mp3' },
+    { nameOr: 'ଜଳହସ୍ତୀ', nameEn: 'Hippopotamus', img: 'animal_hippopotamus.webp', audio: 'hippopotamus.mp3' },
+    { nameOr: 'କଙ୍ଗାରୁ', nameEn: 'Kangaroo', img: 'animal_kangaroo.webp', audio: 'kangaroo.mp3' },
+    { nameOr: 'ଜେବ୍ରା', nameEn: 'Zebra', img: 'animal_zebra.webp', audio: 'zebra.mp3' }
+  ];
+
+  var score = 0;
+  var currentTarget = null;
+
+  function playQuestionAudio() {
+    if (document.documentElement.lang === 'en') {
+      KidsApp.speakText('Which animal is ' + currentTarget.nameEn + '?', 'en-IN');
+      return;
+    }
+
+    var questionAudio = document.getElementById('questionAudio');
+    var animalNameAudio = document.getElementById('animalNameAudio');
+
+    questionAudio.pause();
+    animalNameAudio.pause();
+    questionAudio.currentTime = 0;
+    animalNameAudio.currentTime = 0;
+    animalNameAudio.src = currentTarget.audio;
+    questionAudio.onended = function() {
+      var namePlayback = animalNameAudio.play();
+      if (namePlayback && namePlayback.catch) namePlayback.catch(function() {});
+    };
+
+    var questionPlayback = questionAudio.play();
+    if (questionPlayback && questionPlayback.catch) questionPlayback.catch(function() {});
+  }
+
+  function nextQuestion() {
+    var targetIdx = Math.floor(Math.random() * animals.length);
+    currentTarget = animals[targetIdx];
+
+    updateQuestionText();
+    playQuestionAudio();
+
+    // Pick 3 random distractors
+    var options = [currentTarget];
+    while (options.length < 4) {
+      var rand = animals[Math.floor(Math.random() * animals.length)];
+      if (options.indexOf(rand) === -1) options.push(rand);
+    }
+    options.sort(function() { return 0.5 - Math.random(); });
+
+    var container = document.getElementById('quizOptions');
+    container.innerHTML = '';
+
+    options.forEach(function(opt) {
+      var card = document.createElement('div');
+      card.className = 'option-card';
+      var img = document.createElement('img');
+      img.src = opt.img;
+      card.appendChild(img);
+
+      card.onclick = function() {
+        if (opt === currentTarget) {
+          KidsApp.playSound('correct');
+          score += 10;
+          document.getElementById('quizScore').textContent = score;
+          if (score % 30 === 0) KidsApp.triggerConfetti();
+          nextQuestion();
+        } else {
+          KidsApp.playSound('wrong');
+          card.style.borderColor = '#FF3333';
+        }
+      };
+
+      container.appendChild(card);
+    });
+  }
+
+  function updateQuestionText() {
+    var questionText = document.documentElement.lang === 'en'
+      ? 'Which animal is ' + currentTarget.nameEn + '?'
+      : '🤔 ' + currentTarget.nameOr + ' କେଉଁଟି?';
+    document.getElementById('quizTargetName').textContent = questionText;
+  }
+
+  document.addEventListener('kidsapp:languagechange', function() {
+    if (currentTarget) {
+      updateQuestionText();
+      playQuestionAudio();
+    }
+  });
+
+  nextQuestion();
+</script>
+</body>
+</html>

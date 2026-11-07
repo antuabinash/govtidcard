@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team - FLN Odisha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #e6f2ff;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-bar {
+            background-color: #0056b3;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .menu-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .team-member {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .team-member h3 {
+            margin: 10px 0 5px;
+            font-size: 20px;
+            color: #007bff;
+        }
+
+        .team-member p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        @media screen and (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                background-color: #0056b3;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                z-index: 10;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                text-align: center;
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">FLN ଓଡ଼ିଶା</div>
+
+    <nav class="nav-bar">
+        <div class="menu-container">
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#">Team</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h2 style="margin: 20px 0; color: #007bff;">Meet Our Team</h2>
+
+    <div class="team-container">
+        <div class="team-member">
+            <img src="crcc.png" alt="Team Member 1">
+            <h3>Pradeep Kumar Naik</h3>
+            <p>CRCC, Kotpad</p>
+        </div>
+        <div class="team-member">
+            <img src="aparna.png" alt="Team Member 2">
+            <h3>Aparna Brahma</h3>
+            <p>Asst. Teacher</p>
+        </div>
+        <div class="team-member">
+            <img src="pabi.png" alt="Team Member 3">
+            <h3>Pabitra Kumar Mahapatra</h3>
+            <p>Asst. Teacher</p>
+        </div>
+        <div class="team-member">
+            <img src="ab.png" alt="Team Member 4">
+            <h3>Abinash Mahapatra</h3>
+            <p>Asst. Teacher</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("nav-links").classList.toggle("show");
+        }
+    </script>
+</body>
+</html>

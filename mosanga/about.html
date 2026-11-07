@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="or">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ଆମ ବିଷୟରେ | About Us - Mo Sanga</title>
+<!-- Google Fonts for clean Odia & English typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Keeps compatibility with your external stylesheet if present -->
+<link rel="stylesheet" href="kids_app.css">
+
+<style>
+  :root {
+    --primary-red: #D92525;
+    --ocean-blue: #0056B3;
+    --deep-navy: #1E293B;
+    --slate: #475569;
+    --forest-green: #0F766E;
+    --saffron: #F59E0B;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --border-soft: rgba(0, 86, 179, 0.15);
+    --shadow-soft: 0 12px 35px -5px rgba(30, 41, 59, 0.1);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Baloo Bhaina 2', 'Plus Jakarta Sans', sans-serif;
+    background: linear-gradient(180deg, #F0F9FF 0%, #F8FAFC 50%, #FEFCE8 100%);
+    color: var(--deep-navy);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Decorative Background Elements */
+  .bg-decorations {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .sun-decor {
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #FDE047 0%, #F59E0B 80%);
+    border-radius: 50%;
+    opacity: 0.15;
+    filter: blur(8px);
+  }
+
+  /* Built-in Fallback Header & Language Switcher */
+  .top-header-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 2px solid var(--border-soft);
+    padding: 14px 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  }
+
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .brand-badge {
+    background: var(--ocean-blue);
+    color: #fff;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0, 86, 179, 0.2);
+  }
+
+  .lang-toggle {
+    display: inline-flex;
+    background: #F1F5F9;
+    padding: 5px;
+    border-radius: 999px;
+    border: 1px solid #E2E8F0;
+  }
+
+  .lang-btn {
+    border: none;
+    background: transparent;
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--slate);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .lang-btn.active {
+    background: var(--primary-red);
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(217, 37, 37, 0.3);
+  }
+
+  /* Main Container */
+  .app-container {
+    position: relative;
+    z-index: 1;
+    padding: 35px 16px 60px;
+  }
+
+  .about-content {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Hero Intro Card - Official Style */
+  .about-intro {
+    background: var(--card-bg);
+    border: 1px solid #E2E8F0;
+    border-radius: 24px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-intro::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--saffron), #FFFFFF, var(--forest-green));
+  }
+
+  .initiative-tag {
+    display: inline-block;
+    background: #FFF7ED;
+    color: #C2410C;
+    border: 1px solid #FFEDD5;
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .about-intro h2 {
+    margin: 0 0 16px;
+    color: var(--ocean-blue);
+    font-size: 34px;
+    line-height: 1.3;
+    font-weight: 800;
+  }
+
+  .about-intro p {
+    margin: 0 auto;
+    max-width: 760px;
+    font-size: 18.5px;
+    line-height: 1.8;
+    color: var(--deep-navy);
+    font-weight: 500;
+  }
+
+  /* Content Sections */
+  .about-section {
+    background: var(--card-bg);
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed #E2E8F0;
+  }
+
+  .section-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: #EFF6FF;
+    color: var(--ocean-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .about-section h2 {
+    margin: 0;
+    color: var(--deep-navy);
+    font-size: 26px;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  .about-section p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--slate);
+  }
+
+  .about-section p + p { margin-top: 16px; }
+
+  /* Key Pillars Grid */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .pillar-card {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 20px;
+    transition: transform 0.2s;
+  }
+
+  .pillar-card:hover { transform: translateY(-4px); }
+
+  .pillar-card h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: var(--ocean-blue);
+    font-weight: 700;
+  }
+
+  .pillar-card p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--slate);
+  }
+
+  /* Device & Language Chips */
+  .chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .device-chip {
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    color: #166534;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .lang-chip {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: #991B1B;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  /* Developers Grid Styles */
+  .developers-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 28px;
+  }
+
+  .dev-profile {
+    flex: 1;
+    min-width: 250px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .dev-profile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+  }
+
+  .dev-photo-box {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin: 0 auto 18px;
+    background: #E2E8F0;
+    border: 4px solid #F8FAFC;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #94A3B8;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .dev-photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .dev-profile h3 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    color: var(--deep-navy);
+    font-weight: 700;
+  }
+
+  .dev-profile p {
+    margin: 0;
+    font-size: 15px;
+    color: var(--slate);
+    font-weight: 600;
+  }
+
+  .ananya-apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .ananya-app-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    background: #F8FAFC;
+    color: var(--deep-navy);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .ananya-app-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .ananya-app-card img {
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    border-radius: 14px;
+    object-fit: cover;
+  }
+
+  .ananya-app-card span {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 600px) {
+    .about-intro { padding: 30px 20px; }
+    .about-intro h2 { font-size: 28px; }
+    .about-intro p, .about-section p { font-size: 17px; }
+    .about-section { padding: 24px 20px; }
+    .about-section h2 { font-size: 22px; }
+  }
+</style>
+</head>
+<body class="lang-or">
+
+<div class="bg-decorations">
+  <div class="sun-decor"></div>
+</div>
+
+<div id="kidsHeader">
+  <header class="top-header-bar">
+    <div class="header-inner">
+      <div class="brand-title">
+        <span class="brand-badge">ମୋ ସାଙ୍ଗ | Mo Sanga</span>
+      </div>
+      <div class="lang-toggle" role="group" aria-label="Language Selector">
+        <button type="button" class="lang-btn active" onclick="switchLanguage('or')" id="btn-or">ଓଡ଼ିଆ</button>
+        <button type="button" class="lang-btn" onclick="switchLanguage('en')" id="btn-en">English</button>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="app-container">
+  <main class="about-content">
+
+    <!-- 1. Introduction Section (Aligned with Current Govt Vision & NEP) -->
+    <section class="about-intro">
+      <span class="initiative-tag"
+            data-or="ସରକାରୀ ଶିକ୍ଷକଙ୍କ ଦ୍ୱାରା ନିର୍ମିତ ଏକ ଅଭିନବ ଡିଜିଟାଲ୍ ପ୍ରୟାସ"
+            data-en="An Innovative Digital Initiative by Government Educators">
+        ସରକାରୀ ଶିକ୍ଷକଙ୍କ ଦ୍ୱାରା ନିର୍ମିତ ଏକ ଅଭିନବ ଡିଜିଟାଲ୍ ପ୍ରୟାସ
+      </span>
+      <h2 data-or="ମୋ ସାଙ୍ଗ: ଗୁଣାତ୍ମକ ଶିକ୍ଷାର ସଶକ୍ତୀକରଣ" data-en="Mo Sanga: Empowering Foundational Education">ମୋ ସାଙ୍ଗ: ଗୁଣାତ୍ମକ ଶିକ୍ଷାର ସଶକ୍ତୀକରଣ</h2>
+      <p data-or="ଜାତୀୟ ଶିକ୍ଷା ନୀତି (NEP-2020) ଏବଂ ରାଜ୍ୟ ସରକାରଙ୍କ ଡିଜିଟାଲ୍ ଶିକ୍ଷା ସଶକ୍ତୀକରଣ ଲକ୍ଷ୍ୟ ସହ ତାଳ ଦେଇ, 'ମୋ ସାଙ୍ଗ' ହେଉଛି ଓଡ଼ିଶାର ପ୍ରାଥମିକ ବିଦ୍ୟାଳୟଗୁଡ଼ିକ ପାଇଁ ପ୍ରସ୍ତୁତ ଏକ ଉନ୍ନତ ଡିଜିଟାଲ୍ ଶିକ୍ଷଣ ପ୍ଲାଟଫର୍ମ। ଶିକ୍ଷାକୁ ଆନନ୍ଦଦାୟକ ଓ ପିଲାଙ୍କ ପାଇଁ ସହଜବୋଧ୍ୟ କରିବା ଏହାର ମୁଖ୍ୟ ଉଦ୍ଦେଶ୍ୟ।"
+         data-en="Aligned with the National Education Policy (NEP-2020) and the State Government's vision for digital educational transformation, 'Mo Sanga' is an advanced digital learning platform for elementary schools. It is designed to make foundational education accessible, joyful, and deeply impactful for every child.">
+        ଜାତୀୟ ଶିକ୍ଷା ନୀତି (NEP-2020) ଏବଂ ରାଜ୍ୟ ସରକାରଙ୍କ ଡିଜିଟାଲ୍ ଶିକ୍ଷା ସଶକ୍ତୀକରଣ ଲକ୍ଷ୍ୟ ସହ ତାଳ ଦେଇ, 'ମୋ ସାଙ୍ଗ' ହେଉଛି ଓଡ଼ିଶାର ପ୍ରାଥମିକ ବିଦ୍ୟାଳୟଗୁଡ଼ିକ ପାଇଁ ପ୍ରସ୍ତୁତ ଏକ ଉନ୍ନତ ଡିଜିଟାଲ୍ ଶିକ୍ଷଣ ପ୍ଲାଟଫର୍ମ। ଶିକ୍ଷାକୁ ଆନନ୍ଦଦାୟକ ଓ ପିଲାଙ୍କ ପାଇଁ ସହଜବୋଧ୍ୟ କରିବା ଏହାର ମୁଖ୍ୟ ଉଦ୍ଦେଶ୍ୟ।
+      </p>
+    </section>
+
+    <!-- 2. Infrastructure & Device Utility -->
+    <section class="about-section">
+      <div class="section-header">
+        <div class="section-icon">📈</div>
+        <h2 data-or="ସରକାରୀ ଭିତ୍ତିଭୂମିର ସର୍ବୋତ୍ତମ ଉପଯୋଗ" data-en="Maximizing Digital Infrastructure">ସରକାରୀ ଭିତ୍ତିଭୂମିର ସର୍ବୋତ୍ତମ ଉପଯୋଗ</h2>
+      </div>
+      <p data-or="ରାଜ୍ୟ ସରକାରଙ୍କ ଦ୍ୱାରା ପ୍ରଦତ୍ତ ସ୍ମାର୍ଟ ଟାବଲେଟ୍ ଏବଂ ସ୍ମାର୍ଟ ପ୍ୟାନେଲ୍ (IFP) ର ପୂର୍ଣ୍ଣ ସଦୁପଯୋଗ କରିବା ପାଇଁ ଏହି ୱେବସାଇଟ୍ ବିଶେଷ ଭାବେ ଡିଜାଇନ୍ କରାଯାଇଛି। ସହରାଞ୍ଚଳ ଠାରୁ ଆରମ୍ଭ କରି ଉପାନ୍ତ ଆଦିବାସୀ ଅଞ୍ଚଳ ପର୍ଯ୍ୟନ୍ତ, ଡିଜିଟାଲ୍ ବ୍ୟବଧାନକୁ (Digital Divide) ହ୍ରାସ କରିବା ଏହି ପ୍ରୟାସର ଲକ୍ଷ୍ୟ।"
+         data-en="This platform is specifically engineered to ensure zero-cost scalability and maximize the utility of state-provided Smart Tablets and Interactive Flat Panels (IFPs) in schools. From urban centers to remote tribal pockets, it aims to actively bridge the digital divide.">
+        ରାଜ୍ୟ ସରକାରଙ୍କ ଦ୍ୱାରା ପ୍ରଦତ୍ତ ସ୍ମାର୍ଟ ଟାବଲେଟ୍ ଏବଂ ସ୍ମାର୍ଟ ପ୍ୟାନେଲ୍ (IFP) ର ପୂର୍ଣ୍ଣ ସଦୁପଯୋଗ କରିବା ପାଇଁ ଏହି ୱେବସାଇଟ୍ ବିଶେଷ ଭାବେ ଡିଜାଇନ୍ କରାଯାଇଛି। ସହରାଞ୍ଚଳ ଠାରୁ ଆରମ୍ଭ କରି ଉପାନ୍ତ ଆଦିବାସୀ ଅଞ୍ଚଳ ପର୍ଯ୍ୟନ୍ତ, ଡିଜିଟାଲ୍ ବ୍ୟବଧାନକୁ (Digital Divide) ହ୍ରାସ କରିବା ଏହି ପ୍ରୟାସର ଲକ୍ଷ୍ୟ।
+      </p>
+
+      <div class="chip-group">
+        <span class="device-chip" data-or="🖥️ ସ୍ମାର୍ଟ ସ୍କୁଲ୍ ପ୍ୟାନେଲ୍ (IFP)" data-en="🖥️ School Smart Panels (IFP)">🖥️ ସ୍ମାର୍ଟ ସ୍କୁଲ୍ ପ୍ୟାନେଲ୍ (IFP)</span>
+        <span class="device-chip" data-or="📱 ସରକାରୀ ଟାବଲେଟ୍" data-en="📱 Government Tablets">📱 ସରକାରୀ ଟାବଲେଟ୍</span>
+        <span class="device-chip" data-or="📺 ସ୍ମାର୍ଟ ଟିଭି କମ୍ପାଟିବଲ୍" data-en="📺 Smart TV Compatible">📺 ସ୍ମାର୍ଟ ଟିଭି କମ୍ପାଟିବଲ୍</span>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <h3 data-or="ମୌଳିକ ସାକ୍ଷରତା ଓ ସଂଖ୍ୟାଜ୍ଞାନ (FLN)" data-en="Foundational Literacy & Numeracy (FLN)">ମୌଳିକ ସାକ୍ଷରତା ଓ ସଂଖ୍ୟାଜ୍ଞାନ (FLN)</h3>
+          <p data-or="ଚିତ୍ର ଓ ଖେଳ ମାଧ୍ୟମରେ ପ୍ରାଥମିକ ସ୍ତରର ପିଲାମାନଙ୍କ ଭାଷା ଓ ଗଣିତ ଦକ୍ଷତା ବୃଦ୍ଧି ପାଇଁ 'FLN' ଲକ୍ଷ୍ୟ ସହ ସମ୍ପୂର୍ଣ୍ଣ ସମନ୍ୱିତ।"
+             data-en="Fully aligned with National FLN goals, enhancing early language and math proficiency through interactive gamification.">
+            ଚିତ୍ର ଓ ଖେଳ ମାଧ୍ୟମରେ ପ୍ରାଥମିକ ସ୍ତରର ପିଲାମାନଙ୍କ ଭାଷା ଓ ଗଣିତ ଦକ୍ଷତା ବୃଦ୍ଧି ପାଇଁ 'FLN' ଲକ୍ଷ୍ୟ ସହ ସମ୍ପୂର୍ଣ୍ଣ ସମନ୍ୱିତ।
+          </p>
+        </div>
+        <div class="pillar-card">
+          <h3 data-or="ଶିକ୍ଷକଙ୍କ ପାଇଁ ଏକ ସଶକ୍ତ ମାଧ୍ୟମ" data-en="Empowering the Educators">ଶିକ୍ଷକଙ୍କ ପାଇଁ ଏକ ସଶକ୍ତ ମାଧ୍ୟମ</h3>
+          <p data-or="ଦୈନନ୍ଦିନ ଶ୍ରେଣୀଗୃହ ଶିକ୍ଷାଦାନକୁ ଅଧିକ ଫଳପ୍ରଦ ଓ ଆକର୍ଷଣୀୟ କରିବା ପାଇଁ ଶିକ୍ଷକମାନଙ୍କୁ ସହାୟତା କରୁଥିବା ଏକ ଉନ୍ନତ ଉପକରଣ।"
+             data-en="Serves as a powerful pedagogical tool for teachers to make daily classroom instruction more dynamic and engaging.">
+            ଦୈନନ୍ଦିନ ଶ୍ରେଣୀଗୃହ ଶିକ୍ଷାଦାନକୁ ଅଧିକ ଫଳପ୍ରଦ ଓ ଆକର୍ଷଣୀୟ କରିବା ପାଇଁ ଶିକ୍ଷକମାନଙ୍କୁ ସହାୟତା କରୁଥିବା ଏକ ଉନ୍ନତ ଉପକରଣ।
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Tribal Language & Inclusive Vision (NEP 2020 Aligned) -->
+    <section class="about-section">
+      <div class="section-header">
+        <div class="section-icon">🌍</div>
+        <h2 data-or="ଦୂରଦୃଷ୍ଟି: ମାତୃଭାଷା ଆଧାରିତ ବହୁଭାଷୀ ଶିକ୍ଷା" data-en="Vision: Mother-Tongue Based Multilingual Education">ଦୂରଦୃଷ୍ଟି: ମାତୃଭାଷା ଆଧାରିତ ବହୁଭାଷୀ ଶିକ୍ଷା</h2>
+      </div>
+      <p data-or="ପିଲାମାନେ ନିଜ ମାତୃଭାଷାରେ ସବୁଠାରୁ ଭଲଭାବେ ଶିଖିପାରନ୍ତି (NEP-2020)। ସମାବେଶୀ ଶିକ୍ଷାକୁ ଆଗକୁ ନେବା ପାଇଁ ଆମେ ଭବିଷ୍ୟତରେ 'ମୋ ସାଙ୍ଗ' ପ୍ଲାଟଫର୍ମରେ ଓଡ଼ିଶାର ଜନଜାତି ଭାଷାଗୁଡ଼ିକୁ ସାମିଲ କରିବା ପାଇଁ ଲକ୍ଷ୍ୟ ରଖିଛୁ। ଯାହାଦ୍ୱାରା ରାଜ୍ୟର ପ୍ରତ୍ୟେକ କୋଣରେ ଥିବା ଆଦିବାସୀ ପିଲାମାନେ ବିନା କୌଣସି ଭାଷାଗତ ବାଧାରେ ଶିକ୍ଷା ଲାଭ କରିପାରିବେ।"
+         data-en="In strong alignment with NEP-2020’s mandate on Mother-Tongue Based Multilingual Education (MTBMLE), our vision is to integrate Odisha's rich tribal and regional dialects. This ensures that early learners from indigenous communities experience seamless, barrier-free education.">
+        ପିଲାମାନେ ନିଜ ମାତୃଭାଷାରେ ସବୁଠାରୁ ଭଲଭାବେ ଶିଖିପାରନ୍ତି (NEP-2020)। ସମାବେଶୀ ଶିକ୍ଷାକୁ ଆଗକୁ ନେବା ପାଇଁ ଆମେ ଭବିଷ୍ୟତରେ 'ମୋ ସାଙ୍ଗ' ପ୍ଲାଟଫର୍ମରେ ଓଡ଼ିଶାର ଜନଜାତି ଭାଷାଗୁଡ଼ିକୁ ସାମିଲ କରିବା ପାଇଁ ଲକ୍ଷ୍ୟ ରଖିଛୁ। ଯାହାଦ୍ୱାରା ରାଜ୍ୟର ପ୍ରତ୍ୟେକ କୋଣରେ ଥିବା ଆଦିବାସୀ ପିଲାମାନେ ବିନା କୌଣସି ଭାଷାଗତ ବାଧାରେ ଶିକ୍ଷା ଲାଭ କରିପାରିବେ।
+      </p>
+      
+      <div class="chip-group">
+        <span class="lang-chip" data-or="🗣️ କୁଇ (Kui)" data-en="🗣️ Kui Dialect">🗣️ କୁଇ (Kui)</span>
+        <span class="lang-chip" data-or="🗣️ ସାନ୍ତାଳୀ (Santali)" data-en="🗣️ Santali Dialect">🗣️ ସାନ୍ତାଳୀ (Santali)</span>
+        <span class="lang-chip" data-or="🗣️ ଦେଶିଆ (Desia)" data-en="🗣️ Desia Dialect">🗣️ ଦେଶିଆ (Desia)</span>
+        <span class="lang-chip" data-or="🗣️ ଅନ୍ୟାନ୍ୟ ଆଞ୍ଚଳିକ ଭାଷା" data-en="🗣️ Other Regional Languages">🗣️ ଅନ୍ୟାନ୍ୟ ଆଞ୍ଚଳିକ ଭାଷା</span>
+      </div>
+    </section>
+
+    <!-- 4. Grassroots Govt Teacher Initiative & Developers Profiles -->
+    <section class="about-section">
+      <div class="section-header">
+        <div class="section-icon">👨‍🏫</div>
+        <h2 data-or="ଶିକ୍ଷକମାନଙ୍କ ଏକ ନିଷ୍ଠାପର ପ୍ରୟାସ" data-en="A Grassroots Initiative by Govt. Teachers">ଶିକ୍ଷକମାନଙ୍କ ଏକ ନିଷ୍ଠାପର ପ୍ରୟାସ</h2>
+      </div>
+      <p data-or="ଆମେ ଓଡ଼ିଶାର ଆଦିବାସୀ ଅଧ୍ୟୁଷିତ କୋରାପୁଟ ଜିଲ୍ଲାରେ କାର୍ଯ୍ୟରତ ସରକାରୀ ପ୍ରାଥମିକ ଶିକ୍ଷକ। ଶ୍ରେଣୀଗୃହର ବାସ୍ତବ ଆବଶ୍ୟକତାକୁ ହୃଦୟଙ୍ଗମ କରି, ରାଜ୍ୟର ସମସ୍ତ ପିଲାଙ୍କ ବୌଦ୍ଧିକ ବିକାଶ ପାଇଁ ଆମେ ନିଜସ୍ୱ ପ୍ରଚେଷ୍ଟାରେ ଏହି ଡିଜିଟାଲ୍ ବ୍ୟବସ୍ଥା ନିର୍ମାଣ କରିଛୁ।"
+         data-en="Developed internally by serving Government Elementary Teachers from the tribal district of Koraput. Driven by real classroom experiences and ground-level pedagogical needs, this platform was built as a proactive contribution to the State’s educational transformation journey.">
+        ଆମେ ଓଡ଼ିଶାର ଆଦିବାସୀ ଅଧ୍ୟୁଷିତ କୋରାପୁଟ ଜିଲ୍ଲାରେ କାର୍ଯ୍ୟରତ ସରକାରୀ ପ୍ରାଥମିକ ଶିକ୍ଷକ। ଶ୍ରେଣୀଗୃହର ବାସ୍ତବ ଆବଶ୍ୟକତାକୁ ହୃଦୟଙ୍ଗମ କରି, ରାଜ୍ୟର ସମସ୍ତ ପିଲାଙ୍କ ବୌଦ୍ଧିକ ବିକାଶ ପାଇଁ ଆମେ ନିଜସ୍ୱ ପ୍ରଚେଷ୍ଟାରେ ଏହି ଡିଜିଟାଲ୍ ବ୍ୟବସ୍ଥା ନିର୍ମାଣ କରିଛୁ।
+      </p>
+
+      <!-- Developers Profile Cards -->
+      <div class="developers-grid">
+        
+        <div class="dev-profile">
+          <div class="dev-photo-box">
+            <img src="pabi.png" alt="Pabitra Kumar Mahapatra">
+          </div>
+          <h3 data-or="ପବିତ୍ର କୁମାର ମହାପାତ୍ର" data-en="Pabitra Kumar Mahapatra">ପବିତ୍ର କୁମାର ମହାପାତ୍ର</h3>
+          <p data-or="ଡେଭେଲପର୍ ଏବଂ ସରକାରୀ ଶିକ୍ଷକ" data-en="Developer & Govt. Educator">ଡେଭେଲପର୍ ଏବଂ ସରକାରୀ ଶିକ୍ଷକ</p>
+        </div>
+
+        <div class="dev-profile">
+          <div class="dev-photo-box">
+            <img src="abi.png" alt="Abinash Mahapatra">
+          </div>
+          <h3 data-or="ଅବିନାଶ ମହାପାତ୍ର" data-en="Abinash Mahapatra">ଅବିନାଶ ମହାପାତ୍ର</h3>
+          <p data-or="ଡେଭେଲପର୍ ଏବଂ ସରକାରୀ ଶିକ୍ଷକ" data-en="Developer & Govt. Educator">ଡେଭେଲପର୍ ଏବଂ ସରକାରୀ ଶିକ୍ଷକ</p>
+        </div>
+        
+      </div>
+      
+    </section>
+
+    <section class="about-section">
+      <div class="section-header">
+        <div class="section-icon">📱</div>
+        <h2 data-or="ଆମର ଅନନ୍ୟ କାର୍ଯ୍ୟ" data-en="Our Ananya Work">ଆମର ଅନନ୍ୟ କାର୍ଯ୍ୟ</h2>
+      </div>
+      <p data-or="ଶିକ୍ଷାକୁ ଆହୁରି ସହଜରେ ପହଞ୍ଚାଇବା ପାଇଁ ଆମର ଅନ୍ୟାନ୍ୟ ଆପ୍‌ଗୁଡ଼ିକ ଦେଖନ୍ତୁ।" data-en="Explore our other apps created to make learning and educational resources more accessible.">ଶିକ୍ଷାକୁ ଆହୁରି ସହଜରେ ପହଞ୍ଚାଇବା ପାଇଁ ଆମର ଅନ୍ୟାନ୍ୟ ଆପ୍‌ଗୁଡ଼ିକ ଦେଖନ୍ତୁ।</p>
+
+      <div class="ananya-apps-grid">
+        <a class="ananya-app-card" href="https://play.google.com/store/apps/details?id=com.pabitra.allbooks" target="_blank" rel="noopener noreferrer">
+          <img src="https://play-lh.googleusercontent.com/xi9Qtl0i6yD_h_M8fvjsVH_FK4cvBKLI4-kUZ1XeVkCCQxTvRURc9EDbegVlQG3qRLacji7htvbk6DWAhZmkLwE=w480-h960-rw" alt="">
+          <span data-or="ଓଡ଼ିଶା ବହି" data-en="Odisha Books">ଓଡ଼ିଶା ବହି</span>
+        </a>
+
+        <a class="ananya-app-card" href="https://play.google.com/store/apps/details?id=com.pabitra.eduodiaquiz" target="_blank" rel="noopener noreferrer">
+          <img src="https://play-lh.googleusercontent.com/_q31zwIz2pFMetLEGjWJNhaFwDmN2CCdPU1_KHPsrT65dPYE0iXOUWYKaOAjL0coD0TaMRzE5wPpKOxC64DLnA=w480-h960-rw" alt="">
+          <span data-or="ଓଡ଼ିଶା MCQ" data-en="Odisha MCQs">ଓଡ଼ିଶା MCQ</span>
+        </a>
+
+        <a class="ananya-app-card" href="https://play.google.com/store/apps/details?id=com.odia.kidsapp" target="_blank" rel="noopener noreferrer">
+          <img src="https://play-lh.googleusercontent.com/7-Ky35Kg2CtuAdhmxot7_pdKyoApdRc557cUg864E7LY9GjQW7vvab3dAOHEaJyQNE2YKauJbCEeooeou3PWPA=w480-h960-rw" alt="">
+          <span data-or="ଓଡ଼ିଆ କିଡ୍ସ ଆପ୍" data-en="Odia KidsApp">ଓଡ଼ିଆ କିଡ୍ସ ଆପ୍</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Retains your external script hook -->
+<script src="kids_app.js"></script>
+<script>
+  // Robust Standalone Bilingual Switcher
+  function switchLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.body.className = 'lang-' + lang;
+
+    const elements = document.querySelectorAll('[data-' + lang + ']');
+    elements.forEach(function(el) {
+      el.textContent = el.getAttribute('data-' + lang);
+    });
+
+    const btnOr = document.getElementById('btn-or');
+    const btnEn = document.getElementById('btn-en');
+    if (btnOr && btnEn) {
+      btnOr.classList.toggle('active', lang === 'or');
+      btnEn.classList.toggle('active', lang === 'en');
+    }
+  }
+
+  // Hook for external js if present
+  if (typeof KidsApp !== 'undefined' && typeof KidsApp.injectHeader === 'function') {
+    KidsApp.injectHeader('ସମ୍ପର୍କରେ', 'About Us', '');
+  }
+</script>
+</body>
+</html>
