@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sikhya-sathi-cache-v11'; 
+const CACHE_NAME = 'sikhya-sathi-cache-v12';
 
 // These are the files from your repo that will be cached for offline use
 const urlsToCache = [
@@ -19,7 +19,7 @@ const urlsToCache = [
   './usefullapp.html',
   './style.css',
   './manifest.json',
-  './icon.png',
+  './mosanga.png',
   './db_chunks/index.json'    // Required so the class list shows up offline
 ];
 
