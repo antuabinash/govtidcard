@@ -146,12 +146,27 @@
         .act.main { background: var(--primary); border-color: var(--primary); color: #fff; }
         :root[data-theme="dark"] .act.main { color: #0E1220; }
         @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .act.main { color: #0E1220; } }
+/* ---------- Class picker ---------- */
+        .cstrip { position: sticky; top: calc(var(--safe-t) + 65px); z-index: 60; margin: 14px -18px 0; padding: 10px 18px; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .crow { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; padding: 2px 0; }
+        .crow::-webkit-scrollbar { display: none; }
+        .cchip { flex: 1 0 auto; scroll-snap-align: center; min-height: 52px; padding: 4px 16px; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 16px; border: 1.5px solid var(--line); background: var(--surface); cursor: pointer; line-height: 1.2; transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.12s; }
+        .cchip:active { transform: scale(0.95); }
+        .cchip b { font-size: 16px; font-weight: 800; }
+        .cchip small { font-size: 11px; font-weight: 700; opacity: 0.7; }
+        .cchip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
+        :root[data-theme="dark"] .cchip[aria-pressed="true"] { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cchip[aria-pressed="true"] { color: #0E1220; } }
+        .cchip.soon:not([aria-pressed="true"]) { border-style: dashed; }
 
+        
         /* ---------- Month cards ---------- */
-        .months { display: grid; gap: 16px; margin-top: 18px; }
-        @media (min-width: 900px) { .months { grid-template-columns: 1fr 1fr; align-items: start; } }
-        .mo { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 84px; }
-        .mo:target { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft), var(--shadow); }
+        .crow { gap: 6px; }
+        .cchip { flex: 1 0 60px; min-width: 60px; padding: 4px 3px; border-radius: 14px; white-space: nowrap; }
+        .cchip b { font-size: 15px; }
+        .cchip small { font-size: 11px; opacity: 0.8; }
+        .mo { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); overflow: hidden; margin-top: 6px; animation: rise 0.28s ease both; }
+        @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
         .mo-top { display: flex; align-items: center; gap: 14px; padding: 16px 16px 12px; }
         .mo-badge { flex: none; width: 58px; height: 64px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 17px; letter-spacing: 0.5px; line-height: 1.1; background: linear-gradient(150deg, #3558E0, #6A58D6); box-shadow: 0 8px 18px rgba(53, 88, 224, 0.28); }
         .mo-badge small { font-size: 11px; font-weight: 700; opacity: 0.85; letter-spacing: 0.3px; }
@@ -163,12 +178,9 @@
         .mo-btns .act.main { flex: 1 1 100%; }
         .mo-btns .act:not(.main) { flex: 1 1 0; }
         .kp { border-top: 1px solid var(--line); }
-        .kp summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-weight: 800; font-size: 15px; }
-        .kp summary::-webkit-details-marker { display: none; }
-        .kp summary small { display: block; font-size: 12.5px; font-weight: 600; color: var(--muted); }
-        .kp summary::after { content: ""; flex: none; width: 10px; height: 10px; border-right: 2.5px solid var(--muted); border-bottom: 2.5px solid var(--muted); transform: rotate(45deg); margin: -4px 6px 0 0; transition: transform 0.2s; }
-        .kp[open] summary::after { transform: rotate(-135deg); margin-top: 4px; }
-        .kp-body { padding: 0 16px 16px; display: grid; gap: 14px; }
+        .kp-head { padding: 14px 16px 4px; font-weight: 800; font-size: 15px; }
+        .kp-head small { display: block; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+        .kp-body { padding: 10px 16px 18px; display: grid; gap: 16px; }
         .kp-sec h4 { font-size: 14.5px; font-weight: 800; line-height: 1.45; color: var(--primary); }
         .kp-sec ul { list-style: none; margin-top: 6px; display: grid; gap: 8px; }
         .kp-sec li { position: relative; padding-left: 16px; font-size: 14.5px; line-height: 1.65; }
@@ -257,7 +269,8 @@
             </div>
         </section>
 
-        <div class="months" id="months" aria-label="Meetings by month"></div>
+        <div class="cstrip" role="group" aria-label="Choose a month"><div class="crow" id="mrow"></div></div>
+        <div id="months" aria-live="polite"></div>
         <p class="lead-note">New months are added after each meeting.</p>
 
         <section class="about" aria-label="About MSM resources">
@@ -267,8 +280,8 @@
                 <p>This page keeps the monthly PDF and a short list of key points in one place, so you can revise before the meeting or share the points with teachers who could not attend.</p>
             </div>
             <div class="faq">
-                <details><summary>How do I share the key points?</summary><p>Tap <strong>Share</strong> on a month. All its key points and the Sikhyak Sathi link go into a message that you can send on WhatsApp or any other app. <strong>Copy</strong> copies the same text.</p></details>
-                <details><summary>Where do I find the PDF?</summary><p>Tap <strong>Open PDF</strong> on the month. It opens in Google Drive, where you can read it or download it.</p></details>
+                <details><summary>How do I share the key points?</summary><p>Tap a month at the top, then tap <strong>Share</strong>. All its key points and the Sikhyak Sathi link go into a message that you can send on WhatsApp or any other app. <strong>Copy</strong> copies the same text.</p></details>
+                <details><summary>Where do I find the PDF?</summary><p>Choose a month at the top and tap <strong>Open PDF</strong>. It opens in Google Drive, where you can read it or download it.</p></details>
                 <details><summary>Are the key points official?</summary><p>They are short notes made from the monthly meeting material. Sikhyak Sathi is an independent portal, so please read the PDF and follow your official circulars. Tell us about any mistake on the <a href="contact.html">contact page</a>.</p></details>
             </div>
         </section>
@@ -836,27 +849,37 @@
             });
         }
 
-        /* ---------- Render ---------- */
-        var host = $('#months');
-        var list = MONTHS.slice().sort(function (a, b) { return b.n - a.n; });
-        list.forEach(function (m, idx) {
+        /* ---------- Month bar + panel ---------- */
+        var host = $('#months'), row = $('#mrow');
+        var list = MONTHS.slice().sort(function (a, b) { return a.n - b.n; });
+        var latest = list[list.length - 1], current = null;
+
+        list.forEach(function (m) {
+            var b = document.createElement('button');
+            b.type = 'button'; b.className = 'cchip'; b.dataset.id = m.id; b.setAttribute('aria-pressed', 'false');
+            b.innerHTML = '<b>' + esc(m.en.slice(0, 3)) + '</b><small lang="or">' + m['or'] + '</small>';
+            b.addEventListener('click', function () { select(m.id, true); });
+            row.appendChild(b);
+        });
+
+        function panel(m) {
             var id = driveId(m.drive), card = document.createElement('article');
-            card.className = 'mo'; card.id = m.id;
+            card.className = 'mo'; card.id = 'm-' + m.id;
             var h = '<div class="mo-top"><span class="mo-badge" aria-hidden="true">' + esc(m.en.slice(0, 3).toUpperCase()) + '<small>' + YEAR + '</small></span>' +
-                '<div class="mo-info"><h3>' + esc(m.en) + ' ' + YEAR + (idx === 0 ? ' <span class="pill">LATEST</span>' : '') + '</h3>' +
-                '<p lang="or">' + m['or'] + ' ' + odNum(YEAR) + ' \u00B7 ' + m.ord + ' ବୈଠକ</p></div></div>';
+                '<div class="mo-info"><h3>' + esc(m.en) + ' ' + YEAR + (m === latest ? ' <span class="pill">LATEST</span>' : '') + '</h3>' +
+                '<p lang="or">' + m['or'] + ' ' + odNum(YEAR) + ' · ' + m.ord + ' ବୈଠକ</p></div></div>';
             h += '<div class="mo-btns">';
             if (id) h += '<a class="act main" href="https://drive.google.com/file/d/' + id + '/view" target="_blank" rel="noopener">' + ico('expand') + ' Open PDF</a>';
             h += '<button class="act" type="button" data-a="share">' + ico('share') + ' Share</button>' +
                  '<button class="act" type="button" data-a="copy">' + ico('copy') + ' Copy</button></div>';
-            h += '<details class="kp"' + (idx === 0 ? ' open' : '') + '><summary><span>Key points <small lang="or">ମୁଖ୍ୟ ବିନ୍ଦୁ \u00B7 ' + odNum(countPoints(m)) + '</small></span></summary><div class="kp-body" lang="or">';
+            h += '<div class="kp"><div class="kp-head">Key points <small lang="or">ମୁଖ୍ୟ ବିନ୍ଦୁ · ' + odNum(countPoints(m)) + '</small></div><div class="kp-body" lang="or">';
             m.points.forEach(function (s) {
                 h += '<section class="kp-sec">' + (s.t ? '<h4>' + esc(s.t) + '</h4>' : '') + '<ul>';
                 s.i.forEach(function (it) { h += '<li>' + (it.b ? '<b>' + esc(it.b) + '</b> ' : '') + esc(it.t) + '</li>'; });
                 h += '</ul></section>';
             });
-            h += '</div></details>';
-            card.innerHTML = h; host.appendChild(card);
+            h += '</div></div>';
+            card.innerHTML = h;
             card.querySelector('[data-a="share"]').addEventListener('click', function () {
                 var text = shareText(m);
                 if (navigator.share) { navigator.share({ text: text }).catch(function (e) { if (e && e.name !== 'AbortError') copyText(text).then(function () { showToast('Copied. Paste it to share.'); }, function () {}); }); }
@@ -865,14 +888,28 @@
             card.querySelector('[data-a="copy"]').addEventListener('click', function () {
                 copyText(shareText(m)).then(function () { showToast('Key points copied'); }, function () { showToast('Could not copy. Please try again.'); });
             });
-        });
-
-        /* open the month named in the link, e.g. #sep */
-        function openHash() {
-            var id = location.hash.slice(1), t = id && document.getElementById(id);
-            if (t && t.classList.contains('mo')) { var d = t.querySelector('details'); if (d) d.open = true; }
+            return card;
         }
-        openHash(); window.addEventListener('hashchange', openHash);
+
+        function select(id, scroll, keepUrl) {
+            var m = list.filter(function (x) { return x.id === id; })[0] || latest;
+            current = m;
+            Array.prototype.forEach.call(row.children, function (b) {
+                var on = b.dataset.id === m.id; b.setAttribute('aria-pressed', on ? 'true' : 'false');
+                if (on) { try { row.scrollTo({ left: b.offsetLeft - (row.clientWidth - b.offsetWidth) / 2, behavior: 'smooth' }); } catch (e) {} }
+            });
+            host.innerHTML = ''; host.appendChild(panel(m));
+            document.title = 'MSM ' + m.en + ' ' + YEAR + ' | ଏମ.ଏସ.ଏମ. ସମ୍ବଳ | Sikhyak Sathi';
+            if (!keepUrl) { try { history.replaceState(history.state, '', '#' + m.id); } catch (e) {} }
+            if (scroll) { var top = host.getBoundingClientRect().top + window.pageYOffset - 150; if (window.pageYOffset > top) window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' }); }
+        }
+
+        var h0 = location.hash.slice(1);
+        select(list.some(function (x) { return x.id === h0; }) ? h0 : latest.id, false, true);
+        window.addEventListener('hashchange', function () {
+            var k = location.hash.slice(1);
+            if (k && current && k !== current.id && list.some(function (x) { return x.id === k; })) select(k, true, true);
+        });
     })();
     </script>
 </body>
