@@ -1,0 +1,3582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad — Student Registration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-muted: #f8fafc;
+      --ink: #0f172a;
+      --ink-muted: #475569;
+      --ink-subtle: #64748b;
+      --navy-950: #081126;
+      --navy-900: #0f1c3f;
+      --navy-800: #182b5c;
+      --teal-600: #0284c7;
+      --teal-500: #0ea5e9;
+      --emerald-600: #059669;
+      --emerald-500: #10b981;
+      --amber-500: #f59e0b;
+      --amber-100: #fef3c7;
+      --amber-900: #78350f;
+      --rose-600: #e11d48;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 10px 30px -8px rgba(15, 23, 42, 0.1);
+      --shadow-lg: 0 20px 45px -12px rgba(8, 17, 38, 0.18);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Outfit', 'Inter', sans-serif;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ================= NAVBAR ================= */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(8, 17, 38, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 68px;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--teal-500), var(--emerald-500));
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #cbd5e1;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .nav-cta {
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--teal-500), var(--emerald-500));
+      color: #fff !important;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.45);
+    }
+
+    .menu-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      cursor: pointer;
+      place-items: center;
+    }
+
+    .mobile-drawer {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      padding: 12px 20px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--navy-950);
+    }
+
+    .mobile-drawer.open {
+      display: flex;
+    }
+
+    .mobile-drawer a {
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    .mobile-drawer a:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* ================= HERO (FOCUSED LANDING) ================= */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: calc(100vh - 68px);
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(14, 165, 233, 0.26), transparent 45%),
+        radial-gradient(circle at 85% 20%, rgba(16, 185, 129, 0.22), transparent 42%),
+        radial-gradient(circle at 50% 90%, rgba(245, 158, 11, 0.14), transparent 40%),
+        linear-gradient(155deg, var(--navy-950) 0%, var(--navy-900) 55%, var(--navy-800) 100%);
+      color: #ffffff;
+      padding: 48px 0 56px;
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(ellipse at center, black 45%, transparent 85%);
+      pointer-events: none;
+    }
+
+    .hero-center {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .joint-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #bae6fd;
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .joint-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald-500);
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 4.8vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span.accent {
+      background: linear-gradient(90deg, #38bdf8, #34d399);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-deadline-box {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      margin-bottom: 28px;
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .deadline-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #fcd34d;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .deadline-date {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+
+    .cd-box {
+      background: rgba(8, 17, 38, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 8px 4px;
+      text-align: center;
+    }
+
+    .cd-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #38bdf8;
+      display: block;
+    }
+
+    .cd-lbl {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94a3b8;
+    }
+
+    .hero-stack-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .btn-hero-register {
+      width: 100%;
+      padding: 16px 28px;
+      font-size: 1.08rem;
+      border-radius: 14px;
+    }
+
+    .btn-hero-more {
+      width: 100%;
+      padding: 12px 22px;
+      font-size: 0.94rem;
+      border-radius: 12px;
+    }
+
+    .collapsible-panel {
+      display: none;
+    }
+
+    .collapsible-panel.is-open {
+      display: block;
+      animation: fadeSlideIn 0.28s ease;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn-hero-registered-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #cbd5e1;
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-hero-registered-link:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.42);
+      color: #ffffff;
+    }
+
+    .registered-names-section {
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      padding: 48px 0 56px;
+    }
+
+    .reg-names-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .reg-names-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .reg-count-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .reg-name-search {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      min-width: 220px;
+      background: #ffffff;
+      color: var(--ink);
+    }
+
+    .reg-name-search:focus {
+      outline: 2px solid rgba(14, 165, 233, 0.28);
+      border-color: var(--secondary);
+    }
+
+    .btn-refresh-names {
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-refresh-names:hover {
+      background: #f1f5f9;
+    }
+
+    .reg-names-status {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .registered-names-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .school-name-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .school-name-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 6px;
+      border-radius: 8px;
+      background: #ecfdf5;
+      color: #047857;
+      font-size: 0.78rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .school-name-text {
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    @media (max-width: 900px) {
+      .registered-names-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .registered-names-grid {
+        grid-template-columns: 1fr;
+      }
+      .reg-name-search {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 13px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.96rem;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal-500), var(--emerald-500));
+      color: #fff;
+      box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-outline-light {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+    }
+
+    .btn-outline-light:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ================= SECTIONS ================= */
+    section {
+      padding: 70px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 42px;
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--teal-600);
+      background: #e0f2fe;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.65rem, 3vw, 2.3rem);
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .section-header p {
+      color: var(--ink-muted);
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    /* ================= INFO STRIP ================= */
+    .guidelines-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .guide-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .guide-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .guide-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      font-size: 1.25rem;
+      background: #eff6ff;
+      color: var(--teal-600);
+    }
+
+    .guide-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .guide-card p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+    }
+
+    /* ================= 6 THEMES ================= */
+    .themes-section {
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .theme-card {
+      position: relative;
+      background: var(--surface-muted);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+    }
+
+    .theme-card:hover {
+      border-color: var(--teal-500);
+      background: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .theme-card.selected {
+      border-color: var(--emerald-600);
+      background: #ecfdf5;
+      box-shadow: 0 10px 25px -8px rgba(5, 150, 105, 0.25);
+    }
+
+    .theme-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .theme-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--teal-600);
+      background: #e0f2fe;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .theme-card.selected .theme-num {
+      background: #d1fae5;
+      color: var(--emerald-600);
+    }
+
+    .theme-emoji {
+      font-size: 1.6rem;
+    }
+
+    .theme-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .theme-card p {
+      font-size: 0.89rem;
+      color: var(--ink-muted);
+      margin: 0 0 16px;
+    }
+
+    .theme-select-hint {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--teal-600);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .theme-card.selected .theme-select-hint {
+      color: var(--emerald-600);
+    }
+
+    /* ================= REGISTRATION FORM ================= */
+    .form-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .form-banner {
+      background: linear-gradient(120deg, var(--navy-900), var(--navy-800));
+      color: #ffffff;
+      padding: 24px 32px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .form-banner h3 {
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+    }
+
+    .form-banner p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+
+    .form-deadline-chip {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(251, 191, 36, 0.5);
+      color: #fde68a;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    form#registrationForm {
+      padding: 32px;
+    }
+
+    .form-block {
+      margin-bottom: 30px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-block:last-of-type {
+      border-bottom: none;
+      margin-bottom: 16px;
+      padding-bottom: 0;
+    }
+
+    .block-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.12rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: var(--navy-900);
+    }
+
+    .step-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--navy-900);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .req {
+      color: var(--rose-600);
+    }
+
+    .opt-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--ink-subtle);
+      background: #f1f5f9;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border-strong);
+      background: #ffffff;
+      font-family: inherit;
+      font-size: 0.94rem;
+      color: var(--ink);
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--teal-500);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.18);
+    }
+
+    textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
+
+    input[readonly],
+    input:disabled {
+      background: #f1f5f9;
+      color: var(--ink-muted);
+      cursor: not-allowed;
+      opacity: 0.9;
+    }
+
+    /* UDISE Lookup & Verified School Card */
+    .udise-lookup-panel {
+      background: linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 100%);
+      border: 1.5px solid #bae6fd;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .udise-input-wrap {
+      position: relative;
+    }
+
+    .udise-input {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.02rem !important;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .autocomplete-list {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1.5px solid var(--teal-500);
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      max-height: 240px;
+      overflow-y: auto;
+      z-index: 40;
+      display: none;
+    }
+
+    .autocomplete-list.open {
+      display: block;
+    }
+
+    .autocomplete-item {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-family: inherit;
+    }
+
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+
+    .autocomplete-item:hover,
+    .autocomplete-item:focus {
+      background: #f0f9ff;
+      outline: none;
+    }
+
+    .ac-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .ac-meta {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .udise-status {
+      margin-top: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      min-height: 20px;
+    }
+
+    .udise-status.ok {
+      color: var(--emerald-600);
+    }
+
+    .udise-status.err {
+      color: var(--rose-600);
+    }
+
+    .udise-status.hint {
+      color: var(--ink-muted);
+      font-weight: 500;
+    }
+
+    .school-verified-card {
+      display: none;
+      margin-top: 14px;
+      background: #ffffff;
+      border: 1.5px solid #34d399;
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .school-verified-card.visible {
+      display: block;
+    }
+
+    .already-reg-verify-box {
+      display: none;
+      margin-top: 14px;
+      background: #fffbeb;
+      border: 1.5px solid #f59e0b;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .already-reg-verify-box.visible {
+      display: block;
+    }
+
+    .already-reg-verify-box.unlocked {
+      background: #ecfdf5;
+      border-color: #10b981;
+    }
+
+    .verify-box-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #92400e;
+      margin: 0 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .already-reg-verify-box.unlocked .verify-box-title {
+      color: #065f46;
+    }
+
+    .verify-box-desc {
+      font-size: 0.86rem;
+      color: #78350f;
+      margin: 0 0 12px;
+      line-height: 1.5;
+    }
+
+    .already-reg-verify-box.unlocked .verify-box-desc {
+      color: #047857;
+      margin-bottom: 0;
+    }
+
+    .verify-phone-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .verify-phone-input {
+      flex: 1 1 220px;
+      padding: 10px 14px;
+      border: 1.5px solid #fcd34d;
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: #ffffff;
+      color: var(--ink);
+    }
+
+    .btn-verify-edit {
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      background: #d97706;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn-verify-edit:hover {
+      background: #b45309;
+    }
+
+    .verify-edit-status {
+      margin-top: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      min-height: 18px;
+    }
+
+    .verify-edit-status.err {
+      color: var(--rose-600);
+    }
+
+    .verify-edit-status.ok {
+      color: var(--emerald-600);
+    }
+
+    .verified-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .verified-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: #d1fae5;
+      color: #065f46;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .verified-school-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy-900);
+      margin: 0 0 6px;
+    }
+
+    .verified-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.84rem;
+      color: var(--ink-muted);
+    }
+
+    .btn-change-school {
+      background: #f1f5f9;
+      border: 1px solid var(--border-strong);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 11px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-change-school:hover {
+      background: #e2e8f0;
+    }
+
+    .form-section-locked {
+      opacity: 0.55;
+      transition: opacity 0.22s ease;
+    }
+
+    /* Two Student Panels */
+    .students-split {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .student-panel {
+      background: var(--surface-muted);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .student-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--border-strong);
+    }
+
+    .student-panel-head h4 {
+      font-size: 1.02rem;
+      color: var(--navy-900);
+    }
+
+    .student-badge {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .student-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Optional Photo Uploader */
+    .photo-drop {
+      border: 1.5px dashed #94a3b8;
+      border-radius: 12px;
+      padding: 14px;
+      background: #ffffff;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .photo-drop:hover {
+      border-color: var(--teal-500);
+      background: #f0f9ff;
+    }
+
+    .photo-drop input[type="file"] {
+      width: 100%;
+      font-size: 0.84rem;
+      cursor: pointer;
+    }
+
+    .photo-preview-wrap {
+      display: none;
+      margin-top: 10px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    .photo-preview-wrap.visible {
+      display: flex;
+    }
+
+    .photo-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .photo-meta {
+      min-width: 0;
+      flex: 1;
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-clear-photo {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .declaration-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      font-size: 0.88rem;
+      color: var(--ink-muted);
+    }
+
+    .declaration-box input {
+      margin-top: 3px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--emerald-600);
+      flex-shrink: 0;
+    }
+
+    .submit-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, var(--navy-900), var(--teal-600));
+      color: #ffffff;
+      padding: 14px 28px;
+      font-size: 1rem;
+      box-shadow: 0 10px 24px rgba(2, 132, 199, 0.25);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(2, 132, 199, 0.35);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: var(--ink);
+      border: 1px solid var(--border-strong);
+      padding: 12px 20px;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .error-banner {
+      display: none;
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      color: #be123c;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      margin-bottom: 18px;
+    }
+
+    .error-banner.visible {
+      display: block;
+    }
+
+    /* ================= COMMITTEE PLACEHOLDER ================= */
+    .committee-section {
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+    }
+
+    .committee-notice {
+      max-width: 720px;
+      margin: 0 auto 30px;
+      background: var(--amber-100);
+      border: 1px solid #fcd34d;
+      color: var(--amber-900);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .committee-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .committee-card {
+      background: var(--surface-muted);
+      border: 1.5px dashed var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 24px 18px;
+      text-align: center;
+    }
+
+    .avatar-placeholder {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #64748b;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 14px;
+      font-size: 1.4rem;
+    }
+
+    .committee-role {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--teal-600);
+      margin-bottom: 6px;
+    }
+
+    .committee-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .committee-details {
+      font-size: 0.83rem;
+      color: var(--ink-subtle);
+      margin: 0;
+    }
+
+    /* ================= REGISTERED TEAMS LOG (LOCAL) ================= */
+    .saved-teams-box {
+      margin-top: 26px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      display: none;
+    }
+
+    .saved-teams-box.visible {
+      display: block;
+    }
+
+    .saved-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .saved-item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    /* ================= CONFIRMATION MODAL ================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 17, 38, 0.72);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 100;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .modal-head {
+      background: linear-gradient(135deg, var(--emerald-600), var(--teal-600));
+      color: #ffffff;
+      padding: 22px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .modal-body {
+      padding: 24px 26px;
+    }
+
+    .slip-ref {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.92rem;
+      background: #f0fdf4;
+      color: var(--emerald-600);
+      border: 1px solid #bbf7d0;
+      padding: 8px 12px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .slip-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .slip-cell {
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .slip-cell span {
+      display: block;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-bottom: 2px;
+    }
+
+    .slip-cell strong {
+      font-size: 0.92rem;
+      color: var(--ink);
+    }
+
+    .slip-photos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .slip-photo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+    }
+
+    .slip-photo-item img {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ================= FOOTER ================= */
+    footer {
+      background: var(--navy-950);
+      color: #94a3b8;
+      padding: 36px 0;
+      font-size: 0.88rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footer-brand strong {
+      color: #ffffff;
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 980px) {
+      .hero-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .guidelines-grid,
+      .committee-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .themes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .students-split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+
+      .menu-btn {
+        display: grid;
+      }
+
+      section {
+        padding: 50px 0;
+      }
+
+      .hero {
+        padding: 44px 0 58px;
+      }
+
+      .guidelines-grid,
+      .themes-grid,
+      .committee-grid,
+      .form-grid-2,
+      .form-grid-3,
+      .slip-grid {
+        grid-template-columns: 1fr;
+      }
+
+      form#registrationForm {
+        padding: 20px;
+      }
+
+      .form-banner {
+        padding: 20px;
+      }
+
+      .countdown-grid {
+        gap: 8px;
+      }
+
+      .cd-num {
+        font-size: 1.15rem;
+      }
+    }
+
+    /* ================= PRINT SLIP ================= */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #confirmationModal,
+      #confirmationModal * {
+        visibility: visible;
+      }
+      #confirmationModal {
+        position: absolute;
+        inset: 0;
+        background: #ffffff;
+        padding: 0;
+      }
+      .modal-actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR (MINIMAL) -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3h6"/>
+            <path d="M10 3v6l-5.2 8.6A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.7-3.4L14 9V3"/>
+            <path d="M7.5 15h9"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">Kotpad Science &amp; RRA Exhibition</span>
+          <span class="brand-sub">Block Level • Upper Primary Registration</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <button type="button" class="nav-cta" id="navRegisterBtn" style="border:none; cursor:pointer; font-family:inherit; font-size:0.9rem;">Register Now</button>
+      </nav>
+
+      <button class="menu-btn" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="mobile-drawer" id="mobileDrawer">
+      <a href="#register" class="drawer-link" id="drawerRegisterLink">Register School Team</a>
+      <a href="#moreDetails" class="drawer-link" id="drawerMoreLink">More Details (Guidelines, Themes &amp; Management Committee)</a>
+    </div>
+  </header>
+
+  <!-- HERO (ONLY EXHIBITION NAME, DEADLINE, REGISTER BUTTON & MORE BUTTON) -->
+  <section class="hero" id="top">
+    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-center">
+        <div class="joint-badge">
+          <span class="joint-dot"></span>
+          Kotpad Block • Combined Student Registration Portal
+        </div>
+
+        <h1>
+          Block Level <span class="accent">Science Exhibition</span> &amp;
+          <span class="accent">RRA Exhibition</span>, Kotpad
+        </h1>
+
+        <div class="hero-deadline-box" aria-label="Registration Deadline">
+          <span class="deadline-pill">Last Date of Registration</span>
+          <div class="deadline-date">23 / 11 / 2026</div>
+          <div class="countdown-grid" id="countdownGrid" aria-live="polite">
+            <div class="cd-box">
+              <span class="cd-num" id="cdDays">--</span>
+              <span class="cd-lbl">Days</span>
+            </div>
+            <div class="cd-box">
+              <span class="cd-num" id="cdHours">--</span>
+              <span class="cd-lbl">Hours</span>
+            </div>
+            <div class="cd-box">
+              <span class="cd-num" id="cdMins">--</span>
+              <span class="cd-lbl">Mins</span>
+            </div>
+            <div class="cd-box">
+              <span class="cd-num" id="cdSecs">--</span>
+              <span class="cd-lbl">Secs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-stack-actions">
+          <button type="button" class="btn btn-primary btn-hero-register" id="heroRegisterBtn">
+            Register Now
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+
+          <button type="button" class="btn btn-outline-light btn-hero-more" id="heroMoreBtn" aria-expanded="false" aria-controls="moreDetails">
+            More Details (Guidelines, Themes &amp; Management Committee) ↓
+          </button>
+
+          <button type="button" class="btn-hero-registered-link" id="heroRegisteredBtn" aria-expanded="false" aria-controls="registeredNamesSection">
+            Already Registered Schools (<span id="heroRegCount">0</span>)
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALREADY REGISTERED SCHOOLS (NAMES ONLY) -->
+  <section class="registered-names-section collapsible-panel" id="registeredNamesSection" aria-labelledby="registeredNamesHeading">
+    <div class="container">
+      <div class="reg-names-header">
+        <div>
+          <span class="section-tag">Live Participation Directory</span>
+          <h2 class="section-title" id="registeredNamesHeading" style="margin-bottom:6px;">Already Registered Schools</h2>
+          <p class="section-subtitle" style="margin:0;">Only registered school names (Kotpad Block) are displayed here.</p>
+        </div>
+        <div class="reg-names-controls">
+          <span class="reg-count-pill"><strong id="regNamesTotal">0</strong> Schools Registered</span>
+          <input type="search" id="regNameSearch" class="reg-name-search" placeholder="Search school name..." aria-label="Search registered school name" />
+          <button type="button" class="btn-refresh-names" id="refreshRegNamesBtn" title="Refresh list">Refresh</button>
+        </div>
+      </div>
+      <div id="registeredNamesStatus" class="reg-names-status">Loading registered schools...</div>
+      <div id="registeredNamesGrid" class="registered-names-grid"></div>
+    </div>
+  </section>
+
+  <!-- MORE DETAILS (HIDDEN UNTIL "MORE DETAILS" IS CLICKED) -->
+  <div id="moreDetails" class="collapsible-panel">
+
+  <!-- GUIDELINES -->
+  <section id="guidelines">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Important Rules</span>
+        <h2>Enrollment Guidelines for Schools</h2>
+        <p>Please review these key requirements before completing the team registration form below.</p>
+      </div>
+
+      <div class="guidelines-grid">
+        <article class="guide-card">
+          <div class="guide-icon">🏫</div>
+          <h3>Upper Primary Schools</h3>
+          <p>All Upper Primary Schools under Kotpad Block must enroll in this combined Science &amp; RRA Exhibition.</p>
+        </article>
+
+        <article class="guide-card">
+          <div class="guide-icon">👥</div>
+          <h3>2 Students Per Team</h3>
+          <p>Each participating school must register exactly <strong>2 students</strong> together with a guide teacher.</p>
+        </article>
+
+        <article class="guide-card">
+          <div class="guide-icon">🔬</div>
+          <h3>Choose 1 of 6 Themes</h3>
+          <p>Select one theme from the 6 official competition themes and prepare an original working model or exhibit.</p>
+        </article>
+
+        <article class="guide-card">
+          <div class="guide-icon">📷</div>
+          <h3>Photo Copy Optional</h3>
+          <p>Uploading a participant photo or photocopy is <strong>optional</strong>. You may attach it now or submit without photos.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 THEMES -->
+  <section class="themes-section" id="themes">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Competition Categories</span>
+        <h2>6 Themes of the Exhibition</h2>
+        <p>Tap any theme card below to automatically select it in the registration form.</p>
+      </div>
+
+      <!-- NOTE: You can easily customize these 6 theme titles and descriptions if your block circular specifies custom wording. -->
+      <div class="themes-grid" id="themesGrid">
+        <button type="button" class="theme-card" data-theme="Theme 1: Food, Health &amp; Hygiene">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num">THEME 01</span>
+              <span class="theme-emoji" aria-hidden="true">🥗</span>
+            </div>
+            <h3>Food, Health &amp; Hygiene</h3>
+            <p>Balanced nutrition, safe drinking water, sanitation practices, and low-cost community health innovations.</p>
+          </div>
+          <span class="theme-select-hint">Select this theme →</span>
+        </button>
+
+        <button type="button" class="theme-card" data-theme="Theme 2: Transport &amp; Communication">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num">THEME 02</span>
+              <span class="theme-emoji" aria-hidden="true">🚆</span>
+            </div>
+            <h3>Transport &amp; Communication</h3>
+            <p>Smart road safety, eco-friendly transport models, rural connectivity, and accessible communication aids.</p>
+          </div>
+          <span class="theme-select-hint">Select this theme →</span>
+        </button>
+
+        <button type="button" class="theme-card" data-theme="Theme 3: Natural Farming &amp; Agriculture">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num">THEME 03</span>
+              <span class="theme-emoji" aria-hidden="true">🌱</span>
+            </div>
+            <h3>Natural Farming &amp; Agriculture</h3>
+            <p>Organic soil enrichment, rainwater irrigation, crop protection, and sustainable farming tools for Kotpad.</p>
+          </div>
+          <span class="theme-select-hint">Select this theme →</span>
+        </button>
+
+        <button type="button" class="theme-card" data-theme="Theme 4: Disaster Management &amp; Safety">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num">THEME 04</span>
+              <span class="theme-emoji" aria-hidden="true">🛡️</span>
+            </div>
+            <h3>Disaster Management &amp; Safety</h3>
+            <p>Early flood/fire alert models, safe shelter designs, emergency preparedness, and community resilience.</p>
+          </div>
+          <span class="theme-select-hint">Select this theme →</span>
+        </button>
+
+        <button type="button" class="theme-card" data-theme="Theme 5: Mathematical Modeling &amp; Computational Thinking">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num">THEME 05</span>
+              <span class="theme-emoji" aria-hidden="true">📐</span>
+            </div>
+            <h3>Mathematical Modeling &amp; Logic</h3>
+            <p>Geometry in real life, hands-on math teaching aids, pattern logic, and everyday problem-solving models.</p>
+          </div>
+          <span class="theme-select-hint">Select this theme →</span>
+        </button>
+
+        <button type="button" class="theme-card" data-theme="Theme 6: Waste Management &amp; Green Energy">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num">THEME 06</span>
+              <span class="theme-emoji" aria-hidden="true">☀️</span>
+            </div>
+            <h3>Waste Management &amp; Green Energy</h3>
+            <p>Plastic-to-utility recycling, solar/wind micro-models, composting systems, and clean energy conservation.</p>
+          </div>
+          <span class="theme-select-hint">Select this theme →</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANAGEMENT COMMITTEE (PART OF MORE DETAILS) -->
+  <section class="committee-section" id="committee">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">Management Body</span>
+        <h2>Exhibition Management Committee</h2>
+        <p>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad</p>
+      </div>
+
+      <div class="committee-notice">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink:0;">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>Management committee member names, designations, and contact details will be updated here shortly.</span>
+      </div>
+
+      <!-- TODO: Replace placeholder names and details below with actual committee members in the future -->
+      <div class="committee-grid">
+        <article class="committee-card">
+          <div class="avatar-placeholder" aria-hidden="true">👤</div>
+          <div class="committee-role">Chairperson / Patron</div>
+          <div class="committee-name">Name to be Announced</div>
+          <p class="committee-details">Designation &amp; Contact details will be added soon</p>
+        </article>
+
+        <article class="committee-card">
+          <div class="avatar-placeholder" aria-hidden="true">👤</div>
+          <div class="committee-role">Block Science Coordinator</div>
+          <div class="committee-name">Name to be Announced</div>
+          <p class="committee-details">Designation &amp; Contact details will be added soon</p>
+        </article>
+
+        <article class="committee-card">
+          <div class="avatar-placeholder" aria-hidden="true">👤</div>
+          <div class="committee-role">RRA Exhibition Coordinator</div>
+          <div class="committee-name">Name to be Announced</div>
+          <p class="committee-details">Designation &amp; Contact details will be added soon</p>
+        </article>
+
+        <article class="committee-card">
+          <div class="avatar-placeholder" aria-hidden="true">👤</div>
+          <div class="committee-role">Jury &amp; Technical Member</div>
+          <div class="committee-name">Name to be Announced</div>
+          <p class="committee-details">Designation &amp; Contact details will be added soon</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  </div><!-- /#moreDetails -->
+
+  <!-- REGISTRATION FORM (HIDDEN UNTIL "REGISTER NOW" OR A THEME CARD IS CLICKED) -->
+  <section id="register" class="collapsible-panel">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">School &amp; Student Enrollment</span>
+        <h2>Student Registration Form</h2>
+        <p>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad — Last Date: <strong>23/11/2026</strong></p>
+      </div>
+
+      <div class="form-wrapper">
+        <div class="form-banner">
+          <div>
+            <h3>Upper Primary School Team Registration</h3>
+            <p>2 Students per School • Choose 1 Theme • Participant Photo Copy Optional</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <button type="button" class="btn-change-school" id="inlineMoreBtn" style="background:rgba(255,255,255,0.14); color:#fff; border-color:rgba(255,255,255,0.28);">View 6 Themes &amp; Rules</button>
+            <div class="form-deadline-chip">Last Date: 23 / 11 / 2026</div>
+          </div>
+        </div>
+
+        <form id="registrationForm" novalidate>
+          <div class="error-banner" id="errorBanner" role="alert"></div>
+
+          <!-- Step 1: School UDISE Lookup & Guide Teacher Details -->
+          <div class="form-block">
+            <div class="block-title">
+              <span class="step-badge">1</span>
+              Enter School UDISE Number (Kotpad Block Only)
+            </div>
+
+            <div class="udise-lookup-panel">
+              <div class="form-grid-2">
+                <div class="field">
+                  <label for="udiseCode">1. Enter 11-Digit School UDISE Number <span class="req">*</span></label>
+                  <div class="udise-input-wrap">
+                    <input
+                      type="text"
+                      id="udiseCode"
+                      name="udiseCode"
+                      class="udise-input"
+                      inputmode="numeric"
+                      maxlength="11"
+                      autocomplete="off"
+                      placeholder="Type UDISE e.g. 21290700201"
+                      required
+                    />
+                    <div class="autocomplete-list" id="udiseSuggestions" role="listbox" aria-label="Matching Kotpad Schools"></div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="schoolSelect">Or Select Kotpad School Name <span class="req">*</span></label>
+                  <select id="schoolSelect" name="schoolSelect">
+                    <option value="">-- Select School from Kotpad Block (177) --</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="udise-status hint" id="udiseStatus">
+                Enter your 11-digit Kotpad Block UDISE code (starts with 212907 or 212917) to auto-fill School Name &amp; Cluster.
+              </div>
+
+              <div class="school-verified-card" id="schoolVerifiedCard" aria-live="polite">
+                <div class="verified-header">
+                  <span class="verified-pill">✓ Verified Kotpad Block School</span>
+                  <button type="button" class="btn-change-school" id="changeSchoolBtn">Change School</button>
+                </div>
+                <h4 class="verified-school-title" id="verifiedSchoolTitle">—</h4>
+                <div class="verified-meta-row">
+                  <span><strong>UDISE:</strong> <span id="verifiedUdise">—</span></span>
+                  <span><strong>Block:</strong> KOTPAD</span>
+                  <span><strong>Cluster:</strong> <span id="verifiedCluster">—</span></span>
+                </div>
+              </div>
+
+              <div class="already-reg-verify-box" id="alreadyRegisteredVerifyBox" aria-live="polite">
+                <h4 class="verify-box-title" id="verifyBoxTitle">🔒 School Already Registered — Verify to Edit</h4>
+                <p class="verify-box-desc" id="verifyBoxDesc">
+                  This school has already submitted a registration. For safety, enter the registered Guide Teacher's 10-digit mobile number to view and update your details.
+                </p>
+                <div class="verify-phone-row" id="verifyPhoneRow">
+                  <input
+                    type="tel"
+                    id="verifyTeacherPhone"
+                    class="verify-phone-input"
+                    inputmode="numeric"
+                    maxlength="10"
+                    placeholder="Enter 10-digit Guide Teacher mobile"
+                    aria-label="Guide Teacher 10-digit mobile number for edit verification"
+                  />
+                  <button type="button" class="btn-verify-edit" id="verifyEditBtn">Verify &amp; Load Details</button>
+                </div>
+                <div class="verify-edit-status" id="verifyEditStatus"></div>
+              </div>
+            </div>
+
+            <div class="form-grid-2" id="teacherDetailsFields">
+              <div class="field">
+                <label for="schoolName" id="schoolNameLabel">Auto-Detected School Name <span class="req">*</span></label>
+                <input type="text" id="schoolName" name="schoolName" placeholder="Will auto-fill from UDISE (or type manually if not listed)" readonly disabled required />
+              </div>
+
+              <div class="field">
+                <label for="clusterName" id="clusterNameLabel">Cluster <span class="req">*</span></label>
+                <input type="text" id="clusterName" name="clusterName" placeholder="Will auto-fill from UDISE (or type manually if not listed)" readonly disabled required />
+              </div>
+
+              <div class="field">
+                <label for="teacherName">Guide Teacher / Escort Name <span class="req">*</span></label>
+                <input type="text" id="teacherName" name="teacherName" placeholder="Full Name of Guide Teacher" required />
+              </div>
+
+              <div class="field">
+                <label for="teacherPhone">Guide Teacher Mobile Number <span class="req">*</span></label>
+                <input type="tel" id="teacherPhone" name="teacherPhone" placeholder="10-digit mobile number" maxlength="10" pattern="[0-9]{10}" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Theme & Project -->
+          <div class="form-block form-section-locked" id="step2Block">
+            <div class="block-title">
+              <span class="step-badge">2</span>
+              Competition Theme &amp; Exhibit Details
+            </div>
+
+            <div class="form-grid-2">
+              <div class="field full">
+                <label for="selectedTheme">Choose Competition Theme (1 of 6) <span class="req">*</span></label>
+                <select id="selectedTheme" name="selectedTheme" required>
+                  <option value="">-- Select a Theme --</option>
+                  <option value="Theme 1: Food, Health &amp; Hygiene">Theme 1: Food, Health &amp; Hygiene</option>
+                  <option value="Theme 2: Transport &amp; Communication">Theme 2: Transport &amp; Communication</option>
+                  <option value="Theme 3: Natural Farming &amp; Agriculture">Theme 3: Natural Farming &amp; Agriculture</option>
+                  <option value="Theme 4: Disaster Management &amp; Safety">Theme 4: Disaster Management &amp; Safety</option>
+                  <option value="Theme 5: Mathematical Modeling &amp; Computational Thinking">Theme 5: Mathematical Modeling &amp; Computational Thinking</option>
+                  <option value="Theme 6: Waste Management &amp; Green Energy">Theme 6: Waste Management &amp; Green Energy</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="projectTitle">Project / Exhibit Title <span class="req">*</span></label>
+                <input type="text" id="projectTitle" name="projectTitle" placeholder="e.g., Solar-Powered Rainwater Filtration Unit" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: 2 Students + Optional Photo Copy -->
+          <div class="form-block form-section-locked" id="step3Block">
+            <div class="block-title">
+              <span class="step-badge">3</span>
+              Participant Details (2 Students Mandatory per School)
+            </div>
+
+            <div class="students-split">
+              <!-- Student 1 -->
+              <div class="student-panel">
+                <div class="student-panel-head">
+                  <h4>Student Participant 1</h4>
+                  <span class="student-badge">Required</span>
+                </div>
+                <div class="student-fields">
+                  <div class="field">
+                    <label for="s1Name">Student 1 Full Name <span class="req">*</span></label>
+                    <input type="text" id="s1Name" name="s1Name" placeholder="Enter full name" required />
+                  </div>
+
+                  <div class="form-grid-2">
+                    <div class="field">
+                      <label for="s1Class">Class <span class="req">*</span></label>
+                      <select id="s1Class" name="s1Class" required>
+                        <option value="">Select</option>
+                        <option value="Class VI">Class VI</option>
+                        <option value="Class VII">Class VII</option>
+                        <option value="Class VIII">Class VIII</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <label for="s1Gender">Gender <span class="req">*</span></label>
+                      <select id="s1Gender" name="s1Gender" required>
+                        <option value="">Select</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label for="s1Photo">Participant 1 Photo / Photo Copy <span class="opt-tag">Optional</span></label>
+                    <div class="photo-drop">
+                      <input type="file" id="s1Photo" name="s1Photo" accept="image/*" />
+                      <div class="photo-preview-wrap" id="s1PreviewWrap">
+                        <img src="" alt="Student 1 Photo Preview" class="photo-thumb" id="s1Thumb" />
+                        <span class="photo-meta" id="s1FileName"></span>
+                        <button type="button" class="btn-clear-photo" data-clear="1">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Student 2 -->
+              <div class="student-panel">
+                <div class="student-panel-head">
+                  <h4>Student Participant 2</h4>
+                  <span class="student-badge">Required</span>
+                </div>
+                <div class="student-fields">
+                  <div class="field">
+                    <label for="s2Name">Student 2 Full Name <span class="req">*</span></label>
+                    <input type="text" id="s2Name" name="s2Name" placeholder="Enter full name" required />
+                  </div>
+
+                  <div class="form-grid-2">
+                    <div class="field">
+                      <label for="s2Class">Class <span class="req">*</span></label>
+                      <select id="s2Class" name="s2Class" required>
+                        <option value="">Select</option>
+                        <option value="Class VI">Class VI</option>
+                        <option value="Class VII">Class VII</option>
+                        <option value="Class VIII">Class VIII</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <label for="s2Gender">Gender <span class="req">*</span></label>
+                      <select id="s2Gender" name="s2Gender" required>
+                        <option value="">Select</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label for="s2Photo">Participant 2 Photo / Photo Copy <span class="opt-tag">Optional</span></label>
+                    <div class="photo-drop">
+                      <input type="file" id="s2Photo" name="s2Photo" accept="image/*" />
+                      <div class="photo-preview-wrap" id="s2PreviewWrap">
+                        <img src="" alt="Student 2 Photo Preview" class="photo-thumb" id="s2Thumb" />
+                        <span class="photo-meta" id="s2FileName"></span>
+                        <button type="button" class="btn-clear-photo" data-clear="2">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <label class="declaration-box" id="declarationBox">
+            <input type="checkbox" id="declaration" required />
+            <span>
+              I confirm that the above 2 students are bonafide students of our Upper Primary School in Kotpad Block and are nominated for the combined <strong>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad</strong> before the deadline of <strong>23/11/2026</strong>.
+            </span>
+          </label>
+
+          <div class="submit-row" id="submitRow">
+            <button type="reset" class="btn btn-secondary" id="resetBtn">Reset Form</button>
+            <button type="submit" class="btn btn-submit" id="submitBtn">
+              <span id="submitBtnLabel">Submit Team Registration</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Recent submissions saved locally in browser -->
+      <div class="saved-teams-box" id="savedTeamsBox">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <h3 style="font-size:1.08rem;">Submitted Teams on This Device</h3>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn-change-school" id="exportCsvBtn">Export Excel / CSV</button>
+            <button type="button" class="btn-clear-photo" id="clearLocalBtn">Clear Local List</button>
+          </div>
+        </div>
+        <div class="saved-list" id="savedList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <strong>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad</strong>
+        <span>Upper Primary School Student Registration Portal • Last Date: 23/11/2026</span>
+      </div>
+      <div>
+        <a href="#top" style="color:#38bdf8; font-weight:600;">Back to Top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CONFIRMATION SLIP MODAL -->
+  <div class="modal-backdrop" id="confirmationModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 id="modalTitle" style="font-size:1.3rem;">Registration Confirmed!</h3>
+          <p style="margin:2px 0 0; font-size:0.86rem; opacity:0.92;">Block Level Science Exhibition &amp; RRA Exhibition, Kotpad</p>
+        </div>
+        <button type="button" id="closeModalBtn" aria-label="Close modal" style="background:rgba(255,255,255,0.18); border:none; color:#fff; width:34px; height:34px; border-radius:8px; cursor:pointer; font-size:1.1rem;">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="slip-ref" id="slipRef">REF: KTP-SCI-2026-0001</div>
+
+        <div class="slip-grid" id="slipGrid"></div>
+
+        <div class="slip-photos" id="slipPhotos"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="modalDoneBtn">Close</button>
+          <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save Slip</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // 1. Focused Landing Controls (Register vs More Details) + Mobile Drawer
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileDrawer = document.getElementById('mobileDrawer');
+      const registerSection = document.getElementById('register');
+      const moreDetailsSection = document.getElementById('moreDetails');
+      const heroRegisterBtn = document.getElementById('heroRegisterBtn');
+      const navRegisterBtn = document.getElementById('navRegisterBtn');
+      const heroMoreBtn = document.getElementById('heroMoreBtn');
+      const inlineMoreBtn = document.getElementById('inlineMoreBtn');
+      const heroRegisteredBtn = document.getElementById('heroRegisteredBtn');
+      const registeredNamesSection = document.getElementById('registeredNamesSection');
+      const heroRegCount = document.getElementById('heroRegCount');
+      const regNamesTotal = document.getElementById('regNamesTotal');
+      const regNameSearch = document.getElementById('regNameSearch');
+      const refreshRegNamesBtn = document.getElementById('refreshRegNamesBtn');
+      const registeredNamesStatus = document.getElementById('registeredNamesStatus');
+      const registeredNamesGrid = document.getElementById('registeredNamesGrid');
+      let registeredSchoolNames = [];
+
+      function openRegistration(focusUdise) {
+        registerSection.classList.add('is-open');
+        registerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (focusUdise) {
+          setTimeout(() => {
+            const udiseEl = document.getElementById('udiseCode');
+            if (udiseEl) udiseEl.focus({ preventScroll: true });
+          }, 350);
+        }
+      }
+
+      function setMoreDetailsOpen(open, scrollToTarget) {
+        moreDetailsSection.classList.toggle('is-open', open);
+        heroMoreBtn.setAttribute('aria-expanded', String(open));
+        heroMoreBtn.textContent = open
+          ? 'Hide More Details ↑'
+          : 'More Details (Guidelines, Themes & Management Committee) ↓';
+        if (open && scrollToTarget) {
+          scrollToTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      function setRegisteredNamesOpen(open) {
+        registeredNamesSection.classList.toggle('is-open', open);
+        heroRegisteredBtn.setAttribute('aria-expanded', String(open));
+        if (open) {
+          registeredNamesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      function renderRegisteredSchoolNames() {
+        const q = (regNameSearch.value || '').trim().toUpperCase();
+        const filtered = q
+          ? registeredSchoolNames.filter((name) => name.toUpperCase().includes(q))
+          : registeredSchoolNames;
+
+        heroRegCount.textContent = String(registeredSchoolNames.length);
+        regNamesTotal.textContent = String(registeredSchoolNames.length);
+
+        if (!registeredSchoolNames.length) {
+          registeredNamesGrid.innerHTML = '';
+          return;
+        }
+
+        if (!filtered.length) {
+          registeredNamesStatus.textContent = 'No registered school matches your search.';
+          registeredNamesGrid.innerHTML = '';
+          return;
+        }
+
+        registeredNamesStatus.textContent = q
+          ? `Showing ${filtered.length} of ${registeredSchoolNames.length} registered schools (names only).`
+          : `Showing all ${registeredSchoolNames.length} registered schools (names only).`;
+
+        registeredNamesGrid.innerHTML = filtered.map((schoolName, idx) => `
+          <div class="school-name-pill">
+            <span class="school-name-num">${idx + 1}</span>
+            <span class="school-name-text">${escapeHtml(schoolName)}</span>
+          </div>
+        `).join('');
+      }
+
+      async function refreshRegisteredSchoolNames(extraSchoolName) {
+        const namesSet = new Set();
+        loadSavedTeams().forEach((entry) => {
+          if (entry && entry.schoolName) namesSet.add(String(entry.schoolName).trim());
+        });
+        if (extraSchoolName) {
+          namesSet.add(String(extraSchoolName).trim());
+        }
+
+        if (window.firebasePortal && typeof window.firebasePortal.fetchRegisteredSchoolNames === 'function') {
+          registeredNamesStatus.textContent = 'Loading registered schools...';
+          try {
+            const remoteNames = await window.firebasePortal.fetchRegisteredSchoolNames();
+            remoteNames.forEach((name) => {
+              if (name) namesSet.add(String(name).trim());
+            });
+          } catch (err) {
+            console.warn('Could not load registered school names from Firebase:', err);
+          }
+        }
+
+        registeredSchoolNames = Array.from(namesSet)
+          .filter(Boolean)
+          .sort((a, b) => a.localeCompare(b));
+
+        if (!registeredSchoolNames.length) {
+          registeredNamesStatus.textContent = 'No schools registered yet. Be the first Kotpad Block school to register!';
+        }
+        renderRegisteredSchoolNames();
+      }
+
+      heroRegisterBtn.addEventListener('click', () => openRegistration(true));
+      navRegisterBtn.addEventListener('click', () => openRegistration(true));
+      heroMoreBtn.addEventListener('click', () => {
+        const nextOpen = !moreDetailsSection.classList.contains('is-open');
+        setMoreDetailsOpen(nextOpen, moreDetailsSection);
+      });
+      heroRegisteredBtn.addEventListener('click', () => {
+        const nextOpen = !registeredNamesSection.classList.contains('is-open');
+        setRegisteredNamesOpen(nextOpen);
+        if (nextOpen && !registeredSchoolNames.length) {
+          refreshRegisteredSchoolNames();
+        }
+      });
+      regNameSearch.addEventListener('input', renderRegisteredSchoolNames);
+      refreshRegNamesBtn.addEventListener('click', () => refreshRegisteredSchoolNames());
+      inlineMoreBtn.addEventListener('click', () => {
+        setMoreDetailsOpen(true, document.getElementById('themes'));
+      });
+
+      menuToggle.addEventListener('click', () => {
+        const isOpen = mobileDrawer.classList.toggle('open');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+      document.getElementById('drawerRegisterLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        mobileDrawer.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        openRegistration(true);
+      });
+      document.getElementById('drawerMoreLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        mobileDrawer.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        setMoreDetailsOpen(true, moreDetailsSection);
+      });
+
+      // 2. Countdown Timer to 23/11/2026 23:59:59 IST
+      const deadline = new Date('2026-11-23T23:59:59+05:30').getTime();
+      const cdDays = document.getElementById('cdDays');
+      const cdHours = document.getElementById('cdHours');
+      const cdMins = document.getElementById('cdMins');
+      const cdSecs = document.getElementById('cdSecs');
+
+      function updateCountdown() {
+        const diff = deadline - Date.now();
+        if (diff <= 0) {
+          cdDays.textContent = '00';
+          cdHours.textContent = '00';
+          cdMins.textContent = '00';
+          cdSecs.textContent = '00';
+          return;
+        }
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+        cdDays.textContent = String(days).padStart(2, '0');
+        cdHours.textContent = String(hours).padStart(2, '0');
+        cdMins.textContent = String(mins).padStart(2, '0');
+        cdSecs.textContent = String(secs).padStart(2, '0');
+      }
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // 3. Interactive Theme Card Selection synced with <select>
+      const themeCards = document.querySelectorAll('.theme-card');
+      const themeSelect = document.getElementById('selectedTheme');
+
+      function syncThemeCards(value) {
+        themeCards.forEach((card) => {
+          const match = card.dataset.theme === value;
+          card.classList.toggle('selected', match);
+          const hint = card.querySelector('.theme-select-hint');
+          hint.textContent = match ? '✓ Selected for Registration' : 'Select this theme →';
+        });
+      }
+
+      themeCards.forEach((card) => {
+        card.addEventListener('click', () => {
+          const val = card.dataset.theme;
+          themeSelect.value = val;
+          syncThemeCards(val);
+          openRegistration(true);
+        });
+      });
+
+      themeSelect.addEventListener('change', (e) => {
+        syncThemeCards(e.target.value);
+      });
+
+      // 4. Optional Participant Photo Previews (tracks new uploads vs kept/removed photos on edit)
+      const photoState = { 1: null, 2: null };
+      const existingPhotoUrl = { 1: '', 2: '' };
+      const photoRemoved = { 1: false, 2: false };
+
+      function setupPhotoInput(num) {
+        const input = document.getElementById(`s${num}Photo`);
+        const wrap = document.getElementById(`s${num}PreviewWrap`);
+        const thumb = document.getElementById(`s${num}Thumb`);
+        const fileName = document.getElementById(`s${num}FileName`);
+
+        input.addEventListener('change', () => {
+          const file = input.files && input.files[0];
+          if (!file) {
+            photoState[num] = null;
+            if (existingPhotoUrl[num] && !photoRemoved[num]) {
+              thumb.src = existingPhotoUrl[num];
+              fileName.textContent = 'Previously uploaded photo';
+              wrap.classList.add('visible');
+            } else {
+              wrap.classList.remove('visible');
+            }
+            return;
+          }
+          if (file.size > 3 * 1024 * 1024) {
+            alert('Please choose an image smaller than 3 MB.');
+            input.value = '';
+            photoState[num] = null;
+            if (!existingPhotoUrl[num] || photoRemoved[num]) {
+              wrap.classList.remove('visible');
+            }
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            photoState[num] = ev.target.result;
+            photoRemoved[num] = false;
+            thumb.src = ev.target.result;
+            fileName.textContent = file.name;
+            wrap.classList.add('visible');
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      setupPhotoInput(1);
+      setupPhotoInput(2);
+
+      document.querySelectorAll('.btn-clear-photo[data-clear]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const num = btn.dataset.clear;
+          document.getElementById(`s${num}Photo`).value = '';
+          document.getElementById(`s${num}PreviewWrap`).classList.remove('visible');
+          photoState[num] = null;
+          existingPhotoUrl[num] = '';
+          photoRemoved[num] = true;
+        });
+      });
+
+      // 5. Kotpad Block Schools Directory (177 schools, lightweight File-2 format: {n, c, b, g})
+      const KOTPAD_SCHOOLS = {
+        "21290700101": {"n": "BOTASANA SS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700102": {"n": "COLONY NO-4 PROJ PS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700103": {"n": "COLONY NO-5 PS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700104": {"n": "KASAMAGUDA PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700105": {"n": "LALMUNDA PROJ UPS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700106": {"n": "POTRAGUDA PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700107": {"n": "KHATALAGUDA PROJ PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700108": {"n": "BOTASONA PROJ PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700110": {"n": "COLONY NO -6 PROJ PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700151": {"n": "SRI KRUSHNA HIGH SCHOOL, BATASANA", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290700201": {"n": "A. GHOTARLA UPS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290700202": {"n": "SITILIGUDA PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290700402": {"n": "BHANSULI UPS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BHANSULI"},
+        "21290700403": {"n": "DEORLI PS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BHANSULI"},
+        "21290700405": {"n": "KHUTUGUDA PROJ PS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BHANSULI"},
+        "21290700801": {"n": "MUNDAGUDA PROJ PS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BHANSULI"},
+        "21290700901": {"n": "SEMLA PS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BHANSULI"},
+        "21290701001": {"n": "BOBEYA PROJ UPS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701002": {"n": "CHILIGUDA PS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701003": {"n": "DABUGUDA PROJ UPS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701101": {"n": "CHICHILIPUT(BHAJIGUDA) PS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701201": {"n": "EKAMBA PS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701301": {"n": "B.GHATARLA PROJ UPS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BATASONA"},
+        "21290701401": {"n": "KANDAGAM PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701406": {"n": "BANUAGUDA PROJ PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701501": {"n": "MICHIA PS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701601": {"n": "MOHANTIPUT UPS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701701": {"n": "PHUPUGAM UPS", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701771": {"n": "BIBEKANANDA HIGH SCHOOL, PHUPUGAM", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BOBEYA"},
+        "21290701901": {"n": "BIRAHANDI PS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702002": {"n": "CHANDILI UPS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702071": {"n": "CHANDILI HIGH SCHOOL, CHANDILI", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702101": {"n": "DEODA PS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702201": {"n": "ERAPALLI PROJ UPS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702301": {"n": "KARLAHANDI(I) PROJ UPS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702302": {"n": "KARLAHANDI-II PROJ PS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702401": {"n": "SURLI PROJ UPS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702501": {"n": "PIPALHANDI PROJ PS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702601": {"n": "PIRINJI PROJ UPS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702701": {"n": "POTNAR PS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290702901": {"n": "BAKTIGUDA PROJ PS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "CHATARLA"},
+        "21290702902": {"n": "GOVT. U.G. HIGH SCHOOL, CHHATARLA", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "CHATARLA"},
+        "21290702903": {"n": "NUAGUDA PROJ UPS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "CHATARLA"},
+        "21290703001": {"n": "DUMAJODI PROJ UPS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "CHATARLA"},
+        "21290703003": {"n": "DUMAJODI PROJ PS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "CHATARLA"},
+        "21290703101": {"n": "MAKAGAM PS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "CHATARLA"},
+        "21290703201": {"n": "MUNDAGUDA PROJ UPS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "BHANSULI"},
+        "21290703301": {"n": "BAGHACHUAN PROJ UPS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "CHITRA"},
+        "21290703401": {"n": "CHITRA SS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "CHITRA"},
+        "21290703404": {"n": "JHALIAGUDA PROJ PS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "CHITRA"},
+        "21290703501": {"n": "GHURAGAM PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "CHITRA"},
+        "21290703502": {"n": "KUKUDIPADAR PROJ PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290703601": {"n": "BANDHAGUDA PROJ UPS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "KUSUMI"},
+        "21290703602": {"n": "GOVT. U.G. HIGH SCHOOL, KURMAKOT", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "CHITRA"},
+        "21290703701": {"n": "MAKAPUT PROJ UPS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "CHITRA"},
+        "21290703702": {"n": "KHUTUGUDA PROJ PS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "CHITRA"},
+        "21290703703": {"n": "MAJHIGUDA PROJ PS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "CHITRA"},
+        "21290703704": {"n": "KANGIAGUDA PROJ PS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "CHITRA"},
+        "21290703801": {"n": "BHURSI PROJ UPS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290703901": {"n": "DHAMANAHANDI UPS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290703902": {"n": "GOVT. HIGH SCHOOL, DHAMANAHANDI", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290703903": {"n": "GANDHINAGAR AS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290703904": {"n": "EKLABYA MODEL RESIDENTIAL SCHOOL, KOTPAD", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290704001": {"n": "B.DHARGUDI PS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "S UTIPADAR"},
+        "21290704002": {"n": "S.DHARGUDI PROJ UPS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "S UTIPADAR"},
+        "21290704101": {"n": "JAMUNAHANDI PS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "S UTIPADAR"},
+        "21290704201": {"n": "KHAPURIGUDA PROJ PS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290704202": {"n": "KUHUDIGAM UPS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290704203": {"n": "S.KUHUDI PROJ UPS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290704301": {"n": "GIRLIAGUDA PROJ PS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290704302": {"n": "NARAHANDI PROJ UPS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290704401": {"n": "DANGRI PROJ UPS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "S UTIPADAR"},
+        "21290704402": {"n": "POCHIA PS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "DHAMANAHANDI"},
+        "21290704501": {"n": "SANKARDA PS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "S UTIPADAR"},
+        "21290704601": {"n": "SUTIPADAR PS", "c": "CHANDILI UPS", "b": "KOTPAD", "g": "S UTIPADAR"},
+        "21290704701": {"n": "AMALABHATA PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290704801": {"n": "BASTAMBA UPS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290704901": {"n": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290704903": {"n": "SANAGHUMAR PROJ PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290705001": {"n": "HARDALI PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290705101": {"n": "MURAODA PROJ PS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290705201": {"n": "NEHERUPALLI UPS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290705202": {"n": "PADARGUDA PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290705203": {"n": "PALAKAGUDA PROJ PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290705204": {"n": "TOTIAGUDA PROJ PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290705301": {"n": "SARADUGAUDA PROJ PS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290705302": {"n": "SARIGAM PROJ UPS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "GHUMAR"},
+        "21290705501": {"n": "ANKULA UPS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290705601": {"n": "CHITAGAM SS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290705602": {"n": "CHITRAGUDA PROJ UPS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290705701": {"n": "DHANPUR PS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290705801": {"n": "AMADAMUNDA PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290705802": {"n": "BENTAGUDA PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290705804": {"n": "GIRLA PS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290705806": {"n": "GOVT. SSD HIGH SCHOOL GIRLA", "c": "GIRLA PS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290705807": {"n": "NUAGADA PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290705901": {"n": "T.D.HANDI PROJ UPS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GIRLA"},
+        "21290706001": {"n": "GOVT. U.G. HIGH SCHOOL, ASANA", "c": "GIRLA PS", "b": "KOTPAD", "g": "GUALI"},
+        "21290706101": {"n": "BONIA PROJ UPS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GUALI"},
+        "21290706201": {"n": "GUALI PS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GUALI"},
+        "21290706301": {"n": "ALUPADAR PS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GUMUDA"},
+        "21290706401": {"n": "BASULI PS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GUMUDA"},
+        "21290706471": {"n": "PANCHAYAT HIGH SCHOOL, BHANSULI", "c": "BHANSULI UPS", "b": "KOTPAD", "g": "BHANSULI"},
+        "21290706501": {"n": "GOVT. U.G. HIGH SCHOOL, GUMUDA", "c": "GIRLA PS", "b": "KOTPAD", "g": "GUMUDA"},
+        "21290706502": {"n": "SIUNAGUDA PROJ PS", "c": "GIRLA PS", "b": "KOTPAD", "g": "GUMUDA"},
+        "21290706701": {"n": "BIJRAPALLI PROJ UPS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "KUSUMI"},
+        "21290706801": {"n": "CHORAMULA PROJ UPS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "KUSUMI"},
+        "21290706901": {"n": "KUAGAM PS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "KUSUMI"},
+        "21290707001": {"n": "KUSUMI PS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "GUMUDA"},
+        "21290707071": {"n": "GOVT. NODAL HIGHER SECONDARY SCHOOL, KUSUMI", "c": "KUSUMI PS", "b": "KOTPAD", "g": "KUSUMI"},
+        "21290707101": {"n": "LATHIAGUDA PS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "KUSUMI"},
+        "21290707102": {"n": "MUNDIPADAR PROJ UPS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "KUSUMI"},
+        "21290707103": {"n": "PURUNA MUNDIPADAR PROJ PS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "KUSUMI"},
+        "21290707201": {"n": "NANDIGAM PROJ UPS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "KUSUMI"},
+        "21290707301": {"n": "UMARAPINDI (I) PROJ UPS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290707302": {"n": "UMURIPANDI-2 PS", "c": "KUSUMI PS", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290707401": {"n": "AMBAGAMA PROJ UPS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290707402": {"n": "MALCHAMAL PS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290707403": {"n": "SAHANIMUNDA SS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290707501": {"n": "JEERAGAM PS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290707601": {"n": "MANCHAHANDI PS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290707701": {"n": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290707801": {"n": "SINDHIGAM PS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290707901": {"n": "SARISAPADAR PROJ UPS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290708101": {"n": "M.TARAGAM PS", "c": "GOVT. U.G. HIGH SCHOOL, MURTAHANDI", "b": "KOTPAD", "g": "MURTHAHANDI"},
+        "21290708201": {"n": "ODISHA ADARSHA VIDYALAYA, KENDUBEDA, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21290708401": {"n": "KHADAGPUR PROJ UPS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290708501": {"n": "JHIDINGIGUDA PROJ PS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290708502": {"n": "KUMAHANDI PS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290708602": {"n": "DONGRIGUDA PROJ UPS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290708604": {"n": "GOVT. SSD HIGH SCHOOL S.B.NUAGAM", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290708605": {"n": "S.B.NUAGAM NODAL UPS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290708606": {"n": "THENGGUDA PS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290708701": {"n": "SANDHAGAM PS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290708801": {"n": "NUAGAM PROJ UPS", "c": "S.B.NUAGAM NODAL UPS", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290708901": {"n": "BORANDI PROJ UPS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "BHANSULI"},
+        "21290709001": {"n": "BELGAM PS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "SADARANGA"},
+        "21290709201": {"n": "SIRISI UPS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "SADARANGA"},
+        "21290709301": {"n": "JAMUKHAIGUDA PS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "SADARANGA"},
+        "21290709302": {"n": "SADARANGA UPS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "SADARANGA"},
+        "21290709303": {"n": "BEDHAGUDA PROJ PS", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "SADARANGA"},
+        "21290709304": {"n": "SIDHARTHA HIGH SCHOOL, SADARANGA", "c": "DHAMANAHANDI UPS", "b": "KOTPAD", "g": "SADARANGA"},
+        "21290709401": {"n": "BADA ANDIRAMUNDA PROJ UPS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "SARGIGUDA"},
+        "21290709402": {"n": "SANA ANDIRAMUNDA PS", "c": "MAKAPUT PROJ UPS", "b": "KOTPAD", "g": "SARGIGUDA"},
+        "21290709601": {"n": "BIRAHANDI PS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "CHANDILI"},
+        "21290709701": {"n": "GOVT. U.G. HIGH SCHOOL, MIRIGUDA", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "SARGIGUDA"},
+        "21290709801": {"n": "PATHANGUDA PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "SARGIGUDA"},
+        "21290709901": {"n": "POKHNAGUDA PROJ UPS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "SARGIGUDA"},
+        "21290709902": {"n": "SARGIGUDA PROJ UPS", "c": "SARGIGUDA PROJ UPS", "b": "KOTPAD", "g": "SARGIGUDA"},
+        "21290712001": {"n": "COLONY NO-7 PROJ UPS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "S.B.NUAGAM"},
+        "21290712902": {"n": "NAIKGUDA PROJ PS", "c": "GOVT. U.G. HIGH SCHOOL, GHUMAR", "b": "KOTPAD", "g": "BOBEYA"},
+        "21291700101": {"n": "GOVT. HIGH SCHOOL, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700102": {"n": "KENDUGUDA  PROJ UPS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700105": {"n": "GOVT. SSD HIGHER SECONDARY SCHOOL, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700151": {"n": "BHAKTI SWARUPA BIDYA NIKETAN, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700171": {"n": "SARASWATI SISHU VIDYA MANDIR, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700172": {"n": "KOTPAD HIGHER SECONDARY SCHOOL  KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700174": {"n": "GOVERNMENT VOCATIONAL HIGHER SECONDARY SCHOOL  KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700175": {"n": "MAA SANTOSHI SANSKRIT HIGHER SECONDARY SCHOOL, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700201": {"n": "NUAGUDA-2 PROJ PS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700202": {"n": "TELUGU STREET PS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700301": {"n": "KALINJI STREET PROJ UPS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700451": {"n": "AIDED PS, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700471": {"n": "SIDDHARTH ENGLISH MEDIUM SCHOOL, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700502": {"n": "GOVT. GIRLS HIGH SCHOOL, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700701": {"n": "JAMAL UPS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291700801": {"n": "DULPUR STREET PS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701001": {"n": "MANGALI STREET PS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701051": {"n": "CHRIST SCHOOL, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701151": {"n": "JELC PS, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701152": {"n": "JELC UPS, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701153": {"n": "JELC HIGH SCHOOL, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701171": {"n": "BIDYA RASMI ENGLISH MEDIUM SCHOOL, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701202": {"n": "BASUGUDA PROJ PS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701204": {"n": "BONDAGUDA PROJ UPS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701205": {"n": "UPPER KOLAB PROJECT PS", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"},
+        "21291701271": {"n": "AUROBINDO INTEGRAL SCHOOL, KOTPAD", "c": "DULPUR STREET PS", "b": "KOTPAD", "g": "KOTPAD-NOTIFIED AREA COUNCIL"}
+      };
+
+      const udiseInput = document.getElementById('udiseCode');
+      const schoolSelect = document.getElementById('schoolSelect');
+      const schoolNameInput = document.getElementById('schoolName');
+      const clusterNameInput = document.getElementById('clusterName');
+      const udiseStatus = document.getElementById('udiseStatus');
+      const udiseSuggestions = document.getElementById('udiseSuggestions');
+      const schoolVerifiedCard = document.getElementById('schoolVerifiedCard');
+      const verifiedSchoolTitle = document.getElementById('verifiedSchoolTitle');
+      const verifiedUdise = document.getElementById('verifiedUdise');
+      const verifiedCluster = document.getElementById('verifiedCluster');
+      const changeSchoolBtn = document.getElementById('changeSchoolBtn');
+      const teacherDetailsFields = document.getElementById('teacherDetailsFields');
+      const step2Block = document.getElementById('step2Block');
+      const step3Block = document.getElementById('step3Block');
+      const declarationBox = document.getElementById('declarationBox');
+      const submitRow = document.getElementById('submitRow');
+      const submitBtnLabel = document.getElementById('submitBtnLabel');
+      const alreadyRegisteredVerifyBox = document.getElementById('alreadyRegisteredVerifyBox');
+      const verifyBoxTitle = document.getElementById('verifyBoxTitle');
+      const verifyBoxDesc = document.getElementById('verifyBoxDesc');
+      const verifyPhoneRow = document.getElementById('verifyPhoneRow');
+      const verifyTeacherPhoneInput = document.getElementById('verifyTeacherPhone');
+      const verifyEditBtn = document.getElementById('verifyEditBtn');
+      const verifyEditStatus = document.getElementById('verifyEditStatus');
+
+      let verifiedSchool = null;
+      let lookupSeq = 0;
+      let pendingExistingRecord = null;
+      let editModeState = {
+        active: false,
+        udise: '',
+        verifiedPhone: '',
+        existingRecord: null
+      };
+
+      function setSubmitButtonText(text) {
+        const labelEl = document.getElementById('submitBtnLabel');
+        if (labelEl) labelEl.textContent = text;
+      }
+
+      function setEditableSectionsLocked(locked) {
+        teacherDetailsFields.classList.toggle('form-section-locked', locked);
+        step2Block.classList.toggle('form-section-locked', locked);
+        step3Block.classList.toggle('form-section-locked', locked);
+        declarationBox.classList.toggle('form-section-locked', locked);
+        submitRow.classList.toggle('form-section-locked', locked);
+      }
+
+      function clearEditableFormFields() {
+        document.getElementById('teacherName').value = '';
+        document.getElementById('teacherPhone').value = '';
+        themeSelect.value = '';
+        syncThemeCards('');
+        document.getElementById('projectTitle').value = '';
+        document.getElementById('s1Name').value = '';
+        document.getElementById('s1Class').value = '';
+        document.getElementById('s1Gender').value = '';
+        document.getElementById('s2Name').value = '';
+        document.getElementById('s2Class').value = '';
+        document.getElementById('s2Gender').value = '';
+        document.getElementById('declaration').checked = false;
+        [1, 2].forEach((n) => {
+          photoState[n] = null;
+          existingPhotoUrl[n] = '';
+          photoRemoved[n] = false;
+          document.getElementById(`s${n}Photo`).value = '';
+          document.getElementById(`s${n}PreviewWrap`).classList.remove('visible');
+        });
+      }
+
+      function resetEditVerificationUi() {
+        pendingExistingRecord = null;
+        editModeState = { active: false, udise: '', verifiedPhone: '', existingRecord: null };
+        alreadyRegisteredVerifyBox.classList.remove('visible', 'unlocked');
+        verifyBoxTitle.textContent = '🔒 School Already Registered — Verify to Edit';
+        verifyBoxDesc.textContent = "This school has already submitted a registration. For safety, enter the registered Guide Teacher's 10-digit mobile number to view and update your details.";
+        verifyPhoneRow.style.display = 'flex';
+        verifyTeacherPhoneInput.value = '';
+        verifyEditStatus.textContent = '';
+        verifyEditStatus.className = 'verify-edit-status';
+        setSubmitButtonText('Submit Team Registration');
+      }
+
+      function setSchoolInputsLocked(locked, modeLabel) {
+        schoolNameInput.readOnly = locked;
+        schoolNameInput.disabled = locked;
+        clusterNameInput.readOnly = locked;
+        clusterNameInput.disabled = locked;
+        const sLabel = document.getElementById('schoolNameLabel');
+        const cLabel = document.getElementById('clusterNameLabel');
+        if (sLabel) {
+          sLabel.innerHTML = locked
+            ? 'Auto-Detected School Name <span class="req">*</span>'
+            : 'Enter School Name Manually <span class="req">*</span>';
+        }
+        if (cLabel) {
+          cLabel.innerHTML = locked
+            ? 'Cluster <span class="req">*</span>'
+            : 'Enter Cluster Name Manually <span class="req">*</span>';
+        }
+        if (!locked) {
+          schoolNameInput.placeholder = 'Type full school name (UDISE not in directory)';
+          clusterNameInput.placeholder = 'Type cluster name (e.g., KOTPAD / CHANDILI)';
+        } else if (modeLabel === 'db') {
+          schoolNameInput.placeholder = 'Auto-filled & locked from Kotpad school database';
+          clusterNameInput.placeholder = 'Auto-filled & locked from Kotpad school database';
+        } else {
+          schoolNameInput.placeholder = 'Will auto-fill from UDISE (or type manually if not listed)';
+          clusterNameInput.placeholder = 'Will auto-fill from UDISE (or type manually if not listed)';
+        }
+      }
+
+      function populateFormFromExisting(rec) {
+        if (verifiedSchool && verifiedSchool.manual) {
+          schoolNameInput.value = rec.schoolName || '';
+          clusterNameInput.value = rec.cluster || rec.clusterName || '';
+        }
+        document.getElementById('teacherName').value = rec.teacherName || '';
+        document.getElementById('teacherPhone').value = rec.teacherPhone || '';
+        themeSelect.value = rec.theme || '';
+        syncThemeCards(rec.theme || '');
+        document.getElementById('projectTitle').value = rec.projectTitle || '';
+        document.getElementById('s1Name').value = rec.s1Name || '';
+        document.getElementById('s1Class').value = rec.s1Class || '';
+        document.getElementById('s1Gender').value = rec.s1Gender || '';
+        document.getElementById('s2Name').value = rec.s2Name || '';
+        document.getElementById('s2Class').value = rec.s2Class || '';
+        document.getElementById('s2Gender').value = rec.s2Gender || '';
+        document.getElementById('declaration').checked = true;
+
+        [1, 2].forEach((n) => {
+          photoState[n] = null;
+          photoRemoved[n] = false;
+          document.getElementById(`s${n}Photo`).value = '';
+          const previewSrc = rec[`s${n}PhotoInline`] || rec[`s${n}PhotoUrl`] || rec[`s${n}PhotoData`] || '';
+          const photoLabel = rec[`s${n}PhotoName`] || (previewSrc ? 'Saved photo' : '');
+          existingPhotoUrl[n] = previewSrc;
+          const wrap = document.getElementById(`s${n}PreviewWrap`);
+          if (previewSrc) {
+            document.getElementById(`s${n}Thumb`).src = previewSrc;
+            document.getElementById(`s${n}FileName`).textContent = photoLabel;
+            wrap.classList.add('visible');
+          } else {
+            wrap.classList.remove('visible');
+          }
+        });
+      }
+
+      async function findExistingSchoolRecord(udise) {
+        if (window.firebasePortal && typeof window.firebasePortal.getSchoolRegistration === 'function') {
+          try {
+            const remoteDoc = await window.firebasePortal.getSchoolRegistration(udise);
+            if (remoteDoc) return remoteDoc;
+          } catch (err) {
+            console.warn('Firebase existing check error:', err);
+          }
+        }
+        return loadSavedTeams().find((r) => r && r.udiseCode === udise) || null;
+      }
+
+      // Populate sorted Kotpad Block school dropdown
+      const sortedEntries = Object.entries(KOTPAD_SCHOOLS).sort((a, b) =>
+        a[1].n.localeCompare(b[1].n)
+      );
+      sortedEntries.forEach(([udise, info]) => {
+        const opt = document.createElement('option');
+        opt.value = udise;
+        opt.textContent = `${info.n} (${udise})`;
+        schoolSelect.appendChild(opt);
+      });
+
+      async function setVerifiedSchool(udise) {
+        const info = KOTPAD_SCHOOLS[udise];
+        if (!info) return;
+        const mySeq = ++lookupSeq;
+
+        clearEditableFormFields();
+        resetEditVerificationUi();
+
+        verifiedSchool = { udise, ...info, manual: false };
+        udiseInput.value = udise;
+        schoolSelect.value = udise;
+        schoolNameInput.value = info.n;
+        clusterNameInput.value = info.c;
+        setSchoolInputsLocked(true, 'db');
+
+        verifiedSchoolTitle.textContent = info.n;
+        verifiedUdise.textContent = udise;
+        verifiedCluster.textContent = info.c;
+        schoolVerifiedCard.classList.add('visible');
+
+        udiseStatus.textContent = `Checking registration status for ${info.n}...`;
+        udiseStatus.className = 'udise-status hint';
+        udiseSuggestions.classList.remove('open');
+        setEditableSectionsLocked(true);
+
+        const existingDoc = await findExistingSchoolRecord(udise);
+        if (mySeq !== lookupSeq || !verifiedSchool || verifiedSchool.udise !== udise) {
+          return;
+        }
+
+        if (existingDoc) {
+          pendingExistingRecord = existingDoc;
+          udiseStatus.textContent = `⚠ ${info.n} is already registered. Verify Guide Teacher mobile number below to edit & update.`;
+          udiseStatus.className = 'udise-status hint';
+          alreadyRegisteredVerifyBox.classList.add('visible');
+          setEditableSectionsLocked(true);
+          setTimeout(() => verifyTeacherPhoneInput.focus({ preventScroll: true }), 120);
+        } else {
+          udiseStatus.textContent = `✓ School found in database: ${info.n} (manual school entry disabled).`;
+          udiseStatus.className = 'udise-status ok';
+          setEditableSectionsLocked(false);
+        }
+      }
+
+      async function setManualSchoolMode(udise) {
+        if (!/^\d{11}$/.test(udise) || KOTPAD_SCHOOLS[udise]) return;
+        const mySeq = ++lookupSeq;
+
+        clearEditableFormFields();
+        resetEditVerificationUi();
+
+        verifiedSchool = { udise, n: '', c: '', manual: true };
+        udiseInput.value = udise;
+        schoolSelect.value = '';
+        schoolNameInput.value = '';
+        clusterNameInput.value = '';
+        setSchoolInputsLocked(true, 'idle');
+        schoolVerifiedCard.classList.remove('visible');
+        setSchoolInputsLocked(false, 'manual');
+
+        udiseStatus.textContent = `Checking registration status for UDISE ${udise}...`;
+        udiseStatus.className = 'udise-status hint';
+        udiseSuggestions.classList.remove('open');
+        setEditableSectionsLocked(true);
+
+        const existingDoc = await findExistingSchoolRecord(udise);
+        if (mySeq !== lookupSeq || !verifiedSchool || verifiedSchool.udise !== udise) {
+          return;
+        }
+
+        if (existingDoc) {
+          pendingExistingRecord = existingDoc;
+          udiseStatus.textContent = `⚠ UDISE ${udise} is already registered. Verify Guide Teacher mobile number below to edit & update.`;
+          udiseStatus.className = 'udise-status hint';
+          alreadyRegisteredVerifyBox.classList.add('visible');
+          setEditableSectionsLocked(true);
+          setTimeout(() => verifyTeacherPhoneInput.focus({ preventScroll: true }), 120);
+        } else {
+          udiseStatus.textContent = `ℹ UDISE ${udise} not found in database — Please enter your School Name & Cluster manually below.`;
+          udiseStatus.className = 'udise-status hint';
+          setEditableSectionsLocked(false);
+          setTimeout(() => schoolNameInput.focus({ preventScroll: true }), 100);
+        }
+      }
+
+      function attemptEditUnlock() {
+        if (!pendingExistingRecord || !verifiedSchool) return;
+        const entered = verifyTeacherPhoneInput.value.replace(/\D/g, '').slice(-10);
+        verifyTeacherPhoneInput.value = entered;
+
+        if (!/^\d{10}$/.test(entered)) {
+          verifyEditStatus.textContent = 'Please enter the exact 10-digit Guide Teacher mobile number.';
+          verifyEditStatus.className = 'verify-edit-status err';
+          return;
+        }
+
+        const storedPhone = String(pendingExistingRecord.teacherPhone || '').replace(/\D/g, '').slice(-10);
+        if (!storedPhone || entered !== storedPhone) {
+          verifyEditStatus.textContent = '✕ Mobile number does not match the registered Guide Teacher number. Editing remains locked.';
+          verifyEditStatus.className = 'verify-edit-status err';
+          return;
+        }
+
+        editModeState = {
+          active: true,
+          udise: verifiedSchool.udise,
+          verifiedPhone: entered,
+          existingRecord: pendingExistingRecord
+        };
+
+        populateFormFromExisting(pendingExistingRecord);
+        alreadyRegisteredVerifyBox.classList.add('unlocked');
+        verifyBoxTitle.textContent = '✓ Mobile Verified — Edit Mode Unlocked';
+        verifyBoxDesc.textContent = `Loaded existing registration (${pendingExistingRecord.ref || verifiedSchool.udise}). Update any details below and click "Update Team Registration".`;
+        verifyPhoneRow.style.display = 'none';
+        verifyEditStatus.textContent = '';
+        verifyEditStatus.className = 'verify-edit-status ok';
+
+        setSubmitButtonText('Update Team Registration');
+        udiseStatus.textContent = `✓ Edit access unlocked for ${verifiedSchool.n || pendingExistingRecord.schoolName || verifiedSchool.udise}.`;
+        udiseStatus.className = 'udise-status ok';
+        setEditableSectionsLocked(false);
+      }
+
+      verifyTeacherPhoneInput.addEventListener('input', () => {
+        verifyTeacherPhoneInput.value = verifyTeacherPhoneInput.value.replace(/\D/g, '').slice(0, 10);
+        verifyEditStatus.textContent = '';
+      });
+      verifyTeacherPhoneInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          attemptEditUnlock();
+        }
+      });
+      verifyEditBtn.addEventListener('click', attemptEditUnlock);
+
+      function clearVerifiedSchool(keepInput) {
+        lookupSeq++;
+        if (editModeState.active) {
+          clearEditableFormFields();
+        }
+        verifiedSchool = null;
+        if (!keepInput) {
+          udiseInput.value = '';
+        }
+        schoolSelect.value = '';
+        schoolNameInput.value = '';
+        clusterNameInput.value = '';
+        setSchoolInputsLocked(true, 'idle');
+        schoolVerifiedCard.classList.remove('visible');
+        resetEditVerificationUi();
+        teacherDetailsFields.classList.remove('form-section-locked');
+        declarationBox.classList.remove('form-section-locked');
+        submitRow.classList.remove('form-section-locked');
+        step2Block.classList.add('form-section-locked');
+        step3Block.classList.add('form-section-locked');
+      }
+
+      function renderUdiseSuggestions(query) {
+        const q = query.trim().toUpperCase();
+        if (!q || verifiedSchool) {
+          udiseSuggestions.classList.remove('open');
+          udiseSuggestions.innerHTML = '';
+          return;
+        }
+        const matches = sortedEntries
+          .filter(([udise, info]) => udise.includes(q) || info.n.toUpperCase().includes(q))
+          .slice(0, 8);
+
+        if (!matches.length) {
+          udiseSuggestions.classList.remove('open');
+          udiseSuggestions.innerHTML = '';
+          return;
+        }
+
+        udiseSuggestions.innerHTML = matches.map(([udise, info]) => `
+          <button type="button" class="autocomplete-item" data-udise="${udise}">
+            <span class="ac-name">${escapeHtml(info.n)}</span>
+            <span class="ac-meta">UDISE: ${udise} • Cluster: ${escapeHtml(info.c)}</span>
+          </button>
+        `).join('');
+        udiseSuggestions.classList.add('open');
+
+        udiseSuggestions.querySelectorAll('.autocomplete-item').forEach((item) => {
+          item.addEventListener('click', () => {
+            setVerifiedSchool(item.dataset.udise);
+          });
+        });
+      }
+
+      udiseInput.addEventListener('input', () => {
+        const cleaned = udiseInput.value.replace(/\D/g, '').slice(0, 11);
+        udiseInput.value = cleaned;
+
+        if (KOTPAD_SCHOOLS[cleaned]) {
+          setVerifiedSchool(cleaned);
+          return;
+        }
+
+        if (cleaned.length === 11) {
+          renderUdiseSuggestions('');
+          setManualSchoolMode(cleaned);
+          return;
+        }
+
+        clearVerifiedSchool(true);
+
+        if (cleaned.length === 0) {
+          udiseStatus.textContent = 'Enter your 11-digit Kotpad Block UDISE code (starts with 212907 or 212917) to auto-fill School Name & Cluster.';
+          udiseStatus.className = 'udise-status hint';
+          renderUdiseSuggestions('');
+        } else {
+          udiseStatus.textContent = `Typing UDISE (${cleaned.length}/11 digits)... select a matching school below or enter all 11 digits for manual entry.`;
+          udiseStatus.className = 'udise-status hint';
+          renderUdiseSuggestions(cleaned);
+        }
+      });
+
+      schoolSelect.addEventListener('change', () => {
+        const val = schoolSelect.value;
+        if (val && KOTPAD_SCHOOLS[val]) {
+          setVerifiedSchool(val);
+        } else {
+          clearVerifiedSchool(false);
+          udiseStatus.textContent = 'Enter your 11-digit Kotpad Block UDISE code (starts with 212907 or 212917) to auto-fill School Name & Cluster.';
+          udiseStatus.className = 'udise-status hint';
+        }
+      });
+
+      changeSchoolBtn.addEventListener('click', () => {
+        clearVerifiedSchool(false);
+        udiseStatus.textContent = 'Enter your 11-digit Kotpad Block UDISE code to select another school.';
+        udiseStatus.className = 'udise-status hint';
+        udiseInput.focus();
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.udise-input-wrap')) {
+          udiseSuggestions.classList.remove('open');
+        }
+      });
+
+      // 6. Firebase Firestore Sync + Coordinator Export + Local Fallback + Confirmation Slip
+      const form = document.getElementById('registrationForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const errorBanner = document.getElementById('errorBanner');
+      const modal = document.getElementById('confirmationModal');
+      const slipRef = document.getElementById('slipRef');
+      const slipGrid = document.getElementById('slipGrid');
+      const slipPhotos = document.getElementById('slipPhotos');
+      const savedTeamsBox = document.getElementById('savedTeamsBox');
+      const savedList = document.getElementById('savedList');
+      const STORAGE_KEY = 'kotpad_science_rra_2026_registrations';
+
+      function loadSavedTeams() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        } catch {
+          return [];
+        }
+      }
+
+      function renderSavedTeams() {
+        const items = loadSavedTeams();
+        if (!items.length) {
+          savedTeamsBox.classList.remove('visible');
+          return;
+        }
+        savedTeamsBox.classList.add('visible');
+        savedList.innerHTML = items.map((entry) => `
+          <div class="saved-item">
+            <div>
+              <strong>${escapeHtml(entry.schoolName)}</strong>
+              <span style="color:#64748b; margin-left:6px;">(UDISE: ${escapeHtml(entry.udiseCode)} • ${escapeHtml(entry.ref)})</span>
+              <div style="font-size:0.82rem; color:#475569; margin-top:2px;">
+                ${escapeHtml(entry.theme)} • Students: ${escapeHtml(entry.s1Name)} &amp; ${escapeHtml(entry.s2Name)}
+              </div>
+            </div>
+            <span style="font-size:0.78rem; font-weight:600; color:#059669; background:#d1fae5; padding:4px 10px; border-radius:999px;">Registered</span>
+          </div>
+        `).join('');
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function downloadCsvFile(items, filename) {
+        if (!items || !items.length) return;
+        const headers = [
+          'Ref ID', 'UDISE Code', 'School Name', 'Cluster',
+          'Guide Teacher', 'Mobile', 'Theme', 'Project Title',
+          'Student 1 Name', 'Student 1 Class', 'Student 1 Gender', 'Student 1 Photo',
+          'Student 2 Name', 'Student 2 Class', 'Student 2 Gender', 'Student 2 Photo', 'Submitted At'
+        ];
+        const csvCell = (val) => `"${String(val || '').replace(/"/g, '""')}"`;
+        const rows = [
+          headers.map(csvCell).join(','),
+          ...items.map((r) => [
+            r.ref, r.udiseCode, r.schoolName, r.cluster || r.clusterName || '',
+            r.teacherName, r.teacherPhone, r.theme, r.projectTitle,
+            r.s1Name, r.s1Class, r.s1Gender, r.s1PhotoUrl || (r.s1PhotoData ? 'Attached (Inline)' : 'No'),
+            r.s2Name, r.s2Class, r.s2Gender, r.s2PhotoUrl || (r.s2PhotoData ? 'Attached (Inline)' : 'No'), r.submittedAt
+          ].map(csvCell).join(','))
+        ];
+        const blob = new Blob([rows.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      document.getElementById('exportCsvBtn').addEventListener('click', () => {
+        downloadCsvFile(loadSavedTeams(), 'kotpad-science-rra-local-registrations.csv');
+      });
+
+      document.getElementById('clearLocalBtn').addEventListener('click', () => {
+        localStorage.removeItem(STORAGE_KEY);
+        renderSavedTeams();
+      });
+
+      document.getElementById('resetBtn').addEventListener('click', () => {
+        errorBanner.classList.remove('visible');
+        clearVerifiedSchool(false);
+        clearEditableFormFields();
+        setEditableSectionsLocked(true);
+        teacherDetailsFields.classList.remove('form-section-locked');
+        declarationBox.classList.remove('form-section-locked');
+        submitRow.classList.remove('form-section-locked');
+        udiseStatus.textContent = 'Enter your 11-digit Kotpad Block UDISE code (starts with 212907 or 212917) to auto-fill School Name & Cluster.';
+        udiseStatus.className = 'udise-status hint';
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorBanner.classList.remove('visible');
+
+        const udiseCode = udiseInput.value.trim();
+        const schoolName = schoolNameInput.value.trim();
+        const clusterName = clusterNameInput.value.trim();
+        const teacherName = document.getElementById('teacherName').value.trim();
+        const teacherPhone = document.getElementById('teacherPhone').value.trim();
+        const theme = themeSelect.value.trim();
+        const projectTitle = document.getElementById('projectTitle').value.trim();
+        const s1Name = document.getElementById('s1Name').value.trim();
+        const s1Class = document.getElementById('s1Class').value;
+        const s1Gender = document.getElementById('s1Gender').value;
+        const s2Name = document.getElementById('s2Name').value.trim();
+        const s2Class = document.getElementById('s2Class').value;
+        const s2Gender = document.getElementById('s2Gender').value;
+        const declared = document.getElementById('declaration').checked;
+
+        if (pendingExistingRecord && (!editModeState.active || editModeState.udise !== udiseCode)) {
+          errorBanner.textContent = 'This school is already registered. Please verify the Guide Teacher 10-digit mobile number first to edit and update.';
+          errorBanner.classList.add('visible');
+          errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        const missing = [];
+        if (!verifiedSchool || !/^\d{11}$/.test(udiseCode)) {
+          missing.push('Valid 11-Digit School UDISE Number');
+        }
+        if (!schoolName) missing.push('School Name');
+        if (!clusterName) missing.push('Cluster Name');
+        if (!teacherName) missing.push('Guide Teacher Name');
+        if (!/^\d{10}$/.test(teacherPhone)) missing.push('Valid 10-digit Mobile Number');
+        if (!theme) missing.push('Competition Theme');
+        if (!projectTitle) missing.push('Project / Exhibit Title');
+        if (!s1Name || !s1Class || !s1Gender) missing.push('Student 1 Complete Details');
+        if (!s2Name || !s2Class || !s2Gender) missing.push('Student 2 Complete Details');
+        if (!declared) missing.push('School Confirmation Checkbox');
+
+        if (missing.length > 0) {
+          errorBanner.textContent = 'Please complete the required fields: ' + missing.join(', ') + '.';
+          errorBanner.classList.add('visible');
+          errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        const isEditUpdate = Boolean(editModeState.active && editModeState.udise === udiseCode && editModeState.existingRecord);
+        const refCode = isEditUpdate && editModeState.existingRecord.ref
+          ? editModeState.existingRecord.ref
+          : 'KTP-SCI-2026-' + String(Math.floor(1000 + Math.random() * 9000));
+
+        const record = {
+          ref: refCode,
+          schoolName,
+          udiseCode,
+          clusterName,
+          cluster: (verifiedSchool && verifiedSchool.c) ? verifiedSchool.c : clusterName,
+          manualSchool: Boolean(verifiedSchool && verifiedSchool.manual),
+          teacherName,
+          teacherPhone,
+          theme,
+          projectTitle,
+          s1Name,
+          s1Class,
+          s1Gender,
+          s2Name,
+          s2Class,
+          s2Gender,
+          submittedAt: new Date().toLocaleString()
+        };
+
+        submitBtn.disabled = true;
+        const originalBtnHtml = submitBtn.innerHTML;
+        submitBtn.textContent = isEditUpdate ? 'Updating in Firebase...' : 'Saving to Firebase...';
+
+        let savedPayload = { ...record };
+        if (window.firebasePortal && typeof window.firebasePortal.saveRegistration === 'function') {
+          try {
+            savedPayload = await window.firebasePortal.saveRegistration(
+              record,
+              { s1: photoState[1] || '', s2: photoState[2] || '' },
+              {
+                isEdit: isEditUpdate,
+                verifiedEditPhone: editModeState.verifiedPhone,
+                existing: editModeState.existingRecord,
+                photoRemoved: { ...photoRemoved }
+              }
+            );
+          } catch (err) {
+            console.error('Firebase save error:', err);
+            errorBanner.textContent = 'Could not save to Firebase (' + (err.message || 'Check Firestore rules & internet') + '). Please try again.';
+            errorBanner.classList.add('visible');
+            errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHtml;
+            return;
+          }
+        }
+
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+
+        const existingList = loadSavedTeams().filter((item) => item && item.udiseCode !== udiseCode);
+        existingList.unshift(savedPayload);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(existingList.slice(0, 50)));
+        renderSavedTeams();
+        refreshRegisteredSchoolNames(record.schoolName);
+
+        // Keep edit mode synchronized with latest saved values
+        if (isEditUpdate) {
+          editModeState.existingRecord = savedPayload;
+          editModeState.verifiedPhone = teacherPhone;
+          pendingExistingRecord = savedPayload;
+        } else {
+          pendingExistingRecord = savedPayload;
+          editModeState = {
+            active: true,
+            udise: udiseCode,
+            verifiedPhone: teacherPhone,
+            existingRecord: savedPayload
+          };
+          const labelEl = document.getElementById('submitBtnLabel');
+          if (labelEl) labelEl.textContent = 'Update Team Registration';
+        }
+
+        // Populate Modal Slip
+        document.getElementById('modalTitle').textContent = isEditUpdate ? 'Registration Updated!' : 'Registration Confirmed!';
+        slipRef.textContent = `REF ID: ${record.ref}`;
+        slipGrid.innerHTML = `
+          <div class="slip-cell"><span>School Name</span><strong>${escapeHtml(record.schoolName)}</strong></div>
+          <div class="slip-cell"><span>UDISE Code (Kotpad)</span><strong>${escapeHtml(record.udiseCode)}</strong></div>
+          <div class="slip-cell"><span>Cluster</span><strong>${escapeHtml(record.cluster || record.clusterName)}</strong></div>
+          <div class="slip-cell"><span>Selected Theme</span><strong>${escapeHtml(record.theme)}</strong></div>
+          <div class="slip-cell"><span>Project Title</span><strong>${escapeHtml(record.projectTitle)}</strong></div>
+          <div class="slip-cell"><span>Guide Teacher</span><strong>${escapeHtml(record.teacherName)} (${escapeHtml(record.teacherPhone)})</strong></div>
+          <div class="slip-cell"><span>Student 1</span><strong>${escapeHtml(record.s1Name)} — ${escapeHtml(record.s1Class)} (${escapeHtml(record.s1Gender)})</strong></div>
+          <div class="slip-cell"><span>Student 2</span><strong>${escapeHtml(record.s2Name)} — ${escapeHtml(record.s2Class)} (${escapeHtml(record.s2Gender)})</strong></div>
+        `;
+
+        const p1Preview = photoState[1] || (!photoRemoved[1] ? existingPhotoUrl[1] : '');
+        const p2Preview = photoState[2] || (!photoRemoved[2] ? existingPhotoUrl[2] : '');
+        slipPhotos.innerHTML = '';
+        if (p1Preview) {
+          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p1Preview}" alt="Student 1"><div><strong>Student 1 Photo</strong><div>Attached (Optional)</div></div></div>`;
+        }
+        if (p2Preview) {
+          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p2Preview}" alt="Student 2"><div><strong>Student 2 Photo</strong><div>Attached (Optional)</div></div></div>`;
+        }
+
+        modal.classList.add('open');
+      });
+
+      function closeModal() {
+        modal.classList.remove('open');
+      }
+      document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+      document.getElementById('modalDoneBtn').addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      renderSavedTeams();
+      refreshRegisteredSchoolNames();
+      window.addEventListener('firebasePortalReady', () => refreshRegisteredSchoolNames());
+    })();
+  </script>
+
+  <!-- FIREBASE MODULAR SDK (CONNECTED TO PROJECT: hostel-b5004) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      setDoc,
+      getDocs,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    import {
+      getStorage,
+      ref as storageRef,
+      uploadString,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAgQVEDj0rRZvO5uPKI0uNh18oo1LYtjqk",
+      authDomain: "hostel-b5004.firebaseapp.com",
+      projectId: "hostel-b5004",
+      storageBucket: "hostel-b5004.firebasestorage.app",
+      messagingSenderId: "530068839296",
+      appId: "1:530068839296:web:9b631cd781a4d19ed43f65"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+    const COLLECTION_NAME = "kotpad_exhibition_2026";
+
+    function sanitizeFilePart(str) {
+      return String(str || "")
+        .trim()
+        .replace(/[^a-zA-Z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "")
+        .slice(0, 32) || "Student";
+    }
+
+    function compressDataUrl(dataUrl, maxDim = 480, quality = 0.74) {
+      return new Promise((resolve) => {
+        if (!dataUrl) return resolve("");
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxDim || height > maxDim) {
+            if (width >= height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.onerror = () => resolve("");
+        img.src = dataUrl;
+      });
+    }
+
+    async function uploadOptionalPhoto(dataUrl, fileName) {
+      if (!dataUrl) return { url: "", inline: "", name: "" };
+      const compressed = await compressDataUrl(dataUrl);
+      if (!compressed) return { url: "", inline: "", name: "" };
+      const safeInline = compressed.length < 180000 ? compressed : "";
+      try {
+        const fileRef = storageRef(storage, `kotpad_exhibition_2026/${fileName}`);
+        await uploadString(fileRef, compressed, "data_url");
+        const downloadUrl = await getDownloadURL(fileRef);
+        return { url: downloadUrl, inline: safeInline, name: fileName };
+      } catch {
+        return { url: "", inline: safeInline, name: fileName };
+      }
+    }
+
+    window.firebasePortal = {
+      async getSchoolRegistration(udiseCode) {
+        const snap = await getDoc(doc(db, COLLECTION_NAME, udiseCode));
+        return snap.exists() ? snap.data() : null;
+      },
+
+      async saveRegistration(record, photos, editMeta = {}) {
+        const existing = editMeta.existing || null;
+        const removed = editMeta.photoRemoved || {};
+
+        let p1 = { url: "", inline: "", name: "" };
+        if (photos.s1) {
+          const f1 = `${record.udiseCode}_S1_${sanitizeFilePart(record.s1Name)}.jpg`;
+          p1 = await uploadOptionalPhoto(photos.s1, f1);
+        } else if (existing && !removed[1]) {
+          p1 = {
+            url: existing.s1PhotoUrl || "",
+            inline: existing.s1PhotoInline || "",
+            name: existing.s1PhotoName || ""
+          };
+        }
+
+        let p2 = { url: "", inline: "", name: "" };
+        if (photos.s2) {
+          const f2 = `${record.udiseCode}_S2_${sanitizeFilePart(record.s2Name)}.jpg`;
+          p2 = await uploadOptionalPhoto(photos.s2, f2);
+        } else if (existing && !removed[2]) {
+          p2 = {
+            url: existing.s2PhotoUrl || "",
+            inline: existing.s2PhotoInline || "",
+            name: existing.s2PhotoName || ""
+          };
+        }
+
+        const payload = {
+          ...record,
+          photoFolder: (p1.name || p2.name) ? "photos/" : "",
+          s1PhotoName: p1.name,
+          s1PhotoUrl: p1.url,
+          s1PhotoInline: p1.inline,
+          s2PhotoName: p2.name,
+          s2PhotoUrl: p2.url,
+          s2PhotoInline: p2.inline,
+          editAuthPhone: editMeta.isEdit ? String(editMeta.verifiedEditPhone || "") : String(record.teacherPhone || ""),
+          createdAtMs: (editMeta.isEdit && existing && existing.createdAtMs) ? existing.createdAtMs : Date.now(),
+          updatedAtMs: Date.now(),
+          updatedAt: serverTimestamp()
+        };
+
+        // Document ID = 11-digit UDISE code (1 clean team registration per school)
+        await setDoc(doc(db, COLLECTION_NAME, record.udiseCode), payload);
+        return payload;
+      },
+
+      async fetchRegisteredSchoolNames() {
+        const snap = await getDocs(collection(db, COLLECTION_NAME));
+        const names = [];
+        snap.forEach((docSnap) => {
+          const data = docSnap.data();
+          if (data && data.schoolName) {
+            names.push(String(data.schoolName).trim());
+          }
+        });
+        return names;
+      }
+    };
+    window.dispatchEvent(new CustomEvent("firebasePortalReady"));
+  </script>
+</body>
+</html>

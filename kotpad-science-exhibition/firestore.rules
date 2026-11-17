@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Kotpad Block Level Science & RRA Exhibition 2026 Registrations
+    match /kotpad_exhibition_2026/{udiseId} {
+      // Allows coordinator dashboard to read/export registered schools
+      allow read: if true;
+
+      // Allow valid 11-digit UDISE documents (Kotpad list or manual UDISE fallback)
+      // until end of registration window (23 Nov 2026 IST -> 2026-11-24T00:00:00Z).
+      // Updates require matching the existing Guide Teacher mobile number (editAuthPhone).
+      allow create: if udiseId.matches('^[0-9]{11}$')
+                    && request.resource.data.udiseCode == udiseId
+                    && request.time < timestamp.date(2026, 11, 25);
+
+      allow update: if udiseId.matches('^[0-9]{11}$')
+                    && request.resource.data.udiseCode == udiseId
+                    && request.resource.data.editAuthPhone == resource.data.teacherPhone
+                    && request.time < timestamp.date(2026, 11, 25);
+    }
+  }
+}
