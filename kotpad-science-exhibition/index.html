@@ -1,33 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="or">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad — Student Registration</title>
+  <title>ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼) — ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Noto+Sans+Oriya:wght@400;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f4f7fb;
+      --bg: #fffaf5;
       --surface: #ffffff;
-      --surface-muted: #f8fafc;
-      --ink: #0f172a;
-      --ink-muted: #475569;
-      --ink-subtle: #64748b;
-      --navy-950: #081126;
-      --navy-900: #0f1c3f;
-      --navy-800: #182b5c;
-      --teal-600: #0284c7;
-      --teal-500: #0ea5e9;
-      --emerald-600: #059669;
-      --emerald-500: #10b981;
+      --surface-muted: #fff7ed;
+      --ink: #1f1209;
+      --ink-muted: #5c4332;
+      --ink-subtle: #7c5c46;
+      --navy-950: #1a0f08;
+      --navy-900: #2b160a;
+      --navy-800: #45210e;
+      --teal-600: #ea580c;
+      --teal-500: #f97316;
+      --emerald-600: #c2410c;
+      --emerald-500: #fb923c;
       --amber-500: #f59e0b;
-      --amber-100: #fef3c7;
-      --amber-900: #78350f;
-      --rose-600: #e11d48;
-      --border: #e2e8f0;
-      --border-strong: #cbd5e1;
+      --amber-100: #ffedd5;
+      --amber-900: #9a3412;
+      --rose-600: #dc2626;
+      --border: #fed7aa;
+      --border-strong: #fdba74;
       --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
       --shadow-md: 0 10px 30px -8px rgba(15, 23, 42, 0.1);
       --shadow-lg: 0 20px 45px -12px rgba(8, 17, 38, 0.18);
@@ -46,7 +46,7 @@
 
     body {
       margin: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Noto Sans Oriya', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--bg);
       color: var(--ink);
       line-height: 1.6;
@@ -54,8 +54,8 @@
     }
 
     h1, h2, h3, h4 {
-      font-family: 'Outfit', 'Inter', sans-serif;
-      line-height: 1.2;
+      font-family: 'Noto Sans Oriya', 'Outfit', 'Inter', sans-serif;
+      line-height: 1.25;
       margin: 0;
     }
 
@@ -81,9 +81,9 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(8, 17, 38, 0.92);
+      background: rgba(26, 15, 8, 0.94);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(251, 146, 60, 0.2);
       color: #fff;
     }
 
@@ -106,11 +106,11 @@
       width: 40px;
       height: 40px;
       border-radius: 12px;
-      background: linear-gradient(135deg, var(--teal-500), var(--emerald-500));
+      background: linear-gradient(135deg, #f97316, #ea580c);
       display: grid;
       place-items: center;
       flex-shrink: 0;
-      box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
+      box-shadow: 0 6px 16px rgba(249, 115, 22, 0.38);
     }
 
     .brand-text {
@@ -157,16 +157,47 @@
     .nav-cta {
       padding: 9px 18px;
       border-radius: 999px;
-      background: linear-gradient(135deg, var(--teal-500), var(--emerald-500));
+      background: linear-gradient(135deg, #f97316, #ea580c);
       color: #fff !important;
       font-weight: 600 !important;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.38);
       transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
 
     .nav-cta:hover {
       transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.45);
+      box-shadow: 0 8px 20px rgba(234, 88, 12, 0.5);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .lang-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(251, 146, 60, 0.55);
+      background: rgba(249, 115, 22, 0.18);
+      color: #ffedd5;
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .lang-toggle-btn:hover {
+      background: rgba(249, 115, 22, 0.34);
+      border-color: rgba(253, 186, 116, 0.9);
+      color: #ffffff;
+      transform: translateY(-1px);
     }
 
     .menu-btn {
@@ -213,9 +244,9 @@
       display: flex;
       align-items: center;
       background:
-        radial-gradient(circle at 15% 20%, rgba(14, 165, 233, 0.26), transparent 45%),
-        radial-gradient(circle at 85% 20%, rgba(16, 185, 129, 0.22), transparent 42%),
-        radial-gradient(circle at 50% 90%, rgba(245, 158, 11, 0.14), transparent 40%),
+        radial-gradient(circle at 15% 20%, rgba(249, 115, 22, 0.34), transparent 46%),
+        radial-gradient(circle at 85% 20%, rgba(251, 146, 60, 0.25), transparent 42%),
+        radial-gradient(circle at 50% 90%, rgba(245, 158, 11, 0.18), transparent 40%),
         linear-gradient(155deg, var(--navy-950) 0%, var(--navy-900) 55%, var(--navy-800) 100%);
       color: #ffffff;
       padding: 48px 0 56px;
@@ -250,10 +281,10 @@
       padding: 7px 14px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(253, 186, 116, 0.35);
       font-size: 0.82rem;
       font-weight: 600;
-      color: #bae6fd;
+      color: #fed7aa;
       margin-bottom: 20px;
       letter-spacing: 0.02em;
     }
@@ -262,8 +293,8 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--emerald-500);
-      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25);
+      background: #fb923c;
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.3);
     }
 
     .hero h1 {
@@ -274,101 +305,102 @@
     }
 
     .hero h1 span.accent {
-      background: linear-gradient(90deg, #38bdf8, #34d399);
+      background: linear-gradient(90deg, #fdba74, #fb923c);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
-    .hero-deadline-box {
-      display: inline-flex;
+    .hero-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      width: 100%;
+      max-width: 720px;
+      margin-bottom: 28px;
+    }
+
+    .hero-meta-tile {
+      display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 6px;
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(253, 186, 116, 0.28);
       backdrop-filter: blur(12px);
       border-radius: var(--radius-md);
-      padding: 16px 24px;
-      margin-bottom: 28px;
-      width: 100%;
-      max-width: 460px;
+      padding: 14px 14px;
+      text-align: center;
     }
 
     .deadline-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 12px;
+      padding: 4px 11px;
       border-radius: 999px;
-      background: rgba(245, 158, 11, 0.2);
-      border: 1px solid rgba(245, 158, 11, 0.5);
-      color: #fcd34d;
-      font-size: 0.78rem;
+      background: rgba(249, 115, 22, 0.24);
+      border: 1px solid rgba(251, 146, 60, 0.55);
+      color: #fed7aa;
+      font-size: 0.74rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
 
     .deadline-date {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.75rem;
+      font-family: 'Noto Sans Oriya', 'Outfit', sans-serif;
+      font-size: 1.15rem;
       font-weight: 800;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
       color: #ffffff;
+      line-height: 1.3;
     }
 
-    .countdown-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      width: 100%;
-    }
-
-    .cd-box {
-      background: rgba(8, 17, 38, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
-      padding: 8px 4px;
-      text-align: center;
-    }
-
-    .cd-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #38bdf8;
-      display: block;
-    }
-
-    .cd-lbl {
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #94a3b8;
+    @media (max-width: 680px) {
+      .hero-meta-grid {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+      }
     }
 
     .hero-stack-actions {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       width: 100%;
-      max-width: 340px;
+      max-width: 420px;
     }
 
     .btn-hero-register {
       width: 100%;
-      padding: 16px 28px;
-      font-size: 1.08rem;
-      border-radius: 14px;
+      padding: 20px 36px;
+      font-size: 1.32rem;
+      font-weight: 800;
+      letter-spacing: 0.015em;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #ffffff;
+      border: 2px solid rgba(255, 237, 213, 0.45);
+      box-shadow: 0 14px 36px rgba(249, 115, 22, 0.48), 0 0 0 0 rgba(251, 146, 60, 0.55);
+      animation: ctaGlow 2.4s ease-in-out infinite;
     }
 
-    .btn-hero-more {
-      width: 100%;
-      padding: 12px 22px;
-      font-size: 0.94rem;
-      border-radius: 12px;
+    .btn-hero-register:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 18px 42px rgba(234, 88, 12, 0.65), 0 0 24px rgba(251, 146, 60, 0.5);
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+    }
+
+    @keyframes ctaGlow {
+      0%, 100% {
+        box-shadow: 0 14px 36px rgba(249, 115, 22, 0.45), 0 0 0 0 rgba(251, 146, 60, 0.5);
+      }
+      50% {
+        box-shadow: 0 16px 42px rgba(234, 88, 12, 0.62), 0 0 0 10px rgba(251, 146, 60, 0);
+      }
     }
 
     .collapsible-panel {
@@ -514,8 +546,8 @@
       height: 26px;
       padding: 0 6px;
       border-radius: 8px;
-      background: #ecfdf5;
-      color: #047857;
+      background: #ffedd5;
+      color: #c2410c;
       font-size: 0.78rem;
       font-weight: 700;
       flex-shrink: 0;
@@ -558,14 +590,14 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--teal-500), var(--emerald-500));
+      background: linear-gradient(135deg, #f97316, #ea580c);
       color: #fff;
-      box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+      box-shadow: 0 10px 25px rgba(249, 115, 22, 0.35);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(16, 185, 129, 0.45);
+      box-shadow: 0 14px 30px rgba(234, 88, 12, 0.45);
     }
 
     .btn-outline-light {
@@ -596,7 +628,7 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--teal-600);
-      background: #e0f2fe;
+      background: #ffedd5;
       padding: 5px 12px;
       border-radius: 999px;
       margin-bottom: 10px;
@@ -644,7 +676,7 @@
       place-items: center;
       margin-bottom: 14px;
       font-size: 1.25rem;
-      background: #eff6ff;
+      background: #fff7ed;
       color: var(--teal-600);
     }
 
@@ -694,9 +726,9 @@
     }
 
     .theme-card.selected {
-      border-color: var(--emerald-600);
-      background: #ecfdf5;
-      box-shadow: 0 10px 25px -8px rgba(5, 150, 105, 0.25);
+      border-color: var(--teal-600);
+      background: #fff7ed;
+      box-shadow: 0 10px 25px -8px rgba(234, 88, 12, 0.25);
     }
 
     .theme-top {
@@ -711,13 +743,13 @@
       font-size: 0.78rem;
       font-weight: 600;
       color: var(--teal-600);
-      background: #e0f2fe;
+      background: #ffedd5;
       padding: 4px 10px;
       border-radius: 999px;
     }
 
     .theme-card.selected .theme-num {
-      background: #d1fae5;
+      background: #fed7aa;
       color: var(--emerald-600);
     }
 
@@ -913,8 +945,8 @@
 
     /* UDISE Lookup & Verified School Card */
     .udise-lookup-panel {
-      background: linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 100%);
-      border: 1.5px solid #bae6fd;
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border: 1.5px solid #fdba74;
       border-radius: var(--radius-md);
       padding: 20px;
       margin-bottom: 18px;
@@ -1010,7 +1042,7 @@
       display: none;
       margin-top: 14px;
       background: #ffffff;
-      border: 1.5px solid #34d399;
+      border: 1.5px solid #fb923c;
       border-radius: 12px;
       padding: 14px 16px;
       box-shadow: var(--shadow-sm);
@@ -1035,8 +1067,8 @@
     }
 
     .already-reg-verify-box.unlocked {
-      background: #ecfdf5;
-      border-color: #10b981;
+      background: #fff7ed;
+      border-color: #f97316;
     }
 
     .verify-box-title {
@@ -1051,7 +1083,7 @@
     }
 
     .already-reg-verify-box.unlocked .verify-box-title {
-      color: #065f46;
+      color: #9a3412;
     }
 
     .verify-box-desc {
@@ -1062,7 +1094,7 @@
     }
 
     .already-reg-verify-box.unlocked .verify-box-desc {
-      color: #047857;
+      color: #c2410c;
       margin-bottom: 0;
     }
 
@@ -1134,8 +1166,8 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      background: #d1fae5;
-      color: #065f46;
+      background: #ffedd5;
+      color: #9a3412;
       padding: 4px 10px;
       border-radius: 999px;
     }
@@ -1317,16 +1349,16 @@
     }
 
     .btn-submit {
-      background: linear-gradient(135deg, var(--navy-900), var(--teal-600));
+      background: linear-gradient(135deg, #f97316, #ea580c);
       color: #ffffff;
       padding: 14px 28px;
       font-size: 1rem;
-      box-shadow: 0 10px 24px rgba(2, 132, 199, 0.25);
+      box-shadow: 0 10px 24px rgba(234, 88, 12, 0.32);
     }
 
     .btn-submit:hover {
       transform: translateY(-1px);
-      box-shadow: 0 14px 28px rgba(2, 132, 199, 0.35);
+      box-shadow: 0 14px 28px rgba(234, 88, 12, 0.45);
     }
 
     .btn-secondary {
@@ -1356,76 +1388,167 @@
       display: block;
     }
 
-    /* ================= COMMITTEE PLACEHOLDER ================= */
+    /* ================= OFFICIAL COMMITTEES DIRECTORY ================= */
     .committee-section {
       background: #ffffff;
       border-top: 1px solid var(--border);
     }
 
-    .committee-notice {
-      max-width: 720px;
-      margin: 0 auto 30px;
-      background: var(--amber-100);
-      border: 1px solid #fcd34d;
-      color: var(--amber-900);
-      border-radius: 14px;
-      padding: 14px 18px;
+    .president-card {
+      max-width: 760px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+      border: 2px solid #fb923c;
+      border-radius: 18px;
+      padding: 20px 24px;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-align: center;
+      justify-content: space-between;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
     }
 
-    .committee-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-    }
-
-    .committee-card {
-      background: var(--surface-muted);
-      border: 1.5px dashed var(--border-strong);
-      border-radius: var(--radius-md);
-      padding: 24px 18px;
-      text-align: center;
-    }
-
-    .avatar-placeholder {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: #e2e8f0;
-      color: #64748b;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 14px;
-      font-size: 1.4rem;
-    }
-
-    .committee-role {
-      font-size: 0.78rem;
+    .president-badge {
+      display: inline-block;
+      font-size: 0.76rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: var(--teal-600);
+      background: #ea580c;
+      color: #ffffff;
+      padding: 4px 12px;
+      border-radius: 999px;
       margin-bottom: 6px;
     }
 
-    .committee-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 4px;
+    .president-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--navy-900);
+      margin-bottom: 2px;
     }
 
-    .committee-details {
-      font-size: 0.83rem;
-      color: var(--ink-subtle);
+    .president-sub {
+      font-size: 0.88rem;
+      color: var(--ink-muted);
       margin: 0;
+    }
+
+    .committees-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .committee-search-input {
+      flex: 1 1 280px;
+      max-width: 440px;
+      padding: 11px 16px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border-strong);
+      font-family: inherit;
+      font-size: 0.92rem;
+      background: #ffffff;
+      color: var(--ink);
+    }
+
+    .committee-search-input:focus {
+      outline: none;
+      border-color: var(--teal-500);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.16);
+    }
+
+    .committees-directory-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .comm-dir-card {
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .comm-dir-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comm-dir-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: #ea580c;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .comm-dir-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy-900);
+      line-height: 1.3;
+    }
+
+    .comm-dir-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 0.86rem;
+      color: var(--ink);
+      display: grid;
+      gap: 5px;
+    }
+
+    .comm-dir-note {
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      background: #ffffff;
+      border-left: 3px solid #f97316;
+      padding: 7px 10px;
+      border-radius: 6px;
+      margin: 0;
+    }
+
+    .comm-duty-banner {
+      margin-top: 24px;
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1024px) {
+      .committees-directory-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .committees-directory-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* ================= REGISTERED TEAMS LOG (LOCAL) ================= */
@@ -1506,9 +1629,9 @@
     .slip-ref {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.92rem;
-      background: #f0fdf4;
+      background: #fff7ed;
       color: var(--emerald-600);
-      border: 1px solid #bbf7d0;
+      border: 1px solid #fed7aa;
       padding: 8px 12px;
       border-radius: 8px;
       display: inline-block;
@@ -1698,82 +1821,75 @@
           </svg>
         </div>
         <div class="brand-text">
-          <span class="brand-title">Kotpad Science &amp; RRA Exhibition</span>
-          <span class="brand-sub">Block Level • Upper Primary Registration</span>
+          <span class="brand-title" data-i18n="brandTitle">କୋଟପାଡ଼ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ ୨୦୨୬–୨୭</span>
+          <span class="brand-sub" data-i18n="brandSub">ବ୍ଲକ ଶିକ୍ଷା କାର୍ଯ୍ୟାଳୟ, କୋଟପାଡ଼ • ଷଷ୍ଠ–ଦ୍ୱାଦଶ ଶ୍ରେଣୀ</span>
         </div>
       </a>
 
-      <nav class="nav-links" aria-label="Primary Navigation">
-        <button type="button" class="nav-cta" id="navRegisterBtn" style="border:none; cursor:pointer; font-family:inherit; font-size:0.9rem;">Register Now</button>
-      </nav>
+      <div class="nav-right">
+        <button type="button" class="lang-toggle-btn" id="langToggleBtn" aria-label="Switch language">
+          🌐 <span id="langToggleLabel">English</span>
+        </button>
 
-      <button class="menu-btn" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <line x1="3" y1="12" x2="21" y2="12"/>
-          <line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
-      </button>
+        <nav class="nav-links" aria-label="Primary Navigation">
+          <button type="button" class="nav-cta" id="navRegisterBtn" data-i18n="registerNowBtn" style="border:none; cursor:pointer; font-family:inherit; font-size:0.9rem;">ଏବେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ</button>
+        </nav>
+
+        <button class="menu-btn" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div class="mobile-drawer" id="mobileDrawer">
-      <a href="#register" class="drawer-link" id="drawerRegisterLink">Register School Team</a>
-      <a href="#moreDetails" class="drawer-link" id="drawerMoreLink">More Details (Guidelines, Themes &amp; Management Committee)</a>
+      <a href="#register" class="drawer-link" id="drawerRegisterLink" data-i18n="drawerRegister">ବିଦ୍ୟାଳୟ ଦଳ ପଞ୍ଜୀକରଣ କରନ୍ତୁ</a>
+      <a href="#moreDetails" class="drawer-link" id="drawerMoreLink" data-i18n="drawerMore">ବିସ୍ତୃତ ବିବରଣୀ (ନିୟମାବଳୀ, ବିଷୟବସ୍ତୁ ଏବଂ ପରିଚାଳନା କମିଟି)</a>
     </div>
   </header>
 
-  <!-- HERO (ONLY EXHIBITION NAME, DEADLINE, REGISTER BUTTON & MORE BUTTON) -->
+  <!-- HERO (EXHIBITION NAME, LAST DATE & EYE-CATCHY REGISTER BUTTON) -->
   <section class="hero" id="top">
     <div class="hero-grid-bg" aria-hidden="true"></div>
     <div class="container">
       <div class="hero-center">
         <div class="joint-badge">
           <span class="joint-dot"></span>
-          Kotpad Block • Combined Student Registration Portal
+          <span data-i18n="heroBadge">କୋଟପାଡ଼ ବ୍ଲକ • ମିଳିତ ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ ପୋର୍ଟାଲ</span>
         </div>
 
-        <h1>
-          Block Level <span class="accent">Science Exhibition</span> &amp;
-          <span class="accent">RRA Exhibition</span>, Kotpad
+        <h1 data-i18n-html="heroTitle">
+          ବ୍ଲକ ସ୍ତରୀୟ <span class="accent">ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ</span>, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)
         </h1>
 
-        <div class="hero-deadline-box" aria-label="Registration Deadline">
-          <span class="deadline-pill">Last Date of Registration</span>
-          <div class="deadline-date">23 / 11 / 2026</div>
-          <div class="countdown-grid" id="countdownGrid" aria-live="polite">
-            <div class="cd-box">
-              <span class="cd-num" id="cdDays">--</span>
-              <span class="cd-lbl">Days</span>
-            </div>
-            <div class="cd-box">
-              <span class="cd-num" id="cdHours">--</span>
-              <span class="cd-lbl">Hours</span>
-            </div>
-            <div class="cd-box">
-              <span class="cd-num" id="cdMins">--</span>
-              <span class="cd-lbl">Mins</span>
-            </div>
-            <div class="cd-box">
-              <span class="cd-num" id="cdSecs">--</span>
-              <span class="cd-lbl">Secs</span>
-            </div>
+        <div class="hero-meta-grid" aria-label="Exhibition Schedule and Venue">
+          <div class="hero-meta-tile">
+            <span class="deadline-pill" data-i18n="lastDatePill">ପଞ୍ଜୀକରଣର ଶେଷ ତାରିଖ</span>
+            <div class="deadline-date">23 / 11 / 2026</div>
+          </div>
+          <div class="hero-meta-tile">
+            <span class="deadline-pill" data-i18n="exhDatePill">ପ୍ରଦର୍ଶନୀ ତାରିଖ ଓ ସମୟ</span>
+            <div class="deadline-date" data-i18n="exhDateVal">25 / 11 / 2026 (ସକାଳ ୮:୩୦)</div>
+          </div>
+          <div class="hero-meta-tile">
+            <span class="deadline-pill" data-i18n="venuePill">ପ୍ରଦର୍ଶନୀ ସ୍ଥାନ</span>
+            <div class="deadline-date" data-i18n="venueVal">ସରକାରୀ ଉଚ୍ଚ ବିଦ୍ୟାଳୟ, କୋଟପାଡ଼</div>
           </div>
         </div>
 
         <div class="hero-stack-actions">
-          <button type="button" class="btn btn-primary btn-hero-register" id="heroRegisterBtn">
-            Register Now
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <button type="button" class="btn btn-hero-register" id="heroRegisterBtn">
+            <span data-i18n="registerNowBtn">ଏବେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
             </svg>
           </button>
 
-          <button type="button" class="btn btn-outline-light btn-hero-more" id="heroMoreBtn" aria-expanded="false" aria-controls="moreDetails">
-            More Details (Guidelines, Themes &amp; Management Committee) ↓
-          </button>
-
           <button type="button" class="btn-hero-registered-link" id="heroRegisteredBtn" aria-expanded="false" aria-controls="registeredNamesSection">
-            Already Registered Schools (<span id="heroRegCount">0</span>)
+            <span data-i18n="alreadyRegBtn">ପୂର୍ବରୁ ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟ</span> (<span id="heroRegCount">0</span>)
           </button>
         </div>
       </div>
@@ -1785,56 +1901,56 @@
     <div class="container">
       <div class="reg-names-header">
         <div>
-          <span class="section-tag">Live Participation Directory</span>
-          <h2 class="section-title" id="registeredNamesHeading" style="margin-bottom:6px;">Already Registered Schools</h2>
-          <p class="section-subtitle" style="margin:0;">Only registered school names (Kotpad Block) are displayed here.</p>
+          <span class="section-tag" data-i18n="regDirTag">ଲାଇଭ୍ ଅଂଶଗ୍ରହଣ ତାଲିକା</span>
+          <h2 class="section-title" id="registeredNamesHeading" data-i18n="regDirHeading" style="margin-bottom:6px;">ପୂର୍ବରୁ ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟ</h2>
+          <p class="section-subtitle" data-i18n="regDirSub" style="margin:0;">ଏଠାରେ କେବଳ ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟଗୁଡ଼ିକର ନାମ (କୋଟପାଡ଼ ବ୍ଲକ) ପ୍ରଦର୍ଶିତ ହୋଇଛି।</p>
         </div>
         <div class="reg-names-controls">
-          <span class="reg-count-pill"><strong id="regNamesTotal">0</strong> Schools Registered</span>
-          <input type="search" id="regNameSearch" class="reg-name-search" placeholder="Search school name..." aria-label="Search registered school name" />
-          <button type="button" class="btn-refresh-names" id="refreshRegNamesBtn" title="Refresh list">Refresh</button>
+          <span class="reg-count-pill"><strong id="regNamesTotal">0</strong> <span data-i18n="schoolsRegSuffix">ଟି ବିଦ୍ୟାଳୟ ପଞ୍ଜୀକୃତ</span></span>
+          <input type="search" id="regNameSearch" class="reg-name-search" data-i18n-placeholder="regSearchPh" placeholder="ବିଦ୍ୟାଳୟର ନାମ ଖୋଜନ୍ତୁ..." aria-label="Search registered school name" />
+          <button type="button" class="btn-refresh-names" id="refreshRegNamesBtn" data-i18n="refreshBtn" title="Refresh list">ରିଫ୍ରେଶ୍</button>
         </div>
       </div>
-      <div id="registeredNamesStatus" class="reg-names-status">Loading registered schools...</div>
+      <div id="registeredNamesStatus" class="reg-names-status">Loading...</div>
       <div id="registeredNamesGrid" class="registered-names-grid"></div>
     </div>
   </section>
 
-  <!-- MORE DETAILS (HIDDEN UNTIL "MORE DETAILS" IS CLICKED) -->
-  <div id="moreDetails" class="collapsible-panel">
+  <!-- EXHIBITION DETAILS (SHOWN DOWN THE PAGE: GUIDELINES, 6 THEMES & MANAGEMENT COMMITTEE) -->
+  <div id="moreDetails">
 
   <!-- GUIDELINES -->
   <section id="guidelines">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow">Important Rules</span>
-        <h2>Enrollment Guidelines for Schools</h2>
-        <p>Please review these key requirements before completing the team registration form below.</p>
+        <span class="section-eyebrow" data-i18n="guideEyebrow">ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ନିୟମାବଳୀ</span>
+        <h2 data-i18n="guideHeading">ବିଦ୍ୟାଳୟଗୁଡ଼ିକ ପାଇଁ ପଞ୍ଜୀକରଣ ମାର୍ଗଦର୍ଶିକା</h2>
+        <p data-i18n="guideSub">ତଳେ ଥିବା ଦଳଗତ ପଞ୍ଜୀକରଣ ଫର୍ମ ପୂରଣ କରିବା ପୂର୍ବରୁ ଏହି ମୁଖ୍ୟ ନିୟମଗୁଡ଼ିକ ପଢ଼ନ୍ତୁ।</p>
       </div>
 
       <div class="guidelines-grid">
         <article class="guide-card">
           <div class="guide-icon">🏫</div>
-          <h3>Upper Primary Schools</h3>
-          <p>All Upper Primary Schools under Kotpad Block must enroll in this combined Science &amp; RRA Exhibition.</p>
+          <h3 data-i18n="g1Title">ଉଚ୍ଚ ପ୍ରାଥମିକ, ହାଇସ୍କୁଲ ଓ ଉଚ୍ଚ ମାଧ୍ୟମିକ</h3>
+          <p data-i18n-html="g1Desc">କୋଟପାଡ଼ ବ୍ଲକର ସମସ୍ତ <strong>ଉଚ୍ଚ ପ୍ରାଥମିକ, ଉଚ୍ଚ ବିଦ୍ୟାଳୟ ଏବଂ ଉଚ୍ଚ ମାଧ୍ୟମିକ ବିଦ୍ୟାଳୟ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)</strong> ଏଥିରେ ଅଂଶଗ୍ରହଣ କରିପାରିବେ। ପ୍ରାଥମିକ ଶ୍ରେଣୀ (୧ମ–୫ମ) ଅନ୍ତର୍ଭୁକ୍ତ ନୁହେଁ।</p>
         </article>
 
         <article class="guide-card">
           <div class="guide-icon">👥</div>
-          <h3>2 Students Per Team</h3>
-          <p>Each participating school must register exactly <strong>2 students</strong> together with a guide teacher.</p>
+          <h3 data-i18n="g2Title">ପ୍ରତି ଦଳରେ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ</h3>
+          <p data-i18n-html="g2Desc">ପ୍ରତ୍ୟେକ ଅଂଶଗ୍ରହଣକାରୀ ବିଦ୍ୟାଳୟ ଜଣେ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ସହ ଠିକ୍ <strong>୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ</strong>ଙ୍କୁ ପଞ୍ଜୀକରଣ କରିବେ।</p>
         </article>
 
         <article class="guide-card">
           <div class="guide-icon">🔬</div>
-          <h3>Choose 1 of 6 Themes</h3>
-          <p>Select one theme from the 6 official competition themes and prepare an original working model or exhibit.</p>
+          <h3 data-i18n="g3Title">୬ଟି ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ୧ଟି ବାଛନ୍ତୁ</h3>
+          <p data-i18n="g3Desc">୬ଟି ସରକାରୀ ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ଗୋଟିଏ ବାଛନ୍ତୁ ଏବଂ ଏକ ମୌଳିକ କାର୍ଯ୍ୟକାରୀ ମଡେଲ୍ କିମ୍ବା ପ୍ରକଳ୍ପ ପ୍ରସ୍ତୁତ କରନ୍ତୁ।</p>
         </article>
 
         <article class="guide-card">
           <div class="guide-icon">📷</div>
-          <h3>Photo Copy Optional</h3>
-          <p>Uploading a participant photo or photocopy is <strong>optional</strong>. You may attach it now or submit without photos.</p>
+          <h3 data-i18n="g4Title">ଫଟୋ କପି ବୈକଳ୍ପିକ (Optional)</h3>
+          <p data-i18n-html="g4Desc">ଅଂଶଗ୍ରହଣକାରୀଙ୍କ ଫଟୋ କିମ୍ବା ଫଟୋକପି ଅପଲୋଡ୍ କରିବା <strong>ବୈକଳ୍ପିକ</strong> ଅଟେ। ଆପଣ ଫଟୋ ସହ କିମ୍ବା ବିନା ଫଟୋରେ ଦାଖଲ କରିପାରିବେ।</p>
         </article>
       </div>
     </div>
@@ -1844,133 +1960,122 @@
   <section class="themes-section" id="themes">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow">Competition Categories</span>
-        <h2>6 Themes of the Exhibition</h2>
-        <p>Tap any theme card below to automatically select it in the registration form.</p>
+        <span class="section-eyebrow" data-i18n="themesEyebrow">ପ୍ରତିଯୋଗିତା ବିଭାଗ</span>
+        <h2 data-i18n="themesHeading">ପ୍ରଦର୍ଶନୀର ୬ଟି ବିଷୟବସ୍ତୁ (Themes)</h2>
+        <p data-i18n="themesSub">ପଞ୍ଜୀକରଣ ଫର୍ମରେ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ବାଛିବା ପାଇଁ ତଳୁ ଯେକୌଣସି ବିଷୟବସ୍ତୁ କାର୍ଡ ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ।</p>
       </div>
 
-      <!-- NOTE: You can easily customize these 6 theme titles and descriptions if your block circular specifies custom wording. -->
       <div class="themes-grid" id="themesGrid">
         <button type="button" class="theme-card" data-theme="Theme 1: Food, Health &amp; Hygiene">
           <div>
             <div class="theme-top">
-              <span class="theme-num">THEME 01</span>
+              <span class="theme-num" data-i18n="t1Badge">ବିଷୟବସ୍ତୁ 01</span>
               <span class="theme-emoji" aria-hidden="true">🥗</span>
             </div>
-            <h3>Food, Health &amp; Hygiene</h3>
-            <p>Balanced nutrition, safe drinking water, sanitation practices, and low-cost community health innovations.</p>
+            <h3 data-i18n="t1Title">ଖାଦ୍ୟ, ସ୍ୱାସ୍ଥ୍ୟ ଏବଂ ସ୍ୱଚ୍ଛତା</h3>
+            <p data-i18n="t1Desc">ସନ୍ତୁଳିତ ପୁଷ୍ଟି, ବିଶୁଦ୍ଧ ପାନୀୟ ଜଳ, ପରିମଳ ବ୍ୟବସ୍ଥା ଏବଂ ସ୍ୱଳ୍ପ ଖର୍ଚ୍ଚର ଗୋଷ୍ଠୀ ସ୍ୱାସ୍ଥ୍ୟ ଉଦ୍ଭାବନ।</p>
           </div>
-          <span class="theme-select-hint">Select this theme →</span>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
         </button>
 
         <button type="button" class="theme-card" data-theme="Theme 2: Transport &amp; Communication">
           <div>
             <div class="theme-top">
-              <span class="theme-num">THEME 02</span>
+              <span class="theme-num" data-i18n="t2Badge">ବିଷୟବସ୍ତୁ 02</span>
               <span class="theme-emoji" aria-hidden="true">🚆</span>
             </div>
-            <h3>Transport &amp; Communication</h3>
-            <p>Smart road safety, eco-friendly transport models, rural connectivity, and accessible communication aids.</p>
+            <h3 data-i18n="t2Title">ପରିବହନ ଏବଂ ଯୋଗାଯୋଗ</h3>
+            <p data-i18n="t2Desc">ସ୍ମାର୍ଟ ସଡ଼କ ସୁରକ୍ଷା, ପରିବେଶ ଅନୁକୂଳ ପରିବହନ ମଡେଲ୍, ଗ୍ରାମୀଣ ସଂଯୋଗୀକରଣ ଏବଂ ସୁଗମ ଯୋଗାଯୋଗ ସାଧନ।</p>
           </div>
-          <span class="theme-select-hint">Select this theme →</span>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
         </button>
 
         <button type="button" class="theme-card" data-theme="Theme 3: Natural Farming &amp; Agriculture">
           <div>
             <div class="theme-top">
-              <span class="theme-num">THEME 03</span>
+              <span class="theme-num" data-i18n="t3Badge">ବିଷୟବସ୍ତୁ 03</span>
               <span class="theme-emoji" aria-hidden="true">🌱</span>
             </div>
-            <h3>Natural Farming &amp; Agriculture</h3>
-            <p>Organic soil enrichment, rainwater irrigation, crop protection, and sustainable farming tools for Kotpad.</p>
+            <h3 data-i18n="t3Title">ପ୍ରାକୃତିକ କୃଷି ଏବଂ ଚାଷ</h3>
+            <p data-i18n="t3Desc">ଜୈବିକ ମୃତ୍ତିକା ଉର୍ବରତା, ବର୍ଷାଜଳ ଜଳସେଚନ, ଫସଲ ସୁରକ୍ଷା ଏବଂ କୋଟପାଡ଼ ପାଇଁ ସ୍ଥାୟୀ କୃଷି ଉପକରଣ।</p>
           </div>
-          <span class="theme-select-hint">Select this theme →</span>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
         </button>
 
         <button type="button" class="theme-card" data-theme="Theme 4: Disaster Management &amp; Safety">
           <div>
             <div class="theme-top">
-              <span class="theme-num">THEME 04</span>
+              <span class="theme-num" data-i18n="t4Badge">ବିଷୟବସ୍ତୁ 04</span>
               <span class="theme-emoji" aria-hidden="true">🛡️</span>
             </div>
-            <h3>Disaster Management &amp; Safety</h3>
-            <p>Early flood/fire alert models, safe shelter designs, emergency preparedness, and community resilience.</p>
+            <h3 data-i18n="t4Title">ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା ଏବଂ ସୁରକ୍ଷା</h3>
+            <p data-i18n="t4Desc">ବନ୍ୟା/ଅଗ୍ନି ଆଗୁଆ ସତର୍କତା ମଡେଲ୍, ସୁରକ୍ଷିତ ଆଶ୍ରୟସ୍ଥଳ ଡିଜାଇନ୍, ଜରୁରୀକାଳୀନ ପ୍ରସ୍ତୁତି ଏବଂ ସୁରକ୍ଷା।</p>
           </div>
-          <span class="theme-select-hint">Select this theme →</span>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
         </button>
 
         <button type="button" class="theme-card" data-theme="Theme 5: Mathematical Modeling &amp; Computational Thinking">
           <div>
             <div class="theme-top">
-              <span class="theme-num">THEME 05</span>
+              <span class="theme-num" data-i18n="t5Badge">ବିଷୟବସ୍ତୁ 05</span>
               <span class="theme-emoji" aria-hidden="true">📐</span>
             </div>
-            <h3>Mathematical Modeling &amp; Logic</h3>
-            <p>Geometry in real life, hands-on math teaching aids, pattern logic, and everyday problem-solving models.</p>
+            <h3 data-i18n="t5Title">ଗାଣିତିକ ମଡେଲିଂ ଏବଂ ତର୍କଶକ୍ତି</h3>
+            <p data-i18n="t5Desc">ଦୈନନ୍ଦିନ ଜୀବନରେ ଜ୍ୟାମିତି, ହାତକରା ଗଣିତ ଶିକ୍ଷଣ ଉପକରଣ, ପ୍ୟାଟର୍ଣ୍ଣ ତର୍କ ଏବଂ ସମସ୍ୟା ସମାଧାନ ମଡେଲ୍।</p>
           </div>
-          <span class="theme-select-hint">Select this theme →</span>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
         </button>
 
         <button type="button" class="theme-card" data-theme="Theme 6: Waste Management &amp; Green Energy">
           <div>
             <div class="theme-top">
-              <span class="theme-num">THEME 06</span>
+              <span class="theme-num" data-i18n="t6Badge">ବିଷୟବସ୍ତୁ 06</span>
               <span class="theme-emoji" aria-hidden="true">☀️</span>
             </div>
-            <h3>Waste Management &amp; Green Energy</h3>
-            <p>Plastic-to-utility recycling, solar/wind micro-models, composting systems, and clean energy conservation.</p>
+            <h3 data-i18n="t6Title">ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା ଏବଂ ସବୁଜ ଶକ୍ତି</h3>
+            <p data-i18n="t6Desc">ପ୍ଲାଷ୍ଟିକ୍ ପୁନଃଚକ୍ରଣ, ସୌର/ବାୟୁ କ୍ଷୁଦ୍ର ମଡେଲ୍, କମ୍ପୋଷ୍ଟିଂ ପ୍ରଣାଳୀ ଏବଂ ସ୍ୱଚ୍ଛ ଶକ୍ତି ସଂରକ୍ଷଣ।</p>
           </div>
-          <span class="theme-select-hint">Select this theme →</span>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
         </button>
       </div>
     </div>
   </section>
 
-  <!-- MANAGEMENT COMMITTEE (PART OF MORE DETAILS) -->
+  <!-- OFFICIAL EXHIBITION COMMITTEES (BEO KOTPAD OFFICE ORDER) -->
   <section class="committee-section" id="committee">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow">Management Body</span>
-        <h2>Exhibition Management Committee</h2>
-        <p>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad</p>
+        <span class="section-eyebrow" data-i18n="commEyebrow">ବ୍ଲକ ଶିକ୍ଷା କାର୍ଯ୍ୟାଳୟ, କୋଟପାଡ଼</span>
+        <h2 data-i18n="commHeading">ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ ପରିଚାଳନା ଓ ବିଭିନ୍ନ କମିଟି</h2>
+        <p data-i18n="commSub">ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ • ସରକାରୀ ଉଚ୍ଚ ବିଦ୍ୟାଳୟ, କୋଟପାଡ଼</p>
       </div>
 
-      <div class="committee-notice">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink:0;">
-          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-        </svg>
-        <span>Management committee member names, designations, and contact details will be updated here shortly.</span>
+      <div class="president-card">
+        <div>
+          <span class="president-badge" data-i18n="presBadge">ସଭାପତି / ଅଧ୍ୟକ୍ଷା (President)</span>
+          <div class="president-name" data-i18n="presName">ଶ୍ରୀମତୀ ସବିତା ରାଣୀ ଷଡ଼ଙ୍ଗୀ — ବ୍ଲକ ଶିକ୍ଷା ଅଧିକାରୀ (BEO), କୋଟପାଡ଼</div>
+          <p class="president-sub" data-i18n="presSub">ବ୍ଲକ ଶିକ୍ଷା କାର୍ଯ୍ୟାଳୟ, କୋଟପାଡ଼ (ଜିଲ୍ଲା - କୋରାପୁଟ, ପିନ୍ - ୭୬୪୦୫୮ • Email: beokotpad@gmail.com)</p>
+        </div>
       </div>
 
-      <!-- TODO: Replace placeholder names and details below with actual committee members in the future -->
-      <div class="committee-grid">
-        <article class="committee-card">
-          <div class="avatar-placeholder" aria-hidden="true">👤</div>
-          <div class="committee-role">Chairperson / Patron</div>
-          <div class="committee-name">Name to be Announced</div>
-          <p class="committee-details">Designation &amp; Contact details will be added soon</p>
-        </article>
+      <div class="committees-toolbar">
+        <input
+          type="search"
+          id="committeeSearchInput"
+          class="committee-search-input"
+          data-i18n-placeholder="commSearchPh"
+          placeholder="ଶିକ୍ଷକ, ବିଦ୍ୟାଳୟ କିମ୍ବା କମିଟି ନାମ ଖୋଜନ୍ତୁ..."
+          aria-label="Search committee or teacher name"
+        />
+        <span class="reg-count-pill" style="background:#ffedd5; color:#9a3412;">
+          <strong id="committeeMatchCount">15</strong> <span data-i18n="commCountSuffix">ଟି କମିଟି</span>
+        </span>
+      </div>
 
-        <article class="committee-card">
-          <div class="avatar-placeholder" aria-hidden="true">👤</div>
-          <div class="committee-role">Block Science Coordinator</div>
-          <div class="committee-name">Name to be Announced</div>
-          <p class="committee-details">Designation &amp; Contact details will be added soon</p>
-        </article>
+      <div id="committeesDirectoryGrid" class="committees-directory-grid"></div>
 
-        <article class="committee-card">
-          <div class="avatar-placeholder" aria-hidden="true">👤</div>
-          <div class="committee-role">RRA Exhibition Coordinator</div>
-          <div class="committee-name">Name to be Announced</div>
-          <p class="committee-details">Designation &amp; Contact details will be added soon</p>
-        </article>
-
-        <article class="committee-card">
-          <div class="avatar-placeholder" aria-hidden="true">👤</div>
-          <div class="committee-role">Jury &amp; Technical Member</div>
-          <div class="committee-name">Name to be Announced</div>
-          <p class="committee-details">Designation &amp; Contact details will be added soon</p>
-        </article>
+      <div class="comm-duty-banner" data-i18n-html="commDutyNote">
+        <strong>ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ସୂଚନା:</strong> ଉପରୋକ୍ତ ସମସ୍ତ ଶିକ୍ଷକ ଓ କମିଟି ସଦସ୍ୟମାନେ <strong>୨୫.୧୧.୨୦୨୬ (ବୁଧବାର) ସକାଳ ୮:୩୦ ଘଟିକାରେ</strong> ପ୍ରଦର୍ଶନୀ ସ୍ଥଳ (<strong>ସରକାରୀ ଉଚ୍ଚ ବିଦ୍ୟାଳୟ, କୋଟପାଡ଼</strong>) ରେ ନିଶ୍ଚିତ ଭାବେ ଉପସ୍ଥିତ ରହି ଦାୟିତ୍ୱ ନିର୍ବାହ କରିବେ। ସମ୍ପୃକ୍ତ ପ୍ରଧାନଶିକ୍ଷକମାନେ ବିଦ୍ୟାଳୟର ସ୍ୱାଭାବିକ ପାଠପଢ଼ା ବାଧିତ ନହେବା ଭଳି ଶିକ୍ଷକମାନଙ୍କୁ କାର୍ଯ୍ୟମୁକ୍ତ (relieve) କରିବେ।
       </div>
     </div>
   </section>
@@ -1980,20 +2085,20 @@
   <section id="register" class="collapsible-panel">
     <div class="container">
       <div class="section-header">
-        <span class="section-eyebrow">School &amp; Student Enrollment</span>
-        <h2>Student Registration Form</h2>
-        <p>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad — Last Date: <strong>23/11/2026</strong></p>
+        <span class="section-eyebrow" data-i18n="regEyebrow">ବିଦ୍ୟାଳୟ ଏବଂ ଛାତ୍ରଛାତ୍ରୀ ନାମଲେଖା</span>
+        <h2 data-i18n="regHeading">ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ ଫର୍ମ</h2>
+        <p data-i18n-html="regSub">ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼) — ଶେଷ ତାରିଖ: <strong>23/11/2026</strong></p>
       </div>
 
       <div class="form-wrapper">
         <div class="form-banner">
           <div>
-            <h3>Upper Primary School Team Registration</h3>
-            <p>2 Students per School • Choose 1 Theme • Participant Photo Copy Optional</p>
+            <h3 data-i18n="formBannerTitle">ବିଦ୍ୟାଳୟ ଦଳ ପଞ୍ଜୀକରଣ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)</h3>
+            <p data-i18n="formBannerSub">ଉଚ୍ଚ ପ୍ରାଥମିକ, ହାଇସ୍କୁଲ ଓ ଉଚ୍ଚ ମାଧ୍ୟମିକ (୧ମ–୫ମ ବ୍ୟତୀତ) • ୨ ଛାତ୍ରଛାତ୍ରୀ • ୧ ବିଷୟବସ୍ତୁ • ଫଟୋ ବୈକଳ୍ପିକ</p>
           </div>
           <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-            <button type="button" class="btn-change-school" id="inlineMoreBtn" style="background:rgba(255,255,255,0.14); color:#fff; border-color:rgba(255,255,255,0.28);">View 6 Themes &amp; Rules</button>
-            <div class="form-deadline-chip">Last Date: 23 / 11 / 2026</div>
+            <button type="button" class="btn-change-school" id="inlineMoreBtn" data-i18n="viewThemesBtn" style="background:rgba(255,255,255,0.14); color:#fff; border-color:rgba(255,255,255,0.28);">୬ଟି ବିଷୟବସ୍ତୁ ଓ ନିୟମ ଦେଖନ୍ତୁ</button>
+            <div class="form-deadline-chip" data-i18n="formDeadlineChip">ଶେଷ ତାରିଖ: 23 / 11 / 2026</div>
           </div>
         </div>
 
@@ -2004,13 +2109,13 @@
           <div class="form-block">
             <div class="block-title">
               <span class="step-badge">1</span>
-              Enter School UDISE Number (Kotpad Block Only)
+              <span data-i18n="step1Title">ବିଦ୍ୟାଳୟର UDISE ନମ୍ବର ଦିଅନ୍ତୁ (କୋଟପାଡ଼ ବ୍ଲକ)</span>
             </div>
 
             <div class="udise-lookup-panel">
               <div class="form-grid-2">
                 <div class="field">
-                  <label for="udiseCode">1. Enter 11-Digit School UDISE Number <span class="req">*</span></label>
+                  <label for="udiseCode" data-i18n-html="udiseLabel">1. ୧୧-ଅଙ୍କ ବିଶିଷ୍ଟ ବିଦ୍ୟାଳୟ UDISE ନମ୍ବର ଦିଅନ୍ତୁ <span class="req">*</span></label>
                   <div class="udise-input-wrap">
                     <input
                       type="text"
@@ -2020,7 +2125,8 @@
                       inputmode="numeric"
                       maxlength="11"
                       autocomplete="off"
-                      placeholder="Type UDISE e.g. 21290700201"
+                      data-i18n-placeholder="udisePh"
+                      placeholder="UDISE ଟାଇପ୍ କରନ୍ତୁ ଯେପରି 21290700201"
                       required
                     />
                     <div class="autocomplete-list" id="udiseSuggestions" role="listbox" aria-label="Matching Kotpad Schools"></div>
@@ -2028,34 +2134,34 @@
                 </div>
 
                 <div class="field">
-                  <label for="schoolSelect">Or Select Kotpad School Name <span class="req">*</span></label>
+                  <label for="schoolSelect" data-i18n-html="schoolSelectLabel">କିମ୍ବା କୋଟପାଡ଼ ବିଦ୍ୟାଳୟର ନାମ ବାଛନ୍ତୁ <span class="req">*</span></label>
                   <select id="schoolSelect" name="schoolSelect">
-                    <option value="">-- Select School from Kotpad Block (177) --</option>
+                    <option value="" data-i18n="schoolSelectDefault">-- କୋଟପାଡ଼ ବ୍ଲକରୁ ବିଦ୍ୟାଳୟ ବାଛନ୍ତୁ (177) --</option>
                   </select>
                 </div>
               </div>
 
-              <div class="udise-status hint" id="udiseStatus">
-                Enter your 11-digit Kotpad Block UDISE code (starts with 212907 or 212917) to auto-fill School Name &amp; Cluster.
+              <div class="udise-status hint" id="udiseStatus" data-i18n="udiseHint">
+                ବିଦ୍ୟାଳୟର ନାମ ଏବଂ କ୍ଲଷ୍ଟର ସ୍ୱୟଂଚାଳିତ ଭାବେ ପୂରଣ ହେବା ପାଇଁ ୧୧-ଅଙ୍କର UDISE କୋଡ୍ ଦିଅନ୍ତୁ।
               </div>
 
               <div class="school-verified-card" id="schoolVerifiedCard" aria-live="polite">
                 <div class="verified-header">
-                  <span class="verified-pill">✓ Verified Kotpad Block School</span>
-                  <button type="button" class="btn-change-school" id="changeSchoolBtn">Change School</button>
+                  <span class="verified-pill" data-i18n="verifiedPill">✓ ଯାଞ୍ଚ ହୋଇଥିବା କୋଟପାଡ଼ ବ୍ଲକ ବିଦ୍ୟାଳୟ</span>
+                  <button type="button" class="btn-change-school" id="changeSchoolBtn" data-i18n="changeSchoolBtn">ବିଦ୍ୟାଳୟ ବଦଳାନ୍ତୁ</button>
                 </div>
                 <h4 class="verified-school-title" id="verifiedSchoolTitle">—</h4>
                 <div class="verified-meta-row">
-                  <span><strong>UDISE:</strong> <span id="verifiedUdise">—</span></span>
-                  <span><strong>Block:</strong> KOTPAD</span>
-                  <span><strong>Cluster:</strong> <span id="verifiedCluster">—</span></span>
+                  <span><strong data-i18n="metaUdise">UDISE:</strong> <span id="verifiedUdise">—</span></span>
+                  <span><strong data-i18n="metaBlock">ବ୍ଲକ:</strong> KOTPAD</span>
+                  <span><strong data-i18n="metaCluster">କ୍ଲଷ୍ଟର:</strong> <span id="verifiedCluster">—</span></span>
                 </div>
               </div>
 
               <div class="already-reg-verify-box" id="alreadyRegisteredVerifyBox" aria-live="polite">
-                <h4 class="verify-box-title" id="verifyBoxTitle">🔒 School Already Registered — Verify to Edit</h4>
-                <p class="verify-box-desc" id="verifyBoxDesc">
-                  This school has already submitted a registration. For safety, enter the registered Guide Teacher's 10-digit mobile number to view and update your details.
+                <h4 class="verify-box-title" id="verifyBoxTitle" data-i18n="verifyBoxTitleLocked">🔒 ବିଦ୍ୟାଳୟ ପୂର୍ବରୁ ପଞ୍ଜୀକୃତ — ସମ୍ପାଦନା ପାଇଁ ଯାଞ୍ଚ କରନ୍ତୁ</h4>
+                <p class="verify-box-desc" id="verifyBoxDesc" data-i18n="verifyBoxDescLocked">
+                  ଏହି ବିଦ୍ୟାଳୟ ପୂର୍ବରୁ ପଞ୍ଜୀକରଣ କରିସାରିଛି। ସୁରକ୍ଷା ପାଇଁ ତଥ୍ୟ ଦେଖିବା ଓ ଅପଡେଟ୍ କରିବାକୁ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର ଦିଅନ୍ତୁ।
                 </p>
                 <div class="verify-phone-row" id="verifyPhoneRow">
                   <input
@@ -2064,10 +2170,11 @@
                     class="verify-phone-input"
                     inputmode="numeric"
                     maxlength="10"
-                    placeholder="Enter 10-digit Guide Teacher mobile"
+                    data-i18n-placeholder="verifyPhonePh"
+                    placeholder="ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ଦିଅନ୍ତୁ"
                     aria-label="Guide Teacher 10-digit mobile number for edit verification"
                   />
-                  <button type="button" class="btn-verify-edit" id="verifyEditBtn">Verify &amp; Load Details</button>
+                  <button type="button" class="btn-verify-edit" id="verifyEditBtn" data-i18n="verifyEditBtn">ଯାଞ୍ଚ କରନ୍ତୁ ଓ ତଥ୍ୟ ଖୋଲନ୍ତୁ</button>
                 </div>
                 <div class="verify-edit-status" id="verifyEditStatus"></div>
               </div>
@@ -2075,23 +2182,23 @@
 
             <div class="form-grid-2" id="teacherDetailsFields">
               <div class="field">
-                <label for="schoolName" id="schoolNameLabel">Auto-Detected School Name <span class="req">*</span></label>
-                <input type="text" id="schoolName" name="schoolName" placeholder="Will auto-fill from UDISE (or type manually if not listed)" readonly disabled required />
+                <label for="schoolName" id="schoolNameLabel" data-i18n-html="schoolNameAutoLabel">ସ୍ୱୟଂଚାଳିତ ବିଦ୍ୟାଳୟ ନାମ <span class="req">*</span></label>
+                <input type="text" id="schoolName" name="schoolName" data-i18n-placeholder="schoolNameIdlePh" placeholder="UDISE ରୁ ସ୍ୱୟଂଚାଳିତ ଭାବେ ଆସିବ (ନଚେତ୍ ମାନୁଆଲ୍ ଲେଖନ୍ତୁ)" readonly disabled required />
               </div>
 
               <div class="field">
-                <label for="clusterName" id="clusterNameLabel">Cluster <span class="req">*</span></label>
-                <input type="text" id="clusterName" name="clusterName" placeholder="Will auto-fill from UDISE (or type manually if not listed)" readonly disabled required />
+                <label for="clusterName" id="clusterNameLabel" data-i18n-html="clusterAutoLabel">କ୍ଲଷ୍ଟର (Cluster) <span class="req">*</span></label>
+                <input type="text" id="clusterName" name="clusterName" data-i18n-placeholder="clusterIdlePh" placeholder="UDISE ରୁ ସ୍ୱୟଂଚାଳିତ ଭାବେ ଆସିବ (ନଚେତ୍ ମାନୁଆଲ୍ ଲେଖନ୍ତୁ)" readonly disabled required />
               </div>
 
               <div class="field">
-                <label for="teacherName">Guide Teacher / Escort Name <span class="req">*</span></label>
-                <input type="text" id="teacherName" name="teacherName" placeholder="Full Name of Guide Teacher" required />
+                <label for="teacherName" data-i18n-html="teacherNameLabel">ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକ / ଶିକ୍ଷୟିତ୍ରୀଙ୍କ ନାମ <span class="req">*</span></label>
+                <input type="text" id="teacherName" name="teacherName" data-i18n-placeholder="teacherNamePh" placeholder="ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ନାମ" required />
               </div>
 
               <div class="field">
-                <label for="teacherPhone">Guide Teacher Mobile Number <span class="req">*</span></label>
-                <input type="tel" id="teacherPhone" name="teacherPhone" placeholder="10-digit mobile number" maxlength="10" pattern="[0-9]{10}" required />
+                <label for="teacherPhone" data-i18n-html="teacherPhoneLabel">ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର <span class="req">*</span></label>
+                <input type="tel" id="teacherPhone" name="teacherPhone" data-i18n-placeholder="teacherPhonePh" placeholder="୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର" maxlength="10" pattern="[0-9]{10}" required />
               </div>
             </div>
           </div>
@@ -2100,26 +2207,26 @@
           <div class="form-block form-section-locked" id="step2Block">
             <div class="block-title">
               <span class="step-badge">2</span>
-              Competition Theme &amp; Exhibit Details
+              <span data-i18n="step2Title">ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ଏବଂ ପ୍ରକଳ୍ପ ବିବରଣୀ</span>
             </div>
 
             <div class="form-grid-2">
               <div class="field full">
-                <label for="selectedTheme">Choose Competition Theme (1 of 6) <span class="req">*</span></label>
+                <label for="selectedTheme" data-i18n-html="selectThemeLabel">ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୬ଟି ମଧ୍ୟରୁ ୧ଟି) <span class="req">*</span></label>
                 <select id="selectedTheme" name="selectedTheme" required>
-                  <option value="">-- Select a Theme --</option>
-                  <option value="Theme 1: Food, Health &amp; Hygiene">Theme 1: Food, Health &amp; Hygiene</option>
-                  <option value="Theme 2: Transport &amp; Communication">Theme 2: Transport &amp; Communication</option>
-                  <option value="Theme 3: Natural Farming &amp; Agriculture">Theme 3: Natural Farming &amp; Agriculture</option>
-                  <option value="Theme 4: Disaster Management &amp; Safety">Theme 4: Disaster Management &amp; Safety</option>
-                  <option value="Theme 5: Mathematical Modeling &amp; Computational Thinking">Theme 5: Mathematical Modeling &amp; Computational Thinking</option>
-                  <option value="Theme 6: Waste Management &amp; Green Energy">Theme 6: Waste Management &amp; Green Energy</option>
+                  <option value="" data-i18n="optThemeDefault">-- ଏକ ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ --</option>
+                  <option value="Theme 1: Food, Health &amp; Hygiene" data-i18n="optTheme1">ବିଷୟବସ୍ତୁ ୧: ଖାଦ୍ୟ, ସ୍ୱାସ୍ଥ୍ୟ ଏବଂ ସ୍ୱଚ୍ଛତା</option>
+                  <option value="Theme 2: Transport &amp; Communication" data-i18n="optTheme2">ବିଷୟବସ୍ତୁ ୨: ପରିବହନ ଏବଂ ଯୋଗାଯୋଗ</option>
+                  <option value="Theme 3: Natural Farming &amp; Agriculture" data-i18n="optTheme3">ବିଷୟବସ୍ତୁ ୩: ପ୍ରାକୃତିକ କୃଷି ଏବଂ ଚାଷ</option>
+                  <option value="Theme 4: Disaster Management &amp; Safety" data-i18n="optTheme4">ବିଷୟବସ୍ତୁ ୪: ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା ଏବଂ ସୁରକ୍ଷା</option>
+                  <option value="Theme 5: Mathematical Modeling &amp; Computational Thinking" data-i18n="optTheme5">ବିଷୟବସ୍ତୁ ୫: ଗାଣିତିକ ମଡେଲିଂ ଏବଂ ତର୍କଶକ୍ତି</option>
+                  <option value="Theme 6: Waste Management &amp; Green Energy" data-i18n="optTheme6">ବିଷୟବସ୍ତୁ ୬: ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା ଏବଂ ସବୁଜ ଶକ୍ତି</option>
                 </select>
               </div>
 
               <div class="field full">
-                <label for="projectTitle">Project / Exhibit Title <span class="req">*</span></label>
-                <input type="text" id="projectTitle" name="projectTitle" placeholder="e.g., Solar-Powered Rainwater Filtration Unit" required />
+                <label for="projectTitle" data-i18n-html="projectTitleLabel">ପ୍ରକଳ୍ପ / ମଡେଲର ଶୀର୍ଷକ <span class="req">*</span></label>
+                <input type="text" id="projectTitle" name="projectTitle" data-i18n-placeholder="projectTitlePh" placeholder="ଯେପରି: ସୌରଚାଳିତ ବର୍ଷାଜଳ ବିଶୋଧନ ଯନ୍ତ୍ର" required />
               </div>
             </div>
           </div>
@@ -2128,52 +2235,56 @@
           <div class="form-block form-section-locked" id="step3Block">
             <div class="block-title">
               <span class="step-badge">3</span>
-              Participant Details (2 Students Mandatory per School)
+              <span data-i18n="step3Title">ଅଂଶଗ୍ରହଣକାରୀ ବିବରଣୀ (ପ୍ରତି ବିଦ୍ୟାଳୟରୁ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ ବାଧ୍ୟତାମୂଳକ)</span>
             </div>
 
             <div class="students-split">
               <!-- Student 1 -->
               <div class="student-panel">
                 <div class="student-panel-head">
-                  <h4>Student Participant 1</h4>
-                  <span class="student-badge">Required</span>
+                  <h4 data-i18n="s1PanelHead">ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ୧</h4>
+                  <span class="student-badge" data-i18n="requiredBadge">ବାଧ୍ୟତାମୂଳକ</span>
                 </div>
                 <div class="student-fields">
                   <div class="field">
-                    <label for="s1Name">Student 1 Full Name <span class="req">*</span></label>
-                    <input type="text" id="s1Name" name="s1Name" placeholder="Enter full name" required />
+                    <label for="s1Name" data-i18n-html="s1NameLabel">ଛାତ୍ର/ଛାତ୍ରୀ ୧ ର ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span></label>
+                    <input type="text" id="s1Name" name="s1Name" data-i18n-placeholder="studentNamePh" placeholder="ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ" required />
                   </div>
 
                   <div class="form-grid-2">
                     <div class="field">
-                      <label for="s1Class">Class <span class="req">*</span></label>
+                      <label for="s1Class" data-i18n-html="classLabel">ଶ୍ରେଣୀ <span class="req">*</span></label>
                       <select id="s1Class" name="s1Class" required>
-                        <option value="">Select</option>
-                        <option value="Class VI">Class VI</option>
-                        <option value="Class VII">Class VII</option>
-                        <option value="Class VIII">Class VIII</option>
+                        <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
+                        <option value="Class VI" data-i18n="cls6">ଷଷ୍ଠ ଶ୍ରେଣୀ (Class VI)</option>
+                        <option value="Class VII" data-i18n="cls7">ସପ୍ତମ ଶ୍ରେଣୀ (Class VII)</option>
+                        <option value="Class VIII" data-i18n="cls8">ଅଷ୍ଟମ ଶ୍ରେଣୀ (Class VIII)</option>
+                        <option value="Class IX" data-i18n="cls9">ନବମ ଶ୍ରେଣୀ (Class IX)</option>
+                        <option value="Class X" data-i18n="cls10">ଦଶମ ଶ୍ରେଣୀ (Class X)</option>
+                        <option value="Class XI" data-i18n="cls11">ଏକାଦଶ ଶ୍ରେଣୀ (Class XI)</option>
+                        <option value="Class XII" data-i18n="cls12">ଦ୍ୱାଦଶ ଶ୍ରେଣୀ (Class XII)</option>
                       </select>
                     </div>
 
                     <div class="field">
-                      <label for="s1Gender">Gender <span class="req">*</span></label>
+                      <label for="s1Gender" data-i18n-html="genderLabel">ଲିଙ୍ଗ <span class="req">*</span></label>
                       <select id="s1Gender" name="s1Gender" required>
-                        <option value="">Select</option>
-                        <option value="Female">Female</option>
-                        <option value="Male">Male</option>
-                        <option value="Other">Other</option>
+                        <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
+                        <option value="Female" data-i18n="genF">ଛାତ୍ରୀ (Female)</option>
+                        <option value="Male" data-i18n="genM">ଛାତ୍ର (Male)</option>
+                        <option value="Other" data-i18n="genO">ଅନ୍ୟାନ୍ୟ (Other)</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="field">
-                    <label for="s1Photo">Participant 1 Photo / Photo Copy <span class="opt-tag">Optional</span></label>
+                    <label for="s1Photo" data-i18n-html="s1PhotoLabel">ଅଂଶଗ୍ରହଣକାରୀ ୧ ଫଟୋ / ଫଟୋ କପି <span class="opt-tag">ବୈକଳ୍ପିକ</span></label>
                     <div class="photo-drop">
                       <input type="file" id="s1Photo" name="s1Photo" accept="image/*" />
                       <div class="photo-preview-wrap" id="s1PreviewWrap">
                         <img src="" alt="Student 1 Photo Preview" class="photo-thumb" id="s1Thumb" />
                         <span class="photo-meta" id="s1FileName"></span>
-                        <button type="button" class="btn-clear-photo" data-clear="1">Remove</button>
+                        <button type="button" class="btn-clear-photo" data-clear="1" data-i18n="removeBtn">ବାହାର କରନ୍ତୁ</button>
                       </div>
                     </div>
                   </div>
@@ -2183,45 +2294,49 @@
               <!-- Student 2 -->
               <div class="student-panel">
                 <div class="student-panel-head">
-                  <h4>Student Participant 2</h4>
-                  <span class="student-badge">Required</span>
+                  <h4 data-i18n="s2PanelHead">ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ୨</h4>
+                  <span class="student-badge" data-i18n="requiredBadge">ବାଧ୍ୟତାମୂଳକ</span>
                 </div>
                 <div class="student-fields">
                   <div class="field">
-                    <label for="s2Name">Student 2 Full Name <span class="req">*</span></label>
-                    <input type="text" id="s2Name" name="s2Name" placeholder="Enter full name" required />
+                    <label for="s2Name" data-i18n-html="s2NameLabel">ଛାତ୍ର/ଛାତ୍ରୀ ୨ ର ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span></label>
+                    <input type="text" id="s2Name" name="s2Name" data-i18n-placeholder="studentNamePh" placeholder="ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ" required />
                   </div>
 
                   <div class="form-grid-2">
                     <div class="field">
-                      <label for="s2Class">Class <span class="req">*</span></label>
+                      <label for="s2Class" data-i18n-html="classLabel">ଶ୍ରେଣୀ <span class="req">*</span></label>
                       <select id="s2Class" name="s2Class" required>
-                        <option value="">Select</option>
-                        <option value="Class VI">Class VI</option>
-                        <option value="Class VII">Class VII</option>
-                        <option value="Class VIII">Class VIII</option>
+                        <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
+                        <option value="Class VI" data-i18n="cls6">ଷଷ୍ଠ ଶ୍ରେଣୀ (Class VI)</option>
+                        <option value="Class VII" data-i18n="cls7">ସପ୍ତମ ଶ୍ରେଣୀ (Class VII)</option>
+                        <option value="Class VIII" data-i18n="cls8">ଅଷ୍ଟମ ଶ୍ରେଣୀ (Class VIII)</option>
+                        <option value="Class IX" data-i18n="cls9">ନବମ ଶ୍ରେଣୀ (Class IX)</option>
+                        <option value="Class X" data-i18n="cls10">ଦଶମ ଶ୍ରେଣୀ (Class X)</option>
+                        <option value="Class XI" data-i18n="cls11">ଏକାଦଶ ଶ୍ରେଣୀ (Class XI)</option>
+                        <option value="Class XII" data-i18n="cls12">ଦ୍ୱାଦଶ ଶ୍ରେଣୀ (Class XII)</option>
                       </select>
                     </div>
 
                     <div class="field">
-                      <label for="s2Gender">Gender <span class="req">*</span></label>
+                      <label for="s2Gender" data-i18n-html="genderLabel">ଲିଙ୍ଗ <span class="req">*</span></label>
                       <select id="s2Gender" name="s2Gender" required>
-                        <option value="">Select</option>
-                        <option value="Female">Female</option>
-                        <option value="Male">Male</option>
-                        <option value="Other">Other</option>
+                        <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
+                        <option value="Female" data-i18n="genF">ଛାତ୍ରୀ (Female)</option>
+                        <option value="Male" data-i18n="genM">ଛାତ୍ର (Male)</option>
+                        <option value="Other" data-i18n="genO">ଅନ୍ୟାନ୍ୟ (Other)</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="field">
-                    <label for="s2Photo">Participant 2 Photo / Photo Copy <span class="opt-tag">Optional</span></label>
+                    <label for="s2Photo" data-i18n-html="s2PhotoLabel">ଅଂଶଗ୍ରହଣକାରୀ ୨ ଫଟୋ / ଫଟୋ କପି <span class="opt-tag">ବୈକଳ୍ପିକ</span></label>
                     <div class="photo-drop">
                       <input type="file" id="s2Photo" name="s2Photo" accept="image/*" />
                       <div class="photo-preview-wrap" id="s2PreviewWrap">
                         <img src="" alt="Student 2 Photo Preview" class="photo-thumb" id="s2Thumb" />
                         <span class="photo-meta" id="s2FileName"></span>
-                        <button type="button" class="btn-clear-photo" data-clear="2">Remove</button>
+                        <button type="button" class="btn-clear-photo" data-clear="2" data-i18n="removeBtn">ବାହାର କରନ୍ତୁ</button>
                       </div>
                     </div>
                   </div>
@@ -2232,15 +2347,15 @@
 
           <label class="declaration-box" id="declarationBox">
             <input type="checkbox" id="declaration" required />
-            <span>
-              I confirm that the above 2 students are bonafide students of our Upper Primary School in Kotpad Block and are nominated for the combined <strong>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad</strong> before the deadline of <strong>23/11/2026</strong>.
+            <span data-i18n-html="declarationText">
+              ମୁଁ ନିଶ୍ଚିତ କରୁଛି ଯେ ଉପରୋକ୍ତ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ) କୋଟପାଡ଼ ବ୍ଲକ ସ୍ଥିତ ଆମ ବିଦ୍ୟାଳୟର ନିୟମିତ ଛାତ୍ରଛାତ୍ରୀ ଅଟନ୍ତି ଏବଂ ଶେଷ ତାରିଖ <strong>23/11/2026</strong> ପୂର୍ବରୁ <strong>ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)</strong> ପାଇଁ ମନୋନୀତ ହୋଇଛନ୍ତି।
             </span>
           </label>
 
           <div class="submit-row" id="submitRow">
-            <button type="reset" class="btn btn-secondary" id="resetBtn">Reset Form</button>
+            <button type="reset" class="btn btn-secondary" id="resetBtn" data-i18n="resetBtn">ଫର୍ମ ପୁନଃସେଟ୍ କରନ୍ତୁ</button>
             <button type="submit" class="btn btn-submit" id="submitBtn">
-              <span id="submitBtnLabel">Submit Team Registration</span>
+              <span id="submitBtnLabel">ଦଳ ପଞ୍ଜୀକରଣ ଦାଖଲ କରନ୍ତୁ</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
@@ -2252,10 +2367,10 @@
       <!-- Recent submissions saved locally in browser -->
       <div class="saved-teams-box" id="savedTeamsBox">
         <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-          <h3 style="font-size:1.08rem;">Submitted Teams on This Device</h3>
+          <h3 style="font-size:1.08rem;" data-i18n="savedTeamsTitle">ଏହି ଡିଭାଇସ୍‌ରେ ଦାଖଲ ହୋଇଥିବା ଦଳ</h3>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button type="button" class="btn-change-school" id="exportCsvBtn">Export Excel / CSV</button>
-            <button type="button" class="btn-clear-photo" id="clearLocalBtn">Clear Local List</button>
+            <button type="button" class="btn-change-school" id="exportCsvBtn" data-i18n="exportCsvBtn">Excel / CSV ଡାଉନଲୋଡ୍</button>
+            <button type="button" class="btn-clear-photo" id="clearLocalBtn" data-i18n="clearLocalBtn">ତାଲିକା ସଫା କରନ୍ତୁ</button>
           </div>
         </div>
         <div class="saved-list" id="savedList"></div>
@@ -2267,11 +2382,11 @@
   <footer>
     <div class="container footer-inner">
       <div class="footer-brand">
-        <strong>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad</strong>
-        <span>Upper Primary School Student Registration Portal • Last Date: 23/11/2026</span>
+        <strong data-i18n="footerTitle">ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)</strong>
+        <span data-i18n="footerSub">ବିଦ୍ୟାଳୟ ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ ପୋର୍ଟାଲ (ଷଷ୍ଠ – ଦ୍ୱାଦଶ ଶ୍ରେଣୀ) • ଶେଷ ତାରିଖ: 23/11/2026</span>
       </div>
       <div>
-        <a href="#top" style="color:#38bdf8; font-weight:600;">Back to Top ↑</a>
+        <a href="#top" data-i18n="backToTop" style="color:#fb923c; font-weight:600;">ଉପରକୁ ଯାଆନ୍ତୁ ↑</a>
       </div>
     </div>
   </footer>
@@ -2281,8 +2396,8 @@
     <div class="modal-card">
       <div class="modal-head">
         <div>
-          <h3 id="modalTitle" style="font-size:1.3rem;">Registration Confirmed!</h3>
-          <p style="margin:2px 0 0; font-size:0.86rem; opacity:0.92;">Block Level Science Exhibition &amp; RRA Exhibition, Kotpad</p>
+          <h3 id="modalTitle" style="font-size:1.3rem;">ପଞ୍ଜୀକରଣ ନିଶ୍ଚିତ ହେଲା!</h3>
+          <p data-i18n="modalSub" style="margin:2px 0 0; font-size:0.86rem; opacity:0.92;">ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)</p>
         </div>
         <button type="button" id="closeModalBtn" aria-label="Close modal" style="background:rgba(255,255,255,0.18); border:none; color:#fff; width:34px; height:34px; border-radius:8px; cursor:pointer; font-size:1.1rem;">✕</button>
       </div>
@@ -2295,8 +2410,8 @@
         <div class="slip-photos" id="slipPhotos"></div>
 
         <div class="modal-actions">
-          <button type="button" class="btn btn-secondary" id="modalDoneBtn">Close</button>
-          <button type="button" class="btn btn-primary" onclick="window.print()">Print / Save Slip</button>
+          <button type="button" class="btn btn-secondary" id="modalDoneBtn" data-i18n="closeBtn">ବନ୍ଦ କରନ୍ତୁ</button>
+          <button type="button" class="btn btn-primary" onclick="window.print()" data-i18n="printBtn">ପ୍ରିଣ୍ଟ / ସେଭ୍ କରନ୍ତୁ</button>
         </div>
       </div>
     </div>
@@ -2304,14 +2419,440 @@
 
   <script>
     (function () {
-      // 1. Focused Landing Controls (Register vs More Details) + Mobile Drawer
+      // 0. Bilingual Dictionary (Default: Odia 'or', Toggle: English 'en')
+      const I18N = {
+        or: {
+          pageTitle: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼) — ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ',
+          langBtnText: 'English',
+          brandTitle: 'କୋଟପାଡ଼ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ ୨୦୨୬–୨୭',
+          brandSub: 'ବ୍ଲକ ଶିକ୍ଷା କାର୍ଯ୍ୟାଳୟ, କୋଟପାଡ଼ • ଷଷ୍ଠ–ଦ୍ୱାଦଶ ଶ୍ରେଣୀ',
+          registerNowBtn: 'ଏବେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ',
+          drawerRegister: 'ବିଦ୍ୟାଳୟ ଦଳ ପଞ୍ଜୀକରଣ କରନ୍ତୁ',
+          drawerMore: 'ବିସ୍ତୃତ ବିବରଣୀ (ନିୟମାବଳୀ, ବିଷୟବସ୍ତୁ ଏବଂ ପରିଚାଳନା କମିଟି)',
+          heroBadge: 'କୋଟପାଡ଼ ବ୍ଲକ • ମିଳିତ ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ ପୋର୍ଟାଲ',
+          heroTitle: 'ବ୍ଲକ ସ୍ତରୀୟ <span class="accent">ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ</span>, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)',
+          lastDatePill: 'ପଞ୍ଜୀକରଣର ଶେଷ ତାରିଖ',
+          exhDatePill: 'ପ୍ରଦର୍ଶନୀ ତାରିଖ ଓ ସମୟ',
+          exhDateVal: '25 / 11 / 2026 (ସକାଳ ୮:୩୦)',
+          venuePill: 'ପ୍ରଦର୍ଶନୀ ସ୍ଥାନ',
+          venueVal: 'ସରକାରୀ ଉଚ୍ଚ ବିଦ୍ୟାଳୟ, କୋଟପାଡ଼',
+          alreadyRegBtn: 'ପୂର୍ବରୁ ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟ',
+          regDirTag: 'ଲାଇଭ୍ ଅଂଶଗ୍ରହଣ ତାଲିକା',
+          regDirHeading: 'ପୂର୍ବରୁ ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟ',
+          regDirSub: 'ଏଠାରେ କେବଳ ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟଗୁଡ଼ିକର ନାମ (କୋଟପାଡ଼ ବ୍ଲକ) ପ୍ରଦର୍ଶିତ ହୋଇଛି।',
+          schoolsRegSuffix: 'ଟି ବିଦ୍ୟାଳୟ ପଞ୍ଜୀକୃତ',
+          regSearchPh: 'ବିଦ୍ୟାଳୟର ନାମ ଖୋଜନ୍ତୁ...',
+          refreshBtn: 'ରିଫ୍ରେଶ୍',
+          regLoading: 'ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟ ତାଲିକା ଲୋଡ୍ ହେଉଛି...',
+          regEmpty: 'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ବିଦ୍ୟାଳୟ ପଞ୍ଜୀକରଣ କରିନାହାଁନ୍ତି। ପ୍ରଥମେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ!',
+          regNoMatch: 'ଆପଣ ଖୋଜୁଥିବା ନାମ ସହ କୌଣସି ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟ ମିଳିଲା ନାହିଁ।',
+          regShowingAll: 'ମୋଟ {total} ଟି ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟ ଦେଖାଯାଉଛି (କେବଳ ନାମ)।',
+          regShowingFiltered: '{total} ଟି ମଧ୍ୟରୁ {count} ଟି ପଞ୍ଜୀକୃତ ବିଦ୍ୟାଳୟ ଦେଖାଯାଉଛି (କେବଳ ନାମ)।',
+          guideEyebrow: 'ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ନିୟମାବଳୀ',
+          guideHeading: 'ବିଦ୍ୟାଳୟଗୁଡ଼ିକ ପାଇଁ ପଞ୍ଜୀକରଣ ମାର୍ଗଦର୍ଶିକା',
+          guideSub: 'ତଳେ ଥିବା ଦଳଗତ ପଞ୍ଜୀକରଣ ଫର୍ମ ପୂରଣ କରିବା ପୂର୍ବରୁ ଏହି ମୁଖ୍ୟ ନିୟମଗୁଡ଼ିକ ପଢ଼ନ୍ତୁ।',
+          g1Title: 'ଉଚ୍ଚ ପ୍ରାଥମିକ, ହାଇସ୍କୁଲ ଓ ଉଚ୍ଚ ମାଧ୍ୟମିକ',
+          g1Desc: 'କୋଟପାଡ଼ ବ୍ଲକର ସମସ୍ତ <strong>ଉଚ୍ଚ ପ୍ରାଥମିକ, ଉଚ୍ଚ ବିଦ୍ୟାଳୟ ଏବଂ ଉଚ୍ଚ ମାଧ୍ୟମିକ ବିଦ୍ୟାଳୟ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)</strong> ଏଥିରେ ଅଂଶଗ୍ରହଣ କରିପାରିବେ। ପ୍ରାଥମିକ ଶ୍ରେଣୀ (୧ମ–୫ମ) ଅନ୍ତର୍ଭୁକ୍ତ ନୁହେଁ।',
+          g2Title: 'ପ୍ରତି ଦଳରେ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ',
+          g2Desc: 'ପ୍ରତ୍ୟେକ ଅଂଶଗ୍ରହଣକାରୀ ବିଦ୍ୟାଳୟ ଜଣେ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ସହ ଠିକ୍ <strong>୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ</strong>ଙ୍କୁ ପଞ୍ଜୀକରଣ କରିବେ।',
+          g3Title: '୬ଟି ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ୧ଟି ବାଛନ୍ତୁ',
+          g3Desc: '୬ଟି ସରକାରୀ ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ଗୋଟିଏ ବାଛନ୍ତୁ ଏବଂ ଏକ ମୌଳିକ କାର୍ଯ୍ୟକାରୀ ମଡେଲ୍ କିମ୍ବା ପ୍ରକଳ୍ପ ପ୍ରସ୍ତୁତ କରନ୍ତୁ।',
+          g4Title: 'ଫଟୋ କପି ବୈକଳ୍ପିକ (Optional)',
+          g4Desc: 'ଅଂଶଗ୍ରହଣକାରୀଙ୍କ ଫଟୋ କିମ୍ବା ଫଟୋକପି ଅପଲୋଡ୍ କରିବା <strong>ବୈକଳ୍ପିକ</strong> ଅଟେ। ଆପଣ ଫଟୋ ସହ କିମ୍ବା ବିନା ଫଟୋରେ ଦାଖଲ କରିପାରିବେ।',
+          themesEyebrow: 'ପ୍ରତିଯୋଗିତା ବିଭାଗ',
+          themesHeading: 'ପ୍ରଦର୍ଶନୀର ୬ଟି ବିଷୟବସ୍ତୁ (Themes)',
+          themesSub: 'ପଞ୍ଜୀକରଣ ଫର୍ମରେ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ବାଛିବା ପାଇଁ ତଳୁ ଯେକୌଣସି ବିଷୟବସ୍ତୁ କାର୍ଡ ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ।',
+          t1Badge: 'ବିଷୟବସ୍ତୁ 01',
+          t1Title: 'ଖାଦ୍ୟ, ସ୍ୱାସ୍ଥ୍ୟ ଏବଂ ସ୍ୱଚ୍ଛତା',
+          t1Desc: 'ସନ୍ତୁଳିତ ପୁଷ୍ଟି, ବିଶୁଦ୍ଧ ପାନୀୟ ଜଳ, ପରିମଳ ବ୍ୟବସ୍ଥା ଏବଂ ସ୍ୱଳ୍ପ ଖର୍ଚ୍ଚର ଗୋଷ୍ଠୀ ସ୍ୱାସ୍ଥ୍ୟ ଉଦ୍ଭାବନ।',
+          t2Badge: 'ବିଷୟବସ୍ତୁ 02',
+          t2Title: 'ପରିବହନ ଏବଂ ଯୋଗାଯୋଗ',
+          t2Desc: 'ସ୍ମାର୍ଟ ସଡ଼କ ସୁରକ୍ଷା, ପରିବେଶ ଅନୁକୂଳ ପରିବହନ ମଡେଲ୍, ଗ୍ରାମୀଣ ସଂଯୋଗୀକରଣ ଏବଂ ସୁଗମ ଯୋଗାଯୋଗ ସାଧନ।',
+          t3Badge: 'ବିଷୟବସ୍ତୁ 03',
+          t3Title: 'ପ୍ରାକୃତିକ କୃଷି ଏବଂ ଚାଷ',
+          t3Desc: 'ଜୈବିକ ମୃତ୍ତିକା ଉର୍ବରତା, ବର୍ଷାଜଳ ଜଳସେଚନ, ଫସଲ ସୁରକ୍ଷା ଏବଂ କୋଟପାଡ଼ ପାଇଁ ସ୍ଥାୟୀ କୃଷି ଉପକରଣ।',
+          t4Badge: 'ବିଷୟବସ୍ତୁ 04',
+          t4Title: 'ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା ଏବଂ ସୁରକ୍ଷା',
+          t4Desc: 'ବନ୍ୟା/ଅଗ୍ନି ଆଗୁଆ ସତର୍କତା ମଡେଲ୍, ସୁରକ୍ଷିତ ଆଶ୍ରୟସ୍ଥଳ ଡିଜାଇନ୍, ଜରୁରୀକାଳୀନ ପ୍ରସ୍ତୁତି ଏବଂ ସୁରକ୍ଷା।',
+          t5Badge: 'ବିଷୟବସ୍ତୁ 05',
+          t5Title: 'ଗାଣିତିକ ମଡେଲିଂ ଏବଂ ତର୍କଶକ୍ତି',
+          t5Desc: 'ଦୈନନ୍ଦିନ ଜୀବନରେ ଜ୍ୟାମିତି, ହାତକରା ଗଣିତ ଶିକ୍ଷଣ ଉପକରଣ, ପ୍ୟାଟର୍ଣ୍ଣ ତର୍କ ଏବଂ ସମସ୍ୟା ସମାଧାନ ମଡେଲ୍।',
+          t6Badge: 'ବିଷୟବସ୍ତୁ 06',
+          t6Title: 'ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା ଏବଂ ସବୁଜ ଶକ୍ତି',
+          t6Desc: 'ପ୍ଲାଷ୍ଟିକ୍ ପୁନଃଚକ୍ରଣ, ସୌର/ବାୟୁ କ୍ଷୁଦ୍ର ମଡେଲ୍, କମ୍ପୋଷ୍ଟିଂ ପ୍ରଣାଳୀ ଏବଂ ସ୍ୱଚ୍ଛ ଶକ୍ତି ସଂରକ୍ଷଣ।',
+          themePickHint: 'ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →',
+          themeSelectedHint: '✓ ପଞ୍ଜୀକରଣ ପାଇଁ ବଛାଯାଇଛି',
+          commEyebrow: 'ବ୍ଲକ ଶିକ୍ଷା କାର୍ଯ୍ୟାଳୟ, କୋଟପାଡ଼',
+          commHeading: 'ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ ପରିଚାଳନା ଓ ବିଭିନ୍ନ କମିଟି',
+          commSub: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ • ସରକାରୀ ଉଚ୍ଚ ବିଦ୍ୟାଳୟ, କୋଟପାଡ଼',
+          presBadge: 'ସଭାପତି / ଅଧ୍ୟକ୍ଷା (President)',
+          presName: 'ଶ୍ରୀମତୀ ସବିତା ରାଣୀ ଷଡ଼ଙ୍ଗୀ — ବ୍ଲକ ଶିକ୍ଷା ଅଧିକାରୀ (BEO), କୋଟପାଡ଼',
+          presSub: 'ବ୍ଲକ ଶିକ୍ଷା କାର୍ଯ୍ୟାଳୟ, କୋଟପାଡ଼ (ଜିଲ୍ଲା - କୋରାପୁଟ, ପିନ୍ - ୭୬୪୦୫୮ • Email: beokotpad@gmail.com)',
+          commSearchPh: 'ଶିକ୍ଷକ, ବିଦ୍ୟାଳୟ କିମ୍ବା କମିଟି ନାମ ଖୋଜନ୍ତୁ...',
+          commCountSuffix: 'ଟି କମିଟି',
+          commEmptyMatch: 'ଆପଣ ଖୋଜୁଥିବା ନାମ ସହ କୌଣସି କମିଟି କିମ୍ବା ସଦସ୍ୟ ମିଳିଲେ ନାହିଁ।',
+          commDutyNote: '<strong>ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ସୂଚନା:</strong> ଉପରୋକ୍ତ ସମସ୍ତ ଶିକ୍ଷକ ଓ କମିଟି ସଦସ୍ୟମାନେ <strong>୨୫.୧୧.୨୦୨୬ (ବୁଧବାର) ସକାଳ ୮:୩୦ ଘଟିକାରେ</strong> ପ୍ରଦର୍ଶନୀ ସ୍ଥଳ (<strong>ସରକାରୀ ଉଚ୍ଚ ବିଦ୍ୟାଳୟ, କୋଟପାଡ଼</strong>) ରେ ନିଶ୍ଚିତ ଭାବେ ଉପସ୍ଥିତ ରହି ଦାୟିତ୍ୱ ନିର୍ବାହ କରିବେ। ସମ୍ପୃକ୍ତ ପ୍ରଧାନଶିକ୍ଷକମାନେ ବିଦ୍ୟାଳୟର ସ୍ୱାଭାବିକ ପାଠପଢ଼ା ବାଧିତ ନହେବା ଭଳି ଶିକ୍ଷକମାନଙ୍କୁ କାର୍ଯ୍ୟମୁକ୍ତ (relieve) କରିବେ।',
+          regEyebrow: 'ବିଦ୍ୟାଳୟ ଏବଂ ଛାତ୍ରଛାତ୍ରୀ ନାମଲେଖା',
+          regHeading: 'ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ ଫର୍ମ',
+          regSub: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼) — ଶେଷ ତାରିଖ: <strong>23/11/2026</strong>',
+          formBannerTitle: 'ବିଦ୍ୟାଳୟ ଦଳ ପଞ୍ଜୀକରଣ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)',
+          formBannerSub: 'ଉଚ୍ଚ ପ୍ରାଥମିକ, ହାଇସ୍କୁଲ ଓ ଉଚ୍ଚ ମାଧ୍ୟମିକ (୧ମ–୫ମ ବ୍ୟତୀତ) • ୨ ଛାତ୍ରଛାତ୍ରୀ • ୧ ବିଷୟବସ୍ତୁ • ଫଟୋ ବୈକଳ୍ପିକ',
+          viewThemesBtn: '୬ଟି ବିଷୟବସ୍ତୁ ଓ ନିୟମ ଦେଖନ୍ତୁ',
+          formDeadlineChip: 'ଶେଷ ତାରିଖ: 23 / 11 / 2026',
+          step1Title: 'ବିଦ୍ୟାଳୟର UDISE ନମ୍ବର ଦିଅନ୍ତୁ (କୋଟପାଡ଼ ବ୍ଲକ)',
+          udiseLabel: '1. ୧୧-ଅଙ୍କ ବିଶିଷ୍ଟ ବିଦ୍ୟାଳୟ UDISE ନମ୍ବର ଦିଅନ୍ତୁ <span class="req">*</span>',
+          udisePh: 'UDISE ଟାଇପ୍ କରନ୍ତୁ ଯେପରି 21290700201',
+          schoolSelectLabel: 'କିମ୍ବା କୋଟପାଡ଼ ବିଦ୍ୟାଳୟର ନାମ ବାଛନ୍ତୁ <span class="req">*</span>',
+          schoolSelectDefault: '-- କୋଟପାଡ଼ ବ୍ଲକରୁ ବିଦ୍ୟାଳୟ ବାଛନ୍ତୁ (177) --',
+          udiseHint: 'ବିଦ୍ୟାଳୟର ନାମ ଏବଂ କ୍ଲଷ୍ଟର ସ୍ୱୟଂଚାଳିତ ଭାବେ ପୂରଣ ହେବା ପାଇଁ ୧୧-ଅଙ୍କର UDISE କୋଡ୍ ଦିଅନ୍ତୁ।',
+          udiseChangeHint: 'ଅନ୍ୟ ବିଦ୍ୟାଳୟ ବାଛିବା ପାଇଁ ୧୧-ଅଙ୍କର UDISE କୋଡ୍ ଦିଅନ୍ତୁ।',
+          udiseTyping: 'UDISE ଟାଇପ୍ ହେଉଛି ({len}/11 ଅଙ୍କ)... ତଳୁ ବିଦ୍ୟାଳୟ ବାଛନ୍ତୁ କିମ୍ବା ମାନୁଆଲ୍ ଏଣ୍ଟ୍ରି ପାଇଁ ସମସ୍ତ ୧୧ ଅଙ୍କ ଦିଅନ୍ତୁ।',
+          udiseChecking: '{name} ର ପଞ୍ଜୀକରଣ ସ୍ଥିତି ଯାଞ୍ଚ କରାଯାଉଛି...',
+          udiseAlreadyReg: '⚠ {name} ପୂର୍ବରୁ ପଞ୍ଜୀକୃତ ହୋଇସାରିଛି। ତଥ୍ୟ ବଦଳାଇବା ପାଇଁ ତଳେ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର ଯାଞ୍ଚ କରନ୍ତୁ।',
+          udiseDbVerified: '✓ ଡାଟାବେସ୍‌ରେ ବିଦ୍ୟାଳୟ ମିଳିଲା: {name} (ମାନୁଆଲ୍ ବିଦ୍ୟାଳୟ ଏଣ୍ଟ୍ରି ବନ୍ଦ ରହିଛି)।',
+          udiseManualPrompt: 'ℹ ଡାଟାବେସ୍‌ରେ UDISE {udise} ମିଳିଲା ନାହିଁ — ଦୟାକରି ତଳେ ବିଦ୍ୟାଳୟର ନାମ ଓ କ୍ଲଷ୍ଟର ମାନୁଆଲ୍ ଲେଖନ୍ତୁ।',
+          udiseEditUnlocked: '✓ {name} ପାଇଁ ସମ୍ପାଦନା ଅନୁମତି ଖୋଲାଗଲା।',
+          verifiedPill: '✓ ଯାଞ୍ଚ ହୋଇଥିବା କୋଟପାଡ଼ ବ୍ଲକ ବିଦ୍ୟାଳୟ',
+          changeSchoolBtn: 'ବିଦ୍ୟାଳୟ ବଦଳାନ୍ତୁ',
+          metaUdise: 'UDISE:',
+          metaBlock: 'ବ୍ଲକ:',
+          metaCluster: 'କ୍ଲଷ୍ଟର:',
+          verifyBoxTitleLocked: '🔒 ବିଦ୍ୟାଳୟ ପୂର୍ବରୁ ପଞ୍ଜୀକୃତ — ସମ୍ପାଦନା ପାଇଁ ଯାଞ୍ଚ କରନ୍ତୁ',
+          verifyBoxDescLocked: 'ଏହି ବିଦ୍ୟାଳୟ ପୂର୍ବରୁ ପଞ୍ଜୀକରଣ କରିସାରିଛି। ସୁରକ୍ଷା ପାଇଁ ତଥ୍ୟ ଦେଖିବା ଓ ଅପଡେଟ୍ କରିବାକୁ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର ଦିଅନ୍ତୁ।',
+          verifyBoxTitleUnlocked: '✓ ମୋବାଇଲ୍ ଯାଞ୍ଚ ସଫଳ — ସମ୍ପାଦନା ମୋଡ୍ ଖୋଲାଗଲା',
+          verifyBoxDescUnlocked: 'ପୂର୍ବ ପଞ୍ଜୀକରଣ ({ref}) ଲୋଡ୍ ହୋଇଛି। ତଳେ ଆବଶ୍ୟକ ପରିବର୍ତ୍ତନ କରି "ପଞ୍ଜୀକରଣ ତଥ୍ୟ ଅପଡେଟ୍ କରନ୍ତୁ" ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ।',
+          verifyPhonePh: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ଦିଅନ୍ତୁ',
+          verifyEditBtn: 'ଯାଞ୍ଚ କରନ୍ତୁ ଓ ତଥ୍ୟ ଖୋଲନ୍ତୁ',
+          verifyPhoneNeed10: 'ଦୟାକରି ଠିକ୍ ୧୦-ଅଙ୍କ ବିଶିଷ୍ଟ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର ଦିଅନ୍ତୁ।',
+          verifyPhoneMismatch: '✕ ମୋବାଇଲ୍ ନମ୍ବର ପଞ୍ଜୀକୃତ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ନମ୍ବର ସହ ମେଳ ଖାଉନାହିଁ। ସମ୍ପାଦନା ବନ୍ଦ ରହିଛି।',
+          schoolNameAutoLabel: 'ସ୍ୱୟଂଚାଳିତ ବିଦ୍ୟାଳୟ ନାମ <span class="req">*</span>',
+          schoolNameManualLabel: 'ବିଦ୍ୟାଳୟର ନାମ ମାନୁଆଲ୍ ଲେଖନ୍ତୁ <span class="req">*</span>',
+          clusterAutoLabel: 'କ୍ଲଷ୍ଟର (Cluster) <span class="req">*</span>',
+          clusterManualLabel: 'କ୍ଲଷ୍ଟର ନାମ ମାନୁଆଲ୍ ଲେଖନ୍ତୁ <span class="req">*</span>',
+          schoolNameManualPh: 'ବିଦ୍ୟାଳୟର ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ',
+          clusterManualPh: 'କ୍ଲଷ୍ଟର ନାମ ଲେଖନ୍ତୁ (ଯେପରି KOTPAD / CHANDILI)',
+          schoolNameDbPh: 'କୋଟପାଡ଼ ବିଦ୍ୟାଳୟ ଡାଟାବେସ୍‌ରୁ ସ୍ୱୟଂଚାଳିତ ପୂରଣ ଓ ଲକ୍',
+          clusterDbPh: 'କୋଟପାଡ଼ ବିଦ୍ୟାଳୟ ଡାଟାବେସ୍‌ରୁ ସ୍ୱୟଂଚାଳିତ ପୂରଣ ଓ ଲକ୍',
+          schoolNameIdlePh: 'UDISE ରୁ ସ୍ୱୟଂଚାଳିତ ଭାବେ ଆସିବ (ନଚେତ୍ ମାନୁଆଲ୍ ଲେଖନ୍ତୁ)',
+          clusterIdlePh: 'UDISE ରୁ ସ୍ୱୟଂଚାଳିତ ଭାବେ ଆସିବ (ନଚେତ୍ ମାନୁଆଲ୍ ଲେଖନ୍ତୁ)',
+          teacherNameLabel: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକ / ଶିକ୍ଷୟିତ୍ରୀଙ୍କ ନାମ <span class="req">*</span>',
+          teacherNamePh: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ନାମ',
+          teacherPhoneLabel: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର <span class="req">*</span>',
+          teacherPhonePh: '୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର',
+          step2Title: 'ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ଏବଂ ପ୍ରକଳ୍ପ ବିବରଣୀ',
+          selectThemeLabel: 'ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୬ଟି ମଧ୍ୟରୁ ୧ଟି) <span class="req">*</span>',
+          optThemeDefault: '-- ଏକ ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ --',
+          optTheme1: 'ବିଷୟବସ୍ତୁ ୧: ଖାଦ୍ୟ, ସ୍ୱାସ୍ଥ୍ୟ ଏବଂ ସ୍ୱଚ୍ଛତା',
+          optTheme2: 'ବିଷୟବସ୍ତୁ ୨: ପରିବହନ ଏବଂ ଯୋଗାଯୋଗ',
+          optTheme3: 'ବିଷୟବସ୍ତୁ ୩: ପ୍ରାକୃତିକ କୃଷି ଏବଂ ଚାଷ',
+          optTheme4: 'ବିଷୟବସ୍ତୁ ୪: ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା ଏବଂ ସୁରକ୍ଷା',
+          optTheme5: 'ବିଷୟବସ୍ତୁ ୫: ଗାଣିତିକ ମଡେଲିଂ ଏବଂ ତର୍କଶକ୍ତି',
+          optTheme6: 'ବିଷୟବସ୍ତୁ ୬: ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା ଏବଂ ସବୁଜ ଶକ୍ତି',
+          projectTitleLabel: 'ପ୍ରକଳ୍ପ / ମଡେଲର ଶୀର୍ଷକ <span class="req">*</span>',
+          projectTitlePh: 'ଯେପରି: ସୌରଚାଳିତ ବର୍ଷାଜଳ ବିଶୋଧନ ଯନ୍ତ୍ର',
+          step3Title: 'ଅଂଶଗ୍ରହଣକାରୀ ବିବରଣୀ (ପ୍ରତି ବିଦ୍ୟାଳୟରୁ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ ବାଧ୍ୟତାମୂଳକ)',
+          s1PanelHead: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ୧',
+          s2PanelHead: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ୨',
+          requiredBadge: 'ବାଧ୍ୟତାମୂଳକ',
+          s1NameLabel: 'ଛାତ୍ର/ଛାତ୍ରୀ ୧ ର ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span>',
+          s2NameLabel: 'ଛାତ୍ର/ଛାତ୍ରୀ ୨ ର ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span>',
+          studentNamePh: 'ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ',
+          classLabel: 'ଶ୍ରେଣୀ <span class="req">*</span>',
+          genderLabel: 'ଲିଙ୍ଗ <span class="req">*</span>',
+          selectPlaceholder: 'ବାଛନ୍ତୁ',
+          cls6: 'ଷଷ୍ଠ ଶ୍ରେଣୀ (Class VI)',
+          cls7: 'ସପ୍ତମ ଶ୍ରେଣୀ (Class VII)',
+          cls8: 'ଅଷ୍ଟମ ଶ୍ରେଣୀ (Class VIII)',
+          cls9: 'ନବମ ଶ୍ରେଣୀ (Class IX)',
+          cls10: 'ଦଶମ ଶ୍ରେଣୀ (Class X)',
+          cls11: 'ଏକାଦଶ ଶ୍ରେଣୀ (Class XI)',
+          cls12: 'ଦ୍ୱାଦଶ ଶ୍ରେଣୀ (Class XII)',
+          genF: 'ଛାତ୍ରୀ (Female)',
+          genM: 'ଛାତ୍ର (Male)',
+          genO: 'ଅନ୍ୟାନ୍ୟ (Other)',
+          s1PhotoLabel: 'ଅଂଶଗ୍ରହଣକାରୀ ୧ ଫଟୋ / ଫଟୋ କପି <span class="opt-tag">ବୈକଳ୍ପିକ</span>',
+          s2PhotoLabel: 'ଅଂଶଗ୍ରହଣକାରୀ ୨ ଫଟୋ / ଫଟୋ କପି <span class="opt-tag">ବୈକଳ୍ପିକ</span>',
+          removeBtn: 'ବାହାର କରନ୍ତୁ',
+          prevPhotoLabel: 'ପୂର୍ବରୁ ଅପଲୋଡ୍ ହୋଇଥିବା ଫଟୋ',
+          compressingLabel: '{name} ସଙ୍କୁଚିତ ହେଉଛି...',
+          compressedSuffix: 'ସଙ୍କୁଚିତ',
+          imgTooLarge: 'ଦୟାକରି 15 MB ରୁ କମ୍ ଆକାରର ଫଟୋ ବାଛନ୍ତୁ।',
+          imgCompressFail: 'ଏହି ଫଟୋ ସଙ୍କୁଚିତ ହୋଇପାରିଲା ନାହିଁ। ଦୟାକରି ଅନ୍ୟ JPG/PNG ଫଟୋ ବାଛନ୍ତୁ।',
+          declarationText: 'ମୁଁ ନିଶ୍ଚିତ କରୁଛି ଯେ ଉପରୋକ୍ତ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ) କୋଟପାଡ଼ ବ୍ଲକ ସ୍ଥିତ ଆମ ବିଦ୍ୟାଳୟର ନିୟମିତ ଛାତ୍ରଛାତ୍ରୀ ଅଟନ୍ତି ଏବଂ ଶେଷ ତାରିଖ <strong>23/11/2026</strong> ପୂର୍ବରୁ <strong>ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)</strong> ପାଇଁ ମନୋନୀତ ହୋଇଛନ୍ତି।',
+          resetBtn: 'ଫର୍ମ ପୁନଃସେଟ୍ କରନ୍ତୁ',
+          submitBtnNew: 'ଦଳ ପଞ୍ଜୀକରଣ ଦାଖଲ କରନ୍ତୁ',
+          submitBtnUpdate: 'ପଞ୍ଜୀକରଣ ତଥ୍ୟ ଅପଡେଟ୍ କରନ୍ତୁ',
+          savingBtn: 'Firebase ରେ ସେଭ୍ ହେଉଛି...',
+          updatingBtn: 'Firebase ରେ ଅପଡେଟ୍ ହେଉଛି...',
+          savedTeamsTitle: 'ଏହି ଡିଭାଇସ୍‌ରେ ଦାଖଲ ହୋଇଥିବା ଦଳ',
+          exportCsvBtn: 'Excel / CSV ଡାଉନଲୋଡ୍',
+          clearLocalBtn: 'ତାଲିକା ସଫା କରନ୍ତୁ',
+          registeredBadge: 'ପଞ୍ଜୀକୃତ',
+          studentsPrefix: 'ଛାତ୍ରଛାତ୍ରୀ:',
+          footerTitle: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)',
+          footerSub: 'ବିଦ୍ୟାଳୟ ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ ପୋର୍ଟାଲ (ଷଷ୍ଠ – ଦ୍ୱାଦଶ ଶ୍ରେଣୀ) • ଶେଷ ତାରିଖ: 23/11/2026',
+          backToTop: 'ଉପରକୁ ଯାଆନ୍ତୁ ↑',
+          modalConfirmed: 'ପଞ୍ଜୀକରଣ ନିଶ୍ଚିତ ହେଲା!',
+          modalUpdated: 'ପଞ୍ଜୀକରଣ ତଥ୍ୟ ଅପଡେଟ୍ ହେଲା!',
+          modalSub: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)',
+          closeBtn: 'ବନ୍ଦ କରନ୍ତୁ',
+          printBtn: 'ପ୍ରିଣ୍ଟ / ସେଭ୍ କରନ୍ତୁ',
+          errVerifyFirst: 'ଏହି ବିଦ୍ୟାଳୟ ପୂର୍ବରୁ ପଞ୍ଜୀକୃତ। ତଥ୍ୟ ବଦଳାଇବା ପାଇଁ ପ୍ରଥମେ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର ଯାଞ୍ଚ କରନ୍ତୁ।',
+          errMissingPrefix: 'ଦୟାକରି ଆବଶ୍ୟକୀୟ ତଥ୍ୟ ପୂରଣ କରନ୍ତୁ: ',
+          fUdise: '୧୧-ଅଙ୍କ ବିଦ୍ୟାଳୟ UDISE ନମ୍ବର',
+          fSchool: 'ବିଦ୍ୟାଳୟର ନାମ',
+          fCluster: 'କ୍ଲଷ୍ଟର ନାମ',
+          fTeacher: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ନାମ',
+          fPhone: '୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର',
+          fTheme: 'ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ',
+          fProject: 'ପ୍ରକଳ୍ପ ଶୀର୍ଷକ',
+          fS1: 'ଛାତ୍ର/ଛାତ୍ରୀ ୧ ର ସମ୍ପୂର୍ଣ୍ଣ ବିବରଣୀ',
+          fS2: 'ଛାତ୍ର/ଛାତ୍ରୀ ୨ ର ସମ୍ପୂର୍ଣ୍ଣ ବିବରଣୀ',
+          fDecl: 'ବିଦ୍ୟାଳୟ ନିଶ୍ଚିତକରଣ ଚେକ୍‌ବକ୍ସ',
+          errFirebase: 'Firebase ରେ ସେଭ୍ ହୋଇପାରିଲା ନାହିଁ ({msg})। ଦୟାକରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।',
+          slipSchool: 'ବିଦ୍ୟାଳୟର ନାମ',
+          slipUdise: 'UDISE କୋଡ୍ (କୋଟପାଡ଼)',
+          slipCluster: 'କ୍ଲଷ୍ଟର',
+          slipTheme: 'ବଛାଯାଇଥିବା ବିଷୟବସ୍ତୁ',
+          slipProject: 'ପ୍ରକଳ୍ପ ଶୀର୍ଷକ',
+          slipTeacher: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକ',
+          slipS1: 'ଛାତ୍ର/ଛାତ୍ରୀ ୧',
+          slipS2: 'ଛାତ୍ର/ଛାତ୍ରୀ ୨',
+          slipPhoto1: 'ଛାତ୍ର/ଛାତ୍ରୀ ୧ ଫଟୋ',
+          slipPhoto2: 'ଛାତ୍ର/ଛାତ୍ରୀ ୨ ଫଟୋ',
+          slipPhotoAttached: 'ସଂଲଗ୍ନ (ବୈକଳ୍ପିକ)'
+        },
+        en: {
+          pageTitle: 'Block Level Science Exhibition, 2026–27 (Kotpad) — Student Registration',
+          langBtnText: 'ଓଡ଼ିଆ',
+          brandTitle: 'Kotpad Science Exhibition 2026–27',
+          brandSub: 'Block Education Office, Kotpad • Classes VI–XII',
+          registerNowBtn: 'Register Now',
+          drawerRegister: 'Register School Team',
+          drawerMore: 'More Details (Guidelines, Themes & Management Committee)',
+          heroBadge: 'Block Education Office, Kotpad • Student Registration Portal',
+          heroTitle: 'Block Level <span class="accent">Science Exhibition</span>, 2026–27 (Kotpad)',
+          lastDatePill: 'Last Date of Registration',
+          exhDatePill: 'Exhibition Date & Time',
+          exhDateVal: '25 / 11 / 2026 (8:30 AM)',
+          venuePill: 'Venue',
+          venueVal: 'Govt. High School, Kotpad',
+          alreadyRegBtn: 'Already Registered Schools',
+          regDirTag: 'Live Participation Directory',
+          regDirHeading: 'Already Registered Schools',
+          regDirSub: 'Only registered school names (Kotpad Block) are displayed here.',
+          schoolsRegSuffix: 'Schools Registered',
+          regSearchPh: 'Search school name...',
+          refreshBtn: 'Refresh',
+          regLoading: 'Loading registered schools...',
+          regEmpty: 'No schools registered yet. Be the first Kotpad Block school to register!',
+          regNoMatch: 'No registered school matches your search.',
+          regShowingAll: 'Showing all {total} registered schools (names only).',
+          regShowingFiltered: 'Showing {count} of {total} registered schools (names only).',
+          guideEyebrow: 'Important Rules',
+          guideHeading: 'Enrollment Guidelines for Schools',
+          guideSub: 'Please review these key requirements before completing the team registration form below.',
+          g1Title: 'UP, High & Higher Secondary',
+          g1Desc: 'Open to all <strong>Upper Primary, High Schools &amp; Higher Secondary Schools (Classes VI–XII)</strong> in Kotpad Block. Primary Classes I–V are excluded.',
+          g2Title: '2 Students Per Team',
+          g2Desc: 'Each participating school must register exactly <strong>2 students</strong> together with a guide teacher.',
+          g3Title: 'Choose 1 of 6 Themes',
+          g3Desc: 'Select one theme from the 6 official competition themes and prepare an original working model or exhibit.',
+          g4Title: 'Photo Copy Optional',
+          g4Desc: 'Uploading a participant photo or photocopy is <strong>optional</strong>. You may attach it now or submit without photos.',
+          themesEyebrow: 'Competition Categories',
+          themesHeading: '6 Themes of the Exhibition',
+          themesSub: 'Tap any theme card below to automatically select it in the registration form.',
+          t1Badge: 'THEME 01',
+          t1Title: 'Food, Health & Hygiene',
+          t1Desc: 'Balanced nutrition, safe drinking water, sanitation practices, and low-cost community health innovations.',
+          t2Badge: 'THEME 02',
+          t2Title: 'Transport & Communication',
+          t2Desc: 'Smart road safety, eco-friendly transport models, rural connectivity, and accessible communication aids.',
+          t3Badge: 'THEME 03',
+          t3Title: 'Natural Farming & Agriculture',
+          t3Desc: 'Organic soil enrichment, rainwater irrigation, crop protection, and sustainable farming tools for Kotpad.',
+          t4Badge: 'THEME 04',
+          t4Title: 'Disaster Management & Safety',
+          t4Desc: 'Early flood/fire alert models, safe shelter designs, emergency preparedness, and community resilience.',
+          t5Badge: 'THEME 05',
+          t5Title: 'Mathematical Modeling & Logic',
+          t5Desc: 'Geometry in real life, hands-on math teaching aids, pattern logic, and everyday problem-solving models.',
+          t6Badge: 'THEME 06',
+          t6Title: 'Waste Management & Green Energy',
+          t6Desc: 'Plastic-to-utility recycling, solar/wind micro-models, composting systems, and clean energy conservation.',
+          themePickHint: 'Select this theme →',
+          themeSelectedHint: '✓ Selected for Registration',
+          commEyebrow: 'Block Education Office, Kotpad',
+          commHeading: 'Exhibition Management & Sub-Committees',
+          commSub: 'Block Level Science Exhibition, 2026–27 • Venue: Govt. High School, Kotpad',
+          presBadge: 'President / Chairperson',
+          presName: 'Smt. Sabita Rani Sadangi — Block Education Officer (BEO), Kotpad',
+          presSub: 'Block Education Office, Kotpad (Dist. Koraput, Pincode - 764058 • Email: beokotpad@gmail.com)',
+          commSearchPh: 'Search teacher name, school, or committee...',
+          commCountSuffix: 'Committees',
+          commEmptyMatch: 'No committee or member matches your search.',
+          commDutyNote: '<strong>Official Direction:</strong> All committee members are directed to report at the venue (<strong>Govt. High School, Kotpad</strong>) on <strong>25.11.2026 (Wednesday) at 8:30 A.M.</strong> positively. Concerned Headmasters are requested to relieve the deputed teachers without hampering normal functioning of schools.',
+          regEyebrow: 'School & Student Enrollment',
+          regHeading: 'Student Registration Form',
+          regSub: 'Block Level Science Exhibition, 2026–27 (Kotpad) — Last Date: <strong>23/11/2026</strong>',
+          formBannerTitle: 'School Team Registration (Classes VI – XII)',
+          formBannerSub: 'UP, High & Higher Secondary Schools (Excl. Class I–V) • 2 Students • 1 Theme • Photo Optional',
+          viewThemesBtn: 'View 6 Themes & Rules',
+          formDeadlineChip: 'Last Date: 23 / 11 / 2026',
+          step1Title: 'Enter School UDISE Number (Kotpad Block Only)',
+          udiseLabel: '1. Enter 11-Digit School UDISE Number <span class="req">*</span>',
+          udisePh: 'Type UDISE e.g. 21290700201',
+          schoolSelectLabel: 'Or Select Kotpad School Name <span class="req">*</span>',
+          schoolSelectDefault: '-- Select School from Kotpad Block (177) --',
+          udiseHint: 'Enter your 11-digit Kotpad Block UDISE code to auto-fill School Name & Cluster.',
+          udiseChangeHint: 'Enter your 11-digit Kotpad Block UDISE code to select another school.',
+          udiseTyping: 'Typing UDISE ({len}/11 digits)... select a matching school below or enter all 11 digits for manual entry.',
+          udiseChecking: 'Checking registration status for {name}...',
+          udiseAlreadyReg: '⚠ {name} is already registered. Verify Guide Teacher mobile number below to edit & update.',
+          udiseDbVerified: '✓ School found in database: {name} (manual school entry disabled).',
+          udiseManualPrompt: 'ℹ UDISE {udise} not found in database — Please enter your School Name & Cluster manually below.',
+          udiseEditUnlocked: '✓ Edit access unlocked for {name}.',
+          verifiedPill: '✓ Verified Kotpad Block School',
+          changeSchoolBtn: 'Change School',
+          metaUdise: 'UDISE:',
+          metaBlock: 'Block:',
+          metaCluster: 'Cluster:',
+          verifyBoxTitleLocked: '🔒 School Already Registered — Verify to Edit',
+          verifyBoxDescLocked: "This school has already submitted a registration. For safety, enter the registered Guide Teacher's 10-digit mobile number to view and update your details.",
+          verifyBoxTitleUnlocked: '✓ Mobile Verified — Edit Mode Unlocked',
+          verifyBoxDescUnlocked: 'Loaded existing registration ({ref}). Update any details below and click "Update Team Registration".',
+          verifyPhonePh: 'Enter 10-digit Guide Teacher mobile',
+          verifyEditBtn: 'Verify & Load Details',
+          verifyPhoneNeed10: 'Please enter the exact 10-digit Guide Teacher mobile number.',
+          verifyPhoneMismatch: '✕ Mobile number does not match the registered Guide Teacher number. Editing remains locked.',
+          schoolNameAutoLabel: 'Auto-Detected School Name <span class="req">*</span>',
+          schoolNameManualLabel: 'Enter School Name Manually <span class="req">*</span>',
+          clusterAutoLabel: 'Cluster <span class="req">*</span>',
+          clusterManualLabel: 'Enter Cluster Name Manually <span class="req">*</span>',
+          schoolNameManualPh: 'Type full school name (UDISE not in directory)',
+          clusterManualPh: 'Type cluster name (e.g., KOTPAD / CHANDILI)',
+          schoolNameDbPh: 'Auto-filled & locked from Kotpad school database',
+          clusterDbPh: 'Auto-filled & locked from Kotpad school database',
+          schoolNameIdlePh: 'Will auto-fill from UDISE (or type manually if not listed)',
+          clusterIdlePh: 'Will auto-fill from UDISE (or type manually if not listed)',
+          teacherNameLabel: 'Guide Teacher / Escort Name <span class="req">*</span>',
+          teacherNamePh: 'Full Name of Guide Teacher',
+          teacherPhoneLabel: 'Guide Teacher Mobile Number <span class="req">*</span>',
+          teacherPhonePh: '10-digit mobile number',
+          step2Title: 'Competition Theme & Exhibit Details',
+          selectThemeLabel: 'Choose Competition Theme (1 of 6) <span class="req">*</span>',
+          optThemeDefault: '-- Select a Theme --',
+          optTheme1: 'Theme 1: Food, Health & Hygiene',
+          optTheme2: 'Theme 2: Transport & Communication',
+          optTheme3: 'Theme 3: Natural Farming & Agriculture',
+          optTheme4: 'Theme 4: Disaster Management & Safety',
+          optTheme5: 'Theme 5: Mathematical Modeling & Computational Thinking',
+          optTheme6: 'Theme 6: Waste Management & Green Energy',
+          projectTitleLabel: 'Project / Exhibit Title <span class="req">*</span>',
+          projectTitlePh: 'e.g., Solar-Powered Rainwater Filtration Unit',
+          step3Title: 'Participant Details (2 Students Mandatory per School)',
+          s1PanelHead: 'Student Participant 1',
+          s2PanelHead: 'Student Participant 2',
+          requiredBadge: 'Required',
+          s1NameLabel: 'Student 1 Full Name <span class="req">*</span>',
+          s2NameLabel: 'Student 2 Full Name <span class="req">*</span>',
+          studentNamePh: 'Enter full name',
+          classLabel: 'Class <span class="req">*</span>',
+          genderLabel: 'Gender <span class="req">*</span>',
+          selectPlaceholder: 'Select',
+          cls6: 'Class VI',
+          cls7: 'Class VII',
+          cls8: 'Class VIII',
+          cls9: 'Class IX',
+          cls10: 'Class X',
+          cls11: 'Class XI',
+          cls12: 'Class XII',
+          genF: 'Female',
+          genM: 'Male',
+          genO: 'Other',
+          s1PhotoLabel: 'Participant 1 Photo / Photo Copy <span class="opt-tag">Optional</span>',
+          s2PhotoLabel: 'Participant 2 Photo / Photo Copy <span class="opt-tag">Optional</span>',
+          removeBtn: 'Remove',
+          prevPhotoLabel: 'Previously uploaded photo',
+          compressingLabel: 'Compressing {name}...',
+          compressedSuffix: 'compressed',
+          imgTooLarge: 'Please choose an image smaller than 15 MB.',
+          imgCompressFail: 'Could not compress this image. Please try another JPG/PNG photo.',
+          declarationText: 'I confirm that the above 2 students are bonafide students (Classes VI–XII) of our School in Kotpad Block and are nominated for the <strong>Block Level Science Exhibition, 2026–27 (Kotpad)</strong> before the deadline of <strong>23/11/2026</strong>.',
+          resetBtn: 'Reset Form',
+          submitBtnNew: 'Submit Team Registration',
+          submitBtnUpdate: 'Update Team Registration',
+          savingBtn: 'Saving to Firebase...',
+          updatingBtn: 'Updating in Firebase...',
+          savedTeamsTitle: 'Submitted Teams on This Device',
+          exportCsvBtn: 'Export Excel / CSV',
+          clearLocalBtn: 'Clear Local List',
+          registeredBadge: 'Registered',
+          studentsPrefix: 'Students:',
+          footerTitle: 'Block Level Science Exhibition, 2026–27 (Kotpad)',
+          footerSub: 'School Student Registration Portal (Classes VI – XII) • Last Date: 23/11/2026',
+          backToTop: 'Back to Top ↑',
+          modalConfirmed: 'Registration Confirmed!',
+          modalUpdated: 'Registration Updated!',
+          modalSub: 'Block Level Science Exhibition, 2026–27 (Kotpad)',
+          closeBtn: 'Close',
+          printBtn: 'Print / Save Slip',
+          errVerifyFirst: 'This school is already registered. Please verify the Guide Teacher 10-digit mobile number first to edit and update.',
+          errMissingPrefix: 'Please complete the required fields: ',
+          fUdise: 'Valid 11-Digit School UDISE Number',
+          fSchool: 'School Name',
+          fCluster: 'Cluster Name',
+          fTeacher: 'Guide Teacher Name',
+          fPhone: 'Valid 10-digit Mobile Number',
+          fTheme: 'Competition Theme',
+          fProject: 'Project / Exhibit Title',
+          fS1: 'Student 1 Complete Details',
+          fS2: 'Student 2 Complete Details',
+          fDecl: 'School Confirmation Checkbox',
+          errFirebase: 'Could not save to Firebase ({msg}). Please try again.',
+          slipSchool: 'School Name',
+          slipUdise: 'UDISE Code (Kotpad)',
+          slipCluster: 'Cluster',
+          slipTheme: 'Selected Theme',
+          slipProject: 'Project Title',
+          slipTeacher: 'Guide Teacher',
+          slipS1: 'Student 1',
+          slipS2: 'Student 2',
+          slipPhoto1: 'Student 1 Photo',
+          slipPhoto2: 'Student 2 Photo',
+          slipPhotoAttached: 'Attached (Optional)'
+        }
+      };
+
+      let currentLang = 'or';
+      try {
+        if (localStorage.getItem('kotpad_exhibition_lang') === 'en') {
+          currentLang = 'en';
+        }
+      } catch {}
+
+      function t(key, vars) {
+        const dict = I18N[currentLang] || I18N.or;
+        let text = dict[key] !== undefined ? dict[key] : (I18N.en[key] || key);
+        if (vars) {
+          Object.keys(vars).forEach((k) => {
+            text = text.replace(new RegExp(`\\{${k}\\}`, 'g'), String(vars[k]));
+          });
+        }
+        return text;
+      }
+
+      const langToggleBtn = document.getElementById('langToggleBtn');
+      const langToggleLabel = document.getElementById('langToggleLabel');
+
+      // 1. Focused Landing Controls + Mobile Drawer
       const menuToggle = document.getElementById('menuToggle');
       const mobileDrawer = document.getElementById('mobileDrawer');
       const registerSection = document.getElementById('register');
       const moreDetailsSection = document.getElementById('moreDetails');
       const heroRegisterBtn = document.getElementById('heroRegisterBtn');
       const navRegisterBtn = document.getElementById('navRegisterBtn');
-      const heroMoreBtn = document.getElementById('heroMoreBtn');
       const inlineMoreBtn = document.getElementById('inlineMoreBtn');
       const heroRegisteredBtn = document.getElementById('heroRegisteredBtn');
       const registeredNamesSection = document.getElementById('registeredNamesSection');
@@ -2331,17 +2872,6 @@
             const udiseEl = document.getElementById('udiseCode');
             if (udiseEl) udiseEl.focus({ preventScroll: true });
           }, 350);
-        }
-      }
-
-      function setMoreDetailsOpen(open, scrollToTarget) {
-        moreDetailsSection.classList.toggle('is-open', open);
-        heroMoreBtn.setAttribute('aria-expanded', String(open));
-        heroMoreBtn.textContent = open
-          ? 'Hide More Details ↑'
-          : 'More Details (Guidelines, Themes & Management Committee) ↓';
-        if (open && scrollToTarget) {
-          scrollToTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
 
@@ -2368,14 +2898,14 @@
         }
 
         if (!filtered.length) {
-          registeredNamesStatus.textContent = 'No registered school matches your search.';
+          registeredNamesStatus.textContent = t('regNoMatch');
           registeredNamesGrid.innerHTML = '';
           return;
         }
 
         registeredNamesStatus.textContent = q
-          ? `Showing ${filtered.length} of ${registeredSchoolNames.length} registered schools (names only).`
-          : `Showing all ${registeredSchoolNames.length} registered schools (names only).`;
+          ? t('regShowingFiltered', { count: filtered.length, total: registeredSchoolNames.length })
+          : t('regShowingAll', { total: registeredSchoolNames.length });
 
         registeredNamesGrid.innerHTML = filtered.map((schoolName, idx) => `
           <div class="school-name-pill">
@@ -2395,7 +2925,7 @@
         }
 
         if (window.firebasePortal && typeof window.firebasePortal.fetchRegisteredSchoolNames === 'function') {
-          registeredNamesStatus.textContent = 'Loading registered schools...';
+          registeredNamesStatus.textContent = t('regLoading');
           try {
             const remoteNames = await window.firebasePortal.fetchRegisteredSchoolNames();
             remoteNames.forEach((name) => {
@@ -2411,17 +2941,13 @@
           .sort((a, b) => a.localeCompare(b));
 
         if (!registeredSchoolNames.length) {
-          registeredNamesStatus.textContent = 'No schools registered yet. Be the first Kotpad Block school to register!';
+          registeredNamesStatus.textContent = t('regEmpty');
         }
         renderRegisteredSchoolNames();
       }
 
       heroRegisterBtn.addEventListener('click', () => openRegistration(true));
       navRegisterBtn.addEventListener('click', () => openRegistration(true));
-      heroMoreBtn.addEventListener('click', () => {
-        const nextOpen = !moreDetailsSection.classList.contains('is-open');
-        setMoreDetailsOpen(nextOpen, moreDetailsSection);
-      });
       heroRegisteredBtn.addEventListener('click', () => {
         const nextOpen = !registeredNamesSection.classList.contains('is-open');
         setRegisteredNamesOpen(nextOpen);
@@ -2432,7 +2958,7 @@
       regNameSearch.addEventListener('input', renderRegisteredSchoolNames);
       refreshRegNamesBtn.addEventListener('click', () => refreshRegisteredSchoolNames());
       inlineMoreBtn.addEventListener('click', () => {
-        setMoreDetailsOpen(true, document.getElementById('themes'));
+        document.getElementById('themes').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
       menuToggle.addEventListener('click', () => {
@@ -2449,38 +2975,10 @@
         e.preventDefault();
         mobileDrawer.classList.remove('open');
         menuToggle.setAttribute('aria-expanded', 'false');
-        setMoreDetailsOpen(true, moreDetailsSection);
+        moreDetailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
-      // 2. Countdown Timer to 23/11/2026 23:59:59 IST
-      const deadline = new Date('2026-11-23T23:59:59+05:30').getTime();
-      const cdDays = document.getElementById('cdDays');
-      const cdHours = document.getElementById('cdHours');
-      const cdMins = document.getElementById('cdMins');
-      const cdSecs = document.getElementById('cdSecs');
-
-      function updateCountdown() {
-        const diff = deadline - Date.now();
-        if (diff <= 0) {
-          cdDays.textContent = '00';
-          cdHours.textContent = '00';
-          cdMins.textContent = '00';
-          cdSecs.textContent = '00';
-          return;
-        }
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const mins = Math.floor((diff / (1000 * 60)) % 60);
-        const secs = Math.floor((diff / 1000) % 60);
-        cdDays.textContent = String(days).padStart(2, '0');
-        cdHours.textContent = String(hours).padStart(2, '0');
-        cdMins.textContent = String(mins).padStart(2, '0');
-        cdSecs.textContent = String(secs).padStart(2, '0');
-      }
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-
-      // 3. Interactive Theme Card Selection synced with <select>
+      // 2. Interactive Theme Card Selection synced with <select>
       const themeCards = document.querySelectorAll('.theme-card');
       const themeSelect = document.getElementById('selectedTheme');
 
@@ -2489,7 +2987,7 @@
           const match = card.dataset.theme === value;
           card.classList.toggle('selected', match);
           const hint = card.querySelector('.theme-select-hint');
-          hint.textContent = match ? '✓ Selected for Registration' : 'Select this theme →';
+          hint.textContent = match ? t('themeSelectedHint') : t('themePickHint');
         });
       }
 
@@ -2506,10 +3004,62 @@
         syncThemeCards(e.target.value);
       });
 
-      // 4. Optional Participant Photo Previews (tracks new uploads vs kept/removed photos on edit)
+      // 4. Optional Participant Photo Previews (compresses immediately on selection before upload)
       const photoState = { 1: null, 2: null };
       const existingPhotoUrl = { 1: '', 2: '' };
       const photoRemoved = { 1: false, 2: false };
+      const photoJobs = { 1: Promise.resolve(), 2: Promise.resolve() };
+
+      function renderResizedJpegBase64(img, maxDim, quality) {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width >= height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, width);
+        canvas.height = Math.max(1, height);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        return canvas.toDataURL('image/jpeg', quality);
+      }
+
+      function compressPhotoToBase64(dataUrl) {
+        return new Promise((resolve) => {
+          if (!dataUrl) return resolve('');
+          const img = new Image();
+          img.onload = () => {
+            try {
+              const steps = [
+                [420, 0.68],
+                [340, 0.56],
+                [260, 0.44],
+                [200, 0.35],
+                [160, 0.3]
+              ];
+              let best = '';
+              for (const [dim, q] of steps) {
+                best = renderResizedJpegBase64(img, dim, q);
+                if (best && best.length <= 160000) {
+                  return resolve(best);
+                }
+              }
+              resolve(best && best.length <= 240000 ? best : '');
+            } catch {
+              resolve('');
+            }
+          };
+          img.onerror = () => resolve('');
+          img.onabort = () => resolve('');
+          img.src = dataUrl;
+        });
+      }
+      window.__compressPhotoToBase64 = compressPhotoToBase64;
 
       function setupPhotoInput(num) {
         const input = document.getElementById(`s${num}Photo`);
@@ -2523,15 +3073,15 @@
             photoState[num] = null;
             if (existingPhotoUrl[num] && !photoRemoved[num]) {
               thumb.src = existingPhotoUrl[num];
-              fileName.textContent = 'Previously uploaded photo';
+              fileName.textContent = t('prevPhotoLabel');
               wrap.classList.add('visible');
             } else {
               wrap.classList.remove('visible');
             }
             return;
           }
-          if (file.size > 3 * 1024 * 1024) {
-            alert('Please choose an image smaller than 3 MB.');
+          if (file.size > 15 * 1024 * 1024) {
+            alert(t('imgTooLarge'));
             input.value = '';
             photoState[num] = null;
             if (!existingPhotoUrl[num] || photoRemoved[num]) {
@@ -2539,15 +3089,34 @@
             }
             return;
           }
-          const reader = new FileReader();
-          reader.onload = (ev) => {
-            photoState[num] = ev.target.result;
-            photoRemoved[num] = false;
-            thumb.src = ev.target.result;
-            fileName.textContent = file.name;
-            wrap.classList.add('visible');
-          };
-          reader.readAsDataURL(file);
+          fileName.textContent = t('compressingLabel', { name: file.name });
+          wrap.classList.add('visible');
+          photoJobs[num] = new Promise((done) => {
+            const reader = new FileReader();
+            reader.onload = async (ev) => {
+              const compressed = await compressPhotoToBase64(ev.target.result);
+              if (!compressed) {
+                alert(t('imgCompressFail'));
+                input.value = '';
+                photoState[num] = null;
+                wrap.classList.remove('visible');
+                return done();
+              }
+              const kb = Math.max(1, Math.round((compressed.length * 0.75) / 1024));
+              photoState[num] = compressed;
+              photoRemoved[num] = false;
+              thumb.src = compressed;
+              fileName.textContent = `${file.name} (${kb} KB ${t('compressedSuffix')})`;
+              wrap.classList.add('visible');
+              done();
+            };
+            reader.onerror = () => {
+              photoState[num] = null;
+              wrap.classList.remove('visible');
+              done();
+            };
+            reader.readAsDataURL(file);
+          });
         });
       }
 
@@ -2774,12 +3343,20 @@
       let verifiedSchool = null;
       let lookupSeq = 0;
       let pendingExistingRecord = null;
+      let schoolInputMode = 'idle';
+      let currentStatusState = { key: 'udiseHint', cls: 'hint', vars: null };
       let editModeState = {
         active: false,
         udise: '',
         verifiedPhone: '',
         existingRecord: null
       };
+
+      function setUdiseStatus(key, cls, vars) {
+        currentStatusState = { key, cls: cls || 'hint', vars: vars || null };
+        udiseStatus.textContent = t(key, vars);
+        udiseStatus.className = 'udise-status ' + currentStatusState.cls;
+      }
 
       function setSubmitButtonText(text) {
         const labelEl = document.getElementById('submitBtnLabel');
@@ -2820,16 +3397,17 @@
         pendingExistingRecord = null;
         editModeState = { active: false, udise: '', verifiedPhone: '', existingRecord: null };
         alreadyRegisteredVerifyBox.classList.remove('visible', 'unlocked');
-        verifyBoxTitle.textContent = '🔒 School Already Registered — Verify to Edit';
-        verifyBoxDesc.textContent = "This school has already submitted a registration. For safety, enter the registered Guide Teacher's 10-digit mobile number to view and update your details.";
+        verifyBoxTitle.textContent = t('verifyBoxTitleLocked');
+        verifyBoxDesc.textContent = t('verifyBoxDescLocked');
         verifyPhoneRow.style.display = 'flex';
         verifyTeacherPhoneInput.value = '';
         verifyEditStatus.textContent = '';
         verifyEditStatus.className = 'verify-edit-status';
-        setSubmitButtonText('Submit Team Registration');
+        setSubmitButtonText(t('submitBtnNew'));
       }
 
       function setSchoolInputsLocked(locked, modeLabel) {
+        schoolInputMode = modeLabel || (locked ? 'idle' : 'manual');
         schoolNameInput.readOnly = locked;
         schoolNameInput.disabled = locked;
         clusterNameInput.readOnly = locked;
@@ -2837,24 +3415,20 @@
         const sLabel = document.getElementById('schoolNameLabel');
         const cLabel = document.getElementById('clusterNameLabel');
         if (sLabel) {
-          sLabel.innerHTML = locked
-            ? 'Auto-Detected School Name <span class="req">*</span>'
-            : 'Enter School Name Manually <span class="req">*</span>';
+          sLabel.innerHTML = locked ? t('schoolNameAutoLabel') : t('schoolNameManualLabel');
         }
         if (cLabel) {
-          cLabel.innerHTML = locked
-            ? 'Cluster <span class="req">*</span>'
-            : 'Enter Cluster Name Manually <span class="req">*</span>';
+          cLabel.innerHTML = locked ? t('clusterAutoLabel') : t('clusterManualLabel');
         }
         if (!locked) {
-          schoolNameInput.placeholder = 'Type full school name (UDISE not in directory)';
-          clusterNameInput.placeholder = 'Type cluster name (e.g., KOTPAD / CHANDILI)';
-        } else if (modeLabel === 'db') {
-          schoolNameInput.placeholder = 'Auto-filled & locked from Kotpad school database';
-          clusterNameInput.placeholder = 'Auto-filled & locked from Kotpad school database';
+          schoolNameInput.placeholder = t('schoolNameManualPh');
+          clusterNameInput.placeholder = t('clusterManualPh');
+        } else if (schoolInputMode === 'db') {
+          schoolNameInput.placeholder = t('schoolNameDbPh');
+          clusterNameInput.placeholder = t('clusterDbPh');
         } else {
-          schoolNameInput.placeholder = 'Will auto-fill from UDISE (or type manually if not listed)';
-          clusterNameInput.placeholder = 'Will auto-fill from UDISE (or type manually if not listed)';
+          schoolNameInput.placeholder = t('schoolNameIdlePh');
+          clusterNameInput.placeholder = t('clusterIdlePh');
         }
       }
 
@@ -2937,8 +3511,7 @@
         verifiedCluster.textContent = info.c;
         schoolVerifiedCard.classList.add('visible');
 
-        udiseStatus.textContent = `Checking registration status for ${info.n}...`;
-        udiseStatus.className = 'udise-status hint';
+        setUdiseStatus('udiseChecking', 'hint', { name: info.n });
         udiseSuggestions.classList.remove('open');
         setEditableSectionsLocked(true);
 
@@ -2949,14 +3522,12 @@
 
         if (existingDoc) {
           pendingExistingRecord = existingDoc;
-          udiseStatus.textContent = `⚠ ${info.n} is already registered. Verify Guide Teacher mobile number below to edit & update.`;
-          udiseStatus.className = 'udise-status hint';
+          setUdiseStatus('udiseAlreadyReg', 'hint', { name: info.n });
           alreadyRegisteredVerifyBox.classList.add('visible');
           setEditableSectionsLocked(true);
           setTimeout(() => verifyTeacherPhoneInput.focus({ preventScroll: true }), 120);
         } else {
-          udiseStatus.textContent = `✓ School found in database: ${info.n} (manual school entry disabled).`;
-          udiseStatus.className = 'udise-status ok';
+          setUdiseStatus('udiseDbVerified', 'ok', { name: info.n });
           setEditableSectionsLocked(false);
         }
       }
@@ -2977,8 +3548,7 @@
         schoolVerifiedCard.classList.remove('visible');
         setSchoolInputsLocked(false, 'manual');
 
-        udiseStatus.textContent = `Checking registration status for UDISE ${udise}...`;
-        udiseStatus.className = 'udise-status hint';
+        setUdiseStatus('udiseChecking', 'hint', { name: `UDISE ${udise}` });
         udiseSuggestions.classList.remove('open');
         setEditableSectionsLocked(true);
 
@@ -2989,14 +3559,12 @@
 
         if (existingDoc) {
           pendingExistingRecord = existingDoc;
-          udiseStatus.textContent = `⚠ UDISE ${udise} is already registered. Verify Guide Teacher mobile number below to edit & update.`;
-          udiseStatus.className = 'udise-status hint';
+          setUdiseStatus('udiseAlreadyReg', 'hint', { name: `UDISE ${udise}` });
           alreadyRegisteredVerifyBox.classList.add('visible');
           setEditableSectionsLocked(true);
           setTimeout(() => verifyTeacherPhoneInput.focus({ preventScroll: true }), 120);
         } else {
-          udiseStatus.textContent = `ℹ UDISE ${udise} not found in database — Please enter your School Name & Cluster manually below.`;
-          udiseStatus.className = 'udise-status hint';
+          setUdiseStatus('udiseManualPrompt', 'hint', { udise });
           setEditableSectionsLocked(false);
           setTimeout(() => schoolNameInput.focus({ preventScroll: true }), 100);
         }
@@ -3008,14 +3576,14 @@
         verifyTeacherPhoneInput.value = entered;
 
         if (!/^\d{10}$/.test(entered)) {
-          verifyEditStatus.textContent = 'Please enter the exact 10-digit Guide Teacher mobile number.';
+          verifyEditStatus.textContent = t('verifyPhoneNeed10');
           verifyEditStatus.className = 'verify-edit-status err';
           return;
         }
 
         const storedPhone = String(pendingExistingRecord.teacherPhone || '').replace(/\D/g, '').slice(-10);
         if (!storedPhone || entered !== storedPhone) {
-          verifyEditStatus.textContent = '✕ Mobile number does not match the registered Guide Teacher number. Editing remains locked.';
+          verifyEditStatus.textContent = t('verifyPhoneMismatch');
           verifyEditStatus.className = 'verify-edit-status err';
           return;
         }
@@ -3029,15 +3597,14 @@
 
         populateFormFromExisting(pendingExistingRecord);
         alreadyRegisteredVerifyBox.classList.add('unlocked');
-        verifyBoxTitle.textContent = '✓ Mobile Verified — Edit Mode Unlocked';
-        verifyBoxDesc.textContent = `Loaded existing registration (${pendingExistingRecord.ref || verifiedSchool.udise}). Update any details below and click "Update Team Registration".`;
+        verifyBoxTitle.textContent = t('verifyBoxTitleUnlocked');
+        verifyBoxDesc.textContent = t('verifyBoxDescUnlocked', { ref: pendingExistingRecord.ref || verifiedSchool.udise });
         verifyPhoneRow.style.display = 'none';
         verifyEditStatus.textContent = '';
         verifyEditStatus.className = 'verify-edit-status ok';
 
-        setSubmitButtonText('Update Team Registration');
-        udiseStatus.textContent = `✓ Edit access unlocked for ${verifiedSchool.n || pendingExistingRecord.schoolName || verifiedSchool.udise}.`;
-        udiseStatus.className = 'udise-status ok';
+        setSubmitButtonText(t('submitBtnUpdate'));
+        setUdiseStatus('udiseEditUnlocked', 'ok', { name: verifiedSchool.n || pendingExistingRecord.schoolName || verifiedSchool.udise });
         setEditableSectionsLocked(false);
       }
 
@@ -3095,7 +3662,7 @@
         udiseSuggestions.innerHTML = matches.map(([udise, info]) => `
           <button type="button" class="autocomplete-item" data-udise="${udise}">
             <span class="ac-name">${escapeHtml(info.n)}</span>
-            <span class="ac-meta">UDISE: ${udise} • Cluster: ${escapeHtml(info.c)}</span>
+            <span class="ac-meta">UDISE: ${udise} • ${escapeHtml(t('metaCluster'))} ${escapeHtml(info.c)}</span>
           </button>
         `).join('');
         udiseSuggestions.classList.add('open');
@@ -3125,12 +3692,10 @@
         clearVerifiedSchool(true);
 
         if (cleaned.length === 0) {
-          udiseStatus.textContent = 'Enter your 11-digit Kotpad Block UDISE code (starts with 212907 or 212917) to auto-fill School Name & Cluster.';
-          udiseStatus.className = 'udise-status hint';
+          setUdiseStatus('udiseHint', 'hint');
           renderUdiseSuggestions('');
         } else {
-          udiseStatus.textContent = `Typing UDISE (${cleaned.length}/11 digits)... select a matching school below or enter all 11 digits for manual entry.`;
-          udiseStatus.className = 'udise-status hint';
+          setUdiseStatus('udiseTyping', 'hint', { len: cleaned.length });
           renderUdiseSuggestions(cleaned);
         }
       });
@@ -3141,15 +3706,13 @@
           setVerifiedSchool(val);
         } else {
           clearVerifiedSchool(false);
-          udiseStatus.textContent = 'Enter your 11-digit Kotpad Block UDISE code (starts with 212907 or 212917) to auto-fill School Name & Cluster.';
-          udiseStatus.className = 'udise-status hint';
+          setUdiseStatus('udiseHint', 'hint');
         }
       });
 
       changeSchoolBtn.addEventListener('click', () => {
         clearVerifiedSchool(false);
-        udiseStatus.textContent = 'Enter your 11-digit Kotpad Block UDISE code to select another school.';
-        udiseStatus.className = 'udise-status hint';
+        setUdiseStatus('udiseChangeHint', 'hint');
         udiseInput.focus();
       });
 
@@ -3192,10 +3755,10 @@
               <strong>${escapeHtml(entry.schoolName)}</strong>
               <span style="color:#64748b; margin-left:6px;">(UDISE: ${escapeHtml(entry.udiseCode)} • ${escapeHtml(entry.ref)})</span>
               <div style="font-size:0.82rem; color:#475569; margin-top:2px;">
-                ${escapeHtml(entry.theme)} • Students: ${escapeHtml(entry.s1Name)} &amp; ${escapeHtml(entry.s2Name)}
+                ${escapeHtml(entry.theme)} • ${escapeHtml(t('studentsPrefix'))} ${escapeHtml(entry.s1Name)} &amp; ${escapeHtml(entry.s2Name)}
               </div>
             </div>
-            <span style="font-size:0.78rem; font-weight:600; color:#059669; background:#d1fae5; padding:4px 10px; border-radius:999px;">Registered</span>
+            <span style="font-size:0.78rem; font-weight:600; color:#c2410c; background:#ffedd5; padding:4px 10px; border-radius:999px;">${escapeHtml(t('registeredBadge'))}</span>
           </div>
         `).join('');
       }
@@ -3237,7 +3800,7 @@
       }
 
       document.getElementById('exportCsvBtn').addEventListener('click', () => {
-        downloadCsvFile(loadSavedTeams(), 'kotpad-science-rra-local-registrations.csv');
+        downloadCsvFile(loadSavedTeams(), 'kotpad-science-exhibition-2026-local-registrations.csv');
       });
 
       document.getElementById('clearLocalBtn').addEventListener('click', () => {
@@ -3253,8 +3816,7 @@
         teacherDetailsFields.classList.remove('form-section-locked');
         declarationBox.classList.remove('form-section-locked');
         submitRow.classList.remove('form-section-locked');
-        udiseStatus.textContent = 'Enter your 11-digit Kotpad Block UDISE code (starts with 212907 or 212917) to auto-fill School Name & Cluster.';
-        udiseStatus.className = 'udise-status hint';
+        setUdiseStatus('udiseHint', 'hint');
       });
 
       form.addEventListener('submit', async (e) => {
@@ -3277,7 +3839,7 @@
         const declared = document.getElementById('declaration').checked;
 
         if (pendingExistingRecord && (!editModeState.active || editModeState.udise !== udiseCode)) {
-          errorBanner.textContent = 'This school is already registered. Please verify the Guide Teacher 10-digit mobile number first to edit and update.';
+          errorBanner.textContent = t('errVerifyFirst');
           errorBanner.classList.add('visible');
           errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
@@ -3285,20 +3847,20 @@
 
         const missing = [];
         if (!verifiedSchool || !/^\d{11}$/.test(udiseCode)) {
-          missing.push('Valid 11-Digit School UDISE Number');
+          missing.push(t('fUdise'));
         }
-        if (!schoolName) missing.push('School Name');
-        if (!clusterName) missing.push('Cluster Name');
-        if (!teacherName) missing.push('Guide Teacher Name');
-        if (!/^\d{10}$/.test(teacherPhone)) missing.push('Valid 10-digit Mobile Number');
-        if (!theme) missing.push('Competition Theme');
-        if (!projectTitle) missing.push('Project / Exhibit Title');
-        if (!s1Name || !s1Class || !s1Gender) missing.push('Student 1 Complete Details');
-        if (!s2Name || !s2Class || !s2Gender) missing.push('Student 2 Complete Details');
-        if (!declared) missing.push('School Confirmation Checkbox');
+        if (!schoolName) missing.push(t('fSchool'));
+        if (!clusterName) missing.push(t('fCluster'));
+        if (!teacherName) missing.push(t('fTeacher'));
+        if (!/^\d{10}$/.test(teacherPhone)) missing.push(t('fPhone'));
+        if (!theme) missing.push(t('fTheme'));
+        if (!projectTitle) missing.push(t('fProject'));
+        if (!s1Name || !s1Class || !s1Gender) missing.push(t('fS1'));
+        if (!s2Name || !s2Class || !s2Gender) missing.push(t('fS2'));
+        if (!declared) missing.push(t('fDecl'));
 
         if (missing.length > 0) {
-          errorBanner.textContent = 'Please complete the required fields: ' + missing.join(', ') + '.';
+          errorBanner.textContent = t('errMissingPrefix') + missing.join(', ') + '.';
           errorBanner.classList.add('visible');
           errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
@@ -3331,11 +3893,13 @@
 
         submitBtn.disabled = true;
         const originalBtnHtml = submitBtn.innerHTML;
-        submitBtn.textContent = isEditUpdate ? 'Updating in Firebase...' : 'Saving to Firebase...';
+        submitBtn.textContent = isEditUpdate ? t('updatingBtn') : t('savingBtn');
+
+        await Promise.all([photoJobs[1], photoJobs[2]]);
 
         let savedPayload = { ...record };
-        if (window.firebasePortal && typeof window.firebasePortal.saveRegistration === 'function') {
-          try {
+        try {
+          if (window.firebasePortal && typeof window.firebasePortal.saveRegistration === 'function') {
             savedPayload = await window.firebasePortal.saveRegistration(
               record,
               { s1: photoState[1] || '', s2: photoState[2] || '' },
@@ -3346,23 +3910,31 @@
                 photoRemoved: { ...photoRemoved }
               }
             );
-          } catch (err) {
-            console.error('Firebase save error:', err);
-            errorBanner.textContent = 'Could not save to Firebase (' + (err.message || 'Check Firestore rules & internet') + '). Please try again.';
-            errorBanner.classList.add('visible');
-            errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnHtml;
-            return;
           }
+        } catch (err) {
+          console.error('Firebase save error:', err);
+          errorBanner.textContent = t('errFirebase', { msg: err.message || 'Check Firestore rules & internet' });
+          errorBanner.classList.add('visible');
+          errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
         }
 
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnHtml;
-
-        const existingList = loadSavedTeams().filter((item) => item && item.udiseCode !== udiseCode);
-        existingList.unshift(savedPayload);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(existingList.slice(0, 50)));
+        try {
+          const localEntry = {
+            ...savedPayload,
+            s1PhotoInline: '',
+            s2PhotoInline: '',
+            updatedAt: undefined
+          };
+          const existingList = loadSavedTeams().filter((item) => item && item.udiseCode !== udiseCode);
+          existingList.unshift(localEntry);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(existingList.slice(0, 20)));
+        } catch (storageErr) {
+          console.warn('LocalStorage cache skipped:', storageErr);
+        }
         renderSavedTeams();
         refreshRegisteredSchoolNames(record.schoolName);
 
@@ -3379,32 +3951,31 @@
             verifiedPhone: teacherPhone,
             existingRecord: savedPayload
           };
-          const labelEl = document.getElementById('submitBtnLabel');
-          if (labelEl) labelEl.textContent = 'Update Team Registration';
+          setSubmitButtonText(t('submitBtnUpdate'));
         }
 
         // Populate Modal Slip
-        document.getElementById('modalTitle').textContent = isEditUpdate ? 'Registration Updated!' : 'Registration Confirmed!';
+        document.getElementById('modalTitle').textContent = isEditUpdate ? t('modalUpdated') : t('modalConfirmed');
         slipRef.textContent = `REF ID: ${record.ref}`;
         slipGrid.innerHTML = `
-          <div class="slip-cell"><span>School Name</span><strong>${escapeHtml(record.schoolName)}</strong></div>
-          <div class="slip-cell"><span>UDISE Code (Kotpad)</span><strong>${escapeHtml(record.udiseCode)}</strong></div>
-          <div class="slip-cell"><span>Cluster</span><strong>${escapeHtml(record.cluster || record.clusterName)}</strong></div>
-          <div class="slip-cell"><span>Selected Theme</span><strong>${escapeHtml(record.theme)}</strong></div>
-          <div class="slip-cell"><span>Project Title</span><strong>${escapeHtml(record.projectTitle)}</strong></div>
-          <div class="slip-cell"><span>Guide Teacher</span><strong>${escapeHtml(record.teacherName)} (${escapeHtml(record.teacherPhone)})</strong></div>
-          <div class="slip-cell"><span>Student 1</span><strong>${escapeHtml(record.s1Name)} — ${escapeHtml(record.s1Class)} (${escapeHtml(record.s1Gender)})</strong></div>
-          <div class="slip-cell"><span>Student 2</span><strong>${escapeHtml(record.s2Name)} — ${escapeHtml(record.s2Class)} (${escapeHtml(record.s2Gender)})</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipSchool'))}</span><strong>${escapeHtml(record.schoolName)}</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipUdise'))}</span><strong>${escapeHtml(record.udiseCode)}</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipCluster'))}</span><strong>${escapeHtml(record.cluster || record.clusterName)}</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipTheme'))}</span><strong>${escapeHtml(record.theme)}</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipProject'))}</span><strong>${escapeHtml(record.projectTitle)}</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipTeacher'))}</span><strong>${escapeHtml(record.teacherName)} (${escapeHtml(record.teacherPhone)})</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipS1'))}</span><strong>${escapeHtml(record.s1Name)} — ${escapeHtml(record.s1Class)} (${escapeHtml(record.s1Gender)})</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipS2'))}</span><strong>${escapeHtml(record.s2Name)} — ${escapeHtml(record.s2Class)} (${escapeHtml(record.s2Gender)})</strong></div>
         `;
 
         const p1Preview = photoState[1] || (!photoRemoved[1] ? existingPhotoUrl[1] : '');
         const p2Preview = photoState[2] || (!photoRemoved[2] ? existingPhotoUrl[2] : '');
         slipPhotos.innerHTML = '';
         if (p1Preview) {
-          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p1Preview}" alt="Student 1"><div><strong>Student 1 Photo</strong><div>Attached (Optional)</div></div></div>`;
+          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p1Preview}" alt="Student 1"><div><strong>${escapeHtml(t('slipPhoto1'))}</strong><div>${escapeHtml(t('slipPhotoAttached'))}</div></div></div>`;
         }
         if (p2Preview) {
-          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p2Preview}" alt="Student 2"><div><strong>Student 2 Photo</strong><div>Attached (Optional)</div></div></div>`;
+          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p2Preview}" alt="Student 2"><div><strong>${escapeHtml(t('slipPhoto2'))}</strong><div>${escapeHtml(t('slipPhotoAttached'))}</div></div></div>`;
         }
 
         modal.classList.add('open');
@@ -3419,6 +3990,273 @@
         if (e.target === modal) closeModal();
       });
 
+      // 7. Official Exhibition Committees Directory (BEO Kotpad Office Order)
+      const OFFICIAL_COMMITTEES = [
+        {
+          num: '01',
+          orTitle: 'ଆୟୋଜକ କମିଟି (Organising Committee)',
+          enTitle: 'Organising Committee',
+          members: [
+            'Damburu Harijan, HM, GUPS Bhansuli — Secretary',
+            'Sunita Nayak, HM, GUPS Sadaranga — Joint Secretary',
+            'Jayadev Bhandari, CRCC, Bhansuli — Cashier'
+          ],
+          orNote: 'ସାମଗ୍ରିକ ତଦାରଖ: ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀର ଆବାହକ (Convener) କାର୍ଯ୍ୟକ୍ରମର ସାମଗ୍ରିକ ଦାୟିତ୍ୱରେ ରହିବେ।',
+          enNote: 'Overall supervision: The Convener of the Block Level Science Exhibition shall remain in overall charge of the programme.'
+        },
+        {
+          num: '02',
+          orTitle: 'ପରିଚାଳନା କମିଟି (Management Committee)',
+          enTitle: 'Management Committee',
+          members: [
+            'BEO (President), ABEO and all CRCCs of Kotpad Block',
+            'Shankar Kaibartya, HM, Dhamanahandi',
+            'V. Meenakshi, HM, Ghumar',
+            'Panir Puskar Sagar, HM, Chhatarla',
+            'Sujit Sarkar, HM, GNHS, Kusumi',
+            'Damayanti Sahu, HM, GGHS, Kotpad',
+            'Mohan Nayak, HM, GUPS, Bonia',
+            'Puspalata Muduli, HM, Jamal UPS',
+            'Pradeep Kumar Pradhan, Govt. UGHS, Gumuda',
+            'K. Jaga Rao, GUPS, Sargiguda',
+            'Akshay Kumar Bala, GUPS, Chandili'
+          ]
+        },
+        {
+          num: '03',
+          orTitle: 'ଅଭ୍ୟର୍ଥନା କମିଟି (Reception Committee)',
+          enTitle: 'Reception Committee',
+          members: [
+            'All Headmasters / Headmistresses of schools under Kotpad Block and NAC'
+          ]
+        },
+        {
+          num: '04',
+          orTitle: 'ଉଦ୍‌ଘାଟନ ଏବଂ ପୂଜା କମିଟି (Inauguration & Puja)',
+          enTitle: 'Inauguration and Puja Committee',
+          members: [
+            'Tapan Parida, Govt. UGHS, Gumuda'
+          ]
+        },
+        {
+          num: '05',
+          orTitle: 'ପଞ୍ଜୀକରଣ କମିଟି (Registration Committee)',
+          enTitle: 'Registration Committee',
+          members: [
+            'Saita Golari, GGHS, Kotpad',
+            'Surubali Dandasena, GHS, Kotpad',
+            'Damayanti Jani, GHS, Kotpad',
+            'Prashanti Nayak, GHS, Kotpad',
+            'Chinmaya Dey, Dongri UPS',
+            'Rashmita Acharya, Jamal UPS',
+            'Narmada Biswal, GPS, Mangali Street'
+          ]
+        },
+        {
+          num: '06',
+          orTitle: 'ପ୍ରମାଣପତ୍ର କମିଟି (Certificate Committee)',
+          enTitle: 'Certificate Committee',
+          members: [
+            'Atashree Ray, GHS, Kotpad',
+            'Deepamjyoti Mishra, Jamal UPS'
+          ]
+        },
+        {
+          num: '07',
+          orTitle: 'ଅତିଥି ଓ ବିଚାରକ ଯୋଗାଯୋଗ କମିଟି',
+          enTitle: 'Guest and Judge Contact Committee',
+          members: [
+            'Santosh Satpathy, Chandili HS',
+            'Santosh Dubey, Govt. UGHS, Asana',
+            'Brahma Datta Mishra, GHS, Kotpad',
+            'Manas Mandal, GUPS, Bastamba'
+          ]
+        },
+        {
+          num: '08',
+          orTitle: 'ପୁରସ୍କାର ବିତରଣ କମିଟି (Prize Distribution)',
+          enTitle: 'Prize Distribution Committee',
+          members: [
+            'R. Dibakar Rao, HM, Chandili HS',
+            'Brahma Datta Mishra, GHS, Kotpad'
+          ]
+        },
+        {
+          num: '09',
+          orTitle: 'ମଞ୍ଚ ପରିଚାଳନା କମିଟି (Stage Management)',
+          enTitle: 'Stage Management Committee',
+          members: [
+            'Kali Behera, HM, GUPS, S. Kuhudi',
+            'Sashi Bhusan Sahu, HM, GUPS, Ankula',
+            'Prasant Sahu, HM, GUPS, Bhursi',
+            'Jugal Kishore Dongri, HM, GUPS, Narahandi',
+            'Nityananda Pujari, HM, GUPS, Borondi',
+            'Chandra Sekhar Majhi, HM, GUPS, Sirsi',
+            'Tapan Parida, Govt. UGHS, Gumuda'
+          ]
+        },
+        {
+          num: '10',
+          orTitle: 'ଉପସ୍ଥାପନା କମିଟି (Anchoring Committee)',
+          enTitle: 'Anchoring Committee',
+          members: [
+            'P.S.K. Nayak, HM, GPS, Potroguda',
+            'Tapan Parida, Govt. UGHS, Gumuda'
+          ]
+        },
+        {
+          num: '11',
+          orTitle: 'ଗଣମାଧ୍ୟମ କମିଟି (Media Committee)',
+          enTitle: 'Media Committee',
+          members: [
+            'Brahma Datta Mishra, GHS, Kotpad',
+            'Manas Mandal, GUPS, Bastamba'
+          ]
+        },
+        {
+          num: '12',
+          orTitle: 'ବୈଷୟିକ ସମନ୍ୱୟ କମିଟି (Technical Coordination)',
+          enTitle: 'Technical Coordination Committee',
+          members: [
+            'Abhinash Mohapatra, GUPS, T.D. Handi',
+            'Pabitra Kumar Mohapatra, GUPS, Potroguda'
+          ]
+        },
+        {
+          num: '13',
+          orTitle: 'ବ୍ୟାନର ଓ ପ୍ରମାଣପତ୍ର କମିଟି (Banner & Certificate)',
+          enTitle: 'Banner and Certificate Committee',
+          members: [
+            'Pradeep Naik, GUPS, Bondaguda',
+            'Durga Prasad Nayak, CRCC'
+          ]
+        },
+        {
+          num: '14',
+          orTitle: 'କକ୍ଷ ପରିଚାଳନା କମିଟି (Room Management)',
+          enTitle: 'Room Management Committee',
+          members: [
+            'Soumya Ranjan Rath, GHS, Kotpad',
+            'Amarendra Biswal, GHS, Kotpad'
+          ]
+        },
+        {
+          num: '15',
+          orTitle: 'ଖାଦ୍ୟ କମିଟି (Food Committee)',
+          enTitle: 'Food Committee',
+          members: [
+            'R. Dibakar Rao, Chandili HS, Chandili',
+            'Santosh Nayak, Chandili HS, Chandili',
+            'Santosh Kumar Dubey, Govt. UGHS, Asana',
+            'Santosh Swain, GUPS, Sargiguda',
+            'Srikant Sethy, Nodal UPS, S.B. Nuagam',
+            'Santosh Sahu, GUPS, A. Ghatarla',
+            'Debasis Martha, GPS, Girla',
+            'Trilochan Dash, GUPS, B. Ghatarla',
+            'Bhargab Jena, GUPS, Sorisopadar',
+            'Sukant Bhatra, GPS, Jamunahandi',
+            'Suresh Pradhan, GUPS, Bhansuli',
+            'Abhinash Majhi, UGHS, Asana',
+            'Bharat Jena, GPS, Jeeragam',
+            'Abhinash Mohanta, GUPS, Kenduguda',
+            'Prahallad Nayak, GPS, Deorli',
+            'Iswar Bhandari'
+          ]
+        }
+      ];
+
+      const committeeSearchInput = document.getElementById('committeeSearchInput');
+      const committeeMatchCount = document.getElementById('committeeMatchCount');
+      const committeesDirectoryGrid = document.getElementById('committeesDirectoryGrid');
+
+      function renderCommitteesDirectory() {
+        const q = (committeeSearchInput ? committeeSearchInput.value : '').trim().toUpperCase();
+        const filtered = OFFICIAL_COMMITTEES.filter((c) => {
+          if (!q) return true;
+          const hay = [c.num, c.orTitle, c.enTitle, ...c.members, c.orNote || '', c.enNote || '']
+            .join(' ')
+            .toUpperCase();
+          return hay.includes(q);
+        });
+
+        if (committeeMatchCount) {
+          committeeMatchCount.textContent = String(filtered.length);
+        }
+
+        if (!committeesDirectoryGrid) return;
+        if (!filtered.length) {
+          committeesDirectoryGrid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:24px; color:var(--ink-muted); font-weight:600;">${escapeHtml(t('commEmptyMatch'))}</div>`;
+          return;
+        }
+
+        committeesDirectoryGrid.innerHTML = filtered.map((c) => {
+          const title = currentLang === 'or' ? c.orTitle : c.enTitle;
+          const note = currentLang === 'or' ? c.orNote : c.enNote;
+          return `
+            <article class="comm-dir-card">
+              <div class="comm-dir-head">
+                <span class="comm-dir-num">${escapeHtml(c.num)}</span>
+                <h3 class="comm-dir-title">${escapeHtml(title)}</h3>
+              </div>
+              <ol class="comm-dir-list">
+                ${c.members.map((m) => `<li>${escapeHtml(m)}</li>`).join('')}
+              </ol>
+              ${note ? `<p class="comm-dir-note">${escapeHtml(note)}</p>` : ''}
+            </article>
+          `;
+        }).join('');
+      }
+
+      if (committeeSearchInput) {
+        committeeSearchInput.addEventListener('input', renderCommitteesDirectory);
+      }
+
+      function applyLanguage(lang) {
+        currentLang = (lang === 'en') ? 'en' : 'or';
+        try {
+          localStorage.setItem('kotpad_exhibition_lang', currentLang);
+        } catch {}
+
+        document.documentElement.lang = currentLang;
+        document.title = t('pageTitle');
+        langToggleLabel.textContent = t('langBtnText');
+
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+          el.textContent = t(el.dataset.i18n);
+        });
+        document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+          el.innerHTML = t(el.dataset.i18nHtml);
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+          el.placeholder = t(el.dataset.i18nPlaceholder);
+        });
+
+        setSchoolInputsLocked(schoolInputMode !== 'manual', schoolInputMode);
+        setUdiseStatus(currentStatusState.key, currentStatusState.cls, currentStatusState.vars);
+        if (editModeState.active && editModeState.existingRecord) {
+          verifyBoxTitle.textContent = t('verifyBoxTitleUnlocked');
+          verifyBoxDesc.textContent = t('verifyBoxDescUnlocked', { ref: editModeState.existingRecord.ref || editModeState.udise });
+          setSubmitButtonText(t('submitBtnUpdate'));
+        } else {
+          verifyBoxTitle.textContent = t('verifyBoxTitleLocked');
+          verifyBoxDesc.textContent = t('verifyBoxDescLocked');
+          setSubmitButtonText(t('submitBtnNew'));
+        }
+
+        syncThemeCards(themeSelect.value);
+        renderRegisteredSchoolNames();
+        if (!registeredSchoolNames.length) {
+          registeredNamesStatus.textContent = t('regEmpty');
+        }
+        renderSavedTeams();
+        renderCommitteesDirectory();
+      }
+
+      langToggleBtn.addEventListener('click', () => {
+        applyLanguage(currentLang === 'or' ? 'en' : 'or');
+      });
+
+      applyLanguage(currentLang);
       renderSavedTeams();
       refreshRegisteredSchoolNames();
       window.addEventListener('firebasePortalReady', () => refreshRegisteredSchoolNames());
@@ -3435,16 +4273,8 @@
       getDoc,
       setDoc,
       getDocs,
-      query,
-      orderBy,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-    import {
-      getStorage,
-      ref as storageRef,
-      uploadString,
-      getDownloadURL
-    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-storage.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAgQVEDj0rRZvO5uPKI0uNh18oo1LYtjqk",
@@ -3457,8 +4287,15 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const storage = getStorage(app);
     const COLLECTION_NAME = "kotpad_exhibition_2026";
+
+    function withTimeout(promise, ms, msg) {
+      let timerId;
+      const timeoutPromise = new Promise((_, reject) => {
+        timerId = setTimeout(() => reject(new Error(msg)), ms);
+      });
+      return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timerId));
+    }
 
     function sanitizeFilePart(str) {
       return String(str || "")
@@ -3468,51 +4305,23 @@
         .slice(0, 32) || "Student";
     }
 
-    function compressDataUrl(dataUrl, maxDim = 480, quality = 0.74) {
-      return new Promise((resolve) => {
-        if (!dataUrl) return resolve("");
-        const img = new Image();
-        img.onload = () => {
-          let { width, height } = img;
-          if (width > maxDim || height > maxDim) {
-            if (width >= height) {
-              height = Math.round((height * maxDim) / width);
-              width = maxDim;
-            } else {
-              width = Math.round((width * maxDim) / height);
-              height = maxDim;
-            }
-          }
-          const canvas = document.createElement("canvas");
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, width, height);
-          resolve(canvas.toDataURL("image/jpeg", quality));
-        };
-        img.onerror = () => resolve("");
-        img.src = dataUrl;
-      });
-    }
-
-    async function uploadOptionalPhoto(dataUrl, fileName) {
+    async function encodePhotoToBase64(dataUrl, fileName) {
       if (!dataUrl) return { url: "", inline: "", name: "" };
-      const compressed = await compressDataUrl(dataUrl);
-      if (!compressed) return { url: "", inline: "", name: "" };
-      const safeInline = compressed.length < 180000 ? compressed : "";
-      try {
-        const fileRef = storageRef(storage, `kotpad_exhibition_2026/${fileName}`);
-        await uploadString(fileRef, compressed, "data_url");
-        const downloadUrl = await getDownloadURL(fileRef);
-        return { url: downloadUrl, inline: safeInline, name: fileName };
-      } catch {
-        return { url: "", inline: safeInline, name: fileName };
-      }
+      const alreadyCompact = dataUrl.startsWith("data:image/jpeg") && dataUrl.length <= 160000;
+      const base64DataUrl = alreadyCompact
+        ? dataUrl
+        : (typeof window.__compressPhotoToBase64 === "function" ? await window.__compressPhotoToBase64(dataUrl) : "");
+      if (!base64DataUrl) return { url: "", inline: "", name: "" };
+      return { url: "", inline: base64DataUrl, name: fileName };
     }
 
     window.firebasePortal = {
       async getSchoolRegistration(udiseCode) {
-        const snap = await getDoc(doc(db, COLLECTION_NAME, udiseCode));
+        const snap = await withTimeout(
+          getDoc(doc(db, COLLECTION_NAME, udiseCode)),
+          12000,
+          "Timed out while checking registration."
+        );
         return snap.exists() ? snap.data() : null;
       },
 
@@ -3523,7 +4332,7 @@
         let p1 = { url: "", inline: "", name: "" };
         if (photos.s1) {
           const f1 = `${record.udiseCode}_S1_${sanitizeFilePart(record.s1Name)}.jpg`;
-          p1 = await uploadOptionalPhoto(photos.s1, f1);
+          p1 = await encodePhotoToBase64(photos.s1, f1);
         } else if (existing && !removed[1]) {
           p1 = {
             url: existing.s1PhotoUrl || "",
@@ -3535,7 +4344,7 @@
         let p2 = { url: "", inline: "", name: "" };
         if (photos.s2) {
           const f2 = `${record.udiseCode}_S2_${sanitizeFilePart(record.s2Name)}.jpg`;
-          p2 = await uploadOptionalPhoto(photos.s2, f2);
+          p2 = await encodePhotoToBase64(photos.s2, f2);
         } else if (existing && !removed[2]) {
           p2 = {
             url: existing.s2PhotoUrl || "",
@@ -3560,7 +4369,11 @@
         };
 
         // Document ID = 11-digit UDISE code (1 clean team registration per school)
-        await setDoc(doc(db, COLLECTION_NAME, record.udiseCode), payload);
+        await withTimeout(
+          setDoc(doc(db, COLLECTION_NAME, record.udiseCode), payload),
+          20000,
+          "Firestore write timed out. Check your internet connection and Firebase Firestore rules."
+        );
         return payload;
       },
 

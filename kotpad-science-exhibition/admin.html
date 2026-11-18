@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Coordinator Admin — Kotpad Science &amp; RRA Exhibition 2026</title>
+  <title>Coordinator Admin — Kotpad Science Exhibition 2026–27</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -12,22 +12,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <style>
     :root {
-      --bg: #f1f5f9;
+      --bg: #fffaf5;
       --surface: #ffffff;
-      --surface-muted: #f8fafc;
-      --ink: #0f172a;
-      --ink-muted: #475569;
-      --ink-subtle: #64748b;
-      --navy-950: #081126;
-      --navy-900: #0f1c3f;
-      --teal-600: #0284c7;
-      --teal-500: #0ea5e9;
-      --emerald-600: #059669;
-      --emerald-500: #10b981;
+      --surface-muted: #fff7ed;
+      --ink: #1f1209;
+      --ink-muted: #5c4332;
+      --ink-subtle: #7c5c46;
+      --navy-950: #1a0f08;
+      --navy-900: #2b160a;
+      --teal-600: #ea580c;
+      --teal-500: #f97316;
+      --emerald-600: #c2410c;
+      --emerald-500: #fb923c;
       --amber-600: #d97706;
-      --rose-600: #e11d48;
-      --border: #e2e8f0;
-      --border-strong: #cbd5e1;
+      --rose-600: #dc2626;
+      --border: #fed7aa;
+      --border-strong: #fdba74;
       --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
       --shadow-md: 0 10px 25px -8px rgba(15, 23, 42, 0.1);
     }
@@ -309,6 +309,31 @@
       font-weight: 600;
     }
 
+    .btn-delete-row {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid #fecaca;
+      background: #fef2f2;
+      color: #dc2626;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+      white-space: nowrap;
+    }
+
+    .btn-delete-row:hover {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #ffffff;
+    }
+
+    .btn-delete-row:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
     .photo-cell {
       display: flex;
       flex-direction: column;
@@ -410,8 +435,8 @@
   <header class="topbar">
     <div class="container topbar-inner">
       <div class="topbar-title">
-        <h1>Coordinator Admin Panel — Kotpad Exhibition 2026</h1>
-        <p>Block Level Science Exhibition &amp; RRA Exhibition, Kotpad • Live Firebase Data (`hostel-b5004`)</p>
+        <h1>Coordinator Admin Panel — Kotpad Science Exhibition 2026–27</h1>
+        <p>Block Level Science Exhibition, 2026–27 (Kotpad) • Govt. High School, Kotpad • Live Firebase Data (`hostel-b5004`)</p>
       </div>
       <div class="topbar-actions">
         <a href="index.html" class="btn btn-dark">Open Registration Form</a>
@@ -428,7 +453,7 @@
       <div class="stat-card">
         <div class="stat-label">Registered Schools</div>
         <div class="stat-value" id="statRegistered">0 / 177</div>
-        <div class="stat-sub">Kotpad Block Upper Primary Schools</div>
+        <div class="stat-sub">Kotpad Block (Classes VI–XII Schools)</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Pending Schools</div>
@@ -506,6 +531,7 @@
               <th>2 Student Participants</th>
               <th>Photo Names &amp; Folder (`photos/`)</th>
               <th>Ref &amp; Time</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody id="registeredTbody"></tbody>
@@ -540,6 +566,8 @@
     import {
       getFirestore,
       collection,
+      doc,
+      deleteDoc,
       getDocs,
       query,
       orderBy
@@ -816,7 +844,7 @@
       // 1. Registered Table
       const filteredReg = registeredRows.filter((r) => filterMatches(r, q, themeVal));
       if (!filteredReg.length) {
-        registeredTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:28px; color:#64748b;">No registered schools match the current filter.</td></tr>`;
+        registeredTbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:28px; color:#64748b;">No registered schools match the current filter.</td></tr>`;
       } else {
         registeredTbody.innerHTML = filteredReg.map((r, idx) => {
           const p1Name = getPhotoName(r, 1);
@@ -832,19 +860,16 @@
                 <div class="mono">${escapeHtml(r.udiseCode)}</div>
                 <strong>${escapeHtml(r.schoolName)}</strong>
                 <div style="font-size:0.78rem; color:#64748b;">
-                  Cluster: ${escapeHtml(r.cluster || "—")}<br/>
-                  GP/NAC: ${escapeHtml(r.gp || "—")}
+                  Cluster: ${escapeHtml(r.cluster || "—")}
                 </div>
               </td>
               <td>
                 <strong>${escapeHtml(r.teacherName)}</strong>
                 <div class="mono" style="color:#0f172a;">${escapeHtml(r.teacherPhone)}</div>
-                ${r.teacherEmail ? `<div style="font-size:0.76rem; color:#64748b;">${escapeHtml(r.teacherEmail)}</div>` : ""}
               </td>
               <td>
                 <span class="pill-theme">${escapeHtml(r.theme)}</span>
                 <div><strong>${escapeHtml(r.projectTitle)}</strong></div>
-                ${r.projectSummary ? `<div style="font-size:0.78rem; color:#64748b; margin-top:3px;">${escapeHtml(r.projectSummary)}</div>` : ""}
               </td>
               <td>
                 <div><strong>1.</strong> ${escapeHtml(r.s1Name)} (${escapeHtml(r.s1Class)}, ${escapeHtml(r.s1Gender)})</div>
@@ -866,6 +891,15 @@
               <td>
                 <div class="mono" style="font-size:0.76rem;">${escapeHtml(r.ref)}</div>
                 <div style="font-size:0.75rem; color:#64748b; margin-top:3px;">${escapeHtml(r.submittedAt)}</div>
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn-delete-row"
+                  data-delete-id="${escapeHtml(r._docId || r.udiseCode)}"
+                  data-delete-udise="${escapeHtml(r.udiseCode)}"
+                  data-delete-name="${escapeHtml(r.schoolName)}"
+                >Delete</button>
               </td>
             </tr>
           `;
@@ -1014,7 +1048,7 @@
         } else {
           const wb = createWorkbook();
           const wbOut = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-          zip.file("Kotpad_Science_RRA_2026_All_Details.xlsx", wbOut);
+          zip.file("Kotpad_Science_Exhibition_2026_All_Details.xlsx", wbOut);
         }
       }
 
@@ -1028,8 +1062,8 @@
       const a = document.createElement("a");
       a.href = url;
       a.download = includeExcel
-        ? "Kotpad_Exhibition_2026_Excel_And_Photos.zip"
-        : "Kotpad_Exhibition_2026_Photos_Folder.zip";
+        ? "Kotpad_Science_Exhibition_2026_Excel_And_Photos.zip"
+        : "Kotpad_Science_Exhibition_2026_Photos_Folder.zip";
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -1040,7 +1074,7 @@
         return;
       }
       const wb = createWorkbook();
-      XLSX.writeFile(wb, "Kotpad_Science_RRA_2026_All_Details.xlsx");
+      XLSX.writeFile(wb, "Kotpad_Science_Exhibition_2026_All_Details.xlsx");
     });
 
     document.getElementById("downloadZipAllBtn").addEventListener("click", async (e) => {
@@ -1085,7 +1119,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "Kotpad_Science_RRA_2026_All_Details.csv";
+      a.download = "Kotpad_Science_Exhibition_2026_All_Details.csv";
       a.click();
       URL.revokeObjectURL(url);
     });
@@ -1096,7 +1130,7 @@
       try {
         const q = query(collection(db, COLLECTION_NAME), orderBy("updatedAtMs", "desc"));
         const snap = await getDocs(q);
-        registeredRows = snap.docs.map((d) => d.data());
+        registeredRows = snap.docs.map((d) => ({ ...d.data(), _docId: d.id }));
 
         const regSet = new Set(registeredRows.map((r) => String(r.udiseCode)));
         pendingRows = Object.entries(KOTPAD_SCHOOLS)
@@ -1141,6 +1175,32 @@
         document.getElementById("panelPending").style.display = tab === "pending" ? "block" : "none";
         document.getElementById("panelThemes").style.display = tab === "themes" ? "block" : "none";
       });
+    });
+
+    registeredTbody.addEventListener("click", async (e) => {
+      const btn = e.target.closest(".btn-delete-row");
+      if (!btn) return;
+      const docId = btn.dataset.deleteId || btn.dataset.deleteUdise;
+      const udiseCode = btn.dataset.deleteUdise || docId;
+      const schoolName = btn.dataset.deleteName || udiseCode;
+      if (!docId) return;
+
+      const confirmed = window.confirm(
+        `Delete registration for "${schoolName}" (UDISE: ${udiseCode})?\n\nThis will permanently remove this school's entry from Firebase.`
+      );
+      if (!confirmed) return;
+
+      btn.disabled = true;
+      btn.textContent = "Deleting...";
+      try {
+        await deleteDoc(doc(db, COLLECTION_NAME, String(docId)));
+        await loadLiveData();
+      } catch (err) {
+        console.error("Delete failed:", err);
+        alert("Could not delete registration: " + (err.message || "Check Firebase Firestore rules & internet."));
+        btn.disabled = false;
+        btn.textContent = "Delete";
+      }
     });
 
     searchInput.addEventListener("input", renderAllViews);
