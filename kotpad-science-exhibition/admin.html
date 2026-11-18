@@ -453,7 +453,7 @@
       <div class="stat-card">
         <div class="stat-label">Registered Schools</div>
         <div class="stat-value" id="statRegistered">0 / 177</div>
-        <div class="stat-sub">Kotpad Block (Classes VI–XII Schools)</div>
+        <div class="stat-sub">Kotpad Block Govt. Schools (Classes VI–XII)</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Pending Schools</div>
@@ -461,14 +461,36 @@
         <div class="stat-sub">Not registered yet</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Enrolled Students</div>
+        <div class="stat-label">Registered Presenters</div>
         <div class="stat-value" id="statStudents">0</div>
-        <div class="stat-sub">2 students per registered school</div>
+        <div class="stat-sub">1 presenter per school (+1 helper allowed at venue)</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Photos Uploaded</div>
         <div class="stat-value" id="statPhotos">0</div>
         <div class="stat-sub">Available for ZIP photo folder</div>
+      </div>
+    </section>
+
+    <!-- Last Date Settings Control -->
+    <section class="toolbar-card" style="margin-bottom:18px;">
+      <div class="export-row" style="margin-bottom:0; gap:14px;">
+        <div>
+          <h2 style="font-size:1.08rem;">Registration Last Date Setting</h2>
+          <p id="lastDateCurrentNote" style="margin:2px 0 0; font-size:0.84rem; color:var(--ink-muted);">
+            Current Last Date shown on registration site: <strong>23 / 11 / 2026</strong>
+          </p>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
+          <input
+            type="date"
+            id="lastDateInput"
+            value="2026-11-23"
+            style="padding:9px 12px; border:1px solid var(--border-strong); border-radius:10px; font-family:inherit; font-size:0.9rem;"
+            aria-label="Set Registration Last Date"
+          />
+          <button type="button" class="btn btn-primary" id="saveLastDateBtn">Update Last Date</button>
+        </div>
       </div>
     </section>
 
@@ -500,13 +522,14 @@
       <div class="filter-row">
         <input type="text" id="searchInput" class="search-input" placeholder="Search by UDISE, School Name, Cluster, GP, Student, or Teacher..." />
         <select id="themeFilter">
-          <option value="">All 6 Themes</option>
-          <option value="Theme 1: Food, Health & Hygiene">Theme 1: Food, Health &amp; Hygiene</option>
-          <option value="Theme 2: Transport & Communication">Theme 2: Transport &amp; Communication</option>
-          <option value="Theme 3: Natural Farming & Agriculture">Theme 3: Natural Farming &amp; Agriculture</option>
-          <option value="Theme 4: Disaster Management & Safety">Theme 4: Disaster Management &amp; Safety</option>
-          <option value="Theme 5: Mathematical Modeling & Computational Thinking">Theme 5: Mathematical Modeling &amp; Computational Thinking</option>
-          <option value="Theme 6: Waste Management & Green Energy">Theme 6: Waste Management &amp; Green Energy</option>
+          <option value="">All 7 Sub-Themes</option>
+          <option value="Sub-Theme 1: Artificial Intelligence (AI) for Better Life">1. Artificial Intelligence (AI) for Better Life</option>
+          <option value="Sub-Theme 2: Green Energy & Environmental Conservation">2. Green Energy &amp; Environmental Conservation</option>
+          <option value="Sub-Theme 3: Mathematical Modelling and Computational Thinking">3. Mathematical Modelling and Computational Thinking</option>
+          <option value="Sub-Theme 4: Health, Hygiene and Sanitation">4. Health, Hygiene and Sanitation</option>
+          <option value="Sub-Theme 5: Indigenous Agricultural Practices">5. Indigenous Agricultural Practices</option>
+          <option value="Sub-Theme 6: Science and Rural Transformation">6. Science and Rural Transformation</option>
+          <option value="Sub-Theme 7: Disaster Management">7. Disaster Management</option>
         </select>
       </div>
     </section>
@@ -515,7 +538,7 @@
     <div class="tabs" role="tablist">
       <button type="button" class="tab-btn active" data-tab="registered">Registered Schools (<span id="tabRegCount">0</span>)</button>
       <button type="button" class="tab-btn" data-tab="pending">Pending Schools (<span id="tabPendCount">177</span>)</button>
-      <button type="button" class="tab-btn" data-tab="themes">Theme-Wise Summary (6 Themes)</button>
+      <button type="button" class="tab-btn" data-tab="themes">Sub-Theme Summary (7 Topics)</button>
     </div>
 
     <!-- Main Data Panel -->
@@ -527,8 +550,8 @@
               <th>#</th>
               <th>UDISE &amp; School Details</th>
               <th>Guide Teacher</th>
-              <th>Theme &amp; Project</th>
-              <th>2 Student Participants</th>
+              <th>Sub-Theme &amp; Project</th>
+              <th>Participants (Main + Co-Participant)</th>
               <th>Photo Names &amp; Folder (`photos/`)</th>
               <th>Ref &amp; Time</th>
               <th>Action</th>
@@ -567,6 +590,8 @@
       getFirestore,
       collection,
       doc,
+      getDoc,
+      setDoc,
       deleteDoc,
       getDocs,
       query,
@@ -768,12 +793,13 @@
     };
 
     const THEMES = [
-      "Theme 1: Food, Health & Hygiene",
-      "Theme 2: Transport & Communication",
-      "Theme 3: Natural Farming & Agriculture",
-      "Theme 4: Disaster Management & Safety",
-      "Theme 5: Mathematical Modeling & Computational Thinking",
-      "Theme 6: Waste Management & Green Energy"
+      "Sub-Theme 1: Artificial Intelligence (AI) for Better Life",
+      "Sub-Theme 2: Green Energy & Environmental Conservation",
+      "Sub-Theme 3: Mathematical Modelling and Computational Thinking",
+      "Sub-Theme 4: Health, Hygiene and Sanitation",
+      "Sub-Theme 5: Indigenous Agricultural Practices",
+      "Sub-Theme 6: Science and Rural Transformation",
+      "Sub-Theme 7: Disaster Management"
     ];
 
     const statusBanner = document.getElementById("statusBanner");
@@ -872,20 +898,19 @@
                 <div><strong>${escapeHtml(r.projectTitle)}</strong></div>
               </td>
               <td>
-                <div><strong>1.</strong> ${escapeHtml(r.s1Name)} (${escapeHtml(r.s1Class)}, ${escapeHtml(r.s1Gender)})</div>
-                <div style="margin-top:4px;"><strong>2.</strong> ${escapeHtml(r.s2Name)} (${escapeHtml(r.s2Class)}, ${escapeHtml(r.s2Gender)})</div>
+                <div><strong>Presenter:</strong> ${escapeHtml(r.s1Name)} (${escapeHtml(r.s1Class)}, ${escapeHtml(r.s1Gender)})</div>
+                <div style="margin-top:4px; color:${r.s2Name ? 'inherit' : '#94a3b8'}; font-size:0.78rem;">
+                  ${r.s2Name ? `<strong>Helper (Legacy):</strong> ${escapeHtml(r.s2Name)} (${escapeHtml(r.s2Class || '—')}, ${escapeHtml(r.s2Gender || '—')})` : '+1 helper allowed at venue (no details required)'}
+                </div>
               </td>
               <td>
                 <div style="font-size:0.75rem; color:#475569; margin-bottom:4px;">Folder: <span class="mono">${folderLabel}</span></div>
                 <div class="photo-cell">
                   <div class="photo-badge-row">
-                    ${p1Src ? `<a href="${escapeHtml(p1Src)}" download="${escapeHtml(p1Name)}" target="_blank" rel="noopener"><img src="${escapeHtml(p1Src)}" alt="S1" class="photo-mini" /></a>` : ""}
-                    <span class="photo-fname">S1: ${escapeHtml(p1Name)}</span>
+                    ${p1Src ? `<a href="${escapeHtml(p1Src)}" download="${escapeHtml(p1Name)}" target="_blank" rel="noopener"><img src="${escapeHtml(p1Src)}" alt="Presenter" class="photo-mini" /></a>` : ""}
+                    <span class="photo-fname">${escapeHtml(p1Name)}</span>
                   </div>
-                  <div class="photo-badge-row">
-                    ${p2Src ? `<a href="${escapeHtml(p2Src)}" download="${escapeHtml(p2Name)}" target="_blank" rel="noopener"><img src="${escapeHtml(p2Src)}" alt="S2" class="photo-mini" /></a>` : ""}
-                    <span class="photo-fname">S2: ${escapeHtml(p2Name)}</span>
-                  </div>
+                  ${p2Src ? `<div class="photo-badge-row"><a href="${escapeHtml(p2Src)}" download="${escapeHtml(p2Name)}" target="_blank" rel="noopener"><img src="${escapeHtml(p2Src)}" alt="Helper" class="photo-mini" /></a><span class="photo-fname">S2: ${escapeHtml(p2Name)}</span></div>` : ""}
                 </div>
               </td>
               <td>
@@ -959,17 +984,16 @@
           "Guide Teacher Name": r.teacherName || "",
           "Guide Teacher Mobile": r.teacherPhone || "",
           "Guide Teacher Email": r.teacherEmail || "",
-          "Selected Theme": r.theme || "",
+          "Selected Sub-Theme": r.theme || "",
           "Project Title": r.projectTitle || "",
-          "Project Summary": r.projectSummary || "",
-          "Student 1 Name": r.s1Name || "",
-          "Student 1 Class": r.s1Class || "",
-          "Student 1 Gender": r.s1Gender || "",
-          "Student 1 Photo Name": p1Name,
-          "Student 2 Name": r.s2Name || "",
-          "Student 2 Class": r.s2Class || "",
-          "Student 2 Gender": r.s2Gender || "",
-          "Student 2 Photo Name": p2Name,
+          "Main Presenter Name": r.s1Name || "",
+          "Main Presenter Class": r.s1Class || "",
+          "Main Presenter Gender": r.s1Gender || "",
+          "Main Presenter Photo Name": p1Name,
+          "Co-Participant (Helper) Name": r.s2Name || "",
+          "Co-Participant Class": r.s2Class || "",
+          "Co-Participant Gender": r.s2Gender || "",
+          "Co-Participant Photo Name": p2Name,
           "Photo Folder": hasAnyPhoto ? "photos/" : "No Photos",
           "Student 1 Photo URL": r.s1PhotoUrl || (r.s1PhotoInline ? "Included in ZIP photos/ folder" : "Not Uploaded"),
           "Student 2 Photo URL": r.s2PhotoUrl || (r.s2PhotoInline ? "Included in ZIP photos/ folder" : "Not Uploaded"),
@@ -1144,14 +1168,16 @@
           .sort((a, b) => a.schoolName.localeCompare(b.schoolName));
 
         let photoTotal = 0;
+        let studentTotal = 0;
         registeredRows.forEach((r) => {
+          studentTotal += 1 + (r.s2Name && String(r.s2Name).trim() ? 1 : 0);
           if (getPhotoSrc(r, 1)) photoTotal++;
           if (getPhotoSrc(r, 2)) photoTotal++;
         });
 
         statRegistered.textContent = `${registeredRows.length} / 177`;
         statPending.textContent = String(pendingRows.length);
-        statStudents.textContent = String(registeredRows.length * 2);
+        statStudents.textContent = String(studentTotal);
         statPhotos.textContent = String(photoTotal);
         tabRegCount.textContent = String(registeredRows.length);
         tabPendCount.textContent = String(pendingRows.length);
@@ -1203,10 +1229,67 @@
       }
     });
 
+    const lastDateInput = document.getElementById("lastDateInput");
+    const lastDateCurrentNote = document.getElementById("lastDateCurrentNote");
+    const saveLastDateBtn = document.getElementById("saveLastDateBtn");
+
+    function formatIsoToDisplay(iso) {
+      if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return { spaced: "23 / 11 / 2026", compact: "23/11/2026" };
+      const [y, m, d] = iso.split("-");
+      return { spaced: `${d} / ${m} / ${y}`, compact: `${d}/${m}/${y}` };
+    }
+
+    async function loadPortalSettings() {
+      try {
+        const snap = await getDoc(doc(db, "kotpad_exhibition_settings", "config"));
+        if (snap.exists()) {
+          const data = snap.data();
+          if (data.lastDateIso) {
+            lastDateInput.value = data.lastDateIso;
+          }
+          const formatted = formatIsoToDisplay(data.lastDateIso || "");
+          lastDateCurrentNote.innerHTML = `Current Last Date shown on registration site: <strong>${escapeHtml(data.lastDateSpaced || formatted.spaced)}</strong>`;
+        }
+      } catch (err) {
+        console.warn("Could not load last date settings:", err);
+      }
+    }
+
+    saveLastDateBtn.addEventListener("click", async () => {
+      const iso = lastDateInput.value;
+      if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+        alert("Please select a valid date.");
+        return;
+      }
+      const formatted = formatIsoToDisplay(iso);
+      saveLastDateBtn.disabled = true;
+      const oldText = saveLastDateBtn.textContent;
+      saveLastDateBtn.textContent = "Saving...";
+      try {
+        await setDoc(doc(db, "kotpad_exhibition_settings", "config"), {
+          lastDateIso: iso,
+          lastDateSpaced: formatted.spaced,
+          lastDateCompact: formatted.compact,
+          updatedAtMs: Date.now()
+        }, { merge: true });
+        lastDateCurrentNote.innerHTML = `Current Last Date shown on registration site: <strong>${escapeHtml(formatted.spaced)}</strong> (Saved!)`;
+      } catch (err) {
+        console.error("Failed saving last date:", err);
+        alert("Could not save last date: " + (err.message || "Check Firestore rules."));
+      } finally {
+        saveLastDateBtn.disabled = false;
+        saveLastDateBtn.textContent = oldText;
+      }
+    });
+
     searchInput.addEventListener("input", renderAllViews);
     themeFilter.addEventListener("change", renderAllViews);
-    document.getElementById("refreshBtn").addEventListener("click", loadLiveData);
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+      loadPortalSettings();
+      loadLiveData();
+    });
 
+    loadPortalSettings();
     loadLiveData();
   </script>
 </body>

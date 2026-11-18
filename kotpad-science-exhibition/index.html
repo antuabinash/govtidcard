@@ -1208,11 +1208,25 @@
       transition: opacity 0.22s ease;
     }
 
-    /* Two Student Panels */
+    /* Student Panel + Helper Note */
     .students-split {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 22px;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .helper-one-line-note {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.5;
     }
 
     .student-panel {
@@ -1868,7 +1882,7 @@
         <div class="hero-meta-grid" aria-label="Exhibition Schedule and Venue">
           <div class="hero-meta-tile">
             <span class="deadline-pill" data-i18n="lastDatePill">ପଞ୍ଜୀକରଣର ଶେଷ ତାରିଖ</span>
-            <div class="deadline-date">23 / 11 / 2026</div>
+            <div class="deadline-date" id="heroLastDateDisplay">23 / 11 / 2026</div>
           </div>
           <div class="hero-meta-tile">
             <span class="deadline-pill" data-i18n="exhDatePill">ପ୍ରଦର୍ଶନୀ ତାରିଖ ଓ ସମୟ</span>
@@ -1956,87 +1970,108 @@
     </div>
   </section>
 
-  <!-- 6 THEMES -->
+  <!-- 7 SUB-THEMES (DEO KORAPUT LETTER NO. 9041) -->
   <section class="themes-section" id="themes">
     <div class="container">
-      <div class="section-header">
-        <span class="section-eyebrow" data-i18n="themesEyebrow">ପ୍ରତିଯୋଗିତା ବିଭାଗ</span>
-        <h2 data-i18n="themesHeading">ପ୍ରଦର୍ଶନୀର ୬ଟି ବିଷୟବସ୍ତୁ (Themes)</h2>
-        <p data-i18n="themesSub">ପଞ୍ଜୀକରଣ ଫର୍ମରେ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ବାଛିବା ପାଇଁ ତଳୁ ଯେକୌଣସି ବିଷୟବସ୍ତୁ କାର୍ଡ ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ।</p>
+      <div class="section-header" style="margin-bottom:24px;">
+        <span class="section-eyebrow" data-i18n="themesEyebrow">ପ୍ରତିଯୋଗିତା ବିଭାଗ (୭ଟି ଉପ-ବିଷୟବସ୍ତୁ)</span>
+        <h2 data-i18n="themesHeading">ପ୍ରଦର୍ଶନୀର ୭ଟି ଉପ-ବିଷୟବସ୍ତୁ (Sub-Themes)</h2>
+        <p data-i18n="themesSub">ପଞ୍ଜୀକରଣ ଫର୍ମରେ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ବାଛିବା ପାଇଁ ତଳୁ ଯେକୌଣସି ଉପ-ବିଷୟବସ୍ତୁ କାର୍ଡ ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ।</p>
+      </div>
+
+      <div style="max-width:860px; margin:0 auto 28px; background:linear-gradient(135deg,#fff7ed,#ffedd5); border:1.5px solid #fb923c; border-radius:16px; padding:14px 20px; text-align:center;">
+        <div style="font-size:0.76rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#c2410c; margin-bottom:4px;" data-i18n="mainThemeLabel">ମୁଖ୍ୟ ବିଷୟବସ୍ତୁ (MAIN THEME — TE &amp; SCERT)</div>
+        <div style="font-size:1.05rem; font-weight:800; color:var(--navy-900);" data-i18n="mainThemeValue">“Science, Technology and Innovation for a Sustainable and Viksit Bharat”</div>
       </div>
 
       <div class="themes-grid" id="themesGrid">
-        <button type="button" class="theme-card" data-theme="Theme 1: Food, Health &amp; Hygiene">
+        <button type="button" class="theme-card" data-theme="Sub-Theme 1: Artificial Intelligence (AI) for Better Life">
           <div>
             <div class="theme-top">
-              <span class="theme-num" data-i18n="t1Badge">ବିଷୟବସ୍ତୁ 01</span>
-              <span class="theme-emoji" aria-hidden="true">🥗</span>
+              <span class="theme-num" data-i18n="t1Badge">ଉପ-ବିଷୟବସ୍ତୁ 01</span>
+              <span class="theme-emoji" aria-hidden="true">🤖</span>
             </div>
-            <h3 data-i18n="t1Title">ଖାଦ୍ୟ, ସ୍ୱାସ୍ଥ୍ୟ ଏବଂ ସ୍ୱଚ୍ଛତା</h3>
-            <p data-i18n="t1Desc">ସନ୍ତୁଳିତ ପୁଷ୍ଟି, ବିଶୁଦ୍ଧ ପାନୀୟ ଜଳ, ପରିମଳ ବ୍ୟବସ୍ଥା ଏବଂ ସ୍ୱଳ୍ପ ଖର୍ଚ୍ଚର ଗୋଷ୍ଠୀ ସ୍ୱାସ୍ଥ୍ୟ ଉଦ୍ଭାବନ।</p>
+            <h3 data-i18n="t1Title">ଉନ୍ନତ ଜୀବନ ପାଇଁ କୃତ୍ରିମ ବୁଦ୍ଧିମତ୍ତା (AI)</h3>
+            <p data-i18n="t1Desc">Artificial Intelligence (AI) for Better Life — ଶିକ୍ଷା, ସ୍ୱାସ୍ଥ୍ୟ, କୃଷି ଓ ଦୈନନ୍ଦିନ ଜୀବନରେ AI ଓ ସ୍ମାର୍ଟ ପ୍ରଯୁକ୍ତିର ବ୍ୟବହାର।</p>
           </div>
           <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
         </button>
 
-        <button type="button" class="theme-card" data-theme="Theme 2: Transport &amp; Communication">
+        <button type="button" class="theme-card" data-theme="Sub-Theme 2: Green Energy &amp; Environmental Conservation">
           <div>
             <div class="theme-top">
-              <span class="theme-num" data-i18n="t2Badge">ବିଷୟବସ୍ତୁ 02</span>
-              <span class="theme-emoji" aria-hidden="true">🚆</span>
-            </div>
-            <h3 data-i18n="t2Title">ପରିବହନ ଏବଂ ଯୋଗାଯୋଗ</h3>
-            <p data-i18n="t2Desc">ସ୍ମାର୍ଟ ସଡ଼କ ସୁରକ୍ଷା, ପରିବେଶ ଅନୁକୂଳ ପରିବହନ ମଡେଲ୍, ଗ୍ରାମୀଣ ସଂଯୋଗୀକରଣ ଏବଂ ସୁଗମ ଯୋଗାଯୋଗ ସାଧନ।</p>
-          </div>
-          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
-        </button>
-
-        <button type="button" class="theme-card" data-theme="Theme 3: Natural Farming &amp; Agriculture">
-          <div>
-            <div class="theme-top">
-              <span class="theme-num" data-i18n="t3Badge">ବିଷୟବସ୍ତୁ 03</span>
-              <span class="theme-emoji" aria-hidden="true">🌱</span>
-            </div>
-            <h3 data-i18n="t3Title">ପ୍ରାକୃତିକ କୃଷି ଏବଂ ଚାଷ</h3>
-            <p data-i18n="t3Desc">ଜୈବିକ ମୃତ୍ତିକା ଉର୍ବରତା, ବର୍ଷାଜଳ ଜଳସେଚନ, ଫସଲ ସୁରକ୍ଷା ଏବଂ କୋଟପାଡ଼ ପାଇଁ ସ୍ଥାୟୀ କୃଷି ଉପକରଣ।</p>
-          </div>
-          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
-        </button>
-
-        <button type="button" class="theme-card" data-theme="Theme 4: Disaster Management &amp; Safety">
-          <div>
-            <div class="theme-top">
-              <span class="theme-num" data-i18n="t4Badge">ବିଷୟବସ୍ତୁ 04</span>
-              <span class="theme-emoji" aria-hidden="true">🛡️</span>
-            </div>
-            <h3 data-i18n="t4Title">ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା ଏବଂ ସୁରକ୍ଷା</h3>
-            <p data-i18n="t4Desc">ବନ୍ୟା/ଅଗ୍ନି ଆଗୁଆ ସତର୍କତା ମଡେଲ୍, ସୁରକ୍ଷିତ ଆଶ୍ରୟସ୍ଥଳ ଡିଜାଇନ୍, ଜରୁରୀକାଳୀନ ପ୍ରସ୍ତୁତି ଏବଂ ସୁରକ୍ଷା।</p>
-          </div>
-          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
-        </button>
-
-        <button type="button" class="theme-card" data-theme="Theme 5: Mathematical Modeling &amp; Computational Thinking">
-          <div>
-            <div class="theme-top">
-              <span class="theme-num" data-i18n="t5Badge">ବିଷୟବସ୍ତୁ 05</span>
-              <span class="theme-emoji" aria-hidden="true">📐</span>
-            </div>
-            <h3 data-i18n="t5Title">ଗାଣିତିକ ମଡେଲିଂ ଏବଂ ତର୍କଶକ୍ତି</h3>
-            <p data-i18n="t5Desc">ଦୈନନ୍ଦିନ ଜୀବନରେ ଜ୍ୟାମିତି, ହାତକରା ଗଣିତ ଶିକ୍ଷଣ ଉପକରଣ, ପ୍ୟାଟର୍ଣ୍ଣ ତର୍କ ଏବଂ ସମସ୍ୟା ସମାଧାନ ମଡେଲ୍।</p>
-          </div>
-          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
-        </button>
-
-        <button type="button" class="theme-card" data-theme="Theme 6: Waste Management &amp; Green Energy">
-          <div>
-            <div class="theme-top">
-              <span class="theme-num" data-i18n="t6Badge">ବିଷୟବସ୍ତୁ 06</span>
+              <span class="theme-num" data-i18n="t2Badge">ଉପ-ବିଷୟବସ୍ତୁ 02</span>
               <span class="theme-emoji" aria-hidden="true">☀️</span>
             </div>
-            <h3 data-i18n="t6Title">ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା ଏବଂ ସବୁଜ ଶକ୍ତି</h3>
-            <p data-i18n="t6Desc">ପ୍ଲାଷ୍ଟିକ୍ ପୁନଃଚକ୍ରଣ, ସୌର/ବାୟୁ କ୍ଷୁଦ୍ର ମଡେଲ୍, କମ୍ପୋଷ୍ଟିଂ ପ୍ରଣାଳୀ ଏବଂ ସ୍ୱଚ୍ଛ ଶକ୍ତି ସଂରକ୍ଷଣ।</p>
+            <h3 data-i18n="t2Title">ସବୁଜ ଶକ୍ତି ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ</h3>
+            <p data-i18n="t2Desc">Green Energy &amp; Environmental Conservation — ସୌର/ବାୟୁ ଶକ୍ତି, ଜଳବାୟୁ ସୁରକ୍ଷା ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ ମଡେଲ୍।</p>
           </div>
           <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
         </button>
+
+        <button type="button" class="theme-card" data-theme="Sub-Theme 3: Mathematical Modelling and Computational Thinking">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num" data-i18n="t3Badge">ଉପ-ବିଷୟବସ୍ତୁ 03</span>
+              <span class="theme-emoji" aria-hidden="true">📐</span>
+            </div>
+            <h3 data-i18n="t3Title">ଗାଣିତିକ ମଡେଲିଂ ଏବଂ କମ୍ପ୍ୟୁଟେସନାଲ୍ ଚିନ୍ତାଧାରା</h3>
+            <p data-i18n="t3Desc">Mathematical Modelling and Computational Thinking — ଗଣିତର ପ୍ରାୟୋଗିକ ମଡେଲ୍, ଜ୍ୟାମିତି ଓ ସମସ୍ୟା ସମାଧାନ କୌଶଳ।</p>
+          </div>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
+        </button>
+
+        <button type="button" class="theme-card" data-theme="Sub-Theme 4: Health, Hygiene and Sanitation">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num" data-i18n="t4Badge">ଉପ-ବିଷୟବସ୍ତୁ 04</span>
+              <span class="theme-emoji" aria-hidden="true">🩺</span>
+            </div>
+            <h3 data-i18n="t4Title">ସ୍ୱାସ୍ଥ୍ୟ, ସ୍ୱଚ୍ଛତା ଏବଂ ପରିମଳ</h3>
+            <p data-i18n="t4Desc">Health, Hygiene and Sanitation — ପୁଷ୍ଟି, ବିଶୁଦ୍ଧ ପାନୀୟ ଜଳ, ରୋଗ ପ୍ରତିରୋଧ ଏବଂ ପରିମଳ ଉଦ୍ଭାବନ।</p>
+          </div>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
+        </button>
+
+        <button type="button" class="theme-card" data-theme="Sub-Theme 5: Indigenous Agricultural Practices">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num" data-i18n="t5Badge">ଉପ-ବିଷୟବସ୍ତୁ 05</span>
+              <span class="theme-emoji" aria-hidden="true">🌾</span>
+            </div>
+            <h3 data-i18n="t5Title">ପାରମ୍ପରିକ ଓ ଦେଶୀ କୃଷି ପ୍ରଣାଳୀ</h3>
+            <p data-i18n="t5Desc">Indigenous Agricultural Practices — ଜୈବିକ ଚାଷ, ଦେଶୀ ବିହନ ସଂରକ୍ଷଣ, ଜଳସେଚନ ଓ ସ୍ଥାୟୀ କୃଷି ଯନ୍ତ୍ର।</p>
+          </div>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
+        </button>
+
+        <button type="button" class="theme-card" data-theme="Sub-Theme 6: Science and Rural Transformation">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num" data-i18n="t6Badge">ଉପ-ବିଷୟବସ୍ତୁ 06</span>
+              <span class="theme-emoji" aria-hidden="true">🏘️</span>
+            </div>
+            <h3 data-i18n="t6Title">ବିଜ୍ଞାନ ଏବଂ ଗ୍ରାମୀଣ ରୂପାନ୍ତରଣ</h3>
+            <p data-i18n="t6Desc">Science and Rural Transformation — ଗ୍ରାମୀଣ ଜୀବନଧାରା, ପରିବହନ, ସ୍ଥାନୀୟ ସମସ୍ୟା ଓ ଜୀବିକା ଉନ୍ନୟନ ପାଇଁ ବିଜ୍ଞାନ।</p>
+          </div>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
+        </button>
+
+        <button type="button" class="theme-card" data-theme="Sub-Theme 7: Disaster Management">
+          <div>
+            <div class="theme-top">
+              <span class="theme-num" data-i18n="t7Badge">ଉପ-ବିଷୟବସ୍ତୁ 07</span>
+              <span class="theme-emoji" aria-hidden="true">🛡️</span>
+            </div>
+            <h3 data-i18n="t7Title">ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା</h3>
+            <p data-i18n="t7Desc">Disaster Management — ବନ୍ୟା, ବାତ୍ୟା, ଅଗ୍ନି ଓ ଭୂମିକମ୍ପ ଆଗୁଆ ସତର୍କତା ଏବଂ ଜରୁରୀକାଳୀନ ସୁରକ୍ଷା ମଡେଲ୍।</p>
+          </div>
+          <span class="theme-select-hint" data-i18n="themePickHint">ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →</span>
+        </button>
+      </div>
+
+      <div style="margin-top:26px; background:#fff7ed; border:1px solid #fed7aa; border-radius:16px; padding:18px 22px; font-size:0.86rem; color:var(--ink-muted); line-height:1.6;" data-i18n-html="judgingCriteriaNote">
+        <strong>ମୂଲ୍ୟାୟନ ମାନଦଣ୍ଡ (Selection Criteria):</strong> ସୃଜନଶୀଳତା ଓ କଳ୍ପନା (20%) • ମୌଳିକତା/ନବସୃଜନ (15%) • ବୈଜ୍ଞାନିକ ଚିନ୍ତାଧାରା (15%) • ବୈଷୟିକ ଦକ୍ଷତା (15%) • ସମାଜ ପାଇଁ ଉପଯୋଗିତା (15%) • ସ୍ୱଳ୍ପ ଖର୍ଚ୍ଚ ଓ ସ୍ଥାୟୀତ୍ୱ (10%) • ଉପସ୍ଥାପନା (10%)। <strong>ପ୍ରତି ଉପ-ବିଷୟବସ୍ତୁରୁ ଶ୍ରେଷ୍ଠ ୧ଟି କରି ମୋଟ ୭ଟି ପ୍ରକଳ୍ପ ୦୪.୧୨.୨୦୨୬ ରେ ଜିଲ୍ଲା ସ୍ତରୀୟ ପ୍ରଦର୍ଶନୀ (ସରକାରୀ ଉଚ୍ଚ ବିଦ୍ୟାଳୟ, କୋରାପୁଟ) କୁ ଯିବେ।</strong>
       </div>
     </div>
   </section>
@@ -2212,15 +2247,16 @@
 
             <div class="form-grid-2">
               <div class="field full">
-                <label for="selectedTheme" data-i18n-html="selectThemeLabel">ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୬ଟି ମଧ୍ୟରୁ ୧ଟି) <span class="req">*</span></label>
+                <label for="selectedTheme" data-i18n-html="selectThemeLabel">ପ୍ରତିଯୋଗିତା ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୭ଟି ମଧ୍ୟରୁ ୧ଟି) <span class="req">*</span></label>
                 <select id="selectedTheme" name="selectedTheme" required>
-                  <option value="" data-i18n="optThemeDefault">-- ଏକ ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ --</option>
-                  <option value="Theme 1: Food, Health &amp; Hygiene" data-i18n="optTheme1">ବିଷୟବସ୍ତୁ ୧: ଖାଦ୍ୟ, ସ୍ୱାସ୍ଥ୍ୟ ଏବଂ ସ୍ୱଚ୍ଛତା</option>
-                  <option value="Theme 2: Transport &amp; Communication" data-i18n="optTheme2">ବିଷୟବସ୍ତୁ ୨: ପରିବହନ ଏବଂ ଯୋଗାଯୋଗ</option>
-                  <option value="Theme 3: Natural Farming &amp; Agriculture" data-i18n="optTheme3">ବିଷୟବସ୍ତୁ ୩: ପ୍ରାକୃତିକ କୃଷି ଏବଂ ଚାଷ</option>
-                  <option value="Theme 4: Disaster Management &amp; Safety" data-i18n="optTheme4">ବିଷୟବସ୍ତୁ ୪: ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା ଏବଂ ସୁରକ୍ଷା</option>
-                  <option value="Theme 5: Mathematical Modeling &amp; Computational Thinking" data-i18n="optTheme5">ବିଷୟବସ୍ତୁ ୫: ଗାଣିତିକ ମଡେଲିଂ ଏବଂ ତର୍କଶକ୍ତି</option>
-                  <option value="Theme 6: Waste Management &amp; Green Energy" data-i18n="optTheme6">ବିଷୟବସ୍ତୁ ୬: ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା ଏବଂ ସବୁଜ ଶକ୍ତି</option>
+                  <option value="" data-i18n="optThemeDefault">-- ଏକ ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ --</option>
+                  <option value="Sub-Theme 1: Artificial Intelligence (AI) for Better Life" data-i18n="optTheme1">ଉପ-ବିଷୟବସ୍ତୁ ୧: ଉନ୍ନତ ଜୀବନ ପାଇଁ କୃତ୍ରିମ ବୁଦ୍ଧିମତ୍ତା (AI)</option>
+                  <option value="Sub-Theme 2: Green Energy &amp; Environmental Conservation" data-i18n="optTheme2">ଉପ-ବିଷୟବସ୍ତୁ ୨: ସବୁଜ ଶକ୍ତି ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ</option>
+                  <option value="Sub-Theme 3: Mathematical Modelling and Computational Thinking" data-i18n="optTheme3">ଉପ-ବିଷୟବସ୍ତୁ ୩: ଗାଣିତିକ ମଡେଲିଂ ଏବଂ କମ୍ପ୍ୟୁଟେସନାଲ୍ ଚିନ୍ତାଧାରା</option>
+                  <option value="Sub-Theme 4: Health, Hygiene and Sanitation" data-i18n="optTheme4">ଉପ-ବିଷୟବସ୍ତୁ ୪: ସ୍ୱାସ୍ଥ୍ୟ, ସ୍ୱଚ୍ଛତା ଏବଂ ପରିମଳ</option>
+                  <option value="Sub-Theme 5: Indigenous Agricultural Practices" data-i18n="optTheme5">ଉପ-ବିଷୟବସ୍ତୁ ୫: ପାରମ୍ପରିକ ଓ ଦେଶୀ କୃଷି ପ୍ରଣାଳୀ</option>
+                  <option value="Sub-Theme 6: Science and Rural Transformation" data-i18n="optTheme6">ଉପ-ବିଷୟବସ୍ତୁ ୬: ବିଜ୍ଞାନ ଏବଂ ଗ୍ରାମୀଣ ରୂପାନ୍ତରଣ</option>
+                  <option value="Sub-Theme 7: Disaster Management" data-i18n="optTheme7">ଉପ-ବିଷୟବସ୍ତୁ ୭: ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା</option>
                 </select>
               </div>
 
@@ -2231,23 +2267,23 @@
             </div>
           </div>
 
-          <!-- Step 3: 2 Students + Optional Photo Copy -->
+          <!-- Step 3: Student Presenter + 1-Line Helper Note -->
           <div class="form-block form-section-locked" id="step3Block">
             <div class="block-title">
               <span class="step-badge">3</span>
-              <span data-i18n="step3Title">ଅଂଶଗ୍ରହଣକାରୀ ବିବରଣୀ (ପ୍ରତି ବିଦ୍ୟାଳୟରୁ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ ବାଧ୍ୟତାମୂଳକ)</span>
+              <span data-i18n="step3Title">ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ବିବରଣୀ</span>
             </div>
 
             <div class="students-split">
-              <!-- Student 1 -->
+              <!-- Primary Student Presenter -->
               <div class="student-panel">
                 <div class="student-panel-head">
-                  <h4 data-i18n="s1PanelHead">ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ୧</h4>
+                  <h4 data-i18n="s1PanelHead">ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ (Participant)</h4>
                   <span class="student-badge" data-i18n="requiredBadge">ବାଧ୍ୟତାମୂଳକ</span>
                 </div>
                 <div class="student-fields">
                   <div class="field">
-                    <label for="s1Name" data-i18n-html="s1NameLabel">ଛାତ୍ର/ଛାତ୍ରୀ ୧ ର ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span></label>
+                    <label for="s1Name" data-i18n-html="s1NameLabel">ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span></label>
                     <input type="text" id="s1Name" name="s1Name" data-i18n-placeholder="studentNamePh" placeholder="ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ" required />
                   </div>
 
@@ -2278,11 +2314,11 @@
                   </div>
 
                   <div class="field">
-                    <label for="s1Photo" data-i18n-html="s1PhotoLabel">ଅଂଶଗ୍ରହଣକାରୀ ୧ ଫଟୋ / ଫଟୋ କପି <span class="opt-tag">ବୈକଳ୍ପିକ</span></label>
+                    <label for="s1Photo" data-i18n-html="s1PhotoLabel">ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ଫଟୋ <span class="opt-tag">ବୈକଳ୍ପିକ</span></label>
                     <div class="photo-drop">
                       <input type="file" id="s1Photo" name="s1Photo" accept="image/*" />
                       <div class="photo-preview-wrap" id="s1PreviewWrap">
-                        <img src="" alt="Student 1 Photo Preview" class="photo-thumb" id="s1Thumb" />
+                        <img src="" alt="Student Photo Preview" class="photo-thumb" id="s1Thumb" />
                         <span class="photo-meta" id="s1FileName"></span>
                         <button type="button" class="btn-clear-photo" data-clear="1" data-i18n="removeBtn">ବାହାର କରନ୍ତୁ</button>
                       </div>
@@ -2291,56 +2327,9 @@
                 </div>
               </div>
 
-              <!-- Student 2 -->
-              <div class="student-panel">
-                <div class="student-panel-head">
-                  <h4 data-i18n="s2PanelHead">ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ୨</h4>
-                  <span class="student-badge" data-i18n="requiredBadge">ବାଧ୍ୟତାମୂଳକ</span>
-                </div>
-                <div class="student-fields">
-                  <div class="field">
-                    <label for="s2Name" data-i18n-html="s2NameLabel">ଛାତ୍ର/ଛାତ୍ରୀ ୨ ର ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span></label>
-                    <input type="text" id="s2Name" name="s2Name" data-i18n-placeholder="studentNamePh" placeholder="ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ" required />
-                  </div>
-
-                  <div class="form-grid-2">
-                    <div class="field">
-                      <label for="s2Class" data-i18n-html="classLabel">ଶ୍ରେଣୀ <span class="req">*</span></label>
-                      <select id="s2Class" name="s2Class" required>
-                        <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
-                        <option value="Class VI" data-i18n="cls6">ଷଷ୍ଠ ଶ୍ରେଣୀ (Class VI)</option>
-                        <option value="Class VII" data-i18n="cls7">ସପ୍ତମ ଶ୍ରେଣୀ (Class VII)</option>
-                        <option value="Class VIII" data-i18n="cls8">ଅଷ୍ଟମ ଶ୍ରେଣୀ (Class VIII)</option>
-                        <option value="Class IX" data-i18n="cls9">ନବମ ଶ୍ରେଣୀ (Class IX)</option>
-                        <option value="Class X" data-i18n="cls10">ଦଶମ ଶ୍ରେଣୀ (Class X)</option>
-                        <option value="Class XI" data-i18n="cls11">ଏକାଦଶ ଶ୍ରେଣୀ (Class XI)</option>
-                        <option value="Class XII" data-i18n="cls12">ଦ୍ୱାଦଶ ଶ୍ରେଣୀ (Class XII)</option>
-                      </select>
-                    </div>
-
-                    <div class="field">
-                      <label for="s2Gender" data-i18n-html="genderLabel">ଲିଙ୍ଗ <span class="req">*</span></label>
-                      <select id="s2Gender" name="s2Gender" required>
-                        <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
-                        <option value="Female" data-i18n="genF">ଛାତ୍ରୀ (Female)</option>
-                        <option value="Male" data-i18n="genM">ଛାତ୍ର (Male)</option>
-                        <option value="Other" data-i18n="genO">ଅନ୍ୟାନ୍ୟ (Other)</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label for="s2Photo" data-i18n-html="s2PhotoLabel">ଅଂଶଗ୍ରହଣକାରୀ ୨ ଫଟୋ / ଫଟୋ କପି <span class="opt-tag">ବୈକଳ୍ପିକ</span></label>
-                    <div class="photo-drop">
-                      <input type="file" id="s2Photo" name="s2Photo" accept="image/*" />
-                      <div class="photo-preview-wrap" id="s2PreviewWrap">
-                        <img src="" alt="Student 2 Photo Preview" class="photo-thumb" id="s2Thumb" />
-                        <span class="photo-meta" id="s2FileName"></span>
-                        <button type="button" class="btn-clear-photo" data-clear="2" data-i18n="removeBtn">ବାହାର କରନ୍ତୁ</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div class="helper-one-line-note" data-i18n-html="helperOneLineNote">
+                <span>ℹ️</span>
+                <span><strong>ଟିପ୍ପଣୀ:</strong> ପ୍ରକଳ୍ପ ଉପସ୍ଥାପନାରେ ସାହାଯ୍ୟ କରିବା ପାଇଁ ଆଉ ଜଣେ ଛାତ୍ର/ଛାତ୍ରୀ <strong>ସହଯୋଗୀ (Co-Participant / Helper)</strong> ଭାବେ ସାଙ୍ଗରେ ଆସିପାରିବେ (ତାଙ୍କ ନାମ ପଞ୍ଜୀକରଣ କରିବା ଆବଶ୍ୟକ ନାହିଁ)।</span>
               </div>
             </div>
           </div>
@@ -2409,9 +2398,11 @@
 
         <div class="slip-photos" id="slipPhotos"></div>
 
-        <div class="modal-actions">
+        <div class="modal-actions" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end;">
           <button type="button" class="btn btn-secondary" id="modalDoneBtn" data-i18n="closeBtn">ବନ୍ଦ କରନ୍ତୁ</button>
-          <button type="button" class="btn btn-primary" onclick="window.print()" data-i18n="printBtn">ପ୍ରିଣ୍ଟ / ସେଭ୍ କରନ୍ତୁ</button>
+          <button type="button" class="btn btn-secondary" onclick="window.print()" data-i18n="printBtn">ପ୍ରିଣ୍ଟ</button>
+          <button type="button" class="btn btn-primary" id="saveSlipBtn" data-i18n="saveSlipBtn">📥 ସ୍ଲିପ୍ ସେଭ୍ (ଗ୍ୟାଲେରୀ)</button>
+          <button type="button" class="btn btn-submit" id="shareSlipBtn" data-i18n="shareSlipBtn">📤 ସେୟାର କରନ୍ତୁ</button>
         </div>
       </div>
     </div>
@@ -2425,7 +2416,7 @@
           pageTitle: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼) — ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ',
           langBtnText: 'English',
           brandTitle: 'କୋଟପାଡ଼ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ ୨୦୨୬–୨୭',
-          brandSub: 'ବ୍ଲକ ଶିକ୍ଷା କାର୍ଯ୍ୟାଳୟ, କୋଟପାଡ଼ • ଷଷ୍ଠ–ଦ୍ୱାଦଶ ଶ୍ରେଣୀ',
+          brandSub: 'ବ୍ଲକ ଶିକ୍ଷା କାର୍ଯ୍ୟାଳୟ, କୋଟପାଡ଼ • କେବଳ ସରକାରୀ ବିଦ୍ୟାଳୟ (ଷଷ୍ଠ–ଦ୍ୱାଦଶ)',
           registerNowBtn: 'ଏବେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ',
           drawerRegister: 'ବିଦ୍ୟାଳୟ ଦଳ ପଞ୍ଜୀକରଣ କରନ୍ତୁ',
           drawerMore: 'ବିସ୍ତୃତ ବିବରଣୀ (ନିୟମାବଳୀ, ବିଷୟବସ୍ତୁ ଏବଂ ପରିଚାଳନା କମିଟି)',
@@ -2451,35 +2442,41 @@
           guideEyebrow: 'ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ନିୟମାବଳୀ',
           guideHeading: 'ବିଦ୍ୟାଳୟଗୁଡ଼ିକ ପାଇଁ ପଞ୍ଜୀକରଣ ମାର୍ଗଦର୍ଶିକା',
           guideSub: 'ତଳେ ଥିବା ଦଳଗତ ପଞ୍ଜୀକରଣ ଫର୍ମ ପୂରଣ କରିବା ପୂର୍ବରୁ ଏହି ମୁଖ୍ୟ ନିୟମଗୁଡ଼ିକ ପଢ଼ନ୍ତୁ।',
-          g1Title: 'ଉଚ୍ଚ ପ୍ରାଥମିକ, ହାଇସ୍କୁଲ ଓ ଉଚ୍ଚ ମାଧ୍ୟମିକ',
-          g1Desc: 'କୋଟପାଡ଼ ବ୍ଲକର ସମସ୍ତ <strong>ଉଚ୍ଚ ପ୍ରାଥମିକ, ଉଚ୍ଚ ବିଦ୍ୟାଳୟ ଏବଂ ଉଚ୍ଚ ମାଧ୍ୟମିକ ବିଦ୍ୟାଳୟ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)</strong> ଏଥିରେ ଅଂଶଗ୍ରହଣ କରିପାରିବେ। ପ୍ରାଥମିକ ଶ୍ରେଣୀ (୧ମ–୫ମ) ଅନ୍ତର୍ଭୁକ୍ତ ନୁହେଁ।',
-          g2Title: 'ପ୍ରତି ଦଳରେ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ',
-          g2Desc: 'ପ୍ରତ୍ୟେକ ଅଂଶଗ୍ରହଣକାରୀ ବିଦ୍ୟାଳୟ ଜଣେ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ସହ ଠିକ୍ <strong>୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ</strong>ଙ୍କୁ ପଞ୍ଜୀକରଣ କରିବେ।',
-          g3Title: '୬ଟି ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ୧ଟି ବାଛନ୍ତୁ',
-          g3Desc: '୬ଟି ସରକାରୀ ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ଗୋଟିଏ ବାଛନ୍ତୁ ଏବଂ ଏକ ମୌଳିକ କାର୍ଯ୍ୟକାରୀ ମଡେଲ୍ କିମ୍ବା ପ୍ରକଳ୍ପ ପ୍ରସ୍ତୁତ କରନ୍ତୁ।',
+          g1Title: 'କେବଳ ସରକାରୀ ବିଦ୍ୟାଳୟ (ଷଷ୍ଠ–ଦ୍ୱାଦଶ)',
+          g1Desc: 'କୋଟପାଡ଼ ବ୍ଲକର କେବଳ <strong>ସରକାରୀ ବିଦ୍ୟାଳୟ (ଉଚ୍ଚ ପ୍ରାଥମିକ, ଉଚ୍ଚ ବିଦ୍ୟାଳୟ ଏବଂ ଉଚ୍ଚ ମାଧ୍ୟମିକ — ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)</strong> ଅଂଶଗ୍ରହଣ କରିପାରିବେ। ପ୍ରାଥମିକ ଶ୍ରେଣୀ (୧ମ–୫ମ) ଓ ବେସରକାରୀ ବିଦ୍ୟାଳୟ ଅନ୍ତର୍ଭୁକ୍ତ ନୁହେଁ।',
+          g2Title: '୧ ମୁଖ୍ୟ ଛାତ୍ର/ଛାତ୍ରୀ (+୧ ସହଯୋଗୀ ବୈକଳ୍ପିକ)',
+          g2Desc: 'ପ୍ରତି ବିଦ୍ୟାଳୟରୁ ଜଣେ <strong>ମୁଖ୍ୟ ଅଂଶଗ୍ରହଣକାରୀ</strong> ପଞ୍ଜୀକରଣ କରିବେ। ଆବଶ୍ୟକ ସ୍ଥଳେ ସାହାଯ୍ୟ ପାଇଁ ଜଣେ <strong>ସହଯୋଗୀ ଛାତ୍ର/ଛାତ୍ରୀ (Helper)</strong> ସାଙ୍ଗରେ ଆସିପାରିବେ (ବୈକଳ୍ପିକ)।',
+          g3Title: '୭ଟି ଉପ-ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ୧ଟି ବାଛନ୍ତୁ',
+          g3Desc: 'DEO କୋରାପୁଟ ନିର୍ଦ୍ଦେଶିତ ୭ଟି ସରକାରୀ ଉପ-ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ଗୋଟିଏ ବାଛନ୍ତୁ ଏବଂ ଏକ କାର୍ଯ୍ୟକାରୀ ମଡେଲ୍ ପ୍ରସ୍ତୁତ କରନ୍ତୁ।',
           g4Title: 'ଫଟୋ କପି ବୈକଳ୍ପିକ (Optional)',
           g4Desc: 'ଅଂଶଗ୍ରହଣକାରୀଙ୍କ ଫଟୋ କିମ୍ବା ଫଟୋକପି ଅପଲୋଡ୍ କରିବା <strong>ବୈକଳ୍ପିକ</strong> ଅଟେ। ଆପଣ ଫଟୋ ସହ କିମ୍ବା ବିନା ଫଟୋରେ ଦାଖଲ କରିପାରିବେ।',
-          themesEyebrow: 'ପ୍ରତିଯୋଗିତା ବିଭାଗ',
-          themesHeading: 'ପ୍ରଦର୍ଶନୀର ୬ଟି ବିଷୟବସ୍ତୁ (Themes)',
-          themesSub: 'ପଞ୍ଜୀକରଣ ଫର୍ମରେ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ବାଛିବା ପାଇଁ ତଳୁ ଯେକୌଣସି ବିଷୟବସ୍ତୁ କାର୍ଡ ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ।',
-          t1Badge: 'ବିଷୟବସ୍ତୁ 01',
-          t1Title: 'ଖାଦ୍ୟ, ସ୍ୱାସ୍ଥ୍ୟ ଏବଂ ସ୍ୱଚ୍ଛତା',
-          t1Desc: 'ସନ୍ତୁଳିତ ପୁଷ୍ଟି, ବିଶୁଦ୍ଧ ପାନୀୟ ଜଳ, ପରିମଳ ବ୍ୟବସ୍ଥା ଏବଂ ସ୍ୱଳ୍ପ ଖର୍ଚ୍ଚର ଗୋଷ୍ଠୀ ସ୍ୱାସ୍ଥ୍ୟ ଉଦ୍ଭାବନ।',
-          t2Badge: 'ବିଷୟବସ୍ତୁ 02',
-          t2Title: 'ପରିବହନ ଏବଂ ଯୋଗାଯୋଗ',
-          t2Desc: 'ସ୍ମାର୍ଟ ସଡ଼କ ସୁରକ୍ଷା, ପରିବେଶ ଅନୁକୂଳ ପରିବହନ ମଡେଲ୍, ଗ୍ରାମୀଣ ସଂଯୋଗୀକରଣ ଏବଂ ସୁଗମ ଯୋଗାଯୋଗ ସାଧନ।',
-          t3Badge: 'ବିଷୟବସ୍ତୁ 03',
-          t3Title: 'ପ୍ରାକୃତିକ କୃଷି ଏବଂ ଚାଷ',
-          t3Desc: 'ଜୈବିକ ମୃତ୍ତିକା ଉର୍ବରତା, ବର୍ଷାଜଳ ଜଳସେଚନ, ଫସଲ ସୁରକ୍ଷା ଏବଂ କୋଟପାଡ଼ ପାଇଁ ସ୍ଥାୟୀ କୃଷି ଉପକରଣ।',
-          t4Badge: 'ବିଷୟବସ୍ତୁ 04',
-          t4Title: 'ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା ଏବଂ ସୁରକ୍ଷା',
-          t4Desc: 'ବନ୍ୟା/ଅଗ୍ନି ଆଗୁଆ ସତର୍କତା ମଡେଲ୍, ସୁରକ୍ଷିତ ଆଶ୍ରୟସ୍ଥଳ ଡିଜାଇନ୍, ଜରୁରୀକାଳୀନ ପ୍ରସ୍ତୁତି ଏବଂ ସୁରକ୍ଷା।',
-          t5Badge: 'ବିଷୟବସ୍ତୁ 05',
-          t5Title: 'ଗାଣିତିକ ମଡେଲିଂ ଏବଂ ତର୍କଶକ୍ତି',
-          t5Desc: 'ଦୈନନ୍ଦିନ ଜୀବନରେ ଜ୍ୟାମିତି, ହାତକରା ଗଣିତ ଶିକ୍ଷଣ ଉପକରଣ, ପ୍ୟାଟର୍ଣ୍ଣ ତର୍କ ଏବଂ ସମସ୍ୟା ସମାଧାନ ମଡେଲ୍।',
-          t6Badge: 'ବିଷୟବସ୍ତୁ 06',
-          t6Title: 'ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା ଏବଂ ସବୁଜ ଶକ୍ତି',
-          t6Desc: 'ପ୍ଲାଷ୍ଟିକ୍ ପୁନଃଚକ୍ରଣ, ସୌର/ବାୟୁ କ୍ଷୁଦ୍ର ମଡେଲ୍, କମ୍ପୋଷ୍ଟିଂ ପ୍ରଣାଳୀ ଏବଂ ସ୍ୱଚ୍ଛ ଶକ୍ତି ସଂରକ୍ଷଣ।',
+          themesEyebrow: 'ପ୍ରତିଯୋଗିତା ବିଭାଗ (୭ଟି ଉପ-ବିଷୟବସ୍ତୁ)',
+          themesHeading: 'ପ୍ରଦର୍ଶନୀର ୭ଟି ଉପ-ବିଷୟବସ୍ତୁ (Sub-Themes)',
+          themesSub: 'ପଞ୍ଜୀକରଣ ଫର୍ମରେ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ବାଛିବା ପାଇଁ ତଳୁ ଯେକୌଣସି ଉପ-ବିଷୟବସ୍ତୁ କାର୍ଡ ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ।',
+          mainThemeLabel: 'ମୁଖ୍ୟ ବିଷୟବସ୍ତୁ (MAIN THEME — TE & SCERT)',
+          mainThemeValue: '“Science, Technology and Innovation for a Sustainable and Viksit Bharat”',
+          t1Badge: 'ଉପ-ବିଷୟବସ୍ତୁ 01',
+          t1Title: 'ଉନ୍ନତ ଜୀବନ ପାଇଁ କୃତ୍ରିମ ବୁଦ୍ଧିମତ୍ତା (AI)',
+          t1Desc: 'Artificial Intelligence (AI) for Better Life — ଶିକ୍ଷା, ସ୍ୱାସ୍ଥ୍ୟ, କୃଷି ଓ ଦୈନନ୍ଦିନ ଜୀବନରେ AI ଓ ସ୍ମାର୍ଟ ପ୍ରଯୁକ୍ତିର ବ୍ୟବହାର।',
+          t2Badge: 'ଉପ-ବିଷୟବସ୍ତୁ 02',
+          t2Title: 'ସବୁଜ ଶକ୍ତି ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ',
+          t2Desc: 'Green Energy & Environmental Conservation — ସୌର/ବାୟୁ ଶକ୍ତି, ଜଳବାୟୁ ସୁରକ୍ଷା ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ ମଡେଲ୍।',
+          t3Badge: 'ଉପ-ବିଷୟବସ୍ତୁ 03',
+          t3Title: 'ଗାଣିତିକ ମଡେଲିଂ ଏବଂ କମ୍ପ୍ୟୁଟେସନାଲ୍ ଚିନ୍ତାଧାରା',
+          t3Desc: 'Mathematical Modelling and Computational Thinking — ଗଣିତର ପ୍ରାୟୋଗିକ ମଡେଲ୍, ଜ୍ୟାମିତି ଓ ସମସ୍ୟା ସମାଧାନ କୌଶଳ।',
+          t4Badge: 'ଉପ-ବିଷୟବସ୍ତୁ 04',
+          t4Title: 'ସ୍ୱାସ୍ଥ୍ୟ, ସ୍ୱଚ୍ଛତା ଏବଂ ପରିମଳ',
+          t4Desc: 'Health, Hygiene and Sanitation — ପୁଷ୍ଟି, ବିଶୁଦ୍ଧ ପାନୀୟ ଜଳ, ରୋଗ ପ୍ରତିରୋଧ ଏବଂ ପରିମଳ ଉଦ୍ଭାବନ।',
+          t5Badge: 'ଉପ-ବିଷୟବସ୍ତୁ 05',
+          t5Title: 'ପାରମ୍ପରିକ ଓ ଦେଶୀ କୃଷି ପ୍ରଣାଳୀ',
+          t5Desc: 'Indigenous Agricultural Practices — ଜୈବିକ ଚାଷ, ଦେଶୀ ବିହନ ସଂରକ୍ଷଣ, ଜଳସେଚନ ଓ ସ୍ଥାୟୀ କୃଷି ଯନ୍ତ୍ର।',
+          t6Badge: 'ଉପ-ବିଷୟବସ୍ତୁ 06',
+          t6Title: 'ବିଜ୍ଞାନ ଏବଂ ଗ୍ରାମୀଣ ରୂପାନ୍ତରଣ',
+          t6Desc: 'Science and Rural Transformation — ଗ୍ରାମୀଣ ଜୀବନଧାରା, ପରିବହନ, ସ୍ଥାନୀୟ ସମସ୍ୟା ଓ ଜୀବିକା ଉନ୍ନୟନ ପାଇଁ ବିଜ୍ଞାନ।',
+          t7Badge: 'ଉପ-ବିଷୟବସ୍ତୁ 07',
+          t7Title: 'ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା',
+          t7Desc: 'Disaster Management — ବନ୍ୟା, ବାତ୍ୟା, ଅଗ୍ନି ଓ ଭୂମିକମ୍ପ ଆଗୁଆ ସତର୍କତା ଏବଂ ଜରୁରୀକାଳୀନ ସୁରକ୍ଷା ମଡେଲ୍।',
+          judgingCriteriaNote: '<strong>ମୂଲ୍ୟାୟନ ମାନଦଣ୍ଡ (Selection Criteria):</strong> ସୃଜନଶୀଳତା ଓ କଳ୍ପନା (20%) • ମୌଳିକତା/ନବସୃଜନ (15%) • ବୈଜ୍ଞାନିକ ଚିନ୍ତାଧାରା (15%) • ବୈଷୟିକ ଦକ୍ଷତା (15%) • ସମାଜ ପାଇଁ ଉପଯୋଗିତା (15%) • ସ୍ୱଳ୍ପ ଖର୍ଚ୍ଚ ଓ ସ୍ଥାୟୀତ୍ୱ (10%) • ଉପସ୍ଥାପନା (10%)। <strong>ପ୍ରତି ଉପ-ବିଷୟବସ୍ତୁରୁ ଶ୍ରେଷ୍ଠ ୧ଟି କରି ମୋଟ ୭ଟି ପ୍ରକଳ୍ପ ୦୪.୧୨.୨୦୨୬ ରେ ଜିଲ୍ଲା ସ୍ତରୀୟ ପ୍ରଦର୍ଶନୀ (ସରକାରୀ ଉଚ୍ଚ ବିଦ୍ୟାଳୟ, କୋରାପୁଟ) କୁ ଯିବେ।</strong>',
           themePickHint: 'ଏହି ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ →',
           themeSelectedHint: '✓ ପଞ୍ଜୀକରଣ ପାଇଁ ବଛାଯାଇଛି',
           commEyebrow: 'ବ୍ଲକ ଶିକ୍ଷା କାର୍ଯ୍ୟାଳୟ, କୋଟପାଡ଼',
@@ -2494,11 +2491,11 @@
           commDutyNote: '<strong>ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ସୂଚନା:</strong> ଉପରୋକ୍ତ ସମସ୍ତ ଶିକ୍ଷକ ଓ କମିଟି ସଦସ୍ୟମାନେ <strong>୨୫.୧୧.୨୦୨୬ (ବୁଧବାର) ସକାଳ ୮:୩୦ ଘଟିକାରେ</strong> ପ୍ରଦର୍ଶନୀ ସ୍ଥଳ (<strong>ସରକାରୀ ଉଚ୍ଚ ବିଦ୍ୟାଳୟ, କୋଟପାଡ଼</strong>) ରେ ନିଶ୍ଚିତ ଭାବେ ଉପସ୍ଥିତ ରହି ଦାୟିତ୍ୱ ନିର୍ବାହ କରିବେ। ସମ୍ପୃକ୍ତ ପ୍ରଧାନଶିକ୍ଷକମାନେ ବିଦ୍ୟାଳୟର ସ୍ୱାଭାବିକ ପାଠପଢ଼ା ବାଧିତ ନହେବା ଭଳି ଶିକ୍ଷକମାନଙ୍କୁ କାର୍ଯ୍ୟମୁକ୍ତ (relieve) କରିବେ।',
           regEyebrow: 'ବିଦ୍ୟାଳୟ ଏବଂ ଛାତ୍ରଛାତ୍ରୀ ନାମଲେଖା',
           regHeading: 'ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ ଫର୍ମ',
-          regSub: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼) — ଶେଷ ତାରିଖ: <strong>23/11/2026</strong>',
+          regSub: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼) — ଶେଷ ତାରିଖ: <strong>{lastDate}</strong>',
           formBannerTitle: 'ବିଦ୍ୟାଳୟ ଦଳ ପଞ୍ଜୀକରଣ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)',
-          formBannerSub: 'ଉଚ୍ଚ ପ୍ରାଥମିକ, ହାଇସ୍କୁଲ ଓ ଉଚ୍ଚ ମାଧ୍ୟମିକ (୧ମ–୫ମ ବ୍ୟତୀତ) • ୨ ଛାତ୍ରଛାତ୍ରୀ • ୧ ବିଷୟବସ୍ତୁ • ଫଟୋ ବୈକଳ୍ପିକ',
-          viewThemesBtn: '୬ଟି ବିଷୟବସ୍ତୁ ଓ ନିୟମ ଦେଖନ୍ତୁ',
-          formDeadlineChip: 'ଶେଷ ତାରିଖ: 23 / 11 / 2026',
+          formBannerSub: 'କେବଳ ସରକାରୀ ବିଦ୍ୟାଳୟ (UP, HS, HSS • ୧ମ–୫ମ ବ୍ୟତୀତ) • ୧ ମୁଖ୍ୟ (+୧ ସହଯୋଗୀ ବୈକଳ୍ପିକ) • ୭ଟି ଉପ-ବିଷୟବସ୍ତୁ',
+          viewThemesBtn: '୭ଟି ଉପ-ବିଷୟବସ୍ତୁ ଓ ନିୟମ ଦେଖନ୍ତୁ',
+          formDeadlineChip: 'ଶେଷ ତାରିଖ: {lastDateSpaced}',
           step1Title: 'ବିଦ୍ୟାଳୟର UDISE ନମ୍ବର ଦିଅନ୍ତୁ (କୋଟପାଡ଼ ବ୍ଲକ)',
           udiseLabel: '1. ୧୧-ଅଙ୍କ ବିଶିଷ୍ଟ ବିଦ୍ୟାଳୟ UDISE ନମ୍ବର ଦିଅନ୍ତୁ <span class="req">*</span>',
           udisePh: 'UDISE ଟାଇପ୍ କରନ୍ତୁ ଯେପରି 21290700201',
@@ -2540,25 +2537,25 @@
           teacherPhoneLabel: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର <span class="req">*</span>',
           teacherPhonePh: '୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର',
           step2Title: 'ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ଏବଂ ପ୍ରକଳ୍ପ ବିବରଣୀ',
-          selectThemeLabel: 'ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୬ଟି ମଧ୍ୟରୁ ୧ଟି) <span class="req">*</span>',
-          optThemeDefault: '-- ଏକ ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ --',
-          optTheme1: 'ବିଷୟବସ୍ତୁ ୧: ଖାଦ୍ୟ, ସ୍ୱାସ୍ଥ୍ୟ ଏବଂ ସ୍ୱଚ୍ଛତା',
-          optTheme2: 'ବିଷୟବସ୍ତୁ ୨: ପରିବହନ ଏବଂ ଯୋଗାଯୋଗ',
-          optTheme3: 'ବିଷୟବସ୍ତୁ ୩: ପ୍ରାକୃତିକ କୃଷି ଏବଂ ଚାଷ',
-          optTheme4: 'ବିଷୟବସ୍ତୁ ୪: ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା ଏବଂ ସୁରକ୍ଷା',
-          optTheme5: 'ବିଷୟବସ୍ତୁ ୫: ଗାଣିତିକ ମଡେଲିଂ ଏବଂ ତର୍କଶକ୍ତି',
-          optTheme6: 'ବିଷୟବସ୍ତୁ ୬: ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା ଏବଂ ସବୁଜ ଶକ୍ତି',
+          selectThemeLabel: 'ପ୍ରତିଯୋଗିତା ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୭ଟି ମଧ୍ୟରୁ ୧ଟି) <span class="req">*</span>',
+          optThemeDefault: '-- ଏକ ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ --',
+          optTheme1: 'ଉପ-ବିଷୟବସ୍ତୁ ୧: ଉନ୍ନତ ଜୀବନ ପାଇଁ କୃତ୍ରିମ ବୁଦ୍ଧିମତ୍ତା (AI)',
+          optTheme2: 'ଉପ-ବିଷୟବସ୍ତୁ ୨: ସବୁଜ ଶକ୍ତି ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ',
+          optTheme3: 'ଉପ-ବିଷୟବସ୍ତୁ ୩: ଗାଣିତିକ ମଡେଲିଂ ଏବଂ କମ୍ପ୍ୟୁଟେସନାଲ୍ ଚିନ୍ତାଧାରା',
+          optTheme4: 'ଉପ-ବିଷୟବସ୍ତୁ ୪: ସ୍ୱାସ୍ଥ୍ୟ, ସ୍ୱଚ୍ଛତା ଏବଂ ପରିମଳ',
+          optTheme5: 'ଉପ-ବିଷୟବସ୍ତୁ ୫: ପାରମ୍ପରିକ ଓ ଦେଶୀ କୃଷି ପ୍ରଣାଳୀ',
+          optTheme6: 'ଉପ-ବିଷୟବସ୍ତୁ ୬: ବିଜ୍ଞାନ ଏବଂ ଗ୍ରାମୀଣ ରୂପାନ୍ତରଣ',
+          optTheme7: 'ଉପ-ବିଷୟବସ୍ତୁ ୭: ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା',
           projectTitleLabel: 'ପ୍ରକଳ୍ପ / ମଡେଲର ଶୀର୍ଷକ <span class="req">*</span>',
           projectTitlePh: 'ଯେପରି: ସୌରଚାଳିତ ବର୍ଷାଜଳ ବିଶୋଧନ ଯନ୍ତ୍ର',
-          step3Title: 'ଅଂଶଗ୍ରହଣକାରୀ ବିବରଣୀ (ପ୍ରତି ବିଦ୍ୟାଳୟରୁ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ ବାଧ୍ୟତାମୂଳକ)',
-          s1PanelHead: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ୧',
-          s2PanelHead: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ୨',
+          step3Title: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ବିବରଣୀ',
+          s1PanelHead: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ (Participant)',
           requiredBadge: 'ବାଧ୍ୟତାମୂଳକ',
-          s1NameLabel: 'ଛାତ୍ର/ଛାତ୍ରୀ ୧ ର ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span>',
-          s2NameLabel: 'ଛାତ୍ର/ଛାତ୍ରୀ ୨ ର ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span>',
+          s1NameLabel: 'ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span>',
           studentNamePh: 'ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ',
           classLabel: 'ଶ୍ରେଣୀ <span class="req">*</span>',
           genderLabel: 'ଲିଙ୍ଗ <span class="req">*</span>',
+          helperOneLineNote: '<span>ℹ️</span><span><strong>ଟିପ୍ପଣୀ:</strong> ପ୍ରକଳ୍ପ ଉପସ୍ଥାପନାରେ ସାହାଯ୍ୟ କରିବା ପାଇଁ ଆଉ ଜଣେ ଛାତ୍ର/ଛାତ୍ରୀ <strong>ସହଯୋଗୀ (Co-Participant / Helper)</strong> ଭାବେ ସାଙ୍ଗରେ ଆସିପାରିବେ (ତାଙ୍କ ନାମ ପଞ୍ଜୀକରଣ କରିବା ଆବଶ୍ୟକ ନାହିଁ)।</span>',
           selectPlaceholder: 'ବାଛନ୍ତୁ',
           cls6: 'ଷଷ୍ଠ ଶ୍ରେଣୀ (Class VI)',
           cls7: 'ସପ୍ତମ ଶ୍ରେଣୀ (Class VII)',
@@ -2570,15 +2567,14 @@
           genF: 'ଛାତ୍ରୀ (Female)',
           genM: 'ଛାତ୍ର (Male)',
           genO: 'ଅନ୍ୟାନ୍ୟ (Other)',
-          s1PhotoLabel: 'ଅଂଶଗ୍ରହଣକାରୀ ୧ ଫଟୋ / ଫଟୋ କପି <span class="opt-tag">ବୈକଳ୍ପିକ</span>',
-          s2PhotoLabel: 'ଅଂଶଗ୍ରହଣକାରୀ ୨ ଫଟୋ / ଫଟୋ କପି <span class="opt-tag">ବୈକଳ୍ପିକ</span>',
+          s1PhotoLabel: 'ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ଫଟୋ <span class="opt-tag">ବୈକଳ୍ପିକ</span>',
           removeBtn: 'ବାହାର କରନ୍ତୁ',
           prevPhotoLabel: 'ପୂର୍ବରୁ ଅପଲୋଡ୍ ହୋଇଥିବା ଫଟୋ',
           compressingLabel: '{name} ସଙ୍କୁଚିତ ହେଉଛି...',
           compressedSuffix: 'ସଙ୍କୁଚିତ',
           imgTooLarge: 'ଦୟାକରି 15 MB ରୁ କମ୍ ଆକାରର ଫଟୋ ବାଛନ୍ତୁ।',
           imgCompressFail: 'ଏହି ଫଟୋ ସଙ୍କୁଚିତ ହୋଇପାରିଲା ନାହିଁ। ଦୟାକରି ଅନ୍ୟ JPG/PNG ଫଟୋ ବାଛନ୍ତୁ।',
-          declarationText: 'ମୁଁ ନିଶ୍ଚିତ କରୁଛି ଯେ ଉପରୋକ୍ତ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ) କୋଟପାଡ଼ ବ୍ଲକ ସ୍ଥିତ ଆମ ବିଦ୍ୟାଳୟର ନିୟମିତ ଛାତ୍ରଛାତ୍ରୀ ଅଟନ୍ତି ଏବଂ ଶେଷ ତାରିଖ <strong>23/11/2026</strong> ପୂର୍ବରୁ <strong>ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)</strong> ପାଇଁ ମନୋନୀତ ହୋଇଛନ୍ତି।',
+          declarationText: 'ମୁଁ ନିଶ୍ଚିତ କରୁଛି ଯେ ଉପରୋକ୍ତ ଛାତ୍ର/ଛାତ୍ରୀ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ) କୋଟପାଡ଼ ବ୍ଲକ ସ୍ଥିତ ଆମ ସରକାରୀ ବିଦ୍ୟାଳୟର ନିୟମିତ ଛାତ୍ରଛାତ୍ରୀ ଅଟନ୍ତି ଏବଂ ଶେଷ ତାରିଖ <strong>{lastDate}</strong> ପୂର୍ବରୁ <strong>ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)</strong> ପାଇଁ ମନୋନୀତ ହୋଇଛନ୍ତି।',
           resetBtn: 'ଫର୍ମ ପୁନଃସେଟ୍ କରନ୍ତୁ',
           submitBtnNew: 'ଦଳ ପଞ୍ଜୀକରଣ ଦାଖଲ କରନ୍ତୁ',
           submitBtnUpdate: 'ପଞ୍ଜୀକରଣ ତଥ୍ୟ ଅପଡେଟ୍ କରନ୍ତୁ',
@@ -2588,15 +2584,19 @@
           exportCsvBtn: 'Excel / CSV ଡାଉନଲୋଡ୍',
           clearLocalBtn: 'ତାଲିକା ସଫା କରନ୍ତୁ',
           registeredBadge: 'ପଞ୍ଜୀକୃତ',
-          studentsPrefix: 'ଛାତ୍ରଛାତ୍ରୀ:',
+          studentsPrefix: 'ଅଂଶଗ୍ରହଣକାରୀ:',
           footerTitle: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)',
-          footerSub: 'ବିଦ୍ୟାଳୟ ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ ପୋର୍ଟାଲ (ଷଷ୍ଠ – ଦ୍ୱାଦଶ ଶ୍ରେଣୀ) • ଶେଷ ତାରିଖ: 23/11/2026',
+          footerSub: 'କେବଳ ସରକାରୀ ବିଦ୍ୟାଳୟ ପଞ୍ଜୀକରଣ ପୋର୍ଟାଲ (ଷଷ୍ଠ – ଦ୍ୱାଦଶ ଶ୍ରେଣୀ) • ଶେଷ ତାରିଖ: {lastDate}',
           backToTop: 'ଉପରକୁ ଯାଆନ୍ତୁ ↑',
           modalConfirmed: 'ପଞ୍ଜୀକରଣ ନିଶ୍ଚିତ ହେଲା!',
           modalUpdated: 'ପଞ୍ଜୀକରଣ ତଥ୍ୟ ଅପଡେଟ୍ ହେଲା!',
           modalSub: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼)',
           closeBtn: 'ବନ୍ଦ କରନ୍ତୁ',
-          printBtn: 'ପ୍ରିଣ୍ଟ / ସେଭ୍ କରନ୍ତୁ',
+          printBtn: 'ପ୍ରିଣ୍ଟ',
+          saveSlipBtn: '📥 ସ୍ଲିପ୍ ସେଭ୍ (ଗ୍ୟାଲେରୀ)',
+          savingSlipBtn: 'ସେଭ୍ ହେଉଛି...',
+          shareSlipBtn: '📤 ସେୟାର କରନ୍ତୁ',
+          sharingSlipBtn: 'ଖୋଲୁଛି...',
           errVerifyFirst: 'ଏହି ବିଦ୍ୟାଳୟ ପୂର୍ବରୁ ପଞ୍ଜୀକୃତ। ତଥ୍ୟ ବଦଳାଇବା ପାଇଁ ପ୍ରଥମେ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର ଯାଞ୍ଚ କରନ୍ତୁ।',
           errMissingPrefix: 'ଦୟାକରି ଆବଶ୍ୟକୀୟ ତଥ୍ୟ ପୂରଣ କରନ୍ତୁ: ',
           fUdise: '୧୧-ଅଙ୍କ ବିଦ୍ୟାଳୟ UDISE ନମ୍ବର',
@@ -2604,29 +2604,28 @@
           fCluster: 'କ୍ଲଷ୍ଟର ନାମ',
           fTeacher: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ନାମ',
           fPhone: '୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର',
-          fTheme: 'ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ',
+          fTheme: 'ପ୍ରତିଯୋଗିତା ଉପ-ବିଷୟବସ୍ତୁ',
           fProject: 'ପ୍ରକଳ୍ପ ଶୀର୍ଷକ',
-          fS1: 'ଛାତ୍ର/ଛାତ୍ରୀ ୧ ର ସମ୍ପୂର୍ଣ୍ଣ ବିବରଣୀ',
-          fS2: 'ଛାତ୍ର/ଛାତ୍ରୀ ୨ ର ସମ୍ପୂର୍ଣ୍ଣ ବିବରଣୀ',
+          fS1: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ବିବରଣୀ',
           fDecl: 'ବିଦ୍ୟାଳୟ ନିଶ୍ଚିତକରଣ ଚେକ୍‌ବକ୍ସ',
           errFirebase: 'Firebase ରେ ସେଭ୍ ହୋଇପାରିଲା ନାହିଁ ({msg})। ଦୟାକରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।',
           slipSchool: 'ବିଦ୍ୟାଳୟର ନାମ',
           slipUdise: 'UDISE କୋଡ୍ (କୋଟପାଡ଼)',
           slipCluster: 'କ୍ଲଷ୍ଟର',
-          slipTheme: 'ବଛାଯାଇଥିବା ବିଷୟବସ୍ତୁ',
+          slipTheme: 'ବଛାଯାଇଥିବା ଉପ-ବିଷୟବସ୍ତୁ',
           slipProject: 'ପ୍ରକଳ୍ପ ଶୀର୍ଷକ',
           slipTeacher: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକ',
-          slipS1: 'ଛାତ୍ର/ଛାତ୍ରୀ ୧',
-          slipS2: 'ଛାତ୍ର/ଛାତ୍ରୀ ୨',
-          slipPhoto1: 'ଛାତ୍ର/ଛାତ୍ରୀ ୧ ଫଟୋ',
-          slipPhoto2: 'ଛାତ୍ର/ଛାତ୍ରୀ ୨ ଫଟୋ',
+          slipS1: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ',
+          slipS2: 'ସହଯୋଗୀ (Co-Participant / Helper)',
+          slipSoloNone: 'ଆଉ ଜଣେ ସହଯୋଗୀ ସାଙ୍ଗରେ ଆସିପାରିବେ',
+          slipPhoto1: 'ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ଫଟୋ',
           slipPhotoAttached: 'ସଂଲଗ୍ନ (ବୈକଳ୍ପିକ)'
         },
         en: {
           pageTitle: 'Block Level Science Exhibition, 2026–27 (Kotpad) — Student Registration',
           langBtnText: 'ଓଡ଼ିଆ',
           brandTitle: 'Kotpad Science Exhibition 2026–27',
-          brandSub: 'Block Education Office, Kotpad • Classes VI–XII',
+          brandSub: 'Block Education Office, Kotpad • Govt. Schools (Classes VI–XII)',
           registerNowBtn: 'Register Now',
           drawerRegister: 'Register School Team',
           drawerMore: 'More Details (Guidelines, Themes & Management Committee)',
@@ -2652,35 +2651,41 @@
           guideEyebrow: 'Important Rules',
           guideHeading: 'Enrollment Guidelines for Schools',
           guideSub: 'Please review these key requirements before completing the team registration form below.',
-          g1Title: 'UP, High & Higher Secondary',
-          g1Desc: 'Open to all <strong>Upper Primary, High Schools &amp; Higher Secondary Schools (Classes VI–XII)</strong> in Kotpad Block. Primary Classes I–V are excluded.',
-          g2Title: '2 Students Per Team',
-          g2Desc: 'Each participating school must register exactly <strong>2 students</strong> together with a guide teacher.',
-          g3Title: 'Choose 1 of 6 Themes',
-          g3Desc: 'Select one theme from the 6 official competition themes and prepare an original working model or exhibit.',
+          g1Title: 'Only Govt. Institutions (Classes VI–XII)',
+          g1Desc: 'Only <strong>Government Schools (Upper Primary, High Schools &amp; Higher Secondary — Classes VI–XII)</strong> under Kotpad Block can participate. Primary Classes I–V &amp; private schools are excluded.',
+          g2Title: '1 Main Student (+1 Optional Helper)',
+          g2Desc: 'Register <strong>1 Main Student Presenter</strong> per exhibit. Optionally, <strong>1 Co-Participant / Helper</strong> student may accompany them to assist.',
+          g3Title: 'Choose 1 of 7 Sub-Themes',
+          g3Desc: 'Select one sub-theme from the 7 official DEO Koraput topics under "Science, Technology and Innovation for a Sustainable and Viksit Bharat".',
           g4Title: 'Photo Copy Optional',
           g4Desc: 'Uploading a participant photo or photocopy is <strong>optional</strong>. You may attach it now or submit without photos.',
-          themesEyebrow: 'Competition Categories',
-          themesHeading: '6 Themes of the Exhibition',
-          themesSub: 'Tap any theme card below to automatically select it in the registration form.',
-          t1Badge: 'THEME 01',
-          t1Title: 'Food, Health & Hygiene',
-          t1Desc: 'Balanced nutrition, safe drinking water, sanitation practices, and low-cost community health innovations.',
-          t2Badge: 'THEME 02',
-          t2Title: 'Transport & Communication',
-          t2Desc: 'Smart road safety, eco-friendly transport models, rural connectivity, and accessible communication aids.',
-          t3Badge: 'THEME 03',
-          t3Title: 'Natural Farming & Agriculture',
-          t3Desc: 'Organic soil enrichment, rainwater irrigation, crop protection, and sustainable farming tools for Kotpad.',
-          t4Badge: 'THEME 04',
-          t4Title: 'Disaster Management & Safety',
-          t4Desc: 'Early flood/fire alert models, safe shelter designs, emergency preparedness, and community resilience.',
-          t5Badge: 'THEME 05',
-          t5Title: 'Mathematical Modeling & Logic',
-          t5Desc: 'Geometry in real life, hands-on math teaching aids, pattern logic, and everyday problem-solving models.',
-          t6Badge: 'THEME 06',
-          t6Title: 'Waste Management & Green Energy',
-          t6Desc: 'Plastic-to-utility recycling, solar/wind micro-models, composting systems, and clean energy conservation.',
+          themesEyebrow: 'Competition Categories (7 Sub-Themes)',
+          themesHeading: '7 Sub-Themes of the Exhibition',
+          themesSub: 'Tap any sub-theme card below to automatically select it in the registration form.',
+          mainThemeLabel: 'MAIN THEME (TE & SCERT / DEO KORAPUT)',
+          mainThemeValue: '“Science, Technology and Innovation for a Sustainable and Viksit Bharat”',
+          t1Badge: 'SUB-THEME 01',
+          t1Title: 'Artificial Intelligence (AI) for Better Life',
+          t1Desc: 'Smart AI applications in education, health, agriculture, accessibility, and everyday community solutions.',
+          t2Badge: 'SUB-THEME 02',
+          t2Title: 'Green Energy & Environmental Conservation',
+          t2Desc: 'Solar/wind clean energy models, pollution reduction, forest/water protection, and climate sustainability.',
+          t3Badge: 'SUB-THEME 03',
+          t3Title: 'Mathematical Modelling & Computational Thinking',
+          t3Desc: 'Geometry in daily life, logic models, hands-on math teaching aids, and computational problem solving.',
+          t4Badge: 'SUB-THEME 04',
+          t4Title: 'Health, Hygiene and Sanitation',
+          t4Desc: 'Nutrition, safe drinking water filtration, disease prevention, and low-cost community sanitation models.',
+          t5Badge: 'SUB-THEME 05',
+          t5Title: 'Indigenous Agricultural Practices',
+          t5Desc: 'Organic soil enrichment, traditional seed conservation, smart irrigation, and sustainable farming tools.',
+          t6Badge: 'SUB-THEME 06',
+          t6Title: 'Science and Rural Transformation',
+          t6Desc: 'Scientific innovations improving rural livelihoods, local transport, clean villages, and community infrastructure.',
+          t7Badge: 'SUB-THEME 07',
+          t7Title: 'Disaster Management',
+          t7Desc: 'Early flood/fire/cyclone alert models, safe shelter designs, emergency response, and disaster resilience.',
+          judgingCriteriaNote: '<strong>Judging Criteria:</strong> Creativity &amp; Imagination (20%) • Originality / Innovations (15%) • Scientific Thought / Principle (15%) • Technical Skills / Workmanship (15%) • Utility &amp; Scalability (15%) • Economy / Portability / Durability (10%) • Presentation (10%). <strong>Best 1 project per sub-theme (7 projects total) advance to the District Level Exhibition at Govt. High School, Koraput on 04.12.2026.</strong>',
           themePickHint: 'Select this theme →',
           themeSelectedHint: '✓ Selected for Registration',
           commEyebrow: 'Block Education Office, Kotpad',
@@ -2695,11 +2700,11 @@
           commDutyNote: '<strong>Official Direction:</strong> All committee members are directed to report at the venue (<strong>Govt. High School, Kotpad</strong>) on <strong>25.11.2026 (Wednesday) at 8:30 A.M.</strong> positively. Concerned Headmasters are requested to relieve the deputed teachers without hampering normal functioning of schools.',
           regEyebrow: 'School & Student Enrollment',
           regHeading: 'Student Registration Form',
-          regSub: 'Block Level Science Exhibition, 2026–27 (Kotpad) — Last Date: <strong>23/11/2026</strong>',
+          regSub: 'Block Level Science Exhibition, 2026–27 (Kotpad) — Last Date: <strong>{lastDate}</strong>',
           formBannerTitle: 'School Team Registration (Classes VI – XII)',
-          formBannerSub: 'UP, High & Higher Secondary Schools (Excl. Class I–V) • 2 Students • 1 Theme • Photo Optional',
-          viewThemesBtn: 'View 6 Themes & Rules',
-          formDeadlineChip: 'Last Date: 23 / 11 / 2026',
+          formBannerSub: 'Only Govt. Schools (UP, HS & HSS • Excl. Class I–V) • 1 Main (+1 Optional Helper) • 7 Sub-Themes',
+          viewThemesBtn: 'View 7 Sub-Themes & Rules',
+          formDeadlineChip: 'Last Date: {lastDateSpaced}',
           step1Title: 'Enter School UDISE Number (Kotpad Block Only)',
           udiseLabel: '1. Enter 11-Digit School UDISE Number <span class="req">*</span>',
           udisePh: 'Type UDISE e.g. 21290700201',
@@ -2741,25 +2746,25 @@
           teacherPhoneLabel: 'Guide Teacher Mobile Number <span class="req">*</span>',
           teacherPhonePh: '10-digit mobile number',
           step2Title: 'Competition Theme & Exhibit Details',
-          selectThemeLabel: 'Choose Competition Theme (1 of 6) <span class="req">*</span>',
-          optThemeDefault: '-- Select a Theme --',
-          optTheme1: 'Theme 1: Food, Health & Hygiene',
-          optTheme2: 'Theme 2: Transport & Communication',
-          optTheme3: 'Theme 3: Natural Farming & Agriculture',
-          optTheme4: 'Theme 4: Disaster Management & Safety',
-          optTheme5: 'Theme 5: Mathematical Modeling & Computational Thinking',
-          optTheme6: 'Theme 6: Waste Management & Green Energy',
+          selectThemeLabel: 'Choose Competition Sub-Theme (1 of 7) <span class="req">*</span>',
+          optThemeDefault: '-- Select a Sub-Theme --',
+          optTheme1: 'Sub-Theme 1: Artificial Intelligence (AI) for Better Life',
+          optTheme2: 'Sub-Theme 2: Green Energy & Environmental Conservation',
+          optTheme3: 'Sub-Theme 3: Mathematical Modelling and Computational Thinking',
+          optTheme4: 'Sub-Theme 4: Health, Hygiene and Sanitation',
+          optTheme5: 'Sub-Theme 5: Indigenous Agricultural Practices',
+          optTheme6: 'Sub-Theme 6: Science and Rural Transformation',
+          optTheme7: 'Sub-Theme 7: Disaster Management',
           projectTitleLabel: 'Project / Exhibit Title <span class="req">*</span>',
-          projectTitlePh: 'e.g., Solar-Powered Rainwater Filtration Unit',
-          step3Title: 'Participant Details (2 Students Mandatory per School)',
-          s1PanelHead: 'Student Participant 1',
-          s2PanelHead: 'Student Participant 2',
+          projectTitlePh: 'e.g., AI-Assisted Crop Disease Alert Model',
+          step3Title: 'Participant Details',
+          s1PanelHead: 'Student Presenter (Participant)',
           requiredBadge: 'Required',
-          s1NameLabel: 'Student 1 Full Name <span class="req">*</span>',
-          s2NameLabel: 'Student 2 Full Name <span class="req">*</span>',
+          s1NameLabel: 'Student Full Name <span class="req">*</span>',
           studentNamePh: 'Enter full name',
           classLabel: 'Class <span class="req">*</span>',
           genderLabel: 'Gender <span class="req">*</span>',
+          helperOneLineNote: '<span>ℹ️</span><span><strong>Note:</strong> One more student may accompany as a <strong>Co-Participant / Helper</strong> to assist with the exhibit (no separate name entry needed here).</span>',
           selectPlaceholder: 'Select',
           cls6: 'Class VI',
           cls7: 'Class VII',
@@ -2771,15 +2776,14 @@
           genF: 'Female',
           genM: 'Male',
           genO: 'Other',
-          s1PhotoLabel: 'Participant 1 Photo / Photo Copy <span class="opt-tag">Optional</span>',
-          s2PhotoLabel: 'Participant 2 Photo / Photo Copy <span class="opt-tag">Optional</span>',
+          s1PhotoLabel: 'Participant Photo <span class="opt-tag">Optional</span>',
           removeBtn: 'Remove',
           prevPhotoLabel: 'Previously uploaded photo',
           compressingLabel: 'Compressing {name}...',
           compressedSuffix: 'compressed',
           imgTooLarge: 'Please choose an image smaller than 15 MB.',
           imgCompressFail: 'Could not compress this image. Please try another JPG/PNG photo.',
-          declarationText: 'I confirm that the above 2 students are bonafide students (Classes VI–XII) of our School in Kotpad Block and are nominated for the <strong>Block Level Science Exhibition, 2026–27 (Kotpad)</strong> before the deadline of <strong>23/11/2026</strong>.',
+          declarationText: 'I confirm that the above participant(s) are bonafide students (Classes VI–XII) of our Government School in Kotpad Block and are nominated for the <strong>Block Level Science Exhibition, 2026–27 (Kotpad)</strong> before the deadline of <strong>{lastDate}</strong>.',
           resetBtn: 'Reset Form',
           submitBtnNew: 'Submit Team Registration',
           submitBtnUpdate: 'Update Team Registration',
@@ -2789,15 +2793,19 @@
           exportCsvBtn: 'Export Excel / CSV',
           clearLocalBtn: 'Clear Local List',
           registeredBadge: 'Registered',
-          studentsPrefix: 'Students:',
+          studentsPrefix: 'Participant(s):',
           footerTitle: 'Block Level Science Exhibition, 2026–27 (Kotpad)',
-          footerSub: 'School Student Registration Portal (Classes VI – XII) • Last Date: 23/11/2026',
+          footerSub: 'Only Govt. Schools Registration Portal (Classes VI – XII) • Last Date: {lastDate}',
           backToTop: 'Back to Top ↑',
           modalConfirmed: 'Registration Confirmed!',
           modalUpdated: 'Registration Updated!',
           modalSub: 'Block Level Science Exhibition, 2026–27 (Kotpad)',
           closeBtn: 'Close',
-          printBtn: 'Print / Save Slip',
+          printBtn: 'Print',
+          saveSlipBtn: '📥 Save Slip (Gallery)',
+          savingSlipBtn: 'Saving...',
+          shareSlipBtn: '📤 Share',
+          sharingSlipBtn: 'Opening...',
           errVerifyFirst: 'This school is already registered. Please verify the Guide Teacher 10-digit mobile number first to edit and update.',
           errMissingPrefix: 'Please complete the required fields: ',
           fUdise: 'Valid 11-Digit School UDISE Number',
@@ -2805,25 +2813,26 @@
           fCluster: 'Cluster Name',
           fTeacher: 'Guide Teacher Name',
           fPhone: 'Valid 10-digit Mobile Number',
-          fTheme: 'Competition Theme',
+          fTheme: 'Competition Sub-Theme',
           fProject: 'Project / Exhibit Title',
-          fS1: 'Student 1 Complete Details',
-          fS2: 'Student 2 Complete Details',
+          fS1: 'Student Complete Details',
           fDecl: 'School Confirmation Checkbox',
           errFirebase: 'Could not save to Firebase ({msg}). Please try again.',
           slipSchool: 'School Name',
           slipUdise: 'UDISE Code (Kotpad)',
           slipCluster: 'Cluster',
-          slipTheme: 'Selected Theme',
+          slipTheme: 'Selected Sub-Theme',
           slipProject: 'Project Title',
           slipTeacher: 'Guide Teacher',
-          slipS1: 'Student 1',
-          slipS2: 'Student 2',
-          slipPhoto1: 'Student 1 Photo',
-          slipPhoto2: 'Student 2 Photo',
+          slipS1: 'Student Presenter',
+          slipS2: 'Co-Participant / Helper',
+          slipSoloNone: '1 additional student may accompany as helper',
+          slipPhoto1: 'Participant Photo',
           slipPhotoAttached: 'Attached (Optional)'
         }
       };
+
+      let lastDateState = { spaced: '23 / 11 / 2026', compact: '23/11/2026' };
 
       let currentLang = 'or';
       try {
@@ -2835,11 +2844,14 @@
       function t(key, vars) {
         const dict = I18N[currentLang] || I18N.or;
         let text = dict[key] !== undefined ? dict[key] : (I18N.en[key] || key);
-        if (vars) {
-          Object.keys(vars).forEach((k) => {
-            text = text.replace(new RegExp(`\\{${k}\\}`, 'g'), String(vars[k]));
-          });
-        }
+        const mergedVars = {
+          lastDate: lastDateState.compact,
+          lastDateSpaced: lastDateState.spaced,
+          ...(vars || {})
+        };
+        Object.keys(mergedVars).forEach((k) => {
+          text = text.replace(new RegExp(`\\{${k}\\}`, 'g'), String(mergedVars[k]));
+        });
         return text;
       }
 
@@ -3004,11 +3016,11 @@
         syncThemeCards(e.target.value);
       });
 
-      // 4. Optional Participant Photo Previews (compresses immediately on selection before upload)
-      const photoState = { 1: null, 2: null };
-      const existingPhotoUrl = { 1: '', 2: '' };
-      const photoRemoved = { 1: false, 2: false };
-      const photoJobs = { 1: Promise.resolve(), 2: Promise.resolve() };
+      // 4. Optional Participant Photo Preview (compresses immediately on selection before upload)
+      const photoState = { 1: null };
+      const existingPhotoUrl = { 1: '' };
+      const photoRemoved = { 1: false };
+      const photoJobs = { 1: Promise.resolve() };
 
       function renderResizedJpegBase64(img, maxDim, quality) {
         let { width, height } = img;
@@ -3121,7 +3133,6 @@
       }
 
       setupPhotoInput(1);
-      setupPhotoInput(2);
 
       document.querySelectorAll('.btn-clear-photo[data-clear]').forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -3380,11 +3391,8 @@
         document.getElementById('s1Name').value = '';
         document.getElementById('s1Class').value = '';
         document.getElementById('s1Gender').value = '';
-        document.getElementById('s2Name').value = '';
-        document.getElementById('s2Class').value = '';
-        document.getElementById('s2Gender').value = '';
         document.getElementById('declaration').checked = false;
-        [1, 2].forEach((n) => {
+        [1].forEach((n) => {
           photoState[n] = null;
           existingPhotoUrl[n] = '';
           photoRemoved[n] = false;
@@ -3445,12 +3453,9 @@
         document.getElementById('s1Name').value = rec.s1Name || '';
         document.getElementById('s1Class').value = rec.s1Class || '';
         document.getElementById('s1Gender').value = rec.s1Gender || '';
-        document.getElementById('s2Name').value = rec.s2Name || '';
-        document.getElementById('s2Class').value = rec.s2Class || '';
-        document.getElementById('s2Gender').value = rec.s2Gender || '';
         document.getElementById('declaration').checked = true;
 
-        [1, 2].forEach((n) => {
+        [1].forEach((n) => {
           photoState[n] = null;
           photoRemoved[n] = false;
           document.getElementById(`s${n}Photo`).value = '';
@@ -3755,7 +3760,7 @@
               <strong>${escapeHtml(entry.schoolName)}</strong>
               <span style="color:#64748b; margin-left:6px;">(UDISE: ${escapeHtml(entry.udiseCode)} • ${escapeHtml(entry.ref)})</span>
               <div style="font-size:0.82rem; color:#475569; margin-top:2px;">
-                ${escapeHtml(entry.theme)} • ${escapeHtml(t('studentsPrefix'))} ${escapeHtml(entry.s1Name)} &amp; ${escapeHtml(entry.s2Name)}
+                ${escapeHtml(entry.theme)} • ${escapeHtml(t('studentsPrefix'))} ${escapeHtml(entry.s1Name)}
               </div>
             </div>
             <span style="font-size:0.78rem; font-weight:600; color:#c2410c; background:#ffedd5; padding:4px 10px; border-radius:999px;">${escapeHtml(t('registeredBadge'))}</span>
@@ -3777,8 +3782,7 @@
         const headers = [
           'Ref ID', 'UDISE Code', 'School Name', 'Cluster',
           'Guide Teacher', 'Mobile', 'Theme', 'Project Title',
-          'Student 1 Name', 'Student 1 Class', 'Student 1 Gender', 'Student 1 Photo',
-          'Student 2 Name', 'Student 2 Class', 'Student 2 Gender', 'Student 2 Photo', 'Submitted At'
+          'Student Presenter Name', 'Class', 'Gender', 'Photo', 'Submitted At'
         ];
         const csvCell = (val) => `"${String(val || '').replace(/"/g, '""')}"`;
         const rows = [
@@ -3787,7 +3791,7 @@
             r.ref, r.udiseCode, r.schoolName, r.cluster || r.clusterName || '',
             r.teacherName, r.teacherPhone, r.theme, r.projectTitle,
             r.s1Name, r.s1Class, r.s1Gender, r.s1PhotoUrl || (r.s1PhotoData ? 'Attached (Inline)' : 'No'),
-            r.s2Name, r.s2Class, r.s2Gender, r.s2PhotoUrl || (r.s2PhotoData ? 'Attached (Inline)' : 'No'), r.submittedAt
+            r.submittedAt
           ].map(csvCell).join(','))
         ];
         const blob = new Blob([rows.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
@@ -3833,9 +3837,6 @@
         const s1Name = document.getElementById('s1Name').value.trim();
         const s1Class = document.getElementById('s1Class').value;
         const s1Gender = document.getElementById('s1Gender').value;
-        const s2Name = document.getElementById('s2Name').value.trim();
-        const s2Class = document.getElementById('s2Class').value;
-        const s2Gender = document.getElementById('s2Gender').value;
         const declared = document.getElementById('declaration').checked;
 
         if (pendingExistingRecord && (!editModeState.active || editModeState.udise !== udiseCode)) {
@@ -3856,7 +3857,6 @@
         if (!theme) missing.push(t('fTheme'));
         if (!projectTitle) missing.push(t('fProject'));
         if (!s1Name || !s1Class || !s1Gender) missing.push(t('fS1'));
-        if (!s2Name || !s2Class || !s2Gender) missing.push(t('fS2'));
         if (!declared) missing.push(t('fDecl'));
 
         if (missing.length > 0) {
@@ -3885,9 +3885,9 @@
           s1Name,
           s1Class,
           s1Gender,
-          s2Name,
-          s2Class,
-          s2Gender,
+          s2Name: '',
+          s2Class: '',
+          s2Gender: '',
           submittedAt: new Date().toLocaleString()
         };
 
@@ -3895,14 +3895,14 @@
         const originalBtnHtml = submitBtn.innerHTML;
         submitBtn.textContent = isEditUpdate ? t('updatingBtn') : t('savingBtn');
 
-        await Promise.all([photoJobs[1], photoJobs[2]]);
+        await photoJobs[1];
 
         let savedPayload = { ...record };
         try {
           if (window.firebasePortal && typeof window.firebasePortal.saveRegistration === 'function') {
             savedPayload = await window.firebasePortal.saveRegistration(
               record,
-              { s1: photoState[1] || '', s2: photoState[2] || '' },
+              { s1: photoState[1] || '', s2: '' },
               {
                 isEdit: isEditUpdate,
                 verifiedEditPhone: editModeState.verifiedPhone,
@@ -3965,20 +3965,349 @@
           <div class="slip-cell"><span>${escapeHtml(t('slipProject'))}</span><strong>${escapeHtml(record.projectTitle)}</strong></div>
           <div class="slip-cell"><span>${escapeHtml(t('slipTeacher'))}</span><strong>${escapeHtml(record.teacherName)} (${escapeHtml(record.teacherPhone)})</strong></div>
           <div class="slip-cell"><span>${escapeHtml(t('slipS1'))}</span><strong>${escapeHtml(record.s1Name)} — ${escapeHtml(record.s1Class)} (${escapeHtml(record.s1Gender)})</strong></div>
-          <div class="slip-cell"><span>${escapeHtml(t('slipS2'))}</span><strong>${escapeHtml(record.s2Name)} — ${escapeHtml(record.s2Class)} (${escapeHtml(record.s2Gender)})</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipS2'))}</span><strong>${escapeHtml(t('slipSoloNone'))}</strong></div>
         `;
 
         const p1Preview = photoState[1] || (!photoRemoved[1] ? existingPhotoUrl[1] : '');
-        const p2Preview = photoState[2] || (!photoRemoved[2] ? existingPhotoUrl[2] : '');
         slipPhotos.innerHTML = '';
         if (p1Preview) {
-          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p1Preview}" alt="Student 1"><div><strong>${escapeHtml(t('slipPhoto1'))}</strong><div>${escapeHtml(t('slipPhotoAttached'))}</div></div></div>`;
-        }
-        if (p2Preview) {
-          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p2Preview}" alt="Student 2"><div><strong>${escapeHtml(t('slipPhoto2'))}</strong><div>${escapeHtml(t('slipPhotoAttached'))}</div></div></div>`;
+          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p1Preview}" alt="Student Presenter"><div><strong>${escapeHtml(t('slipPhoto1'))}</strong><div>${escapeHtml(t('slipPhotoAttached'))}</div></div></div>`;
         }
 
+        lastSlipData = {
+          record: { ...record },
+          p1Preview,
+          isEditUpdate
+        };
+
         modal.classList.add('open');
+      });
+
+      let lastSlipData = null;
+
+      function loadImageSafe(src) {
+        return new Promise((resolve) => {
+          if (!src) return resolve(null);
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => resolve(img);
+          img.onerror = () => resolve(null);
+          img.onabort = () => resolve(null);
+          img.src = src;
+        });
+      }
+
+      function roundRectPath(ctx, x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.arcTo(x + w, y, x + w, y + h, radius);
+        ctx.arcTo(x + w, y + h, x, y + h, radius);
+        ctx.arcTo(x, y + h, x, y, radius);
+        ctx.arcTo(x, y, x + w, y, radius);
+        ctx.closePath();
+      }
+
+      function wrapCanvasText(ctx, text, maxWidth) {
+        const words = String(text || '—').split(/\s+/);
+        const lines = [];
+        let line = '';
+        for (const word of words) {
+          const test = line ? `${line} ${word}` : word;
+          if (ctx.measureText(test).width > maxWidth && line) {
+            lines.push(line);
+            line = word;
+          } else {
+            line = test;
+          }
+        }
+        if (line) lines.push(line);
+        return lines.length ? lines : ['—'];
+      }
+
+      async function renderRegistrationSlipPngBlob(data) {
+        const rec = data.record;
+        const img1 = await loadImageSafe(data.p1Preview);
+
+        const W = 1080;
+        const hasPhotos = Boolean(img1);
+        const H = hasPhotos ? 1440 : 1240;
+        const canvas = document.createElement('canvas');
+        canvas.width = W;
+        canvas.height = H;
+        const ctx = canvas.getContext('2d');
+
+        // Background
+        ctx.fillStyle = '#fffaf5';
+        ctx.fillRect(0, 0, W, H);
+
+        // Card Container
+        roundRectPath(ctx, 36, 36, W - 72, H - 72, 28);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#fdba74';
+        ctx.stroke();
+
+        // Orange Header
+        ctx.save();
+        roundRectPath(ctx, 36, 36, W - 72, 210, 28);
+        ctx.clip();
+        const grad = ctx.createLinearGradient(36, 36, W - 36, 246);
+        grad.addColorStop(0, '#c2410c');
+        grad.addColorStop(0.5, '#ea580c');
+        grad.addColorStop(1, '#f97316');
+        ctx.fillStyle = grad;
+        ctx.fillRect(36, 36, W - 72, 210);
+        ctx.restore();
+
+        ctx.fillStyle = '#ffedd5';
+        ctx.font = '700 22px Inter, Arial, sans-serif';
+        ctx.fillText('BLOCK EDUCATION OFFICE, KOTPAD (DIST. KORAPUT)', 76, 86);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 36px Outfit, Inter, Arial, sans-serif';
+        ctx.fillText('Block Level Science Exhibition, 2026–27', 76, 136);
+
+        ctx.fillStyle = '#fff7ed';
+        ctx.font = '600 22px Inter, Arial, sans-serif';
+        ctx.fillText(
+          data.isEditUpdate
+            ? 'Updated Team Registration Slip • Govt. High School, Kotpad'
+            : 'Confirmed Team Registration Slip • Govt. High School, Kotpad',
+          76,
+          178
+        );
+        ctx.font = '600 20px Inter, Arial, sans-serif';
+        ctx.fillText('Exhibition Date: 25/11/2026 (Wednesday), 8:30 AM  |  Only Govt. Schools (Classes VI–XII)', 76, 216);
+
+        // Ref ID Pill
+        roundRectPath(ctx, 76, 272, 420, 52, 12);
+        ctx.fillStyle = '#fff7ed';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#fb923c';
+        ctx.stroke();
+        ctx.fillStyle = '#c2410c';
+        ctx.font = '700 24px monospace';
+        ctx.fillText(`REF ID: ${rec.ref}`, 96, 306);
+
+        ctx.fillStyle = '#7c5c46';
+        ctx.font = '600 18px Inter, Arial, sans-serif';
+        ctx.fillText(`Submitted: ${rec.submittedAt || ''}`, 526, 305);
+
+        const cards = [
+          { label: 'SCHOOL NAME', value: rec.schoolName, full: true },
+          { label: 'UDISE CODE', value: rec.udiseCode, full: false },
+          { label: 'CLUSTER', value: rec.cluster || rec.clusterName, full: false },
+          { label: 'GUIDE TEACHER & MOBILE', value: `${rec.teacherName} (${rec.teacherPhone})`, full: true },
+          { label: 'SELECTED SUB-THEME', value: rec.theme, full: true },
+          { label: 'PROJECT / EXHIBIT TITLE', value: rec.projectTitle, full: true },
+          { label: 'STUDENT PRESENTER', value: `${rec.s1Name} — ${rec.s1Class} (${rec.s1Gender})`, full: false },
+          { label: 'CO-PARTICIPANT (HELPER)', value: '1 additional student may accompany as helper', full: false }
+        ];
+
+        let curY = 348;
+        let pendingHalf = null;
+
+        function drawFieldBox(x, y, w, label, value) {
+          ctx.font = '700 23px Inter, Arial, sans-serif';
+          const lines = wrapCanvasText(ctx, value, w - 36).slice(0, 2);
+          const boxH = 44 + lines.length * 30 + 14;
+          roundRectPath(ctx, x, y, w, boxH, 14);
+          ctx.fillStyle = '#fffaf5';
+          ctx.fill();
+          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = '#fed7aa';
+          ctx.stroke();
+
+          ctx.fillStyle = '#9a3412';
+          ctx.font = '700 16px Inter, Arial, sans-serif';
+          ctx.fillText(label, x + 18, y + 28);
+
+          ctx.fillStyle = '#1f1209';
+          ctx.font = '700 22px Inter, Arial, sans-serif';
+          lines.forEach((ln, idx) => {
+            ctx.fillText(ln, x + 18, y + 60 + idx * 30);
+          });
+          return boxH;
+        }
+
+        const innerW = W - 152;
+        const halfW = (innerW - 18) / 2;
+
+        for (let i = 0; i < cards.length; i++) {
+          const item = cards[i];
+          if (item.full) {
+            if (pendingHalf) {
+              const h = drawFieldBox(76, curY, halfW, pendingHalf.label, pendingHalf.value);
+              curY += h + 14;
+              pendingHalf = null;
+            }
+            const h = drawFieldBox(76, curY, innerW, item.label, item.value);
+            curY += h + 14;
+          } else if (!pendingHalf) {
+            pendingHalf = item;
+          } else {
+            ctx.font = '700 22px Inter, Arial, sans-serif';
+            const l1 = wrapCanvasText(ctx, pendingHalf.value, halfW - 36).slice(0, 2);
+            const l2 = wrapCanvasText(ctx, item.value, halfW - 36).slice(0, 2);
+            const rowLines = Math.max(l1.length, l2.length);
+            const rowH = 44 + rowLines * 30 + 14;
+
+            roundRectPath(ctx, 76, curY, halfW, rowH, 14);
+            ctx.fillStyle = '#fffaf5';
+            ctx.fill();
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#fed7aa';
+            ctx.stroke();
+            ctx.fillStyle = '#9a3412';
+            ctx.font = '700 16px Inter, Arial, sans-serif';
+            ctx.fillText(pendingHalf.label, 94, curY + 28);
+            ctx.fillStyle = '#1f1209';
+            ctx.font = '700 22px Inter, Arial, sans-serif';
+            l1.forEach((ln, idx) => ctx.fillText(ln, 94, curY + 60 + idx * 30));
+
+            const rightX = 76 + halfW + 18;
+            roundRectPath(ctx, rightX, curY, halfW, rowH, 14);
+            ctx.fillStyle = '#fffaf5';
+            ctx.fill();
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#fed7aa';
+            ctx.stroke();
+            ctx.fillStyle = '#9a3412';
+            ctx.font = '700 16px Inter, Arial, sans-serif';
+            ctx.fillText(item.label, rightX + 18, curY + 28);
+            ctx.fillStyle = '#1f1209';
+            ctx.font = '700 22px Inter, Arial, sans-serif';
+            l2.forEach((ln, idx) => ctx.fillText(ln, rightX + 18, curY + 60 + idx * 30));
+
+            curY += rowH + 14;
+            pendingHalf = null;
+          }
+        }
+
+        if (hasPhotos) {
+          curY += 6;
+          [
+            { img: img1, label: 'Participant Photo', x: 76 }
+          ].forEach((slot) => {
+            if (!slot.img) return;
+            roundRectPath(ctx, slot.x, curY, halfW, 150, 14);
+            ctx.fillStyle = '#fff7ed';
+            ctx.fill();
+            ctx.strokeStyle = '#fdba74';
+            ctx.stroke();
+
+            ctx.save();
+            roundRectPath(ctx, slot.x + 14, curY + 15, 120, 120, 12);
+            ctx.clip();
+            ctx.drawImage(slot.img, slot.x + 14, curY + 15, 120, 120);
+            ctx.restore();
+
+            ctx.fillStyle = '#9a3412';
+            ctx.font = '700 20px Inter, Arial, sans-serif';
+            ctx.fillText(slot.label, slot.x + 152, curY + 68);
+            ctx.fillStyle = '#5c4332';
+            ctx.font = '600 17px Inter, Arial, sans-serif';
+            ctx.fillText('Attached (Optional)', slot.x + 152, curY + 98);
+          });
+        }
+
+        // Bottom Verification Footer
+        ctx.fillStyle = '#7c5c46';
+        ctx.font = '600 18px Inter, Arial, sans-serif';
+        ctx.fillText('Portal: sikhyaksathi.in/kotpad-science-exhibition  •  Block Level Science Exhibition, Kotpad', 76, H - 64);
+
+        return new Promise((resolve) => {
+          canvas.toBlob((blob) => resolve(blob), 'image/png');
+        });
+      }
+
+      const saveSlipBtn = document.getElementById('saveSlipBtn');
+      const shareSlipBtn = document.getElementById('shareSlipBtn');
+
+      saveSlipBtn.addEventListener('click', async () => {
+        if (!lastSlipData) return;
+        saveSlipBtn.disabled = true;
+        saveSlipBtn.textContent = t('savingSlipBtn');
+        try {
+          const blob = await renderRegistrationSlipPngBlob(lastSlipData);
+          if (!blob) {
+            window.print();
+            return;
+          }
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `Kotpad_Science_Slip_${lastSlipData.record.udiseCode}.png`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 1500);
+        } finally {
+          saveSlipBtn.disabled = false;
+          saveSlipBtn.textContent = t('saveSlipBtn');
+        }
+      });
+
+      shareSlipBtn.addEventListener('click', async () => {
+        if (!lastSlipData) return;
+        const rec = lastSlipData.record;
+        const shareTitle = `Science Exhibition Registration Slip — ${rec.schoolName}`;
+        const shareText =
+          `Block Level Science Exhibition, 2026–27 (Kotpad)\n` +
+          `Ref: ${rec.ref}\n` +
+          `School: ${rec.schoolName} (UDISE: ${rec.udiseCode})\n` +
+          `Sub-Theme: ${rec.theme}\n` +
+          `Student Presenter: ${rec.s1Name} (${rec.s1Class})\n` +
+          `Helper Note: 1 additional student may accompany as Co-Participant/Helper\n` +
+          `Venue: Govt. High School, Kotpad (25/11/2026, 8:30 AM)\n` +
+          `Last Date: ${lastDateState.compact}\n` +
+          `https://sikhyaksathi.in/kotpad-science-exhibition`;
+
+        shareSlipBtn.disabled = true;
+        shareSlipBtn.textContent = t('sharingSlipBtn');
+        try {
+          const blob = await renderRegistrationSlipPngBlob(lastSlipData);
+          if (blob && navigator.share) {
+            const file = new File([blob], `Kotpad_Science_Slip_${rec.udiseCode}.png`, { type: 'image/png' });
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                files: [file],
+                title: shareTitle,
+                text: shareText
+              });
+              return;
+            }
+          }
+          if (navigator.share) {
+            await navigator.share({
+              title: shareTitle,
+              text: shareText,
+              url: 'https://sikhyaksathi.in/kotpad-science-exhibition'
+            });
+            return;
+          }
+          // Desktop fallback if browser lacks Web Share API
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Kotpad_Science_Slip_${rec.udiseCode}.png`;
+            a.click();
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+          }
+          window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank', 'noopener');
+        } catch (err) {
+          if (err && err.name !== 'AbortError') {
+            console.warn('Share fallback:', err);
+            window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank', 'noopener');
+          }
+        } finally {
+          shareSlipBtn.disabled = false;
+          shareSlipBtn.textContent = t('shareSlipBtn');
+        }
       });
 
       function closeModal() {
@@ -4243,6 +4572,11 @@
           setSubmitButtonText(t('submitBtnNew'));
         }
 
+        const heroLastDateEl = document.getElementById('heroLastDateDisplay');
+        if (heroLastDateEl) {
+          heroLastDateEl.textContent = lastDateState.spaced;
+        }
+
         syncThemeCards(themeSelect.value);
         renderRegisteredSchoolNames();
         if (!registeredSchoolNames.length) {
@@ -4252,6 +4586,22 @@
         renderCommitteesDirectory();
       }
 
+      async function refreshPortalSettings() {
+        if (!window.firebasePortal || typeof window.firebasePortal.fetchPortalSettings !== 'function') return;
+        try {
+          const settings = await window.firebasePortal.fetchPortalSettings();
+          if (settings && settings.lastDateSpaced && settings.lastDateCompact) {
+            lastDateState = {
+              spaced: settings.lastDateSpaced,
+              compact: settings.lastDateCompact
+            };
+            applyLanguage(currentLang);
+          }
+        } catch (err) {
+          console.warn('Could not load last date settings:', err);
+        }
+      }
+
       langToggleBtn.addEventListener('click', () => {
         applyLanguage(currentLang === 'or' ? 'en' : 'or');
       });
@@ -4259,7 +4609,11 @@
       applyLanguage(currentLang);
       renderSavedTeams();
       refreshRegisteredSchoolNames();
-      window.addEventListener('firebasePortalReady', () => refreshRegisteredSchoolNames());
+      refreshPortalSettings();
+      window.addEventListener('firebasePortalReady', () => {
+        refreshRegisteredSchoolNames();
+        refreshPortalSettings();
+      });
     })();
   </script>
 
@@ -4387,6 +4741,11 @@
           }
         });
         return names;
+      },
+
+      async fetchPortalSettings() {
+        const snap = await getDoc(doc(db, "kotpad_exhibition_settings", "config"));
+        return snap.exists() ? snap.data() : null;
       }
     };
     window.dispatchEvent(new CustomEvent("firebasePortalReady"));

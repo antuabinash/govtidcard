@@ -18,5 +18,9 @@ service cloud.firestore {
                     && request.resource.data.editAuthPhone == resource.data.teacherPhone
                     && request.time < timestamp.date(2026, 11, 25);
     }
+
+    match /kotpad_exhibition_settings/{docId} {
+      allow read, write: if true;
+    }
   }
 }
