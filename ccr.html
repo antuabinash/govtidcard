@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Form No. II - Character Roll of Teachers (3 Sets)</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --border: #cbd5e1;
+      --border-light: #e2e8f0;
+      --primary: #1d4ed8;
+      --primary-dark: #1e40af;
+      --primary-soft: #eff6ff;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #059669;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Calibri", Arial, sans-serif;
+      line-height: 1.45;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ==================== SCREEN (MOBILE-FRIENDLY) UI ==================== */
+    .screen-ui {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 14px 14px 96px;
+    }
+
+    .app-header {
+      background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.22);
+    }
+
+    .app-header h1 {
+      margin: 0 0 4px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .app-header p {
+      margin: 0;
+      font-size: 13px;
+      color: #dbeafe;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .card-hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin: -4px 0 12px;
+    }
+
+    /* Set Boxes */
+    .set-box {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #f8fafc;
+    }
+
+    .set-box:last-child {
+      margin-bottom: 0;
+    }
+
+    .set-box-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .set-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      color: #1e293b;
+      cursor: pointer;
+    }
+
+    .set-check-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .set-pages-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary);
+      background: var(--primary-soft);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    /* Form Grid */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .field-group {
+      margin-bottom: 11px;
+    }
+
+    .field-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 4px;
+    }
+
+    .ui-input,
+    .ui-select {
+      width: 100%;
+      font-family: inherit;
+      font-size: 16px; /* Prevents mobile auto-zoom on focus */
+      color: #0f172a;
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 11px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .ui-input:focus,
+    .ui-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+    }
+
+    .ui-input::placeholder {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    /* Collapsible Character Section */
+    .toggle-btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: #1e293b;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .toggle-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .char-body.collapsed {
+      display: none;
+    }
+
+    .grade-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .grade-pill {
+      appearance: none;
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      color: #334155;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .grade-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .mini-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    /* Sticky Bottom Action Bar */
+    .bottom-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid var(--border);
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      box-shadow: 0 -4px 14px rgba(15, 23, 42, 0.08);
+    }
+
+    .bottom-bar-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      color: #1e293b;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 14px;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: #f1f5f9;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      font-size: 15px;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+
+    /* ==================== A4 PREVIEW & PRINT SHEETS ==================== */
+    .print-container {
+      display: none;
+    }
+
+    .print-container.preview-visible {
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 8px 12px 100px;
+    }
+
+    .preview-banner {
+      max-width: 760px;
+      margin: 0 auto 12px;
+      padding: 10px 14px;
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      color: #92400e;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .sheets-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      background: #ffffff;
+      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.14);
+      padding: 17mm 20mm 16mm 22mm;
+      font-family: "Calibri", "Segoe UI", Arial, sans-serif;
+      font-size: 11.5pt;
+      line-height: 1.42;
+      color: #000000;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .sheet-tag {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .form-no {
+      font-size: 13.5pt;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .form-title {
+      font-size: 14pt;
+      font-weight: 700;
+      margin: 2px 0;
+    }
+
+    .form-subtitle {
+      font-size: 11.5pt;
+      margin: 2px 0 8px;
+    }
+
+    .period-block {
+      text-align: left;
+      font-size: 11.5pt;
+      line-height: 1.75;
+      margin-bottom: 14px;
+    }
+
+    .val-underline {
+      display: inline-block;
+      min-width: 105px;
+      text-align: center;
+      padding: 0 6px;
+      border-bottom: 1px dotted #000000;
+    }
+
+    .val-filled {
+      font-weight: 600;
+    }
+
+    .part-heading {
+      font-size: 12pt;
+      font-weight: 700;
+      text-decoration: underline;
+      margin: 12px 0 8px;
+    }
+
+    .form-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .form-row td {
+      vertical-align: top;
+      padding: 4.5px 0;
+    }
+
+    .col-num {
+      width: 28px;
+      white-space: nowrap;
+    }
+
+    .col-label {
+      width: 52%;
+      padding-right: 10px;
+    }
+
+    .col-sub {
+      padding-left: 16px;
+    }
+
+    .col-sub-deep {
+      padding-left: 26px;
+    }
+
+    .col-colon {
+      width: 14px;
+      white-space: nowrap;
+    }
+
+    .col-val {
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    .grading-section {
+      margin-top: 22px;
+    }
+
+    .grading-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .grading-options {
+      margin-bottom: 18px;
+      font-size: 11.5pt;
+    }
+
+    .grading-note {
+      margin: 14px 0 28px;
+      font-size: 11pt;
+      line-height: 1.45;
+    }
+
+    .date-row {
+      margin: 22px 0 36px;
+    }
+
+    .sig-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 32px;
+      padding-top: 16px;
+    }
+
+    .sig-left {
+      text-align: left;
+      min-width: 160px;
+    }
+
+    .sig-right {
+      text-align: center;
+      min-width: 190px;
+      margin-right: 18px;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .bottom-bar-inner {
+        gap: 6px;
+      }
+
+      .btn {
+        padding: 10px 10px;
+        font-size: 13px;
+      }
+
+      .btn-primary {
+        font-size: 14px;
+      }
+    }
+
+    /* ==================== PRINT STYLES ==================== */
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .screen-ui,
+      .bottom-bar,
+      .preview-banner,
+      .sheet-tag {
+        display: none !important;
+      }
+
+      .print-container,
+      .print-container.preview-visible {
+        display: block !important;
+        padding: 0;
+        overflow: visible;
+      }
+
+      .sheets-stack {
+        display: block;
+      }
+
+      .sheet {
+        width: 210mm;
+        height: 297mm;
+        min-height: 297mm;
+        margin: 0;
+        padding: 17mm 20mm 16mm 22mm;
+        box-shadow: none;
+        page-break-after: always;
+        break-after: page;
+        overflow: hidden;
+      }
+
+      .sheet:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== SCREEN INPUT UI ==================== -->
+  <main class="screen-ui">
+    <div class="app-header">
+      <h1>FORM NO. II — Character Roll of Teachers</h1>
+      <p>Fill the 3 Set Dates &amp; Personal Details below, then tap Print for 6 A4 pages (3 complete sets).</p>
+    </div>
+
+    <!-- STEP 1: THREE SETS DATE DETAILS -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="step-badge">1</span> Three Sets — Period &amp; Date Details</div>
+      </div>
+      <p class="card-hint">Enter the period (From / To) for each of the 3 sets. Leave Sign Date blank if you want to write it by hand later.</p>
+
+      <!-- Set 1 -->
+      <div class="set-box">
+        <div class="set-box-head">
+          <label class="set-check-label">
+            <input type="checkbox" id="set1Enabled" checked />
+            Set 1
+          </label>
+          <span class="set-pages-tag">Pages 1–2</span>
+        </div>
+        <div class="grid-3">
+          <div class="field-group">
+            <label class="field-label" for="set1From">From Date</label>
+            <input type="text" class="ui-input personal-input" id="set1From" placeholder="e.g. 23/04/2024" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="set1To">To Date</label>
+            <input type="text" class="ui-input personal-input" id="set1To" placeholder="e.g. 31/03/2025" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="set1SignDate">Sign Date (Optional)</label>
+            <input type="text" class="ui-input personal-input" id="set1SignDate" placeholder="DD/MM/YYYY" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Set 2 -->
+      <div class="set-box">
+        <div class="set-box-head">
+          <label class="set-check-label">
+            <input type="checkbox" id="set2Enabled" checked />
+            Set 2
+          </label>
+          <span class="set-pages-tag">Pages 3–4</span>
+        </div>
+        <div class="grid-3">
+          <div class="field-group">
+            <label class="field-label" for="set2From">From Date</label>
+            <input type="text" class="ui-input personal-input" id="set2From" placeholder="e.g. 01/04/2025" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="set2To">To Date</label>
+            <input type="text" class="ui-input personal-input" id="set2To" placeholder="e.g. 31/03/2026" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="set2SignDate">Sign Date (Optional)</label>
+            <input type="text" class="ui-input personal-input" id="set2SignDate" placeholder="DD/MM/YYYY" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Set 3 -->
+      <div class="set-box">
+        <div class="set-box-head">
+          <label class="set-check-label">
+            <input type="checkbox" id="set3Enabled" checked />
+            Set 3
+          </label>
+          <span class="set-pages-tag">Pages 5–6</span>
+        </div>
+        <div class="grid-3">
+          <div class="field-group">
+            <label class="field-label" for="set3From">From Date</label>
+            <input type="text" class="ui-input personal-input" id="set3From" placeholder="e.g. 01/04/2026" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="set3To">To Date</label>
+            <input type="text" class="ui-input personal-input" id="set3To" placeholder="e.g. 31/03/2027" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="set3SignDate">Sign Date (Optional)</label>
+            <input type="text" class="ui-input personal-input" id="set3SignDate" placeholder="DD/MM/YYYY" />
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 12px;">
+        <div class="field-group">
+          <label class="field-label" for="officeName">Office Name</label>
+          <input type="text" class="ui-input" id="officeName" value="Block Education Officer, Kotpad." placeholder="Block Education Officer, Kotpad." />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="templateSelect">Form Wording Style</label>
+          <select id="templateSelect" class="ui-select">
+            <option value="kotpad">L-V-A / BEO Kotpad Format</option>
+            <option value="blankpdf">Standard Blank PDF Format</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2: PERSONAL DETAILS (PART-I) -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="step-badge">2</span> Personal Details (PART-I)</div>
+        <button type="button" class="toggle-btn" id="btnClearPersonal">Clear Dates &amp; Personal</button>
+      </div>
+      <p class="card-hint">Filled once — automatically printed across all 3 sets.</p>
+
+      <div class="field-group">
+        <label class="field-label" for="p_name">1. Name</label>
+        <input type="text" class="ui-input personal-input" id="p_name" placeholder="e.g. MANAS MANDAL" />
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label class="field-label" for="p_designation">2. Designation</label>
+          <input type="text" class="ui-input personal-input" id="p_designation" list="dl-designation" placeholder="e.g. L-V(A)" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="p_grade">5. Present Grade</label>
+          <input type="text" class="ui-input personal-input" id="p_grade" list="dl-grade" placeholder="e.g. GROUP -C" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="p_address">3. Official Address</label>
+        <input type="text" class="ui-input personal-input" id="p_address" placeholder="e.g. G.U.P.S, BASTAMBA" />
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label class="field-label" for="p_qual_gen">4a. Education Qualification (General)</label>
+          <input type="text" class="ui-input personal-input" id="p_qual_gen" placeholder="e.g. M.Sc / B.A" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="p_qual_prof">4b. Education Qualification (Professional)</label>
+          <input type="text" class="ui-input personal-input" id="p_qual_prof" placeholder="e.g. B.Ed / C.T" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label class="field-label" for="p_dob">6. Date of Birth</label>
+          <input type="text" class="ui-input personal-input" id="p_dob" placeholder="DD.MM.YYYY" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="p_entry_date">7. Date of entry into Govt. Service</label>
+          <input type="text" class="ui-input personal-input" id="p_entry_date" placeholder="DD.MM.YYYY (REGULAR)" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label class="field-label" for="p_join_date">8. Date of joining in present institution</label>
+          <input type="text" class="ui-input personal-input" id="p_join_date" placeholder="DD.MM.YYYY" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="p_super_date">9. Date of Superannuation</label>
+          <input type="text" class="ui-input personal-input" id="p_super_date" placeholder="DD.MM.YYYY" />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label class="field-label" for="p_period_served">10. Period served under present reporting officer</label>
+          <input type="text" class="ui-input personal-input" id="p_period_served" placeholder="(Optional)" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="p_category">11. Belongs to General/SC/ST</label>
+          <input type="text" class="ui-input personal-input" id="p_category" list="dl-category" placeholder="General / SC / ST" />
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: CHARACTER ROLL DEFAULTS (PART-II) -->
+    <section class="card">
+      <div class="card-header">
+        <div class="card-title"><span class="step-badge">3</span> Character Roll (PART-II) — Pre-filled</div>
+        <button type="button" class="toggle-btn" id="btnToggleChar">Show / Edit</button>
+      </div>
+      <p class="card-hint">Already kept the same as your sample form (default Grading: <strong>Very good</strong>). Expand only if you want to edit.</p>
+
+      <div id="charBody" class="char-body collapsed">
+        <div class="grid-2">
+          <div class="field-group">
+            <label class="field-label" for="c_subject">1. Subject taught</label>
+            <input type="text" class="ui-input char-input" id="c_subject" value="ALL SUBJECT" data-default="ALL SUBJECT" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_knowledge">2. Content Knowledge on the Subject</label>
+            <input type="text" class="ui-input char-input" id="c_knowledge" value="EXCELLENT" data-default="EXCELLENT" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_methods">3. Knowledge on methods of teaching</label>
+            <input type="text" class="ui-input char-input" id="c_methods" value="OUTSTANDING" data-default="OUTSTANDING" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_comm">4a. Communicative ability</label>
+            <input type="text" class="ui-input char-input" id="c_comm" value="VERY GOOD" data-default="VERY GOOD" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_aids">4b. Ability in using teaching Aids</label>
+            <input type="text" class="ui-input char-input" id="c_aids" value="IMPRESSIVE" data-default="IMPRESSIVE" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_articles">5. Articles Published</label>
+            <input type="text" class="ui-input char-input" id="c_articles" value="Nil" data-default="Nil" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_cocurricular">6. Co-curricular activities</label>
+            <input type="text" class="ui-input char-input" id="c_cocurricular" value="VERY GOOD" data-default="VERY GOOD" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_dealing">7. Dealing with students and public</label>
+            <input type="text" class="ui-input char-input" id="c_dealing" value="CORDIAL" data-default="CORDIAL" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_responsibility">8. Willingness to take responsibility</label>
+            <input type="text" class="ui-input char-input" id="c_responsibility" value="YES" data-default="YES" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_research">9. Research/Innovative project undertaken</label>
+            <input type="text" class="ui-input char-input" id="c_research" value="" data-default="" placeholder="(Blank by default)" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_integrity">10a. Integrity</label>
+            <input type="text" class="ui-input char-input" id="c_integrity" value="BEYOND DOUBT" data-default="BEYOND DOUBT" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_sincerity">10b. Sincerity</label>
+            <input type="text" class="ui-input char-input" id="c_sincerity" value="VERY GOOD" data-default="VERY GOOD" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_punctuality">10c. Punctuality</label>
+            <input type="text" class="ui-input char-input" id="c_punctuality" value="PUNCTUAL" data-default="PUNCTUAL" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_honesty">10d. Honesty</label>
+            <input type="text" class="ui-input char-input" id="c_honesty" value="GOOD" data-default="GOOD" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_zeal">10e. Zeal</label>
+            <input type="text" class="ui-input char-input" id="c_zeal" value="VERY GOOD" data-default="VERY GOOD" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_resourceful">10f. Resource fullness</label>
+            <input type="text" class="ui-input char-input" id="c_resourceful" value="RESOURCEFULL" data-default="RESOURCEFULL" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_problem">10g. Problem solving ability</label>
+            <input type="text" class="ui-input char-input" id="c_problem" value="GOOD" data-default="GOOD" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_leadership">10h. Leadership ability</label>
+            <input type="text" class="ui-input char-input" id="c_leadership" value="DEMOCRATIC LEADERSHIP" data-default="DEMOCRATIC LEADERSHIP" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_deformity">11. Physical Deformity if any</label>
+            <input type="text" class="ui-input char-input" id="c_deformity" value="No" data-default="No" />
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="c_remarks">12. Remarks of the Reporting Officer</label>
+            <input type="text" class="ui-input char-input" id="c_remarks" value="VERY GOOD" data-default="VERY GOOD" />
+          </div>
+        </div>
+
+        <div class="field-group" style="margin-top: 12px;">
+          <span class="field-label">Grading</span>
+          <div class="grade-pills" id="gradePills">
+            <button type="button" class="grade-pill" data-grade="Outstanding">Outstanding</button>
+            <button type="button" class="grade-pill active" data-grade="Very good">Very good</button>
+            <button type="button" class="grade-pill" data-grade="Good">Good</button>
+            <button type="button" class="grade-pill" data-grade="Average">Average</button>
+            <button type="button" class="grade-pill" data-grade="Below average">Below average</button>
+          </div>
+        </div>
+
+        <div class="mini-actions">
+          <button type="button" class="toggle-btn" id="btnResetChars">Reset Character Defaults</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sticky Bottom Action Bar -->
+  <div class="bottom-bar">
+    <div class="bottom-bar-inner">
+      <button type="button" class="btn" id="btnPreview">Preview A4</button>
+      <button type="button" class="btn btn-primary" id="btnPrint">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        <span id="printBtnLabel">Print 3 Sets (6 A4 Pages)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Datalists -->
+  <datalist id="dl-category">
+    <option value="General"></option>
+    <option value="SC"></option>
+    <option value="ST"></option>
+    <option value="SEBC"></option>
+    <option value="OBC"></option>
+  </datalist>
+  <datalist id="dl-grade">
+    <option value="GROUP -C"></option>
+    <option value="GROUP -B"></option>
+    <option value="L-V(A)"></option>
+    <option value="L-V(B)"></option>
+    <option value="L-IV"></option>
+  </datalist>
+  <datalist id="dl-designation">
+    <option value="L-V(A)"></option>
+    <option value="L-V(B)"></option>
+    <option value="L-IV HM"></option>
+    <option value="L-IV GTA"></option>
+    <option value="Assistant Teacher"></option>
+    <option value="Headmaster"></option>
+  </datalist>
+
+  <!-- ==================== A4 PRINT / PREVIEW CONTAINER ==================== -->
+  <div id="printContainer" class="print-container">
+    <div class="preview-banner">A4 Print Preview — Scroll horizontally if on mobile, or tap "Print" below to print / save PDF.</div>
+    <div id="sheetsStack" class="sheets-stack"></div>
+  </div>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "form_no_ii_3sets_v1";
+
+      const templateConfigs = {
+        kotpad: {
+          formNo: "FORM NO.II",
+          title: "CHARACTER ROLL OF TEACHERS",
+          subtitle: "(L-V-A/ L-V-B/L-IV HM/L-IV GTA Teacher Education and other Teaching Staff)",
+          periodPrefix: "For the period from",
+          periodMid: "to",
+          officePrefix: "of office of the",
+          defaultOffice: "Block Education Officer, Kotpad.",
+          superannuation: "Date of Superannuation",
+          sigLeft: "Countersigned",
+          sigRightHtml: "<div>Signature</div><div>Reporting Officer</div>"
+        },
+        blankpdf: {
+          formNo: "FORM NO- II",
+          title: "CHARACTER ROLL OF THE TEACHERS",
+          subtitle: "(HEADMASTER, ASSISTANT TEACHER OF PRIMARY/UPPER PRIMARY SCHOOL AND OTHER TEACHING STAFF)",
+          periodPrefix: "FOR THE PERIOD FROM",
+          periodMid: "TO",
+          officePrefix: "OFFICE OF THE",
+          defaultOffice: "",
+          superannuation: "Period of superannuation",
+          sigLeft: "Counter Signature",
+          sigRightHtml: "<div>Seal and Sign of BEO</div>"
+        }
+      };
+
+      const gradeOrder = ["Outstanding", "Very good", "Good", "Average", "Below average"];
+
+      const templateSelect = document.getElementById("templateSelect");
+      const officeInput = document.getElementById("officeName");
+      const printContainer = document.getElementById("printContainer");
+      const sheetsStack = document.getElementById("sheetsStack");
+      const charBody = document.getElementById("charBody");
+      const btnToggleChar = document.getElementById("btnToggleChar");
+      const btnPreview = document.getElementById("btnPreview");
+      const printBtnLabel = document.getElementById("printBtnLabel");
+      const gradePills = Array.from(document.querySelectorAll(".grade-pill"));
+      const allInputs = Array.from(document.querySelectorAll(".screen-ui input.ui-input"));
+      const setCheckboxes = [
+        document.getElementById("set1Enabled"),
+        document.getElementById("set2Enabled"),
+        document.getElementById("set3Enabled")
+      ];
+
+      function esc(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function val(id) {
+        const el = document.getElementById(id);
+        return el ? el.value : "";
+      }
+
+      function getSelectedGrade() {
+        const active = document.querySelector(".grade-pill.active");
+        return active ? active.dataset.grade : "Very good";
+      }
+
+      function setSelectedGrade(grade) {
+        gradePills.forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.grade === grade);
+        });
+      }
+
+      function getActiveSets() {
+        const sets = [];
+        for (let i = 1; i <= 3; i++) {
+          if (document.getElementById(`set${i}Enabled`).checked) {
+            sets.push({
+              num: i,
+              from: val(`set${i}From`),
+              to: val(`set${i}To`),
+              signDate: val(`set${i}SignDate`)
+            });
+          }
+        }
+        return sets;
+      }
+
+      function updatePrintButtonLabel() {
+        const count = getActiveSets().length;
+        if (count === 0) {
+          printBtnLabel.textContent = "Select at least 1 Set";
+        } else {
+          printBtnLabel.textContent = `Print ${count} Set${count > 1 ? "s" : ""} (${count * 2} A4 Pages)`;
+        }
+      }
+
+      function renderPeriodVal(text) {
+        const trimmed = (text || "").trim();
+        if (trimmed === "") {
+          return '<span class="val-underline">&nbsp;</span>';
+        }
+        return `<span class="val-underline val-filled">${esc(text)}</span>`;
+      }
+
+      function renderGradingHtml(selectedGrade) {
+        return "(" + gradeOrder.map((g) => {
+          return g === selectedGrade ? `<strong>${esc(g)}</strong>` : esc(g);
+        }).join(" / ") + ")";
+      }
+
+      function buildSetHtml(setInfo, setIndex, totalSets) {
+        const cfg = templateConfigs[templateSelect.value] || templateConfigs.kotpad;
+        const officeVal = val("officeName");
+        const officeHtml = officeVal.trim() === ""
+          ? '<span class="val-underline" style="min-width:190px;">&nbsp;</span>'
+          : `<strong>${esc(officeVal)}</strong>`;
+
+        const selectedGrade = getSelectedGrade();
+        const pageNum1 = setIndex * 2 + 1;
+        const pageNum2 = setIndex * 2 + 2;
+        const totalPages = totalSets * 2;
+
+        const page1 = `
+          <section class="sheet">
+            <span class="sheet-tag">Set ${setInfo.num} — Page ${pageNum1} of ${totalPages}</span>
+            <header class="form-header">
+              <p class="form-no">${esc(cfg.formNo)}</p>
+              <p class="form-title">${esc(cfg.title)}</p>
+              <p class="form-subtitle">${esc(cfg.subtitle)}</p>
+            </header>
+
+            <div class="period-block">
+              ${esc(cfg.periodPrefix)} ${renderPeriodVal(setInfo.from)} ${esc(cfg.periodMid)} ${renderPeriodVal(setInfo.to)} ${esc(cfg.officePrefix)} ${officeHtml}
+            </div>
+
+            <div class="part-heading">PART-I</div>
+            <table class="form-table">
+              <tr class="form-row"><td class="col-num">1.</td><td class="col-label">Name</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_name"))}</td></tr>
+              <tr class="form-row"><td class="col-num">2.</td><td class="col-label">Designation</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_designation"))}</td></tr>
+              <tr class="form-row"><td class="col-num">3.</td><td class="col-label">Official Address</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_address"))}</td></tr>
+              <tr class="form-row"><td class="col-num">4.</td><td class="col-label">Education Qualification</td><td class="col-colon"></td><td class="col-val"></td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub">a) General</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_qual_gen"))}</td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub">b) Professional</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_qual_prof"))}</td></tr>
+              <tr class="form-row"><td class="col-num">5.</td><td class="col-label">Present Grade</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_grade"))}</td></tr>
+              <tr class="form-row"><td class="col-num">6.</td><td class="col-label">Date of Birth</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_dob"))}</td></tr>
+              <tr class="form-row"><td class="col-num">7.</td><td class="col-label">Date of entry into Govt. Service</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_entry_date"))}</td></tr>
+              <tr class="form-row"><td class="col-num">8.</td><td class="col-label">Date of joining in the present institution</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_join_date"))}</td></tr>
+              <tr class="form-row"><td class="col-num">9.</td><td class="col-label">${esc(cfg.superannuation)}</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_super_date"))}</td></tr>
+              <tr class="form-row"><td class="col-num">10.</td><td class="col-label">Period served under the present reporting officer</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_period_served"))}</td></tr>
+              <tr class="form-row"><td class="col-num">11.</td><td class="col-label">Belongs to General/SC/ST</td><td class="col-colon">:</td><td class="col-val">${esc(val("p_category"))}</td></tr>
+            </table>
+
+            <div class="part-heading" style="margin-top: 16px;">PART-II</div>
+            <table class="form-table">
+              <tr class="form-row"><td class="col-num">1.</td><td class="col-label">Subject taught</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_subject"))}</td></tr>
+              <tr class="form-row"><td class="col-num">2.</td><td class="col-label">Content Knowledge on the Subject</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_knowledge"))}</td></tr>
+              <tr class="form-row"><td class="col-num">3.</td><td class="col-label">Knowledge on methods of teaching</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_methods"))}</td></tr>
+              <tr class="form-row"><td class="col-num">4.</td><td class="col-label">Class Room performance</td><td class="col-colon"></td><td class="col-val"></td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub">a) Communicative ability</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_comm"))}</td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub">b) Ability in using teaching Aids</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_aids"))}</td></tr>
+              <tr class="form-row"><td class="col-num">5.</td><td class="col-label">Articles Published</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_articles"))}</td></tr>
+            </table>
+          </section>
+        `;
+
+        const page2 = `
+          <section class="sheet">
+            <span class="sheet-tag">Set ${setInfo.num} — Page ${pageNum2} of ${totalPages}</span>
+            <table class="form-table">
+              <tr class="form-row">
+                <td class="col-num">6.</td>
+                <td class="col-label">Participation in and organization of<br><span style="padding-left:14px;">Co-curricular activities</span></td>
+                <td class="col-colon" style="vertical-align:bottom;">:</td>
+                <td class="col-val" style="vertical-align:bottom;">${esc(val("c_cocurricular"))}</td>
+              </tr>
+              <tr class="form-row"><td class="col-num">7.</td><td class="col-label">Dealing with students and public</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_dealing"))}</td></tr>
+              <tr class="form-row"><td class="col-num">8.</td><td class="col-label">Willingness to take responsibility</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_responsibility"))}</td></tr>
+              <tr class="form-row"><td class="col-num">9.</td><td class="col-label">Research/Innovative project undertaken</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_research"))}</td></tr>
+              <tr class="form-row"><td class="col-num">10.</td><td class="col-label">Item wise report:</td><td class="col-colon"></td><td class="col-val"></td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub-deep">a) Integrity</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_integrity"))}</td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub-deep">b) Sincerity</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_sincerity"))}</td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub-deep">c) Punctuality</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_punctuality"))}</td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub-deep">d) Honesty</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_honesty"))}</td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub-deep">e) Zeal</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_zeal"))}</td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub-deep">f) Resource fullness</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_resourceful"))}</td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub-deep">g) Problem solving ability</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_problem"))}</td></tr>
+              <tr class="form-row"><td class="col-num"></td><td class="col-label col-sub-deep">h) Leadership ability</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_leadership"))}</td></tr>
+              <tr class="form-row"><td class="col-num">11.</td><td class="col-label">Physical Deformity if any</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_deformity"))}</td></tr>
+              <tr class="form-row"><td class="col-num">12.</td><td class="col-label">Remarks of the Reporting Officer</td><td class="col-colon">:</td><td class="col-val">${esc(val("c_remarks"))}</td></tr>
+            </table>
+
+            <div class="grading-section">
+              <div class="grading-title">Grading:</div>
+              <div class="grading-options">${renderGradingHtml(selectedGrade)}</div>
+              <div class="grading-note">
+                (One should not be graded outstanding unless exceptional qualities and performance have been noticed. Grounds for such a grading should be clearly spelt out.)
+              </div>
+            </div>
+
+            <div class="date-row">Date: ${esc(setInfo.signDate)}</div>
+
+            <div class="sig-area">
+              <div class="sig-left">${esc(cfg.sigLeft)}</div>
+              <div class="sig-right">${cfg.sigRightHtml}</div>
+            </div>
+          </section>
+        `;
+
+        return page1 + page2;
+      }
+
+      function renderSheets() {
+        const sets = getActiveSets();
+        if (sets.length === 0) {
+          sheetsStack.innerHTML = "";
+          return false;
+        }
+        sheetsStack.innerHTML = sets.map((s, idx) => buildSetHtml(s, idx, sets.length)).join("");
+        return true;
+      }
+
+      function saveState() {
+        const data = {
+          template: templateSelect.value,
+          grade: getSelectedGrade(),
+          enabledSets: setCheckboxes.map((cb) => cb.checked),
+          fields: {}
+        };
+        allInputs.forEach((inp) => {
+          data.fields[inp.id] = inp.value;
+        });
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {}
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            updatePrintButtonLabel();
+            return;
+          }
+          const data = JSON.parse(raw);
+          if (data.template && templateConfigs[data.template]) {
+            templateSelect.value = data.template;
+          }
+          if (data.grade) {
+            setSelectedGrade(data.grade);
+          }
+          if (Array.isArray(data.enabledSets)) {
+            setCheckboxes.forEach((cb, i) => {
+              if (typeof data.enabledSets[i] === "boolean") {
+                cb.checked = data.enabledSets[i];
+              }
+            });
+          }
+          if (data.fields) {
+            allInputs.forEach((inp) => {
+              if (Object.prototype.hasOwnProperty.call(data.fields, inp.id)) {
+                inp.value = data.fields[inp.id];
+              }
+            });
+          }
+        } catch (e) {}
+        updatePrintButtonLabel();
+      }
+
+      // Event Listeners
+      allInputs.forEach((inp) => {
+        inp.addEventListener("input", () => {
+          saveState();
+          if (printContainer.classList.contains("preview-visible")) {
+            renderSheets();
+          }
+        });
+      });
+
+      setCheckboxes.forEach((cb) => {
+        cb.addEventListener("change", () => {
+          updatePrintButtonLabel();
+          saveState();
+          if (printContainer.classList.contains("preview-visible")) {
+            renderSheets();
+          }
+        });
+      });
+
+      templateSelect.addEventListener("change", () => {
+        const cfg = templateConfigs[templateSelect.value] || templateConfigs.kotpad;
+        if (officeInput.value === "Block Education Officer, Kotpad." || officeInput.value === "") {
+          officeInput.value = cfg.defaultOffice;
+        }
+        saveState();
+        if (printContainer.classList.contains("preview-visible")) {
+          renderSheets();
+        }
+      });
+
+      gradePills.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          setSelectedGrade(btn.dataset.grade);
+          saveState();
+          if (printContainer.classList.contains("preview-visible")) {
+            renderSheets();
+          }
+        });
+      });
+
+      btnToggleChar.addEventListener("click", () => {
+        const collapsed = charBody.classList.toggle("collapsed");
+        btnToggleChar.textContent = collapsed ? "Show / Edit" : "Hide";
+      });
+
+      document.getElementById("btnClearPersonal").addEventListener("click", () => {
+        document.querySelectorAll(".personal-input").forEach((inp) => {
+          inp.value = "";
+        });
+        saveState();
+        if (printContainer.classList.contains("preview-visible")) {
+          renderSheets();
+        }
+      });
+
+      document.getElementById("btnResetChars").addEventListener("click", () => {
+        document.querySelectorAll(".char-input").forEach((inp) => {
+          inp.value = inp.dataset.default || "";
+        });
+        setSelectedGrade("Very good");
+        saveState();
+        if (printContainer.classList.contains("preview-visible")) {
+          renderSheets();
+        }
+      });
+
+      btnPreview.addEventListener("click", () => {
+        const isShown = printContainer.classList.toggle("preview-visible");
+        btnPreview.textContent = isShown ? "Hide Preview" : "Preview A4";
+        if (isShown) {
+          if (!renderSheets()) {
+            alert("Please check at least one Set (Set 1, Set 2, or Set 3).");
+            printContainer.classList.remove("preview-visible");
+            btnPreview.textContent = "Preview A4";
+            return;
+          }
+          printContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+
+      document.getElementById("btnPrint").addEventListener("click", () => {
+        if (!renderSheets()) {
+          alert("Please check at least one Set (Set 1, Set 2, or Set 3) before printing.");
+          return;
+        }
+        window.print();
+      });
+
+      window.addEventListener("beforeprint", renderSheets);
+
+      // Initialize
+      loadState();
+    })();
+  </script>
+</body>
+</html>
