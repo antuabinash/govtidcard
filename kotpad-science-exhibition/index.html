@@ -5044,7 +5044,7 @@
         return snap.exists() ? snap.data() : null;
       },
 
-      async function saveRegistration(record, photosByProject = [], editMeta = {}) {
+      async saveRegistration(record, photosByProject = [], editMeta = {}) {
         const existing = editMeta.existing || null;
         const existingProjects = (existing && Array.isArray(existing.projects) && existing.projects.length)
           ? existing.projects
