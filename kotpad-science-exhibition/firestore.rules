@@ -6,17 +6,17 @@ service cloud.firestore {
       // Allows coordinator dashboard to read/export registered schools
       allow read: if true;
 
-      // Allow valid 11-digit UDISE documents (Kotpad list or manual UDISE fallback)
-      // until end of registration window (23 Nov 2026 IST -> 2026-11-24T00:00:00Z).
+      // Allow valid 11-digit UDISE documents (storing up to 3 projects per school)
+      // until exhibition closure (26 Nov 2026 UTC).
       // Updates require matching the existing Guide Teacher mobile number (editAuthPhone).
       allow create: if udiseId.matches('^[0-9]{11}$')
                     && request.resource.data.udiseCode == udiseId
-                    && request.time < timestamp.date(2026, 11, 25);
+                    && request.time < timestamp.date(2026, 11, 26);
 
       allow update: if udiseId.matches('^[0-9]{11}$')
                     && request.resource.data.udiseCode == udiseId
                     && request.resource.data.editAuthPhone == resource.data.teacherPhone
-                    && request.time < timestamp.date(2026, 11, 25);
+                    && request.time < timestamp.date(2026, 11, 26);
     }
 
     match /kotpad_exhibition_settings/{docId} {

@@ -1208,6 +1208,103 @@
       transition: opacity 0.22s ease;
     }
 
+    /* Multi-Project Slot Cards (Up to 3 Themes / Projects per School) */
+    .project-slots-head-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .project-count-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #ffedd5;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .project-slots-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .project-slot-card {
+      background: var(--surface-muted);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .project-slot-card.is-hidden {
+      display: none;
+    }
+
+    .project-slot-card:hover {
+      border-color: #fb923c;
+    }
+
+    .project-slot-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-add-project {
+      margin-top: 14px;
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 18px;
+      border-radius: 12px;
+      border: 2px dashed #ea580c;
+      background: #fff7ed;
+      color: #c2410c;
+      font-family: inherit;
+      font-size: 0.94rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.15s, border-color 0.18s;
+    }
+
+    .btn-add-project:hover:not(:disabled) {
+      background: #ffedd5;
+      border-color: #c2410c;
+      transform: translateY(-1px);
+    }
+
+    .btn-add-project:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      border-style: solid;
+    }
+
+    .btn-remove-project {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-family: inherit;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-remove-project:hover {
+      background: #fecaca;
+    }
+
     /* Student Panel + Helper Note */
     .students-split {
       display: grid;
@@ -1216,6 +1313,7 @@
     }
 
     .helper-one-line-note {
+      margin-top: 14px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -1951,14 +2049,14 @@
 
         <article class="guide-card">
           <div class="guide-icon">👥</div>
-          <h3 data-i18n="g2Title">ପ୍ରତି ଦଳରେ ୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ</h3>
-          <p data-i18n-html="g2Desc">ପ୍ରତ୍ୟେକ ଅଂଶଗ୍ରହଣକାରୀ ବିଦ୍ୟାଳୟ ଜଣେ ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ସହ ଠିକ୍ <strong>୨ ଜଣ ଛାତ୍ରଛାତ୍ରୀ</strong>ଙ୍କୁ ପଞ୍ଜୀକରଣ କରିବେ।</p>
+          <h3 data-i18n="g2Title">ପ୍ରତି ପ୍ରକଳ୍ପରେ ୧ ମୁଖ୍ୟ (+୧ ସହଯୋଗୀ)</h3>
+          <p data-i18n-html="g2Desc">ପ୍ରତି ପ୍ରକଳ୍ପ ପାଇଁ ଜଣେ <strong>ମୁଖ୍ୟ ଅଂଶଗ୍ରହଣକାରୀ</strong> ପଞ୍ଜୀକରଣ କରନ୍ତୁ। ସାହାଯ୍ୟ ପାଇଁ ଆଉ ଜଣେ ଛାତ୍ର/ଛାତ୍ରୀ <strong>ସହଯୋଗୀ (Helper)</strong> ଭାବେ ଆସିପାରିବେ।</p>
         </article>
 
         <article class="guide-card">
           <div class="guide-icon">🔬</div>
-          <h3 data-i18n="g3Title">୬ଟି ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ୧ଟି ବାଛନ୍ତୁ</h3>
-          <p data-i18n="g3Desc">୬ଟି ସରକାରୀ ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ଗୋଟିଏ ବାଛନ୍ତୁ ଏବଂ ଏକ ମୌଳିକ କାର୍ଯ୍ୟକାରୀ ମଡେଲ୍ କିମ୍ବା ପ୍ରକଳ୍ପ ପ୍ରସ୍ତୁତ କରନ୍ତୁ।</p>
+          <h3 data-i18n="g3Title">ସର୍ବାଧିକ ୩ଟି ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପ</h3>
+          <p data-i18n="g3Desc">ଗୋଟିଏ ବିଦ୍ୟାଳୟ ୭ଟି ସରକାରୀ ଉପ-ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ସର୍ବାଧିକ ୩ଟି ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପରେ ଅଂଶଗ୍ରହଣ କରିପାରିବେ।</p>
         </article>
 
         <article class="guide-card">
@@ -2129,7 +2227,7 @@
         <div class="form-banner">
           <div>
             <h3 data-i18n="formBannerTitle">ବିଦ୍ୟାଳୟ ଦଳ ପଞ୍ଜୀକରଣ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)</h3>
-            <p data-i18n="formBannerSub">ଉଚ୍ଚ ପ୍ରାଥମିକ, ହାଇସ୍କୁଲ ଓ ଉଚ୍ଚ ମାଧ୍ୟମିକ (୧ମ–୫ମ ବ୍ୟତୀତ) • ୨ ଛାତ୍ରଛାତ୍ରୀ • ୧ ବିଷୟବସ୍ତୁ • ଫଟୋ ବୈକଳ୍ପିକ</p>
+            <p data-i18n="formBannerSub">କେବଳ ସରକାରୀ ବିଦ୍ୟାଳୟ (UP, HS, HSS • ୧ମ–୫ମ ବ୍ୟତୀତ) • ସର୍ବାଧିକ ୩ଟି ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପ • ଫଟୋ ବୈକଳ୍ପିକ</p>
           </div>
           <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
             <button type="button" class="btn-change-school" id="inlineMoreBtn" data-i18n="viewThemesBtn" style="background:rgba(255,255,255,0.14); color:#fff; border-color:rgba(255,255,255,0.28);">୬ଟି ବିଷୟବସ୍ତୁ ଓ ନିୟମ ଦେଖନ୍ତୁ</button>
@@ -2238,99 +2336,25 @@
             </div>
           </div>
 
-          <!-- Step 2: Theme & Project -->
+          <!-- Step 2: Themes, Projects & Participating Students (Up to 3 Projects per School) -->
           <div class="form-block form-section-locked" id="step2Block">
-            <div class="block-title">
-              <span class="step-badge">2</span>
-              <span data-i18n="step2Title">ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ଏବଂ ପ୍ରକଳ୍ପ ବିବରଣୀ</span>
+            <div class="block-title project-slots-head-row">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span class="step-badge">2</span>
+                <span data-i18n="step2MultiTitle">ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ, ପ୍ରକଳ୍ପ ଓ ଅଂଶଗ୍ରହଣକାରୀ (ସର୍ବାଧିକ ୩ଟି ପ୍ରକଳ୍ପ)</span>
+              </div>
+              <span class="project-count-pill" id="projectCountBadge">1 / 3</span>
             </div>
 
-            <div class="form-grid-2">
-              <div class="field full">
-                <label for="selectedTheme" data-i18n-html="selectThemeLabel">ପ୍ରତିଯୋଗିତା ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୭ଟି ମଧ୍ୟରୁ ୧ଟି) <span class="req">*</span></label>
-                <select id="selectedTheme" name="selectedTheme" required>
-                  <option value="" data-i18n="optThemeDefault">-- ଏକ ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ --</option>
-                  <option value="Sub-Theme 1: Artificial Intelligence (AI) for Better Life" data-i18n="optTheme1">ଉପ-ବିଷୟବସ୍ତୁ ୧: ଉନ୍ନତ ଜୀବନ ପାଇଁ କୃତ୍ରିମ ବୁଦ୍ଧିମତ୍ତା (AI)</option>
-                  <option value="Sub-Theme 2: Green Energy &amp; Environmental Conservation" data-i18n="optTheme2">ଉପ-ବିଷୟବସ୍ତୁ ୨: ସବୁଜ ଶକ୍ତି ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ</option>
-                  <option value="Sub-Theme 3: Mathematical Modelling and Computational Thinking" data-i18n="optTheme3">ଉପ-ବିଷୟବସ୍ତୁ ୩: ଗାଣିତିକ ମଡେଲିଂ ଏବଂ କମ୍ପ୍ୟୁଟେସନାଲ୍ ଚିନ୍ତାଧାରା</option>
-                  <option value="Sub-Theme 4: Health, Hygiene and Sanitation" data-i18n="optTheme4">ଉପ-ବିଷୟବସ୍ତୁ ୪: ସ୍ୱାସ୍ଥ୍ୟ, ସ୍ୱଚ୍ଛତା ଏବଂ ପରିମଳ</option>
-                  <option value="Sub-Theme 5: Indigenous Agricultural Practices" data-i18n="optTheme5">ଉପ-ବିଷୟବସ୍ତୁ ୫: ପାରମ୍ପରିକ ଓ ଦେଶୀ କୃଷି ପ୍ରଣାଳୀ</option>
-                  <option value="Sub-Theme 6: Science and Rural Transformation" data-i18n="optTheme6">ଉପ-ବିଷୟବସ୍ତୁ ୬: ବିଜ୍ଞାନ ଏବଂ ଗ୍ରାମୀଣ ରୂପାନ୍ତରଣ</option>
-                  <option value="Sub-Theme 7: Disaster Management" data-i18n="optTheme7">ଉପ-ବିଷୟବସ୍ତୁ ୭: ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା</option>
-                </select>
-              </div>
+            <div class="project-slots-stack" id="projectEntriesContainer"></div>
 
-              <div class="field full">
-                <label for="projectTitle" data-i18n-html="projectTitleLabel">ପ୍ରକଳ୍ପ / ମଡେଲର ଶୀର୍ଷକ <span class="req">*</span></label>
-                <input type="text" id="projectTitle" name="projectTitle" data-i18n-placeholder="projectTitlePh" placeholder="ଯେପରି: ସୌରଚାଳିତ ବର୍ଷାଜଳ ବିଶୋଧନ ଯନ୍ତ୍ର" required />
-              </div>
-            </div>
-          </div>
+            <button type="button" class="btn-add-project" id="addProjectBtn">
+              <span id="addProjectBtnText" data-i18n="addProjectBtn">+ ଆଉ ଏକ ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପ ଯୋଡ଼ନ୍ତୁ (ସର୍ବାଧିକ ୩ଟି)</span>
+            </button>
 
-          <!-- Step 3: Student Presenter + 1-Line Helper Note -->
-          <div class="form-block form-section-locked" id="step3Block">
-            <div class="block-title">
-              <span class="step-badge">3</span>
-              <span data-i18n="step3Title">ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ବିବରଣୀ</span>
-            </div>
-
-            <div class="students-split">
-              <!-- Primary Student Presenter -->
-              <div class="student-panel">
-                <div class="student-panel-head">
-                  <h4 data-i18n="s1PanelHead">ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ (Participant)</h4>
-                  <span class="student-badge" data-i18n="requiredBadge">ବାଧ୍ୟତାମୂଳକ</span>
-                </div>
-                <div class="student-fields">
-                  <div class="field">
-                    <label for="s1Name" data-i18n-html="s1NameLabel">ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span></label>
-                    <input type="text" id="s1Name" name="s1Name" data-i18n-placeholder="studentNamePh" placeholder="ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ" required />
-                  </div>
-
-                  <div class="form-grid-2">
-                    <div class="field">
-                      <label for="s1Class" data-i18n-html="classLabel">ଶ୍ରେଣୀ <span class="req">*</span></label>
-                      <select id="s1Class" name="s1Class" required>
-                        <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
-                        <option value="Class VI" data-i18n="cls6">ଷଷ୍ଠ ଶ୍ରେଣୀ (Class VI)</option>
-                        <option value="Class VII" data-i18n="cls7">ସପ୍ତମ ଶ୍ରେଣୀ (Class VII)</option>
-                        <option value="Class VIII" data-i18n="cls8">ଅଷ୍ଟମ ଶ୍ରେଣୀ (Class VIII)</option>
-                        <option value="Class IX" data-i18n="cls9">ନବମ ଶ୍ରେଣୀ (Class IX)</option>
-                        <option value="Class X" data-i18n="cls10">ଦଶମ ଶ୍ରେଣୀ (Class X)</option>
-                        <option value="Class XI" data-i18n="cls11">ଏକାଦଶ ଶ୍ରେଣୀ (Class XI)</option>
-                        <option value="Class XII" data-i18n="cls12">ଦ୍ୱାଦଶ ଶ୍ରେଣୀ (Class XII)</option>
-                      </select>
-                    </div>
-
-                    <div class="field">
-                      <label for="s1Gender" data-i18n-html="genderLabel">ଲିଙ୍ଗ <span class="req">*</span></label>
-                      <select id="s1Gender" name="s1Gender" required>
-                        <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
-                        <option value="Female" data-i18n="genF">ଛାତ୍ରୀ (Female)</option>
-                        <option value="Male" data-i18n="genM">ଛାତ୍ର (Male)</option>
-                        <option value="Other" data-i18n="genO">ଅନ୍ୟାନ୍ୟ (Other)</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="field">
-                    <label for="s1Photo" data-i18n-html="s1PhotoLabel">ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ଫଟୋ <span class="opt-tag">ବୈକଳ୍ପିକ</span></label>
-                    <div class="photo-drop">
-                      <input type="file" id="s1Photo" name="s1Photo" accept="image/*" />
-                      <div class="photo-preview-wrap" id="s1PreviewWrap">
-                        <img src="" alt="Student Photo Preview" class="photo-thumb" id="s1Thumb" />
-                        <span class="photo-meta" id="s1FileName"></span>
-                        <button type="button" class="btn-clear-photo" data-clear="1" data-i18n="removeBtn">ବାହାର କରନ୍ତୁ</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="helper-one-line-note" data-i18n-html="helperOneLineNote">
-                <span>ℹ️</span>
-                <span><strong>ଟିପ୍ପଣୀ:</strong> ପ୍ରକଳ୍ପ ଉପସ୍ଥାପନାରେ ସାହାଯ୍ୟ କରିବା ପାଇଁ ଆଉ ଜଣେ ଛାତ୍ର/ଛାତ୍ରୀ <strong>ସହଯୋଗୀ (Co-Participant / Helper)</strong> ଭାବେ ସାଙ୍ଗରେ ଆସିପାରିବେ (ତାଙ୍କ ନାମ ପଞ୍ଜୀକରଣ କରିବା ଆବଶ୍ୟକ ନାହିଁ)।</span>
-              </div>
+            <div class="helper-one-line-note" data-i18n-html="helperOneLineNote">
+              <span>ℹ️</span>
+              <span><strong>ଟିପ୍ପଣୀ:</strong> ପ୍ରତ୍ୟେକ ପ୍ରକଳ୍ପ ଉପସ୍ଥାପନାରେ ସାହାଯ୍ୟ କରିବା ପାଇଁ ଆଉ ଜଣେ ଛାତ୍ର/ଛାତ୍ରୀ <strong>ସହଯୋଗୀ (Co-Participant / Helper)</strong> ଭାବେ ସାଙ୍ଗରେ ଆସିପାରିବେ (ତାଙ୍କ ନାମ ପଞ୍ଜୀକରଣ କରିବା ଆବଶ୍ୟକ ନାହିଁ)।</span>
             </div>
           </div>
 
@@ -2444,10 +2468,10 @@
           guideSub: 'ତଳେ ଥିବା ଦଳଗତ ପଞ୍ଜୀକରଣ ଫର୍ମ ପୂରଣ କରିବା ପୂର୍ବରୁ ଏହି ମୁଖ୍ୟ ନିୟମଗୁଡ଼ିକ ପଢ଼ନ୍ତୁ।',
           g1Title: 'କେବଳ ସରକାରୀ ବିଦ୍ୟାଳୟ (ଷଷ୍ଠ–ଦ୍ୱାଦଶ)',
           g1Desc: 'କୋଟପାଡ଼ ବ୍ଲକର କେବଳ <strong>ସରକାରୀ ବିଦ୍ୟାଳୟ (ଉଚ୍ଚ ପ୍ରାଥମିକ, ଉଚ୍ଚ ବିଦ୍ୟାଳୟ ଏବଂ ଉଚ୍ଚ ମାଧ୍ୟମିକ — ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)</strong> ଅଂଶଗ୍ରହଣ କରିପାରିବେ। ପ୍ରାଥମିକ ଶ୍ରେଣୀ (୧ମ–୫ମ) ଓ ବେସରକାରୀ ବିଦ୍ୟାଳୟ ଅନ୍ତର୍ଭୁକ୍ତ ନୁହେଁ।',
-          g2Title: '୧ ମୁଖ୍ୟ ଛାତ୍ର/ଛାତ୍ରୀ (+୧ ସହଯୋଗୀ ବୈକଳ୍ପିକ)',
-          g2Desc: 'ପ୍ରତି ବିଦ୍ୟାଳୟରୁ ଜଣେ <strong>ମୁଖ୍ୟ ଅଂଶଗ୍ରହଣକାରୀ</strong> ପଞ୍ଜୀକରଣ କରିବେ। ଆବଶ୍ୟକ ସ୍ଥଳେ ସାହାଯ୍ୟ ପାଇଁ ଜଣେ <strong>ସହଯୋଗୀ ଛାତ୍ର/ଛାତ୍ରୀ (Helper)</strong> ସାଙ୍ଗରେ ଆସିପାରିବେ (ବୈକଳ୍ପିକ)।',
-          g3Title: '୭ଟି ଉପ-ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ୧ଟି ବାଛନ୍ତୁ',
-          g3Desc: 'DEO କୋରାପୁଟ ନିର୍ଦ୍ଦେଶିତ ୭ଟି ସରକାରୀ ଉପ-ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ଗୋଟିଏ ବାଛନ୍ତୁ ଏବଂ ଏକ କାର୍ଯ୍ୟକାରୀ ମଡେଲ୍ ପ୍ରସ୍ତୁତ କରନ୍ତୁ।',
+          g2Title: 'ପ୍ରତି ପ୍ରକଳ୍ପରେ ୧ ମୁଖ୍ୟ (+୧ ସହଯୋଗୀ)',
+          g2Desc: 'ପ୍ରତି ପ୍ରକଳ୍ପ ପାଇଁ ଜଣେ <strong>ମୁଖ୍ୟ ଅଂଶଗ୍ରହଣକାରୀ</strong> ପଞ୍ଜୀକରଣ କରନ୍ତୁ। ସାହାଯ୍ୟ ପାଇଁ ଆଉ ଜଣେ ଛାତ୍ର/ଛାତ୍ରୀ <strong>ସହଯୋଗୀ (Helper)</strong> ଭାବେ ଆସିପାରିବେ।',
+          g3Title: 'ସର୍ବାଧିକ ୩ଟି ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପ',
+          g3Desc: 'ଗୋଟିଏ ବିଦ୍ୟାଳୟ ୭ଟି ସରକାରୀ ଉପ-ବିଷୟବସ୍ତୁ ମଧ୍ୟରୁ ସର୍ବାଧିକ ୩ଟି ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପରେ ଅଂଶଗ୍ରହଣ କରିପାରିବେ।',
           g4Title: 'ଫଟୋ କପି ବୈକଳ୍ପିକ (Optional)',
           g4Desc: 'ଅଂଶଗ୍ରହଣକାରୀଙ୍କ ଫଟୋ କିମ୍ବା ଫଟୋକପି ଅପଲୋଡ୍ କରିବା <strong>ବୈକଳ୍ପିକ</strong> ଅଟେ। ଆପଣ ଫଟୋ ସହ କିମ୍ବା ବିନା ଫଟୋରେ ଦାଖଲ କରିପାରିବେ।',
           themesEyebrow: 'ପ୍ରତିଯୋଗିତା ବିଭାଗ (୭ଟି ଉପ-ବିଷୟବସ୍ତୁ)',
@@ -2493,7 +2517,7 @@
           regHeading: 'ଛାତ୍ରଛାତ୍ରୀ ପଞ୍ଜୀକରଣ ଫର୍ମ',
           regSub: 'ବ୍ଲକ ସ୍ତରୀୟ ବିଜ୍ଞାନ ପ୍ରଦର୍ଶନୀ, ୨୦୨୬–୨୭ (କୋଟପାଡ଼) — ଶେଷ ତାରିଖ: <strong>{lastDate}</strong>',
           formBannerTitle: 'ବିଦ୍ୟାଳୟ ଦଳ ପଞ୍ଜୀକରଣ (ଷଷ୍ଠ ରୁ ଦ୍ୱାଦଶ ଶ୍ରେଣୀ)',
-          formBannerSub: 'କେବଳ ସରକାରୀ ବିଦ୍ୟାଳୟ (UP, HS, HSS • ୧ମ–୫ମ ବ୍ୟତୀତ) • ୧ ମୁଖ୍ୟ (+୧ ସହଯୋଗୀ ବୈକଳ୍ପିକ) • ୭ଟି ଉପ-ବିଷୟବସ୍ତୁ',
+          formBannerSub: 'କେବଳ ସରକାରୀ ବିଦ୍ୟାଳୟ (UP, HS, HSS • ୧ମ–୫ମ ବ୍ୟତୀତ) • ସର୍ବାଧିକ ୩ଟି ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପ • ଫଟୋ ବୈକଳ୍ପିକ',
           viewThemesBtn: '୭ଟି ଉପ-ବିଷୟବସ୍ତୁ ଓ ନିୟମ ଦେଖନ୍ତୁ',
           formDeadlineChip: 'ଶେଷ ତାରିଖ: {lastDateSpaced}',
           step1Title: 'ବିଦ୍ୟାଳୟର UDISE ନମ୍ବର ଦିଅନ୍ତୁ (କୋଟପାଡ଼ ବ୍ଲକ)',
@@ -2536,8 +2560,12 @@
           teacherNamePh: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ନାମ',
           teacherPhoneLabel: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର <span class="req">*</span>',
           teacherPhonePh: '୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର',
-          step2Title: 'ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ ଏବଂ ପ୍ରକଳ୍ପ ବିବରଣୀ',
-          selectThemeLabel: 'ପ୍ରତିଯୋଗିତା ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୭ଟି ମଧ୍ୟରୁ ୧ଟି) <span class="req">*</span>',
+          step2MultiTitle: 'ପ୍ରତିଯୋଗିତା ବିଷୟବସ୍ତୁ, ପ୍ରକଳ୍ପ ଓ ଅଂଶଗ୍ରହଣକାରୀ (ସର୍ବାଧିକ ୩ଟି ପ୍ରକଳ୍ପ)',
+          projectSlotTitle: 'ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପ #{num}',
+          addProjectBtn: '+ ଆଉ ଏକ ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପ ଯୋଡ଼ନ୍ତୁ ({count}/3)',
+          projectMaxReachedBtn: '✓ ସର୍ବାଧିକ ୩ଟି ବିଷୟବସ୍ତୁ / ପ୍ରକଳ୍ପ ଯୋଡ଼ାଯାଇଛି (3/3)',
+          removeProjectBtn: '✕ ହଟାନ୍ତୁ',
+          selectThemeLabel: 'ପ୍ରତିଯୋଗିତା ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୭ଟି ମଧ୍ୟରୁ) <span class="req">*</span>',
           optThemeDefault: '-- ଏକ ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ --',
           optTheme1: 'ଉପ-ବିଷୟବସ୍ତୁ ୧: ଉନ୍ନତ ଜୀବନ ପାଇଁ କୃତ୍ରିମ ବୁଦ୍ଧିମତ୍ତା (AI)',
           optTheme2: 'ଉପ-ବିଷୟବସ୍ତୁ ୨: ସବୁଜ ଶକ୍ତି ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ',
@@ -2548,14 +2576,13 @@
           optTheme7: 'ଉପ-ବିଷୟବସ୍ତୁ ୭: ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା',
           projectTitleLabel: 'ପ୍ରକଳ୍ପ / ମଡେଲର ଶୀର୍ଷକ <span class="req">*</span>',
           projectTitlePh: 'ଯେପରି: ସୌରଚାଳିତ ବର୍ଷାଜଳ ବିଶୋଧନ ଯନ୍ତ୍ର',
-          step3Title: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ ବିବରଣୀ',
-          s1PanelHead: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ (Participant)',
           requiredBadge: 'ବାଧ୍ୟତାମୂଳକ',
-          s1NameLabel: 'ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ନାମ <span class="req">*</span>',
+          optionalBadge: 'ବୈକଳ୍ପିକ',
+          s1NameLabel: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ନାମ <span class="req">*</span>',
           studentNamePh: 'ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ',
           classLabel: 'ଶ୍ରେଣୀ <span class="req">*</span>',
           genderLabel: 'ଲିଙ୍ଗ <span class="req">*</span>',
-          helperOneLineNote: '<span>ℹ️</span><span><strong>ଟିପ୍ପଣୀ:</strong> ପ୍ରକଳ୍ପ ଉପସ୍ଥାପନାରେ ସାହାଯ୍ୟ କରିବା ପାଇଁ ଆଉ ଜଣେ ଛାତ୍ର/ଛାତ୍ରୀ <strong>ସହଯୋଗୀ (Co-Participant / Helper)</strong> ଭାବେ ସାଙ୍ଗରେ ଆସିପାରିବେ (ତାଙ୍କ ନାମ ପଞ୍ଜୀକରଣ କରିବା ଆବଶ୍ୟକ ନାହିଁ)।</span>',
+          helperOneLineNote: '<span>ℹ️</span><span><strong>ଟିପ୍ପଣୀ:</strong> ପ୍ରତ୍ୟେକ ପ୍ରକଳ୍ପ ଉପସ୍ଥାପନାରେ ସାହାଯ୍ୟ କରିବା ପାଇଁ ଆଉ ଜଣେ ଛାତ୍ର/ଛାତ୍ରୀ <strong>ସହଯୋଗୀ (Co-Participant / Helper)</strong> ଭାବେ ସାଙ୍ଗରେ ଆସିପାରିବେ (ତାଙ୍କ ନାମ ପଞ୍ଜୀକରଣ କରିବା ଆବଶ୍ୟକ ନାହିଁ)।</span>',
           selectPlaceholder: 'ବାଛନ୍ତୁ',
           cls6: 'ଷଷ୍ଠ ଶ୍ରେଣୀ (Class VI)',
           cls7: 'ସପ୍ତମ ଶ୍ରେଣୀ (Class VII)',
@@ -2604,9 +2631,9 @@
           fCluster: 'କ୍ଲଷ୍ଟର ନାମ',
           fTeacher: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକଙ୍କ ନାମ',
           fPhone: '୧୦-ଅଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର',
-          fTheme: 'ପ୍ରତିଯୋଗିତା ଉପ-ବିଷୟବସ୍ତୁ',
-          fProject: 'ପ୍ରକଳ୍ପ ଶୀର୍ଷକ',
-          fS1: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ବିବରଣୀ',
+          fTheme: 'ପ୍ରକଳ୍ପ #{num} ଉପ-ବିଷୟବସ୍ତୁ',
+          fProject: 'ପ୍ରକଳ୍ପ #{num} ଶୀର୍ଷକ',
+          fS1: 'ପ୍ରକଳ୍ପ #{num} ଅଂଶଗ୍ରହଣକାରୀ ବିବରଣୀ',
           fDecl: 'ବିଦ୍ୟାଳୟ ନିଶ୍ଚିତକରଣ ଚେକ୍‌ବକ୍ସ',
           errFirebase: 'Firebase ରେ ସେଭ୍ ହୋଇପାରିଲା ନାହିଁ ({msg})। ଦୟାକରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।',
           slipSchool: 'ବିଦ୍ୟାଳୟର ନାମ',
@@ -2615,10 +2642,12 @@
           slipTheme: 'ବଛାଯାଇଥିବା ଉପ-ବିଷୟବସ୍ତୁ',
           slipProject: 'ପ୍ରକଳ୍ପ ଶୀର୍ଷକ',
           slipTeacher: 'ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକ',
+          slipProjectCount: 'ପଞ୍ଜୀକୃତ ପ୍ରକଳ୍ପ ସଂଖ୍ୟା',
+          slipProjectPrefix: 'ପ୍ରକଳ୍ପ #{num}',
           slipS1: 'ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ',
           slipS2: 'ସହଯୋଗୀ (Co-Participant / Helper)',
           slipSoloNone: 'ଆଉ ଜଣେ ସହଯୋଗୀ ସାଙ୍ଗରେ ଆସିପାରିବେ',
-          slipPhoto1: 'ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ଫଟୋ',
+          slipPhoto1: 'ପ୍ରକଳ୍ପ #{num} ଫଟୋ',
           slipPhotoAttached: 'ସଂଲଗ୍ନ (ବୈକଳ୍ପିକ)'
         },
         en: {
@@ -2653,10 +2682,10 @@
           guideSub: 'Please review these key requirements before completing the team registration form below.',
           g1Title: 'Only Govt. Institutions (Classes VI–XII)',
           g1Desc: 'Only <strong>Government Schools (Upper Primary, High Schools &amp; Higher Secondary — Classes VI–XII)</strong> under Kotpad Block can participate. Primary Classes I–V &amp; private schools are excluded.',
-          g2Title: '1 Main Student (+1 Optional Helper)',
-          g2Desc: 'Register <strong>1 Main Student Presenter</strong> per exhibit. Optionally, <strong>1 Co-Participant / Helper</strong> student may accompany them to assist.',
-          g3Title: 'Choose 1 of 7 Sub-Themes',
-          g3Desc: 'Select one sub-theme from the 7 official DEO Koraput topics under "Science, Technology and Innovation for a Sustainable and Viksit Bharat".',
+          g2Title: '1 Presenter (+1 Helper) / Project',
+          g2Desc: 'Register <strong>1 Main Student Presenter</strong> per project. Optionally, <strong>1 Co-Participant / Helper</strong> may accompany them to assist.',
+          g3Title: 'Up to 3 Themes / Projects per School',
+          g3Desc: 'Each Government School can participate in up to <strong>3 Sub-Themes / Projects</strong> chosen from the 7 official DEO Koraput topics.',
           g4Title: 'Photo Copy Optional',
           g4Desc: 'Uploading a participant photo or photocopy is <strong>optional</strong>. You may attach it now or submit without photos.',
           themesEyebrow: 'Competition Categories (7 Sub-Themes)',
@@ -2702,7 +2731,7 @@
           regHeading: 'Student Registration Form',
           regSub: 'Block Level Science Exhibition, 2026–27 (Kotpad) — Last Date: <strong>{lastDate}</strong>',
           formBannerTitle: 'School Team Registration (Classes VI – XII)',
-          formBannerSub: 'Only Govt. Schools (UP, HS & HSS • Excl. Class I–V) • 1 Main (+1 Optional Helper) • 7 Sub-Themes',
+          formBannerSub: 'Only Govt. Schools (UP, HS & HSS • Excl. Class I–V) • Up to 3 Themes / Projects • Photo Optional',
           viewThemesBtn: 'View 7 Sub-Themes & Rules',
           formDeadlineChip: 'Last Date: {lastDateSpaced}',
           step1Title: 'Enter School UDISE Number (Kotpad Block Only)',
@@ -2745,8 +2774,12 @@
           teacherNamePh: 'Full Name of Guide Teacher',
           teacherPhoneLabel: 'Guide Teacher Mobile Number <span class="req">*</span>',
           teacherPhonePh: '10-digit mobile number',
-          step2Title: 'Competition Theme & Exhibit Details',
-          selectThemeLabel: 'Choose Competition Sub-Theme (1 of 7) <span class="req">*</span>',
+          step2MultiTitle: 'Themes, Projects & Participants (Up to 3 per School)',
+          projectSlotTitle: 'Theme / Project #{num}',
+          addProjectBtn: '+ Add Another Theme / Project ({count}/3)',
+          projectMaxReachedBtn: '✓ Maximum 3 Themes / Projects Added (3/3)',
+          removeProjectBtn: '✕ Remove',
+          selectThemeLabel: 'Choose Competition Sub-Theme (from 7) <span class="req">*</span>',
           optThemeDefault: '-- Select a Sub-Theme --',
           optTheme1: 'Sub-Theme 1: Artificial Intelligence (AI) for Better Life',
           optTheme2: 'Sub-Theme 2: Green Energy & Environmental Conservation',
@@ -2757,14 +2790,13 @@
           optTheme7: 'Sub-Theme 7: Disaster Management',
           projectTitleLabel: 'Project / Exhibit Title <span class="req">*</span>',
           projectTitlePh: 'e.g., AI-Assisted Crop Disease Alert Model',
-          step3Title: 'Participant Details',
-          s1PanelHead: 'Student Presenter (Participant)',
           requiredBadge: 'Required',
-          s1NameLabel: 'Student Full Name <span class="req">*</span>',
+          optionalBadge: 'Optional',
+          s1NameLabel: 'Student Presenter Full Name <span class="req">*</span>',
           studentNamePh: 'Enter full name',
           classLabel: 'Class <span class="req">*</span>',
           genderLabel: 'Gender <span class="req">*</span>',
-          helperOneLineNote: '<span>ℹ️</span><span><strong>Note:</strong> One more student may accompany as a <strong>Co-Participant / Helper</strong> to assist with the exhibit (no separate name entry needed here).</span>',
+          helperOneLineNote: '<span>ℹ️</span><span><strong>Note:</strong> For each project, one more student may accompany as a <strong>Co-Participant / Helper</strong> to assist with the exhibit (no separate name entry needed here).</span>',
           selectPlaceholder: 'Select',
           cls6: 'Class VI',
           cls7: 'Class VII',
@@ -2813,9 +2845,9 @@
           fCluster: 'Cluster Name',
           fTeacher: 'Guide Teacher Name',
           fPhone: 'Valid 10-digit Mobile Number',
-          fTheme: 'Competition Sub-Theme',
-          fProject: 'Project / Exhibit Title',
-          fS1: 'Student Complete Details',
+          fTheme: 'Project #{num} Sub-Theme',
+          fProject: 'Project #{num} Title',
+          fS1: 'Project #{num} Student Details',
           fDecl: 'School Confirmation Checkbox',
           errFirebase: 'Could not save to Firebase ({msg}). Please try again.',
           slipSchool: 'School Name',
@@ -2824,10 +2856,12 @@
           slipTheme: 'Selected Sub-Theme',
           slipProject: 'Project Title',
           slipTeacher: 'Guide Teacher',
+          slipProjectCount: 'Registered Projects',
+          slipProjectPrefix: 'Project #{num}',
           slipS1: 'Student Presenter',
           slipS2: 'Co-Participant / Helper',
           slipSoloNone: '1 additional student may accompany as helper',
-          slipPhoto1: 'Participant Photo',
+          slipPhoto1: 'Project #{num} Photo',
           slipPhotoAttached: 'Attached (Optional)'
         }
       };
@@ -2990,37 +3024,222 @@
         moreDetailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
-      // 2. Interactive Theme Card Selection synced with <select>
+      // 2. Multi-Project Slots (Up to 3 Themes / Projects per School) + Photo Compression
+      const MAX_PROJECTS = 3;
+      const projectEntriesContainer = document.getElementById('projectEntriesContainer');
+      const addProjectBtn = document.getElementById('addProjectBtn');
+      const projectCountBadge = document.getElementById('projectCountBadge');
       const themeCards = document.querySelectorAll('.theme-card');
-      const themeSelect = document.getElementById('selectedTheme');
 
-      function syncThemeCards(value) {
+      const slotActive = { 1: true, 2: false, 3: false };
+      const photoState = { 1: null, 2: null, 3: null };
+      const existingPhotoUrl = { 1: '', 2: '', 3: '' };
+      const photoRemoved = { 1: false, 2: false, 3: false };
+      const photoJobs = { 1: Promise.resolve(), 2: Promise.resolve(), 3: Promise.resolve() };
+
+      function buildProjectSlotsDom() {
+        projectEntriesContainer.innerHTML = [1, 2, 3].map((slot) => `
+          <div class="project-slot-card${slot === 1 ? '' : ' is-hidden'}" id="projectSlot${slot}" data-slot="${slot}">
+            <div class="student-panel-head">
+              <h4 id="projectSlotHeading${slot}">Theme / Project #${slot}</h4>
+              <div class="project-slot-actions">
+                <span class="student-badge" data-i18n="${slot === 1 ? 'requiredBadge' : 'optionalBadge'}">${slot === 1 ? 'ବାଧ୍ୟତାମୂଳକ' : 'ବୈକଳ୍ପିକ'}</span>
+                ${slot > 1 ? `<button type="button" class="btn-remove-project" data-remove-slot="${slot}" data-i18n="removeProjectBtn">✕ ହଟାନ୍ତୁ</button>` : ''}
+              </div>
+            </div>
+
+            <div class="form-grid-2" style="margin-bottom:14px;">
+              <div class="field full">
+                <label for="p${slot}Theme" data-i18n-html="selectThemeLabel">ପ୍ରତିଯୋଗିତା ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ (୭ଟି ମଧ୍ୟରୁ) <span class="req">*</span></label>
+                <select id="p${slot}Theme" name="p${slot}Theme" data-slot-theme="${slot}">
+                  <option value="" data-i18n="optThemeDefault">-- ଏକ ଉପ-ବିଷୟବସ୍ତୁ ବାଛନ୍ତୁ --</option>
+                  <option value="Sub-Theme 1: Artificial Intelligence (AI) for Better Life" data-i18n="optTheme1">ଉପ-ବିଷୟବସ୍ତୁ ୧: ଉନ୍ନତ ଜୀବନ ପାଇଁ କୃତ୍ରିମ ବୁଦ୍ଧିମତ୍ତା (AI)</option>
+                  <option value="Sub-Theme 2: Green Energy &amp; Environmental Conservation" data-i18n="optTheme2">ଉପ-ବିଷୟବସ୍ତୁ ୨: ସବୁଜ ଶକ୍ତି ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ</option>
+                  <option value="Sub-Theme 3: Mathematical Modelling and Computational Thinking" data-i18n="optTheme3">ଉପ-ବିଷୟବସ୍ତୁ ୩: ଗାଣିତିକ ମଡେଲିଂ ଏବଂ କମ୍ପ୍ୟୁଟେସନାଲ୍ ଚିନ୍ତାଧାରା</option>
+                  <option value="Sub-Theme 4: Health, Hygiene and Sanitation" data-i18n="optTheme4">ଉପ-ବିଷୟବସ୍ତୁ ୪: ସ୍ୱାସ୍ଥ୍ୟ, ସ୍ୱଚ୍ଛତା ଏବଂ ପରିମଳ</option>
+                  <option value="Sub-Theme 5: Indigenous Agricultural Practices" data-i18n="optTheme5">ଉପ-ବିଷୟବସ୍ତୁ ୫: ପାରମ୍ପରିକ ଓ ଦେଶୀ କୃଷି ପ୍ରଣାଳୀ</option>
+                  <option value="Sub-Theme 6: Science and Rural Transformation" data-i18n="optTheme6">ଉପ-ବିଷୟବସ୍ତୁ ୬: ବିଜ୍ଞାନ ଏବଂ ଗ୍ରାମୀଣ ରୂପାନ୍ତରଣ</option>
+                  <option value="Sub-Theme 7: Disaster Management" data-i18n="optTheme7">ଉପ-ବିଷୟବସ୍ତୁ ୭: ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="p${slot}Title" data-i18n-html="projectTitleLabel">ପ୍ରକଳ୍ପ / ମଡେଲର ଶୀର୍ଷକ <span class="req">*</span></label>
+                <input type="text" id="p${slot}Title" name="p${slot}Title" data-i18n-placeholder="projectTitlePh" placeholder="ଯେପରି: ସୌରଚାଳିତ ବର୍ଷାଜଳ ବିଶୋଧନ ଯନ୍ତ୍ର" />
+              </div>
+            </div>
+
+            <div class="student-fields">
+              <div class="field">
+                <label for="p${slot}StudentName" data-i18n-html="s1NameLabel">ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ନାମ <span class="req">*</span></label>
+                <input type="text" id="p${slot}StudentName" name="p${slot}StudentName" data-i18n-placeholder="studentNamePh" placeholder="ସମ୍ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ" />
+              </div>
+
+              <div class="form-grid-2">
+                <div class="field">
+                  <label for="p${slot}StudentClass" data-i18n-html="classLabel">ଶ୍ରେଣୀ <span class="req">*</span></label>
+                  <select id="p${slot}StudentClass" name="p${slot}StudentClass">
+                    <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
+                    <option value="Class VI" data-i18n="cls6">ଷଷ୍ଠ ଶ୍ରେଣୀ (Class VI)</option>
+                    <option value="Class VII" data-i18n="cls7">ସପ୍ତମ ଶ୍ରେଣୀ (Class VII)</option>
+                    <option value="Class VIII" data-i18n="cls8">ଅଷ୍ଟମ ଶ୍ରେଣୀ (Class VIII)</option>
+                    <option value="Class IX" data-i18n="cls9">ନବମ ଶ୍ରେଣୀ (Class IX)</option>
+                    <option value="Class X" data-i18n="cls10">ଦଶମ ଶ୍ରେଣୀ (Class X)</option>
+                    <option value="Class XI" data-i18n="cls11">ଏକାଦଶ ଶ୍ରେଣୀ (Class XI)</option>
+                    <option value="Class XII" data-i18n="cls12">ଦ୍ୱାଦଶ ଶ୍ରେଣୀ (Class XII)</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label for="p${slot}StudentGender" data-i18n-html="genderLabel">ଲିଙ୍ଗ <span class="req">*</span></label>
+                  <select id="p${slot}StudentGender" name="p${slot}StudentGender">
+                    <option value="" data-i18n="selectPlaceholder">ବାଛନ୍ତୁ</option>
+                    <option value="Female" data-i18n="genF">ଛାତ୍ରୀ (Female)</option>
+                    <option value="Male" data-i18n="genM">ଛାତ୍ର (Male)</option>
+                    <option value="Other" data-i18n="genO">ଅନ୍ୟାନ୍ୟ (Other)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="p${slot}Photo" data-i18n-html="s1PhotoLabel">ଛାତ୍ର/ଛାତ୍ରୀଙ୍କ ଫଟୋ <span class="opt-tag">ବୈକଳ୍ପିକ</span></label>
+                <div class="photo-drop">
+                  <input type="file" id="p${slot}Photo" name="p${slot}Photo" accept="image/*" />
+                  <div class="photo-preview-wrap" id="p${slot}PreviewWrap">
+                    <img src="" alt="Student Photo Preview" class="photo-thumb" id="p${slot}Thumb" />
+                    <span class="photo-meta" id="p${slot}FileName"></span>
+                    <button type="button" class="btn-clear-photo" data-clear="${slot}" data-i18n="removeBtn">ବାହାର କରନ୍ତୁ</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+      buildProjectSlotsDom();
+
+      function getActiveSlots() {
+        return [1, 2, 3].filter((s) => slotActive[s]);
+      }
+
+      function updateProjectSlotsUi() {
+        const activeSlots = getActiveSlots();
+        activeSlots.forEach((slot, displayIdx) => {
+          const heading = document.getElementById(`projectSlotHeading${slot}`);
+          if (heading) {
+            heading.textContent = t('projectSlotTitle', { num: displayIdx + 1 });
+          }
+        });
+        [1, 2, 3].forEach((slot) => {
+          const card = document.getElementById(`projectSlot${slot}`);
+          if (card) card.classList.toggle('is-hidden', !slotActive[slot]);
+        });
+        const count = activeSlots.length;
+        if (projectCountBadge) {
+          projectCountBadge.textContent = `${count} / ${MAX_PROJECTS}`;
+        }
+        const addBtnLabel = document.getElementById('addProjectBtnText');
+        if (count >= MAX_PROJECTS) {
+          addProjectBtn.disabled = true;
+          if (addBtnLabel) addBtnLabel.textContent = t('projectMaxReachedBtn');
+        } else {
+          addProjectBtn.disabled = false;
+          if (addBtnLabel) addBtnLabel.textContent = t('addProjectBtn', { count });
+        }
+      }
+
+      function resetSlotFields(slot) {
+        const themeEl = document.getElementById(`p${slot}Theme`);
+        const titleEl = document.getElementById(`p${slot}Title`);
+        const nameEl = document.getElementById(`p${slot}StudentName`);
+        const clsEl = document.getElementById(`p${slot}StudentClass`);
+        const genEl = document.getElementById(`p${slot}StudentGender`);
+        const photoEl = document.getElementById(`p${slot}Photo`);
+        const wrapEl = document.getElementById(`p${slot}PreviewWrap`);
+        if (themeEl) themeEl.value = '';
+        if (titleEl) titleEl.value = '';
+        if (nameEl) nameEl.value = '';
+        if (clsEl) clsEl.value = '';
+        if (genEl) genEl.value = '';
+        photoState[slot] = null;
+        existingPhotoUrl[slot] = '';
+        photoRemoved[slot] = false;
+        photoJobs[slot] = Promise.resolve();
+        if (photoEl) photoEl.value = '';
+        if (wrapEl) wrapEl.classList.remove('visible');
+      }
+
+      function setSlotActive(slot, active) {
+        if (slot === 1) {
+          slotActive[1] = true;
+          return;
+        }
+        slotActive[slot] = Boolean(active);
+        if (!slotActive[slot]) {
+          resetSlotFields(slot);
+        }
+        updateProjectSlotsUi();
+        syncThemeCards();
+      }
+
+      addProjectBtn.addEventListener('click', () => {
+        const nextSlot = [2, 3].find((s) => !slotActive[s]);
+        if (!nextSlot) return;
+        setSlotActive(nextSlot, true);
+        const card = document.getElementById(`projectSlot${nextSlot}`);
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+
+      projectEntriesContainer.addEventListener('click', (e) => {
+        const removeBtn = e.target.closest('.btn-remove-project[data-remove-slot]');
+        if (removeBtn) {
+          const slot = Number(removeBtn.dataset.removeSlot);
+          if (slot > 1) setSlotActive(slot, false);
+        }
+      });
+
+      function syncThemeCards() {
+        const selectedThemes = new Set(
+          getActiveSlots()
+            .map((s) => (document.getElementById(`p${s}Theme`) || {}).value || '')
+            .filter(Boolean)
+        );
         themeCards.forEach((card) => {
-          const match = card.dataset.theme === value;
+          const match = selectedThemes.has(card.dataset.theme);
           card.classList.toggle('selected', match);
           const hint = card.querySelector('.theme-select-hint');
-          hint.textContent = match ? t('themeSelectedHint') : t('themePickHint');
+          if (hint) hint.textContent = match ? t('themeSelectedHint') : t('themePickHint');
         });
       }
 
       themeCards.forEach((card) => {
         card.addEventListener('click', () => {
           const val = card.dataset.theme;
-          themeSelect.value = val;
-          syncThemeCards(val);
+          let targetSlot = getActiveSlots().find((s) => {
+            const sel = document.getElementById(`p${s}Theme`);
+            return sel && !sel.value;
+          });
+          if (!targetSlot) {
+            const unopened = [2, 3].find((s) => !slotActive[s]);
+            if (unopened) {
+              setSlotActive(unopened, true);
+              targetSlot = unopened;
+            } else {
+              targetSlot = 1;
+            }
+          }
+          const sel = document.getElementById(`p${targetSlot}Theme`);
+          if (sel) sel.value = val;
+          syncThemeCards();
           openRegistration(true);
         });
       });
 
-      themeSelect.addEventListener('change', (e) => {
-        syncThemeCards(e.target.value);
+      projectEntriesContainer.addEventListener('change', (e) => {
+        if (e.target && e.target.matches('select[data-slot-theme]')) {
+          syncThemeCards();
+        }
       });
-
-      // 4. Optional Participant Photo Preview (compresses immediately on selection before upload)
-      const photoState = { 1: null };
-      const existingPhotoUrl = { 1: '' };
-      const photoRemoved = { 1: false };
-      const photoJobs = { 1: Promise.resolve() };
 
       function renderResizedJpegBase64(img, maxDim, quality) {
         let { width, height } = img;
@@ -3048,20 +3267,20 @@
           img.onload = () => {
             try {
               const steps = [
-                [420, 0.68],
-                [340, 0.56],
-                [260, 0.44],
+                [400, 0.65],
+                [320, 0.54],
+                [250, 0.44],
                 [200, 0.35],
-                [160, 0.3]
+                [150, 0.28]
               ];
               let best = '';
               for (const [dim, q] of steps) {
                 best = renderResizedJpegBase64(img, dim, q);
-                if (best && best.length <= 160000) {
+                if (best && best.length <= 135000) {
                   return resolve(best);
                 }
               }
-              resolve(best && best.length <= 240000 ? best : '');
+              resolve(best && best.length <= 185000 ? best : '');
             } catch {
               resolve('');
             }
@@ -3074,10 +3293,10 @@
       window.__compressPhotoToBase64 = compressPhotoToBase64;
 
       function setupPhotoInput(num) {
-        const input = document.getElementById(`s${num}Photo`);
-        const wrap = document.getElementById(`s${num}PreviewWrap`);
-        const thumb = document.getElementById(`s${num}Thumb`);
-        const fileName = document.getElementById(`s${num}FileName`);
+        const input = document.getElementById(`p${num}Photo`);
+        const wrap = document.getElementById(`p${num}PreviewWrap`);
+        const thumb = document.getElementById(`p${num}Thumb`);
+        const fileName = document.getElementById(`p${num}FileName`);
 
         input.addEventListener('change', () => {
           const file = input.files && input.files[0];
@@ -3132,17 +3351,19 @@
         });
       }
 
-      setupPhotoInput(1);
+      [1, 2, 3].forEach((slot) => setupPhotoInput(slot));
 
-      document.querySelectorAll('.btn-clear-photo[data-clear]').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const num = btn.dataset.clear;
-          document.getElementById(`s${num}Photo`).value = '';
-          document.getElementById(`s${num}PreviewWrap`).classList.remove('visible');
-          photoState[num] = null;
-          existingPhotoUrl[num] = '';
-          photoRemoved[num] = true;
-        });
+      projectEntriesContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-clear-photo[data-clear]');
+        if (!btn) return;
+        const num = Number(btn.dataset.clear);
+        const photoEl = document.getElementById(`p${num}Photo`);
+        const wrapEl = document.getElementById(`p${num}PreviewWrap`);
+        if (photoEl) photoEl.value = '';
+        if (wrapEl) wrapEl.classList.remove('visible');
+        photoState[num] = null;
+        existingPhotoUrl[num] = '';
+        photoRemoved[num] = true;
       });
 
       // 5. Kotpad Block Schools Directory (177 schools, lightweight File-2 format: {n, c, b, g})
@@ -3339,7 +3560,6 @@
       const changeSchoolBtn = document.getElementById('changeSchoolBtn');
       const teacherDetailsFields = document.getElementById('teacherDetailsFields');
       const step2Block = document.getElementById('step2Block');
-      const step3Block = document.getElementById('step3Block');
       const declarationBox = document.getElementById('declarationBox');
       const submitRow = document.getElementById('submitRow');
       const submitBtnLabel = document.getElementById('submitBtnLabel');
@@ -3377,28 +3597,51 @@
       function setEditableSectionsLocked(locked) {
         teacherDetailsFields.classList.toggle('form-section-locked', locked);
         step2Block.classList.toggle('form-section-locked', locked);
-        step3Block.classList.toggle('form-section-locked', locked);
         declarationBox.classList.toggle('form-section-locked', locked);
         submitRow.classList.toggle('form-section-locked', locked);
+      }
+
+      function normalizeRecordProjects(rec) {
+        if (rec && Array.isArray(rec.projects) && rec.projects.length > 0) {
+          return rec.projects.slice(0, MAX_PROJECTS).map((p, idx) => ({
+            slot: idx + 1,
+            theme: p.theme || '',
+            projectTitle: p.projectTitle || '',
+            s1Name: p.s1Name || '',
+            s1Class: p.s1Class || '',
+            s1Gender: p.s1Gender || '',
+            s1PhotoName: p.s1PhotoName || '',
+            s1PhotoUrl: p.s1PhotoUrl || '',
+            s1PhotoInline: p.s1PhotoInline || p.s1PhotoData || ''
+          }));
+        }
+        if (rec && (rec.theme || rec.projectTitle || rec.s1Name)) {
+          return [{
+            slot: 1,
+            theme: rec.theme || '',
+            projectTitle: rec.projectTitle || '',
+            s1Name: rec.s1Name || '',
+            s1Class: rec.s1Class || '',
+            s1Gender: rec.s1Gender || '',
+            s1PhotoName: rec.s1PhotoName || '',
+            s1PhotoUrl: rec.s1PhotoUrl || '',
+            s1PhotoInline: rec.s1PhotoInline || rec.s1PhotoData || ''
+          }];
+        }
+        return [];
       }
 
       function clearEditableFormFields() {
         document.getElementById('teacherName').value = '';
         document.getElementById('teacherPhone').value = '';
-        themeSelect.value = '';
-        syncThemeCards('');
-        document.getElementById('projectTitle').value = '';
-        document.getElementById('s1Name').value = '';
-        document.getElementById('s1Class').value = '';
-        document.getElementById('s1Gender').value = '';
         document.getElementById('declaration').checked = false;
-        [1].forEach((n) => {
-          photoState[n] = null;
-          existingPhotoUrl[n] = '';
-          photoRemoved[n] = false;
-          document.getElementById(`s${n}Photo`).value = '';
-          document.getElementById(`s${n}PreviewWrap`).classList.remove('visible');
+        [1, 2, 3].forEach((slot) => {
+          resetSlotFields(slot);
+          if (slot > 1) slotActive[slot] = false;
         });
+        slotActive[1] = true;
+        updateProjectSlotsUi();
+        syncThemeCards();
       }
 
       function resetEditVerificationUi() {
@@ -3447,30 +3690,34 @@
         }
         document.getElementById('teacherName').value = rec.teacherName || '';
         document.getElementById('teacherPhone').value = rec.teacherPhone || '';
-        themeSelect.value = rec.theme || '';
-        syncThemeCards(rec.theme || '');
-        document.getElementById('projectTitle').value = rec.projectTitle || '';
-        document.getElementById('s1Name').value = rec.s1Name || '';
-        document.getElementById('s1Class').value = rec.s1Class || '';
-        document.getElementById('s1Gender').value = rec.s1Gender || '';
         document.getElementById('declaration').checked = true;
 
-        [1].forEach((n) => {
-          photoState[n] = null;
-          photoRemoved[n] = false;
-          document.getElementById(`s${n}Photo`).value = '';
-          const previewSrc = rec[`s${n}PhotoInline`] || rec[`s${n}PhotoUrl`] || rec[`s${n}PhotoData`] || '';
-          const photoLabel = rec[`s${n}PhotoName`] || (previewSrc ? 'Saved photo' : '');
-          existingPhotoUrl[n] = previewSrc;
-          const wrap = document.getElementById(`s${n}PreviewWrap`);
-          if (previewSrc) {
-            document.getElementById(`s${n}Thumb`).src = previewSrc;
-            document.getElementById(`s${n}FileName`).textContent = photoLabel;
+        const projects = normalizeRecordProjects(rec);
+        [1, 2, 3].forEach((slot) => {
+          resetSlotFields(slot);
+          const proj = projects[slot - 1];
+          const shouldOpen = slot === 1 || Boolean(proj);
+          slotActive[slot] = shouldOpen;
+          if (!proj) return;
+
+          document.getElementById(`p${slot}Theme`).value = proj.theme || '';
+          document.getElementById(`p${slot}Title`).value = proj.projectTitle || '';
+          document.getElementById(`p${slot}StudentName`).value = proj.s1Name || '';
+          document.getElementById(`p${slot}StudentClass`).value = proj.s1Class || '';
+          document.getElementById(`p${slot}StudentGender`).value = proj.s1Gender || '';
+
+          const previewSrc = proj.s1PhotoInline || proj.s1PhotoUrl || '';
+          const photoLabel = proj.s1PhotoName || (previewSrc ? t('prevPhotoLabel') : '');
+          existingPhotoUrl[slot] = previewSrc;
+          const wrap = document.getElementById(`p${slot}PreviewWrap`);
+          if (previewSrc && wrap) {
+            document.getElementById(`p${slot}Thumb`).src = previewSrc;
+            document.getElementById(`p${slot}FileName`).textContent = photoLabel;
             wrap.classList.add('visible');
-          } else {
-            wrap.classList.remove('visible');
           }
         });
+        updateProjectSlotsUi();
+        syncThemeCards();
       }
 
       async function findExistingSchoolRecord(udise) {
@@ -3644,7 +3891,6 @@
         declarationBox.classList.remove('form-section-locked');
         submitRow.classList.remove('form-section-locked');
         step2Block.classList.add('form-section-locked');
-        step3Block.classList.add('form-section-locked');
       }
 
       function renderUdiseSuggestions(query) {
@@ -3754,18 +4000,24 @@
           return;
         }
         savedTeamsBox.classList.add('visible');
-        savedList.innerHTML = items.map((entry) => `
+        savedList.innerHTML = items.map((entry) => {
+          const projs = normalizeRecordProjects(entry);
+          const summary = projs.length
+            ? projs.map((p, i) => `${projs.length > 1 ? `(${i + 1}) ` : ''}${escapeHtml(p.theme)} — ${escapeHtml(p.s1Name)}`).join(' • ')
+            : `${escapeHtml(entry.theme || '')} • ${escapeHtml(entry.s1Name || '')}`;
+          return `
           <div class="saved-item">
             <div>
               <strong>${escapeHtml(entry.schoolName)}</strong>
-              <span style="color:#64748b; margin-left:6px;">(UDISE: ${escapeHtml(entry.udiseCode)} • ${escapeHtml(entry.ref)})</span>
+              <span style="color:#64748b; margin-left:6px;">(UDISE: ${escapeHtml(entry.udiseCode)} • ${escapeHtml(entry.ref)} • ${projs.length || 1}/3)</span>
               <div style="font-size:0.82rem; color:#475569; margin-top:2px;">
-                ${escapeHtml(entry.theme)} • ${escapeHtml(t('studentsPrefix'))} ${escapeHtml(entry.s1Name)}
+                ${escapeHtml(t('studentsPrefix'))} ${summary}
               </div>
             </div>
             <span style="font-size:0.78rem; font-weight:600; color:#c2410c; background:#ffedd5; padding:4px 10px; border-radius:999px;">${escapeHtml(t('registeredBadge'))}</span>
           </div>
-        `).join('');
+        `;
+        }).join('');
       }
 
       function escapeHtml(str) {
@@ -3781,19 +4033,23 @@
         if (!items || !items.length) return;
         const headers = [
           'Ref ID', 'UDISE Code', 'School Name', 'Cluster',
-          'Guide Teacher', 'Mobile', 'Theme', 'Project Title',
+          'Guide Teacher', 'Mobile', 'Project #', 'Theme', 'Project Title',
           'Student Presenter Name', 'Class', 'Gender', 'Photo', 'Submitted At'
         ];
         const csvCell = (val) => `"${String(val || '').replace(/"/g, '""')}"`;
-        const rows = [
-          headers.map(csvCell).join(','),
-          ...items.map((r) => [
-            r.ref, r.udiseCode, r.schoolName, r.cluster || r.clusterName || '',
-            r.teacherName, r.teacherPhone, r.theme, r.projectTitle,
-            r.s1Name, r.s1Class, r.s1Gender, r.s1PhotoUrl || (r.s1PhotoData ? 'Attached (Inline)' : 'No'),
-            r.submittedAt
-          ].map(csvCell).join(','))
-        ];
+        const flatRows = [];
+        items.forEach((r) => {
+          const projs = normalizeRecordProjects(r);
+          (projs.length ? projs : [r]).forEach((p, idx) => {
+            flatRows.push([
+              r.ref, r.udiseCode, r.schoolName, r.cluster || r.clusterName || '',
+              r.teacherName, r.teacherPhone, `${idx + 1}`, p.theme, p.projectTitle,
+              p.s1Name, p.s1Class, p.s1Gender, p.s1PhotoUrl || (p.s1PhotoInline || p.s1PhotoData ? 'Attached (Inline)' : 'No'),
+              r.submittedAt
+            ].map(csvCell).join(','));
+          });
+        });
+        const rows = [headers.map(csvCell).join(','), ...flatRows];
         const blob = new Blob([rows.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -3832,11 +4088,6 @@
         const clusterName = clusterNameInput.value.trim();
         const teacherName = document.getElementById('teacherName').value.trim();
         const teacherPhone = document.getElementById('teacherPhone').value.trim();
-        const theme = themeSelect.value.trim();
-        const projectTitle = document.getElementById('projectTitle').value.trim();
-        const s1Name = document.getElementById('s1Name').value.trim();
-        const s1Class = document.getElementById('s1Class').value;
-        const s1Gender = document.getElementById('s1Gender').value;
         const declared = document.getElementById('declaration').checked;
 
         if (pendingExistingRecord && (!editModeState.active || editModeState.udise !== udiseCode)) {
@@ -3854,9 +4105,32 @@
         if (!clusterName) missing.push(t('fCluster'));
         if (!teacherName) missing.push(t('fTeacher'));
         if (!/^\d{10}$/.test(teacherPhone)) missing.push(t('fPhone'));
-        if (!theme) missing.push(t('fTheme'));
-        if (!projectTitle) missing.push(t('fProject'));
-        if (!s1Name || !s1Class || !s1Gender) missing.push(t('fS1'));
+
+        const activeSlots = getActiveSlots();
+        const collectedProjects = [];
+        activeSlots.forEach((slot, idx) => {
+          const num = idx + 1;
+          const theme = (document.getElementById(`p${slot}Theme`)?.value || '').trim();
+          const projectTitle = (document.getElementById(`p${slot}Title`)?.value || '').trim();
+          const s1Name = (document.getElementById(`p${slot}StudentName`)?.value || '').trim();
+          const s1Class = document.getElementById(`p${slot}StudentClass`)?.value || '';
+          const s1Gender = document.getElementById(`p${slot}StudentGender`)?.value || '';
+
+          if (!theme) missing.push(t('fTheme', { num }));
+          if (!projectTitle) missing.push(t('fProject', { num }));
+          if (!s1Name || !s1Class || !s1Gender) missing.push(t('fS1', { num }));
+
+          collectedProjects.push({
+            slot: num,
+            sourceSlot: slot,
+            theme,
+            projectTitle,
+            s1Name,
+            s1Class,
+            s1Gender
+          });
+        });
+
         if (!declared) missing.push(t('fDecl'));
 
         if (missing.length > 0) {
@@ -3871,6 +4145,7 @@
           ? editModeState.existingRecord.ref
           : 'KTP-SCI-2026-' + String(Math.floor(1000 + Math.random() * 9000));
 
+        const primary = collectedProjects[0];
         const record = {
           ref: refCode,
           schoolName,
@@ -3880,11 +4155,21 @@
           manualSchool: Boolean(verifiedSchool && verifiedSchool.manual),
           teacherName,
           teacherPhone,
-          theme,
-          projectTitle,
-          s1Name,
-          s1Class,
-          s1Gender,
+          projectCount: collectedProjects.length,
+          themesSummary: collectedProjects.map((p) => p.theme).join(' | '),
+          projects: collectedProjects.map((p) => ({
+            slot: p.slot,
+            theme: p.theme,
+            projectTitle: p.projectTitle,
+            s1Name: p.s1Name,
+            s1Class: p.s1Class,
+            s1Gender: p.s1Gender
+          })),
+          theme: primary.theme,
+          projectTitle: primary.projectTitle,
+          s1Name: primary.s1Name,
+          s1Class: primary.s1Class,
+          s1Gender: primary.s1Gender,
           s2Name: '',
           s2Class: '',
           s2Gender: '',
@@ -3895,19 +4180,23 @@
         const originalBtnHtml = submitBtn.innerHTML;
         submitBtn.textContent = isEditUpdate ? t('updatingBtn') : t('savingBtn');
 
-        await photoJobs[1];
+        await Promise.all(activeSlots.map((slot) => photoJobs[slot]));
+
+        const photosByProjectIndex = collectedProjects.map((p) => ({
+          dataUrl: photoState[p.sourceSlot] || '',
+          removed: Boolean(photoRemoved[p.sourceSlot])
+        }));
 
         let savedPayload = { ...record };
         try {
           if (window.firebasePortal && typeof window.firebasePortal.saveRegistration === 'function') {
             savedPayload = await window.firebasePortal.saveRegistration(
               record,
-              { s1: photoState[1] || '', s2: '' },
+              photosByProjectIndex,
               {
                 isEdit: isEditUpdate,
                 verifiedEditPhone: editModeState.verifiedPhone,
-                existing: editModeState.existingRecord,
-                photoRemoved: { ...photoRemoved }
+                existing: editModeState.existingRecord
               }
             );
           }
@@ -3925,6 +4214,10 @@
         try {
           const localEntry = {
             ...savedPayload,
+            projects: (savedPayload.projects || record.projects).map((p) => ({
+              ...p,
+              s1PhotoInline: ''
+            })),
             s1PhotoInline: '',
             s2PhotoInline: '',
             updatedAt: undefined
@@ -3957,26 +4250,48 @@
         // Populate Modal Slip
         document.getElementById('modalTitle').textContent = isEditUpdate ? t('modalUpdated') : t('modalConfirmed');
         slipRef.textContent = `REF ID: ${record.ref}`;
+
+        const projectCardsHtml = collectedProjects.map((p) => `
+          <div class="slip-cell" style="grid-column:1 / -1; background:#fff7ed; border-color:#fdba74;">
+            <span>${escapeHtml(t('slipProjectPrefix', { num: p.slot }))} — ${escapeHtml(p.theme)}</span>
+            <strong>${escapeHtml(p.projectTitle)}</strong>
+            <div style="margin-top:4px; font-size:0.86rem; color:#475569;">
+              ${escapeHtml(t('slipS1'))}: <strong>${escapeHtml(p.s1Name)} — ${escapeHtml(p.s1Class)} (${escapeHtml(p.s1Gender)})</strong>
+            </div>
+          </div>
+        `).join('');
+
         slipGrid.innerHTML = `
           <div class="slip-cell"><span>${escapeHtml(t('slipSchool'))}</span><strong>${escapeHtml(record.schoolName)}</strong></div>
           <div class="slip-cell"><span>${escapeHtml(t('slipUdise'))}</span><strong>${escapeHtml(record.udiseCode)}</strong></div>
           <div class="slip-cell"><span>${escapeHtml(t('slipCluster'))}</span><strong>${escapeHtml(record.cluster || record.clusterName)}</strong></div>
-          <div class="slip-cell"><span>${escapeHtml(t('slipTheme'))}</span><strong>${escapeHtml(record.theme)}</strong></div>
-          <div class="slip-cell"><span>${escapeHtml(t('slipProject'))}</span><strong>${escapeHtml(record.projectTitle)}</strong></div>
-          <div class="slip-cell"><span>${escapeHtml(t('slipTeacher'))}</span><strong>${escapeHtml(record.teacherName)} (${escapeHtml(record.teacherPhone)})</strong></div>
-          <div class="slip-cell"><span>${escapeHtml(t('slipS1'))}</span><strong>${escapeHtml(record.s1Name)} — ${escapeHtml(record.s1Class)} (${escapeHtml(record.s1Gender)})</strong></div>
-          <div class="slip-cell"><span>${escapeHtml(t('slipS2'))}</span><strong>${escapeHtml(t('slipSoloNone'))}</strong></div>
+          <div class="slip-cell"><span>${escapeHtml(t('slipProjectCount'))}</span><strong>${collectedProjects.length} / ${MAX_PROJECTS}</strong></div>
+          <div class="slip-cell" style="grid-column:1 / -1;"><span>${escapeHtml(t('slipTeacher'))}</span><strong>${escapeHtml(record.teacherName)} (${escapeHtml(record.teacherPhone)})</strong></div>
+          ${projectCardsHtml}
+          <div class="slip-cell" style="grid-column:1 / -1;"><span>${escapeHtml(t('slipS2'))}</span><strong>${escapeHtml(t('slipSoloNone'))}</strong></div>
         `;
 
-        const p1Preview = photoState[1] || (!photoRemoved[1] ? existingPhotoUrl[1] : '');
-        slipPhotos.innerHTML = '';
-        if (p1Preview) {
-          slipPhotos.innerHTML += `<div class="slip-photo-item"><img src="${p1Preview}" alt="Student Presenter"><div><strong>${escapeHtml(t('slipPhoto1'))}</strong><div>${escapeHtml(t('slipPhotoAttached'))}</div></div></div>`;
-        }
+        const previews = collectedProjects.map((p) => {
+          const src = photoState[p.sourceSlot] || (!photoRemoved[p.sourceSlot] ? existingPhotoUrl[p.sourceSlot] : '');
+          return { num: p.slot, src, student: p.s1Name };
+        }).filter((item) => Boolean(item.src));
+
+        slipPhotos.innerHTML = previews.map((item) => `
+          <div class="slip-photo-item">
+            <img src="${item.src}" alt="Project ${item.num}">
+            <div>
+              <strong>${escapeHtml(t('slipPhoto1', { num: item.num }))}</strong>
+              <div>${escapeHtml(item.student)} • ${escapeHtml(t('slipPhotoAttached'))}</div>
+            </div>
+          </div>
+        `).join('');
 
         lastSlipData = {
           record: { ...record },
-          p1Preview,
+          projects: collectedProjects.map((p) => ({
+            ...p,
+            preview: photoState[p.sourceSlot] || (!photoRemoved[p.sourceSlot] ? existingPhotoUrl[p.sourceSlot] : '')
+          })),
           isEditUpdate
         };
 
@@ -4027,11 +4342,71 @@
 
       async function renderRegistrationSlipPngBlob(data) {
         const rec = data.record;
-        const img1 = await loadImageSafe(data.p1Preview);
+        const projItems = (data.projects && data.projects.length)
+          ? data.projects
+          : [{ slot: 1, theme: rec.theme, projectTitle: rec.projectTitle, s1Name: rec.s1Name, s1Class: rec.s1Class, s1Gender: rec.s1Gender, preview: data.p1Preview }];
+        const loadedPhotos = await Promise.all(
+          projItems.map(async (p, idx) => ({
+            num: idx + 1,
+            student: p.s1Name || '',
+            img: await loadImageSafe(p.preview)
+          }))
+        );
+        const validPhotos = loadedPhotos.filter((item) => Boolean(item.img));
 
         const W = 1080;
-        const hasPhotos = Boolean(img1);
-        const H = hasPhotos ? 1440 : 1240;
+        const cards = [
+          { label: 'SCHOOL NAME', value: rec.schoolName, full: true },
+          { label: 'UDISE CODE', value: rec.udiseCode, full: false },
+          { label: 'CLUSTER', value: rec.cluster || rec.clusterName, full: false },
+          { label: 'GUIDE TEACHER & MOBILE', value: `${rec.teacherName} (${rec.teacherPhone})`, full: false },
+          { label: 'REGISTERED PROJECTS', value: `${projItems.length} of 3 Max`, full: false }
+        ];
+        projItems.forEach((p, idx) => {
+          cards.push({
+            label: `PROJECT #${idx + 1} — ${p.theme}`,
+            value: `${p.projectTitle}  |  Presenter: ${p.s1Name} (${p.s1Class}, ${p.s1Gender})`,
+            full: true
+          });
+        });
+        cards.push({
+          label: 'CO-PARTICIPANT (HELPER) NOTE',
+          value: 'For each project, 1 additional student may accompany as Helper at venue',
+          full: true
+        });
+
+        // Pre-measure height cleanly on scratch canvas so 1–3 projects + photos fit with zero clipping
+        const measureCanvas = document.createElement('canvas');
+        const mCtx = measureCanvas.getContext('2d');
+        const innerW = W - 152;
+        const halfW = (innerW - 18) / 2;
+
+        let estY = 348;
+        let estHalf = null;
+        for (const item of cards) {
+          if (item.full) {
+            if (estHalf) {
+              mCtx.font = '700 22px Inter, Arial, sans-serif';
+              const l = wrapCanvasText(mCtx, estHalf.value, halfW - 36).slice(0, 3);
+              estY += (44 + l.length * 30 + 14) + 14;
+              estHalf = null;
+            }
+            mCtx.font = '700 22px Inter, Arial, sans-serif';
+            const lines = wrapCanvasText(mCtx, item.value, innerW - 36).slice(0, 3);
+            estY += (44 + lines.length * 30 + 14) + 14;
+          } else if (!estHalf) {
+            estHalf = item;
+          } else {
+            mCtx.font = '700 22px Inter, Arial, sans-serif';
+            const l1 = wrapCanvasText(mCtx, estHalf.value, halfW - 36).slice(0, 3);
+            const l2 = wrapCanvasText(mCtx, item.value, halfW - 36).slice(0, 3);
+            estY += (44 + Math.max(l1.length, l2.length) * 30 + 14) + 14;
+            estHalf = null;
+          }
+        }
+        const photoRows = Math.ceil(validPhotos.length / 2);
+        const H = Math.max(1180, estY + (validPhotos.length ? photoRows * 164 + 12 : 0) + 105);
+
         const canvas = document.createElement('canvas');
         canvas.width = W;
         canvas.height = H;
@@ -4073,8 +4448,8 @@
         ctx.font = '600 22px Inter, Arial, sans-serif';
         ctx.fillText(
           data.isEditUpdate
-            ? 'Updated Team Registration Slip • Govt. High School, Kotpad'
-            : 'Confirmed Team Registration Slip • Govt. High School, Kotpad',
+            ? 'Updated School Registration Slip • Govt. High School, Kotpad'
+            : 'Confirmed School Registration Slip • Govt. High School, Kotpad',
           76,
           178
         );
@@ -4096,23 +4471,12 @@
         ctx.font = '600 18px Inter, Arial, sans-serif';
         ctx.fillText(`Submitted: ${rec.submittedAt || ''}`, 526, 305);
 
-        const cards = [
-          { label: 'SCHOOL NAME', value: rec.schoolName, full: true },
-          { label: 'UDISE CODE', value: rec.udiseCode, full: false },
-          { label: 'CLUSTER', value: rec.cluster || rec.clusterName, full: false },
-          { label: 'GUIDE TEACHER & MOBILE', value: `${rec.teacherName} (${rec.teacherPhone})`, full: true },
-          { label: 'SELECTED SUB-THEME', value: rec.theme, full: true },
-          { label: 'PROJECT / EXHIBIT TITLE', value: rec.projectTitle, full: true },
-          { label: 'STUDENT PRESENTER', value: `${rec.s1Name} — ${rec.s1Class} (${rec.s1Gender})`, full: false },
-          { label: 'CO-PARTICIPANT (HELPER)', value: '1 additional student may accompany as helper', full: false }
-        ];
-
         let curY = 348;
         let pendingHalf = null;
 
         function drawFieldBox(x, y, w, label, value) {
-          ctx.font = '700 23px Inter, Arial, sans-serif';
-          const lines = wrapCanvasText(ctx, value, w - 36).slice(0, 2);
+          ctx.font = '700 22px Inter, Arial, sans-serif';
+          const lines = wrapCanvasText(ctx, value, w - 36).slice(0, 3);
           const boxH = 44 + lines.length * 30 + 14;
           roundRectPath(ctx, x, y, w, boxH, 14);
           ctx.fillStyle = '#fffaf5';
@@ -4122,19 +4486,16 @@
           ctx.stroke();
 
           ctx.fillStyle = '#9a3412';
-          ctx.font = '700 16px Inter, Arial, sans-serif';
-          ctx.fillText(label, x + 18, y + 28);
+          ctx.font = '700 15px Inter, Arial, sans-serif';
+          ctx.fillText(wrapCanvasText(ctx, label, w - 36)[0], x + 18, y + 28);
 
           ctx.fillStyle = '#1f1209';
-          ctx.font = '700 22px Inter, Arial, sans-serif';
+          ctx.font = '700 21px Inter, Arial, sans-serif';
           lines.forEach((ln, idx) => {
             ctx.fillText(ln, x + 18, y + 60 + idx * 30);
           });
           return boxH;
         }
-
-        const innerW = W - 152;
-        const halfW = (innerW - 18) / 2;
 
         for (let i = 0; i < cards.length; i++) {
           const item = cards[i];
@@ -4150,8 +4511,8 @@
             pendingHalf = item;
           } else {
             ctx.font = '700 22px Inter, Arial, sans-serif';
-            const l1 = wrapCanvasText(ctx, pendingHalf.value, halfW - 36).slice(0, 2);
-            const l2 = wrapCanvasText(ctx, item.value, halfW - 36).slice(0, 2);
+            const l1 = wrapCanvasText(ctx, pendingHalf.value, halfW - 36).slice(0, 3);
+            const l2 = wrapCanvasText(ctx, item.value, halfW - 36).slice(0, 3);
             const rowLines = Math.max(l1.length, l2.length);
             const rowH = 44 + rowLines * 30 + 14;
 
@@ -4162,10 +4523,10 @@
             ctx.strokeStyle = '#fed7aa';
             ctx.stroke();
             ctx.fillStyle = '#9a3412';
-            ctx.font = '700 16px Inter, Arial, sans-serif';
+            ctx.font = '700 15px Inter, Arial, sans-serif';
             ctx.fillText(pendingHalf.label, 94, curY + 28);
             ctx.fillStyle = '#1f1209';
-            ctx.font = '700 22px Inter, Arial, sans-serif';
+            ctx.font = '700 21px Inter, Arial, sans-serif';
             l1.forEach((ln, idx) => ctx.fillText(ln, 94, curY + 60 + idx * 30));
 
             const rightX = 76 + halfW + 18;
@@ -4176,10 +4537,10 @@
             ctx.strokeStyle = '#fed7aa';
             ctx.stroke();
             ctx.fillStyle = '#9a3412';
-            ctx.font = '700 16px Inter, Arial, sans-serif';
+            ctx.font = '700 15px Inter, Arial, sans-serif';
             ctx.fillText(item.label, rightX + 18, curY + 28);
             ctx.fillStyle = '#1f1209';
-            ctx.font = '700 22px Inter, Arial, sans-serif';
+            ctx.font = '700 21px Inter, Arial, sans-serif';
             l2.forEach((ln, idx) => ctx.fillText(ln, rightX + 18, curY + 60 + idx * 30));
 
             curY += rowH + 14;
@@ -4187,30 +4548,32 @@
           }
         }
 
-        if (hasPhotos) {
+        if (validPhotos.length) {
           curY += 6;
-          [
-            { img: img1, label: 'Participant Photo', x: 76 }
-          ].forEach((slot) => {
-            if (!slot.img) return;
-            roundRectPath(ctx, slot.x, curY, halfW, 150, 14);
+          validPhotos.forEach((slot, idx) => {
+            const col = idx % 2;
+            const row = Math.floor(idx / 2);
+            const px = 76 + col * (halfW + 18);
+            const py = curY + row * 164;
+
+            roundRectPath(ctx, px, py, halfW, 146, 14);
             ctx.fillStyle = '#fff7ed';
             ctx.fill();
             ctx.strokeStyle = '#fdba74';
             ctx.stroke();
 
             ctx.save();
-            roundRectPath(ctx, slot.x + 14, curY + 15, 120, 120, 12);
+            roundRectPath(ctx, px + 14, py + 13, 120, 120, 12);
             ctx.clip();
-            ctx.drawImage(slot.img, slot.x + 14, curY + 15, 120, 120);
+            ctx.drawImage(slot.img, px + 14, py + 13, 120, 120);
             ctx.restore();
 
             ctx.fillStyle = '#9a3412';
-            ctx.font = '700 20px Inter, Arial, sans-serif';
-            ctx.fillText(slot.label, slot.x + 152, curY + 68);
+            ctx.font = '700 19px Inter, Arial, sans-serif';
+            ctx.fillText(`Project #${slot.num} Photo`, px + 150, py + 62);
             ctx.fillStyle = '#5c4332';
-            ctx.font = '600 17px Inter, Arial, sans-serif';
-            ctx.fillText('Attached (Optional)', slot.x + 152, curY + 98);
+            ctx.font = '600 16px Inter, Arial, sans-serif';
+            ctx.fillText(wrapCanvasText(ctx, slot.student || 'Participant', halfW - 166)[0], px + 150, py + 94);
           });
         }
 
@@ -4254,14 +4617,15 @@
       shareSlipBtn.addEventListener('click', async () => {
         if (!lastSlipData) return;
         const rec = lastSlipData.record;
+        const projLines = (lastSlipData.projects || []).map((p, i) =>
+          `${i + 1}. ${p.theme} — ${p.projectTitle} (${p.s1Name}, ${p.s1Class})`
+        ).join('\n');
         const shareTitle = `Science Exhibition Registration Slip — ${rec.schoolName}`;
         const shareText =
           `Block Level Science Exhibition, 2026–27 (Kotpad)\n` +
           `Ref: ${rec.ref}\n` +
           `School: ${rec.schoolName} (UDISE: ${rec.udiseCode})\n` +
-          `Sub-Theme: ${rec.theme}\n` +
-          `Student Presenter: ${rec.s1Name} (${rec.s1Class})\n` +
-          `Helper Note: 1 additional student may accompany as Co-Participant/Helper\n` +
+          `Projects Registered (${(lastSlipData.projects || []).length}/3):\n${projLines}\n` +
           `Venue: Govt. High School, Kotpad (25/11/2026, 8:30 AM)\n` +
           `Last Date: ${lastDateState.compact}\n` +
           `https://sikhyaksathi.in/kotpad-science-exhibition`;
@@ -4577,7 +4941,8 @@
           heroLastDateEl.textContent = lastDateState.spaced;
         }
 
-        syncThemeCards(themeSelect.value);
+        updateProjectSlotsUi();
+        syncThemeCards();
         renderRegisteredSchoolNames();
         if (!registeredSchoolNames.length) {
           registeredNamesStatus.textContent = t('regEmpty');
@@ -4679,50 +5044,95 @@
         return snap.exists() ? snap.data() : null;
       },
 
-      async saveRegistration(record, photos, editMeta = {}) {
+      async function saveRegistration(record, photosByProject = [], editMeta = {}) {
         const existing = editMeta.existing || null;
-        const removed = editMeta.photoRemoved || {};
+        const existingProjects = (existing && Array.isArray(existing.projects) && existing.projects.length)
+          ? existing.projects
+          : (existing && (existing.theme || existing.projectTitle || existing.s1Name)
+            ? [{
+                slot: 1,
+                theme: existing.theme || "",
+                projectTitle: existing.projectTitle || "",
+                s1Name: existing.s1Name || "",
+                s1Class: existing.s1Class || "",
+                s1Gender: existing.s1Gender || "",
+                s1PhotoName: existing.s1PhotoName || "",
+                s1PhotoUrl: existing.s1PhotoUrl || "",
+                s1PhotoInline: existing.s1PhotoInline || ""
+              }]
+            : []);
 
-        let p1 = { url: "", inline: "", name: "" };
-        if (photos.s1) {
-          const f1 = `${record.udiseCode}_S1_${sanitizeFilePart(record.s1Name)}.jpg`;
-          p1 = await encodePhotoToBase64(photos.s1, f1);
-        } else if (existing && !removed[1]) {
-          p1 = {
-            url: existing.s1PhotoUrl || "",
-            inline: existing.s1PhotoInline || "",
-            name: existing.s1PhotoName || ""
-          };
+        const inputProjects = Array.isArray(record.projects) ? record.projects.slice(0, 3) : [];
+        const savedProjects = [];
+
+        for (let i = 0; i < inputProjects.length; i++) {
+          const proj = inputProjects[i];
+          const photoInput = Array.isArray(photosByProject) ? photosByProject[i] : null;
+          const prevProj = existingProjects[i] || null;
+          let photoObj = { url: "", inline: "", name: "" };
+
+          if (photoInput && photoInput.dataUrl) {
+            const fname = `${record.udiseCode}_P${i + 1}_${sanitizeFilePart(proj.s1Name)}.jpg`;
+            photoObj = await encodePhotoToBase64(photoInput.dataUrl, fname);
+          } else if (prevProj && (!photoInput || !photoInput.removed)) {
+            photoObj = {
+              url: prevProj.s1PhotoUrl || "",
+              inline: prevProj.s1PhotoInline || "",
+              name: prevProj.s1PhotoName || ""
+            };
+          }
+
+          savedProjects.push({
+            slot: i + 1,
+            theme: proj.theme || "",
+            projectTitle: proj.projectTitle || "",
+            s1Name: proj.s1Name || "",
+            s1Class: proj.s1Class || "",
+            s1Gender: proj.s1Gender || "",
+            s1PhotoName: photoObj.name,
+            s1PhotoUrl: photoObj.url,
+            s1PhotoInline: photoObj.inline
+          });
         }
 
-        let p2 = { url: "", inline: "", name: "" };
-        if (photos.s2) {
-          const f2 = `${record.udiseCode}_S2_${sanitizeFilePart(record.s2Name)}.jpg`;
-          p2 = await encodePhotoToBase64(photos.s2, f2);
-        } else if (existing && !removed[2]) {
-          p2 = {
-            url: existing.s2PhotoUrl || "",
-            inline: existing.s2PhotoInline || "",
-            name: existing.s2PhotoName || ""
-          };
-        }
+        const primary = savedProjects[0] || {
+          theme: record.theme || "",
+          projectTitle: record.projectTitle || "",
+          s1Name: record.s1Name || "",
+          s1Class: record.s1Class || "",
+          s1Gender: record.s1Gender || "",
+          s1PhotoName: "",
+          s1PhotoUrl: "",
+          s1PhotoInline: ""
+        };
 
         const payload = {
           ...record,
-          photoFolder: (p1.name || p2.name) ? "photos/" : "",
-          s1PhotoName: p1.name,
-          s1PhotoUrl: p1.url,
-          s1PhotoInline: p1.inline,
-          s2PhotoName: p2.name,
-          s2PhotoUrl: p2.url,
-          s2PhotoInline: p2.inline,
+          projects: savedProjects,
+          projectCount: savedProjects.length,
+          themesSummary: savedProjects.map((p) => p.theme).join(" | "),
+          photoFolder: savedProjects.some((p) => p.s1PhotoName) ? "photos/" : "",
+          theme: primary.theme,
+          projectTitle: primary.projectTitle,
+          s1Name: primary.s1Name,
+          s1Class: primary.s1Class,
+          s1Gender: primary.s1Gender,
+          s1PhotoName: primary.s1PhotoName,
+          s1PhotoUrl: primary.s1PhotoUrl,
+          s1PhotoInline: primary.s1PhotoInline,
+          s2Name: "",
+          s2Class: "",
+          s2Gender: "",
+          s2PhotoName: "",
+          s2PhotoUrl: "",
+          s2PhotoInline: "",
           editAuthPhone: editMeta.isEdit ? String(editMeta.verifiedEditPhone || "") : String(record.teacherPhone || ""),
           createdAtMs: (editMeta.isEdit && existing && existing.createdAtMs) ? existing.createdAtMs : Date.now(),
           updatedAtMs: Date.now(),
           updatedAt: serverTimestamp()
         };
 
-        // Document ID = 11-digit UDISE code (1 clean team registration per school)
+        // Document ID = 11-digit UDISE code (stores 1–3 projects/themes for this school)
         await withTimeout(
           setDoc(doc(db, COLLECTION_NAME, record.udiseCode), payload),
           20000,

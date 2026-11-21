@@ -461,9 +461,9 @@
         <div class="stat-sub">Not registered yet</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Registered Presenters</div>
+        <div class="stat-label">Total Projects / Presenters</div>
         <div class="stat-value" id="statStudents">0</div>
-        <div class="stat-sub">1 presenter per school (+1 helper allowed at venue)</div>
+        <div class="stat-sub">Up to 3 themes / projects per school (+1 helper at venue)</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Photos Uploaded</div>
@@ -835,6 +835,44 @@
         .slice(0, 32) || "Student";
     }
 
+    function getNormalizedProjects(row) {
+      if (row && Array.isArray(row.projects) && row.projects.length > 0) {
+        return row.projects.slice(0, 3).map((p, idx) => ({
+          slot: idx + 1,
+          theme: p.theme || "",
+          projectTitle: p.projectTitle || "",
+          s1Name: p.s1Name || "",
+          s1Class: p.s1Class || "",
+          s1Gender: p.s1Gender || "",
+          s1PhotoName: p.s1PhotoName || "",
+          s1PhotoUrl: p.s1PhotoUrl || "",
+          s1PhotoInline: p.s1PhotoInline || ""
+        }));
+      }
+      return [{
+        slot: 1,
+        theme: row.theme || "",
+        projectTitle: row.projectTitle || "",
+        s1Name: row.s1Name || "",
+        s1Class: row.s1Class || "",
+        s1Gender: row.s1Gender || "",
+        s1PhotoName: row.s1PhotoName || "",
+        s1PhotoUrl: row.s1PhotoUrl || "",
+        s1PhotoInline: row.s1PhotoInline || ""
+      }];
+    }
+
+    function getProjectPhotoName(row, proj, projIdx) {
+      const hasPhoto = Boolean(proj.s1PhotoInline || proj.s1PhotoUrl);
+      if (!hasPhoto) return "Not Uploaded";
+      if (proj.s1PhotoName) return proj.s1PhotoName;
+      return `${row.udiseCode}_P${projIdx + 1}_${sanitizeFilePart(proj.s1Name)}.jpg`;
+    }
+
+    function getProjectPhotoSrc(proj) {
+      return proj.s1PhotoInline || proj.s1PhotoUrl || "";
+    }
+
     function getPhotoName(row, num) {
       const hasPhoto = num === 1
         ? Boolean(row.s1PhotoInline || row.s1PhotoUrl)
@@ -853,12 +891,13 @@
     }
 
     function filterMatches(item, q, themeVal) {
-      if (themeVal && item.theme !== themeVal) return false;
+      const projs = getNormalizedProjects(item);
+      if (themeVal && !projs.some((p) => p.theme === themeVal)) return false;
       if (!q) return true;
+      const projHay = projs.map((p) => `${p.theme} ${p.projectTitle} ${p.s1Name}`).join(" ");
       const hay = [
         item.udiseCode, item.schoolName, item.cluster, item.gp,
-        item.teacherName, item.teacherPhone, item.theme,
-        item.projectTitle, item.s1Name, item.s2Name, item.ref
+        item.teacherName, item.teacherPhone, item.s2Name, item.ref, projHay
       ].join(" ").toUpperCase();
       return hay.includes(q);
     }
@@ -873,11 +912,16 @@
         registeredTbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:28px; color:#64748b;">No registered schools match the current filter.</td></tr>`;
       } else {
         registeredTbody.innerHTML = filteredReg.map((r, idx) => {
-          const p1Name = getPhotoName(r, 1);
-          const p2Name = getPhotoName(r, 2);
-          const p1Src = getPhotoSrc(r, 1);
-          const p2Src = getPhotoSrc(r, 2);
-          const folderLabel = (p1Src || p2Src) ? "photos/" : "—";
+          const projs = getNormalizedProjects(r);
+          const photoEntries = projs.map((p, i) => ({
+            label: `P${i + 1}`,
+            name: getProjectPhotoName(r, p, i),
+            src: getProjectPhotoSrc(p)
+          }));
+          const legacyP2Src = getPhotoSrc(r, 2);
+          const legacyP2Name = getPhotoName(r, 2);
+          const hasAnyPhoto = photoEntries.some((pe) => Boolean(pe.src)) || Boolean(legacyP2Src);
+          const folderLabel = hasAnyPhoto ? "photos/" : "—";
 
           return `
             <tr>
@@ -886,7 +930,7 @@
                 <div class="mono">${escapeHtml(r.udiseCode)}</div>
                 <strong>${escapeHtml(r.schoolName)}</strong>
                 <div style="font-size:0.78rem; color:#64748b;">
-                  Cluster: ${escapeHtml(r.cluster || "—")}
+                  Cluster: ${escapeHtml(r.cluster || "—")} • <strong style="color:#c2410c;">${projs.length} Project${projs.length > 1 ? 's' : ''}</strong>
                 </div>
               </td>
               <td>
@@ -894,23 +938,33 @@
                 <div class="mono" style="color:#0f172a;">${escapeHtml(r.teacherPhone)}</div>
               </td>
               <td>
-                <span class="pill-theme">${escapeHtml(r.theme)}</span>
-                <div><strong>${escapeHtml(r.projectTitle)}</strong></div>
+                ${projs.map((p, i) => `
+                  <div style="${i > 0 ? 'margin-top:8px; padding-top:8px; border-top:1px dashed #fed7aa;' : ''}">
+                    <span class="pill-theme">${projs.length > 1 ? `[${i + 1}] ` : ''}${escapeHtml(p.theme)}</span>
+                    <div><strong>${escapeHtml(p.projectTitle)}</strong></div>
+                  </div>
+                `).join("")}
               </td>
               <td>
-                <div><strong>Presenter:</strong> ${escapeHtml(r.s1Name)} (${escapeHtml(r.s1Class)}, ${escapeHtml(r.s1Gender)})</div>
-                <div style="margin-top:4px; color:${r.s2Name ? 'inherit' : '#94a3b8'}; font-size:0.78rem;">
-                  ${r.s2Name ? `<strong>Helper (Legacy):</strong> ${escapeHtml(r.s2Name)} (${escapeHtml(r.s2Class || '—')}, ${escapeHtml(r.s2Gender || '—')})` : '+1 helper allowed at venue (no details required)'}
+                ${projs.map((p, i) => `
+                  <div style="${i > 0 ? 'margin-top:6px; padding-top:6px; border-top:1px dashed #e2e8f0;' : ''}">
+                    <strong>${projs.length > 1 ? `[${i + 1}] ` : ''}Presenter:</strong> ${escapeHtml(p.s1Name)} (${escapeHtml(p.s1Class)}, ${escapeHtml(p.s1Gender)})
+                  </div>
+                `).join("")}
+                <div style="margin-top:6px; color:${r.s2Name ? 'inherit' : '#94a3b8'}; font-size:0.76rem;">
+                  ${r.s2Name ? `<strong>Helper (Legacy):</strong> ${escapeHtml(r.s2Name)} (${escapeHtml(r.s2Class || '—')}, ${escapeHtml(r.s2Gender || '—')})` : '+1 helper allowed per project at venue'}
                 </div>
               </td>
               <td>
                 <div style="font-size:0.75rem; color:#475569; margin-bottom:4px;">Folder: <span class="mono">${folderLabel}</span></div>
                 <div class="photo-cell">
-                  <div class="photo-badge-row">
-                    ${p1Src ? `<a href="${escapeHtml(p1Src)}" download="${escapeHtml(p1Name)}" target="_blank" rel="noopener"><img src="${escapeHtml(p1Src)}" alt="Presenter" class="photo-mini" /></a>` : ""}
-                    <span class="photo-fname">${escapeHtml(p1Name)}</span>
-                  </div>
-                  ${p2Src ? `<div class="photo-badge-row"><a href="${escapeHtml(p2Src)}" download="${escapeHtml(p2Name)}" target="_blank" rel="noopener"><img src="${escapeHtml(p2Src)}" alt="Helper" class="photo-mini" /></a><span class="photo-fname">S2: ${escapeHtml(p2Name)}</span></div>` : ""}
+                  ${photoEntries.map((pe) => `
+                    <div class="photo-badge-row">
+                      ${pe.src ? `<a href="${escapeHtml(pe.src)}" download="${escapeHtml(pe.name)}" target="_blank" rel="noopener"><img src="${escapeHtml(pe.src)}" alt="${pe.label}" class="photo-mini" /></a>` : ""}
+                      <span class="photo-fname">${pe.label}: ${escapeHtml(pe.name)}</span>
+                    </div>
+                  `).join("")}
+                  ${legacyP2Src ? `<div class="photo-badge-row"><a href="${escapeHtml(legacyP2Src)}" download="${escapeHtml(legacyP2Name)}" target="_blank" rel="noopener"><img src="${escapeHtml(legacyP2Src)}" alt="Helper" class="photo-mini" /></a><span class="photo-fname">S2: ${escapeHtml(legacyP2Name)}</span></div>` : ""}
                 </div>
               </td>
               <td>
@@ -955,51 +1009,57 @@
         `).join("");
       }
 
-      // 3. Theme Summary
+      // 3. Theme Summary (counts across all projects of each school)
       themeSummaryGrid.innerHTML = THEMES.map((t) => {
-        const count = registeredRows.filter((r) => r.theme === t).length;
+        let count = 0;
+        registeredRows.forEach((r) => {
+          getNormalizedProjects(r).forEach((p) => {
+            if (p.theme === t) count++;
+          });
+        });
         return `
           <div class="theme-stat-box">
             <div style="font-size:0.78rem; font-weight:700; color:var(--teal-600); text-transform:uppercase;">${escapeHtml(t.split(":")[0])}</div>
             <h3 style="font-size:1.05rem; margin:4px 0 8px;">${escapeHtml(t.split(":").slice(1).join(":").trim())}</h3>
-            <div style="font-family:'Outfit',sans-serif; font-size:1.7rem; font-weight:800; color:var(--navy-900);">${count} <span style="font-size:0.86rem; font-weight:500; color:#64748b;">schools</span></div>
+            <div style="font-family:'Outfit',sans-serif; font-size:1.7rem; font-weight:800; color:var(--navy-900);">${count} <span style="font-size:0.86rem; font-weight:500; color:#64748b;">projects</span></div>
           </div>
         `;
       }).join("");
     }
 
     function buildExcelRows() {
-      return registeredRows.map((r, idx) => {
-        const p1Name = getPhotoName(r, 1);
-        const p2Name = getPhotoName(r, 2);
-        const hasAnyPhoto = p1Name !== "Not Uploaded" || p2Name !== "Not Uploaded";
-        return {
-          "Sl. No.": idx + 1,
-          "Ref ID": r.ref || "",
-          "UDISE Code": r.udiseCode || "",
-          "School Name": r.schoolName || "",
-          "Block": "KOTPAD",
-          "Cluster": r.cluster || "",
-          "GP / NAC": r.gp || "",
-          "Guide Teacher Name": r.teacherName || "",
-          "Guide Teacher Mobile": r.teacherPhone || "",
-          "Guide Teacher Email": r.teacherEmail || "",
-          "Selected Sub-Theme": r.theme || "",
-          "Project Title": r.projectTitle || "",
-          "Main Presenter Name": r.s1Name || "",
-          "Main Presenter Class": r.s1Class || "",
-          "Main Presenter Gender": r.s1Gender || "",
-          "Main Presenter Photo Name": p1Name,
-          "Co-Participant (Helper) Name": r.s2Name || "",
-          "Co-Participant Class": r.s2Class || "",
-          "Co-Participant Gender": r.s2Gender || "",
-          "Co-Participant Photo Name": p2Name,
-          "Photo Folder": hasAnyPhoto ? "photos/" : "No Photos",
-          "Student 1 Photo URL": r.s1PhotoUrl || (r.s1PhotoInline ? "Included in ZIP photos/ folder" : "Not Uploaded"),
-          "Student 2 Photo URL": r.s2PhotoUrl || (r.s2PhotoInline ? "Included in ZIP photos/ folder" : "Not Uploaded"),
-          "Submitted At": r.submittedAt || ""
-        };
+      const flat = [];
+      let sl = 1;
+      registeredRows.forEach((r) => {
+        const projs = getNormalizedProjects(r);
+        projs.forEach((p, idx) => {
+          const pName = getProjectPhotoName(r, p, idx);
+          const hasPhoto = pName !== "Not Uploaded";
+          flat.push({
+            "Sl. No.": sl++,
+            "Ref ID": r.ref || "",
+            "UDISE Code": r.udiseCode || "",
+            "School Name": r.schoolName || "",
+            "Block": "KOTPAD",
+            "Cluster": r.cluster || "",
+            "GP / NAC": r.gp || "",
+            "Guide Teacher Name": r.teacherName || "",
+            "Guide Teacher Mobile": r.teacherPhone || "",
+            "Guide Teacher Email": r.teacherEmail || "",
+            "Project No.": `${idx + 1} of ${projs.length}`,
+            "Selected Sub-Theme": p.theme || "",
+            "Project Title": p.projectTitle || "",
+            "Student Presenter Name": p.s1Name || "",
+            "Student Presenter Class": p.s1Class || "",
+            "Student Presenter Gender": p.s1Gender || "",
+            "Presenter Photo Name": pName,
+            "Photo Folder": hasPhoto ? "photos/" : "No Photo",
+            "Photo URL": p.s1PhotoUrl || (p.s1PhotoInline ? "Included in ZIP photos/ folder" : "Not Uploaded"),
+            "Submitted At": r.submittedAt || ""
+          });
+        });
       });
+      return flat;
     }
 
     function createWorkbook() {
@@ -1024,12 +1084,9 @@
       return wb;
     }
 
-    async function getPhotoBinaryForZip(row, num) {
-      const inline = num === 1 ? row.s1PhotoInline : row.s2PhotoInline;
-      const url = num === 1 ? row.s1PhotoUrl : row.s2PhotoUrl;
+    async function getPhotoBinaryFromSrc(inline, url) {
       if (inline && inline.startsWith("data:")) {
-        const base64 = inline.split(",")[1];
-        return { data: base64, isBase64: true };
+        return { data: inline.split(",")[1], isBase64: true };
       }
       if (url && url.startsWith("http")) {
         try {
@@ -1055,12 +1112,23 @@
       let photoCount = 0;
 
       for (const row of registeredRows) {
-        for (const num of [1, 2]) {
-          const fname = getPhotoName(row, num);
+        const projs = getNormalizedProjects(row);
+        for (let i = 0; i < projs.length; i++) {
+          const proj = projs[i];
+          const fname = getProjectPhotoName(row, proj, i);
           if (fname === "Not Uploaded") continue;
-          const filePayload = await getPhotoBinaryForZip(row, num);
+          const filePayload = await getPhotoBinaryFromSrc(proj.s1PhotoInline, proj.s1PhotoUrl);
           if (filePayload) {
             photosFolder.file(fname, filePayload.data, filePayload.isBase64 ? { base64: true } : {});
+            photoCount++;
+          }
+        }
+        // Legacy S2 photo support if present in older records
+        const leg2Name = getPhotoName(row, 2);
+        if (leg2Name !== "Not Uploaded") {
+          const leg2Payload = await getPhotoBinaryFromSrc(row.s2PhotoInline, row.s2PhotoUrl);
+          if (leg2Payload) {
+            photosFolder.file(leg2Name, leg2Payload.data, leg2Payload.isBase64 ? { base64: true } : {});
             photoCount++;
           }
         }
@@ -1168,16 +1236,19 @@
           .sort((a, b) => a.schoolName.localeCompare(b.schoolName));
 
         let photoTotal = 0;
-        let studentTotal = 0;
+        let projectTotal = 0;
         registeredRows.forEach((r) => {
-          studentTotal += 1 + (r.s2Name && String(r.s2Name).trim() ? 1 : 0);
-          if (getPhotoSrc(r, 1)) photoTotal++;
+          const projs = getNormalizedProjects(r);
+          projectTotal += projs.length;
+          projs.forEach((p) => {
+            if (getProjectPhotoSrc(p)) photoTotal++;
+          });
           if (getPhotoSrc(r, 2)) photoTotal++;
         });
 
         statRegistered.textContent = `${registeredRows.length} / 177`;
         statPending.textContent = String(pendingRows.length);
-        statStudents.textContent = String(studentTotal);
+        statStudents.textContent = String(projectTotal);
         statPhotos.textContent = String(photoTotal);
         tabRegCount.textContent = String(registeredRows.length);
         tabPendCount.textContent = String(pendingRows.length);
