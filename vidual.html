@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Alexa Robot Face</title>
+  <style>
+    :root {
+      --accent: #00e5ff;
+      --bg: #000000;
+      --panel: rgba(18, 22, 30, 0.94);
+      --border: rgba(255, 255, 255, 0.14);
+      --text: #eef4ff;
+      --muted: #8ea0b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    #faceCanvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      cursor: pointer;
+    }
+
+    /* Top-right floating controls (auto-hide in clean mode) */
+    .hud-controls {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      display: flex;
+      gap: 8px;
+      z-index: 20;
+      transition: opacity 0.35s ease;
+    }
+
+    .hud-controls.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .icon-btn {
+      background: rgba(20, 26, 36, 0.78);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Start Overlay (browser requires user tap to enable microphone) */
+    #startOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      z-index: 30;
+    }
+
+    #startOverlay.gone {
+      display: none;
+    }
+
+    .start-card {
+      max-width: 440px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    .start-card h1 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      color: var(--accent);
+    }
+
+    .start-card p {
+      margin: 0 0 18px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #001018;
+      cursor: pointer;
+    }
+
+    .primary-btn:active {
+      transform: scale(0.98);
+    }
+
+    .error-note {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #ff6b7a;
+      display: none;
+      line-height: 1.4;
+    }
+
+    /* Settings Drawer */
+    #settingsPanel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(390px, 94vw);
+      height: 100%;
+      background: var(--panel);
+      border-left: 1px solid var(--border);
+      padding: 20px 18px 36px;
+      overflow-y: auto;
+      z-index: 40;
+      transform: translateX(105%);
+      transition: transform 0.28s ease;
+      backdrop-filter: blur(14px);
+    }
+
+    #settingsPanel.open {
+      transform: translateX(0);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .section {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      margin-top: 14px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    label.field {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+
+    .field-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    select, input[type="range"] {
+      width: 100%;
+    }
+
+    select {
+      background: #0d1118;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    input[type="range"] {
+      accent-color: var(--accent);
+    }
+
+    /* Live Meter */
+    .meter-wrap {
+      position: relative;
+      height: 22px;
+      background: #0a0d14;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+
+    .meter-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #35586c, #00e5ff);
+      transition: width 0.04s linear;
+    }
+
+    .meter-threshold {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #ff4757;
+      box-shadow: 0 0 6px #ff4757;
+      left: 28%;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+    }
+
+    .status-pill.active {
+      background: rgba(0, 229, 255, 0.2);
+      color: var(--accent);
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .small-btn {
+      background: #141a24;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .small-btn.selected {
+      border-color: var(--accent);
+      background: rgba(0, 229, 255, 0.16);
+      color: var(--accent);
+    }
+
+    .small-btn:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+
+    .cal-status {
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 8px;
+      min-height: 16px;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+      margin-top: 6px;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .color-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .swatch.selected {
+      border-color: #ffffff;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="faceCanvas"></canvas>
+
+  <div class="hud-controls" id="hudControls">
+    <button class="icon-btn" id="fullscreenBtn" title="Toggle Fullscreen">⛶ Fullscreen</button>
+    <button class="icon-btn" id="openSettingsBtn" title="Settings & Calibration">⚙ Settings</button>
+  </div>
+
+  <!-- Initial Start Screen -->
+  <div id="startOverlay">
+    <div class="start-card">
+      <h1>Alexa Robot Face</h1>
+      <p>
+        Designed for your tablet inside the box. Enable audio input to let the face listen
+        <strong>only for Alexa's loud close-range voice</strong> (or a direct audio cable) and ignore background room sounds.
+      </p>
+      <button class="primary-btn" id="startAudioBtn">Enable Sound Input &amp; Start</button>
+      <div class="error-note" id="startError"></div>
+    </div>
+  </div>
+
+  <!-- Settings & Calibration Drawer -->
+  <aside id="settingsPanel">
+    <div class="panel-header">
+      <h2>Robot Face Settings</h2>
+      <button class="icon-btn" id="closeSettingsBtn">✕</button>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Alexa Sound Isolation</div>
+
+      <label class="field">
+        <div class="field-row"><span>Audio Input Device</span></div>
+        <select id="deviceSelect">
+          <option value="">Default Microphone</option>
+        </select>
+        <div class="hint">
+          If you connected a USB/AUX line-in cable from Alexa, select it here to block 100% of room noise.
+        </div>
+      </label>
+
+      <div class="meter-wrap">
+        <div class="meter-fill" id="meterFill"></div>
+        <div class="meter-threshold" id="meterThreshold"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span class="status-pill" id="gateStatus">IGNORING SOUND</span>
+        <span style="font-size:12px; color:var(--muted);" id="levelText">0%</span>
+      </div>
+
+      <label class="field">
+        <div class="field-row">
+          <span>Alexa Volume Gate (Threshold)</span>
+          <strong id="thresholdVal">28%</strong>
+        </div>
+        <input type="range" id="thresholdSlider" min="3" max="90" value="28" />
+        <div class="hint">
+          Set the red line <strong>above</strong> room/your voice, and <strong>below</strong> Alexa's voice inside the box.
+        </div>
+      </label>
+
+      <label class="field">
+        <div class="field-row">
+          <span>Click/Clap Rejection (Min Sound Duration)</span>
+          <strong id="attackVal">60 ms</strong>
+        </div>
+        <input type="range" id="attackSlider" min="0" max="200" step="10" value="60" />
+        <div class="hint">Ignores sudden taps, coughs, or door slams shorter than this time.</div>
+      </label>
+
+      <div class="toggle-row">
+        <span>Vocal Band Filter (250–3800 Hz)</span>
+        <input type="checkbox" id="bandpassToggle" checked />
+      </div>
+      <div class="toggle-row">
+        <span>Lock Mic Gain (Disable Auto-Gain)</span>
+        <input type="checkbox" id="rawGainToggle" checked />
+      </div>
+      <div class="hint" style="margin-top:-4px; margin-bottom:10px;">
+        Keep Auto-Gain OFF so distant room noises aren't boosted when the room is quiet.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">2-Step Box Calibration</div>
+      <div class="btn-grid">
+        <button class="small-btn" id="calNoiseBtn">1. Sample Room/You (3s)</button>
+        <button class="small-btn" id="calAlexaBtn">2. Sample Alexa (4s)</button>
+      </div>
+      <div class="cal-status" id="calStatus"></div>
+      <div class="hint">
+        Step 1: Speak normally outside the box. Step 2: Say "Alexa, what time is it?" so we learn Alexa's loudness inside the box.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Emotions &amp; Look</div>
+      <div class="mood-grid" id="moodGrid">
+        <button class="small-btn selected" data-mood="neutral">Neutral</button>
+        <button class="small-btn" data-mood="happy">Happy</button>
+        <button class="small-btn" data-mood="curious">Curious</button>
+        <button class="small-btn" data-mood="surprised">Surprised</button>
+        <button class="small-btn" data-mood="love">Love</button>
+        <button class="small-btn" data-mood="angry">Angry</button>
+        <button class="small-btn" data-mood="sleepy">Sleepy</button>
+        <button class="small-btn" data-mood="thinking">Thinking</button>
+        <button class="small-btn" data-mood="auto">Auto Mood</button>
+      </div>
+
+      <label class="field" style="margin-top:12px;">
+        <div class="field-row"><span>Glow Color</span></div>
+        <div class="color-row" id="colorRow">
+          <div class="swatch selected" data-color="#00e5ff" style="background:#00e5ff;"></div>
+          <div class="swatch" data-color="#3cff8f" style="background:#3cff8f;"></div>
+          <div class="swatch" data-color="#ffb800" style="background:#ffb800;"></div>
+          <div class="swatch" data-color="#ff4d8d" style="background:#ff4d8d;"></div>
+          <div class="swatch" data-color="#a77bff" style="background:#a77bff;"></div>
+          <div class="swatch" data-color="#ffffff" style="background:#ffffff;"></div>
+        </div>
+      </label>
+
+      <div class="toggle-row">
+        <span>Auto-Sleep After 45s Silence</span>
+        <input type="checkbox" id="autoSleepToggle" checked />
+      </div>
+      <div class="toggle-row">
+        <span>Tap Face Cycles Emotion</span>
+        <input type="checkbox" id="tapMoodToggle" checked />
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    (() => {
+      // ==========================================
+      // STATE & PERSISTENCE
+      // ==========================================
+      const STORAGE_KEY = "alexa_robot_face_v1";
+      const defaults = {
+        deviceId: "",
+        threshold: 28,      // 0..100
+        attackMs: 60,       // ms continuous sound needed before opening
+        bandpass: true,     // 250-3800Hz speech filter
+        rawGain: true,      // disable browser AGC
+        mood: "auto",       // neutral | happy | curious | surprised | love | angry | sleepy | thinking | auto
+        color: "#00e5ff",
+        autoSleep: true,
+        tapMood: true,
+        sampledNoisePeak: null,
+        sampledAlexaPeak: null
+      };
+
+      const settings = { ...defaults, ...loadSavedSettings() };
+
+      function loadSavedSettings() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+        } catch {
+          return {};
+        }
+      }
+
+      function saveSettings() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+        } catch {}
+      }
+
+      // ==========================================
+      // DOM REFERENCES
+      // ==========================================
+      const canvas = document.getElementById("faceCanvas");
+      const ctx = canvas.getContext("2d");
+
+      const startOverlay = document.getElementById("startOverlay");
+      const startAudioBtn = document.getElementById("startAudioBtn");
+      const startError = document.getElementById("startError");
+
+      const hudControls = document.getElementById("hudControls");
+      const fullscreenBtn = document.getElementById("fullscreenBtn");
+      const openSettingsBtn = document.getElementById("openSettingsBtn");
+      const closeSettingsBtn = document.getElementById("closeSettingsBtn");
+      const settingsPanel = document.getElementById("settingsPanel");
+
+      const deviceSelect = document.getElementById("deviceSelect");
+      const meterFill = document.getElementById("meterFill");
+      const meterThreshold = document.getElementById("meterThreshold");
+      const gateStatus = document.getElementById("gateStatus");
+      const levelText = document.getElementById("levelText");
+
+      const thresholdSlider = document.getElementById("thresholdSlider");
+      const thresholdVal = document.getElementById("thresholdVal");
+      const attackSlider = document.getElementById("attackSlider");
+      const attackVal = document.getElementById("attackVal");
+      const bandpassToggle = document.getElementById("bandpassToggle");
+      const rawGainToggle = document.getElementById("rawGainToggle");
+
+      const calNoiseBtn = document.getElementById("calNoiseBtn");
+      const calAlexaBtn = document.getElementById("calAlexaBtn");
+      const calStatus = document.getElementById("calStatus");
+
+      const moodGrid = document.getElementById("moodGrid");
+      const colorRow = document.getElementById("colorRow");
+      const autoSleepToggle = document.getElementById("autoSleepToggle");
+      const tapMoodToggle = document.getElementById("tapMoodToggle");
+
+      // ==========================================
+      // AUDIO ENGINE (ALEXA-ONLY ISOLATION)
+      // ==========================================
+      let audioCtx = null;
+      let mediaStream = null;
+      let sourceNode = null;
+      let highpassFilter = null;
+      let lowpassFilter = null;
+      let analyser = null;
+      let freqData = null;
+      let timeData = null;
+
+      // Speech gate state
+      let currentLevel = 0;       // 0..100 filtered vocal level
+      let lowBandEnergy = 0;      // 0..1 jaw open driver
+      let highBandEnergy = 0;     // 0..1 articulation/width driver
+      let gateOpen = false;
+      let aboveSince = 0;
+      let lastAboveTime = 0;
+      let lastSpokeTime = performance.now();
+      let wasSpeaking = false;
+      let postReplyHappyUntil = 0;
+
+      // Calibration capture
+      let calCapture = null; // { peaks: [], type: 'noise' | 'alexa' }
+
+      async function populateDevices() {
+        if (!navigator.mediaDevices?.enumerateDevices) return;
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const inputs = devices.filter(d => d.kind === "audioinput");
+        const prev = settings.deviceId;
+        deviceSelect.innerHTML = `<option value="">Default Microphone</option>`;
+        inputs.forEach((dev, idx) => {
+          const opt = document.createElement("option");
+          opt.value = dev.deviceId;
+          opt.textContent = dev.label || `Audio Input ${idx + 1}`;
+          if (dev.deviceId === prev) opt.selected = true;
+          deviceSelect.appendChild(opt);
+        });
+      }
+
+      async function startAudio() {
+        if (!navigator.mediaDevices?.getUserMedia) {
+          throw new Error("Microphone API is unavailable. Make sure this page is opened via HTTPS or localhost.");
+        }
+
+        stopAudio();
+
+        const audioConstraints = {
+          echoCancellation: !settings.rawGain,
+          noiseSuppression: !settings.rawGain,
+          autoGainControl: !settings.rawGain
+        };
+        if (settings.deviceId) {
+          audioConstraints.deviceId = { exact: settings.deviceId };
+        }
+
+        try {
+          mediaStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints, video: false });
+        } catch (err) {
+          // Fallback without exact deviceId if device disappeared
+          if (settings.deviceId) {
+            settings.deviceId = "";
+            saveSettings();
+            delete audioConstraints.deviceId;
+            mediaStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints, video: false });
+          } else {
+            throw err;
+          }
+        }
+
+        const AudioContextCls = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContextCls();
+        if (audioCtx.state === "suspended") {
+          await audioCtx.resume();
+        }
+
+        sourceNode = audioCtx.createMediaStreamSource(mediaStream);
+
+        // Vocal Band-Pass Filter: 250 Hz Highpass -> 3800 Hz Lowpass
+        highpassFilter = audioCtx.createBiquadFilter();
+        highpassFilter.type = "highpass";
+        highpassFilter.frequency.value = 250;
+        highpassFilter.Q.value = 0.7;
+
+        lowpassFilter = audioCtx.createBiquadFilter();
+        lowpassFilter.type = "lowpass";
+        lowpassFilter.frequency.value = 3800;
+        lowpassFilter.Q.value = 0.7;
+
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 512;
+        analyser.smoothingTimeConstant = 0.45;
+
+        connectAudioGraph();
+
+        freqData = new Uint8Array(analyser.frequencyBinCount);
+        timeData = new Uint8Array(analyser.fftSize);
+
+        await populateDevices();
+        requestWakeLock();
+      }
+
+      function connectAudioGraph() {
+        if (!sourceNode || !analyser) return;
+        sourceNode.disconnect();
+        highpassFilter.disconnect();
+        lowpassFilter.disconnect();
+
+        if (settings.bandpass) {
+          sourceNode.connect(highpassFilter);
+          highpassFilter.connect(lowpassFilter);
+          lowpassFilter.connect(analyser);
+        } else {
+          sourceNode.connect(analyser);
+        }
+      }
+
+      function stopAudio() {
+        if (mediaStream) {
+          mediaStream.getTracks().forEach(t => t.stop());
+          mediaStream = null;
+        }
+        if (audioCtx) {
+          audioCtx.close().catch(() => {});
+          audioCtx = null;
+        }
+        sourceNode = null;
+        analyser = null;
+      }
+
+      function processAudio(now) {
+        if (!analyser) {
+          currentLevel = 0;
+          gateOpen = false;
+          return;
+        }
+
+        analyser.getByteTimeDomainData(timeData);
+        analyser.getByteFrequencyData(freqData);
+
+        // RMS loudness from filtered waveform
+        let sumSq = 0;
+        for (let i = 0; i < timeData.length; i++) {
+          const norm = (timeData[i] - 128) / 128;
+          sumSq += norm * norm;
+        }
+        const rms = Math.sqrt(sumSq / timeData.length);
+        // Scale to a responsive 0..100 meter
+        const level = Math.min(100, Math.pow(rms * 3.2, 0.75) * 100);
+        currentLevel = currentLevel * 0.35 + level * 0.65;
+
+        // Frequency bands for expressive mouth shape
+        const sampleRate = audioCtx ? audioCtx.sampleRate : 48000;
+        const binHz = sampleRate / analyser.fftSize;
+        let lowSum = 0, lowCount = 0;
+        let highSum = 0, highCount = 0;
+        for (let i = 0; i < freqData.length; i++) {
+          const hz = i * binHz;
+          if (hz >= 200 && hz <= 850) {
+            lowSum += freqData[i];
+            lowCount++;
+          } else if (hz > 850 && hz <= 3400) {
+            highSum += freqData[i];
+            highCount++;
+          }
+        }
+        lowBandEnergy = lowCount ? (lowSum / lowCount) / 255 : 0;
+        highBandEnergy = highCount ? (highSum / highCount) / 255 : 0;
+
+        if (calCapture) {
+          calCapture.peaks.push(currentLevel);
+        }
+
+        // Hysteresis + Spike Rejection Gate
+        const openThresh = settings.threshold;
+        const closeThresh = Math.max(2, settings.threshold * 0.74);
+        const holdMs = 200; // keep mouth moving smoothly between syllables
+
+        if (!gateOpen) {
+          if (currentLevel >= openThresh) {
+            if (aboveSince === 0) aboveSince = now;
+            if (now - aboveSince >= settings.attackMs) {
+              gateOpen = true;
+              lastAboveTime = now;
+            }
+          } else {
+            aboveSince = 0;
+          }
+        } else {
+          if (currentLevel >= closeThresh) {
+            lastAboveTime = now;
+          } else if (now - lastAboveTime > holdMs) {
+            gateOpen = false;
+            aboveSince = 0;
+          }
+        }
+
+        if (gateOpen) {
+          lastSpokeTime = now;
+          wasSpeaking = true;
+        } else if (wasSpeaking && now - lastSpokeTime > 350) {
+          wasSpeaking = false;
+          if (settings.mood === "auto") {
+            postReplyHappyUntil = now + 2600;
+          }
+        }
+
+        // Update Settings UI meter if visible
+        if (settingsPanel.classList.contains("open")) {
+          meterFill.style.width = `${currentLevel.toFixed(1)}%`;
+          levelText.textContent = `${Math.round(currentLevel)}%`;
+          gateStatus.textContent = gateOpen ? "ALEXA DETECTED" : "IGNORING SOUND";
+          gateStatus.classList.toggle("active", gateOpen);
+        }
+      }
+
+      // ==========================================
+      // CALIBRATION WIZARD
+      // ==========================================
+      async function runCalibration(type) {
+        if (!analyser) {
+          calStatus.textContent = "Enable sound input first.";
+          return;
+        }
+        calNoiseBtn.disabled = true;
+        calAlexaBtn.disabled = true;
+
+        const durationMs = type === "noise" ? 3000 : 4000;
+        calCapture = { peaks: [], type };
+
+        const start = performance.now();
+        const timer = setInterval(() => {
+          const left = Math.max(0, ((durationMs - (performance.now() - start)) / 1000)).toFixed(1);
+          calStatus.textContent = type === "noise"
+            ? `Sampling room/your voice... ${left}s`
+            : `Ask Alexa something now... ${left}s`;
+        }, 120);
+
+        await new Promise(r => setTimeout(r, durationMs));
+        clearInterval(timer);
+
+        const samples = calCapture.peaks.slice().sort((a, b) => a - b);
+        calCapture = null;
+        calNoiseBtn.disabled = false;
+        calAlexaBtn.disabled = false;
+
+        if (!samples.length) return;
+
+        // 95th percentile ignores isolated glitches
+        const p95 = samples[Math.floor(samples.length * 0.95)];
+
+        if (type === "noise") {
+          settings.sampledNoisePeak = p95;
+          calStatus.textContent = `Room/your voice peak: ${Math.round(p95)}%. Now run Step 2!`;
+        } else {
+          settings.sampledAlexaPeak = p95;
+          calStatus.textContent = `Alexa peak inside box: ${Math.round(p95)}%.`;
+        }
+
+        // Compute optimal threshold if we have noise and/or Alexa samples
+        if (settings.sampledNoisePeak !== null && settings.sampledAlexaPeak !== null) {
+          if (settings.sampledAlexaPeak <= settings.sampledNoisePeak + 3) {
+            calStatus.textContent = `Alexa (${Math.round(settings.sampledAlexaPeak)}%) wasn't louder than room (${Math.round(settings.sampledNoisePeak)}%). Move mic closer to Alexa!`;
+            settings.threshold = Math.min(88, Math.round(settings.sampledNoisePeak + 8));
+          } else {
+            const gap = settings.sampledAlexaPeak - settings.sampledNoisePeak;
+            settings.threshold = Math.max(5, Math.min(90, Math.round(settings.sampledNoisePeak + gap * 0.35)));
+            calStatus.textContent = `Calibrated! Gate set to ${settings.threshold}% (Room ${Math.round(settings.sampledNoisePeak)}% vs Alexa ${Math.round(settings.sampledAlexaPeak)}%).`;
+          }
+        } else if (settings.sampledNoisePeak !== null) {
+          settings.threshold = Math.max(8, Math.min(85, Math.round(settings.sampledNoisePeak + 10)));
+        }
+
+        syncUI();
+        saveSettings();
+      }
+
+      // ==========================================
+      // FACE RENDERER (CANVAS 60FPS)
+      // ==========================================
+      let width = 0, height = 0, dpr = 1;
+      function resizeCanvas() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      // Smooth animated parameters
+      const anim = {
+        blink: 0,           // 0 open .. 1 closed
+        nextBlinkAt: performance.now() + 2200,
+        lookX: 0,
+        lookY: 0,
+        targetLookX: 0,
+        targetLookY: 0,
+        nextLookAt: performance.now() + 1800,
+        mouthOpen: 0,       // 0..1
+        mouthWide: 0.5,     // 0..1
+        eyeScale: 1,
+        droop: 0,           // sleepy eyelid
+        tilt: 0             // expressive angle
+      };
+
+      const tapMoodCycle = ["happy", "curious", "surprised", "love", "neutral"];
+      let tapMoodIndex = 0;
+
+      function getActiveMood(now) {
+        if (settings.mood !== "auto") return settings.mood;
+        if (gateOpen) return "speaking";
+        if (now < postReplyHappyUntil) return "happy";
+        if (settings.autoSleep && now - lastSpokeTime > 45000) return "sleepy";
+        return "neutral";
+      }
+
+      function hexToRgb(hex) {
+        const clean = hex.replace("#", "");
+        const num = parseInt(clean, 16);
+        return {
+          r: (num >> 16) & 255,
+          g: (num >> 8) & 255,
+          b: num & 255
+        };
+      }
+
+      function lerp(a, b, t) {
+        return a + (b - a) * t;
+      }
+
+      function drawRoundedRect(x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + w - radius, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+        ctx.lineTo(x + w, y + h - radius);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+        ctx.lineTo(x + radius, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+      }
+
+      function drawHeart(cx, cy, size) {
+        ctx.beginPath();
+        const topCurveHeight = size * 0.3;
+        ctx.moveTo(cx, cy + topCurveHeight);
+        ctx.bezierCurveTo(cx, cy, cx - size / 2, cy, cx - size / 2, cy + topCurveHeight);
+        ctx.bezierCurveTo(cx - size / 2, cy + (size + topCurveHeight) / 2, cx, cy + (size + topCurveHeight) / 1.15, cx, cy + size);
+        ctx.bezierCurveTo(cx, cy + (size + topCurveHeight) / 1.15, cx + size / 2, cy + (size + topCurveHeight) / 2, cx + size / 2, cy + topCurveHeight);
+        ctx.bezierCurveTo(cx + size / 2, cy, cx, cy, cx, cy + topCurveHeight);
+        ctx.closePath();
+      }
+
+      function renderFace(now) {
+        processAudio(now);
+
+        const mood = getActiveMood(now);
+        const rgb = hexToRgb(settings.color);
+        const glowColor = settings.color;
+        const dimColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.22)`;
+
+        // Blink timer
+        if (mood === "sleepy") {
+          anim.blink = lerp(anim.blink, 0.72, 0.08);
+        } else {
+          if (now > anim.nextBlinkAt) {
+            anim.nextBlinkAt = now + (Math.random() < 0.2 ? 220 : 2200 + Math.random() * 3400);
+            anim.blinkTarget = 1;
+            setTimeout(() => { anim.blinkTarget = 0; }, 115);
+          }
+          anim.blink = lerp(anim.blink, anim.blinkTarget || 0, 0.38);
+        }
+
+        // Subtle idle eye glance
+        if (gateOpen) {
+          anim.targetLookX = 0;
+          anim.targetLookY = 0;
+        } else if (mood === "thinking") {
+          anim.targetLookX = 0.7;
+          anim.targetLookY = -0.6;
+        } else if (now > anim.nextLookAt) {
+          anim.nextLookAt = now + 1500 + Math.random() * 2800;
+          anim.targetLookX = (Math.random() - 0.5) * 1.1;
+          anim.targetLookY = (Math.random() - 0.5) * 0.7;
+        }
+        anim.lookX = lerp(anim.lookX, anim.targetLookX, 0.06);
+        anim.lookY = lerp(anim.lookY, anim.targetLookY, 0.06);
+
+        // Mouth animation driven strictly by gated Alexa sound
+        let targetMouthOpen = 0;
+        let targetMouthWide = 0.45;
+        if (gateOpen) {
+          const normExcess = Math.max(0, (currentLevel - settings.threshold * 0.65) / (100 - settings.threshold * 0.65));
+          targetMouthOpen = Math.min(1, 0.2 + normExcess * 0.9 + lowBandEnergy * 0.55);
+          targetMouthWide = Math.min(1, 0.35 + highBandEnergy * 0.85);
+        } else if (mood === "surprised") {
+          targetMouthOpen = 0.65;
+          targetMouthWide = 0.15;
+        }
+        anim.mouthOpen = lerp(anim.mouthOpen, targetMouthOpen, gateOpen ? 0.42 : 0.22);
+        anim.mouthWide = lerp(anim.mouthWide, targetMouthWide, 0.25);
+
+        // Clear pure black canvas
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, width, height);
+
+        const unit = Math.min(width * 0.9, height * 1.15);
+        const cx = width / 2;
+        const cy = height / 2;
+
+        // Breathing float
+        const breathY = Math.sin(now / 1200) * (unit * 0.01);
+
+        // Eye geometry
+        const eyeSpacing = unit * 0.24;
+        const eyeY = cy - unit * 0.11 + breathY;
+        const baseEyeW = unit * 0.17;
+        const baseEyeH = unit * 0.21;
+
+        ctx.save();
+        ctx.fillStyle = glowColor;
+        ctx.strokeStyle = glowColor;
+        ctx.shadowColor = glowColor;
+        ctx.shadowBlur = unit * 0.045;
+
+        // Draw Left & Right Eyes
+        [-1, 1].forEach(side => {
+          const ex = cx + side * eyeSpacing + anim.lookX * (unit * 0.025);
+          const ey = eyeY + anim.lookY * (unit * 0.02);
+
+          let ew = baseEyeW;
+          let eh = baseEyeH;
+          if (mood === "surprised") {
+            ew *= 1.12;
+            eh *= 1.18;
+          } else if (mood === "speaking") {
+            ew *= 1.04 + anim.mouthOpen * 0.04;
+            eh *= 1.04 + anim.mouthOpen * 0.06;
+          } else if (mood === "curious" && side === 1) {
+            eh *= 1.14;
+          } else if (mood === "curious" && side === -1) {
+            eh *= 0.84;
+          }
+
+          eh = Math.max(4, eh * (1 - anim.blink * 0.94));
+
+          if (mood === "happy" && anim.blink < 0.5) {
+            // Cute curved happy eyes
+            ctx.lineWidth = unit * 0.028;
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            ctx.arc(ex, ey + baseEyeH * 0.15, baseEyeW * 0.52, Math.PI * 1.12, Math.PI * 1.88);
+            ctx.stroke();
+          } else if (mood === "love" && anim.blink < 0.5) {
+            drawHeart(ex, ey - baseEyeH * 0.42, baseEyeW * 1.05);
+            ctx.fill();
+          } else {
+            // Glowing rounded rectangle eyes
+            const radius = mood === "surprised" ? Math.min(ew, eh) / 2 : unit * 0.048;
+            drawRoundedRect(ex - ew / 2, ey - eh / 2, ew, eh, radius);
+            ctx.fill();
+
+            // Angry brow mask
+            if (mood === "angry") {
+              ctx.save();
+              ctx.shadowBlur = 0;
+              ctx.fillStyle = "#000000";
+              ctx.beginPath();
+              if (side === -1) {
+                ctx.moveTo(ex - ew * 0.6, ey - eh * 0.55);
+                ctx.lineTo(ex + ew * 0.6, ey - eh * 0.05);
+                ctx.lineTo(ex + ew * 0.6, ey - eh * 0.7);
+              } else {
+                ctx.moveTo(ex + ew * 0.6, ey - eh * 0.55);
+                ctx.lineTo(ex - ew * 0.6, ey - eh * 0.05);
+                ctx.lineTo(ex - ew * 0.6, ey - eh * 0.7);
+              }
+              ctx.closePath();
+              ctx.fill();
+              ctx.restore();
+            }
+
+            // Highlight glint inside eye (gives life)
+            if (eh > unit * 0.06) {
+              ctx.save();
+              ctx.shadowBlur = 0;
+              ctx.fillStyle = "rgba(255,255,255,0.45)";
+              ctx.beginPath();
+              ctx.arc(ex - ew * 0.22, ey - eh * 0.24, unit * 0.016, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.restore();
+            }
+          }
+        });
+
+        // Draw Mouth
+        const mouthY = cy + unit * 0.17 + breathY;
+        const mouthMaxW = unit * 0.34;
+        const mouthMaxH = unit * 0.14;
+
+        if (anim.mouthOpen > 0.04) {
+          // Animated speaking mouth + subtle digital equalizer bars inside
+          const mw = mouthMaxW * (0.42 + anim.mouthWide * 0.58);
+          const mh = Math.max(unit * 0.02, mouthMaxH * anim.mouthOpen);
+
+          ctx.fillStyle = dimColor;
+          ctx.lineWidth = unit * 0.018;
+          drawRoundedRect(cx - mw / 2, mouthY - mh / 2, mw, mh, Math.min(mw, mh) / 2);
+          ctx.fill();
+          ctx.stroke();
+
+          // Inner voice bars
+          const barCount = 7;
+          const barGap = mw / (barCount + 1);
+          ctx.fillStyle = glowColor;
+          for (let i = 0; i < barCount; i++) {
+            const bx = cx - mw / 2 + barGap * (i + 1);
+            const distCenter = 1 - Math.abs(i - (barCount - 1) / 2) / ((barCount - 1) / 2);
+            const jitter = 0.6 + 0.4 * Math.sin(now / 55 + i * 1.4);
+            const bh = Math.max(4, mh * 0.72 * distCenter * jitter);
+            const bw = Math.max(3, barGap * 0.42);
+            drawRoundedRect(bx - bw / 2, mouthY - bh / 2, bw, bh, bw / 2);
+            ctx.fill();
+          }
+        } else {
+          // Resting / emotional mouth
+          ctx.lineWidth = unit * 0.022;
+          ctx.lineCap = "round";
+          ctx.beginPath();
+          if (mood === "happy" || mood === "love") {
+            ctx.arc(cx, mouthY - unit * 0.03, unit * 0.085, Math.PI * 0.15, Math.PI * 0.85);
+          } else if (mood === "angry") {
+            ctx.arc(cx, mouthY + unit * 0.065, unit * 0.075, Math.PI * 1.2, Math.PI * 1.8);
+          } else if (mood === "sleepy") {
+            ctx.arc(cx, mouthY, unit * 0.022, 0, Math.PI * 2);
+          } else if (mood === "thinking") {
+            ctx.moveTo(cx - unit * 0.06, mouthY);
+            ctx.quadraticCurveTo(cx, mouthY - unit * 0.018, cx + unit * 0.06, mouthY + unit * 0.012);
+          } else {
+            // Subtle friendly smile
+            ctx.moveTo(cx - unit * 0.07, mouthY - unit * 0.004);
+            ctx.quadraticCurveTo(cx, mouthY + unit * 0.025, cx + unit * 0.07, mouthY - unit * 0.004);
+          }
+          ctx.stroke();
+        }
+
+        // Sleepy Zzz indicator
+        if (mood === "sleepy") {
+          const drift = ((now / 1600) % 1);
+          ctx.save();
+          ctx.globalAlpha = Math.sin(drift * Math.PI);
+          ctx.font = `700 ${Math.round(unit * 0.05)}px sans-serif`;
+          ctx.fillText("Z", cx + unit * 0.34, eyeY - unit * 0.14 - drift * unit * 0.08);
+          ctx.restore();
+        }
+
+        ctx.restore();
+        requestAnimationFrame(renderFace);
+      }
+
+      // ==========================================
+      // WAKE LOCK & UI EVENTS
+      // ==========================================
+      let wakeLock = null;
+      async function requestWakeLock() {
+        try {
+          if ("wakeLock" in navigator) {
+            wakeLock = await navigator.wakeLock.request("screen");
+          }
+        } catch {}
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible" && audioCtx) {
+          requestWakeLock();
+          if (audioCtx.state === "suspended") audioCtx.resume();
+        }
+      });
+
+      // Auto-hide HUD buttons after inactivity so screen looks clean inside the box
+      let hudTimer = null;
+      function showHudTemporarily() {
+        hudControls.classList.remove("hidden");
+        clearTimeout(hudTimer);
+        if (!settingsPanel.classList.contains("open")) {
+          hudTimer = setTimeout(() => {
+            hudControls.classList.add("hidden");
+          }, 4000);
+        }
+      }
+
+      window.addEventListener("mousemove", showHudTemporarily);
+      window.addEventListener("touchstart", showHudTemporarily, { passive: true });
+
+      canvas.addEventListener("click", () => {
+        showHudTemporarily();
+        if (settings.tapMood && !settingsPanel.classList.contains("open")) {
+          tapMoodIndex = (tapMoodIndex + 1) % tapMoodCycle.length;
+          settings.mood = tapMoodCycle[tapMoodIndex];
+          syncUI();
+          saveSettings();
+        }
+        if (settingsPanel.classList.contains("open")) {
+          settingsPanel.classList.remove("open");
+        }
+      });
+
+      startAudioBtn.addEventListener("click", async () => {
+        startError.style.display = "none";
+        try {
+          await startAudio();
+          startOverlay.classList.add("gone");
+          showHudTemporarily();
+        } catch (err) {
+          startError.textContent = `Could not access microphone: ${err.message}. Note: Tablets require HTTPS or localhost for microphone permission.`;
+          startError.style.display = "block";
+        }
+      });
+
+      openSettingsBtn.addEventListener("click", () => {
+        settingsPanel.classList.add("open");
+        clearTimeout(hudTimer);
+      });
+
+      closeSettingsBtn.addEventListener("click", () => {
+        settingsPanel.classList.remove("open");
+        showHudTemporarily();
+      });
+
+      fullscreenBtn.addEventListener("click", () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen?.().catch(() => {});
+        } else {
+          document.exitFullscreen?.().catch(() => {});
+        }
+      });
+
+      deviceSelect.addEventListener("change", async () => {
+        settings.deviceId = deviceSelect.value;
+        saveSettings();
+        if (audioCtx) {
+          await startAudio().catch(err => {
+            calStatus.textContent = `Switch failed: ${err.message}`;
+          });
+        }
+      });
+
+      thresholdSlider.addEventListener("input", () => {
+        settings.threshold = Number(thresholdSlider.value);
+        syncUI();
+        saveSettings();
+      });
+
+      attackSlider.addEventListener("input", () => {
+        settings.attackMs = Number(attackSlider.value);
+        syncUI();
+        saveSettings();
+      });
+
+      bandpassToggle.addEventListener("change", () => {
+        settings.bandpass = bandpassToggle.checked;
+        connectAudioGraph();
+        saveSettings();
+      });
+
+      rawGainToggle.addEventListener("change", async () => {
+        settings.rawGain = rawGainToggle.checked;
+        saveSettings();
+        if (audioCtx) await startAudio().catch(() => {});
+      });
+
+      calNoiseBtn.addEventListener("click", () => runCalibration("noise"));
+      calAlexaBtn.addEventListener("click", () => runCalibration("alexa"));
+
+      moodGrid.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-mood]");
+        if (!btn) return;
+        settings.mood = btn.dataset.mood;
+        syncUI();
+        saveSettings();
+      });
+
+      colorRow.addEventListener("click", (e) => {
+        const swatch = e.target.closest("[data-color]");
+        if (!swatch) return;
+        settings.color = swatch.dataset.color;
+        syncUI();
+        saveSettings();
+      });
+
+      autoSleepToggle.addEventListener("change", () => {
+        settings.autoSleep = autoSleepToggle.checked;
+        saveSettings();
+      });
+
+      tapMoodToggle.addEventListener("change", () => {
+        settings.tapMood = tapMoodToggle.checked;
+        saveSettings();
+      });
+
+      function syncUI() {
+        thresholdSlider.value = settings.threshold;
+        thresholdVal.textContent = `${settings.threshold}%`;
+        meterThreshold.style.left = `${settings.threshold}%`;
+
+        attackSlider.value = settings.attackMs;
+        attackVal.textContent = `${settings.attackMs} ms`;
+
+        bandpassToggle.checked = settings.bandpass;
+        rawGainToggle.checked = settings.rawGain;
+        autoSleepToggle.checked = settings.autoSleep;
+        tapMoodToggle.checked = settings.tapMood;
+
+        document.documentElement.style.setProperty("--accent", settings.color);
+
+        moodGrid.querySelectorAll("[data-mood]").forEach(b => {
+          b.classList.toggle("selected", b.dataset.mood === settings.mood);
+        });
+        colorRow.querySelectorAll("[data-color]").forEach(s => {
+          s.classList.toggle("selected", s.dataset.color === settings.color);
+        });
+      }
+
+      syncUI();
+      requestAnimationFrame(renderFace);
+    })();
+  </script>
+</body>
+</html>
