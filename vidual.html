@@ -353,6 +353,7 @@
         <strong>only for Alexa's loud close-range voice</strong> (or a direct audio cable) and ignore background room sounds.
       </p>
       <button class="primary-btn" id="startAudioBtn">Enable Sound Input &amp; Start</button>
+      <button class="small-btn" id="previewNoMicBtn" style="width:100%; margin-top:10px; padding:11px;">Preview Face Without Mic</button>
       <div class="error-note" id="startError"></div>
     </div>
   </div>
@@ -372,6 +373,10 @@
         <select id="deviceSelect">
           <option value="">Default Microphone</option>
         </select>
+        <div class="btn-grid" style="margin-top:8px;">
+          <button class="small-btn" id="retryMicBtn">Connect / Retry Mic</button>
+          <button class="small-btn" id="testVoiceBtn">Test Mouth (3s)</button>
+        </div>
         <div class="hint">
           If you connected a USB/AUX line-in cable from Alexa, select it here to block 100% of room noise.
         </div>
@@ -512,6 +517,7 @@
 
       const startOverlay = document.getElementById("startOverlay");
       const startAudioBtn = document.getElementById("startAudioBtn");
+      const previewNoMicBtn = document.getElementById("previewNoMicBtn");
       const startError = document.getElementById("startError");
 
       const hudControls = document.getElementById("hudControls");
@@ -521,6 +527,8 @@
       const settingsPanel = document.getElementById("settingsPanel");
 
       const deviceSelect = document.getElementById("deviceSelect");
+      const retryMicBtn = document.getElementById("retryMicBtn");
+      const testVoiceBtn = document.getElementById("testVoiceBtn");
       const meterFill = document.getElementById("meterFill");
       const meterThreshold = document.getElementById("meterThreshold");
       const gateStatus = document.getElementById("gateStatus");
@@ -564,6 +572,7 @@
       let lastSpokeTime = performance.now();
       let wasSpeaking = false;
       let postReplyHappyUntil = 0;
+      let testVoiceUntil = 0;
 
       // Calibration capture
       let calCapture = null; // { peaks: [], type: 'noise' | 'alexa' }
@@ -602,15 +611,15 @@
         try {
           mediaStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints, video: false });
         } catch (err) {
-          // Fallback without exact deviceId if device disappeared
+          // Fallback: retry without exact deviceId or strict audio flags
+          if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+            throw err;
+          }
           if (settings.deviceId) {
             settings.deviceId = "";
             saveSettings();
-            delete audioConstraints.deviceId;
-            mediaStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints, video: false });
-          } else {
-            throw err;
           }
+          mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
         }
 
         const AudioContextCls = window.AudioContext || window.webkitAudioContext;
@@ -674,9 +683,38 @@
       }
 
       function processAudio(now) {
+        if (now < testVoiceUntil) {
+          const wave = 0.55 + 0.35 * Math.sin(now / 90) * Math.cos(now / 210);
+          currentLevel = Math.min(95, settings.threshold + 25 + wave * 28);
+          lowBandEnergy = 0.4 + wave * 0.45;
+          highBandEnergy = 0.35 + Math.abs(Math.sin(now / 130)) * 0.5;
+          gateOpen = true;
+          lastSpokeTime = now;
+          wasSpeaking = true;
+          if (settingsPanel.classList.contains("open")) {
+            meterFill.style.width = `${currentLevel.toFixed(1)}%`;
+            levelText.textContent = `${Math.round(currentLevel)}%`;
+            gateStatus.textContent = "TEST SPEAKING";
+            gateStatus.classList.add("active");
+          }
+          return;
+        }
+
         if (!analyser) {
           currentLevel = 0;
           gateOpen = false;
+          if (wasSpeaking && now - lastSpokeTime > 350) {
+            wasSpeaking = false;
+            if (settings.mood === "auto") {
+              postReplyHappyUntil = now + 2600;
+            }
+          }
+          if (settingsPanel.classList.contains("open")) {
+            meterFill.style.width = "0%";
+            levelText.textContent = "No Mic";
+            gateStatus.textContent = "PREVIEW MODE";
+            gateStatus.classList.remove("active");
+          }
           return;
         }
 
@@ -1156,6 +1194,16 @@
         }
       });
 
+      function formatMicError(err) {
+        if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
+          return "No microphone was found on this device. Plug in a mic/audio adapter (or open this page on your tablet, which has a built-in mic), or tap 'Preview Face Without Mic' below.";
+        }
+        if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+          return "Microphone permission was blocked. Allow microphone access in your browser's address bar and try again.";
+        }
+        return `Could not access microphone: ${err.message}.`;
+      }
+
       startAudioBtn.addEventListener("click", async () => {
         startError.style.display = "none";
         try {
@@ -1163,9 +1211,29 @@
           startOverlay.classList.add("gone");
           showHudTemporarily();
         } catch (err) {
-          startError.textContent = `Could not access microphone: ${err.message}. Note: Tablets require HTTPS or localhost for microphone permission.`;
+          startError.textContent = formatMicError(err);
           startError.style.display = "block";
         }
+      });
+
+      previewNoMicBtn.addEventListener("click", () => {
+        startOverlay.classList.add("gone");
+        requestWakeLock();
+        showHudTemporarily();
+      });
+
+      retryMicBtn.addEventListener("click", async () => {
+        calStatus.textContent = "Connecting audio input...";
+        try {
+          await startAudio();
+          calStatus.textContent = "Microphone connected!";
+        } catch (err) {
+          calStatus.textContent = formatMicError(err);
+        }
+      });
+
+      testVoiceBtn.addEventListener("click", () => {
+        testVoiceUntil = performance.now() + 3000;
       });
 
       openSettingsBtn.addEventListener("click", () => {
