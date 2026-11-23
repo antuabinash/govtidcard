@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>Study Notes, Coming Soon | Sikhyak Sathi</title>
+    <meta name="description" content="Study Notes (ପାଠ ସାରାଂଶ) for Odisha teachers and students are coming soon to Sikhyak Sathi.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://sikhyaksathi.in/study-notes-soon.html">
+
+    <meta name="theme-color" content="#F3F5FA" id="themeColorMeta">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
+
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('ss_theme');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+
+    <style>
+        :root {
+            --bg: #F3F5FA; --surface: #FFFFFF; --surface-2: #F7F8FC;
+            --text: #12172B; --muted: #586178; --line: #E4E8F1;
+            --primary: #2F5BEA; --primary-soft: rgba(47, 91, 234, 0.1);
+            --green: #16A34A;
+            --shadow: 0 1px 2px rgba(18, 23, 43, 0.04), 0 8px 24px rgba(18, 23, 43, 0.05);
+            --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+            color-scheme: light;
+        }
+        :root[data-theme="dark"] {
+            --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+            --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+            --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+            --green: #4ADE80;
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+            color-scheme: dark;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #0E1220; --surface: #171C2E; --surface-2: #1D2338;
+                --text: #EEF1FA; --muted: #A5AEC4; --line: #262D45;
+                --primary: #7A98FF; --primary-soft: rgba(122, 152, 255, 0.14);
+                --green: #4ADE80;
+                --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+                color-scheme: dark;
+            }
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        [hidden] { display: none !important; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body { font-family: "Noto Sans Oriya", "Noto Sans", "Nirmala UI", Kalinga, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; font-size: 16px; overflow-x: hidden; }
+        a { color: inherit; }
+        button { font: inherit; color: inherit; }
+        :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 8px; }
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 0 18px; }
+        .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+        .skip-link { position: absolute; left: 12px; top: -60px; background: var(--primary); color: #fff; padding: 10px 16px; border-radius: 10px; z-index: 20000; font-weight: 700; text-decoration: none; transition: top 0.2s; }
+        .skip-link:focus { top: calc(var(--safe-t) + 10px); }
+        svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+        /* ---------- Header ---------- */
+        .site-header { position: sticky; top: 0; z-index: 100; padding-top: var(--safe-t); background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); border-bottom: 1px solid var(--line); }
+        .header-row { display: flex; align-items: center; gap: 12px; height: 64px; }
+        .icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; cursor: pointer; text-decoration: none; flex: none; transition: transform 0.15s; }
+        .icon-btn:active { transform: scale(0.92); }
+        .head-text { flex: 1; min-width: 0; }
+        .head-text .eyebrow { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.2; }
+        .head-text .title { font-size: 18px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.25; }
+
+        /* ---------- Hero ---------- */
+        .hero { margin-top: 18px; position: relative; overflow: hidden; border-radius: 28px; padding: 24px 22px 22px; color: #fff; background: linear-gradient(135deg, #1B3A93 0%, #3558E0 52%, #6A58D6 100%); box-shadow: 0 18px 40px rgba(53, 88, 224, 0.28); }
+        :root[data-theme="dark"] .hero { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero { background: linear-gradient(135deg, #17264F 0%, #243B93 55%, #43388F 100%); box-shadow: 0 18px 40px rgba(0,0,0,0.35); } }
+        .hero::before { content: ""; position: absolute; width: 280px; height: 280px; right: -90px; top: -100px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 70%); pointer-events: none; }
+        .hero::after { content: ""; position: absolute; width: 200px; height: 200px; left: -70px; bottom: -110px; border-radius: 50%; background: radial-gradient(circle, rgba(245,158,11,0.35), transparent 70%); pointer-events: none; }
+        .hero > * { position: relative; z-index: 1; }
+        .hero .tag { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 0.6px; background: rgba(255,255,255,0.18); padding: 4px 10px; border-radius: 999px; }
+        .hero h1 { font-size: 25px; font-weight: 800; letter-spacing: -0.3px; line-height: 1.25; margin-top: 12px; }
+        .hero .or { display: block; font-size: 17px; font-weight: 700; opacity: 0.95; margin-top: 2px; }
+        .hero p.lead { margin-top: 8px; font-size: 14.5px; opacity: 0.92; max-width: 580px; }
+        .hero-cols { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+        .hero-cols span { font-size: 12.5px; font-weight: 700; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.22); padding: 5px 11px; border-radius: 999px; }
+
+                .act { flex: 1 1 0; padding: 0 10px; white-space: nowrap; }
+        @media (min-width: 700px) { .actions { flex: none; } .actions .act { flex: none; padding: 0 16px; } }
+        .act { min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--surface); font-size: 14.5px; font-weight: 700; cursor: pointer; text-decoration: none; }
+        .act svg.i { width: 18px; height: 18px; }
+        .act:active { transform: scale(0.96); }
+        
+        .act.main { background: var(--primary); border-color: var(--primary); color: #fff; }
+        :root[data-theme="dark"] .act.main { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .act.main { color: #0E1220; } }
+
+        .soon-card { margin-top: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); padding: 22px 18px; }
+        .soon-card h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.2px; line-height: 1.3; }
+        .soon-card > p { color: var(--muted); font-size: 14.5px; margin-top: 6px; }
+        .soon-list { list-style: none; display: grid; gap: 12px; margin-top: 14px; }
+        .soon-list li { display: flex; gap: 12px; align-items: flex-start; }
+        .soon-list .dot { flex: none; width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); font-weight: 800; font-size: 15px; }
+        .soon-list b { display: block; font-size: 15px; line-height: 1.35; }
+        .soon-list span { font-size: 13.5px; color: var(--muted); }
+        .go { display: grid; gap: 10px; margin-top: 14px; }
+        @media (min-width: 700px) { .go { grid-template-columns: repeat(3, 1fr); } }
+        .go .act { justify-content: flex-start; padding: 0 16px; min-height: 52px; }
+        .hero .big-ico { width: 62px; height: 62px; border-radius: 20px; display: grid; place-items: center; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.25); margin-bottom: 12px; }
+        .hero .big-ico svg.i { width: 32px; height: 32px; }
+
+        .site-footer { margin-top: 44px; border-top: 1px solid var(--line); background: var(--surface); padding: 26px 0 calc(26px + var(--safe-b)); font-size: 13px; color: var(--muted); }
+        .site-footer .links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-bottom: 10px; }
+        .site-footer .links a { padding: 6px 0; color: var(--text); text-decoration: none; font-size: 14px; }
+        .site-footer .links a:hover { color: var(--primary); text-decoration: underline; }
+
+                @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    </style>
+<!-- Google Analytics 4: Measurement ID is set below. -->
+<script>
+(function () {
+  var GA_ID = "G-8JSQ2TWTM6";
+  if (!/^G-[A-Z0-9]{8,}$/.test(GA_ID) || GA_ID === "G-XXXXXXXXXX") return;
+  if (navigator.doNotTrack === "1") return;
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag("js", new Date());
+  gtag("config", GA_ID, { anonymize_ip: true, allow_google_signals: false, allow_ad_personalization_signals: false });
+  var s = document.createElement("script"); s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+  document.head.appendChild(s);
+})();
+</script>
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+            <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+            <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+            <symbol id="i-study" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z"/></symbol>
+        </defs>
+    </svg>
+
+    <header class="site-header">
+        <div class="wrap header-row">
+            <a href="./" class="icon-btn" aria-label="Back to home"><svg class="i"><use href="#i-back"/></svg></a>
+            <div class="head-text">
+                <div class="eyebrow">Teaching tools</div>
+                <div class="title">Study Notes</div>
+            </div>
+            <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark mode"><svg class="i"><use href="#i-moon"/></svg></button>
+        </div>
+    </header>
+
+    <main class="wrap" id="main">
+        <section class="hero" aria-labelledby="pageTitle">
+            <span class="big-ico" aria-hidden="true"><svg class="i"><use href="#i-study"/></svg></span>
+            <span class="tag">COMING SOON</span>
+            <h1 id="pageTitle">Study Notes <span class="or" lang="or">ପାଠ ସାରାଂଶ</span></h1>
+            <p class="lead">We are getting the study notes ready. Chapter summaries, key points and questions with answers will be here soon.</p>
+        </section>
+
+        <section class="soon-card" aria-label="What is coming">
+            <h2>What is coming</h2>
+            <ul class="soon-list">
+                <li><span class="dot">1</span><div><b>Chapter summaries</b><span>Short, easy notes for every chapter.</span></div></li>
+                <li><span class="dot">2</span><div><b>Key points</b><span>The main ideas to revise before class or exams.</span></div></li>
+                <li><span class="dot">3</span><div><b>Questions and answers</b><span>Practice questions with clear answers.</span></div></li>
+            </ul>
+        </section>
+
+        <section class="soon-card" aria-label="Meanwhile">
+            <h2>Meanwhile, try these</h2>
+            <p>Everything below is ready to use today.</p>
+            <div class="go">
+                <a class="act main" href="odisha-lesson-plan.html">Make a lesson plan</a>
+                <a class="act" href="odisha-text-books.html">Odia text books</a>
+                <a class="act" href="odisha-annual-plan.html">Annual plan</a>
+            </div>
+        </section>
+
+        <section class="soon-card" aria-label="Suggest">
+            <h2>Want a topic first?</h2>
+            <p>Tell us which class or subject you need notes for, and we will start there.</p>
+            <div class="go"><a class="act" href="contact.html">Contact us</a></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <div class="links">
+                <a href="./">Home</a>
+                <a href="about.html">About</a>
+                <a href="privacy-policy.html">Privacy</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p>Independent portal, not affiliated with the Government of Odisha, SCERT or OSEPA.</p>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        var btn = document.getElementById('themeBtn'), meta = document.getElementById('themeColorMeta');
+        function isDark() { var t = document.documentElement.getAttribute('data-theme'); if (t) return t === 'dark'; return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches); }
+        function sync() { meta.setAttribute('content', isDark() ? '#0E1220' : '#F3F5FA'); btn.setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode'); }
+        btn.addEventListener('click', function () { var n = isDark() ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); try { localStorage.setItem('ss_theme', n); } catch (e) {} sync(); });
+        sync();
+    })();
+    </script>
+</body>
+</html>
