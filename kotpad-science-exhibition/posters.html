@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exhibition Posters & Wall Placards — Kotpad Science Exhibition 2026–27</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #ea580c;
+      --primary-dark: #c2410c;
+      --primary-light: #fff7ed;
+      --accent: #f97316;
+      --ink: #0f172a;
+      --ink-muted: #475569;
+      --border: #fed7aa;
+      --border-dark: #fdba74;
+      --bg: #f8fafc;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    /* ================= SCREEN-ONLY CONTROLS ================= */
+    .screen-header {
+      background: #1e1b18;
+      color: #ffffff;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    .header-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand-title-wrap h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 0;
+      color: #ffedd5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title-wrap p {
+      margin: 2px 0 0;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      border: none;
+    }
+
+    .btn-print {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.4);
+    }
+
+    .btn-print:hover {
+      background: linear-gradient(135deg, #ea580c, #c2410c);
+      transform: translateY(-1px);
+    }
+
+    .btn-nav {
+      background: #332d27;
+      color: #f1f5f9;
+      border: 1px solid #4a4037;
+    }
+
+    .btn-nav:hover {
+      background: #443c33;
+    }
+
+    .filter-bar {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 20px;
+    }
+
+    .filter-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .view-tabs {
+      display: inline-flex;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 9px;
+      gap: 4px;
+    }
+
+    .view-tab-btn {
+      padding: 7px 14px;
+      border-radius: 7px;
+      border: none;
+      background: transparent;
+      color: #475569;
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .view-tab-btn.active {
+      background: #ffffff;
+      color: #c2410c;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .filter-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .select-theme, .search-input {
+      padding: 7px 11px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-family: inherit;
+      font-size: 0.84rem;
+      background: #ffffff;
+    }
+
+    .select-theme {
+      max-width: 320px;
+    }
+
+    .status-chip {
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: #ffedd5;
+      color: #9a3412;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid #fed7aa;
+    }
+
+    /* Instructions Box (Screen Only) */
+    .print-tip-box {
+      max-width: 1240px;
+      margin: 16px auto 0;
+      padding: 12px 18px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      color: #1e40af;
+      font-size: 0.86rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .posters-container {
+      max-width: 1240px;
+      margin: 20px auto 40px;
+      padding: 0 16px;
+    }
+
+    /* ================= A4 PROJECT WALL PLACARD (LANDSCAPE) ================= */
+    .a4-placard-sheet {
+      width: 297mm;
+      min-height: 210mm;
+      max-height: 210mm;
+      margin: 0 auto 30px;
+      background: #ffffff;
+      padding: 8mm 10mm;
+      border: 1.5px solid #e2e8f0;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-after: always;
+      break-after: page;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .placard-inner-border {
+      border: 3.5px solid #ea580c;
+      border-radius: 12px;
+      padding: 14px 18px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      background: #ffffff;
+      box-sizing: border-box;
+    }
+
+    /* Corner accents */
+    .placard-inner-border::before,
+    .placard-inner-border::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border: 3px solid #c2410c;
+    }
+    .placard-inner-border::before {
+      top: -6px;
+      left: -6px;
+      border-right: none;
+      border-bottom: none;
+    }
+    .placard-inner-border::after {
+      bottom: -6px;
+      right: -6px;
+      border-left: none;
+      border-top: none;
+    }
+
+    /* Landscape Top Header: Sub-Theme Info (Left) + Stall Badge (Right) */
+    .placard-top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 2px solid #ea580c;
+      border-radius: 10px;
+      padding: 9px 16px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .theme-info-box {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .theme-category-kicker {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #c2410c;
+      margin-bottom: 2px;
+    }
+
+    .theme-name-main {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #1f1209;
+      line-height: 1.2;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .theme-name-odia {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #7c2d12;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .placard-stall-badge {
+      background: #1e1b18;
+      color: #ffffff;
+      border: 2px solid #ea580c;
+      border-radius: 10px;
+      padding: 6px 18px;
+      text-align: center;
+      min-width: 140px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stall-badge-kicker {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #fdba74;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stall-badge-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .stall-badge-room {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #cbd5e1;
+      letter-spacing: 0.04em;
+    }
+
+    /* Landscape Main Body: 2 Balanced Columns */
+    .placard-landscape-body {
+      flex-grow: 1;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+      margin-bottom: 10px;
+      min-height: 0;
+    }
+
+    /* Left Column: Exhibit Title & School */
+    .placard-col-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .placard-project-box {
+      background: #fafaf9;
+      border: 2.5px solid #cbd5e1;
+      border-left: 10px solid #ea580c;
+      border-radius: 12px;
+      padding: 24px 28px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-bottom: 0;
+    }
+
+    .project-kicker {
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #ea580c;
+      margin-bottom: 8px;
+    }
+
+    .project-title-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1.2;
+      margin: 0;
+      word-break: break-word;
+    }
+
+    .placard-school-bar {
+      background: #f1f5f9;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 0;
+    }
+
+    .school-kicker {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+      margin-bottom: 3px;
+    }
+
+    .school-name-h {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    .school-meta-text {
+      font-size: 12.5px;
+      color: #475569;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+    /* Right Column: Presenter (with Integrated Photo) + Guide Teacher */
+    .placard-col-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .person-card {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 18px;
+      background: #ffffff;
+      box-sizing: border-box;
+    }
+
+    .person-card.presenter-card {
+      border-color: #fdba74;
+      background: #fffaf5;
+      flex: 1.35;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .presenter-card-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .person-card.teacher-card {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+      flex: 0.9;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .person-role-tag {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #c2410c;
+      margin-bottom: 3px;
+    }
+
+    .person-role-tag.teacher-tag {
+      color: #1e40af;
+    }
+
+    .person-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .person-sub-meta {
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      margin-top: 3px;
+    }
+
+    .teacher-phone-highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 19px;
+      font-weight: 800;
+      color: #047857;
+      background: #ecfdf5;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1.5px solid #a7f3d0;
+      width: fit-content;
+    }
+
+    .helper-footnote {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #7c2d12;
+      background: #ffedd5;
+      padding: 5px 9px;
+      border-radius: 6px;
+      margin-top: 6px;
+      line-height: 1.25;
+      width: fit-content;
+    }
+
+    /* Photo Frame - Dedicated Passport Portrait Box */
+    .photo-display-frame {
+      border: 2px solid #fdba74;
+      border-radius: 10px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 3px;
+      height: 185px;
+      box-sizing: border-box;
+      width: 145px;
+      max-width: 145px;
+      flex-shrink: 0;
+    }
+
+    .photo-display-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain !important;
+      object-position: center;
+      border-radius: 6px;
+      background: #ffffff;
+    }
+
+    .photo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      height: 100%;
+      padding: 10px;
+    }
+
+    .photo-placeholder svg {
+      width: 44px;
+      height: 44px;
+      margin-bottom: 6px;
+      stroke: #cbd5e1;
+    }
+
+    .photo-placeholder-caption {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #64748b;
+    }
+
+    /* Placard Bottom Verification Footer */
+    .placard-footer {
+      border-top: 1.5px solid #fed7aa;
+      padding-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .footer-ref {
+      font-family: 'JetBrains Mono', monospace;
+      color: #c2410c;
+      font-weight: 700;
+    }
+
+    /* ================= ROOM / THEME DOOR POSTER ================= */
+    .room-door-poster {
+      width: 297mm;
+      min-height: 210mm;
+      margin: 0 auto 30px;
+      background: #ffffff;
+      padding: 8mm 10mm;
+      border: 1.5px solid #e2e8f0;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-after: always;
+      break-after: page;
+      box-sizing: border-box;
+    }
+
+    .room-door-border {
+      border: 3px solid #1e293b;
+      border-radius: 12px;
+      padding: 12px 16px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
+
+    .room-door-header {
+      background: #1e293b;
+      color: #ffffff;
+      border-radius: 8px;
+      padding: 10px 16px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .room-door-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #f97316;
+      color: #ffffff;
+      padding: 2px 10px;
+      border-radius: 999px;
+      margin-bottom: 3px;
+    }
+
+    .room-door-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0;
+      color: #ffffff;
+    }
+
+    .room-door-odia {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fed7aa;
+      margin-top: 2px;
+    }
+
+    .room-door-sub-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      color: #cbd5e1;
+      margin-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 4px;
+    }
+
+    .room-roster-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .room-roster-table th {
+      background: #f1f5f9;
+      color: #1e293b;
+      font-weight: 800;
+      text-align: left;
+      padding: 6px 8px;
+      border: 1px solid #cbd5e1;
+      text-transform: uppercase;
+      font-size: 10.5px;
+    }
+
+    .room-roster-table td {
+      padding: 6px 8px;
+      border: 1px solid #cbd5e1;
+      vertical-align: middle;
+    }
+
+    .room-roster-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .roster-photo-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      object-fit: contain;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .roster-no-photo {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      border: 1px dashed #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-align: center;
+      line-height: 1.1;
+      margin: 0 auto;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #64748b;
+    }
+
+    /* ================= PRINT RULES (A4 LANDSCAPE) ================= */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+
+      .screen-header,
+      .filter-bar,
+      .print-tip-box,
+      .screen-only {
+        display: none !important;
+      }
+
+      .posters-container {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .a4-placard-sheet {
+        width: 100% !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        overflow: hidden !important;
+      }
+
+      .room-door-poster {
+        width: 100% !important;
+        min-height: 100vh !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+
+      .placard-inner-border {
+        height: 98vh !important;
+        max-height: 98vh !important;
+        box-sizing: border-box !important;
+        padding: 12px 18px !important;
+      }
+
+      .room-door-border {
+        min-height: 96vh !important;
+        box-sizing: border-box !important;
+      }
+
+      .placard-top-header {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 10px !important;
+        padding: 8px 14px !important;
+      }
+
+      .placard-landscape-body {
+        display: grid !important;
+        grid-template-columns: 1.15fr 1fr !important;
+        gap: 14px !important;
+        align-items: stretch !important;
+        flex-grow: 1 !important;
+        margin-bottom: 8px !important;
+        min-height: 0 !important;
+      }
+
+      .placard-col-left {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        gap: 10px !important;
+        min-height: 0 !important;
+      }
+
+      .placard-col-right {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        gap: 10px !important;
+        min-height: 0 !important;
+      }
+
+      .person-card.presenter-card {
+        flex: 1.35 !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 14px !important;
+      }
+
+      .presenter-card-details {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        min-width: 0 !important;
+      }
+
+      .person-card.teacher-card {
+        flex: 0.9 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+      }
+
+      .photo-display-frame {
+        width: 145px !important;
+        max-width: 145px !important;
+        height: 185px !important;
+        margin: 0 !important;
+        padding: 3px !important;
+        background: #ffffff !important;
+        border: 2px solid #fdba74 !important;
+        border-radius: 8px !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: hidden !important;
+        flex-shrink: 0 !important;
+      }
+
+      .photo-display-frame img {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 180px !important;
+        object-fit: contain !important;
+        object-position: center !important;
+        background: #ffffff !important;
+      }
+
+      @page {
+        size: A4 landscape;
+        margin: 7mm;
+      }
+    }
+
+    @media screen and (max-width: 1180px) {
+      .a4-placard-sheet,
+      .room-door-poster {
+        width: 100%;
+        min-height: auto;
+        max-height: none;
+        padding: 14px;
+      }
+      .placard-inner-border {
+        height: auto;
+      }
+      .placard-top-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .placard-stall-badge {
+        width: 100%;
+        margin-top: 6px;
+      }
+      .placard-landscape-body {
+        grid-template-columns: 1fr;
+      }
+      .placard-col-right {
+        grid-template-columns: 1fr;
+      }
+      .photo-display-frame {
+        width: 185px;
+        max-width: 185px;
+        height: 230px;
+        margin: 8px auto 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCREEN-ONLY HEADER -->
+  <header class="screen-header screen-only">
+    <div class="header-inner">
+      <div class="brand-title-wrap">
+        <h1>
+          <span>🖼️</span> Kotpad Science Exhibition 2026–27 — Printable Posters
+        </h1>
+        <p>A4 Project Wall Placards &amp; Room Door Posters • Govt. High School, Kotpad • Date: 25.11.2026</p>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-print" id="btnPrintTop">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Print Now (A4 Landscape)
+        </button>
+        <a href="admin.html" class="btn btn-nav">← Coordinator Admin</a>
+        <a href="index.html" class="btn btn-nav">Registration Portal</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- SCREEN-ONLY FILTER BAR -->
+  <div class="filter-bar screen-only">
+    <div class="filter-inner">
+      <div class="view-tabs" role="tablist">
+        <button type="button" class="view-tab-btn active" data-view="placards">
+          📄 Single A4 Wall Placards (<span id="countPlacards">0</span>)
+        </button>
+        <button type="button" class="view-tab-btn" data-view="rooms">
+          🚪 Room Door Posters by Theme (7 Rooms)
+        </button>
+      </div>
+
+      <div class="filter-controls">
+        <select id="themeFilter" class="select-theme" aria-label="Filter by Sub-Theme">
+          <option value="">All 7 Sub-Themes</option>
+          <option value="Sub-Theme 1: Artificial Intelligence (AI) for Better Life">1. Artificial Intelligence (AI) for Better Life</option>
+          <option value="Sub-Theme 2: Green Energy & Environmental Conservation">2. Green Energy &amp; Environmental Conservation</option>
+          <option value="Sub-Theme 3: Mathematical Modelling and Computational Thinking">3. Mathematical Modelling and Computational Thinking</option>
+          <option value="Sub-Theme 4: Health, Hygiene and Sanitation">4. Health, Hygiene and Sanitation</option>
+          <option value="Sub-Theme 5: Indigenous Agricultural Practices">5. Indigenous Agricultural Practices</option>
+          <option value="Sub-Theme 6: Science and Rural Transformation">6. Science and Rural Transformation</option>
+          <option value="Sub-Theme 7: Disaster Management">7. Disaster Management</option>
+        </select>
+
+        <input type="search" id="searchInput" class="search-input" placeholder="Search school, student, teacher, project..." aria-label="Search posters" />
+
+        <span class="status-chip" id="dataStatusChip">Fetching live data...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN-ONLY PRINT TIP -->
+  <div class="print-tip-box screen-only">
+    <div>
+      💡 <strong>Printing Tip:</strong> In your browser print preview, choose <strong>Destination: Save as PDF / Printer</strong>, <strong>Paper size: A4</strong>, <strong>Layout: Landscape</strong>, <strong>Margins: Default (or None)</strong>, and enable <strong>"Background graphics"</strong> so colors and borders print vividly!
+    </div>
+    <button type="button" class="btn btn-print" id="btnPrintTip" style="padding:5px 12px; font-size:0.8rem;">Print</button>
+  </div>
+
+  <!-- POSTERS OUTPUT CONTAINER -->
+  <main class="posters-container" id="postersContainer">
+    <div class="empty-state">
+      <h3>Loading exhibition project posters from Firebase...</h3>
+      <p>Please wait while project details and participant photos are being assembled.</p>
+    </div>
+  </main>
+
+  <!-- FIREBASE MODULAR SDK + APPLICATION SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAgQVEDj0rRZvO5uPKI0uNh18oo1LYtjqk",
+      authDomain: "hostel-b5004.firebaseapp.com",
+      projectId: "hostel-b5004",
+      storageBucket: "hostel-b5004.firebasestorage.app",
+      messagingSenderId: "530068839296",
+      appId: "1:530068839296:web:9b631cd781a4d19ed43f65"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const COLLECTION_NAME = "kotpad_exhibition_2026";
+
+    const THEMES = [
+      {
+        num: 1,
+        key: "Sub-Theme 1: Artificial Intelligence (AI) for Better Life",
+        titleEn: "Artificial Intelligence (AI) for Better Life",
+        titleOr: "ଉନ୍ନତ ଜୀବନ ପାଇଁ କୃତ୍ରିମ ବୁଦ୍ଧିମତ୍ତା (AI)",
+        roomLabel: "ROOM 01"
+      },
+      {
+        num: 2,
+        key: "Sub-Theme 2: Green Energy & Environmental Conservation",
+        titleEn: "Green Energy & Environmental Conservation",
+        titleOr: "ସବୁଜ ଶକ୍ତି ଏବଂ ପରିବେଶ ସଂରକ୍ଷଣ",
+        roomLabel: "ROOM 02"
+      },
+      {
+        num: 3,
+        key: "Sub-Theme 3: Mathematical Modelling and Computational Thinking",
+        titleEn: "Mathematical Modelling & Computational Thinking",
+        titleOr: "ଗାଣିତିକ ମଡେଲିଂ ଏବଂ କମ୍ପ୍ୟୁଟେସନାଲ୍ ଚିନ୍ତାଧାରା",
+        roomLabel: "ROOM 03"
+      },
+      {
+        num: 4,
+        key: "Sub-Theme 4: Health, Hygiene and Sanitation",
+        titleEn: "Health, Hygiene and Sanitation",
+        titleOr: "ସ୍ୱାସ୍ଥ୍ୟ, ସ୍ୱଚ୍ଛତା ଏବଂ ପରିମଳ",
+        roomLabel: "ROOM 04"
+      },
+      {
+        num: 5,
+        key: "Sub-Theme 5: Indigenous Agricultural Practices",
+        titleEn: "Indigenous Agricultural Practices",
+        titleOr: "ପାରମ୍ପରିକ ଓ ଦେଶୀ କୃଷି ପ୍ରଣାଳୀ",
+        roomLabel: "ROOM 05"
+      },
+      {
+        num: 6,
+        key: "Sub-Theme 6: Science and Rural Transformation",
+        titleEn: "Science and Rural Transformation",
+        titleOr: "ବିଜ୍ଞାନ ଏବଂ ଗ୍ରାମୀଣ ରୂପାନ୍ତରଣ",
+        roomLabel: "ROOM 06"
+      },
+      {
+        num: 7,
+        key: "Sub-Theme 7: Disaster Management",
+        titleEn: "Disaster Management",
+        titleOr: "ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା",
+        roomLabel: "ROOM 07"
+      }
+    ];
+
+    const postersContainer = document.getElementById("postersContainer");
+    const countPlacards = document.getElementById("countPlacards");
+    const themeFilter = document.getElementById("themeFilter");
+    const searchInput = document.getElementById("searchInput");
+    const dataStatusChip = document.getElementById("dataStatusChip");
+    const viewTabs = document.querySelectorAll(".view-tab-btn");
+
+    let currentView = "placards"; // "placards" | "rooms"
+    let allRegistrations = [];
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function getThemeInfo(themeString) {
+      if (!themeString) return { num: 1, titleEn: "General Science", titleOr: "ସାଧାରଣ ବିଜ୍ଞାନ", roomLabel: "ROOM 01" };
+      const found = THEMES.find((t) => themeString.includes(`Sub-Theme ${t.num}:`) || themeString.includes(t.titleEn));
+      if (found) return found;
+      return { num: 1, titleEn: themeString, titleOr: "ବିଜ୍ଞାନ ପ୍ରକଳ୍ପ", roomLabel: "EXHIBIT ROOM" };
+    }
+
+    function getNormalizedProjects(row) {
+      if (row && Array.isArray(row.projects) && row.projects.length > 0) {
+        return row.projects.map((p, idx) => ({
+          slot: idx + 1,
+          theme: p.theme || "",
+          projectTitle: p.projectTitle || "",
+          s1Name: p.s1Name || "",
+          s1Class: p.s1Class || "",
+          s1Gender: p.s1Gender || "",
+          s1PhotoName: p.s1PhotoName || "",
+          s1PhotoUrl: p.s1PhotoUrl || "",
+          s1PhotoInline: p.s1PhotoInline || p.s1PhotoData || ""
+        }));
+      }
+      return [{
+        slot: 1,
+        theme: row.theme || "",
+        projectTitle: row.projectTitle || "",
+        s1Name: row.s1Name || "",
+        s1Class: row.s1Class || "",
+        s1Gender: row.s1Gender || "",
+        s1PhotoName: row.s1PhotoName || "",
+        s1PhotoUrl: row.s1PhotoUrl || "",
+        s1PhotoInline: row.s1PhotoInline || row.s1PhotoData || ""
+      }];
+    }
+
+    function flattenAllProjects(rawRegistrations) {
+      const rawList = [];
+
+      rawRegistrations.forEach((school) => {
+        const projs = getNormalizedProjects(school);
+        projs.forEach((p, pIdx) => {
+          const themeInfo = getThemeInfo(p.theme);
+          const photoSrc = p.s1PhotoInline || p.s1PhotoUrl || "";
+          rawList.push({
+            schoolName: school.schoolName || "Government School",
+            udiseCode: school.udiseCode || "—",
+            cluster: school.cluster || school.clusterName || "KOTPAD",
+            teacherName: school.teacherName || "Guide Teacher",
+            teacherPhone: school.teacherPhone || "—",
+            ref: school.ref || `KTP-SCI-${school.udiseCode}`,
+            projectSlot: p.slot || pIdx + 1,
+            totalSchoolProjects: projs.length,
+            theme: p.theme,
+            themeInfo,
+            projectTitle: p.projectTitle || "Science Project",
+            studentName: p.s1Name || "Student Presenter",
+            studentClass: p.s1Class || "Class VI–XII",
+            studentGender: p.s1Gender || "Participant",
+            photoSrc,
+            photoName: p.s1PhotoName || ""
+          });
+        });
+      });
+
+      // Sort projects by Room / Sub-Theme (Room 01 to Room 07), then alphabetically by school name
+      rawList.sort((a, b) => {
+        if (a.themeInfo.num !== b.themeInfo.num) {
+          return a.themeInfo.num - b.themeInfo.num;
+        }
+        return a.schoolName.localeCompare(b.schoolName);
+      });
+
+      // Assign Per-Theme Stall Numbers (STALL #01, STALL #02... per theme/room)
+      const themeStallCounters = {};
+      const flatList = rawList.map((item) => {
+        const tNum = item.themeInfo.num;
+        themeStallCounters[tNum] = (themeStallCounters[tNum] || 0) + 1;
+        const stallIndex = themeStallCounters[tNum];
+        const stallPadded = String(stallIndex).padStart(2, "0");
+        return {
+          ...item,
+          themeStallIndex: stallIndex,
+          stallPadded,
+          deskNo: `STALL #${stallPadded}`,
+          roomStallBadge: `${item.themeInfo.roomLabel} • STALL #${stallPadded}`
+        };
+      });
+
+      return flatList;
+    }
+
+    function filterProjects(flatList) {
+      const q = (searchInput.value || "").trim().toUpperCase();
+      const themeVal = themeFilter.value;
+
+      return flatList.filter((item) => {
+        if (themeVal && item.theme !== themeVal) return false;
+        if (!q) return true;
+        const hay = [
+          item.schoolName,
+          item.udiseCode,
+          item.cluster,
+          item.teacherName,
+          item.teacherPhone,
+          item.projectTitle,
+          item.studentName,
+          item.studentClass,
+          item.theme,
+          item.deskNo,
+          item.roomStallBadge
+        ].join(" ").toUpperCase();
+        return hay.includes(q);
+      });
+    }
+
+    // ================= RENDER A4 PROJECT WALL PLACARDS (LANDSCAPE) =================
+    function renderA4Placards(items) {
+      if (!items.length) {
+        postersContainer.innerHTML = `
+          <div class="empty-state">
+            <h3>No matching projects found.</h3>
+            <p>Try clearing your search or selecting "All 7 Sub-Themes".</p>
+          </div>
+        `;
+        return;
+      }
+
+      postersContainer.innerHTML = items.map((p) => {
+        const photoHtml = p.photoSrc
+          ? `<img src="${escapeHtml(p.photoSrc)}" alt="Photo of ${escapeHtml(p.studentName)}" />`
+          : `
+            <div class="photo-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span class="photo-placeholder-caption">Passport Photo<br>Space</span>
+            </div>
+          `;
+
+        return `
+          <article class="a4-placard-sheet">
+            <div class="placard-inner-border">
+              <!-- Top Banner: Theme & Stall Number Badge -->
+              <div class="placard-top-header">
+                <div class="theme-info-box">
+                  <div class="theme-category-kicker">${escapeHtml(p.themeInfo.roomLabel)} • OFFICIAL SUB-THEME</div>
+                  <h2 class="theme-name-main">${escapeHtml(p.themeInfo.titleEn)}</h2>
+                  <div class="theme-name-odia">${escapeHtml(p.themeInfo.titleOr)}</div>
+                </div>
+                <div class="placard-stall-badge">
+                  <div class="stall-badge-kicker">EXHIBITION STALL</div>
+                  <div class="stall-badge-num">${escapeHtml(p.deskNo)}</div>
+                  <div class="stall-badge-room">${escapeHtml(p.themeInfo.roomLabel)}</div>
+                </div>
+              </div>
+
+              <!-- Landscape Main Body: 2 Columns (Project/School vs Student/Teacher/Photo) -->
+              <div class="placard-landscape-body">
+                <!-- Left Column: Exhibit Title & School Details -->
+                <div class="placard-col-left">
+                  <div class="placard-project-box">
+                    <div class="project-kicker">EXHIBIT / MODEL TITLE • ପ୍ରକଳ୍ପ ଶୀର୍ଷକ</div>
+                    <h1 class="project-title-text">${escapeHtml(p.projectTitle)}</h1>
+                  </div>
+
+                  <div class="placard-school-bar">
+                    <div class="school-kicker">PARTICIPATING INSTITUTION • ବିଦ୍ୟାଳୟ ବିବରଣୀ</div>
+                    <h3 class="school-name-h">${escapeHtml(p.schoolName)}</h3>
+                    <div class="school-meta-text">
+                      UDISE: <strong>${escapeHtml(p.udiseCode)}</strong> • Cluster: <strong>${escapeHtml(p.cluster)}</strong> • Block: <strong>KOTPAD</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right Column: Student Presenter (with integrated photo) & Teacher -->
+                <div class="placard-col-right">
+                  <!-- Student Presenter Card with integrated photo -->
+                  <div class="person-card presenter-card">
+                    <div class="presenter-card-details">
+                      <div class="person-role-tag">STUDENT PRESENTER • ମୁଖ୍ୟ ଅଂଶଗ୍ରହଣକାରୀ ଛାତ୍ର/ଛାତ୍ରୀ</div>
+                      <div class="person-name">${escapeHtml(p.studentName)}</div>
+                      <div class="person-sub-meta">
+                        Class: <strong>${escapeHtml(p.studentClass)}</strong> • Gender: <strong>${escapeHtml(p.studentGender)}</strong>
+                      </div>
+                      <div class="helper-footnote">
+                        ℹ️ Helper: +1 Student Assistant Permitted
+                      </div>
+                    </div>
+                    <!-- Passport Photo Frame -->
+                    <div class="photo-display-frame">
+                      ${photoHtml}
+                    </div>
+                  </div>
+
+                  <!-- Guide Teacher Card -->
+                  <div class="person-card teacher-card">
+                    <div class="person-role-tag teacher-tag">GUIDE TEACHER / ESCORT • ମାର୍ଗଦର୍ଶକ ଶିକ୍ଷକ / ଶିକ୍ଷୟିତ୍ରୀ</div>
+                    <div class="person-name">${escapeHtml(p.teacherName)}</div>
+                    <div class="teacher-phone-highlight">
+                      📞 ${escapeHtml(p.teacherPhone)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Verification Footer -->
+              <div class="placard-footer">
+                <div>Block Level Science Exhibition 2026–27 (Kotpad) • Govt. High School, Kotpad • Date: 25.11.2026</div>
+                <div class="footer-ref">REF: ${escapeHtml(p.ref)} • ${escapeHtml(p.roomStallBadge)}</div>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    // ================= RENDER ROOM DOOR POSTERS (BY THEME) =================
+    function renderRoomPosters(items) {
+      const themeGroups = THEMES.map((themeObj) => {
+        const matching = items.filter((item) => item.themeInfo.num === themeObj.num);
+        return {
+          ...themeObj,
+          projects: matching
+        };
+      });
+
+      const activeThemeVal = themeFilter.value;
+      const filteredGroups = activeThemeVal
+        ? themeGroups.filter((g) => g.key === activeThemeVal)
+        : themeGroups;
+
+      if (!filteredGroups.some((g) => g.projects.length > 0)) {
+        postersContainer.innerHTML = `
+          <div class="empty-state">
+            <h3>No registered projects for this Room / Theme yet.</h3>
+            <p>Select "All 7 Sub-Themes" to view all theme rooms.</p>
+          </div>
+        `;
+        return;
+      }
+
+      postersContainer.innerHTML = filteredGroups.map((group) => {
+        const rowsHtml = group.projects.length
+          ? group.projects.map((p) => `
+              <tr>
+                <td style="text-align:center; font-weight:900; color:#c2410c; white-space:nowrap;">${escapeHtml(p.deskNo)}</td>
+                <td style="text-align:center;">
+                  ${p.photoSrc
+                    ? `<img src="${escapeHtml(p.photoSrc)}" alt="Photo" class="roster-photo-thumb" />`
+                    : `<div class="roster-no-photo">Photo</div>`
+                  }
+                </td>
+                <td>
+                  <strong style="font-size:13px; color:#0f172a;">${escapeHtml(p.projectTitle)}</strong>
+                  <div style="font-size:11.5px; color:#c2410c; margin-top:2px;">
+                    Presenter: <strong>${escapeHtml(p.studentName)}</strong> (${escapeHtml(p.studentClass)})
+                  </div>
+                </td>
+                <td>
+                  <strong>${escapeHtml(p.schoolName)}</strong>
+                  <div style="font-size:11px; color:#64748b;">Cluster: ${escapeHtml(p.cluster)}</div>
+                </td>
+                <td>
+                  <div><strong>${escapeHtml(p.teacherName)}</strong></div>
+                  <div style="font-family:'JetBrains Mono',monospace; font-weight:700; color:#047857;">📞 ${escapeHtml(p.teacherPhone)}</div>
+                </td>
+              </tr>
+            `).join("")
+          : `<tr><td colspan="5" style="text-align:center; padding:24px; color:#94a3b8; font-weight:600;">No projects currently registered under this Sub-Theme.</td></tr>`;
+
+        return `
+          <article class="room-door-poster">
+            <div class="room-door-border">
+              <!-- Room Header -->
+              <div class="room-door-header">
+                <span class="room-door-badge">${escapeHtml(group.roomLabel)} • ROOM DOOR POSTER</span>
+                <h2 class="room-door-title">${escapeHtml(group.key)}</h2>
+                <div class="room-door-odia">${escapeHtml(group.titleOr)}</div>
+                <div class="room-door-sub-row">
+                  <span>Block Level Science Exhibition 2026–27 • Govt. High School, Kotpad</span>
+                  <span>Date: 25.11.2026</span>
+                  <span>Total Exhibits in this Room: <strong>${group.projects.length}</strong></span>
+                </div>
+              </div>
+
+              <!-- Project Roster Table -->
+              <div style="flex-grow:1;">
+                <table class="room-roster-table">
+                  <thead>
+                    <tr>
+                      <th style="width:78px; text-align:center;">Stall No</th>
+                      <th style="width:50px; text-align:center;">Photo</th>
+                      <th>Project Title &amp; Student Presenter</th>
+                      <th style="width:30%;">School &amp; Cluster</th>
+                      <th style="width:24%;">Guide Teacher &amp; Mobile</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${rowsHtml}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Bottom Footer -->
+              <div class="placard-footer" style="margin-top:12px;">
+                <div>Paste outside <strong>${escapeHtml(group.roomLabel)} Door</strong> for judges, participants &amp; visitors</div>
+                <div class="footer-ref">BEO KOTPAD • ${group.projects.length} PROJECTS REGISTERED</div>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderActiveView() {
+      const flatList = flattenAllProjects(allRegistrations);
+      const filtered = filterProjects(flatList);
+      countPlacards.textContent = String(filtered.length);
+
+      if (currentView === "placards") {
+        renderA4Placards(filtered);
+      } else {
+        renderRoomPosters(filtered);
+      }
+    }
+
+    // View Tabs Switcher
+    viewTabs.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        viewTabs.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentView = btn.dataset.view;
+        renderActiveView();
+      });
+    });
+
+    themeFilter.addEventListener("change", renderActiveView);
+    searchInput.addEventListener("input", renderActiveView);
+
+    // Print Buttons
+    document.getElementById("btnPrintTop").addEventListener("click", () => window.print());
+    document.getElementById("btnPrintTip").addEventListener("click", () => window.print());
+
+    // Fetch Registrations from Firebase Firestore
+    async function loadFirebaseData() {
+      dataStatusChip.textContent = "Connecting to Firebase...";
+      try {
+        const q = query(collection(db, COLLECTION_NAME), orderBy("updatedAtMs", "desc"));
+        const snap = await getDocs(q);
+        const list = snap.docs.map((docSnap) => ({ ...docSnap.data(), _id: docSnap.id }));
+
+        allRegistrations = list;
+        const totalProjects = flattenAllProjects(allRegistrations).length;
+        dataStatusChip.textContent = `✓ ${list.length} Schools • ${totalProjects} Projects Loaded`;
+        dataStatusChip.style.background = "#dcfce7";
+        dataStatusChip.style.color = "#15803d";
+        dataStatusChip.style.borderColor = "#86efac";
+        renderActiveView();
+      } catch (err) {
+        console.warn("Could not load from Firebase:", err);
+        // Fallback to localStorage
+        try {
+          const local = JSON.parse(localStorage.getItem("kotpad_science_rra_2026_registrations")) || [];
+          if (local.length > 0) {
+            allRegistrations = local;
+            dataStatusChip.textContent = `⚠️ Loaded ${local.length} schools from local cache`;
+            renderActiveView();
+            return;
+          }
+        } catch {}
+        dataStatusChip.textContent = "✕ Error loading data (Check internet)";
+        dataStatusChip.style.background = "#fee2e2";
+        dataStatusChip.style.color = "#b91c1c";
+        postersContainer.innerHTML = `
+          <div class="empty-state">
+            <h3 style="color:#b91c1c;">Could not load registrations</h3>
+            <p>${escapeHtml(err.message || "Please check internet and Firebase rules.")}</p>
+          </div>
+        `;
+      }
+    }
+
+    loadFirebaseData();
+  </script>
+</body>
+</html>

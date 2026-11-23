@@ -439,6 +439,7 @@
         <p>Block Level Science Exhibition, 2026–27 (Kotpad) • Govt. High School, Kotpad • Live Firebase Data (`hostel-b5004`)</p>
       </div>
       <div class="topbar-actions">
+        <a href="posters.html" class="btn btn-emerald" target="_blank">🖨️ Wall Placards &amp; Room Posters (A4)</a>
         <a href="index.html" class="btn btn-dark">Open Registration Form</a>
         <button type="button" class="btn btn-primary" id="refreshBtn">Refresh Live Data</button>
       </div>
@@ -463,7 +464,7 @@
       <div class="stat-card">
         <div class="stat-label">Total Projects / Presenters</div>
         <div class="stat-value" id="statStudents">0</div>
-        <div class="stat-sub">Up to 3 themes / projects per school (+1 helper at venue)</div>
+        <div class="stat-sub">Unlimited themes / projects per school (+1 helper at venue)</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Photos Uploaded</div>
@@ -504,6 +505,9 @@
           </p>
         </div>
         <div class="export-buttons">
+          <a href="posters.html" class="btn btn-emerald" target="_blank">
+            🖨️ Print Wall Placards &amp; Room Posters (A4)
+          </a>
           <button type="button" class="btn btn-emerald" id="downloadZipAllBtn">
             Download Excel + Photos Folder (.zip)
           </button>
@@ -837,7 +841,7 @@
 
     function getNormalizedProjects(row) {
       if (row && Array.isArray(row.projects) && row.projects.length > 0) {
-        return row.projects.slice(0, 3).map((p, idx) => ({
+        return row.projects.map((p, idx) => ({
           slot: idx + 1,
           theme: p.theme || "",
           projectTitle: p.projectTitle || "",
