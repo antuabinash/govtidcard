@@ -232,30 +232,41 @@
         .preview-wrapper { background: #fff; color-scheme: light; border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow); overflow-x: auto; margin-bottom: 16px; }
 
         #pdf-preview-content {
-            width: 1123px; /* A4 Landscape width to guarantee flawless HD scaling */
+            width: 1084px; /* Exact A4 Landscape printable width (287mm at 96dpi) */
             background: #fff; color: #000; font-family: 'Inter', 'Noto Sans Oriya', sans-serif;
-            padding: 24px; box-sizing: border-box;
+            padding: 12px 14px; box-sizing: border-box; margin: 0 auto;
         }
-        [contenteditable="true"]:focus { outline: 2px dashed rgba(29, 78, 216, 0.4); outline-offset: 4px; border-radius: 4px; }
+        [contenteditable="true"]:focus { outline: 2px dashed rgba(29, 78, 216, 0.4); outline-offset: 2px; border-radius: 4px; }
 
-        .daily-plan-block { background: #fff; padding: 0 0 40px 0; margin-bottom: 40px; border-bottom: 2px dashed #CBD5E1; }
+        .daily-plan-block { background: #fff; padding: 0 0 18px 0; margin-bottom: 22px; border-bottom: 2px dashed #CBD5E1; box-sizing: border-box; }
         .daily-plan-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
-        .pdf-header { text-align: center; margin-bottom: 14px; border-bottom: 2px solid #0F172A; padding-bottom: 8px; }
-        .pdf-header__title { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #0F172A; margin-bottom: 4px; }
-        .pdf-header__school { font-size: 12px; font-weight: 700; color: #1E3A8A; margin-bottom: 6px; }
-        .pdf-header__meta { display: flex; justify-content: space-between; font-size: 10px; font-weight: 600; color: #334155; }
+        .pdf-header { margin-bottom: 4px; border-bottom: 1.5px solid #0F172A; padding-bottom: 3px; }
+        .pdf-header__top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+        .pdf-header__title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #0F172A; }
+        .pdf-header__school { font-size: 10.5px; font-weight: 700; color: #1E3A8A; }
+        .pdf-header__meta { display: flex; justify-content: space-between; align-items: center; font-size: 9.5px; font-weight: 600; color: #334155; margin-top: 1px; }
 
-        .pdf-table { width: 100%; border-collapse: collapse; font-size: 9px; table-layout: fixed; color: #0F172A; }
+        .pdf-table { width: 100%; border-collapse: collapse; font-size: 7.8px; table-layout: fixed; color: #0F172A; }
         .pdf-table thead { display: table-header-group; }
-        /* Auto-split periods correctly to eliminate massive bottom blank spaces */
-        .pdf-table tbody tr { page-break-inside: auto; break-inside: auto; }
-        .pdf-table td, .pdf-table th { page-break-inside: auto; break-inside: auto; border: 1px solid #334155; padding: 5px 6px; vertical-align: top; line-height: 1.35; word-wrap: break-word; overflow-wrap: break-word; }
-        .pdf-table th { background: #EFF6FF !important; font-weight: 700; font-size: 8.5px; text-align: center; color: #1E3A8A; vertical-align: middle; }
-        .pdf-table td.col-period { text-align: center; font-weight: 800; font-size: 13px; color: #1D4ED8; vertical-align: middle; background: #F0F9FF; }
+        .pdf-table tbody tr { page-break-inside: avoid; break-inside: avoid; }
+        .pdf-table td, .pdf-table th { border: 1px solid #334155; padding: 2.5px 3.5px; vertical-align: top; line-height: 1.2; word-wrap: break-word; overflow-wrap: break-word; }
+        .pdf-table th { background: #EFF6FF !important; font-weight: 700; font-size: 7.6px; text-align: center; color: #1E3A8A; vertical-align: middle; padding: 3px 2px; line-height: 1.15; }
+        .pdf-table td.col-period { text-align: center; font-weight: 800; font-size: 10.5px; color: #1D4ED8; vertical-align: middle; background: #F0F9FF; padding: 2px; }
         .pdf-table tbody tr:nth-child(even) td:not(.col-period) { background: #FAFCFF; }
-        .pdf-text { font-size: 9px; line-height: 1.4; }
-        .pdf-text b { font-size: 9px; font-weight: 700; }
+        .pdf-text { font-size: 7.8px; line-height: 1.2; }
+        .pdf-text b { font-size: 7.8px; font-weight: 700; }
+
+        /* Date Mode Toggle Pills */
+        .date-mode-group { display: inline-flex; background: var(--surface-2); border: 1.5px solid var(--line); border-radius: 12px; padding: 3px; gap: 3px; }
+        .date-mode-btn {
+            border: none; background: transparent; color: var(--muted); font-family: inherit;
+            font-size: 0.8rem; font-weight: 700; padding: 6px 12px; border-radius: 9px;
+            cursor: pointer; transition: background 0.15s, color 0.15s; white-space: nowrap;
+        }
+        .date-mode-btn.is-active { background: var(--primary); color: #fff; }
+        :root[data-theme="dark"] .date-mode-btn.is-active { color: #0E1220; }
+        @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .date-mode-btn.is-active { color: #0E1220; } }
 
         .preview-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 10px; flex-wrap: wrap; }
         .preview-head h2 { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; }
@@ -270,12 +281,27 @@
 
         @media print {
             .no-print, #main-container, .action-bar, .modal-backdrop, .chunk-overlay, .site-header, #toast { display: none !important; }
-            .preview-wrapper { padding: 0; box-shadow: none; border: none; overflow: visible !important; width: 100% !important; }
-            #pdf-preview-content { min-width: 100% !important; width: 100% !important; padding: 0 !important; }
-            /* Physical Paper: Force a clean page break before a new day starts */
-            .daily-plan-block { page-break-after: always; break-after: page; border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-            html, body { background: #fff !important; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            @page { size: A4 landscape; margin: 6mm; }
+            .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            .preview-wrapper { padding: 0 !important; margin: 0 !important; box-shadow: none !important; border: none !important; overflow: visible !important; width: 100% !important; }
+            #pdf-preview-content { min-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            /* Physical Paper: Keep each 6-period block strictly on 1 single A4 landscape page */
+            .daily-plan-block {
+                page-break-after: always !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                border-bottom: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                max-height: 201mm !important;
+                overflow: hidden !important;
+            }
+            .daily-plan-block:last-child {
+                page-break-after: auto !important;
+                break-after: auto !important;
+            }
+            html, body { background: #fff !important; padding: 0 !important; margin: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            @page { size: A4 landscape; margin: 4mm 5mm; }
         }
         @media (max-width: 640px) {
             .assignment-card__grid { grid-template-columns: 1fr; }
@@ -338,8 +364,8 @@
                         <input type="text" id="teacherName" class="field-input" placeholder="e.g. Abinash Mahapatra" autocomplete="name">
                     </div>
                     <div class="field">
-                        <label for="numPeriods">Periods per Day</label>
-                        <input type="number" id="numPeriods" class="field-input" min="1" max="12" value="7" inputmode="numeric">
+                        <label for="numPeriods">Periods per Day (6 fits 1 A4 page)</label>
+                        <input type="number" id="numPeriods" class="field-input" min="1" max="12" value="6" inputmode="numeric">
                     </div>
                 </div>
             </div>
@@ -361,9 +387,18 @@
                     </button>
                 </div>
                 <hr class="workspace-bar__divider">
-                <div class="field">
-                    <label for="planDate">Start Date</label>
-                    <input type="date" id="planDate" class="field-input" onchange="savePlanToStorage()" style="max-width:240px;">
+                <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:14px; justify-content:space-between;">
+                    <div class="field">
+                        <label>Date Print Option</label>
+                        <div class="date-mode-group" role="group" aria-label="Date print option">
+                            <button type="button" class="date-mode-btn is-active" data-date-mode="with" onclick="setDateMode('with')">📅 Print With Dates</button>
+                            <button type="button" class="date-mode-btn" data-date-mode="without" onclick="setDateMode('without')">📝 Print Without Dates</button>
+                        </div>
+                    </div>
+                    <div class="field" id="workspace-date-field" style="flex:1; min-width:180px; max-width:240px;">
+                        <label for="planDate">Start Date</label>
+                        <input type="date" id="planDate" class="field-input" onchange="savePlanToStorage()">
+                    </div>
                 </div>
             </div>
 
@@ -378,7 +413,11 @@
     <!-- PREVIEW AREA -->
     <div class="container hidden" id="preview-area" hidden>
         <div class="preview-head no-print">
-            <h2>📄 Print Preview <small>(Tap text to edit)</small></h2>
+            <h2>📄 Print Preview <small>(6 Periods / A4 Landscape • Tap text to edit)</small></h2>
+            <div class="date-mode-group" role="group" aria-label="Toggle dates in preview">
+                <button type="button" class="date-mode-btn is-active" data-date-mode="with" onclick="setDateMode('with', true)">📅 With Dates</button>
+                <button type="button" class="date-mode-btn" data-date-mode="without" onclick="setDateMode('without', true)">📝 Without Dates</button>
+            </div>
         </div>
         <div class="preview-wrapper">
             <div id="pdf-preview-content" role="document"></div>
@@ -421,7 +460,7 @@
             <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
                 <div class="field"><label for="modalSchoolName">School Name</label><input type="text" id="modalSchoolName" class="field-input"></div>
                 <div class="field"><label for="modalTeacherName">Teacher Name</label><input type="text" id="modalTeacherName" class="field-input"></div>
-                <div class="field"><label for="modalNumPeriods">Periods per Day</label><input type="number" id="modalNumPeriods" class="field-input" min="1" max="12" inputmode="numeric"></div>
+                <div class="field"><label for="modalNumPeriods">Periods per Day (6 fits 1 A4 page)</label><input type="number" id="modalNumPeriods" class="field-input" min="1" max="12" inputmode="numeric"></div>
             </div>
             <button class="btn btn--primary btn--full" onclick="saveUpdatedProfile()">Save Settings</button>
         </div>
@@ -438,23 +477,32 @@
             </div>
             <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
                 <div class="field">
+                    <label>Date Print Option</label>
+                    <div class="date-mode-group" role="group" aria-label="Weekly date option" style="width:100%;">
+                        <button type="button" class="date-mode-btn is-active" style="flex:1;" data-date-mode="with" onclick="setDateMode('with')">📅 With Dates</button>
+                        <button type="button" class="date-mode-btn" style="flex:1;" data-date-mode="without" onclick="setDateMode('without')">📝 Without Dates</button>
+                    </div>
+                </div>
+                <div class="field" id="weekly-date-options-start">
                     <label for="weeklyStartDate">Start Date</label>
                     <input type="date" id="weeklyStartDate" class="field-input">
                 </div>
                 <div class="field">
                     <label for="weeklyNumDays">Days to Generate</label>
-                    <input type="number" id="weeklyNumDays" class="field-input" min="1" max="30" value="7" inputmode="numeric">
+                    <input type="number" id="weeklyNumDays" class="field-input" min="1" max="30" value="6" inputmode="numeric">
                 </div>
-                <div class="field" style="flex-direction: row; align-items: center; gap: 10px;">
-                    <input type="checkbox" id="excludeSundays" checked style="width:20px;height:20px;accent-color:var(--primary);">
-                    <label for="excludeSundays" style="font-size: 0.95rem; text-transform:none; letter-spacing:0; color:var(--text); font-weight:600;">Exclude Sundays automatically</label>
-                </div>
-                <div class="field">
-                    <label>Exclude Specific Dates (Holidays)</label>
-                    <div id="holiday-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom: 8px;">
-                        <!-- dynamic holiday inputs go here -->
+                <div id="weekly-date-options-extra" style="display:flex;flex-direction:column;gap:14px;">
+                    <div class="field" style="flex-direction: row; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="excludeSundays" checked style="width:20px;height:20px;accent-color:var(--primary);">
+                        <label for="excludeSundays" style="font-size: 0.95rem; text-transform:none; letter-spacing:0; color:var(--text); font-weight:600;">Exclude Sundays automatically</label>
                     </div>
-                    <button class="btn--dashed" onclick="addHolidayField()">+ Add Holiday Date</button>
+                    <div class="field">
+                        <label>Exclude Specific Dates (Holidays)</label>
+                        <div id="holiday-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom: 8px;">
+                            <!-- dynamic holiday inputs go here -->
+                        </div>
+                        <button class="btn--dashed" onclick="addHolidayField()">+ Add Holiday Date</button>
+                    </div>
                 </div>
             </div>
             <button class="btn btn--success btn--full" onclick="generateWeeklyPlan()">🚀 Generate Weekly Plan</button>
@@ -483,7 +531,33 @@
         let indexDb = {};
         let classList = [];
         let currentPeriodIndex = 1;
-        let totalPeriods = 7;
+        let totalPeriods = 6;
+        let dateMode = 'with'; // 'with' | 'without'
+
+        function setDateMode(mode, fromPreview = false) {
+            dateMode = (mode === 'without') ? 'without' : 'with';
+            document.querySelectorAll('.date-mode-btn').forEach(btn => {
+                btn.classList.toggle('is-active', btn.dataset.dateMode === dateMode);
+            });
+            const wsDate = document.getElementById('workspace-date-field');
+            const wkStart = document.getElementById('weekly-date-options-start');
+            const wkExtra = document.getElementById('weekly-date-options-extra');
+            if (wsDate) wsDate.style.opacity = dateMode === 'without' ? '0.45' : '1';
+            if (wkStart) wkStart.style.display = dateMode === 'without' ? 'none' : '';
+            if (wkExtra) wkExtra.style.display = dateMode === 'without' ? 'none' : 'flex';
+
+            // Live-update any rendered preview blocks
+            document.querySelectorAll('.pdf-date-span').forEach(span => {
+                const actual = span.getAttribute('data-actual-date') || '____/____/20___';
+                span.textContent = dateMode === 'without'
+                    ? 'Date: ____ / ____ / 20___'
+                    : `Date: ${actual}`;
+            });
+            savePlanToStorage();
+            if (fromPreview) {
+                showToast(dateMode === 'without' ? 'Switched to Print Without Dates' : 'Switched to Print With Dates', 1800);
+            }
+        }
 
         // The original markup used a "hidden" class; support it together with the hidden attribute.
         const show = id => { const e = document.getElementById(id); e.classList.remove('hidden'); e.hidden = false; };
@@ -587,7 +661,7 @@
         function initializeWorkspace() {
             const sName = document.getElementById('schoolName').value.trim();
             const tName = document.getElementById('teacherName').value.trim();
-            const nPeriods = parseInt(document.getElementById('numPeriods').value) || 7;
+            const nPeriods = parseInt(document.getElementById('numPeriods').value) || 6;
 
             if (!sName || !tName) return showToast('Please enter your name and school.');
             if (nPeriods < 1 || nPeriods > 12) return showToast('Periods must be between 1 and 12.');
@@ -623,6 +697,7 @@
                     teacherName: document.getElementById('teacherName').value,
                     planDate:    document.getElementById('planDate').value,
                     numPeriods:  totalPeriods,
+                    dateMode:    dateMode,
                     periods
                 }));
             } catch (e) {}
@@ -636,8 +711,18 @@
                 document.getElementById('schoolName').value  = data.schoolName  || '';
                 document.getElementById('teacherName').value = data.teacherName || '';
                 if (data.planDate) document.getElementById('planDate').value = data.planDate;
-                totalPeriods = parseInt(data.numPeriods) || 7;
+
+                let savedPeriods = parseInt(data.numPeriods) || 6;
+                // If user had the old default of 7 with an empty 7th period, normalize to 6 periods per page
+                if (savedPeriods === 7 && (!data.periods || !data.periods[6] || !data.periods[6].some(r => r && r.cls))) {
+                    savedPeriods = 6;
+                }
+                totalPeriods = savedPeriods;
                 document.getElementById('numPeriods').value = totalPeriods;
+
+                if (data.dateMode === 'without' || data.dateMode === 'with') {
+                    setDateMode(data.dateMode);
+                }
 
                 updateUIHeader();
                 show('builder-area');
@@ -928,52 +1013,70 @@
         // --- FORMATTERS ---
         function esc(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
-        // Competency logic - KEEPS bracketed texts, handles line breaks, strips emojis
+        // Cleanly join pipe-separated segments inline and cap overly long text so 6 periods fit on 1 A4 Landscape page
+        function compactSegments(rawStr, separator = ' • ', maxChars = 155) {
+            if (!rawStr) return '';
+            let parts = String(rawStr)
+                .replace(/✓/g, '')
+                .replace(/👨‍🏫/g, '')
+                .replace(/🧑‍🎓/g, '')
+                .replace(/(?:ଉଦାହରଣ ନିର୍ଦ୍ଦେଶ|ବୁଝାଇବାର ବିନ୍ଦୁ|ଉଦାହରଣ|ଭିନ୍ନତା)\s*:\s*/g, '')
+                .split('|')
+                .map(s => s.replace(/\s{2,}/g, ' ').trim())
+                .filter(Boolean);
+            let joined = parts.join(separator);
+            if (maxChars && joined.length > maxChars) {
+                let cut = joined.slice(0, maxChars);
+                let lastStop = Math.max(cut.lastIndexOf('।'), cut.lastIndexOf('. '), cut.lastIndexOf(' • '));
+                if (lastStop > maxChars * 0.55) {
+                    joined = cut.slice(0, lastStop + 1).replace(/[•\s]+$/, '');
+                } else {
+                    let lastSpace = cut.lastIndexOf(' ');
+                    joined = (lastSpace > maxChars * 0.7 ? cut.slice(0, lastSpace) : cut).replace(/[•,\s]+$/, '') + '…';
+                }
+            }
+            return esc(joined);
+        }
+
         function formatCompetency(text) {
             if (!text || text === 'nan') return '';
-            let cleaned = esc(text);
-            cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '').trim();
-            return `<div class="pdf-text">${cleaned}</div>`;
+            return `<div class="pdf-text">${compactSegments(text, ' • ', 125)}</div>`;
         }
 
-        // Learning Outcome logic - STRIPS bracketed texts, handles line breaks, strips emojis
         function formatLearningOutcome(text) {
             if (!text || text === 'nan') return '';
-            let cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
-            cleaned = esc(cleaned);
-            cleaned = cleaned.replace(/\|/g, '<br>').replace(/✓/g, '').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '').trim();
-            return `<div class="pdf-text">${cleaned}</div>`;
+            let stripped = String(text).replace(/\[.*?\]/g, '');
+            return `<div class="pdf-text">${compactSegments(stripped, ' • ', 135)}</div>`;
         }
 
-        // TLM formatting logic - STRIPS bracketed texts, handles line breaks
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
-            let cleaned = String(text).replace(/\[.*?\]/g, '').replace(/\s{2,}/g, ' ').trim();
-            cleaned = esc(cleaned).replace(/\|/g, '<br>').replace(/👨‍🏫/g, '').replace(/🧑‍🎓/g, '');
-            return `<div class="pdf-text">${cleaned}</div>`;
+            let stripped = String(text).replace(/\[.*?\]/g, '');
+            return `<div class="pdf-text">${compactSegments(stripped, ', ', 85)}</div>`;
         }
 
-        function formatPanchapadi(text) {
+        function formatPanchapadi(text, maxChars = 145) {
             if (!text || text === 'nan') return '';
-            let teacherPart = esc(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
+            let teacherPart = String(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
             teacherPart = teacherPart.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
-            let cleaned = teacherPart.replace(/\|/g, '<br>').trim();
-            if (cleaned.endsWith('<br>')) cleaned = cleaned.slice(0, -4).trim();
-            return `<div class="pdf-text">${cleaned}</div>`;
+            return `<div class="pdf-text">${compactSegments(teacherPart, ' • ', maxChars)}</div>`;
         }
 
+        // Optimized column widths so text-rich Panchapadi & LO columns have maximum room on A4 Landscape
         function getTableColgroup() {
-            return `<colgroup><col style="width:4%"><col style="width:7%"><col style="width:10%"><col style="width:9%"><col style="width:9%"><col style="width:9%"><col style="width:14%"><col style="width:10%"><col style="width:10%"><col style="width:10%"><col style="width:8%"></colgroup>`;
+            return `<colgroup><col style="width:2.5%"><col style="width:5.5%"><col style="width:7.5%"><col style="width:8.0%"><col style="width:9.5%"><col style="width:12.0%"><col style="width:15.0%"><col style="width:11.5%"><col style="width:11.5%"><col style="width:11.0%"><col style="width:6.0%"></colgroup>`;
         }
         function getTableHeader() {
             return `<thead><tr><th>Prd</th><th>Class / Subject</th><th>Chapter & Period</th><th>Competency</th><th>Learning Outcome</th><th>ଅଧୀତି (Adhiti)</th><th>ବୋଧ (Bodha)</th><th>ଅଭ୍ୟାସ (Abhyasa)</th><th>ପ୍ରୟୋଗ (Prayoga)</th><th>ପ୍ରସାର (Prasara)</th><th>TLM</th></tr></thead>`;
         }
 
-        function buildTableRowsHTML(periodsMap) {
+        function buildTableRowsHTML(periodsMap, periodKeysSlice = null) {
             let html = '';
-            for (let pNum in periodsMap) {
+            const keys = periodKeysSlice || Object.keys(periodsMap);
+            keys.forEach(pNum => {
                 const assignments = periodsMap[pNum];
-                const rowspan     = assignments.length;
+                if (!assignments || !assignments.length) return;
+                const rowspan = assignments.length;
 
                 assignments.forEach((rData, idx) => {
                     const classData = (db[rData.cls] || {});
@@ -992,41 +1095,96 @@
                         <td><b>${esc(rData.cls.replace(/_/g, ' '))}</b><br>${esc(rData.subj)}</td>
                         <td>
                             <b>${esc(rData.chap)}</b>
-                            <div style="color:#1D4ED8; font-weight:800; margin-top:6px;">${esc(plan.Period || rData.lessKey)}</div>
+                            <div style="color:#1D4ED8; font-weight:800; margin-top:2px;">${esc(plan.Period || rData.lessKey)}</div>
                         </td>
                         <td>${formatCompetency(plan.Competency)}</td>
                         <td>${formatLearningOutcome(plan.LearningOutcomes)}</td>
-                        <td>${formatPanchapadi(p.Aditi || p.Adhiti)}</td>
-                        <td>${formatPanchapadi(p.Bodha)}</td>
-                        <td>${formatPanchapadi(p.Abhyasa)}</td>
-                        <td>${formatPanchapadi(p.Prayoga)}</td>
-                        <td>${formatPanchapadi(p.Prasara)}</td>
+                        <td>${formatPanchapadi(p.Aditi || p.Adhiti, 145)}</td>
+                        <td>${formatPanchapadi(p.Bodha, 175)}</td>
+                        <td>${formatPanchapadi(p.Abhyasa, 140)}</td>
+                        <td>${formatPanchapadi(p.Prayoga, 140)}</td>
+                        <td>${formatPanchapadi(p.Prasara, 135)}</td>
                         <td>${formatPrint(plan.TLM)}</td>
                     </tr>`;
                 });
-            }
+            });
             return html;
         }
 
+        // Each page contains at most 6 periods so no part spills onto a next page
+        const MAX_PERIODS_PER_PAGE = 6;
+
         function buildDailyPlanHTML(periodsMap, formattedDate, schoolName, teacherName) {
-            return `
+            const allKeys = Object.keys(periodsMap);
+            const chunks = [];
+            for (let i = 0; i < allKeys.length; i += MAX_PERIODS_PER_PAGE) {
+                chunks.push(allKeys.slice(i, i + MAX_PERIODS_PER_PAGE));
+            }
+            if (chunks.length === 0) chunks.push([]);
+
+            const actualDate = formattedDate || '____/____/20___';
+            const displayDate = (dateMode === 'without')
+                ? 'Date: ____ / ____ / 20___'
+                : `Date: ${actualDate}`;
+
+            return chunks.map(chunkKeys => `
                 <div class="daily-plan-block">
                     <div class="pdf-header" contenteditable="true" spellcheck="false">
-                        <div class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</div>
-                        <div class="pdf-header__school">School: ${esc(schoolName)}</div>
+                        <div class="pdf-header__top">
+                            <span class="pdf-header__title">Daily Lesson Plan (ଦୈନିକ ପାଠ୍ୟ ଖସଡ଼ା)</span>
+                            <span class="pdf-header__school">School: ${esc(schoolName)}</span>
+                        </div>
                         <div class="pdf-header__meta">
                             <span>Teacher: ${esc(teacherName)}</span>
-                            <span style="color:#DC2626; font-weight:800;">Date: ${esc(formattedDate)}</span>
+                            <span class="pdf-date-span" data-actual-date="${esc(actualDate)}" style="color:#DC2626; font-weight:800;">${esc(displayDate)}</span>
                         </div>
                     </div>
                     <table class="pdf-table" contenteditable="true" spellcheck="false">
                         ${getTableColgroup()}
                         ${getTableHeader()}
-                        <tbody>${buildTableRowsHTML(periodsMap)}</tbody>
+                        <tbody>${buildTableRowsHTML(periodsMap, chunkKeys)}</tbody>
                     </table>
                 </div>
-            `;
+            `).join('');
         }
+
+        // Guarantees every 6-period block fits within 1 single A4 Landscape page height (~710px at 1084px width)
+        function fitBlocksToSinglePage() {
+            const MAX_PAGE_HEIGHT = 708;
+            document.querySelectorAll('#pdf-preview-content .daily-plan-block').forEach(block => {
+                block.style.zoom = '';
+                const table = block.querySelector('.pdf-table');
+                const cells = block.querySelectorAll('.pdf-table td, .pdf-table th');
+                const texts = block.querySelectorAll('.pdf-text, .pdf-text b');
+                if (!table) return;
+
+                // Reset to default compact print values before measuring
+                table.style.fontSize = '7.8px';
+                texts.forEach(t => { t.style.fontSize = '7.8px'; t.style.lineHeight = '1.2'; });
+                cells.forEach(c => { c.style.padding = '2.5px 3.5px'; });
+
+                const steps = [
+                    { fs: '7.4px', lh: '1.16', pad: '2px 3px' },
+                    { fs: '7.0px', lh: '1.14', pad: '1.8px 2.5px' },
+                    { fs: '6.6px', lh: '1.12', pad: '1.5px 2px' },
+                    { fs: '6.2px', lh: '1.10', pad: '1.2px 2px' }
+                ];
+
+                for (const st of steps) {
+                    if (block.offsetHeight <= MAX_PAGE_HEIGHT) break;
+                    table.style.fontSize = st.fs;
+                    texts.forEach(t => { t.style.fontSize = st.fs; t.style.lineHeight = st.lh; });
+                    cells.forEach(c => { c.style.padding = st.pad; });
+                }
+
+                if (block.offsetHeight > MAX_PAGE_HEIGHT) {
+                    const ratio = Math.max(0.72, (MAX_PAGE_HEIGHT / block.offsetHeight) - 0.01);
+                    block.style.zoom = ratio.toFixed(3);
+                }
+            });
+        }
+
+        window.addEventListener('beforeprint', fitBlocksToSinglePage);
 
         function collectPeriodsMap() {
             const periodsMap     = {};
@@ -1056,6 +1214,7 @@
             hide('builder-footer');
             show('preview-area');
             show('preview-footer');
+            requestAnimationFrame(() => fitBlocksToSinglePage());
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1143,10 +1302,12 @@
             const schoolName  = document.getElementById('schoolName').value  || '_______________________';
             const teacherName = document.getElementById('teacherName').value || '_______________________';
 
-            const startDateRaw = document.getElementById('weeklyStartDate').value;
-            if (!startDateRaw) return showToast('Please select a start date.');
+            const numDays = parseInt(document.getElementById('weeklyNumDays').value) || 6;
+            const startDateRaw = document.getElementById('weeklyStartDate').value || new Date().toISOString().split('T')[0];
+            if (dateMode === 'with' && !document.getElementById('weeklyStartDate').value) {
+                return showToast('Please select a start date.');
+            }
 
-            const numDays = parseInt(document.getElementById('weeklyNumDays').value) || 7;
             const excludeSundays = document.getElementById('excludeSundays').checked;
 
             const excludeDatesArray = [];
@@ -1154,7 +1315,10 @@
                 if (input.value) excludeDatesArray.push(input.value);
             });
 
-            const validDates = getValidDates(startDateRaw, numDays, excludeSundays, excludeDatesArray);
+            const validDates = dateMode === 'without'
+                ? Array.from({ length: numDays }, () => '____/____/20___')
+                : getValidDates(startDateRaw, numDays, excludeSundays, excludeDatesArray);
+
             let currentPeriodsMap = JSON.parse(JSON.stringify(periodsMap));
             let megaHtml = '';
 
@@ -1184,39 +1348,64 @@
         }
 
         async function sharePlanViaApp() {
-            const overlay   = document.getElementById('pdf-overlay');
-            const elementToCapture = document.getElementById('pdf-preview-content');
+            const overlay = document.getElementById('pdf-overlay');
+            const blocks = Array.from(document.querySelectorAll('#pdf-preview-content .daily-plan-block'));
 
             if (!window.htmlToImage || !window.jspdf) {
                 return showToast('PDF tools are still loading or offline. Use Print instead.');
             }
+            if (blocks.length === 0) return;
             overlay.classList.add('is-active');
 
             try {
+                fitBlocksToSinglePage();
                 await new Promise(r => setTimeout(r, 100));
                 const teacherName = document.getElementById('teacherName').value || 'Teacher';
 
-                const dataUrl = await htmlToImage.toPng(elementToCapture, {
-                    pixelRatio: 2.0,
-                    backgroundColor: '#ffffff'
-                });
-
-                const tempImg = new Image();
-                tempImg.src = dataUrl;
-                await new Promise(resolve => tempImg.onload = resolve);
-
-                const mmWidth = 297;
-                const mmHeight = (tempImg.height * mmWidth) / tempImg.width;
-
                 const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF({ orientation: mmWidth > mmHeight ? 'l' : 'p', unit: 'mm', format: [mmWidth, mmHeight] });
-                pdf.addImage(dataUrl, 'PNG', 0, 0, mmWidth, mmHeight);
+                const pageW = 297, pageH = 210, marginX = 5, marginY = 4;
+                const usableW = pageW - marginX * 2;
+                const usableH = pageH - marginY * 2;
+                const pdf = new jsPDF({ orientation: 'l', unit: 'mm', format: 'a4' });
+
+                for (let i = 0; i < blocks.length; i++) {
+                    if (i > 0) pdf.addPage('a4', 'l');
+                    const blk = blocks[i];
+                    const prevBorder = blk.style.borderBottom;
+                    const prevPad = blk.style.paddingBottom;
+                    const prevMargin = blk.style.marginBottom;
+                    blk.style.borderBottom = 'none';
+                    blk.style.paddingBottom = '0';
+                    blk.style.marginBottom = '0';
+
+                    const dataUrl = await htmlToImage.toPng(blk, {
+                        pixelRatio: 2.0,
+                        backgroundColor: '#ffffff'
+                    });
+
+                    blk.style.borderBottom = prevBorder;
+                    blk.style.paddingBottom = prevPad;
+                    blk.style.marginBottom = prevMargin;
+
+                    const tempImg = new Image();
+                    tempImg.src = dataUrl;
+                    await new Promise(resolve => tempImg.onload = resolve);
+
+                    let drawW = usableW;
+                    let drawH = (tempImg.height * drawW) / tempImg.width;
+                    if (drawH > usableH) {
+                        drawH = usableH;
+                        drawW = (tempImg.width * drawH) / tempImg.height;
+                    }
+                    const offsetX = marginX + (usableW - drawW) / 2;
+                    pdf.addImage(dataUrl, 'PNG', offsetX, marginY, drawW, drawH);
+                }
 
                 const pdfBlob = pdf.output('blob');
                 const safeName = teacherName.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, '');
 
                 const raw = document.getElementById('planDate').value;
-                const safeDate = raw ? raw.replace(/\//g, '-') : 'Weekly_Plan';
+                const safeDate = (dateMode === 'without') ? 'NoDate' : (raw ? raw.replace(/\//g, '-') : 'Weekly_Plan');
                 const fileName = `${safeName}_LessonPlan_${safeDate}.pdf`;
 
                 const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
