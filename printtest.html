@@ -241,21 +241,21 @@
         .daily-plan-block { background: #fff; padding: 0 0 18px 0; margin-bottom: 22px; border-bottom: 2px dashed #CBD5E1; box-sizing: border-box; }
         .daily-plan-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
-        .pdf-header { margin-bottom: 4px; border-bottom: 1.5px solid #0F172A; padding-bottom: 3px; }
-        .pdf-header__top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-        .pdf-header__title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #0F172A; }
-        .pdf-header__school { font-size: 10.5px; font-weight: 700; color: #1E3A8A; }
-        .pdf-header__meta { display: flex; justify-content: space-between; align-items: center; font-size: 9.5px; font-weight: 600; color: #334155; margin-top: 1px; }
+        .pdf-header { margin-bottom: 6px; border-bottom: 2px solid #0F172A; padding-bottom: 5px; }
+        .pdf-header__top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+        .pdf-header__title { font-size: 14.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #0F172A; }
+        .pdf-header__school { font-size: 12.5px; font-weight: 800; color: #1E3A8A; }
+        .pdf-header__meta { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; color: #334155; margin-top: 2px; }
 
-        .pdf-table { width: 100%; border-collapse: collapse; font-size: 7.8px; table-layout: fixed; color: #0F172A; }
+        .pdf-table { width: 100%; border-collapse: collapse; font-size: 10px; table-layout: fixed; color: #0F172A; }
         .pdf-table thead { display: table-header-group; }
         .pdf-table tbody tr { page-break-inside: avoid; break-inside: avoid; }
-        .pdf-table td, .pdf-table th { border: 1px solid #334155; padding: 2.5px 3.5px; vertical-align: top; line-height: 1.2; word-wrap: break-word; overflow-wrap: break-word; }
-        .pdf-table th { background: #EFF6FF !important; font-weight: 700; font-size: 7.6px; text-align: center; color: #1E3A8A; vertical-align: middle; padding: 3px 2px; line-height: 1.15; }
-        .pdf-table td.col-period { text-align: center; font-weight: 800; font-size: 10.5px; color: #1D4ED8; vertical-align: middle; background: #F0F9FF; padding: 2px; }
+        .pdf-table td, .pdf-table th { border: 1px solid #334155; padding: 5px 5px; vertical-align: top; line-height: 1.35; word-wrap: break-word; overflow-wrap: break-word; }
+        .pdf-table th { background: #EFF6FF !important; font-weight: 800; font-size: 9px; text-align: center; color: #1E3A8A; vertical-align: middle; padding: 5px 3px; line-height: 1.2; }
+        .pdf-table td.col-period { text-align: center; font-weight: 800; font-size: 13px; color: #1D4ED8; vertical-align: middle; background: #F0F9FF; padding: 3px; }
         .pdf-table tbody tr:nth-child(even) td:not(.col-period) { background: #FAFCFF; }
-        .pdf-text { font-size: 7.8px; line-height: 1.2; }
-        .pdf-text b { font-size: 7.8px; font-weight: 700; }
+        .pdf-text { font-size: 10px; line-height: 1.35; }
+        .pdf-text b { font-size: 10px; font-weight: 700; }
 
         /* Date Mode Toggle Pills */
         .date-mode-group { display: inline-flex; background: var(--surface-2); border: 1.5px solid var(--line); border-radius: 12px; padding: 3px; gap: 3px; }
@@ -1015,8 +1015,8 @@
         // --- FORMATTERS ---
         function esc(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
-        // Cleanly join pipe-separated segments inline and cap overly long text so 6 periods fit on 1 A4 Landscape page
-        function compactSegments(rawStr, separator = ' • ', maxChars = 155) {
+        // Cleanly join pipe-separated segments inline without cutting off text
+        function compactSegments(rawStr, separator = ' • ', maxChars = 0) {
             if (!rawStr) return '';
             let parts = String(rawStr)
                 .replace(/✓/g, '')
@@ -1027,14 +1027,14 @@
                 .map(s => s.replace(/\s{2,}/g, ' ').trim())
                 .filter(Boolean);
             let joined = parts.join(separator);
-            if (maxChars && joined.length > maxChars) {
+            if (maxChars > 0 && joined.length > maxChars) {
                 let cut = joined.slice(0, maxChars);
                 let lastStop = Math.max(cut.lastIndexOf('।'), cut.lastIndexOf('. '), cut.lastIndexOf(' • '));
-                if (lastStop > maxChars * 0.55) {
+                if (lastStop > maxChars * 0.6) {
                     joined = cut.slice(0, lastStop + 1).replace(/[•\s]+$/, '');
                 } else {
                     let lastSpace = cut.lastIndexOf(' ');
-                    joined = (lastSpace > maxChars * 0.7 ? cut.slice(0, lastSpace) : cut).replace(/[•,\s]+$/, '') + '…';
+                    joined = (lastSpace > maxChars * 0.75 ? cut.slice(0, lastSpace) : cut).replace(/[•,\s]+$/, '') + '…';
                 }
             }
             return esc(joined);
@@ -1042,22 +1042,22 @@
 
         function formatCompetency(text) {
             if (!text || text === 'nan') return '';
-            return `<div class="pdf-text">${compactSegments(text, ' • ', 125)}</div>`;
+            return `<div class="pdf-text">${compactSegments(text, ' • ', 0)}</div>`;
         }
 
         function formatLearningOutcome(text) {
             if (!text || text === 'nan') return '';
             let stripped = String(text).replace(/\[.*?\]/g, '');
-            return `<div class="pdf-text">${compactSegments(stripped, ' • ', 135)}</div>`;
+            return `<div class="pdf-text">${compactSegments(stripped, '<br>', 0)}</div>`;
         }
 
         function formatPrint(text) {
             if (!text || text === 'nan') return '';
             let stripped = String(text).replace(/\[.*?\]/g, '');
-            return `<div class="pdf-text">${compactSegments(stripped, ', ', 85)}</div>`;
+            return `<div class="pdf-text">${compactSegments(stripped, ', ', 0)}</div>`;
         }
 
-        function formatPanchapadi(text, maxChars = 145) {
+        function formatPanchapadi(text, maxChars = 280) {
             if (!text || text === 'nan') return '';
             let teacherPart = String(text).split(/🧑‍🎓?\s*ଶିକ୍ଷାର୍ଥୀଙ୍କ ପ୍ରତିକ୍ରିୟା/)[0];
             teacherPart = teacherPart.replace(/👨‍🏫?\s*ଶିକ୍ଷକଙ୍କ କାର୍ଯ୍ୟ \(TEACHER\)\s*\|?/g, '');
@@ -1066,7 +1066,7 @@
 
         // Optimized column widths so text-rich Panchapadi & LO columns have maximum room on A4 Landscape
         function getTableColgroup() {
-            return `<colgroup><col style="width:2.5%"><col style="width:5.5%"><col style="width:7.5%"><col style="width:8.0%"><col style="width:9.5%"><col style="width:12.0%"><col style="width:15.0%"><col style="width:11.5%"><col style="width:11.5%"><col style="width:11.0%"><col style="width:6.0%"></colgroup>`;
+            return `<colgroup><col style="width:2.5%"><col style="width:6.5%"><col style="width:8.5%"><col style="width:8.5%"><col style="width:9.5%"><col style="width:11.5%"><col style="width:14.0%"><col style="width:11.0%"><col style="width:11.0%"><col style="width:10.5%"><col style="width:6.5%"></colgroup>`;
         }
         function getTableHeader() {
             return `<thead><tr><th>Prd</th><th>Class / Subject</th><th>Chapter & Period</th><th>Competency</th><th>Learning Outcome</th><th>ଅଧୀତି (Adhiti)</th><th>ବୋଧ (Bodha)</th><th>ଅଭ୍ୟାସ (Abhyasa)</th><th>ପ୍ରୟୋଗ (Prayoga)</th><th>ପ୍ରସାର (Prasara)</th><th>TLM</th></tr></thead>`;
@@ -1097,15 +1097,15 @@
                         <td><b>${esc(rData.cls.replace(/_/g, ' '))}</b><br>${esc(rData.subj)}</td>
                         <td>
                             <b>${esc(rData.chap)}</b>
-                            <div style="color:#1D4ED8; font-weight:800; margin-top:2px;">${esc(plan.Period || rData.lessKey)}</div>
+                            <div style="color:#1D4ED8; font-weight:800; margin-top:3px;">${esc(plan.Period || rData.lessKey)}</div>
                         </td>
                         <td>${formatCompetency(plan.Competency)}</td>
                         <td>${formatLearningOutcome(plan.LearningOutcomes)}</td>
-                        <td>${formatPanchapadi(p.Aditi || p.Adhiti, 145)}</td>
-                        <td>${formatPanchapadi(p.Bodha, 175)}</td>
-                        <td>${formatPanchapadi(p.Abhyasa, 140)}</td>
-                        <td>${formatPanchapadi(p.Prayoga, 140)}</td>
-                        <td>${formatPanchapadi(p.Prasara, 135)}</td>
+                        <td>${formatPanchapadi(p.Aditi || p.Adhiti, 260)}</td>
+                        <td>${formatPanchapadi(p.Bodha, 320)}</td>
+                        <td>${formatPanchapadi(p.Abhyasa, 260)}</td>
+                        <td>${formatPanchapadi(p.Prayoga, 260)}</td>
+                        <td>${formatPanchapadi(p.Prasara, 250)}</td>
                         <td>${formatPrint(plan.TLM)}</td>
                     </tr>`;
                 });
@@ -1150,37 +1150,48 @@
             `).join('');
         }
 
-        // Guarantees every 6-period block fits within 1 single A4 Landscape page height (~710px at 1084px width)
+        // Maximizes font size & stretches rows to fill the full A4 Landscape page height (~728px at 1084px width) with no bottom blank space
         function fitBlocksToSinglePage() {
-            const MAX_PAGE_HEIGHT = 708;
+            const TARGET_PAGE_HEIGHT = 728;
             document.querySelectorAll('#pdf-preview-content .daily-plan-block').forEach(block => {
                 block.style.zoom = '';
-                const table = block.querySelector('.pdf-table');
-                const cells = block.querySelectorAll('.pdf-table td, .pdf-table th');
-                const texts = block.querySelectorAll('.pdf-text, .pdf-text b');
+                const header = block.querySelector('.pdf-header');
+                const table  = block.querySelector('.pdf-table');
+                const cells  = block.querySelectorAll('.pdf-table tbody td');
+                const texts  = block.querySelectorAll('.pdf-text, .pdf-text b');
                 if (!table) return;
 
-                // Reset to default compact print values before measuring
-                table.style.fontSize = '7.8px';
-                texts.forEach(t => { t.style.fontSize = '7.8px'; t.style.lineHeight = '1.2'; });
-                cells.forEach(c => { c.style.padding = '2.5px 3.5px'; });
+                // Release fixed table height while finding largest fitting font size
+                table.style.height = 'auto';
 
-                const steps = [
-                    { fs: '7.4px', lh: '1.16', pad: '2px 3px' },
-                    { fs: '7.0px', lh: '1.14', pad: '1.8px 2.5px' },
-                    { fs: '6.6px', lh: '1.12', pad: '1.5px 2px' },
-                    { fs: '6.2px', lh: '1.10', pad: '1.2px 2px' }
+                const candidates = [
+                    { fs: '11.0px', lh: '1.38', pad: '6px 6px' },
+                    { fs: '10.5px', lh: '1.36', pad: '5.5px 5.5px' },
+                    { fs: '10.0px', lh: '1.34', pad: '5px 5px' },
+                    { fs: '9.6px',  lh: '1.32', pad: '4.5px 5px' },
+                    { fs: '9.2px',  lh: '1.30', pad: '4px 4.5px' },
+                    { fs: '8.8px',  lh: '1.27', pad: '3.5px 4px' },
+                    { fs: '8.4px',  lh: '1.24', pad: '3px 4px' },
+                    { fs: '8.0px',  lh: '1.22', pad: '2.5px 3.5px' },
+                    { fs: '7.5px',  lh: '1.18', pad: '2px 3px' },
+                    { fs: '7.0px',  lh: '1.15', pad: '1.8px 2.5px' }
                 ];
 
-                for (const st of steps) {
-                    if (block.offsetHeight <= MAX_PAGE_HEIGHT) break;
+                for (const st of candidates) {
                     table.style.fontSize = st.fs;
                     texts.forEach(t => { t.style.fontSize = st.fs; t.style.lineHeight = st.lh; });
                     cells.forEach(c => { c.style.padding = st.pad; });
+                    const naturalH = (header ? header.offsetHeight + 8 : 44) + table.offsetHeight;
+                    if (naturalH <= TARGET_PAGE_HEIGHT) break;
                 }
 
-                if (block.offsetHeight > MAX_PAGE_HEIGHT) {
-                    const ratio = Math.max(0.72, (MAX_PAGE_HEIGHT / block.offsetHeight) - 0.01);
+                // Now expand table height to fill the full A4 Landscape page so there is no empty bottom gap
+                const headerH = header ? (header.offsetHeight + 8) : 44;
+                const desiredTableH = TARGET_PAGE_HEIGHT - headerH;
+                if (table.offsetHeight < desiredTableH) {
+                    table.style.height = desiredTableH + 'px';
+                } else if (headerH + table.offsetHeight > TARGET_PAGE_HEIGHT + 6) {
+                    const ratio = Math.max(0.75, TARGET_PAGE_HEIGHT / (headerH + table.offsetHeight));
                     block.style.zoom = ratio.toFixed(3);
                 }
             });
