@@ -453,9 +453,12 @@
 
         function renderClasses() {
             currentPath = []; isViewingLesson = false; updateHeader('Select Class'); clearView();
-            const rows = Object.keys(dbIndex).sort(smartSort).map(name => ({
-                tone: 't-indigo', icon: 'i-class', title: pretty(name), sub: 'View subjects', action: 'subjects', args: [name]
-            }));
+            const rows = Object.keys(dbIndex)
+                .filter(k => /^class/i.test(k) && !/cwsn|scholarship/i.test(k))
+                .sort(smartSort)
+                .map(name => ({
+                    tone: 't-indigo', icon: 'i-class', title: pretty(name), sub: 'View subjects', action: 'subjects', args: [name]
+                }));
             if (rows.length === 0) { $('app-content').innerHTML = `<div class="none">No classes available.</div>`; }
             else renderTiles('Classes', rows);
             commit();

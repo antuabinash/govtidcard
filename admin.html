@@ -200,7 +200,10 @@
         function renderClasses() {
             currentPath = []; updateHeader('Admin Panel'); clearView();
             const container = document.getElementById('app-content');
-            Object.keys(dbIndex).sort().forEach(className => {
+            Object.keys(dbIndex)
+                .filter(k => /^class/i.test(k) && !/cwsn|scholarship/i.test(k))
+                .sort()
+                .forEach(className => {
                 const cleanName = className.replace(/_/g, ' ');
                 container.innerHTML += `
                     <div class="tile" onclick="lazyLoadClass('${className}')">

@@ -598,7 +598,9 @@
                 .then(r => { if (!r.ok) throw new Error(); return r.json(); })
                 .then(data => {
                     indexDb = data || {};
-                    classList = Object.keys(indexDb).sort(smartSort);
+                    classList = Object.keys(indexDb)
+                        .filter(k => /^class/i.test(k) && !/cwsn|scholarship/i.test(k))
+                        .sort(smartSort);
 
                     document.getElementById('planDate').valueAsDate = new Date();
                     if (loadPlanFromStorage()) {
