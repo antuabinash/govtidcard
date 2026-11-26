@@ -238,7 +238,7 @@
         }
         [contenteditable="true"]:focus { outline: 2px dashed rgba(29, 78, 216, 0.4); outline-offset: 2px; border-radius: 4px; }
 
-        .daily-plan-block { background: #fff; padding: 0 0 18px 0; margin-bottom: 22px; border-bottom: 2px dashed #CBD5E1; box-sizing: border-box; }
+        .daily-plan-block { background: #fff; padding: 24px 0 18px 0; margin-bottom: 22px; border-bottom: 2px dashed #CBD5E1; box-sizing: border-box; }
         .daily-plan-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
         .pdf-header { margin-bottom: 6px; border-bottom: 2px solid #0F172A; padding-bottom: 5px; }
@@ -284,7 +284,7 @@
             .container { max-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
             .preview-wrapper { padding: 0 !important; margin: 0 !important; box-shadow: none !important; border: none !important; overflow: visible !important; width: 100% !important; }
             #pdf-preview-content { min-width: 100% !important; width: 100% !important; padding: 0 !important; margin: 0 !important; }
-            /* Physical Paper: Keep each 6-period block strictly on 1 single A4 landscape page */
+            /* Physical Paper: Keep each 6-period block strictly on 1 single A4 landscape page with top stitching space */
             .daily-plan-block {
                 page-break-after: always !important;
                 break-after: page !important;
@@ -293,7 +293,7 @@
                 border-bottom: none !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                max-height: 201mm !important;
+                max-height: 188mm !important;
                 overflow: hidden !important;
             }
             .daily-plan-block:last-child {
@@ -301,7 +301,7 @@
                 break-after: auto !important;
             }
             html, body { background: #fff !important; padding: 0 !important; margin: 0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            @page { size: A4 landscape; margin: 4mm 5mm; }
+            @page { size: A4 landscape; margin: 16mm 5mm 5mm 5mm; }
         }
         @media (max-width: 640px) {
             .assignment-card__grid { grid-template-columns: 1fr; }
@@ -1150,9 +1150,9 @@
             `).join('');
         }
 
-        // Maximizes font size & stretches rows to fill the full A4 Landscape page height (~728px at 1084px width) with no bottom blank space
+        // Maximizes font size & stretches rows to fill the A4 Landscape printable height (with 16mm top stitching margin)
         function fitBlocksToSinglePage() {
-            const TARGET_PAGE_HEIGHT = 728;
+            const TARGET_PAGE_HEIGHT = 690;
             document.querySelectorAll('#pdf-preview-content .daily-plan-block').forEach(block => {
                 block.style.zoom = '';
                 const header = block.querySelector('.pdf-header');
@@ -1376,19 +1376,19 @@
                 const teacherName = document.getElementById('teacherName').value || 'Teacher';
 
                 const { jsPDF } = window.jspdf;
-                const pageW = 297, pageH = 210, marginX = 5, marginY = 4;
+                const pageW = 297, pageH = 210, marginX = 5, marginTop = 16, marginBottom = 5;
                 const usableW = pageW - marginX * 2;
-                const usableH = pageH - marginY * 2;
+                const usableH = pageH - marginTop - marginBottom;
                 const pdf = new jsPDF({ orientation: 'l', unit: 'mm', format: 'a4' });
 
                 for (let i = 0; i < blocks.length; i++) {
                     if (i > 0) pdf.addPage('a4', 'l');
                     const blk = blocks[i];
                     const prevBorder = blk.style.borderBottom;
-                    const prevPad = blk.style.paddingBottom;
+                    const prevPad = blk.style.padding;
                     const prevMargin = blk.style.marginBottom;
                     blk.style.borderBottom = 'none';
-                    blk.style.paddingBottom = '0';
+                    blk.style.padding = '0';
                     blk.style.marginBottom = '0';
 
                     const dataUrl = await htmlToImage.toPng(blk, {
@@ -1397,7 +1397,7 @@
                     });
 
                     blk.style.borderBottom = prevBorder;
-                    blk.style.paddingBottom = prevPad;
+                    blk.style.padding = prevPad;
                     blk.style.marginBottom = prevMargin;
 
                     const tempImg = new Image();
@@ -1411,7 +1411,7 @@
                         drawW = (tempImg.width * drawH) / tempImg.height;
                     }
                     const offsetX = marginX + (usableW - drawW) / 2;
-                    pdf.addImage(dataUrl, 'PNG', offsetX, marginY, drawW, drawH);
+                    pdf.addImage(dataUrl, 'PNG', offsetX, marginTop, drawW, drawH);
                 }
 
                 const pdfBlob = pdf.output('blob');
